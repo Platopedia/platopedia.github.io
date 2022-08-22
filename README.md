@@ -1,2 +1,0 @@
-# platopedia.github.io
-Platopedia
