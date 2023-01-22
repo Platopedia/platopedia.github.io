@@ -1,6 +1,0 @@
----
-layout: content
-title: Concepts
----
-
-
