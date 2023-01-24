@@ -1,0 +1,14 @@
+---
+layout: content-title
+title: Direct Kick
+---
+
+<script>
+$( document ).ready( function ( ) { $( 'h1' ).prepend( '<span class="badge badge-type">Group</span>&nbsp;' ) } );
+</script>
+
+**Author:** Fear
+
+When there are too many participants in a private group, it can be tedious to find a specific player from the list. An option to directly remove players from within the chat would be extremely useful.
+
+
