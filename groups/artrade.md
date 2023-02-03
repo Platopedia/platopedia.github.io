@@ -1,6 +1,6 @@
 ---
 layout: content-title
-title: ArTrade
+title: Artrade
 ---
 
 <style>
@@ -14,7 +14,7 @@ $( document ).ready( function ( ) { $( 'h1' ).prepend( '<img src="/docs/assets/i
 
 <div class="content-linebreak"></div>
 
-ArTrade helps you connect with trusted item traders and merchants from our community.
+Artrade helps you connect with trusted item traders and merchants from our community.
 
 <div class="content-contents text-left" data-open="true" data-icon="&#xf068;,&#xf067;">We provide <embed/></div>
 
@@ -22,7 +22,7 @@ ArTrade helps you connect with trusted item traders and merchants from our commu
 
 ## 1. Free Membership
 
-To receive our services, you need a membership. Follow the steps below to become a member of ArTrade.
+To receive our services, you need a membership. Follow the steps below to become a member of Artrade.
 
 - Follow [@arcade.og](https://instagram.com/arcade.og?igshid=YmMyMTA2M2Y=) on Instagram.
 - DM us your Plato ID.
