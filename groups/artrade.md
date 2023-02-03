@@ -116,47 +116,38 @@ All of our merchants and their stats are listed below. If you wish to become a m
     </thead>
     <tbody>
         <tr>
-            <td>shuweihat ⭐⭐⭐⭐</td>
+            <td>RBT ⭐⭐⭐</td>
         </tr>
         <tr>
-            <td>hmode ⭐⭐⭐⭐</td>
+            <td>Zack__243 ⭐⭐⭐</td>
         </tr>
         <tr>
-            <td>RBT ⭐⭐</td>
+            <td>SoyJuancho ⭐⭐⭐</td>
+        </tr>        
+        <tr>
+            <td>_R3AP3R ⭐⭐⭐</td>
         </tr>
-       <tr>
-            <td>_R3AP3R ⭐⭐</td>
-        </tr>
+        <tr>
+            <td>89sVault ⭐⭐⭐</td>
+        </tr>        
+        <tr>
+            <td>Fear ⭐⭐</td>
+        </tr>        
+        <tr>
+            <td>hmode ⭐⭐</td>
+        </tr>        
         <tr>
             <td>3mm ⭐⭐</td>
-        </tr>
-        <tr>
-            <td>89sVault ⭐⭐</td>
-        </tr>        
-        <tr>
-            <td>Phu ⭐</td>
-        </tr>
-        <tr>
-            <td>BOS ⭐</td>
-        </tr>
-        <tr>
-            <td>Fear ⭐</td>
-        </tr>        
+        </tr>                
         <tr>
             <td>mishii ⭐</td>
         </tr>
         <tr>
-            <td>GAX ⭐</td>
-        </tr>
-        <tr>
-            <td>Zack__243 ⭐</td>
-        </tr>
-        <tr>
-            <td>SoyJuancho ⭐</td>
-        </tr>
-        <tr>
             <td>QMYDS ⭐</td>
         </tr>
+        <tr>
+            <td>saturnoff ⭐</td>
+        </tr>        
     </tbody>
 </table>
 
