@@ -15,4 +15,8 @@ When there are too many participants in a private group, it can be tedious to fi
 
 <div class="content-linebreak"></div>
 
+<div class="content-image" data-url="/docs/assets/images/concepts/directremovemembers.png" data-width="600px" data-label=""></div>
+
+<div class="content-linebreak"></div>
+
 
