@@ -10,7 +10,7 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 </style>
 
 <script>
-$( document ).ready( function ( ) { $( 'h1' ).prepend( '<img src="/docs/assets/images/groups/arcade.png" />&nbsp;' ) } );
+$( document ).ready( function ( ) { $( 'h1' ).prepend( '<img src="/docs/assets/images/groups/arcade/ar-logo.jpg" />&nbsp;' ) } );
 </script>
 
 <div class="content-linebreak"></div>
@@ -41,47 +41,47 @@ Scroll through our best moments
 
 <div class="content-linebreak"></div>
 
-<div class="content-image" data-url="docs/assets/images/groups/arcade/ar-shuweihat.jpg" data-width="600px" data-label="Shuweihat’s Birthday Event"></div>
+<div class="content-image" data-url="/docs/assets/images/groups/arcade/ar-shuweihat.jpg" data-width="600px" data-label="Shuweihat’s Birthday Event"></div>
 
 <div class="content-linebreak"></div>
 
-<div class="content-image" data-url="docs/assets/images/groups/arcade/ar-fear.jpg" data-width="600px" data-label="Fear’s Birthday Event"></div>
+<div class="content-image" data-url="/docs/assets/images/groups/arcade/ar-fear.jpg" data-width="600px" data-label="Fear’s Birthday Event"></div>
 
 <div class="content-linebreak"></div>
 
-<div class="content-image" data-url="docs/assets/images/groups/arcade/ar-fifa.jpg" data-width="600px" data-label="Fifa World Cup Event"></div>
+<div class="content-image" data-url="/docs/assets/images/groups/arcade/ar-fifa.jpg" data-width="600px" data-label="Fifa World Cup Event"></div>
 
 <div class="content-linebreak"></div>
 
-<div class="content-image" data-url="docs/assets/images/groups/arcade/ar-arcadius.jpg" data-width="600px" data-label="Arcadius Immortalis Event"></div>
+<div class="content-image" data-url="/docs/assets/images/groups/arcade/ar-arcadius.jpg" data-width="600px" data-label="Arcadius Immortalis Event"></div>
 
 <div class="content-linebreak"></div>
 
-<div class="content-image" data-url="docs/assets/images/groups/arcade/ar-bingo.jpg" data-width="600px" data-label="Arcade Bingo Event"></div>
+<div class="content-image" data-url="/docs/assets/images/groups/arcade/ar-bingo.jpg" data-width="600px" data-label="Arcade Bingo Event"></div>
 
 <div class="content-linebreak"></div>
 
-<div class="content-image" data-url="docs/assets/images/groups/arcade/ar-luna.jpg" data-width="600px" data-label="Luna’s Birthday Event"></div>
+<div class="content-image" data-url="/docs/assets/images/groups/arcade/ar-luna.jpg" data-width="600px" data-label="Luna’s Birthday Event"></div>
 
 <div class="content-linebreak"></div>
 
-<div class="content-image" data-url="docs/assets/images/groups/arcade/ar-squidgame.jpg" data-width="600px" data-label="Squid Game Event"></div>
+<div class="content-image" data-url="/docs/assets/images/groups/arcade/ar-squidgame.jpg" data-width="600px" data-label="Squid Game Event"></div>
 
 <div class="content-linebreak"></div>
 
-<div class="content-image" data-url="docs/assets/images/groups/arcade/ar-olympic.jpg" data-width="600px" data-label="Arcade Olympic Event"></div>
+<div class="content-image" data-url="/docs/assets/images/groups/arcade/ar-olympic.jpg" data-width="600px" data-label="Arcade Olympic Event"></div>
 
 <div class="content-linebreak"></div>
 
-<div class="content-image" data-url="docs/assets/images/groups/arcade/ar-race.jpg" data-width="600px" data-label="Arcade Race Event"></div>
+<div class="content-image" data-url="/docs/assets/images/groups/arcade/ar-race.jpg" data-width="600px" data-label="Arcade Race Event"></div>
 
 <div class="content-linebreak"></div>
 
-<div class="content-image" data-url="docs/assets/images/groups/arcade/ar-champions.jpg" data-width="600px" data-label="Champions League Event"></div>
+<div class="content-image" data-url="/docs/assets/images/groups/arcade/ar-champions.jpg" data-width="600px" data-label="Champions League Event"></div>
 
 <div class="content-linebreak"></div>
 
-<div class="content-image" data-url="docs/assets/images/groups/arcade/ar-highest.jpg" data-width="600px" data-label="Highest Online Count"></div>
+<div class="content-image" data-url="/docs/assets/images/groups/arcade/ar-highest.jpg" data-width="600px" data-label="Highest Online Count"></div>
 
 <div class="content-linebreak"></div>
 
