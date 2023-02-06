@@ -15,4 +15,8 @@ It's difficult to keep track of inactive group members, and group admins often k
 
 <div class="content-linebreak"></div>
 
+<div class="content-image" data-url="/docs/assets/images/concepts/inactivememberslist.png" data-width="600px" data-label=""></div>
+
+<div class="content-linebreak"></div>
+
 
