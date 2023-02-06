@@ -23,12 +23,9 @@ Artrade helps you connect with trusted item traders and merchants from our commu
 
 ## 1. Free Membership
 
-To receive our services, you need a membership. Follow the steps below to become a member of Artrade.
+Become a member of Artrade. Join our group by clicking the link below!
 
-- Follow [@arcade.og](https://instagram.com/arcade.og?igshid=YmMyMTA2M2Y=) on Instagram.
-- DM us your Plato ID.
-
-Once your Plato account is validated, one of our team members will send you an invite to the Artrade group.
+[Artrade's Invite Link](https://plato.app/3l6ezf4wydo1k)
 
 <div class="content-linebreak"></div>
 
