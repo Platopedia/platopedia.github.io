@@ -27,7 +27,7 @@ Follow us on Instagram [@arcade.og](https://www.instagram.com/arcade.og/)
 
 We have hosted a number of special events, such as:
 
-Arcade Bingo Party, Squid Game, Champions League, Olympic Arcade, Arcade Race, Arcade FIFA world cup, The Mole, Sticker Hunt, and many more.
+• Arcade Bingo Party, Squid Game, Champions League, Olympic Arcade, Arcade Race, Arcade FIFA world cup, The Mole, Sticker Hunt, and many more.
 
 Whether you're looking to make new friends, compete in exciting tournaments, or just have some fun, Arcade has something for everyone.
 
