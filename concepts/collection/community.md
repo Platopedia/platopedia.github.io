@@ -37,4 +37,6 @@ This concept would allow players to see how many others are spectating their gam
 
 This concept would allow users to personalize their profile by changing the color of their username. By having a unique username color, users can stand out in a sea of generic names and make a bold statement. Users can purchase new and unique color designs from the shop, further expanding their customization options.
 
+<div class="content-linebreak"></div>
+
 
