@@ -11,7 +11,7 @@ $( document ).ready( function ( ) { $( 'h1' ).prepend( '<span class="badge badge
 
 A collection of community concepts.
 
-<div class="content-contents text-left" data-open="false" data-icon="&#xf068;,&#xf067;">Contents <embed/></div>
+<div class="content-contents text-left" data-open="false" data-icon="&#xf068;,&#xf067;">Concepts <embed/></div>
 
 <div class="content-linebreak"></div>
 
