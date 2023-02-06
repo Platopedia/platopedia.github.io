@@ -35,7 +35,7 @@ Whether you're looking to make new friends, compete in exciting tournaments, or 
 
 ## Shots
 
-Scroll through our best moments
+Scroll through some of our best moments...
 
 <div class="content-image" data-url="/docs/assets/images/groups/arcade/ar-anniversary.jpg" data-width="600px" data-label="Arcade’s 1st Anniversary Event"></div>
 
