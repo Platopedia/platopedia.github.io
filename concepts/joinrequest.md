@@ -4,7 +4,7 @@ title: Join Request
 ---
 
 <script>
-$( document ).ready( function ( ) { $( 'h1' ).prepend( '<span class="badge badge-type">Item</span>&nbsp;' ) } );
+$( document ).ready( function ( ) { $( 'h1' ).prepend( '<span class="badge badge-type">Group</span>&nbsp;' ) } );
 </script>
 
 <div class="content-linebreak"></div>
