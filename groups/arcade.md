@@ -17,7 +17,7 @@ $( document ).ready( function ( ) { $( 'h1' ).prepend( '<img src="/docs/assets/i
 
 Arcade is an English community group that was founded on December 28, 2021.
 
-Follow us on Instagram [@arcade.og](https://plato.app/3l6ezf4wydo1k)
+Follow us on Instagram [@arcade.og](https://www.instagram.com/arcade.og/)
 
 <div class="content-contents text-left" data-open="true" data-icon="&#xf068;,&#xf067;">Contents <embed/></div>
 
