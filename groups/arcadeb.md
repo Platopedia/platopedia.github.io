@@ -10,7 +10,7 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 </style>
 
 <script>
-$( document ).ready( function ( ) { $( 'h1' ).prepend( '<img src="/docs/assets/images/groups/arcade/ar-logo.jpg" />&nbsp;' ) } );
+$( document ).ready( function ( ) { $( 'h1' ).prepend( '<img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;' ) } );
 </script>
 
 <div class="content-linebreak"></div>
