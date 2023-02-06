@@ -15,4 +15,8 @@ Currently, groups can have a maximum of 500 members. This isn't practical for ve
 
 <div class="content-linebreak"></div>
 
+<div class="content-image" data-url="/docs/assets/images/concepts/increasemembers.png" data-width="600px" data-label=""></div>
+
+<div class="content-linebreak"></div>
+
 
