@@ -1,6 +1,6 @@
 ---
 layout: content-title
-title: Ghost
+title: Join Request
 ---
 
 <script>
@@ -11,13 +11,11 @@ $( document ).ready( function ( ) { $( 'h1' ).prepend( '<span class="badge badge
 
 **Author:** Fear
 
-The "Ghost" can be purchased as an item, such as a badge. Once equipped, users will no longer see you in the online list of public rooms or groups. This protects player privacy by preventing others from sending friend requests, and helps avoid unwanted interactions in public chat. We need to ensure that the item is costly, as we don't want our entire community to be ghosted.
-
-Note: Even if some players are ghosted, the online list will still show the actual number of online players.
+This concept gives group administrators the ability to control who joins the group through an invite link. They would have the option to either accept or decline the request from players wishing to join the group. This allows group administrators to share the invite link with the general public without fear of unwanted or excessive new members.
 
 <div class="content-linebreak"></div>
 
-<div class="content-image" data-url="/docs/assets/images/concepts/ghost.png" data-width="600px" data-label=""></div>
+<div class="content-image" data-url="/docs/assets/images/concepts/joinrequest.png" data-width="600px" data-label=""></div>
 
 <div class="content-linebreak"></div>
 
