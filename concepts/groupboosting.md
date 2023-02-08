@@ -41,7 +41,7 @@ Using this platform, boosted or verified groups are able to share important anno
 
 ## Join Request
 
-Players can request to join verified groups from the Public Feed. Group owners would have the option to either accept or decline the request.
+Players can request to join verified groups from the Public Feed. Group owners would have the option to either accept or decline the request, or they could disable the requests entirely from group settings.
 
 <div class="content-linebreak"></div>
 
