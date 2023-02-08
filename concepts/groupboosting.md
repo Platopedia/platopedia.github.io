@@ -23,7 +23,7 @@ A premium feature that enables group owners to improve the credibility and disco
 
 <div class="content-linebreak"></div>
 
-<div class="content-image" data-url="/docs/assets/images/concepts/groupboosting2.png" data-width="600px" data-label=""></div>
+<div class="content-image" data-url="/docs/assets/images/concepts/verification.png" data-width="600px" data-label=""></div>
 
 <div class="content-linebreak"></div>
 
@@ -31,7 +31,7 @@ A premium feature that enables group owners to improve the credibility and disco
 
 <div class="content-linebreak"></div>
 
-<div class="content-image" data-url="/docs/assets/images/concepts/groupboosting3.png" data-width="600px" data-label=""></div>
+<div class="content-image" data-url="/docs/assets/images/concepts/groupboosting2.png" data-width="600px" data-label=""></div>
 
 <div class="content-linebreak"></div>
 
@@ -39,7 +39,7 @@ A premium feature that enables group owners to improve the credibility and disco
 
 <div class="content-linebreak"></div>
 
-<div class="content-image" data-url="/docs/assets/images/concepts/groupboosting4.png" data-width="600px" data-label=""></div>
+<div class="content-image" data-url="/docs/assets/images/concepts/increasemembers.png" data-width="600px" data-label=""></div>
 
 <div class="content-linebreak"></div>
 
@@ -47,7 +47,13 @@ A premium feature that enables group owners to improve the credibility and disco
 
 <div class="content-linebreak"></div>
 
-<div class="content-image" data-url="/docs/assets/images/concepts/groupboosting5.png" data-width="600px" data-label=""></div>
+<div class="content-image" data-url="/docs/assets/images/concepts/groupboosting3.png" data-width="600px" data-label=""></div>
+
+<div class="content-linebreak"></div>
+
+<div class="content-linebreak"></div>
+
+<div class="content-image" data-url="/docs/assets/images/concepts/groupboosting4.png" data-width="600px" data-label=""></div>
 
 <div class="content-linebreak"></div>
 
