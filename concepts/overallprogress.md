@@ -1,67 +1,41 @@
 ---
 layout: content-title
-title: Group Boosting
+title: Overall Progress
 ---
 
 <script>
-$( document ).ready( function ( ) { $( 'h1' ).prepend( '<span class="badge badge-type">Group</span>&nbsp;' ) } );
+$( document ).ready( function ( ) { $( 'h1' ).prepend( '<span class="badge badge-type">Profile</span>&nbsp;' ) } );
 </script>
 
 <div class="content-linebreak"></div>
 
 **Author:** Fear
 
-A premium feature that enables group owners to improve the credibility and discoverability of their groups. In this concept, group owners have the option to "boost" their groups to unlock limited-time perks, such as a verification badge. Additionally, they gain access to a public feed where boosted or verified groups can share announcements. The boost expires after 7 days and can be reactivated for a set amount of coins.
+This concept combines a player's experience points (XP) across all games into a single score, giving them a comprehensive view of their overall progress. The XP gained from winning games adds to their overall progress, which they can use to advance to new levels and unlock special ranks or badges.
 
 <div class="content-linebreak"></div>
 
-<div class="content-image" data-url="/docs/assets/images/concepts/groupboosting1.png" data-width="600px" data-label=""></div>
+<div class="content-image" data-url="/docs/assets/images/concepts/overallprogress1.png" data-width="600px" data-label=""></div>
 
 <div class="content-linebreak"></div>
 
-## Verification
+## Special Badges
 
-As long as the group is boosted, it is verified and remains equipped with a verification badge.
-
-<div class="content-linebreak"></div>
-
-<div class="content-image" data-url="/docs/assets/images/concepts/verification.png" data-width="600px" data-label=""></div>
+These badges serve as a public recognition of their gaming journey and provide a sense of pride and satisfaction.
 
 <div class="content-linebreak"></div>
 
-## Public Feed
-
-Using this platform, boosted or verified groups are able to share important announcements with the general public (one message every 24 hours).
+<div class="content-image" data-url="/docs/assets/images/concepts/overallprogress2.png" data-width="600px" data-label=""></div>
 
 <div class="content-linebreak"></div>
 
-<div class="content-image" data-url="/docs/assets/images/concepts/groupboosting2.png" data-width="600px" data-label=""></div>
+## Double XP
+
+Players can purchase consumable items from the in-game shop to temporarily receive double the amount of experience points (XP) for each win. This boost can greatly accelerate the player's progression and help them quickly level up. Double XP expires after one hour, providing a limited window of opportunity for players to make the most of the boost.
 
 <div class="content-linebreak"></div>
 
-## Join Request
-
-Players can request to join verified groups from the Public Feed. Group owners would have the option to either accept or decline the request.
-
-<div class="content-linebreak"></div>
-
-<div class="content-image" data-url="/docs/assets/images/concepts/groupboosting3.png" data-width="600px" data-label=""></div>
-
-<div class="content-linebreak"></div>
-
-<div class="content-linebreak"></div>
-
-<div class="content-image" data-url="/docs/assets/images/concepts/groupboosting4.png" data-width="600px" data-label=""></div>
-
-<div class="content-linebreak"></div>
-
-## Optional Perk
-
-Once a group is boosted, the maximum number of members in that group is permanently increased to 1000.
-
-<div class="content-linebreak"></div>
-
-<div class="content-image" data-url="/docs/assets/images/concepts/increasemembers.png" data-width="600px" data-label=""></div>
+<div class="content-image" data-url="/docs/assets/images/concepts/overallprogress3.png" data-width="600px" data-label=""></div>
 
 <div class="content-linebreak"></div>
 
