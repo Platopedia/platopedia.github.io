@@ -11,7 +11,7 @@ $( document ).ready( function ( ) { $( 'h1' ).prepend( '<span class="badge badge
 
 **Author:** Fear
 
-A premium feature that enables group owners to improve the credibility and discoverability of their groups. In this concept, group owners have the option to "boost" their groups to unlock limited-time perks, such as a verification badge. Additionally, they gain access to a public feed where boosted or verified groups can share announcements. The boost expires after 7 days and can be reactivated for a set amount of coins.
+A premium feature for group owners who want to take their groups to the next level and establish a strong presence on the platform. In this concept, group owners have the option to "boost" their groups to unlock limited-time perks, such as a verification badge. Additionally, they gain access to a public feed where boosted or verified groups can share announcements. The boost expires after 7 days and can be reactivated for a set amount of coins.
 
 <div class="content-linebreak"></div>
 
