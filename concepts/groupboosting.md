@@ -19,7 +19,9 @@ A premium feature that enables group owners to improve the credibility and disco
 
 <div class="content-linebreak"></div>
 
-**Verification -** As long as the group is boosted, it is verified and remains equipped with a verification badge.
+## Verification
+
+As long as the group is boosted, it is verified and remains equipped with a verification badge.
 
 <div class="content-linebreak"></div>
 
@@ -27,7 +29,9 @@ A premium feature that enables group owners to improve the credibility and disco
 
 <div class="content-linebreak"></div>
 
-**Public Feed -** Using this platform, boosted or verified groups are able to share important announcements with the general public (one message every 24 hours).
+## Public Feed
+
+Using this platform, boosted or verified groups are able to share important announcements with the general public (one message every 24 hours).
 
 <div class="content-linebreak"></div>
 
@@ -35,7 +39,9 @@ A premium feature that enables group owners to improve the credibility and disco
 
 <div class="content-linebreak"></div>
 
-**Optional Perk -** Once a group is boosted, the maximum number of members in that group is permanently increased to 1000.
+## Optional Perk
+
+Once a group is boosted, the maximum number of members in that group is permanently increased to 1000.
 
 <div class="content-linebreak"></div>
 
@@ -43,7 +49,9 @@ A premium feature that enables group owners to improve the credibility and disco
 
 <div class="content-linebreak"></div>
 
-**Join Request -** Players can request to join verified groups from the Public Feed. Group owners would have the option to either accept or decline the request.
+## Join Request
+
+Players can request to join verified groups from the Public Feed. Group owners would have the option to either accept or decline the request.
 
 <div class="content-linebreak"></div>
 
