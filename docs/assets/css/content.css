@@ -724,7 +724,7 @@ audio
 
 .content .content-table .dataTables_filter
 {
-
+    padding-bottom : 15px;
 }
 
 .content .content-table .dataTables_filter br
@@ -851,7 +851,7 @@ audio
 
 .content .content-collect .dataTables_filter
 {
-
+    padding-bottom : 15px;
 }
 
 .content .content-collect .dataTables_filter br
