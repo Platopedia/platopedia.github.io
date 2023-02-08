@@ -39,16 +39,6 @@ Using this platform, boosted or verified groups are able to share important anno
 
 <div class="content-linebreak"></div>
 
-## Optional Perk
-
-Once a group is boosted, the maximum number of members in that group is permanently increased to 1000.
-
-<div class="content-linebreak"></div>
-
-<div class="content-image" data-url="/docs/assets/images/concepts/increasemembers.png" data-width="600px" data-label=""></div>
-
-<div class="content-linebreak"></div>
-
 ## Join Request
 
 Players can request to join verified groups from the Public Feed. Group owners would have the option to either accept or decline the request.
@@ -62,6 +52,16 @@ Players can request to join verified groups from the Public Feed. Group owners w
 <div class="content-linebreak"></div>
 
 <div class="content-image" data-url="/docs/assets/images/concepts/groupboosting4.png" data-width="600px" data-label=""></div>
+
+<div class="content-linebreak"></div>
+
+## Optional Perk
+
+Once a group is boosted, the maximum number of members in that group is permanently increased to 1000.
+
+<div class="content-linebreak"></div>
+
+<div class="content-image" data-url="/docs/assets/images/concepts/increasemembers.png" data-width="600px" data-label=""></div>
 
 <div class="content-linebreak"></div>
 
