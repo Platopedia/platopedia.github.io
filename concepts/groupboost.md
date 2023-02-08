@@ -1,6 +1,6 @@
 ---
 layout: content-title
-title: Group Boosting
+title: Group Boost
 ---
 
 <script>
