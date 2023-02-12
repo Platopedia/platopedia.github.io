@@ -507,7 +507,7 @@ function on_collect ( ) {
     
     container.children( '.row' ).addClass( 'align-items-end' );
     
-    api.columns( [ 1, 2, 3, 4, 5, 6 ] ).visible( false );
+    api.columns( [ 1, 2, 3, 4, 5, 6, 7 ] ).visible( false );
   //api.page.len( 100 );
   //api.draw( );
   
@@ -523,7 +523,7 @@ function on_collect_filter ( ) {
     
     container.children( '.row' ).addClass( 'align-items-end' );
     
-    api.columns( [ 1, 2, 3, 4, 5, 6 ] ).visible( false );
+    api.columns( [ 1, 2, 3, 4, 5, 6, 7 ] ).visible( false );
   //api.page.len( 100 );
   //api.draw( );
     
@@ -552,18 +552,20 @@ function on_collect_filter ( ) {
         
         filter_cat.append
         ( '\
-            <option value="3=1">Top Pick</option>\
-            <option value="4=1">New</option>\
+            <option value="3=1">Pinned</option>\
+            <option value="4=1">Top Pick</option>\
+            <option value="5=1">New</option>\
         ' );
         
     } else if ( container.parent( ).hasClass( 'content-collect-concepts' ) ) {
         
         filter_cat.append
         ( '\
-            <option value="3=1">Top Pick</option>\
-            <option value="4=1">New</option>\
-            <option value="5=1">Dev Planned</option>\
-            <option value="6=1">Dev Released</option>\
+            <option value="3=1">Pinned</option>\
+            <option value="4=1">Top Pick</option>\
+            <option value="5=1">New</option>\
+            <option value="6=1">Dev Planned</option>\
+            <option value="7=1">Dev Released</option>\
         ' );
         
     }
