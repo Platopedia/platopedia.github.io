@@ -475,6 +475,12 @@ audio
     background-color : #8CC3A0; /* green */
 }
 
+.fa-thumbtack
+{
+    position : relative;
+    top      : 3px;
+}
+
 /* ///////////////////////// */
 
 [data-toggle="collapse"] .fa:before
