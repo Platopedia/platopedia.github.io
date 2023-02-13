@@ -15,7 +15,7 @@ A premium feature for group owners who want to take their groups to the next lev
 
 <div class="content-linebreak"></div>
 
-<div class="content-image" data-url="/docs/assets/images/concepts/groupboosting1.png" data-width="600px" data-label=""></div>
+<div class="content-image" data-url="/docs/assets/images/concepts/groupboost1.png" data-width="600px" data-label=""></div>
 
 <div class="content-linebreak"></div>
 
@@ -35,7 +35,7 @@ Using this platform, boosted or verified groups are able to share important anno
 
 <div class="content-linebreak"></div>
 
-<div class="content-image" data-url="/docs/assets/images/concepts/groupboosting2.png" data-width="600px" data-label=""></div>
+<div class="content-image" data-url="/docs/assets/images/concepts/groupboost2.png" data-width="600px" data-label=""></div>
 
 <div class="content-linebreak"></div>
 
@@ -45,13 +45,13 @@ Players can request to join verified groups from the Public Feed. Group owners w
 
 <div class="content-linebreak"></div>
 
-<div class="content-image" data-url="/docs/assets/images/concepts/groupboosting3.png" data-width="600px" data-label=""></div>
+<div class="content-image" data-url="/docs/assets/images/concepts/groupboost3.png" data-width="600px" data-label=""></div>
 
 <div class="content-linebreak"></div>
 
 <div class="content-linebreak"></div>
 
-<div class="content-image" data-url="/docs/assets/images/concepts/groupboosting4.png" data-width="600px" data-label=""></div>
+<div class="content-image" data-url="/docs/assets/images/concepts/groupboost4.png" data-width="600px" data-label=""></div>
 
 <div class="content-linebreak"></div>
 
