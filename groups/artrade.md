@@ -128,17 +128,26 @@ All of our merchants and their stats are listed below. If you wish to become a m
             <td>Zack__243 &#11088;&#11088;&#11088;</td>
         </tr>
         <tr>
-            <td>SoyJuancho &#11088;&#11088;&#11088;</td>
-        </tr>
-        <tr>
             <td>_R3AP3R &#11088;&#11088;&#11088;</td>
         </tr>
         <tr>
-            <td>89sVault &#11088;&#11088;&#11088;</td>
+            <td>mishii &#11088;&#11088;&#11088;</td>
+        </tr>        
+        <tr>
+            <td>d4mqmyd &#11088;&#11088;&#11088;</td>
         </tr>
         <tr>
-            <td>d4mqmyd &#11088;&#11088;</td>
+            <td>saturnoff &#11088;&#11088;</td>
         </tr>
+        <tr>
+            <td>IamWaffle123 &#11088;&#11088;</td>
+        </tr>
+        <tr>
+            <td>SoyJuancho &#11088;&#11088;</td>
+        </tr>        
+        <tr>
+            <td>89sVault &#11088;&#11088;</td>
+        </tr>        
         <tr>
             <td>Fear &#11088;&#11088;</td>
         </tr>
@@ -149,14 +158,14 @@ All of our merchants and their stats are listed below. If you wish to become a m
             <td>3mm &#11088;&#11088;</td>
         </tr>
         <tr>
-            <td>mishii &#11088;&#11088;</td>
+            <td>bruit</td>
         </tr>
         <tr>
-            <td>IamWaffle123 &#11088;</td>
+            <td>efimero</td>
         </tr>
         <tr>
-            <td>saturnoff &#11088;</td>
-        </tr>
+            <td>skoal</td>
+        </tr>        
     </tbody>
 </table>
 
