@@ -140,7 +140,7 @@ All of our merchants and their stats are listed below. If you wish to become a m
             <td>saturnoff &#11088;&#11088;</td>
         </tr>
         <tr>
-            <td>IamWaffle123 &#11088;&#11088;</td>
+            <td>Waffrule &#11088;&#11088;</td>
         </tr>
         <tr>
             <td>SoyJuancho &#11088;&#11088;</td>
@@ -165,6 +165,9 @@ All of our merchants and their stats are listed below. If you wish to become a m
         </tr>
         <tr>
             <td>skoal</td>
+        </tr>
+        <tr>
+            <td>Yngwie_47</td>
         </tr>        
     </tbody>
 </table>
