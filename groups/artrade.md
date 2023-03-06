@@ -41,7 +41,7 @@ To take part in item trading, request for your desired item/s in the group, and 
 
 #### Incentive Bonus
 
-Merchants receive an incentive bonus from the requester's end. Important points listed below.
+Merchants receive an incentive bonus from the requester's end. Some important points listed below.
 
 - Incentive bonus is determined by the total value of the items you're trading for. It's not counted separately for each item.
 - If a merchant requests items, they should also pay the incentive. For merchant-merchant trade, the requester sends first. For merchant-member trade, the member sends first, even if the merchant is the requester. The member will receive incentive.
