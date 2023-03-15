@@ -136,9 +136,12 @@ All of our merchants and their stats are listed below. If you wish to become a m
         </tr>
         <tr>
             <td>mishii &#11088;&#11088;&#11088;</td>
-        </tr>        
+        </tr>
         <tr>
             <td>d4mqmyd &#11088;&#11088;&#11088;</td>
+        </tr>
+        <tr>
+            <td>Yngwie_47 &#11088;&#11088;</td>
         </tr>
         <tr>
             <td>saturnoff &#11088;&#11088;</td>
@@ -148,7 +151,7 @@ All of our merchants and their stats are listed below. If you wish to become a m
         </tr>
         <tr>
             <td>SoyJuancho &#11088;&#11088;</td>
-        </tr>        
+        </tr>
         <tr>
             <td>89sVault &#11088;&#11088;</td>
         </tr>        
@@ -162,17 +165,14 @@ All of our merchants and their stats are listed below. If you wish to become a m
             <td>3mm &#11088;&#11088;</td>
         </tr>
         <tr>
-            <td>bruit</td>
+            <td>bruit &#11088;</td>
         </tr>
         <tr>
-            <td>efimero</td>
+            <td>efimero &#11088;</td>
         </tr>
         <tr>
-            <td>skoal</td>
-        </tr>
-        <tr>
-            <td>Yngwie_47</td>
-        </tr>        
+            <td>skoal &#11088;</td>
+        </tr>       
     </tbody>
 </table>
 
