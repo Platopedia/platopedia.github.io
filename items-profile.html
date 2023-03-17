@@ -7,10 +7,12 @@ title: Items - Profile
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" integrity="sha512-cyzxRvewl+FOKTtpBzYjW6x6IAYUCZy3sGP40hn+DQkqeluGRCax7qztK2ImL64SA+C7kVWdLI6wvdlStawhyw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js" integrity="sha512-yDlE7vpGDP7o2eftkCiPZ+yuUyEcaBwoJoIhdXv71KZWugFqEphIS3PU60lEkFaz8RxaVsMpSvQxMBaKVwA5xg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js" integrity="sha512-6lplKUSl86rUVprDIjiW8DuOniNX8UDoRATqZSds/7t6zCQZfaCe3e5zcGaQwxa8Kpn5RTM9Fvl3X2lLV4grPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script>
 $.fn.selectpicker.Constructor.BootstrapVersion = '4';
+$( document ).ready( function ( ) { bsCustomFileInput.init( ) } );
 </script>
 
 <style>
@@ -146,25 +148,19 @@ div#tool_profile-preview
 
 #tool_profile-preview-username
 {
-    display      : inline-block;
-    margin-right : 4px;
-    height       : 30px;
-    line-height  : 30px;
-    font-size    : 14px;
-    font-weight  : bold;
+    display     : inline-block;
+    height      : 30px;
+    line-height : 30px;
+    font-size   : 14px;
+    font-weight : bold;
 }
 
-#tool_profile-preview-badge
-{
-    display      : inline-block;
-    margin-right : 4px;
-    height       : 16px;
-}
-
+#tool_profile-preview-badge,
 #tool_profile-preview-chatbadge
 {
-    display : inline-block;
-    height  : 16px;
+    display     : inline-block;
+    margin-left : 4px;
+    height      : 16px;
 }
 
 #tool_profile-preview-chat
@@ -183,6 +179,16 @@ div#tool_profile-preview
 </style>
 
 <script>
+if ( window.File && window.FileReader && window.FileList && window.Blob ) {
+    
+    
+    
+} else {
+    
+    alert( 'File API disabled' );
+    
+}
+
 $( document ).ready( _tool_profile );
 
 function _tool_profile ( ) {
@@ -287,22 +293,36 @@ function _tool_profile ( ) {
         
     } );
     
-    tool_profile_form_picture_b.addEventListener( 'change', function ( ) {
-
-        if ( this.files && this.files[0] && this.files[0].type.match( /^image\// ) ) {
+  //tool_profile_form_picture_b.addEventListener( 'change', tool_profile_form_picture, false );
+  //function tool_profile_form_picture ( myevent ) {
+    
+    tool_profile_form_picture_b.addEventListener( 'change', function ( myevent ) {
+        
+        var myfiles = myevent.target.files;
+        
+        if ( myfiles && myfiles[0] && myfiles[0].type.match( /^image\// ) ) {
             
-            tool_profile_form_picture_preview_img_b.onload = function ( ) {
+            var reader = new FileReader( );
+            
+            reader.onload = ( function( myfile ) {
                 
-                (window.URL ? URL : webkitURL).revokeObjectURL( tool_profile_form_picture_preview_img_b.src );
+                return function ( myeventb ) {
+                    
+                  //alert( myfile.name );
+                    
+                    tool_profile_form_picture_preview_img_b.src = myeventb.target.result;
+                    
+                    if ( cropper ) cropper.destroy( );
+                    cropper_ready = false;
+                    cropper = new Cropper( tool_profile_form_picture_preview_img_b, cropper_opt );
+                    
+                };
                 
-                if ( cropper ) cropper.destroy( );
-                cropper_ready = false;
-                cropper = new Cropper( tool_profile_form_picture_preview_img_b, cropper_opt );
-                
-            }
+            } )( myfiles[0] );
+            
+            reader.readAsDataURL( myfiles[0] );           
             
             tool_profile_form_picture_preview.css( 'display', 'block' );
-            tool_profile_form_picture_preview_img_b.src = (window.URL ? URL : webkitURL).createObjectURL( this.files[0] );
             
         } else {
             
@@ -317,8 +337,14 @@ function _tool_profile ( ) {
         var val = $( event.currentTarget ).val( );
         var url = 'https://profile.platocdn.com/' + val;
         
-        tool_profile_form_banner_preview.css( 'display', 'block' );
-        tool_profile_form_banner_preview_img_b.src = url;
+        tool_profile_form_banner_preview.css( 'display', 'none' );
+        
+        if ( val ) {
+            
+            tool_profile_form_banner_preview.css( 'display', 'block' );
+            tool_profile_form_banner_preview_img_b.src = url;
+            
+        }
         
     } );
     
@@ -327,8 +353,14 @@ function _tool_profile ( ) {
         var val = $( event.currentTarget ).val( );
         var url = 'https://profile.platocdn.com/' + val;
         
-        tool_profile_form_frame_preview.css( 'display', 'block' );
-        tool_profile_form_frame_preview_img_b.src = url;
+        tool_profile_form_frame_preview.css( 'display', 'none' );
+        
+        if ( val ) {
+            
+            tool_profile_form_frame_preview.css( 'display', 'block' );
+            tool_profile_form_frame_preview_img_b.src = url;
+            
+        }
         
     } );
     
@@ -337,8 +369,14 @@ function _tool_profile ( ) {
         var val = $( event.currentTarget ).val( );
         var url = 'https://profile.platocdn.com/' + val;
         
-        tool_profile_form_chat_preview.css( 'display', 'block' );
-        tool_profile_form_chat_preview_img_b.src = url;
+        tool_profile_form_chat_preview.css( 'display', 'none' );
+        
+        if ( val ) {
+            
+            tool_profile_form_chat_preview.css( 'display', 'block' );
+            tool_profile_form_chat_preview_img_b.src = url;
+            
+        }
         
     } );
     
@@ -347,8 +385,14 @@ function _tool_profile ( ) {
         var val = $( event.currentTarget ).val( );
         var url = 'https://profile.platocdn.com/' + val;
         
-        tool_profile_form_badge_preview.css( 'display', 'block' );
-        tool_profile_form_badge_preview_img_b.src = url;
+        tool_profile_form_badge_preview.css( 'display', 'none' );
+        
+        if ( val ) {
+            
+            tool_profile_form_badge_preview.css( 'display', 'block' );
+            tool_profile_form_badge_preview_img_b.src = url;
+            
+        }
         
     } );
     
@@ -392,11 +436,13 @@ function _tool_profile ( ) {
     function _tool_profile_preview_div ( element, cropper ) {
         
         element.empty( );
-
+        
+        var username_val = tool_profile_form_username.val( );
+        if ( ! username_val ) username_val = 'Platopedia';
         var username_img = $( '<span></span>' );
         username_img.attr( 'id', 'tool_profile-preview-username' );
-        username_img.text( tool_profile_form_username.val( ) );
-
+        username_img.text( username_val );
+        
         var bio_img = $( '<span></span>' );
         bio_img.attr( 'id', 'tool_profile-preview-bio' );
         bio_img.text( tool_profile_form_bio.val( ) );
@@ -421,23 +467,25 @@ function _tool_profile ( ) {
         chat_img.src = 'https://profile.platocdn.com/' + tool_profile_form_chat.val( );
         chat_img.onload = function ( ) { element.append( chat_img ) }
         
+        var chatbadge_val = tool_profile_form_chat.find( ':selected' ).data( 'badge' );
         var chatbadge_img = new Image( );
         chatbadge_img.setAttribute( 'id', 'tool_profile-preview-chatbadge' );
-        chatbadge_img.src = 'https://profile.platocdn.com/' + tool_profile_form_chat.find( ':selected' ).data( 'badge' );
+        chatbadge_img.src = 'https://profile.platocdn.com/' + chatbadge_val;
         chatbadge_img.onload = function ( ) { }
         
+        var badge_val = tool_profile_form_badge.val( );
         var badge_img = new Image( );
         badge_img.setAttribute( 'id', 'tool_profile-preview-badge' );
-        badge_img.src = 'https://profile.platocdn.com/' + tool_profile_form_badge.val( );
+        badge_img.src = 'https://profile.platocdn.com/' + badge_val;
         badge_img.onload = function ( ) { }
         
         var composite_img = $( '<div></div>' );
         composite_img.attr( 'id', 'tool_profile-preview-composite' );
         composite_img.append( username_img );
-        composite_img.append( badge_img );
-        composite_img.append( chatbadge_img );
+        if ( badge_val     ) composite_img.append( badge_img );
+        if ( chatbadge_val ) composite_img.append( chatbadge_img );
         element.append( composite_img );
-
+        
     }
     
     function _tool_profile_uri_text ( text ) {
@@ -490,7 +538,7 @@ function _tool_profile ( ) {
 
 <div class="text-center">
     <p>
-        This is the incomplete development prototype.<br />
+        Incomplete development prototype.<br />
     </p>
     <p>
         <button id="tool_profile-modal-button" class="btn btn-dark" type="button" data-target="#tool_profile-modal" data-toggle="modal">Update Profile</button>
@@ -540,7 +588,10 @@ function _tool_profile ( ) {
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label" for="tool_profile-form-picture">Picture:</label>
                             <div class="col-sm-10">
-                                <input id="tool_profile-form-picture" class="form-control-file" type="file" accept="image/*" autocomplete="off">
+                                <div class="custom-file">
+                                    <input id="tool_profile-form-picture" class="custom-file-input" type="file" accept="image/*" autocomplete="off">
+                                    <label class="custom-file-label" for="tool_profile-form-picture" data-browse="Browse..."></label>
+                                </div>
                                 <div id="tool_profile-form-picture-preview">
                                     <img src=""></img>
                                 </div>
