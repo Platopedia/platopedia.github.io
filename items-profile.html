@@ -293,7 +293,7 @@ function _tool_profile ( ) {
             
             tool_profile_form_picture_preview_img_b.onload = function ( ) {
                 
-                URL.revokeObjectURL( tool_profile_form_picture_preview_img_b.src );
+                (window.URL ? URL : webkitURL).revokeObjectURL( tool_profile_form_picture_preview_img_b.src );
                 
                 if ( cropper ) cropper.destroy( );
                 cropper_ready = false;
@@ -302,7 +302,7 @@ function _tool_profile ( ) {
             }
             
             tool_profile_form_picture_preview.css( 'display', 'block' );
-            tool_profile_form_picture_preview_img_b.src = URL.createObjectURL( this.files[0] );
+            tool_profile_form_picture_preview_img_b.src = (window.URL ? URL : webkitURL).createObjectURL( this.files[0] );
             
         } else {
             
