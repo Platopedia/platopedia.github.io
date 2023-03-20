@@ -166,7 +166,7 @@ div#tool_profilebuilder-preview
     height      : 30px;
     line-height : 30px;
     font-family : Verdana, Arial, sans-serif;
-    font-size   : 16px;
+    font-size   : 18px;
     font-weight : 500;
 }
 
@@ -232,7 +232,7 @@ div#tool_profilebuilder-preview
     height          : 60px;
     line-height     : 60px;
     font-family     : Verdana, Arial, sans-serif;
-    font-size       : 12px;
+    font-size       : 14px;
     z-index         : 12;
 }
 
@@ -494,7 +494,7 @@ function _tool_profilebuilder ( ) {
         
         if ( val ) {
             
-            tool_profilebuilder_form_banner_preview_img_b.src = 'https://profile.platocdn.com/' + val;
+            tool_profilebuilder_form_banner_preview_img_b.src = _tool_profilebuilder_uri( val );
             tool_profilebuilder_form_banner_preview.css( 'display', 'block' );
             
         } else {
@@ -512,7 +512,7 @@ function _tool_profilebuilder ( ) {
         
         if ( val ) {
             
-            tool_profilebuilder_form_frame_preview_img_b.src = 'https://profile.platocdn.com/' + val;
+            tool_profilebuilder_form_frame_preview_img_b.src = _tool_profilebuilder_uri( val );
             tool_profilebuilder_form_frame_preview.css( 'display', 'block' );
             
         } else {
@@ -530,7 +530,7 @@ function _tool_profilebuilder ( ) {
         
         if ( val ) {
             
-            tool_profilebuilder_form_chat_preview_img_b.src = 'https://profile.platocdn.com/' + val;
+            tool_profilebuilder_form_chat_preview_img_b.src = _tool_profilebuilder_uri( val );
             tool_profilebuilder_form_chat_preview.css( 'display', 'block' );
             
         } else {
@@ -548,7 +548,7 @@ function _tool_profilebuilder ( ) {
         
         if ( val ) {
             
-            tool_profilebuilder_form_badge_preview_img_b.src = 'https://profile.platocdn.com/' + val;
+            tool_profilebuilder_form_badge_preview_img_b.src = _tool_profilebuilder_uri( val );
             tool_profilebuilder_form_badge_preview.css( 'display', 'block' );
             
         } else {
@@ -693,9 +693,10 @@ function _tool_profilebuilder ( ) {
         picture_img.src = _tool_profilebuilder_uri_cropper_round( cropper );
         picture_img.onload = function ( ) { element.append( picture_img ) }
         
+        var banner_val = tool_profilebuilder_form_banner.val( );
         var banner_img = new Image( );
         banner_img.setAttribute( 'id', 'tool_profilebuilder-preview-banner' );
-        banner_img.src = 'https://profile.platocdn.com/' + tool_profilebuilder_form_banner.val( );
+        banner_img.src = _tool_profilebuilder_uri( banner_val );
         banner_img.onload = function ( ) { element.append( banner_img ) }
         
         var frame_val    = tool_profilebuilder_form_frame.val( );
@@ -704,25 +705,25 @@ function _tool_profilebuilder ( ) {
         var frame_img    = new Image( );
         frame_img.setAttribute( 'id', 'tool_profilebuilder-preview-frame' );
         frame_img.style['z-index'] = frame_zindex;
-        frame_img.src = 'https://profile.platocdn.com/' + frame_val;
+        frame_img.src = _tool_profilebuilder_uri( frame_val );
         frame_img.onload = function ( ) { element.append( frame_img ) }
         
         var chat_val = tool_profilebuilder_form_chat.val( );
         var chat_img = new Image( );
       //chat_img.setAttribute( 'id', 'tool_profilebuilder-preview-chat' );
-        chat_img.src = 'https://profile.platocdn.com/' + chat_val;
+        chat_img.src = _tool_profilebuilder_uri( chat_val );
         chat_img.onload = function ( ) { }
         
         var chatbadge_val = tool_profilebuilder_form_chat.find( ':selected' ).data( 'badge' );
         var chatbadge_img = new Image( );
         chatbadge_img.setAttribute( 'id', 'tool_profilebuilder-preview-chatbadge' );
-        chatbadge_img.src = 'https://profile.platocdn.com/' + chatbadge_val;
+        chatbadge_img.src = _tool_profilebuilder_uri( chatbadge_val );
         chatbadge_img.onload = function ( ) { }
         
         var badge_val = tool_profilebuilder_form_badge.find( ':selected' ).data( 'badge' ); // tool_profilebuilder_form_badge.val( );
         var badge_img = new Image( );
         badge_img.setAttribute( 'id', 'tool_profilebuilder-preview-badge' );
-        badge_img.src = 'https://profile.platocdn.com/' + badge_val;
+        badge_img.src = _tool_profilebuilder_uri( badge_val );
         badge_img.onload = function ( ) { }
         
         var composite_img = $( '<div></div>' );
@@ -753,10 +754,22 @@ function _tool_profilebuilder ( ) {
         element.append( compositeb_img );
         
     }
-
+    
+    function _tool_profilebuilder_uri ( path ) {
+        
+        if ( ! path ) return null;
+        
+        var host = 'https://profile.platocdn.com/';
+        if ( path.match( /^\/docs/ ) ) host = '';
+        var uri = host + path;
+        
+        return uri;
+        
+    }
+    
     function _tool_profilebuilder_uri_cropper_round ( cropper ) {
         
-        if ( ! cropper ) return;
+        if ( ! cropper ) return _tool_profilebuilder_uri( '/docs/assets/images/items-profile/picture/default.png' );
         
         var canvas   = cropper.getCroppedCanvas( );
       //var context  = canvas.getContext( '2d' );
@@ -849,8 +862,8 @@ function _tool_profilebuilder ( ) {
                             <label class="col-sm-2 col-form-label" for="tool_profilebuilder-form-banner">Banner:</label>
                             <div class="col-sm-10">
                                 <div class="input-group">
-                                    <select id="tool_profilebuilder-form-banner" class="form-control selectpicker" autocomplete="off" data-live-search="true" data-size="10" data-dropup-auto="false" data-display="static">
-                                        <option value="" data-tokens="" selected="selected">None</option>
+                                    <select id="tool_profilebuilder-form-banner" class="form-control selectpicker" autocomplete="off" data-live-search="true" data-size="10" data-dropup-auto="false" data-display="static" data-none-selected-text="None">
+                                        <option value="/docs/assets/images/items-profile/banner/iap_banner_default_light.png" data-tokens="" selected="selected">None</option>
                                         <option value="iap_banner_2022sparkle_asset.webp" data-tokens="2022 Sparkles">2022 Sparkles*</option>
                                         <option value="iap_banner_4cat_asset.webp" data-tokens="4 Cats">4 Cats*</option>
                                         <option value="iap_banner_404desert_asset.webp" data-tokens="404 Desert">404 Desert*</option>
@@ -1511,7 +1524,7 @@ function _tool_profilebuilder ( ) {
                             <label class="col-sm-2 col-form-label" for="tool_profilebuilder-form-frame">Frame:</label>
                             <div class="col-sm-10">
                                 <div class="input-group">
-                                    <select id="tool_profilebuilder-form-frame" class="form-control selectpicker" autocomplete="off" data-live-search="true" data-size="10" data-dropup-auto="false" data-display="static">
+                                    <select id="tool_profilebuilder-form-frame" class="form-control selectpicker" autocomplete="off" data-live-search="true" data-size="10" data-dropup-auto="false" data-display="static" data-none-selected-text="None">
                                         <option value="" data-tokens="" selected="selected">None</option>
                                         <option value="iap_frame_2021mask_350x350.webp" data-tokens="2021 Mask" data-layer="over">2021 Mask*</option>
                                         <option value="iap_frame_2022_350x350.webp" data-tokens="2022 Hat" data-layer="over">2022 Hat*</option>
@@ -1902,8 +1915,8 @@ function _tool_profilebuilder ( ) {
                             <label class="col-sm-2 col-form-label" for="tool_profilebuilder-form-chat">Chat:</label>
                             <div class="col-sm-10">
                                 <div class="input-group">
-                                    <select id="tool_profilebuilder-form-chat" class="form-control selectpicker" autocomplete="off" data-live-search="true" data-size="10" data-dropup-auto="false" data-display="static">
-                                        <option value="" data-tokens="" selected="selected">None</option>
+                                    <select id="tool_profilebuilder-form-chat" class="form-control selectpicker" autocomplete="off" data-live-search="true" data-size="10" data-dropup-auto="false" data-display="static" data-none-selected-text="None">
+                                        <option value="/docs/assets/images/items-profile/chat/iap_greybubble_asset.png" data-tokens="" selected="selected">None</option>
                                         <option value="iap_2022city_asset_4.png" data-tokens="2022 City" data-badge="iap_2022city_item_54x54.webp" data-color="#ff00ff">2022 City*</option>
                                         <option value="iap_2022fireworks_asset_4.png" data-tokens="2022 Winter" data-badge="iap_2022fireworks_item_54x54.webp" data-color="#ffffff">2022 Winter*</option>
                                         <option value="iap_ny2023_asset.png" data-tokens="2023 Bubble" data-badge="iap_ny2023_item_54x54.webp" data-color="#fdf7a1">2023 Bubble*</option>
@@ -2250,7 +2263,7 @@ function _tool_profilebuilder ( ) {
                             <label class="col-sm-2 col-form-label" for="tool_profilebuilder-form-badge">Badge:</label>
                             <div class="col-sm-10">
                                 <div class="input-group">
-                                    <select id="tool_profilebuilder-form-badge" class="form-control selectpicker" autocomplete="off" data-live-search="true" data-size="10" data-dropup-auto="false" data-display="static">
+                                    <select id="tool_profilebuilder-form-badge" class="form-control selectpicker" autocomplete="off" data-live-search="true" data-size="10" data-dropup-auto="false" data-display="static" data-none-selected-text="None">
                                         <option value="" data-tokens="" selected="selected">None</option>
                                         <option value="iap_badge_no1fan.webp" data-tokens="#1 Fan" data-badge="iap_badge_no1fan_54x54.webp">#1 Fan*</option>
                                         <option value="iap_badge_2022.webp" data-tokens="2022 Badge" data-badge="iap_badge_2022_54x54.webp">2022 Badge*</option>
