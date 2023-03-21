@@ -10,12 +10,6 @@ title: Profile Builder
 <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js" integrity="sha512-6lplKUSl86rUVprDIjiW8DuOniNX8UDoRATqZSds/7t6zCQZfaCe3e5zcGaQwxa8Kpn5RTM9Fvl3X2lLV4grPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-<script>
-$.fn.selectpicker.Constructor.BootstrapVersion = '4';
-$.fn.selectpicker.Constructor.DEFAULTS.dropupAuto = false;
-$( document ).ready( function ( ) { bsCustomFileInput.init( ) } );
-</script>
-
 <style>
 #tool_profilebuilder-modal-open,
 #tool_profilebuilder-form-random,
@@ -88,9 +82,63 @@ $( document ).ready( function ( ) { bsCustomFileInput.init( ) } );
     outline    : 0;
     box-shadow : 0 0 0 1px #39F;
 }
-</style>
 
-<style>
+.rating
+{
+    display         : flex;
+    flex-direction  : row-reverse;
+    justify-content : left;
+}
+
+.rating > input
+{
+    display : none;
+}
+
+.rating > label
+{
+    position    : relative;
+    width       : 30px;
+    cursor      : pointer;
+    font-size   : 30px;
+    line-height : 30px;
+    color       : #FFD600;
+}
+
+.rating > label[for=tool_profilebuilder-form-stars-0]
+{
+    font-size   : 20px;
+    line-height : 35px;
+}
+
+.rating > label::before
+{
+    content  : "\2605";
+    position : absolute;
+    opacity  : 0;
+}
+
+.rating > label[for=tool_profilebuilder-form-stars-0]::before
+{
+    content : "\2715";
+}
+
+.rating > label:hover:before,
+.rating > label:hover ~ label:before
+{
+    opacity : 1 !important;
+}
+
+.rating > input:checked ~ label:before
+{
+    opacity : 1;
+}
+
+.rating:hover > input:checked ~ label:before
+{
+    opacity : 0.4;
+}
+
 div#tool_profilebuilder-preview
 {
     position            : relative;
@@ -170,11 +218,12 @@ div#tool_profilebuilder-preview
     font-weight : 500;
 }
 
+.tool_profilebuilder-preview-star,
 #tool_profilebuilder-preview-badge,
 #tool_profilebuilder-preview-chatbadge
 {
     display     : inline-block;
-    margin-left : 2px;
+    margin-left : 1px;
     height      : 16px;
 }
 
@@ -241,6 +290,7 @@ div#tool_profilebuilder-preview
 #tool_profilebuilder-preview-frame,
 #tool_profilebuilder-preview-composite,
 #tool_profilebuilder-preview-username,
+.tool_profilebuilder-preview-star,
 #tool_profilebuilder-preview-badge,
 #tool_profilebuilder-preview-chatbadge,
 #tool_profilebuilder-preview-compositeb,
@@ -254,6 +304,10 @@ div#tool_profilebuilder-preview
 </style>
 
 <script>
+$.fn.selectpicker.Constructor.BootstrapVersion = '4';
+$.fn.selectpicker.Constructor.DEFAULTS.dropupAuto = false;
+$( document ).ready( function ( ) { bsCustomFileInput.init( ) } );
+
 if ( window.File && window.FileReader && window.FileList && window.Blob ) {
     
     
@@ -337,6 +391,9 @@ function _tool_profilebuilder ( ) {
     var tool_profilebuilder_form_badge_preview_img   = $( '#tool_profilebuilder-form-badge-preview img' );
     var tool_profilebuilder_form_badge_preview_img_b = tool_profilebuilder_form_badge_preview_img.get( 0 );
     
+    
+    var tool_profilebuilder_form_stars   = $( 'input[name=tool_profilebuilder-form-stars]' );
+    var tool_profilebuilder_form_stars_b = tool_profilebuilder_form_stars.get( 0 );
     
   //$( '.selectpicker' ).selectpicker( { dropupAuto : false } );
     
@@ -561,6 +618,24 @@ function _tool_profilebuilder ( ) {
     } );
     
     
+    tool_profilebuilder_form_stars.on( 'click', function ( ) {
+        
+        var $box = $( this );
+        
+        if ( $box.is( ':checked' ) ) {
+            
+            var group = 'input:checkbox[name="' + $box.attr( 'name' ) + '"]';
+            $( group ).prop( 'checked', false );
+            $box.prop( 'checked', true );
+            
+        } else {
+            
+            $box.prop( 'checked', false );
+            
+        }
+        
+    } );
+    
     tool_profilebuilder_form_banner_random.click( function ( ) {
         
         var opt  = tool_profilebuilder_form_banner_b.children;
@@ -726,9 +801,15 @@ function _tool_profilebuilder ( ) {
         badge_img.src = _tool_profilebuilder_uri( badge_val );
         badge_img.onload = function ( ) { }
         
+        var stars_val = tool_profilebuilder_form_stars.filter( ':checked' ).val( );
+        var star_img = new Image( );
+        star_img.setAttribute( 'class', 'tool_profilebuilder-preview-star' );
+        star_img.src = _tool_profilebuilder_uri( 'iap_badge_vipstar2.webp' );
+        
         var composite_img = $( '<div></div>' );
         composite_img.attr( 'id', 'tool_profilebuilder-preview-composite' );
         composite_img.append( username_img );
+        for ( var i = 0; i < stars_val; i++ ) { composite_img.append( star_img.cloneNode( true ) ) }
         if ( badge_val     ) composite_img.append( badge_img );
         if ( chatbadge_val ) composite_img.append( chatbadge_img );
         element.append( composite_img );
@@ -760,7 +841,8 @@ function _tool_profilebuilder ( ) {
         if ( ! path ) return null;
         
         var host = 'https://profile.platocdn.com/';
-        if ( path.match( /^\/docs/ ) ) host = '';
+        if ( path.match( /^\/docs/ ) ) host = location.href.slice( 0, location.href.lastIndexOf( '/' ) );
+        
         var uri = host + path;
         
         return uri;
@@ -771,29 +853,45 @@ function _tool_profilebuilder ( ) {
         
         if ( ! cropper ) return _tool_profilebuilder_uri( '/docs/assets/images/items-profile/picture/default.png' );
         
-        var canvas   = cropper.getCroppedCanvas( );
-      //var context  = canvas.getContext( '2d' );
-        var canvasb  = document.createElement( 'canvas' );
-        var contextb = canvasb.getContext( '2d' );
+        var uri;
         
-        if ( ! canvas  ) return;
-      //if ( ! canvasb ) return;
+        try {
+            
+            var canvas   = cropper.getCroppedCanvas( );
+          //var context  = canvas.getContext( '2d' );
+            var canvasb  = document.createElement( 'canvas' );
+            var contextb = canvasb.getContext( '2d' );
+            
+            if ( ! canvas  ) return;
+          //if ( ! canvasb ) return;
+            
+            var width      = canvas.width;
+            var height     = canvas.height;
+            canvasb.width  = width;
+            canvasb.height = height;
+            
+            contextb.imageSmoothingEnabled = true;
+            contextb.drawImage( canvas, 0, 0, width, height );
+            contextb.globalCompositeOperation = 'destination-in';
+            contextb.beginPath( );
+            contextb.arc( width / 2, height / 2, Math.min( width, height ) / 2, 0, 2 * Math.PI, true );
+            contextb.fill( );
         
-        var width      = canvas.width;
-        var height     = canvas.height;
-        canvasb.width  = width;
-        canvasb.height = height;
-        
-        contextb.imageSmoothingEnabled = true;
-        contextb.drawImage( canvas, 0, 0, width, height );
-        contextb.globalCompositeOperation = 'destination-in';
-        contextb.beginPath( );
-        contextb.arc( width / 2, height / 2, Math.min( width, height ) / 2, 0, 2 * Math.PI, true );
-        contextb.fill( );
-        
-        var uri = canvasb.toDataURL( 'image/png' );
+            uri = canvasb.toDataURL( 'image/png' );
+            
+        } catch {
+            
+            alert( 'Invalid cropped image' );
+            
+        }
         
         return uri;
+        
+    }
+    
+    function _tool_profilebuilder_canvas_blank ( canvas ) {
+        
+        return ! canvas.getContext( '2d' ).getImageData( 0, 0, canvas.width, canvas.height ).data.some( channel => channel !== 0 );
         
     }
     
@@ -3286,6 +3384,28 @@ function _tool_profilebuilder ( ) {
                                 </div>
                                 <div id="tool_profilebuilder-form-badge-preview">
                                     <img src=""></img>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" for="">Stars:</label>
+                            <div class="col-sm-10">
+                                <!--
+                                <div class="rating">
+                                    <input id="tool_profilebuilder-form-stars-5" name="tool_profilebuilder-form-stars" type="radio" value="5" autocomplete="off"><label for="tool_profilebuilder-form-stars-5">&#x2606;</label>
+                                    <input id="tool_profilebuilder-form-stars-4" name="tool_profilebuilder-form-stars" type="radio" value="4" autocomplete="off"><label for="tool_profilebuilder-form-stars-4">&#x2606;</label>
+                                    <input id="tool_profilebuilder-form-stars-3" name="tool_profilebuilder-form-stars" type="radio" value="3" autocomplete="off"><label for="tool_profilebuilder-form-stars-3">&#x2606;</label>
+                                    <input id="tool_profilebuilder-form-stars-2" name="tool_profilebuilder-form-stars" type="radio" value="2" autocomplete="off"><label for="tool_profilebuilder-form-stars-2">&#x2606;</label>
+                                    <input id="tool_profilebuilder-form-stars-1" name="tool_profilebuilder-form-stars" type="radio" value="1" autocomplete="off"><label for="tool_profilebuilder-form-stars-1">&#x2606;</label>
+                                    <input id="tool_profilebuilder-form-stars-0" name="tool_profilebuilder-form-stars" type="radio" value="0" autocomplete="off" checked="checked"><label for="tool_profilebuilder-form-stars-0">&#x2715;</label>
+                                </div>
+                                -->
+                                <div class="rating">
+                                    <input id="tool_profilebuilder-form-stars-5" name="tool_profilebuilder-form-stars" type="checkbox" value="5" autocomplete="off"><label for="tool_profilebuilder-form-stars-5">&#x2606;</label>
+                                    <input id="tool_profilebuilder-form-stars-4" name="tool_profilebuilder-form-stars" type="checkbox" value="4" autocomplete="off"><label for="tool_profilebuilder-form-stars-4">&#x2606;</label>
+                                    <input id="tool_profilebuilder-form-stars-3" name="tool_profilebuilder-form-stars" type="checkbox" value="3" autocomplete="off"><label for="tool_profilebuilder-form-stars-3">&#x2606;</label>
+                                    <input id="tool_profilebuilder-form-stars-2" name="tool_profilebuilder-form-stars" type="checkbox" value="2" autocomplete="off"><label for="tool_profilebuilder-form-stars-2">&#x2606;</label>
+                                    <input id="tool_profilebuilder-form-stars-1" name="tool_profilebuilder-form-stars" type="checkbox" value="1" autocomplete="off"><label for="tool_profilebuilder-form-stars-1">&#x2606;</label>
                                 </div>
                             </div>
                         </div>
