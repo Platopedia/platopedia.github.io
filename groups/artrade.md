@@ -172,7 +172,10 @@ All of our merchants and their stats are listed below. If you wish to become a m
         </tr>
         <tr>
             <td>skoal &#11088;</td>
-        </tr>       
+        </tr>
+        <tr>
+            <td>userstrange</td>
+        </tr>        
     </tbody>
 </table>
 
