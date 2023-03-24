@@ -18,6 +18,9 @@ preload
 (
     '/docs/assets/images/icon.png',
     '/docs/assets/images/search.png',
+    '/docs/assets/images/tool-profilebuilder/picture/default.png',
+    '/docs/assets/images/tool-profilebuilder/banner/iap_banner_default_light.png',
+    '/docs/assets/images/tool-profilebuilder/chat/iap_greybubble_asset.png',
 );
 
 
