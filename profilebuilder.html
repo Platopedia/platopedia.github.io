@@ -579,6 +579,8 @@ function _tool_profilebuilder ( ) {
                     
                     cropper_create( );
                     
+                    if ( cropper_disabled ) tool_profilebuilder_form_picture_edit.trigger( 'click' );
+                    
                 }
                 
                 tool_profilebuilder_form_picture_preview_img_b.src = myeventb.target.result;
@@ -609,7 +611,7 @@ function _tool_profilebuilder ( ) {
             
             cropper.enable( );
             $( this ).html( '&#xf565;' );
-          //$( this ).css( 'color', '' );
+            $( this ).css( 'color', 'green' );
             $( this ).attr( 'title', 'Edit enabled' ).tooltip( '_fixTitle' ).tooltip( 'show' );
             tool_profilebuilder_form_picture_editb.css( 'opacity', '1' );
             tool_profilebuilder_form_picture_editb.prop( 'disabled', false );
@@ -619,7 +621,7 @@ function _tool_profilebuilder ( ) {
             
             cropper.disable( );
             $( this ).html( '&#xf125;' );
-          //$( this ).css( 'color', '' );
+            $( this ).css( 'color', 'red' );
             $( this ).attr( 'title', 'Edit disabled' ).tooltip( '_fixTitle' ).tooltip( 'show' );
             tool_profilebuilder_form_picture_editb.css( 'opacity', '0.4' );
             tool_profilebuilder_form_picture_editb.prop( 'disabled', true );
@@ -1068,7 +1070,7 @@ function _tool_profilebuilder ( ) {
                                     </div>
                                     -->
                                     <div class="btn-group btn-group-sm" role="group">
-                                        <button id="tool_profilebuilder-form-picture-edit" class="btn btn-outline-dark fontawesome" type="button" data-toggle="tooltip" title="Edit enabled">&#xf565;</button>
+                                        <button id="tool_profilebuilder-form-picture-edit" class="btn btn-outline-dark fontawesome" type="button" data-toggle="tooltip" title="Edit enabled" style="color:green">&#xf565;</button>
                                         <button id="tool_profilebuilder-form-picture-rotateleft" class="tool_profilebuilder-form-picture-edit btn btn-outline-dark fontawesome" type="button" data-toggle="tooltip" title="Rotate left">&#xf2ea;</button>
                                         <button id="tool_profilebuilder-form-picture-rotateright" class="tool_profilebuilder-form-picture-edit btn btn-outline-dark fontawesome" type="button" data-toggle="tooltip" title="Rotate right">&#xf2f9;</button>
                                         <button id="tool_profilebuilder-form-picture-fliphorizontal" class="tool_profilebuilder-form-picture-edit btn btn-outline-dark fontawesome" type="button" data-toggle="tooltip" title="Flip horizontal">&#xf337;</button>
