@@ -579,7 +579,7 @@ function _tool_profilebuilder ( ) {
                     
                     cropper_create( );
                     
-                    if ( cropper_disabled ) tool_profilebuilder_form_picture_edit.trigger( 'click' );
+                    if ( cropper_disabled ) tool_profilebuilder_form_picture_edit.trigger( 'click', [ true ] );
                     
                 }
                 
@@ -605,14 +605,15 @@ function _tool_profilebuilder ( ) {
         
     } );
     
-    tool_profilebuilder_form_picture_edit.click( function ( ) {
+    tool_profilebuilder_form_picture_edit.click( function ( myevent, xtooltip ) {
         
         if ( cropper_disabled ) {
             
             cropper.enable( );
             $( this ).html( '&#xf565;' );
             $( this ).css( 'color', 'green' );
-            $( this ).attr( 'title', 'Edit enabled' ).tooltip( '_fixTitle' ).tooltip( 'show' );
+            $( this ).attr( 'title', 'Edit enabled' ).tooltip( '_fixTitle' );
+            if ( ! xtooltip ) $( this ).tooltip( 'show' );
             tool_profilebuilder_form_picture_editb.css( 'opacity', '1' );
             tool_profilebuilder_form_picture_editb.prop( 'disabled', false );
             cropper_disabled = false;
@@ -622,7 +623,8 @@ function _tool_profilebuilder ( ) {
             cropper.disable( );
             $( this ).html( '&#xf125;' );
             $( this ).css( 'color', 'red' );
-            $( this ).attr( 'title', 'Edit disabled' ).tooltip( '_fixTitle' ).tooltip( 'show' );
+            $( this ).attr( 'title', 'Edit disabled' ).tooltip( '_fixTitle' );
+            if ( ! xtooltip ) $( this ).tooltip( 'show' );
             tool_profilebuilder_form_picture_editb.css( 'opacity', '0.4' );
             tool_profilebuilder_form_picture_editb.prop( 'disabled', true );
             cropper_disabled = true;
