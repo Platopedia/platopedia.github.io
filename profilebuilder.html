@@ -377,7 +377,8 @@ function _tool_profilebuilder ( ) {
     
     var tool_profilebuilder_form_picture_upload         = $( '#tool_profilebuilder-form-picture-upload' );
     var tool_profilebuilder_form_picture_download       = $( '#tool_profilebuilder-form-picture-download' );
-    var tool_profilebuilder_form_picture_toggle         = $( '#tool_profilebuilder-form-picture-toggle' );
+    var tool_profilebuilder_form_picture_edit           = $( '#tool_profilebuilder-form-picture-edit' );
+    var tool_profilebuilder_form_picture_editb          = $( '.tool_profilebuilder-form-picture-edit' );
     var tool_profilebuilder_form_picture_disable        = $( '#tool_profilebuilder-form-picture-disable' );
     var tool_profilebuilder_form_picture_enable         = $( '#tool_profilebuilder-form-picture-enable' );
     var tool_profilebuilder_form_picture_rotateleft     = $( '#tool_profilebuilder-form-picture-rotateleft' );
@@ -602,20 +603,26 @@ function _tool_profilebuilder ( ) {
         
     } );
     
-    tool_profilebuilder_form_picture_toggle.click( function ( ) {
+    tool_profilebuilder_form_picture_edit.click( function ( ) {
         
         if ( cropper_disabled ) {
             
             cropper.enable( );
-            $( this ).html( '&#xf09c;' );
-            $( this ).attr( 'title', 'Enabled' ).tooltip( '_fixTitle' ).tooltip( 'show' );
+            $( this ).html( '&#xf565;' );
+          //$( this ).css( 'color', '' );
+            $( this ).attr( 'title', 'Edit enabled' ).tooltip( '_fixTitle' ).tooltip( 'show' );
+            tool_profilebuilder_form_picture_editb.css( 'opacity', '1' );
+            tool_profilebuilder_form_picture_editb.prop( 'disabled', false );
             cropper_disabled = false;
             
         } else {
             
             cropper.disable( );
-            $( this ).html( '&#xf023;' );
-            $( this ).attr( 'title', 'Disabled' ).tooltip( '_fixTitle' ).tooltip( 'show' );
+            $( this ).html( '&#xf125;' );
+          //$( this ).css( 'color', '' );
+            $( this ).attr( 'title', 'Edit disabled' ).tooltip( '_fixTitle' ).tooltip( 'show' );
+            tool_profilebuilder_form_picture_editb.css( 'opacity', '0.4' );
+            tool_profilebuilder_form_picture_editb.prop( 'disabled', true );
             cropper_disabled = true;
             
         }
@@ -1061,11 +1068,11 @@ function _tool_profilebuilder ( ) {
                                     </div>
                                     -->
                                     <div class="btn-group btn-group-sm" role="group">
-                                        <button id="tool_profilebuilder-form-picture-toggle" class="btn btn-outline-dark fontawesome" type="button" data-toggle="tooltip" title="Enabled">&#xf09c;</button>
-                                        <button id="tool_profilebuilder-form-picture-rotateleft" class="btn btn-outline-dark fontawesome" type="button" data-toggle="tooltip" title="Rotate left">&#xf2ea;</button>
-                                        <button id="tool_profilebuilder-form-picture-rotateright" class="btn btn-outline-dark fontawesome" type="button" data-toggle="tooltip" title="Rotate right">&#xf2f9;</button>
-                                        <button id="tool_profilebuilder-form-picture-fliphorizontal" class="btn btn-outline-dark fontawesome" type="button" data-toggle="tooltip" title="Flip horizontal">&#xf337;</button>
-                                        <button id="tool_profilebuilder-form-picture-flipvertical" class="btn btn-outline-dark fontawesome" type="button" data-toggle="tooltip" title="Flip vertical">&#xf338;</button>
+                                        <button id="tool_profilebuilder-form-picture-edit" class="btn btn-outline-dark fontawesome" type="button" data-toggle="tooltip" title="Edit enabled">&#xf565;</button>
+                                        <button id="tool_profilebuilder-form-picture-rotateleft" class="tool_profilebuilder-form-picture-edit btn btn-outline-dark fontawesome" type="button" data-toggle="tooltip" title="Rotate left">&#xf2ea;</button>
+                                        <button id="tool_profilebuilder-form-picture-rotateright" class="tool_profilebuilder-form-picture-edit btn btn-outline-dark fontawesome" type="button" data-toggle="tooltip" title="Rotate right">&#xf2f9;</button>
+                                        <button id="tool_profilebuilder-form-picture-fliphorizontal" class="tool_profilebuilder-form-picture-edit btn btn-outline-dark fontawesome" type="button" data-toggle="tooltip" title="Flip horizontal">&#xf337;</button>
+                                        <button id="tool_profilebuilder-form-picture-flipvertical" class="tool_profilebuilder-form-picture-edit btn btn-outline-dark fontawesome" type="button" data-toggle="tooltip" title="Flip vertical">&#xf338;</button>
                                     </div>
                                 </div>
                                 <div id="tool_profilebuilder-form-picture-preview" oncontextmenu="return false;">
