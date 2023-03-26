@@ -158,6 +158,12 @@ title: Profile Builder
     opacity : 1;
 }
 
+.container
+{
+    padding-left  : 0 !important;
+    padding-right : 0 !important;
+}
+
 div#tool_profilebuilder-preview
 {
     position            : relative;
@@ -246,44 +252,20 @@ div#tool_profilebuilder-preview
     height      : 18px;
 }
 
-#tool_profilebuilder-preview-compositeb
+#tool_profilebuilder-preview-chat
 {
     display         : flex;
     align-items     : center;
     justify-content : center;
     position        : relative;
-    top             : 200px;
+    top             : 185px;
     left            : 0;
     right           : 0;
     margin-left     : auto;
     margin-right    : auto;
-    height          : 30px;
+    height          : 60px;
     text-align      : center;
     z-index         : 10;
-}
-
-.tool_profilebuilder-preview-chat-left
-{
-    display   : inline-block;
-    width     : 86px;
-    clip-path : inset( 0 43px 0 0 );
-    margin    : 0 -43px 0 0;
-}
-
-.tool_profilebuilder-preview-chat-right
-{
-    display   : inline-block;
-    width     : 86px;
-    clip-path : inset( 0 0 0 43px );
-    margin    : 0 0 0 -43px;
-}
-
-.tool_profilebuilder-preview-chat-mid
-{
-    display   : inline-block;
-    width     : 86px;
-    clip-path : inset( 0 40px 0 40px );
-    margin    : 0 -41px 0 -41px;
 }
 
 #tool_profilebuilder-preview-bio
@@ -312,10 +294,7 @@ div#tool_profilebuilder-preview
 .tool_profilebuilder-preview-star,
 #tool_profilebuilder-preview-badge,
 #tool_profilebuilder-preview-chatbadge,
-#tool_profilebuilder-preview-compositeb,
-.tool_profilebuilder-preview-chat-left,
-.tool_profilebuilder-preview-chat-right,
-.tool_profilebuilder-preview-chat-mid,
+#tool_profilebuilder-preview-chat,
 #tool_profilebuilder-preview-bio
 {
   /*border : 1px solid red;*/
@@ -352,6 +331,10 @@ function _tool_profilebuilder ( ) {
     );
     
   //bsCustomFileInput.init( );
+    
+    var myblur = false;
+    $( '.bs-searchbox .form-control' ).on( 'focus', function ( ) { if ( ! myblur ) { $( this ).blur( ); myblur = true } } );
+    $( '.selectpicker' ).on( 'hide.bs.select', function ( ) { myblur = false } );
     
     var tool_profilebuilder_preview   = $( '#tool_profilebuilder-preview' );
     var tool_profilebuilder_preview_b = tool_profilebuilder_preview.get( 0 );
@@ -795,7 +778,7 @@ function _tool_profilebuilder ( ) {
     tool_profilebuilder_form_reset.click( function ( ) {
         
         cropper_destroy( );
-        tool_profilebuilder_form_picture_preview_img_b.src = 'https://platopedia.github.io/docs/assets/images/tool-profilebuilder/picture/default.png';
+        tool_profilebuilder_form_picture_preview_img_b.src = '/docs/assets/images/tool-profilebuilder/picture/default.png';
         cropper_create( );
         
         tool_profilebuilder_form_banner_preview_img_b.src = '';
@@ -841,7 +824,7 @@ function _tool_profilebuilder ( ) {
                 callback : function ( result ) {
                     
                     cropper_destroy( );
-                    tool_profilebuilder_form_picture_preview_img_b.src = 'https://platopedia.github.io/docs/assets/images/tool-profilebuilder/picture/default.png';
+                    tool_profilebuilder_form_picture_preview_img_b.src = '/docs/assets/images/tool-profilebuilder/picture/default.png';
                     cropper_create( );
                     
                     tool_profilebuilder_form_banner_preview_img_b.src = '';
@@ -916,11 +899,16 @@ function _tool_profilebuilder ( ) {
         frame_img.src = _tool_profilebuilder_uri( frame_val );
         frame_img.onload = function ( ) { element.append( frame_img ) }
         
-        var chat_val = tool_profilebuilder_form_chat.val( );
-        var chat_img = new Image( );
-      //chat_img.setAttribute( 'id', 'tool_profilebuilder-preview-chat' );
-        chat_img.src = _tool_profilebuilder_uri( chat_val );
-        chat_img.onload = function ( ) { }
+        _tool_profilebuilder_canvas_chat
+        (
+            _tool_profilebuilder_uri( tool_profilebuilder_form_chat.val( ) ),
+            function ( canvas ) {
+                
+                canvas.setAttribute( 'id', 'tool_profilebuilder-preview-chat' );
+                element.append( canvas );
+                
+            }
+        );
         
         var chatbadge_val = tool_profilebuilder_form_chat.find( ':selected' ).data( 'badge' );
         var chatbadge_img = new Image( );
@@ -947,26 +935,6 @@ function _tool_profilebuilder ( ) {
         if ( chatbadge_val ) composite_img.append( chatbadge_img );
         element.append( composite_img );
         
-        var compositeb_img = $( '<div></div>' );
-        compositeb_img.attr( 'id', 'tool_profilebuilder-preview-compositeb' );
-        if ( chat_val ) {
-            
-            var chat_img_left = chat_img.cloneNode( true );
-            chat_img_left.setAttribute( 'class', 'tool_profilebuilder-preview-chat-left' );
-            
-            var chat_img_right = chat_img.cloneNode( true );
-            chat_img_right.setAttribute( 'class', 'tool_profilebuilder-preview-chat-right' );
-            
-            var chat_img_mid = chat_img.cloneNode( true );
-            chat_img_mid.setAttribute( 'class', 'tool_profilebuilder-preview-chat-mid' );
-            
-            compositeb_img.append( chat_img_left );
-            for ( var i = 0; i < 60; i++ ) { compositeb_img.append( chat_img_mid.cloneNode( true ) ) }
-            compositeb_img.append( chat_img_right );
-            
-        }
-        element.append( compositeb_img );
-        
     }
     
     function _tool_profilebuilder_uri ( path ) {
@@ -984,7 +952,7 @@ function _tool_profilebuilder ( ) {
     
     function _tool_profilebuilder_uri_cropper_round ( cropper ) {
         
-        if ( ! cropper ) return 'https://platopedia.github.io/docs/assets/images/tool-profilebuilder/picture/default.png';
+        if ( ! cropper ) return '/docs/assets/images/tool-profilebuilder/picture/default.png';
         
         var uri;
         
@@ -1022,6 +990,37 @@ function _tool_profilebuilder ( ) {
         
     }
     
+    function _tool_profilebuilder_canvas_chat ( url, callback ) {
+        
+        var image = new Image( );
+        
+        image.onload = function ( ) {
+            
+            var divide     = 0;
+            var repeat_max = 400;
+            
+            var canvas    = document.createElement( 'canvas' );
+            canvas.width  = image.width;
+            canvas.height = image.height;
+            var context   = canvas.getContext( '2d' );
+            context.drawImage( image, 1, 1, 148, 103, 0, 0, 148, 103 );
+            
+            var canvasb    = document.createElement( 'canvas' );
+            canvasb.width  = 148 + divide + divide + repeat_max;
+            canvasb.height = 103;
+            var contextb   = canvasb.getContext( '2d' );
+            contextb.drawImage( canvas, 0, 0, 74, 103, 0, 0, 74, 103 );
+            for ( var repeat = 0; repeat < repeat_max; repeat++ ) { contextb.drawImage( canvas, 75, 0, 1, 103, 74 + divide + repeat, 0, 1, 103 ) }
+            contextb.drawImage( canvas, 75, 0, 74, 103, 74 + divide + divide + repeat_max, 0, 74, 103 );
+            
+            callback( canvasb );
+            
+        }
+        
+        image.src = url;
+        
+    }
+    
 }
 </script>
 
@@ -1044,25 +1043,10 @@ function _tool_profilebuilder ( ) {
                 <div>
                     <form id="tool_profilebuilder-form" autocomplete="off">
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label" for="tool_profilebuilder-form-username">Username:</label>
-                            <div class="col-sm-10">
-                                <input id="tool_profilebuilder-form-username" class="form-control" type="text" maxlength="12" value="Platopedia" autocomplete="off">
-                            </div>
-                        </div>
-                        <div class="form-group row" style="display:none">
-                            <label class="col-sm-2 col-form-label" for="tool_profilebuilder-form-bio">Bio:</label>
-                            <div class="col-sm-10">
-                                <input id="tool_profilebuilder-form-bio" class="form-control bg-white" type="text" value="Platopedia.github.io/profilebuilder" autocomplete="off" readonly>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label" for="tool_profilebuilder-form-picture">Picture:</label>
+                            <label class="col-sm-2 col-form-label">Picture:</label>
                             <div class="col-sm-10">
                                 <input id="tool_profilebuilder-form-picture" type="file" accept="image/*" autocomplete="off">
-                                <small class="form-text text-muted">
-                                    <b>Note:</b> Your picture is never uploaded to Platopedia, your web browser locally reads it via the <a href="https://developer.mozilla.org/en-US/docs/Web/API/FileReader" target="_blank">FileReader API</a>.
-                                </small>
-                                <div class="btn-toolbar mt-3 mb-3" role="toolbar">
+                                <div class="btn-toolbar mb-3" role="toolbar">
                                     <div class="btn-group btn-group-sm mr-2" role="group">
                                         <button id="tool_profilebuilder-form-picture-upload" class="btn btn-outline-dark" type="button" data-toggle="" title="">Load</button> <!-- &#xf062; -->
                                         <button id="tool_profilebuilder-form-picture-download" class="btn btn-outline-dark" type="button" data-toggle="" title="">Save</button> <!-- &#xf063; -->
@@ -1080,16 +1064,49 @@ function _tool_profilebuilder ( ) {
                                     </div>
                                 </div>
                                 <div id="tool_profilebuilder-form-picture-preview" oncontextmenu="return false;">
-                                    <img src="https://platopedia.github.io/docs/assets/images/tool-profilebuilder/picture/default.png"></img>
+                                    <img src="/docs/assets/images/tool-profilebuilder/picture/default.png"></img>
                                 </div>
+                                <small class="form-text text-muted">
+                                    <b>Note:</b> Your picture is never uploaded to Platopedia, your web browser locally reads it via the <a href="https://developer.mozilla.org/en-US/docs/Web/API/FileReader" target="_blank">FileReader API</a>.
+                                </small>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label" for="tool_profilebuilder-form-banner">Banner:</label>
+                            <label class="col-sm-2 col-form-label">Username:</label>
+                            <div class="col-sm-10">
+                                <input id="tool_profilebuilder-form-username" class="form-control" type="text" maxlength="12" value="Platopedia" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="form-group row" style="display:none">
+                            <label class="col-sm-2 col-form-label">Bio:</label>
+                            <div class="col-sm-10">
+                                <input id="tool_profilebuilder-form-bio" class="form-control bg-white" type="text" value="Platopedia.com/profilebuilder" autocomplete="off" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Banner:</label>
                             <div class="col-sm-10">
                                 <div class="input-group">
                                     <select id="tool_profilebuilder-form-banner" class="form-control selectpicker" autocomplete="off" data-live-search="true" data-size="10" data-dropup-auto="false" data-display="static" data-none-selected-text="None">
+                                        
+                                        
+                                        
                                         <option value="/docs/assets/images/tool-profilebuilder/banner/iap_banner_default_light.png" data-tokens="" selected="selected">None</option>
+                                        
+                                        
+                                        
+                                        <option value="banners/iap_banner_bigredbarn_asset.webp" data-tokens="Big Red Barn" data-content="<span class='badge badge-pill badge-type'>New</span> Big Red Barn">Big Red Barn</option>
+                                        <option value="banners/iap_banner_fluffycows_anim.webp" data-tokens="Fluffy Cows" data-content="<span class='badge badge-pill badge-type'>New</span> Fluffy Cows">Fluffy Cows</option>
+                                        <option value="banners/iap_banner_happydays_anim.webp" data-tokens="Happy Days" data-content="<span class='badge badge-pill badge-type'>New</span> Happy Days*">Happy Days*</option>
+                                        <option value="banners/iap_banner_harvestvalley_asset.webp" data-tokens="Harvest Valley" data-content="<span class='badge badge-pill badge-type'>New</span> Harvest Valley*">Harvest Valley*</option>
+                                        <option value="banners/iap_banner_littlepiggies_asset.webp" data-tokens="Little Piggies" data-content="<span class='badge badge-pill badge-type'>New</span> Little Piggies">Little Piggies</option>
+                                        <option value="banners/iap_banner_orchardoasis_asset.webp" data-tokens="Orchard Oasis" data-content="<span class='badge badge-pill badge-type'>New</span> Orchard Oasis">Orchard Oasis</option>
+                                        <option value="banners/iap_banner_piglets_anim.webp" data-tokens="Piglets" data-content="<span class='badge badge-pill badge-type'>New</span> Piglets">Piglets</option>
+                                        <option value="banners/iap_banner_thesimplelife_asset.webp" data-tokens="The Simple Life" data-content="<span class='badge badge-pill badge-type'>New</span> The Simple Life">The Simple Life</option>
+                                        <option value="banners/iap_banner_tweettweet_asset.webp" data-tokens="Tweet Tweet" data-content="<span class='badge badge-pill badge-type'>New</span> Tweet Tweet">Tweet Tweet</option>
+                                        
+                                        
+                                        
                                         <option value="iap_banner_2022sparkle_asset.webp" data-tokens="2022 Sparkles">2022 Sparkles*</option>
                                         <option value="iap_banner_4cat_asset.webp" data-tokens="4 Cats">4 Cats*</option>
                                         <option value="iap_banner_404desert_asset.webp" data-tokens="404 Desert">404 Desert*</option>
@@ -1136,7 +1153,6 @@ function _tool_profilebuilder ( ) {
                                         <option value="iap_banner_myvalentine_asset.webp" data-tokens="Be My Valentine">Be My Valentine*</option>
                                         <option value="iap_banner_bento_asset.webp" data-tokens="Bento">Bento</option>
                                         <option value="iap_banner_bestbuddy_asset.webp" data-tokens="Best Buddy">Best Buddy</option>
-                                        <option value="banners/iap_banner_bigredbarn_asset.webp" data-tokens="Big Red Barn">Big Red Barn</option>
                                         <option value="iap_banner_roofcat_asset.webp" data-tokens="Black & White">Black &amp; White</option>
                                         <option value="iap_banner_blackwhitescript_asset.webp" data-tokens="Black & White Script">Black &amp; White Script*</option>
                                         <option value="iap_banner_blackeagle_asset.webp" data-tokens="Black Eagle">Black Eagle*</option>
@@ -1315,7 +1331,6 @@ function _tool_profilebuilder ( ) {
                                         <option value="iap_banner_floatingicebergs_asset_2.webp" data-tokens="Floating Icebergs">Floating Icebergs*</option>
                                         <option value="iap_banner_floatinglights_asset.webp" data-tokens="Floating Lights">Floating Lights</option>
                                         <option value="iap_banner_flowerfield_asset.webp" data-tokens="Flower Field">Flower Field*</option>
-                                        <option value="banners/iap_banner_fluffycows_anim.webp" data-tokens="Fluffy Cows">Fluffy Cows</option>
                                         <option value="iap_banner_flyingdutchman_asset.webp" data-tokens="Flying Dutchman">Flying Dutchman*</option>
                                         <option value="iap_banner_flyingkick_asset.webp" data-tokens="Flying Kick">Flying Kick*</option>
                                         <option value="iap_banner_followtherabbit_asset.webp" data-tokens="Follow the Rabbit">Follow the Rabbit</option>
@@ -1354,14 +1369,12 @@ function _tool_profilebuilder ( ) {
                                         <option value="iap_banner_h1m_asset.webp" data-tokens="H1M">H1M*</option>
                                         <option value="iap_banner_hades_asset.webp" data-tokens="Hades">Hades*</option>
                                         <option value="iap_banner_handheart_asset.webp" data-tokens="Hand Heart">Hand Heart*</option>
-                                        <option value="banners/iap_banner_happydays_anim.webp" data-tokens="Happy Days">Happy Days*</option>
                                         <option value="iap_banner_sheepdecor_asset.webp" data-tokens="Happy Eid al-Adha">Happy Eid al-Adha*</option>
                                         <option value="iap_banner_happyhack_anim.webp" data-tokens="Happy Hack">Happy Hack*</option>
                                         <option value="iap_banner_happysongkran_asset.webp" data-tokens="Happy Songkran">Happy Songkran*</option>
                                         <option value="iap_banner_happysummer_asset.webp" data-tokens="Happy Summer">Happy Summer</option>
                                         <option value="iap_banner_hariraya_asset.webp" data-tokens="Hari Raya 2021">Hari Raya 2021*</option>
                                         <option value="iap_banner_harimau_asset.webp" data-tokens="Harimau">Harimau*</option>
-                                        <option value="banners/iap_banner_harvestvalley_asset.webp" data-tokens="Harvest Valley">Harvest Valley*</option>
                                         <option value="iap_banner_hauntedmansion_asset.webp" data-tokens="Haunted Mansion">Haunted Mansion*</option>
                                         <option value="iap_banner_heartoflife_anim.webp" data-tokens="Heart of Life">Heart of Life*</option>
                                         <option value="banners/iap_banner_heartofthesea_asset.webp" data-tokens="Heart of the Sea">Heart of the Sea*</option>
@@ -1423,7 +1436,6 @@ function _tool_profilebuilder ( ) {
                                         <option value="iap_banner_liondance_asset.webp" data-tokens="Lion Dancing">Lion Dancing*</option>
                                         <option value="iap_banner_littledragon_asset.webp" data-tokens="Little Dragon">Little Dragon*</option>
                                         <option value="iap_banner_frosthood_asset.webp" data-tokens="Little Frost Hood">Little Frost Hood*</option>
-                                        <option value="banners/iap_banner_littlepiggies_asset.webp" data-tokens="Little Piggies">Little Piggies</option>
                                         <option value="iap_banner_lny2023_anim.webp" data-tokens="LNY 2023">LNY 2023*</option>
                                         <option value="iap_banner_lnynightmarket_asset.webp" data-tokens="LNY Night Market">LNY Night Market*</option>
                                         <option value="iap_banner_lnyparade_asset.webp" data-tokens="LNY Parade">LNY Parade*</option>
@@ -1498,7 +1510,6 @@ function _tool_profilebuilder ( ) {
                                         <option value="iap_banner_oleoleole_asset.webp" data-tokens="Ole Ole Ole">Ole Ole Ole*</option>
                                         <option value="iap_banner_ominous_asset.webp" data-tokens="Ominous">Ominous*</option>
                                         <option value="iap_banner_orbofpower_asset.webp" data-tokens="Orb of Power">Orb of Power*</option>
-                                        <option value="banners/iap_banner_orchardoasis_asset.webp" data-tokens="Orchard Oasis">Orchard Oasis</option>
                                         <option value="iap_banner_oujaboard_asset.webp" data-tokens="Ouja Board">Ouja Board*</option>
                                         <option value="iap_banner_ownthefield_asset.webp" data-tokens="Own the Field">Own the Field*</option>
                                         <option value="iap_banner_ozzyhome_asset_2.webp" data-tokens="Ozzy's Workshop">Ozzy's Workshop*</option>
@@ -1514,7 +1525,6 @@ function _tool_profilebuilder ( ) {
                                         <option value="iap_banner_phantomhacker_asset.webp" data-tokens="Phantom Hacker">Phantom Hacker</option>
                                         <option value="iap_banner_ladyonfire_asset.webp" data-tokens="Phoenix">Phoenix</option>
                                         <option value="iap_banner_phuket_asset.webp" data-tokens="Phuket">Phuket</option>
-                                        <option value="banners/iap_banner_piglets_anim.webp" data-tokens="Piglets">Piglets</option>
                                         <option value="iap_banner_pineapplefamily_asset.webp" data-tokens="Pineapple Party">Pineapple Party</option>
                                         <option value="iap_banner_ping_anim.webp" data-tokens="Ping">Ping</option>
                                         <option value="iap_banner_pinkcrane_asset.webp" data-tokens="Pink Crane">Pink Crane*</option>
@@ -1676,7 +1686,6 @@ function _tool_profilebuilder ( ) {
                                         <option value="banners/iap_banner_thelawman_asset.webp" data-tokens="The Lawman">The Lawman*</option>
                                         <option value="iap_banner_thequeensheart_asset.webp" data-tokens="The Queen's Heart">The Queen's Heart</option>
                                         <option value="iap_banner_room_anim.webp" data-tokens="The Room">The Room</option>
-                                        <option value="banners/iap_banner_thesimplelife_asset.webp" data-tokens="The Simple Life">The Simple Life</option>
                                         <option value="banners/iap_banner_thewrangler_asset.webp" data-tokens="The Wrangler">The Wrangler*</option>
                                         <option value="iap_banner_thunderstorm_asset.webp" data-tokens="Thunderstorm">Thunderstorm*</option>
                                         <option value="iap_banner_tothebeach_asset.webp" data-tokens="To the Beach">To the Beach</option>
@@ -1691,7 +1700,6 @@ function _tool_profilebuilder ( ) {
                                         <option value="iap_banner_trueking_asset.webp" data-tokens="True King">True King*</option>
                                         <option value="iap_banner_tunnelchase_anim.webp" data-tokens="Tunnel Chase">Tunnel Chase*</option>
                                         <option value="iap_banner_turbocharged_anim.webp" data-tokens="Turbocharged">Turbocharged*</option>
-                                        <option value="banners/iap_banner_tweettweet_asset.webp" data-tokens="Tweet Tweet">Tweet Tweet</option>
                                         <option value="iap_banner_twilightwarrior_asset.webp" data-tokens="Twilight Warrior">Twilight Warrior*</option>
                                         <option value="iap_banner_twistedwonderland_asset.webp" data-tokens="Twisted Wonderland">Twisted Wonderland</option>
                                         <option value="iap_banner_twosday_asset.webp" data-tokens="Twosday">Twosday*</option>
@@ -1745,6 +1753,9 @@ function _tool_profilebuilder ( ) {
                                         <option value="iap_banner_yinyangrabbits_asset.webp" data-tokens="Yin Yang Rabbits">Yin Yang Rabbits*</option>
                                         <option value="iap_banner_yougotme_anim.webp" data-tokens="You Got Me">You Got Me*</option>
                                         <option value="iap_banner_zodiacsky_asset.webp" data-tokens="Zodiac Sky">Zodiac Sky</option>
+                                        
+                                        
+                                        
                                     </select>
                                     <div class="input-group-append">
                                         <button id="tool_profilebuilder-form-banner-random" class="btn btn-outline-dark fontawesome" type="button">&#xf2f1;</button>
@@ -1756,11 +1767,24 @@ function _tool_profilebuilder ( ) {
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label" for="tool_profilebuilder-form-frame">Frame:</label>
+                            <label class="col-sm-2 col-form-label">Frame:</label>
                             <div class="col-sm-10">
                                 <div class="input-group">
                                     <select id="tool_profilebuilder-form-frame" class="form-control selectpicker" autocomplete="off" data-live-search="true" data-size="10" data-dropup-auto="false" data-display="static" data-none-selected-text="None">
+                                        
+                                        
+                                        
                                         <option value="" data-tokens="" selected="selected">None</option>
+                                        
+                                        
+                                        
+                                        <option value="frames/iap_frame_beehive_350x350.webp" data-tokens="Beehive Frame" data-content="<span class='badge badge-pill badge-type'>New</span> Beehive Frame" data-layer="over">Beehive Frame</option>
+                                        <option value="frames/iap_frame_farmer_350x350.webp" data-tokens="Farmer Frame" data-content="<span class='badge badge-pill badge-type'>New</span> Farmer Frame" data-layer="over">Farmer Frame</option>
+                                        <option value="frames/iap_frame_harvestchicken_350x350.webp" data-tokens="Harvest Chicken" data-content="<span class='badge badge-pill badge-type'>New</span> Harvest Chicken" data-layer="over">Harvest Chicken</option>
+                                        <option value="frames/iap_frame_harvestcow_350x350.webp" data-tokens="Harvest Cow" data-content="<span class='badge badge-pill badge-type'>New</span> Harvest Cow" data-layer="over">Harvest Cow</option>
+                                        
+                                        
+                                        
                                         <option value="iap_frame_2021mask_350x350.webp" data-tokens="2021 Mask" data-layer="over">2021 Mask*</option>
                                         <option value="iap_frame_2022_350x350.webp" data-tokens="2022 Hat" data-layer="over">2022 Hat*</option>
                                         <option value="iap_frame_ny2023_350x350.webp" data-tokens="2023 Frame" data-layer="over">2023 Frame*</option>
@@ -1789,7 +1813,6 @@ function _tool_profilebuilder ( ) {
                                         <option value="iap_frame_basketball_350x350.webp" data-tokens="Basketball Frame" data-layer="over">Basketball Frame*</option>
                                         <option value="iap_frame_battleblocks_350x350.webp" data-tokens="Battle Blocks Frame" data-layer="over">Battle Blocks Frame*</option>
                                         <option value="iap_frame_bavarian_350x350.webp" data-tokens="Bavarian Hat" data-layer="over">Bavarian Hat*</option>
-                                        <option value="frames/iap_frame_beehive_350x350.webp" data-tokens="Beehive Frame" data-layer="over">Beehive Frame</option>
                                         <option value="iap_frame_beer_350x350.webp" data-tokens="Beer Frame" data-layer="over">Beer Frame*</option>
                                         <option value="iap_frame_berlingraffiti_350x350.webp" data-tokens="Berlin Graffiti Frame" data-layer="over">Berlin Graffiti Frame*</option>
                                         <option value="iap_frame_bestdressed_350x350.webp" data-tokens="Best Dressed Frame" data-layer="over">Best Dressed Frame*</option>
@@ -1888,7 +1911,6 @@ function _tool_profilebuilder ( ) {
                                         <option value="iap_frame_faceless_350x350.webp" data-tokens="Faceless Frame" data-layer="over">Faceless Frame</option>
                                         <option value="iap_frame_family_350x350.webp" data-tokens="Family Frame" data-layer="over">Family Frame*</option>
                                         <option value="iap_frame_fanous_350x350.webp" data-tokens="Fanous Frame" data-layer="over">Fanous Frame</option>
-                                        <option value="frames/iap_frame_farmer_350x350.webp" data-tokens="Farmer Frame" data-layer="over">Farmer Frame</option>
                                         <option value="iap_frame_fastfood_350x350.webp" data-tokens="Fast Food Frame" data-layer="under">Fast Food Frame*</option>
                                         <option value="iap_frame_fatturkey_350x350.webp" data-tokens="Fat Turkey" data-layer="over">Fat Turkey*</option>
                                         <option value="iap_frame_flamenco_350x350.webp" data-tokens="Flamenco" data-layer="over">Flamenco*</option>
@@ -1915,8 +1937,6 @@ function _tool_profilebuilder ( ) {
                                         <option value="iap_frame_greenbonnet_350x350.webp" data-tokens="Green Bonnet" data-layer="over">Green Bonnet*</option>
                                         <option value="iap_frame_halloween_350x350.webp" data-tokens="Halloween" data-layer="over">Halloween*</option>
                                         <option value="iap_frame_angel_350x350.webp" data-tokens="Halo" data-layer="over">Halo</option>
-                                        <option value="frames/iap_frame_harvestchicken_350x350.webp" data-tokens="Harvest Chicken" data-layer="over">Harvest Chicken</option>
-                                        <option value="frames/iap_frame_harvestcow_350x350.webp" data-tokens="Harvest Cow" data-layer="over">Harvest Cow</option>
                                         <option value="iap_frame_hauntedmansion_350x350.webp" data-tokens="Haunted Mansion Frame" data-layer="over">Haunted Mansion Frame*</option>
                                         <option value="iap_frame_hauntedmirror_350x350.webp" data-tokens="Haunted Mirror Frame" data-layer="over">Haunted Mirror Frame*</option>
                                         <option value="iap_frame_headphones_350x350.webp" data-tokens="Headphones" data-layer="under">Headphones</option>
@@ -2140,6 +2160,9 @@ function _tool_profilebuilder ( ) {
                                         <option value="iap_frame_yggdrasil_350x350.webp" data-tokens="Yggdrasil Frame" data-layer="over">Yggdrasil Frame*</option>
                                         <option value="iap_frame_yukio_350x350.webp" data-tokens="Yukio Frame" data-layer="over">Yukio Frame</option>
                                         <option value="iap_frame_zombie_350x350.webp" data-tokens="Zombie Hat" data-layer="over">Zombie Hat*</option>
+                                        
+                                        
+                                        
                                     </select>
                                     <div class="input-group-append">
                                         <button id="tool_profilebuilder-form-frame-random" class="btn btn-outline-dark fontawesome" type="button">&#xf2f1;</button>
@@ -2151,11 +2174,24 @@ function _tool_profilebuilder ( ) {
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label" for="tool_profilebuilder-form-chat">Chat:</label>
+                            <label class="col-sm-2 col-form-label">Chat:</label>
                             <div class="col-sm-10">
                                 <div class="input-group">
                                     <select id="tool_profilebuilder-form-chat" class="form-control selectpicker" autocomplete="off" data-live-search="true" data-size="10" data-dropup-auto="false" data-display="static" data-none-selected-text="None">
+                                        
+                                        
+                                        
                                         <option value="/docs/assets/images/tool-profilebuilder/chat/iap_greybubble_asset.png" data-tokens="" selected="selected">None</option>
+                                        
+                                        
+                                        
+                                        <option value="bubbles/iap_beehive_asset.png" data-tokens="Beehive Bubble" data-content="<span class='badge badge-pill badge-type'>New</span> Beehive Bubble" data-badge="bubbles/iap_beehive_item_54x54.webp" data-color="#7D3100">Beehive Bubble</option>
+                                        <option value="bubbles/iap_harvestchicken_asset.png" data-tokens="Harvest Chicken Bubble" data-content="<span class='badge badge-pill badge-type'>New</span> Harvest Chicken Bubble" data-badge="bubbles/iap_harvestchicken_item_54x54.webp" data-color="#391100">Harvest Chicken Bubble</option>
+                                        <option value="bubbles/iap_harvestcow_asset.png" data-tokens="Harvest Cow Bubble" data-content="<span class='badge badge-pill badge-type'>New</span> Harvest Cow Bubble" data-badge="bubbles/iap_harvestcow_item_54x54.webp" data-color="#000000">Harvest Cow Bubble</option>
+                                        <option value="bubbles/iap_farmer_asset.png" data-tokens="Overalls Bubble" data-content="<span class='badge badge-pill badge-type'>New</span> Overalls Bubble" data-badge="bubbles/iap_farmer_item_54x54.webp" data-color="#FFFFFF">Overalls Bubble</option>
+                                        
+                                        
+                                        
                                         <option value="iap_2022city_asset_4.png" data-tokens="2022 City" data-badge="iap_2022city_item_54x54.webp" data-color="#ff00ff">2022 City*</option>
                                         <option value="iap_2022fireworks_asset_4.png" data-tokens="2022 Winter" data-badge="iap_2022fireworks_item_54x54.webp" data-color="#ffffff">2022 Winter*</option>
                                         <option value="iap_ny2023_asset.png" data-tokens="2023 Bubble" data-badge="iap_ny2023_item_54x54.webp" data-color="#fdf7a1">2023 Bubble*</option>
@@ -2188,7 +2224,6 @@ function _tool_profilebuilder ( ) {
                                         <option value="iap_bavarianaccordion_asset.png" data-tokens="Bavarian Accordion" data-badge="iap_bavarianaccordion_item_54x54.webp" data-color="#ac0000">Bavarian Accordion*</option>
                                         <option value="iap_beach_asset.png" data-tokens="Beach Bubble" data-badge="iap_beach_item_54x54.webp" data-color="#d33b3b">Beach Bubble</option>
                                         <option value="iap_bedroom_asset.png" data-tokens="Bedroom Bubble" data-badge="iap_bedroom_item_54x54.webp" data-color="#400088">Bedroom Bubble*</option>
-                                        <option value="bubbles/iap_beehive_asset.png" data-tokens="Beehive Bubble" data-badge="bubbles/iap_beehive_item_54x54.webp" data-color="#7D3100">Beehive Bubble</option>
                                         <option value="iap_beer_asset.png" data-tokens="Beer Bubble" data-badge="iap_beer_item_54x54.webp" data-color="#b8300e">Beer Bubble*</option>
                                         <option value="iap_berlingraffiti_asset_2.png" data-tokens="Berlin Graffiti Bubble" data-badge="iap_berlingraffiti_item_54x54.webp" data-color="#000000">Berlin Graffiti Bubble*</option>
                                         <option value="iap_bestdressed_asset.png" data-tokens="Best Dressed Bubble" data-badge="iap_bestdressed_item_54x54.webp" data-color="#9A1581">Best Dressed Bubble*</option>
@@ -2282,8 +2317,6 @@ function _tool_profilebuilder ( ) {
                                         <option value="iap_goodkrampus_asset.png" data-tokens="Good Krampus Bubble" data-badge="iap_goodkrampus_item_54x54.webp" data-color="#3758e6">Good Krampus Bubble*</option>
                                         <option value="iap_grandfatherclock_asset.png" data-tokens="Grandfather Clock Bubble" data-badge="iap_grandfatherclock_item_54x54.webp" data-color="#fde662">Grandfather Clock Bubble*</option>
                                         <option value="iap_gumshoes_asset.png" data-tokens="Gum Shoes Bubble" data-badge="iap_gumshoes_item_54x54.webp" data-color="#3f0920">Gum Shoes Bubble*</option>
-                                        <option value="bubbles/iap_harvestchicken_asset.png" data-tokens="Harvest Chicken Bubble" data-badge="bubbles/iap_harvestchicken_item_54x54.webp" data-color="#391100">Harvest Chicken Bubble</option>
-                                        <option value="bubbles/iap_harvestcow_asset.png" data-tokens="Harvest Cow Bubble" data-badge="bubbles/iap_harvestcow_item_54x54.webp" data-color="#000000">Harvest Cow Bubble</option>
                                         <option value="iap_hauntedmansion_asset.png" data-tokens="Haunted Mansion Bubble" data-badge="iap_hauntedmansion_item_54x54.webp" data-color="#fec914">Haunted Mansion Bubble*</option>
                                         <option value="iap_hauntedmirror_asset.png" data-tokens="Haunted Mirror Bubble" data-badge="iap_hauntedmirror_item_54x54.webp" data-color="#ee9623">Haunted Mirror Bubble*</option>
                                         <option value="iap_hawaii_asset.png" data-tokens="Hawaiian" data-badge="iap_hawaii_item_54x54.webp" data-color="#E03514">Hawaiian</option>
@@ -2359,7 +2392,6 @@ function _tool_profilebuilder ( ) {
                                         <option value="iap_orangecat_asset_2.png" data-tokens="Orange Cat Bubble" data-badge="iap_orangecat_item_54x54.webp" data-color="#6d2f02">Orange Cat Bubble</option>
                                         <option value="iap_tentorange_asset.png" data-tokens="Orange Tent Bubble" data-badge="iap_tentorange_item_54x54.webp" data-color="#201201">Orange Tent Bubble*</option>
                                         <option value="bubbles/iap_outlaw_asset2.png" data-tokens="Outlaw Bubble" data-badge="bubbles/iap_outlaw_item_54x54.webp" data-color="#45240E">Outlaw Bubble*</option>
-                                        <option value="bubbles/iap_farmer_asset.png" data-tokens="Overalls Bubble" data-badge="bubbles/iap_farmer_item_54x54.webp" data-color="#FFFFFF">Overalls Bubble</option>
                                         <option value="iap_ozzy_asset.png" data-tokens="Ozzy Bubble" data-badge="iap_ozzy_item_54x54.webp" data-color="#bd003a">Ozzy Bubble*</option>
                                         <option value="iap_pinata_asset.png" data-tokens="Party Llama" data-badge="iap_pinata_item_54x54.webp" data-color="#FFFFFF">Party Llama*</option>
                                         <option value="iap_pelican_asset.png" data-tokens="Pelican Bubble" data-badge="iap_pelican_item_54x54.webp" data-color="#000000">Pelican Bubble*</option>
@@ -2492,6 +2524,9 @@ function _tool_profilebuilder ( ) {
                                         <option value="iap_yellowranger_asset.png" data-tokens="Yellow Ranger Bubble" data-badge="iap_yellowranger_item_54x54.webp" data-color="#ff8215">Yellow Ranger Bubble*</option>
                                         <option value="iap_yggdrasil_asset_2.png" data-tokens="Yggdrasil Bubble" data-badge="iap_yggdrasil_item_54x54_2.webp" data-color="#fe2f42">Yggdrasil Bubble*</option>
                                         <option value="iap_zodiac_asset.png" data-tokens="Zodiac Bubble" data-badge="iap_zodiac_item_54x54.webp" data-color="#ffffff">Zodiac Bubble</option>
+                                        
+                                        
+                                        
                                     </select>
                                     <div class="input-group-append">
                                         <button id="tool_profilebuilder-form-chat-random" class="btn btn-outline-dark fontawesome" type="button">&#xf2f1;</button>
@@ -2503,11 +2538,50 @@ function _tool_profilebuilder ( ) {
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label" for="tool_profilebuilder-form-badge">Badge:</label>
+                            <label class="col-sm-2 col-form-label">Badge:</label>
                             <div class="col-sm-10">
                                 <div class="input-group">
                                     <select id="tool_profilebuilder-form-badge" class="form-control selectpicker" autocomplete="off" data-live-search="true" data-size="10" data-dropup-auto="false" data-display="static" data-none-selected-text="None">
+                                        
+                                        
+                                        
                                         <option value="" data-tokens="" selected="selected">None</option>
+                                        
+                                        
+                                        
+                                        <option value="badges/iap_badge_farm_axe.webp" data-tokens="Axe" data-content="<span class='badge badge-pill badge-type'>New</span> Axe*" data-badge="badges/iap_badge_farm_axe_54x54.webp">Axe*</option>
+                                        <option value="badges/iap_badge_cow_angry.webp" data-tokens="Cow Angry" data-content="<span class='badge badge-pill badge-type'>New</span> Cow Angry*" data-badge="badges/iap_badge_cow_angry_54x54.webp">Cow Angry*</option>
+                                        <option value="badges/iap_badge_cow_cry.webp" data-tokens="Cow Cry" data-content="<span class='badge badge-pill badge-type'>New</span> Cow Cry*" data-badge="badges/iap_badge_cow_cry_54x54.webp">Cow Cry*</option>
+                                        <option value="badges/iap_badge_cow_drink.webp" data-tokens="Cow Drink" data-content="<span class='badge badge-pill badge-type'>New</span> Cow Drink*" data-badge="badges/iap_badge_cow_drink_54x54.webp">Cow Drink*</option>
+                                        <option value="badges/iap_badge_cow_eat.webp" data-tokens="Cow Eat" data-content="<span class='badge badge-pill badge-type'>New</span> Cow Eat*" data-badge="badges/iap_badge_cow_eat_54x54.webp">Cow Eat*</option>
+                                        <option value="badges/iap_badge_cow_heart.webp" data-tokens="Cow Heart" data-content="<span class='badge badge-pill badge-type'>New</span> Cow Heart*" data-badge="badges/iap_badge_cow_heart_54x54.webp">Cow Heart*</option>
+                                        <option value="badges/iap_badge_cow_kiss.webp" data-tokens="Cow Kiss" data-content="<span class='badge badge-pill badge-type'>New</span> Cow Kiss*" data-badge="badges/iap_badge_cow_kiss_54x54.webp">Cow Kiss*</option>
+                                        <option value="badges/iap_badge_cow_laugh.webp" data-tokens="Cow Laugh" data-content="<span class='badge badge-pill badge-type'>New</span> Cow Laugh*" data-badge="badges/iap_badge_cow_laugh_54x54.webp">Cow Laugh*</option>
+                                        <option value="badges/iap_badge_cow_love.webp" data-tokens="Cow Love" data-content="<span class='badge badge-pill badge-type'>New</span> Cow Love*" data-badge="badges/iap_badge_cow_love_54x54.webp">Cow Love*</option>
+                                        <option value="badges/iap_badge_cow_peace.webp" data-tokens="Cow Peace" data-content="<span class='badge badge-pill badge-type'>New</span> Cow Peace*" data-badge="badges/iap_badge_cow_peace_54x54.webp">Cow Peace*</option>
+                                        <option value="badges/iap_badge_cow_shrug.webp" data-tokens="Cow Shrug" data-content="<span class='badge badge-pill badge-type'>New</span> Cow Shrug*" data-badge="badges/iap_badge_cow_shrug_54x54.webp">Cow Shrug*</option>
+                                        <option value="badges/iap_badge_cow_sick.webp" data-tokens="Cow Sick" data-content="<span class='badge badge-pill badge-type'>New</span> Cow Sick*" data-badge="badges/iap_badge_cow_sick_54x54.webp">Cow Sick*</option>
+                                        <option value="badges/iap_badge_cow_sleep.webp" data-tokens="Cow Sleep" data-content="<span class='badge badge-pill badge-type'>New</span> Cow Sleep*" data-badge="badges/iap_badge_cow_sleep_54x54.webp">Cow Sleep*</option>
+                                        <option value="badges/iap_badge_cow_tea.webp" data-tokens="Cow Tea" data-content="<span class='badge badge-pill badge-type'>New</span> Cow Tea*" data-badge="badges/iap_badge_cow_tea_54x54.webp">Cow Tea*</option>
+                                        <option value="badges/iap_badge_cow_thumbsup.webp" data-tokens="Cow Thumbs Up" data-content="<span class='badge badge-pill badge-type'>New</span> Cow Thumbs Up*" data-badge="badges/iap_badge_cow_thumbsup_54x54.webp">Cow Thumbs Up*</option>
+                                        <option value="badges/iap_badge_cow_yawn.webp" data-tokens="Cow Yawn" data-content="<span class='badge badge-pill badge-type'>New</span> Cow Yawn*" data-badge="badges/iap_badge_cow_yawn_54x54.webp">Cow Yawn*</option>
+                                        <option value="badges/iap_badge_farm_chick.webp" data-tokens="Happy Chick" data-content="<span class='badge badge-pill badge-type'>New</span> Happy Chick*" data-badge="badges/iap_badge_farm_chick_54x54.webp">Happy Chick*</option>
+                                        <option value="badges/iap_badge_farm_cow.webp" data-tokens="Happy Cow" data-content="<span class='badge badge-pill badge-type'>New</span> Happy Cow*" data-badge="badges/iap_badge_farm_cow_54x54.webp">Happy Cow*</option>
+                                        <option value="badges/iap_badge_farm_horse.webp" data-tokens="Happy Horse" data-content="<span class='badge badge-pill badge-type'>New</span> Happy Horse*" data-badge="badges/iap_badge_farm_horse_54x54.webp">Happy Horse*</option>
+                                        <option value="badges/iap_badge_farm_pig.webp" data-tokens="Happy Pig" data-content="<span class='badge badge-pill badge-type'>New</span> Happy Pig*" data-badge="badges/iap_badge_farm_pig_54x54.webp">Happy Pig*</option>
+                                        <option value="badges/iap_badge_farm_rooster.webp" data-tokens="Happy Rooster" data-content="<span class='badge badge-pill badge-type'>New</span> Happy Rooster*" data-badge="badges/iap_badge_farm_rooster_54x54.webp">Happy Rooster*</option>
+                                        <option value="badges/iap_badge_farm_sheep.webp" data-tokens="Happy Sheep" data-content="<span class='badge badge-pill badge-type'>New</span> Happy Sheep*" data-badge="badges/iap_badge_farm_sheep_54x54.webp">Happy Sheep*</option>
+                                        <option value="badges/iap_badge_haystack.webp" data-tokens="Hay Stack" data-content="<span class='badge badge-pill badge-type'>New</span> Hay Stack" data-badge="badges/iap_badge_haystack_54x54.webp">Hay Stack</option>
+                                        <option value="badges/iap_badge_farm_hoe.webp" data-tokens="Hoe" data-content="<span class='badge badge-pill badge-type'>New</span> Hoe*" data-badge="badges/iap_badge_farm_hoe_54x54.webp">Hoe*</option>
+                                        <option value="badges/iap_badge_farm_rake.webp" data-tokens="Rake" data-content="<span class='badge badge-pill badge-type'>New</span> Rake*" data-badge="badges/iap_badge_farm_rake_54x54.webp">Rake*</option>
+                                        <option value="badges/iap_badge_redbarn.webp" data-tokens="Red Barn" data-content="<span class='badge badge-pill badge-type'>New</span> Red Barn*" data-badge="badges/iap_badge_redbarn_54x54.webp">Red Barn*</option>
+                                        <option value="badges/iap_badge_farm_scythe.webp" data-tokens="Scythe" data-content="<span class='badge badge-pill badge-type'>New</span> Scythe*" data-badge="badges/iap_badge_farm_scythe_54x54.webp">Scythe*</option>
+                                        <option value="badges/iap_badge_farm_sickle.webp" data-tokens="Sickle" data-content="<span class='badge badge-pill badge-type'>New</span> Sickle*" data-badge="badges/iap_badge_farm_sickle_54x54.webp">Sickle*</option>
+                                        <option value="badges/iap_badge_farm_fork.webp" data-tokens="Spading Fork" data-content="<span class='badge badge-pill badge-type'>New</span> Spading Fork*" data-badge="badges/iap_badge_farm_fork_54x54.webp">Spading Fork*</option>
+                                        <option value="badges/iap_badge_tractor.webp" data-tokens="Tractor" data-content="<span class='badge badge-pill badge-type'>New</span> Tractor" data-badge="badges/iap_badge_tractor_54x54.webp">Tractor</option>
+                                        
+                                        
+                                        
                                         <option value="iap_badge_no1fan.webp" data-tokens="#1 Fan" data-badge="iap_badge_no1fan_54x54.webp">#1 Fan*</option>
                                         <option value="iap_badge_2022.webp" data-tokens="2022 Badge" data-badge="iap_badge_2022_54x54.webp">2022 Badge*</option>
                                         <option value="iap_badge_2222.webp" data-tokens="22/2/22" data-badge="iap_badge_2222_54x54.webp">22/2/22*</option>
@@ -2556,7 +2630,6 @@ function _tool_profilebuilder ( ) {
                                         <option value="iap_badge_audrey.webp" data-tokens="Audrey" data-badge="iap_badge_audrey_54x54.webp">Audrey</option>
                                         <option value="iap_badge_australia.webp" data-tokens="Australia" data-badge="iap_badge_australia_54x54.webp">Australia*</option>
                                         <option value="iap_badge_avocado.webp" data-tokens="Avocado" data-badge="iap_badge_avocado_54x54.webp">Avocado</option>
-                                        <option value="badges/iap_badge_farm_axe.webp" data-tokens="Axe" data-badge="badges/iap_badge_farm_axe_54x54.webp">Axe*</option>
                                         <option value="iap_badge_axolotl.webp" data-tokens="Axolotl" data-badge="iap_badge_axolotl_54x54.webp">Axolotl</option>
                                         <option value="iap_badge_ayano.webp" data-tokens="Ayano" data-badge="iap_badge_ayano_54x54.webp">Ayano</option>
                                         <option value="iap_badge_babydino.webp" data-tokens="Baby Dinosaur" data-badge="iap_badge_babydino_54x54.webp">Baby Dinosaur</option>
@@ -2727,21 +2800,6 @@ function _tool_profilebuilder ( ) {
                                         <option value="iap_badge_costarica_2.webp" data-tokens="Costa Rica" data-badge="iap_badge_costarica_54x54_2.webp">Costa Rica*</option>
                                         <option value="iap_badge_cottage.webp" data-tokens="Cottage Bad" data-badge="iap_badge_cottage_54x54.webp">Cottage Bad*</option>
                                         <option value="iap_badge_couchpotato.webp" data-tokens="Couch Potato" data-badge="iap_badge_couchpotato_54x54.webp">Couch Potato</option>
-                                        <option value="badges/iap_badge_cow_angry.webp" data-tokens="Cow Angry" data-badge="badges/iap_badge_cow_angry_54x54.webp">Cow Angry*</option>
-                                        <option value="badges/iap_badge_cow_cry.webp" data-tokens="Cow Cry" data-badge="badges/iap_badge_cow_cry_54x54.webp">Cow Cry*</option>
-                                        <option value="badges/iap_badge_cow_drink.webp" data-tokens="Cow Drink" data-badge="badges/iap_badge_cow_drink_54x54.webp">Cow Drink*</option>
-                                        <option value="badges/iap_badge_cow_eat.webp" data-tokens="Cow Eat" data-badge="badges/iap_badge_cow_eat_54x54.webp">Cow Eat*</option>
-                                        <option value="badges/iap_badge_cow_heart.webp" data-tokens="Cow Heart" data-badge="badges/iap_badge_cow_heart_54x54.webp">Cow Heart*</option>
-                                        <option value="badges/iap_badge_cow_kiss.webp" data-tokens="Cow Kiss" data-badge="badges/iap_badge_cow_kiss_54x54.webp">Cow Kiss*</option>
-                                        <option value="badges/iap_badge_cow_laugh.webp" data-tokens="Cow Laugh" data-badge="badges/iap_badge_cow_laugh_54x54.webp">Cow Laugh*</option>
-                                        <option value="badges/iap_badge_cow_love.webp" data-tokens="Cow Love" data-badge="badges/iap_badge_cow_love_54x54.webp">Cow Love*</option>
-                                        <option value="badges/iap_badge_cow_peace.webp" data-tokens="Cow Peace" data-badge="badges/iap_badge_cow_peace_54x54.webp">Cow Peace*</option>
-                                        <option value="badges/iap_badge_cow_shrug.webp" data-tokens="Cow Shrug" data-badge="badges/iap_badge_cow_shrug_54x54.webp">Cow Shrug*</option>
-                                        <option value="badges/iap_badge_cow_sick.webp" data-tokens="Cow Sick" data-badge="badges/iap_badge_cow_sick_54x54.webp">Cow Sick*</option>
-                                        <option value="badges/iap_badge_cow_sleep.webp" data-tokens="Cow Sleep" data-badge="badges/iap_badge_cow_sleep_54x54.webp">Cow Sleep*</option>
-                                        <option value="badges/iap_badge_cow_tea.webp" data-tokens="Cow Tea" data-badge="badges/iap_badge_cow_tea_54x54.webp">Cow Tea*</option>
-                                        <option value="badges/iap_badge_cow_thumbsup.webp" data-tokens="Cow Thumbs Up" data-badge="badges/iap_badge_cow_thumbsup_54x54.webp">Cow Thumbs Up*</option>
-                                        <option value="badges/iap_badge_cow_yawn.webp" data-tokens="Cow Yawn" data-badge="badges/iap_badge_cow_yawn_54x54.webp">Cow Yawn*</option>
                                         <option value="iap_badge_cozca.webp" data-tokens="Cozcacuauhtli" data-badge="iap_badge_cozca_54x54.webp">Cozcacuauhtli</option>
                                         <option value="iap_badge_cozy.webp" data-tokens="Cozy" data-badge="iap_badge_cozy_54x54.webp">Cozy</option>
                                         <option value="iap_badge_cozywolf.webp" data-tokens="Cozy Wolf" data-badge="iap_badge_cozywolf_54x54.webp">Cozy Wolf*</option>
@@ -2879,21 +2937,14 @@ function _tool_profilebuilder ( ) {
                                         <option value="iap_badge_alien.webp" data-tokens="Happy Alien" data-badge="iap_badge_alien_54x54.webp">Happy Alien</option>
                                         <option value="iap_badge_happybbq.webp" data-tokens="Happy BBQ" data-badge="iap_badge_happybbq_54x54.webp">Happy BBQ</option>
                                         <option value="iap_badge_happycaveman.webp" data-tokens="Happy Caveman" data-badge="iap_badge_happycaveman_54x54.webp">Happy Caveman*</option>
-                                        <option value="badges/iap_badge_farm_chick.webp" data-tokens="Happy Chick" data-badge="badges/iap_badge_farm_chick_54x54.webp">Happy Chick*</option>
-                                        <option value="badges/iap_badge_farm_cow.webp" data-tokens="Happy Cow" data-badge="badges/iap_badge_farm_cow_54x54.webp">Happy Cow*</option>
                                         <option value="iap_badge_happydragon.webp" data-tokens="Happy Dragon" data-badge="iap_badge_happydragon_54x54.webp">Happy Dragon*</option>
                                         <option value="iap_badge_happyghost.webp" data-tokens="Happy Ghost" data-badge="iap_badge_happyghost_54x54.webp">Happy Ghost*</option>
-                                        <option value="badges/iap_badge_farm_horse.webp" data-tokens="Happy Horse" data-badge="badges/iap_badge_farm_horse_54x54.webp">Happy Horse*</option>
-                                        <option value="badges/iap_badge_farm_pig.webp" data-tokens="Happy Pig" data-badge="badges/iap_badge_farm_pig_54x54.webp">Happy Pig*</option>
-                                        <option value="badges/iap_badge_farm_rooster.webp" data-tokens="Happy Rooster" data-badge="badges/iap_badge_farm_rooster_54x54.webp">Happy Rooster*</option>
-                                        <option value="badges/iap_badge_farm_sheep.webp" data-tokens="Happy Sheep" data-badge="badges/iap_badge_farm_sheep_54x54.webp">Happy Sheep*</option>
                                         <option value="iap_badge_tiger.webp" data-tokens="Happy Tiger" data-badge="iap_badge_tiger_54x54.webp">Happy Tiger</option>
                                         <option value="iap_badge_happytoaster.webp" data-tokens="Happy Toaster" data-badge="iap_badge_happytoaster_54x54.webp">Happy Toaster*</option>
                                         <option value="iap_badge_happyunicorn.webp" data-tokens="Happy Unicorn" data-badge="iap_badge_happyunicorn_54x54.webp">Happy Unicorn*</option>
                                         <option value="iap_badge_haruhi.webp" data-tokens="Haruhi" data-badge="iap_badge_haruhi_54x54.webp">Haruhi</option>
                                         <option value="iap_badge_harvest.webp" data-tokens="Harvest" data-badge="iap_badge_harvest_54x54.webp">Harvest*</option>
                                         <option value="iap_badge_hauntedmansion.webp" data-tokens="Haunted Mansion Badge" data-badge="iap_badge_hauntedmansion_54x54.webp">Haunted Mansion Badge*</option>
-                                        <option value="badges/iap_badge_haystack.webp" data-tokens="Hay Stack" data-badge="badges/iap_badge_haystack_54x54.webp">Hay Stack</option>
                                         <option value="iap_badge_headphones.webp" data-tokens="Headphones Badge" data-badge="iap_badge_headphones_54x54.webp">Headphones Badge</option>
                                         <option value="iap_badge_heart_angel.webp" data-tokens="Heart Angel" data-badge="iap_badge_heart_angel_54x54.webp">Heart Angel*</option>
                                         <option value="iap_badge_heart_arrow.webp" data-tokens="Heart Arrow" data-badge="iap_badge_heart_arrow_54x54.webp">Heart Arrow*</option>
@@ -2918,7 +2969,6 @@ function _tool_profilebuilder ( ) {
                                         <option value="iap_badge_henna.webp" data-tokens="Henna" data-badge="iap_badge_henna_54x54.webp">Henna</option>
                                         <option value="iap_badge_hi2021.webp" data-tokens="Hi, 2021" data-badge="iap_badge_hi2021_54x54.webp">Hi, 2021*</option>
                                         <option value="iap_badge_highfive.webp" data-tokens="High Five" data-badge="iap_badge_highfive_54x54.webp">High Five*</option>
-                                        <option value="badges/iap_badge_farm_hoe.webp" data-tokens="Hoe" data-badge="badges/iap_badge_farm_hoe_54x54.webp">Hoe*</option>
                                         <option value="iap_badge_hollyberries.webp" data-tokens="Holly Berries" data-badge="iap_badge_hollyberries_54x54.webp">Holly Berries*</option>
                                         <option value="iap_badge_holmespipe.webp" data-tokens="Holmes' Pipe" data-badge="iap_badge_holmespipe_54x54.webp">Holmes' Pipe</option>
                                         <option value="iap_badge_holybook.webp" data-tokens="Holy Book" data-badge="iap_badge_holybook_54x54.webp">Holy Book*</option>
@@ -3252,13 +3302,11 @@ function _tool_profilebuilder ( ) {
                                         <option value="iap_badge_rainbowtrout.webp" data-tokens="Rainbow Trout" data-badge="iap_badge_rainbowtrout_54x54.webp">Rainbow Trout*</option>
                                         <option value="iap_badge_raincoatbeaver.webp" data-tokens="Raincoat Beaver" data-badge="iap_badge_raincoatbeaver_54x54.webp">Raincoat Beaver*</option>
                                         <option value="iap_badge_rainyday.webp" data-tokens="Rainy Day" data-badge="iap_badge_rainyday_54x54.webp">Rainy Day</option>
-                                        <option value="badges/iap_badge_farm_rake.webp" data-tokens="Rake" data-badge="badges/iap_badge_farm_rake_54x54.webp">Rake*</option>
                                         <option value="iap_badge_ramskull.webp" data-tokens="Ram Skull" data-badge="iap_badge_ramskull_54x54.webp">Ram Skull*</option>
                                         <option value="iap_badge_fanousramadan.webp" data-tokens="Ramadan Lantern" data-badge="iap_badge_fanousramadan_54x54.webp">Ramadan Lantern*</option>
                                         <option value="iap_badge_rambutan.webp" data-tokens="Rambutan" data-badge="iap_badge_rambutan_54x54.webp">Rambutan</option>
                                         <option value="iap_badge_raptorclaw.webp" data-tokens="Raptor Claw" data-badge="iap_badge_raptorclaw_54x54.webp">Raptor Claw</option>
                                         <option value="iap_badge_raven.webp" data-tokens="Raven Badge" data-badge="iap_badge_raven_54x54.webp">Raven Badge*</option>
-                                        <option value="badges/iap_badge_redbarn.webp" data-tokens="Red Barn" data-badge="badges/iap_badge_redbarn_54x54.webp">Red Barn*</option>
                                         <option value="iap_badge_redcard.webp" data-tokens="Red Card" data-badge="iap_badge_redcard_54x54.webp">Red Card*</option>
                                         <option value="iap_badge_reddragon.webp" data-tokens="Red Dragon Badge" data-badge="iap_badge_reddragon_54x54.webp">Red Dragon Badge*</option>
                                         <option value="iap_badge_redgt2000.webp" data-tokens="Red GT-1000" data-badge="iap_badge_redgt2000_54x54.webp">Red GT-1000</option>
@@ -3331,7 +3379,6 @@ function _tool_profilebuilder ( ) {
                                         <option value="iap_badge_saudi.webp" data-tokens="Saudi Badge" data-badge="iap_badge_saudi_54x54.webp">Saudi Badge*</option>
                                         <option value="iap_badge_sausage.webp" data-tokens="Sausage Badge" data-badge="iap_badge_sausage_54x54.webp">Sausage Badge</option>
                                         <option value="iap_badge_scorpio.webp" data-tokens="Scorpio" data-badge="iap_badge_scorpio_54x54.webp">Scorpio*</option>
-                                        <option value="badges/iap_badge_farm_scythe.webp" data-tokens="Scythe" data-badge="badges/iap_badge_farm_scythe_54x54.webp">Scythe*</option>
                                         <option value="iap_badge_seaturtle.webp" data-tokens="Sea Turtle" data-badge="iap_badge_seaturtle_54x54.webp">Sea Turtle</option>
                                         <option value="iap_badge_seahorse_2.webp" data-tokens="Seahorse Badge" data-badge="iap_badge_seahorse_54x54_2.webp">Seahorse Badge*</option>
                                         <option value="iap_badge_seasonsgreetings.webp" data-tokens="Season's Greetings" data-badge="iap_badge_seasonsgreetings_54x54.webp">Season's Greetings*</option>
@@ -3359,7 +3406,6 @@ function _tool_profilebuilder ( ) {
                                         <option value="iap_badge_shiningstar.webp" data-tokens="Shining Star" data-badge="iap_badge_shiningstar_54x54.webp">Shining Star*</option>
                                         <option value="iap_badge_shooot.webp" data-tokens="Shooot!" data-badge="iap_badge_shooot_54x54.webp">Shooot!*</option>
                                         <option value="badges/iap_badge_shrimp_bait.webp" data-tokens="Shrimp Bait" data-badge="badges/iap_badge_shrimp_bait_54x54.webp">Shrimp Bait*</option>
-                                        <option value="badges/iap_badge_farm_sickle.webp" data-tokens="Sickle" data-badge="badges/iap_badge_farm_sickle_54x54.webp">Sickle*</option>
                                         <option value="iap_badge_otter.webp" data-tokens="Significant Otter" data-badge="iap_badge_otter_54x54.webp">Significant Otter</option>
                                         <option value="iap_badge_simone.webp" data-tokens="Simone Badge" data-badge="iap_badge_simone_54x54.webp">Simone Badge*</option>
                                         <option value="iap_badge_singingelf.webp" data-tokens="Singing Elf" data-badge="iap_badge_singingelf_54x54.webp">Singing Elf*</option>
@@ -3378,7 +3424,6 @@ function _tool_profilebuilder ( ) {
                                         <option value="iap_badge_soundmachine.webp" data-tokens="Sound Machine" data-badge="iap_badge_soundmachine_54x54.webp">Sound Machine*</option>
                                         <option value="iap_badge_southkorea.webp" data-tokens="South Korea" data-badge="iap_badge_southkorea_54x54.webp">South Korea*</option>
                                         <option value="iap_badge_spaceshuttle.webp" data-tokens="Space Shuttle" data-badge="iap_badge_spaceshuttle_54x54.webp">Space Shuttle</option>
-                                        <option value="badges/iap_badge_farm_fork.webp" data-tokens="Spading Fork" data-badge="badges/iap_badge_farm_fork_54x54.webp">Spading Fork*</option>
                                         <option value="iap_badge_spain_2.webp" data-tokens="Spain" data-badge="iap_badge_spain_54x54_2.webp">Spain*</option>
                                         <option value="iap_badge_sparklercat.webp" data-tokens="Sparkler Cat" data-badge="iap_badge_sparklercat_54x54.webp">Sparkler Cat*</option>
                                         <option value="iap_badge_sparklerdog.webp" data-tokens="Sparkler Dog" data-badge="iap_badge_sparklerdog_54x54.webp">Sparkler Dog*</option>
@@ -3441,7 +3486,6 @@ function _tool_profilebuilder ( ) {
                                         <option value="iap_badge_toucan.webp" data-tokens="Toucan" data-badge="iap_badge_toucan_54x54.webp">Toucan</option>
                                         <option value="iap_badge_toxicsmiley.webp" data-tokens="Toxic Smiley" data-badge="iap_badge_toxicsmiley_54x54.webp">Toxic Smiley*</option>
                                         <option value="iap_badge_toysoldier.webp" data-tokens="Toy Soldier Badge" data-badge="iap_badge_toysoldier_54x54.webp">Toy Soldier Badge*</option>
-                                        <option value="badges/iap_badge_tractor.webp" data-tokens="Tractor" data-badge="badges/iap_badge_tractor_54x54.webp">Tractor</option>
                                         <option value="iap_badge_trans.webp" data-tokens="Trans Badge" data-badge="iap_badge_trans_54x54.webp">Trans Badge*</option>
                                         <option value="iap_badge_trash.webp" data-tokens="Trashcan" data-badge="iap_badge_trash_54x54.webp">Trashcan*</option>
                                         <option value="iap_badge_treasuremap.webp" data-tokens="Treasure Map" data-badge="iap_badge_treasuremap_54x54.webp">Treasure Map</option>
@@ -3552,6 +3596,9 @@ function _tool_profilebuilder ( ) {
                                         <option value="iap_badge_zack.webp" data-tokens="Zack Badge" data-badge="iap_badge_zack_54x54.webp">Zack Badge*</option>
                                         <option value="iap_badge_zombiehand.webp" data-tokens="Zombie Hand" data-badge="iap_badge_zombiehand_54x54.webp">Zombie Hand*</option>
                                         <option value="iap_badge_zzzzz.webp" data-tokens="Zzzzz..." data-badge="iap_badge_zzzzz_54x54.webp">Zzzzz...*</option>
+                                        
+                                        
+                                        
                                     </select>
                                     <div class="input-group-append">
                                         <button id="tool_profilebuilder-form-badge-random" class="btn btn-outline-dark fontawesome" type="button">&#xf2f1;</button>
@@ -3563,7 +3610,7 @@ function _tool_profilebuilder ( ) {
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label" for="">Stars:</label>
+                            <label class="col-sm-2 col-form-label">Stars:</label>
                             <div class="col-sm-10">
                                 <div class="rating">
                                     <input id="tool_profilebuilder-form-stars-5" name="tool_profilebuilder-form-stars" type="checkbox" value="5" autocomplete="off"><label for="tool_profilebuilder-form-stars-5">&#x2606;</label>
