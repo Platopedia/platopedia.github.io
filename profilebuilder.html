@@ -3,10 +3,10 @@ layout: content-title
 title: Profile Builder
 ---
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css" integrity="sha512-ARJR74swou2y0Q2V9k0GbzQ/5vJ2RBSoCWokg4zkfM29Fb3vZEQyv0iWBMW/yvKgyHSR/7D64pFMmU8nYmbRkg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="/docs/assets/css/bootstrap-select.min.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" integrity="sha512-cyzxRvewl+FOKTtpBzYjW6x6IAYUCZy3sGP40hn+DQkqeluGRCax7qztK2ImL64SA+C7kVWdLI6wvdlStawhyw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js" integrity="sha512-yDlE7vpGDP7o2eftkCiPZ+yuUyEcaBwoJoIhdXv71KZWugFqEphIS3PU60lEkFaz8RxaVsMpSvQxMBaKVwA5xg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="/docs/assets/js/bootstrap-select.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js" integrity="sha512-6lplKUSl86rUVprDIjiW8DuOniNX8UDoRATqZSds/7t6zCQZfaCe3e5zcGaQwxa8Kpn5RTM9Fvl3X2lLV4grPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <style>
@@ -98,6 +98,21 @@ title: Profile Builder
     color : var(--color-A) !important;
 }
 
+.bootstrap-select .bs-searchbox .form-control
+{
+    padding-left            : 29px;
+    text-indent             : 0 !important;
+    
+    /* todo: relative url */
+    background              : url(https://platopedia.com/docs/assets/images/search.png) no-repeat 8px center;
+    
+    background-color        : var(--color-D) !important;
+    background-size         : 14px;
+    -webkit-background-size : 14px;
+    -moz-background-size    : 14px;
+    -o-background-size      : 14px;
+}
+
 /*
 .bootstrap-select .dropdown-menu.show
 {
@@ -164,15 +179,23 @@ title: Profile Builder
     padding-right : 0 !important;
 }
 
+/*
+.content
+{
+    background-color : var(--color-C);
+}
+*/
+
 div#tool_profilebuilder-preview
 {
     position            : relative;
     margin-left         : auto;
     margin-right        : auto;
     width               : 100%;
-    max-width           : 400px;
+    max-width           : 390px;
     height              : 290px;
     border              : 2px solid var(--color-C);
+    border-top          : none;
     background-color    : #FFFFFF;
     z-index             : 2;
     -webkit-user-select : none;
@@ -180,15 +203,30 @@ div#tool_profilebuilder-preview
     user-select         : none;
 }
 
+@media ( max-width : 390px )
+{
+    div#tool_profilebuilder-preview
+    {
+        border-left  : none;
+        border-right : none;
+    }
+}
+
 #tool_profilebuilder-preview-banner
 {
-    display    : block;
-    position   : absolute;
-    top        : 0;
-    width      : 100%;
-    height     : 150px;
-    object-fit : cover;
-    z-index    : 4;
+    display      : block;
+    position     : absolute;
+    top          : 0;
+    /*
+    left         : 0;
+    right        : 0;
+    margin-left  : auto;
+    margin-right : auto;
+    */
+    width        : 100%;
+    height       : 150px;
+    object-fit   : cover;
+    z-index      : 4;
 }
 
 #tool_profilebuilder-preview-picture
@@ -303,7 +341,6 @@ div#tool_profilebuilder-preview
 
 <script>
 $.fn.selectpicker.Constructor.BootstrapVersion = '4';
-$.fn.selectpicker.Constructor.DEFAULTS.dropupAuto = false;
 
 if ( window.File && window.FileReader && window.FileList && window.Blob ) {
     
@@ -331,10 +368,6 @@ function _tool_profilebuilder ( ) {
     );
     
   //bsCustomFileInput.init( );
-    
-    var myblur = false;
-    $( '.bs-searchbox .form-control' ).on( 'focus', function ( ) { if ( ! myblur ) { $( this ).blur( ); myblur = true } } );
-    $( '.selectpicker' ).on( 'hide.bs.select', function ( ) { myblur = false } );
     
     var tool_profilebuilder_preview   = $( '#tool_profilebuilder-preview' );
     var tool_profilebuilder_preview_b = tool_profilebuilder_preview.get( 0 );
@@ -462,7 +495,7 @@ function _tool_profilebuilder ( ) {
                     
                     var ratio = myevent.detail.ratio;
                     
-                    if ( ratio < 0.01 || ratio > 10 ) {
+                    if ( ratio < 0.1 || ratio > 10 ) {
                         
                         myevent.preventDefault( );
                       //cropper.zoomTo( 1 );
@@ -509,7 +542,7 @@ function _tool_profilebuilder ( ) {
         
         
     } );
-
+    
     tool_profilebuilder_modal.on( 'shown.bs.modal', function ( event ) {
         
         cropper_create( );
@@ -527,7 +560,7 @@ function _tool_profilebuilder ( ) {
         cropper_destroy( true );
         
     } );
-
+    
     tool_profilebuilder_form_picture_b.addEventListener( 'change', function ( myevent ) {
 
         var myfiles = myevent.target.files;
@@ -2915,7 +2948,6 @@ function _tool_profilebuilder ( ) {
                                         <option value="iap_badge_godoffortune.webp" data-tokens="God of Fortune" data-badge="iap_badge_godoffortune_54x54.webp">God of Fortune*</option>
                                         <option value="iap_badge_bat.webp" data-tokens="Going Batty" data-badge="iap_badge_bat_54x54.webp">Going Batty*</option>
                                         <option value="iap_badge_golddice.webp" data-tokens="Gold Dice" data-badge="iap_badge_golddice_54x54.webp">Gold Dice*</option>
-                                        <option value="iap_badge_vipstar2.webp" data-tokens="Gold Star" data-badge="iap_badge_vipstar2_54x54.webp">Gold Star</option>
                                         <option value="iap_badge_goldenconch.webp" data-tokens="Golden Conch" data-badge="iap_badge_goldenconch_54x54.webp">Golden Conch*</option>
                                         <option value="iap_badge_harp.webp" data-tokens="Golden Harp" data-badge="iap_badge_harp_54x54.webp">Golden Harp*</option>
                                         <option value="iap_badge_goldfish.webp" data-tokens="Goldfish" data-badge="iap_badge_goldfish_54x54.webp">Goldfish</option>
