@@ -126,55 +126,55 @@ All of our merchants and their stats are listed below. If you wish to become a m
     </thead>
     <tbody>
         <tr>
-            <td>RBT &#11088;&#11088;&#11088;</td>
+            <td>RBT</td>
         </tr>
         <tr>
-            <td>Zack__243 &#11088;&#11088;&#11088;</td>
+            <td>Zack__243</td>
         </tr>
         <tr>
-            <td>_R3AP3R &#11088;&#11088;&#11088;</td>
+            <td>_R3AP3R</td>
         </tr>
         <tr>
-            <td>mishii &#11088;&#11088;&#11088;</td>
+            <td>mishii</td>
         </tr>
         <tr>
-            <td>d4mqmyd &#11088;&#11088;&#11088;</td>
-        </tr>
-        <tr>
-            <td>Yngwie_47 &#11088;&#11088;</td>
-        </tr>
-        <tr>
-            <td>saturnoff &#11088;&#11088;</td>
-        </tr>
-        <tr>
-            <td>Waffrule &#11088;&#11088;</td>
-        </tr>
-        <tr>
-            <td>SoyJuancho &#11088;&#11088;</td>
-        </tr>
-        <tr>
-            <td>89sVault &#11088;&#11088;</td>
-        </tr>        
-        <tr>
-            <td>Fear &#11088;&#11088;</td>
-        </tr>
-        <tr>
-            <td>hmode &#11088;&#11088;</td>
-        </tr>
-        <tr>
-            <td>3mm &#11088;&#11088;</td>
-        </tr>
-        <tr>
-            <td>bruit &#11088;</td>
-        </tr>
-        <tr>
-            <td>efimero &#11088;</td>
-        </tr>
-        <tr>
-            <td>skoal &#11088;</td>
+            <td>d4mqmyd</td>
         </tr>
         <tr>
             <td>userstrange</td>
+        </tr>        
+        <tr>
+            <td>Yngwie_47</td>
+        </tr>
+        <tr>
+            <td>saturnoff</td>
+        </tr>
+        <tr>
+            <td>Waffrule</td>
+        </tr>
+        <tr>
+            <td>SoyJuancho</td>
+        </tr>
+        <tr>
+            <td>89sVault</td>
+        </tr>        
+        <tr>
+            <td>Fear</td>
+        </tr>
+        <tr>
+            <td>hmode</td>
+        </tr>
+        <tr>
+            <td>3mm</td>
+        </tr>
+        <tr>
+            <td>bruit</td>
+        </tr>
+        <tr>
+            <td>efimero</td>
+        </tr>
+        <tr>
+            <td>skoal</td>
         </tr>
         <tr>
             <td>esmerilados</td>
