@@ -98,6 +98,11 @@ title: Profile Builder
     color : var(--color-A) !important;
 }
 
+.bootstrap-select .bs-searchbox
+{
+    padding : 0;
+}
+
 .bootstrap-select .bs-searchbox .form-control
 {
     padding-left            : 29px;
@@ -111,6 +116,17 @@ title: Profile Builder
     -webkit-background-size : 14px;
     -moz-background-size    : 14px;
     -o-background-size      : 14px;
+}
+
+.bootstrap-select .bs-searchbox .form-control,
+.bootstrap-select .bs-searchbox .form-control:hover,
+.bootstrap-select .bs-searchbox .form-control:focus,
+.bootstrap-select .bs-searchbox .form-control:active
+{
+    border             : none !important;
+    -webkit-box-shadow : none !important;
+    -moz-box-shadow    : none !important;
+    box-shadow         : none !important;
 }
 
 /*
@@ -192,10 +208,10 @@ div#tool_profilebuilder-preview
     margin-left         : auto;
     margin-right        : auto;
     width               : 100%;
-    max-width           : 400px;
+    max-width           : 390px;
     height              : 290px;
     border              : 2px solid var(--color-C);
-    border-top          : none;
+  /*border-top          : none;*/
     background-color    : #FFFFFF;
     z-index             : 2;
     -webkit-user-select : none;
@@ -203,7 +219,7 @@ div#tool_profilebuilder-preview
     user-select         : none;
 }
 
-@media ( max-width : 400px )
+@media ( max-width : 390px )
 {
     div#tool_profilebuilder-preview
     {
@@ -225,7 +241,7 @@ div#tool_profilebuilder-preview
     */
     width        : 100%;
     height       : 150px;
-    object-fit   : cover;    
+    object-fit   : cover;
     z-index      : 4;
 }
 
@@ -454,6 +470,13 @@ function _tool_profilebuilder ( ) {
     var cropper_canvasdata  = null;
     var cropper_disabled    = false;
     
+    var cropper_ratio       = null;
+    var cropper_ratiomin    = null;
+    var cropper_ratiomax    = null;
+  //var cropper_width       = null;
+  //var cropper_widthmin    = null;
+  //var cropper_widthmax    = null;
+    
     var cropper_create = function ( ) {
         
         if ( cropper ) return;
@@ -483,6 +506,14 @@ function _tool_profilebuilder ( ) {
                 
                 ready : function ( ) {
                     
+                    var cropper_imagedata = cropper.getImageData( );
+                    cropper_ratio         = cropper_imagedata.width / cropper_imagedata.naturalWidth; // cropper_imagedata.aspectRatio;
+                    cropper_ratiomin      = cropper_ratio / 4;
+                    cropper_ratiomax      = cropper_ratio * 4;
+                  //cropper_width         = cropper_imagedata.width;
+                  //cropper_widthmin      = cropper_width / 4;
+                  //cropper_widthmax      = cropper_width * 4;
+                    
                     cropper.setData( cropper_data );
                     cropper.setCropBoxData( cropper_cropboxdata );
                     cropper.setCanvasData( cropper_canvasdata );
@@ -493,9 +524,13 @@ function _tool_profilebuilder ( ) {
                 
                 zoom : function ( myevent ) {
                     
-                    var ratio = myevent.detail.ratio;
+                    var cropper_imagedatab = cropper.getImageData( );
+                    var cropper_ratiob     = myevent.detail.ratio;
+                  //var cropper_widthb     = cropper_imagedatab.width;
                     
-                    if ( ratio < 0.05 || ratio > 10 ) {
+                  //console.log( [ cropper_ratio, cropper_ratiomin, cropper_ratiomax, cropper_ratiob ] );
+                    
+                    if ( cropper_ratiob < cropper_ratiomin || cropper_ratiob > cropper_ratiomax ) {
                         
                         myevent.preventDefault( );
                       //cropper.zoomTo( 1 );
