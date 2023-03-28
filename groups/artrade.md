@@ -126,6 +126,15 @@ All of our merchants and their stats are listed below. If you wish to become a m
     </thead>
     <tbody>
         <tr>
+            <td>Waffrule</td>
+        </tr>
+        <tr>
+            <td>d4mqmyd</td>
+        </tr>        
+        <tr>
+            <td>saturnoff</td>
+        </tr>        
+        <tr>
             <td>RBT</td>
         </tr>
         <tr>
@@ -133,12 +142,9 @@ All of our merchants and their stats are listed below. If you wish to become a m
         </tr>
         <tr>
             <td>_R3AP3R</td>
-        </tr>
+        </tr>        
         <tr>
             <td>mishii</td>
-        </tr>
-        <tr>
-            <td>d4mqmyd</td>
         </tr>
         <tr>
             <td>userstrange</td>
@@ -147,20 +153,23 @@ All of our merchants and their stats are listed below. If you wish to become a m
             <td>Yngwie_47</td>
         </tr>
         <tr>
-            <td>saturnoff</td>
-        </tr>
-        <tr>
-            <td>Waffrule</td>
-        </tr>
-        <tr>
             <td>SoyJuancho</td>
         </tr>
         <tr>
             <td>89sVault</td>
+        </tr>
+        <tr>
+            <td>esmerilados</td>
         </tr>        
         <tr>
             <td>Fear</td>
         </tr>
+        <tr>
+            <td>GAX</td>
+        </tr>
+        <tr>
+            <td>arlovp</td>
+        </tr>        
         <tr>
             <td>hmode</td>
         </tr>
@@ -176,15 +185,6 @@ All of our merchants and their stats are listed below. If you wish to become a m
         <tr>
             <td>skoal</td>
         </tr>
-        <tr>
-            <td>esmerilados</td>
-        </tr>
-        <tr>
-            <td>GAX</td>
-        </tr>
-        <tr>
-            <td>arlovp</td>
-        </tr>        
     </tbody>
 </table>
 
