@@ -126,7 +126,7 @@ All of our merchants and their stats are listed below. If you wish to become a m
     </thead>
     <tbody>
         <tr>
-            <td>Waffrule</td>
+            <td>HolyWatef</td>
         </tr>
         <tr>
             <td>d4mqmyd</td>
@@ -185,6 +185,9 @@ All of our merchants and their stats are listed below. If you wish to become a m
         <tr>
             <td>skoal</td>
         </tr>
+        <tr>
+            <td>EmpressT</td>
+        </tr>        
     </tbody>
 </table>
 
