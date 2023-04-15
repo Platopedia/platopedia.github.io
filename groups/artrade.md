@@ -126,34 +126,34 @@ All of our merchants and their stats are listed below. If you wish to become a m
     </thead>
     <tbody>
         <tr>
-            <td>HolyWatef</td>
+            <td>Watefrule</td>
         </tr>
         <tr>
-            <td>d4mqmyd</td>
+            <td>mydsie</td>
         </tr>        
         <tr>
             <td>saturnoff</td>
-        </tr>        
-        <tr>
-            <td>RBT</td>
-        </tr>
-        <tr>
-            <td>Zack__243</td>
-        </tr>
-        <tr>
-            <td>_R3AP3R</td>
-        </tr>        
-        <tr>
-            <td>mishii</td>
         </tr>
         <tr>
             <td>userstrange</td>
         </tr>        
         <tr>
+            <td>RBT</td>
+        </tr>
+        <tr>
+            <td>_R3AP3R</td>
+        </tr>
+        <tr>
+            <td>mishii</td>
+        </tr>
+        <tr>
             <td>Yngwie_47</td>
         </tr>
         <tr>
             <td>SoyJuancho</td>
+        </tr>
+        <tr>
+            <td>Zack__243</td>
         </tr>
         <tr>
             <td>89sVault</td>
@@ -168,8 +168,14 @@ All of our merchants and their stats are listed below. If you wish to become a m
             <td>GAX</td>
         </tr>
         <tr>
-            <td>arlovp</td>
+            <td>EmpressT</td>
         </tr>        
+        <tr>
+            <td>arlovp</td>
+        </tr>
+        <tr>
+            <td>skoal</td>
+        </tr>
         <tr>
             <td>hmode</td>
         </tr>
@@ -182,12 +188,6 @@ All of our merchants and their stats are listed below. If you wish to become a m
         <tr>
             <td>efimero</td>
         </tr>
-        <tr>
-            <td>skoal</td>
-        </tr>
-        <tr>
-            <td>EmpressT</td>
-        </tr>        
     </tbody>
 </table>
 
