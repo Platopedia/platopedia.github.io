@@ -188,6 +188,9 @@ All of our merchants and their stats are listed below. If you wish to become a m
         <tr>
             <td>efimero</td>
         </tr>
+        <tr>
+            <td>Er_Acer</td>
+        </tr>
     </tbody>
 </table>
 
