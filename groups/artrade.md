@@ -147,9 +147,6 @@ All of our merchants and their stats are listed below. If you wish to become a m
             <td>mishii</td>
         </tr>
         <tr>
-            <td>Yngwie_47</td>
-        </tr>
-        <tr>
             <td>SoyJuancho</td>
         </tr>
         <tr>
