@@ -1,0 +1,26 @@
+---
+layout: content-title
+title: Gift Tokens
+---
+
+<script>
+$( document ).ready( function ( ) { $( 'h1' ).prepend( '<span class="badge badge-type">Item</span>&nbsp;' ) } );
+</script>
+
+<div class="content-linebreak"></div>
+
+**Author:** Fear
+
+Gift tokens can be purchased or gifted from the shop. Each costing only 250 coins, it's not just an item, but a token that you and your friends can collect and later use to claim exclusive packs.
+
+- New exclusive packs containing *very rare* items are added to the shop every month.
+- Exclusive packs can only be purchased from the shop with gift tokens.
+- Prices of exclusive packs may vary from 50 to 250 gift tokens, depending on the rarity of items they contain.
+
+<div class="content-linebreak"></div>
+
+<div class="content-image" data-url="/docs/assets/images/concepts/gifttokens.png" data-width="600px" data-label=""></div>
+
+<div class="content-linebreak"></div>
+
+
