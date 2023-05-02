@@ -58,15 +58,17 @@ $( document ).ready
                                 <div class="btn-toolbar" role="toolbar">
                                     <div class="btn-group btn-group-sm mr-2" role="group">
                                         <button id="tool_profilebuilder_form_default_field_picture_button_upload" class="btn btn-outline-dark font-weight-bold" type="button" data-toggle="" title="">Load</button>
-                                        <button id="tool_profilebuilder_form_default_field_picture_button_download" class="btn btn-outline-dark font-weight-bold" type="button" data-toggle="" title="">Save</button>
                                     </div>
-                                    <div class="btn-group btn-group-sm" role="group">
+                                    <div class="btn-group btn-group-sm mr-2" role="group">
                                         <button id="tool_profilebuilder_form_default_field_picture_button_edit" class="is-on btn btn-outline-dark icon" type="button" data-toggle="tooltip" title="Edit"></button>
                                         <button id="tool_profilebuilder_form_default_field_picture_button_reset" class="btn btn-outline-dark icon" type="button" data-toggle="tooltip" title="Reset">&#xf2f1;</button>
                                         <button id="tool_profilebuilder_form_default_field_picture_button_rotateleft" class="btn btn-outline-dark icon" type="button" data-toggle="tooltip" title="Rotate left">&#xf2ea;</button>
                                         <button id="tool_profilebuilder_form_default_field_picture_button_rotateright" class="btn btn-outline-dark icon" type="button" data-toggle="tooltip" title="Rotate right">&#xf2f9;</button>
                                         <button id="tool_profilebuilder_form_default_field_picture_button_fliphorizontal" class="btn btn-outline-dark icon" type="button" data-toggle="tooltip" title="Flip horizontal">&#xf337;</button>
                                         <button id="tool_profilebuilder_form_default_field_picture_button_flipvertical" class="btn btn-outline-dark icon" type="button" data-toggle="tooltip" title="Flip vertical">&#xf338;</button>
+                                    </div>
+                                    <div class="btn-group btn-group-sm" role="group">
+                                        <button id="tool_profilebuilder_form_default_field_picture_button_download" class="btn btn-outline-dark font-weight-bold" type="button" data-toggle="" title="">Save</button>
                                     </div>
                                 </div>
                                 <div class="invalid-feedback">Invalid Picture: Must be image below 10mb.</div>
@@ -2799,9 +2801,11 @@ $( document ).ready
                     </form>
                 </div>
             </div>
-            <div class="modal-footer mb-3">
-                <button id="tool_profilebuilder_form_default_button_reset" class="btn btn-dark font-weight-bold m-0 mr-3" type="button" title="Reset">Reset</button>
-                <button id="tool_profilebuilder_form_default_button_apply" class="btn btn-dark font-weight-bold m-0" type="button" title="Apply">Apply</button>
+            <div class="modal-footer pr-3 pb-3">
+                <div class="m-0">
+                    <button id="tool_profilebuilder_form_default_button_reset" class="btn btn-dark font-weight-bold m-0 mr-3" type="button" title="Reset">Reset</button>
+                    <button id="tool_profilebuilder_form_default_button_apply" class="btn btn-dark font-weight-bold m-0" type="button" title="Apply">Apply</button>
+                </div>
             </div>
         </div>
     </div>
