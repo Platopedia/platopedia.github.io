@@ -1,0 +1,32 @@
+/* ////////////////////////////////////////////////// */
+
+html,
+body,
+.container,
+.content,
+.content-webpage
+{
+    height         : 100%;
+    display        : flex;
+    flex-direction : column;
+}
+
+footer
+{
+    height      : 0px;
+    flex-shrink : 0;
+}
+
+.content-webpage iframe
+{
+    flex-grow : 1;
+}
+
+h1
+{
+    margin-bottom : 0;
+}
+
+/* ////////////////////////////////////////////////// */
+
+
