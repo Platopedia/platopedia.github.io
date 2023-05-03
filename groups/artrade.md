@@ -191,6 +191,12 @@ All of our merchants and their stats are listed below. If you wish to become a m
         <tr>
             <td>Sxmbre_</td>
         </tr>
+        <tr>
+            <td>Mdame</td>
+        </tr>
+        <tr>
+            <td>potatorwr</td>
+        </tr>
     </tbody>
 </table>
 
