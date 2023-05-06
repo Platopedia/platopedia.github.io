@@ -44,6 +44,26 @@ function Tool_Profilebuilder ( param )
     
     var form_default = $( '#tool_profilebuilder_form_default' );
     
+    //
+    
+    _canvas
+    (
+        undefined,
+        canvas_default,
+        undefined,
+        'Platopedia',
+        'Platopedia.com/profilebuilder',
+        'https://platopedia.com/docs/assets/images/tool-profilebuilder/banner/iap_banner_default_light.png',
+        undefined,
+        undefined,
+        'https://platopedia.com/docs/assets/images/tool-profilebuilder/chat/iap_greybubble_asset.png',
+        '#000000',
+        undefined,
+        undefined,
+        undefined,
+        0,
+    );
+    
     // form picture
     
     var form_default_field_picture_button_reset = Tool_Element_Button_Default
@@ -467,7 +487,7 @@ function Tool_Profilebuilder ( param )
             'element'  : $( '#tool_profilebuilder_form_default_button_apply' ),
             'callback' :
             {
-                'init click' : function ( event )
+                'click' : function ( event ) // init
                 {
                     _util_popup_dummy
                     (
@@ -524,7 +544,8 @@ function Tool_Profilebuilder ( param )
         if ( canvas instanceof jQuery ) canvas = canvas.get( 0 );
         
         var picture_element = cropper_default.canvascirc( );
-        if ( ! picture_element ) picture_element = cropper_default.element.clone( ).get( 0 ); // quickfix
+      //if ( ! picture_element ) picture_element = cropper_default.element.clone( ).get( 0 ); // quickfix
+        if ( ! picture_element ) picture_element = $( '<img src="https://platopedia.com/docs/assets/images/tool-profilebuilder/picture/default.png" />' ).get( 0 ); // quickfix
         picture_element.setAttribute( 'id', 'tool_profilebuilder_canvas_default_element_picture' );
         
         var platoid_element = document.createElement( 'span' );
