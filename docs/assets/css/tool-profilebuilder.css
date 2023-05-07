@@ -85,7 +85,8 @@
 
 .bootstrap-select .bs-searchbox
 {
-    padding : 0;
+    padding       : 0;
+    border-bottom : 1px solid #CED4DA;
 }
 
 .bootstrap-select .bs-searchbox .form-control
@@ -116,18 +117,25 @@
     background-color : var(--color-D) !important;
 }
 
+.bootstrap-select .dropdown-item
+{
+    padding-left : 8px;
+    height       : 32px;
+    display      : flex;
+    align-items  : center;
+}
+
 .bootstrap-select .filter-option img,
 .bootstrap-select .dropdown-item img
 {
-    height : 18px;
+    height : 24px;
 }
 
 /* ////////////////////////////////////////////////// */
 
 footer
 {
-    height     : 0px;
-  /*border-top : 2px solid var(--color-C);*/
+    height : 0px;
 }
 
 h1
@@ -135,7 +143,7 @@ h1
     margin-bottom : 0;
 }
 
-.container
+.content
 {
     padding-left  : 0 !important;
     padding-right : 0 !important;
