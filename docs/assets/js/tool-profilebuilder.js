@@ -655,10 +655,10 @@ function Tool_Profilebuilder_canvaschat ( deferred, canvas, chat, repeat_x = 0, 
     (
         function ( )
         {
-            var width       = chat_element.width - 2;
+            var width       = 148; // chat_element.width - 2;
             var widthhalf   = Math.floor( width / 2 );
             var widthhalfb  = widthhalf + 1;
-            var height      = chat_element.height - 2;
+            var height      = 103; // chat_element.height - 2;
             var heighthalf  = Math.floor( height / 2 );
             var heighthalfb = heighthalf + 1;
             
