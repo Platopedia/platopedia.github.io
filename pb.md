@@ -1,6 +1,0 @@
----
-layout: redirect
-path: profilebuilder
----
-
-
