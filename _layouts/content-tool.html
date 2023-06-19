@@ -11,14 +11,18 @@ layout: default
 
 .nav .nav-link
 {
-    border-bottom : 2px solid var(--color-C);
-    border-radius : 0 !important;
+    padding-top    : 4px;
+    padding-bottom : 0px;
+    height         : 29px;
+    font-size      : var(--unit-text-C);
+  /*border-bottom  : 2px solid var(--color-C);*/
+    border-radius  : 0 !important;
 }
 
 .nav .nav-link:not(.active)
 {
     color            : var(--color-A) !important;
-    background-color : var(--color-D) !important;
+    background-color : var(--color-C) !important;
 }
 
 .nav .nav-link.active
@@ -30,10 +34,10 @@ layout: default
 
 <ul class="nav nav-pills nav-justified">
     <li class="nav-item">
-        <a class="nav-link btn-sm {{ page.navitems }}" href="/items">Items</a>
+        <a class="nav-link {{ page.navitems }}" href="/items">Items</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link btn-sm {{ page.navprofilebuilder }}" href="/profilebuilder">Profile Builder</a>
+        <a class="nav-link {{ page.navprofilebuilder }}" href="/profilebuilder">Profile Builder</a>
     </li>
 </ul>
 
