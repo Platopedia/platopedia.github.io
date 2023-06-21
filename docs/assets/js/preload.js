@@ -18,6 +18,7 @@ function preload ( ) {
 
 preload
 (
+    '/docs/assets/images/404.webp',
     '/docs/assets/images/icon.png',
     '/docs/assets/images/search.png',
     '/docs/assets/images/profilebuilder/picture/default.png',
