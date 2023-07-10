@@ -15,7 +15,7 @@ Currently, when a player misses their turn in a 2v2 game, the turn is passed to 
 
 In this concept, if a player misses their turn, the turn is passed to their teammate instead of the opponent, resulting in a much fairer 2v2 game. To prevent potential exploitation of this new approach, any player who misses two turns, even if not in succession, will be eliminated from the game.
 
-Supported games: Pool, Table Soccer, Ocho, Bowling.
+Supported games: Pool, Table Soccer, Bowling.
 
 <div class="content-linebreak"></div>
 
