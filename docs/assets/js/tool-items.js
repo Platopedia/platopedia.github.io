@@ -236,6 +236,7 @@ function Tool_Items_query ( datatable, modal )
             id = id[0];
             var itemsb = items[id]['items'];
             
+            /*
             if ( typeof itemsb !== 'undefined' )
             {
               //itemsb = [ id[0] ].concat( itemsb );
@@ -243,6 +244,7 @@ function Tool_Items_query ( datatable, modal )
                 datatable.column( col.id ).search( regexp, true, false );
                 datatable.draw( );
             }
+            */
             
             var row = datatable.row( '#id-' + id );
             Tool_Items_popup( datatable, modal, row );
