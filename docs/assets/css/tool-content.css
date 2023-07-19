@@ -1,0 +1,254 @@
+/* ////////////////////////////////////////////////// */
+
+/*
+footer
+{
+    height : 0px;
+}
+*/
+
+/*
+h1
+{
+    margin-bottom : 0;
+}
+*/
+
+/*
+.content
+{
+    padding-left  : 0 !important;
+    padding-right : 0 !important;
+    border-bottom : 2px solid var(--color-C);
+}
+*/
+
+.content > *:first-child,
+.content .content-rowcol > .rowb > .colb > *:first-child
+{
+    margin-top : 15px;
+}
+
+.content > *,
+.content .content-rowcol > .rowb > .colb > *,
+.content .content-collect .dataTable tbody tr td > *
+{
+    margin-bottom : 15px;
+}
+
+.content .content-rowcol
+{
+    
+}
+
+.content .content-rowcol > .head > *
+{
+    padding-top             : 15px;
+    padding-bottom          : 15px;
+    padding-left            : 15px;
+    background-color        : var(--color-C) !important;
+    background-image        : linear-gradient( to bottom, var(--color-C), var(--color-D), var(--color-C) );
+    border-top              : none;
+    border-bottom           : none;
+    border-left             : 2px solid var(--color-C);
+    border-right            : 2px solid var(--color-C);
+  /*border-top-left-radius  : 1em !important;*/
+  /*border-top-right-radius : 1em !important;*/
+}
+
+/*
+.content .content-rowcol > .head > * > *
+{
+    color : var(--color-D) !important;
+}
+*/
+
+.content .content-rowcol > .head > * > i
+{
+    margin-right : 6px;
+}
+
+.content .content-rowcol > .rowb
+{
+    margin-left  : 0px;
+    margin-right : 0px;
+}
+
+.content .content-rowcol > .rowb > .colb
+{
+    border : 2px solid var(--color-C);
+}
+
+.content .content-rowcol > .rowb > .colb img
+{
+    width         : 100%;
+    max-width     : 200px;
+    border-radius : 0;
+}
+
+.content .content-contents
+{
+
+}
+
+.content .content-contents > a
+{
+    display     : block;
+    width       : 100%;
+    color       : var(--color-A) !important;
+    font-weight : bold;
+}
+
+.content .content-contents > a:hover
+{
+    text-decoration : none;
+}
+
+.content .content-contents > ul
+{
+    margin          : 0;
+    padding         : 0;
+    list-style-type : none;
+}
+
+.content .content-contents > ul > a
+{
+
+}
+
+.content .content-carousel
+{
+    padding          : 15px;
+    background-color : var(--color-C) !important;
+    background-image : linear-gradient( to bottom, var(--color-C), var(--color-D), var(--color-C) );
+}
+
+.content .content-carousel .carousel-control-prev
+{
+    filter          : invert(100%);
+    justify-content : left;
+}
+
+.content .content-carousel .carousel-control-next
+{
+    filter          : invert(100%);
+    justify-content : right;
+}
+
+.content .content-collapse
+{
+
+}
+
+.content .content-collapse .card-header
+{
+    padding          : 0 !important;
+    background-color : var(--color-C);
+}
+
+.content .content-collapse .card-header button:hover,
+.content .content-collapse .card-header button:focus
+{
+    box-shadow : none;
+}
+
+.content .content-collapse .card-header button[aria-expanded="false"]:after
+{
+    float   : right;
+    content : ">";
+}
+
+.content .content-collapse .card-header button[aria-expanded="true"]:after
+{
+    float   : right;
+    content : "<";
+}
+
+.content .content-webpage
+{
+    margin : 0;
+}
+
+.content .content-webpage iframe
+{
+    display : block;
+    width   : 100%;
+    border  : none;
+}
+
+.content .content-image
+{
+    width      : 100%;
+    text-align : center;
+}
+
+.content .content-image img
+{
+    width : 100%;
+}
+
+.content .content-image .figure-caption
+{
+    font-size   : var(--unit-text-C);
+    font-weight : normal;
+    font-style  : italic;
+    color       : var(--color-A) !important;
+}
+
+.content .content-collect
+{
+
+}
+
+.content .content-collect .dataTable tr
+{
+    cursor : auto;
+}
+
+.content .content-collect .dataTable thead
+{
+    display : none;
+}
+
+.content .content-collect .dataTable thead tr th
+{
+    width : 100% !important;
+}
+
+.content .content-collect .dataTable tbody tr:hover td
+{
+    background-color : transparent;
+}
+
+.content .content-collect .dataTable tbody tr:last-child td
+{
+    border-bottom : 2px solid var(--color-C);
+}
+
+.content .content-collect .dataTable tbody tr td
+{
+    padding        : 0 !important;
+    font-size      : var(--unit-text-B);
+    text-align     : left;
+    vertical-align : top !important;
+}
+
+/*
+.content .content-collect .dataTable tbody tr td.your
+{
+    box-shadow       : 0 0 0 15px var(--color-A);
+    clip-path        : inset( 0 -15px );
+    background-color : var(--color-C);
+}
+*/
+
+.content .content-collect .dataTable tbody tr td.your
+{
+    padding-left     : 15px !important;
+    padding-right    : 15px !important;
+    background-image : linear-gradient( to bottom, var(--color-C), var(--color-D), var(--color-C) );
+}
+
+/* ////////////////////////////////////////////////// */
+
+

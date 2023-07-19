@@ -1,0 +1,269 @@
+/* ////////////////////////////////////////////////// */
+
+footer
+{
+    height : 0px;
+}
+
+h1
+{
+    margin-bottom : 0;
+}
+
+.content
+{
+    padding-left  : 0 !important;
+    padding-right : 0 !important;
+    border-bottom : 2px solid var(--color-C);
+}
+
+.cropper-face
+{
+    border-radius : 50%;
+}
+
+.cropper-view-box
+{
+    border-radius : 50%;
+    outline       : 0;
+    box-shadow    : 0 0 0 1px #39F;
+}
+
+.is-loading > *,
+.is-loaded > *,
+.is-errored > *
+{
+    display : none;
+}
+
+.is-loading > *:first-child,
+.is-loaded > *:last-child
+{
+    display : block;
+}
+
+#tool_profilebuilder_canvas_default
+{
+    position            : relative;
+    margin-left         : auto;
+    margin-right        : auto;
+    width               : 100%;
+    max-width           : 390px;
+    height              : 300px;
+    border              : 2px solid var(--color-C);
+    border-top          : none;
+    background-color    : #FFFFFF;
+    -webkit-user-select : none;
+    -ms-user-select     : none;
+    user-select         : none;
+}
+
+@media ( max-width : 390px )
+{
+    #tool_profilebuilder_canvas_default
+    {
+        border-left  : none;
+        border-right : none;
+    }
+}
+
+#tool_profilebuilder_canvas_default_element_banner
+{
+    display    : block;
+    position   : absolute;
+    top        : 0;
+    width      : 100%;
+    height     : 150px;
+    object-fit : cover;
+}
+
+#tool_profilebuilder_canvas_default_element_frame
+{
+    display      : block;
+    position     : absolute;
+    top          : 80px;
+    left         : 0;
+    right        : 0;
+    margin-left  : auto;
+    margin-right : auto;
+    width        : 112px;
+}
+
+#tool_profilebuilder_canvas_default_element_picture
+{
+    display      : block;
+    position     : absolute;
+    top          : 97px;
+    left         : 0;
+    right        : 0;
+    margin-left  : auto;
+    margin-right : auto;
+    width        : 78px;
+}
+
+#tool_profilebuilder_canvas_default_element_compo
+{
+    display         : flex;
+    align-items     : center;
+    justify-content : center;
+    position        : absolute;
+    top             : 185px;
+    left            : 0;
+    right           : 0;
+    margin-left     : auto;
+    margin-right    : auto;
+    height          : 30px;
+    text-align      : center;
+}
+
+#tool_profilebuilder_canvas_default_element_platoid
+{
+    display     : inline-block;
+    height      : 30px;
+    line-height : 30px;
+    font-family : Verdana, Arial, sans-serif;
+    font-size   : 18px;
+    font-weight : 500;
+}
+
+#tool_profilebuilder_canvas_default_element_badge,
+#tool_profilebuilder_canvas_default_element_chatbadge,
+#tool_profilebuilder_canvas_default_element_starbadge
+{
+    display     : inline-block;
+    margin-left : 1px;
+    height      : 18px;
+}
+
+#tool_profilebuilder_canvas_default_element_chat
+{
+    display         : flex;
+    align-items     : center;
+    justify-content : center;
+    position        : absolute;
+    top             : 220px;
+    left            : 0;
+    right           : 0;
+    margin-left     : auto;
+    margin-right    : auto;
+    height          : 60px;
+    text-align      : center;
+}
+
+#tool_profilebuilder_canvas_default_element_bio
+{
+    display         : flex;
+    align-items     : center;
+    justify-content : center;    
+    position        : absolute;
+    top             : 220px;
+    left            : 0;
+    right           : 0;
+    margin-left     : auto;
+    margin-right    : auto;
+    height          : 60px;
+    line-height     : 60px;
+    font-family     : Verdana, Arial, sans-serif;
+    font-size       : 14px;
+}
+
+#tool_profilebuilder_canvas_default_element_frame.under
+{
+    z-index : 10;
+}
+
+#tool_profilebuilder_canvas_default_element_frame.over
+{
+    z-index : 12;
+}
+
+#tool_profilebuilder_canvas_default_element_picture
+{
+    z-index : 11;
+}
+
+/* ///////////////////////// */
+
+#tool_profilebuilder_form_default .form-group > label
+{
+    font-weight : bold;
+}
+
+#tool_profilebuilder_form_default .btn
+{
+    border : 1px solid #CED4DA;
+}
+
+#tool_profilebuilder_form_default .btn:focus
+{
+    box-shadow : none;
+}
+
+#tool_profilebuilder_form_default .btn:disabled
+{
+    opacity        : 0.4;
+    pointer-events : none;
+}
+
+#tool_profilebuilder_form_default_field_picture_input_default
+{
+    display    : block;
+    visibility : hidden;
+    width      : 0;
+    height     : 0;
+}
+
+#tool_profilebuilder_form_default_field_picture_button_edit.is-on:after
+{
+    content : "\f565";
+    color   : green;
+}
+
+#tool_profilebuilder_form_default_field_picture_button_edit.is-off:after
+{
+    content : "\f125";
+    color   : red;
+}
+
+#tool_profilebuilder_form_default_field_picture_media_preview
+{
+    width  : 100%;
+    height : 200px;
+}
+
+#tool_profilebuilder_form_default_field_picture_media_preview > *
+{
+    display : block;
+    width   : 100%;
+    height  : 0;
+}
+
+#tool_profilebuilder_form_default_field_banner_media_preview,
+#tool_profilebuilder_form_default_field_frame_media_preview,
+#tool_profilebuilder_form_default_field_chat_media_preview,
+#tool_profilebuilder_form_default_field_badge_media_preview
+{
+    width : 100%;
+}
+
+#tool_profilebuilder_form_default_field_banner_media_preview > *,
+#tool_profilebuilder_form_default_field_frame_media_preview > *,
+#tool_profilebuilder_form_default_field_chat_media_preview > *,
+#tool_profilebuilder_form_default_field_badge_media_preview > *
+{
+    margin-top   : 15px;
+    margin-left  : auto;
+    margin-right : auto;
+}
+
+#tool_profilebuilder_form_default_field_banner_media_preview > *:last-child,
+#tool_profilebuilder_form_default_field_frame_media_preview > *:last-child,
+#tool_profilebuilder_form_default_field_chat_media_preview > *:last-child,
+#tool_profilebuilder_form_default_field_badge_media_preview > *:last-child
+{
+    height : 100px;
+}
+
+/* ////////////////////////////////////////////////// */
+
+
