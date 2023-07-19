@@ -22,22 +22,23 @@ table.dataTable thead .sorting_desc::after
     content     : "" !important;
     opacity     : 1 !important; /* 0.2 */
     color       : var(--color-D) !important;
-    font-family : Arial !important;
+    font-family : 'Font Awesome\ 5 Free';
+    font-weight : 900;
 }
 
 table.dataTable thead .sorting::after
 {
-    content : "\25B8 \FE0E" !important; /* \25B6 */
+    content : "\f30b" !important; /* \25B6 \FE0E    \25B8 \FE0E */
 }
 
 table.dataTable thead .sorting_asc::after
 {
-    content : "\25BE \FE0E" !important; /* \25BC */
+    content : "\f309" !important; /* \25BC \FE0E    \25BE \FE0E */
 }
 
 table.dataTable thead .sorting_desc::after
 {
-    content : "\25B4 \FE0E" !important; /* \25B2 */
+    content : "\f30c" !important; /* \25B2 \FE0E    \25B4 \FE0E */
 }
 
 table.dataTable thead tr th
@@ -47,6 +48,11 @@ table.dataTable thead tr th
     background-color    : var(--color-A) !important;
     border-top-width    : 0px;
     border-bottom-width : 0px;
+}
+
+table.dataTable thead tr th:not(:last-child)
+{
+    border-right-width : 0px;
 }
 
 table.dataTable tbody tr:hover td
