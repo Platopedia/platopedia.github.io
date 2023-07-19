@@ -77,6 +77,14 @@ function _util_popup_confirm ( message = '', callback_true = _util_default_callb
     return bool;
 }
 
+function _util_popup_input ( message, text = '', callback_true = _util_default_callback, callback_false = _util_default_callback )
+{
+    var textb = prompt( message, text );
+    if   ( textb !== null ) { callback_true ( ) }
+    else                    { callback_false( ) }
+    return textb;
+}
+
 function _util_popup_null ( undefined, callback = _util_default_callback )
 {
     callback( );
@@ -102,7 +110,7 @@ function _util_download ( url, name = '' )
     return true;
 }
 
-function _util_copy ( text, callback_ok = _util_default_callback, callback_nok = _util_default_callback )
+function _util_copy ( text = '', callback_ok = _util_default_callback, callback_nok = _util_default_callback )
 {
     if ( navigator.clipboard ) navigator.clipboard.writeText( text ).then( callback_ok ).catch( callback_nok );
     else callback_nok( '' );
