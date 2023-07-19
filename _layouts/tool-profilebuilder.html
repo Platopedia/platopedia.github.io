@@ -1,0 +1,29 @@
+---
+layout: default
+---
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" integrity="sha512-cyzxRvewl+FOKTtpBzYjW6x6IAYUCZy3sGP40hn+DQkqeluGRCax7qztK2ImL64SA+C7kVWdLI6wvdlStawhyw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="/docs/assets/css/bootstrapselect.min.css" />
+<link rel="stylesheet" href="/docs/assets/css/util-bootstrapselect.css" />
+<link rel="stylesheet" href="/docs/assets/css/tool-profilebuilder.css" />
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js" integrity="sha512-6lplKUSl86rUVprDIjiW8DuOniNX8UDoRATqZSds/7t6zCQZfaCe3e5zcGaQwxa8Kpn5RTM9Fvl3X2lLV4grPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script type="text/javascript" src="/docs/assets/js/bootstrapselect.min.js"></script>
+<script type="text/javascript" src="/docs/assets/js/util-cropper.js"></script>
+<script type="text/javascript" src="/docs/assets/js/util-element.js"></script>
+<script type="text/javascript" src="/docs/assets/js/tool-profilebuilder.js"></script>
+
+<ul class="nav nav-pills nav-justified">
+    <li class="nav-item">
+        <a class="nav-link" href="/items">Items</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" href="/profilebuilder">Profile Builder</a>
+    </li>
+</ul>
+
+<h1>{{ page.heading }}</h1>
+
+<div class="content d-none loaded-b">
+    {{ content }}
+</div>
