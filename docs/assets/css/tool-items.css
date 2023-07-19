@@ -1,0 +1,38 @@
+/* ////////////////////////////////////////////////// */
+
+/*
+footer
+{
+    height : 0px;
+}
+*/
+
+h1
+{
+    margin-bottom : 0;
+}
+
+/*
+.content
+{
+    padding-left  : 0 !important;
+    padding-right : 0 !important;
+    border-bottom : 2px solid var(--color-C);
+}
+*/
+
+#tool_items_modal_default_button_prev
+{
+    margin-right    : 0px;
+    text-decoration : none !important;
+}
+
+#tool_items_modal_default_button_next
+{
+    margin-left     : 0px;
+    text-decoration : none !important;
+}
+
+/* ////////////////////////////////////////////////// */
+
+

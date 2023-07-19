@@ -102,6 +102,22 @@ function _util_download ( url, name = '' )
     return true;
 }
 
+function _util_copy ( text, callback_ok = _util_default_callback, callback_nok = _util_default_callback )
+{
+    if ( navigator.clipboard ) navigator.clipboard.writeText( text ).then( callback_ok ).catch( callback_nok );
+    else callback_nok( '' );
+    return true;
+}
+
+function _util_query ( text = window.location.search )
+{
+    if ( ! text ) return;
+    text = decodeURI( text );
+    var query = { };
+    for ( var [ key, val ] of new URLSearchParams( text ).entries( ) ) query[key.toLowerCase( )] = val;
+    return query;
+}
+
 function _util_object ( inherit, param_override = { }, param_default = { } )
 {
     var param = $.extend( { }, param_default, param_override );

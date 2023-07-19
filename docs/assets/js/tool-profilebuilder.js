@@ -1,5 +1,30 @@
 /* ////////////////////////////////////////////////// */
 
+$( document ).ready
+(
+    function ( )
+    {
+        var deferred = $.Deferred( );
+        $.when( deferred ).then( function ( ) { $( '.loaded-b' ).attr( 'style', 'display:block !important' ) } );
+        Tool_Profilebuilder( deferred );
+        
+        $( '[data-toggle="tooltip"]' ).tooltip
+        (
+            {
+                container         : $( '#tool_profilebuilder_modal_default' ),
+                boundary          : 'viewport',
+                trigger           : 'hover focus',
+                placement         : 'top',
+                fallbackPlacement : [ 'top' ],
+            }
+        );
+        
+        setTimeout( function ( ) { $( '.is-selectpicker' ).selectpicker( ) }, 200 );
+    }
+);
+
+/* ////////////////////////////////////////////////// */
+
 const Tool_Profilebuilder_conf =
 {
     'canvaschat' :
@@ -14,13 +39,33 @@ const Tool_Profilebuilder_conf =
     },
 };
 
-function Tool_Profilebuilder ( param )
+function Tool_Profilebuilder ( deferred )
 {
     var that = null;
     
+    //
+    
+    Tool_Profilebuilder_canvas
+    (
+        deferred,
+        $( '#tool_profilebuilder_canvas_default' ),
+        'https://platopedia.com/docs/assets/images/profilebuilder/picture/default.png',
+        'Platopedia',
+        'Platopedia.com/profilebuilder',
+        'https://platopedia.com/docs/assets/images/profilebuilder/banner/iap_banner_default_light.png',
+        undefined,
+        undefined,
+        'https://platopedia.com/docs/assets/images/profilebuilder/chat/iap_greybubble_asset.png',
+        '#000000',
+        undefined,
+        undefined,
+        undefined,
+        0,
+    );
+    
     // cropper
     
-    var cropper_default = Tool_Cropper
+    var cropper_default = Util_Cropper
     (
         {
             'element' : $( '#tool_profilebuilder_form_default_field_picture_media_preview img' ),
@@ -34,6 +79,11 @@ function Tool_Profilebuilder ( param )
     // modal
     
     var modal_default = $( '#tool_profilebuilder_modal_default' );
+    
+  //var modal_default_block_head  = modal_default.find( '.modal-header' );
+  //var modal_default_block_body  = modal_default.find( '.modal-body'   );
+  //var modal_default_block_foot  = modal_default.find( '.modal-footer' );
+  //var modal_default_block_title = modal_default.find( '.modal-title'  );
     
     modal_default.on
     (
@@ -60,7 +110,7 @@ function Tool_Profilebuilder ( param )
     
     // form picture
     
-    var form_default_field_picture_button_reset = Tool_Element_Button_Default
+    var form_default_field_picture_button_reset = Util_Element_Button_Default
     (
         {
             'element'  : $( '#tool_profilebuilder_form_default_field_picture_button_reset' ),
@@ -81,7 +131,7 @@ function Tool_Profilebuilder ( param )
         }
     );
     
-    var form_default_field_picture_button_rotateleft = Tool_Element_Button_Default
+    var form_default_field_picture_button_rotateleft = Util_Element_Button_Default
     (
         {
             'element'  : $( '#tool_profilebuilder_form_default_field_picture_button_rotateleft' ),
@@ -95,7 +145,7 @@ function Tool_Profilebuilder ( param )
         }
     );
     
-    var form_default_field_picture_button_rotateright = Tool_Element_Button_Default
+    var form_default_field_picture_button_rotateright = Util_Element_Button_Default
     (
         {
             'element'  : $( '#tool_profilebuilder_form_default_field_picture_button_rotateright' ),
@@ -109,7 +159,7 @@ function Tool_Profilebuilder ( param )
         }
     );
     
-    var form_default_field_picture_button_fliphorizontal = Tool_Element_Button_Default
+    var form_default_field_picture_button_fliphorizontal = Util_Element_Button_Default
     (
         {
             'element'  : $( '#tool_profilebuilder_form_default_field_picture_button_fliphorizontal' ),
@@ -123,7 +173,7 @@ function Tool_Profilebuilder ( param )
         }
     );
     
-    var form_default_field_picture_button_flipvertical = Tool_Element_Button_Default
+    var form_default_field_picture_button_flipvertical = Util_Element_Button_Default
     (
         {
             'element'  : $( '#tool_profilebuilder_form_default_field_picture_button_flipvertical' ),
@@ -137,7 +187,7 @@ function Tool_Profilebuilder ( param )
         }
     );
     
-    var form_default_field_picture_button_edit = Tool_Element_Button_Toggle
+    var form_default_field_picture_button_edit = Util_Element_Button_Toggle
     (
         {
             'element'  : $( '#tool_profilebuilder_form_default_field_picture_button_edit' ),
@@ -167,7 +217,7 @@ function Tool_Profilebuilder ( param )
         }
     );
     
-    var form_default_field_picture_media_preview = Tool_Element_Media_Image
+    var form_default_field_picture_media_preview = Util_Element_Media_Image
     (
         {
             'element'  : $( '#tool_profilebuilder_form_default_field_picture_media_preview' ),
@@ -182,7 +232,7 @@ function Tool_Profilebuilder ( param )
         }
     );
     
-    var form_default_field_picture_input_default = Tool_Element_Input_File
+    var form_default_field_picture_input_default = Util_Element_Input_File
     (
         {
             'element'  : $( '#tool_profilebuilder_form_default_field_picture_input_default' ),
@@ -198,7 +248,7 @@ function Tool_Profilebuilder ( param )
         }
     );
     
-    Tool_Element_Button_Default
+    Util_Element_Button_Default
     (
         {
             'element'  : $( '#tool_profilebuilder_form_default_field_picture_button_upload' ),
@@ -212,7 +262,7 @@ function Tool_Profilebuilder ( param )
         }
     );
     
-    Tool_Element_Button_Default
+    Util_Element_Button_Default
     (
         {
             'element'  : $( '#tool_profilebuilder_form_default_field_picture_button_download' ),
@@ -232,7 +282,7 @@ function Tool_Profilebuilder ( param )
     
     // form platoid
     
-    var form_default_field_platoid_input_default = Tool_Element_Input_Default
+    var form_default_field_platoid_input_default = Util_Element_Input_Default
     (
         {
             'element'  : $( '#tool_profilebuilder_form_default_field_platoid_input_default' ),
@@ -251,7 +301,7 @@ function Tool_Profilebuilder ( param )
     
     // form bio
     
-    var form_default_field_bio_input_default = Tool_Element_Input_Default
+    var form_default_field_bio_input_default = Util_Element_Input_Default
     (
         {
             'element'  : $( '#tool_profilebuilder_form_default_field_bio_input_default' ),
@@ -262,14 +312,14 @@ function Tool_Profilebuilder ( param )
     
     // form banner
     
-    var form_default_field_banner_media_preview = Tool_Element_Media_Image
+    var form_default_field_banner_media_preview = Util_Element_Media_Image
     (
         {
             'element' : $( '#tool_profilebuilder_form_default_field_banner_media_preview' ),
         }
     );
     
-    var form_default_field_banner_input_default = Tool_Element_Input_Menu
+    var form_default_field_banner_input_default = Util_Element_Input_Menu
     (
         {
             'element'  : $( '#tool_profilebuilder_form_default_field_banner_input_default' ),
@@ -284,7 +334,7 @@ function Tool_Profilebuilder ( param )
         }
     );
     
-    Tool_Element_Button_Default
+    Util_Element_Button_Default
     (
         {
             'element'  : $( '#tool_profilebuilder_form_default_field_banner_button_random' ),
@@ -300,14 +350,14 @@ function Tool_Profilebuilder ( param )
     
     // form frame
     
-    var form_default_field_frame_media_preview = Tool_Element_Media_Image
+    var form_default_field_frame_media_preview = Util_Element_Media_Image
     (
         {
             'element' : $( '#tool_profilebuilder_form_default_field_frame_media_preview' ),
         }
     );
     
-    var form_default_field_frame_input_default = Tool_Element_Input_Menu
+    var form_default_field_frame_input_default = Util_Element_Input_Menu
     (
         {
             'element'  : $( '#tool_profilebuilder_form_default_field_frame_input_default' ),
@@ -322,7 +372,7 @@ function Tool_Profilebuilder ( param )
         }
     );
     
-    Tool_Element_Button_Default
+    Util_Element_Button_Default
     (
         {
             'element'  : $( '#tool_profilebuilder_form_default_field_frame_button_random' ),
@@ -338,7 +388,7 @@ function Tool_Profilebuilder ( param )
     
     // form chat
     
-    var form_default_field_chat_media_preview = Tool_Element_Media_Image
+    var form_default_field_chat_media_preview = Util_Element_Media_Image
     (
         {
             'element'  : $( '#tool_profilebuilder_form_default_field_chat_media_preview' ),
@@ -353,7 +403,7 @@ function Tool_Profilebuilder ( param )
         }
     );
     
-    var form_default_field_chat_input_default = Tool_Element_Input_Menu
+    var form_default_field_chat_input_default = Util_Element_Input_Menu
     (
         {
             'element'  : $( '#tool_profilebuilder_form_default_field_chat_input_default' ),
@@ -368,7 +418,7 @@ function Tool_Profilebuilder ( param )
         }
     );
     
-    Tool_Element_Button_Default
+    Util_Element_Button_Default
     (
         {
             'element'  : $( '#tool_profilebuilder_form_default_field_chat_button_random' ),
@@ -384,14 +434,14 @@ function Tool_Profilebuilder ( param )
     
     // form badge
     
-    var form_default_field_badge_media_preview = Tool_Element_Media_Image
+    var form_default_field_badge_media_preview = Util_Element_Media_Image
     (
         {
             'element' : $( '#tool_profilebuilder_form_default_field_badge_media_preview' ),
         }
     );
     
-    var form_default_field_badge_input_default = Tool_Element_Input_Menu
+    var form_default_field_badge_input_default = Util_Element_Input_Menu
     (
         {
             'element'  : $( '#tool_profilebuilder_form_default_field_badge_input_default' ),
@@ -406,7 +456,7 @@ function Tool_Profilebuilder ( param )
         }
     );
     
-    Tool_Element_Button_Default
+    Util_Element_Button_Default
     (
         {
             'element'  : $( '#tool_profilebuilder_form_default_field_badge_button_random' ),
@@ -422,7 +472,7 @@ function Tool_Profilebuilder ( param )
     
     // form starbadge
     
-    var form_default_field_starbadge_input_default = Tool_Element_Input_Radiocheck
+    var form_default_field_starbadge_input_default = Util_Element_Input_Radiocheck
     (
         {
             'element' : $( '#tool_profilebuilder_form_default_field_starbadge_input_default' ),
@@ -431,7 +481,7 @@ function Tool_Profilebuilder ( param )
     
     // form reset
     
-    Tool_Element_Button_Default
+    Util_Element_Button_Default
     (
         {
             'element'  : $( '#tool_profilebuilder_form_default_button_reset' ),
@@ -480,7 +530,7 @@ function Tool_Profilebuilder ( param )
     
     // form apply
     
-    Tool_Element_Button_Default
+    Util_Element_Button_Default
     (
         {
             'element'  : $( '#tool_profilebuilder_form_default_button_apply' ),
@@ -554,7 +604,11 @@ function Tool_Profilebuilder ( param )
     );
     
     //
-
+    
+    if ( typeof deferred !== 'undefined' ) deferred.resolve( );
+    
+    //
+    
     return that;
 }
 
