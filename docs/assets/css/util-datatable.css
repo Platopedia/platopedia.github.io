@@ -45,6 +45,7 @@ table.dataTable thead tr th
     width               : 25% !important;
     color               : var(--color-D) !important;
     background-color    : var(--color-A) !important;
+    border-top-width    : 0px;
     border-bottom-width : 0px;
 }
 
