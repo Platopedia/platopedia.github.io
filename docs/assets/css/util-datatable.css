@@ -20,24 +20,24 @@ table.dataTable thead .sorting_desc::after
 {
     top         : 4px !important;
     content     : "" !important;
-    opacity     : 0.2 !important;
+    opacity     : 1 !important; /* 0.2 */
     color       : var(--color-D) !important;
     font-family : Arial !important;
 }
 
 table.dataTable thead .sorting::after
 {
-    content : "\25b6" !important;
+    content : "\25B8" !important; /* \25B6 */
 }
 
 table.dataTable thead .sorting_asc::after
 {
-    content : "\25bc" !important;
+    content : "\25BE" !important; /* \25BC */
 }
 
 table.dataTable thead .sorting_desc::after
 {
-    content : "\25b2" !important;
+    content : "\25B4" !important; /* \25B2 */
 }
 
 table.dataTable thead tr th
