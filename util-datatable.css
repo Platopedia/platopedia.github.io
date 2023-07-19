@@ -1,0 +1,131 @@
+/* ////////////////////////////////////////////////// */
+
+table.dataTable
+{
+    margin-top    : 0 !important;
+    margin-bottom : 15px !important;
+}
+
+table.dataTable tr
+{
+    cursor : pointer;
+}
+
+table.dataTable thead .sorting::before, 
+table.dataTable thead .sorting::after, 
+table.dataTable thead .sorting_asc::before, 
+table.dataTable thead .sorting_asc::after, 
+table.dataTable thead .sorting_desc::before,
+table.dataTable thead .sorting_desc::after
+{
+    top         : 4px !important;
+    content     : "" !important;
+    opacity     : 1 !important; /* 0.2 */
+    color       : var(--color-D) !important;
+    font-family : 'Font Awesome\ 5 Free';
+    font-weight : 900;
+}
+
+table.dataTable thead .sorting::after
+{
+    content : "\f0da" !important; /* \25B8 \FE0E */
+}
+
+table.dataTable thead .sorting_asc::after
+{
+    content : "\f0d7" !important; /* \25BE \FE0E */
+}
+
+table.dataTable thead .sorting_desc::after
+{
+    content : "\f0d8" !important; /* \25B4 \FE0E */
+}
+
+table.dataTable thead tr th
+{
+    width               : 25% !important;
+    color               : var(--color-D) !important;
+    background-color    : var(--color-A) !important;
+    border-top-width    : 0px;
+    border-bottom-width : 0px;
+}
+
+table.dataTable thead tr th:not(:last-child)
+{
+    border-right-width : 0px;
+}
+
+table.dataTable tbody tr:hover td
+{
+    background-color : var(--color-C);
+}
+
+.dataTables_wrapper
+{
+
+}
+
+.dataTables_wrapper .row
+{
+    -ms-flex-align : end !important;
+    align-items    : flex-end !important;
+}
+
+.dataTables_length
+{
+
+}
+
+.dataTables_length label
+{
+    margin-bottom : 15px !important;
+}
+
+.dataTables_filter
+{
+    padding-bottom : 15px;
+}
+
+.dataTables_filter br
+{
+    margin : 0;
+}
+
+.dataTables_filter label
+{
+    
+}
+
+.dataTables_filter input,
+.dataTables_filter select
+{
+    margin        : 0 !important;
+    margin-bottom : 15px !important;
+    width         : 260px !important;
+}
+
+.dataTables_filter input
+{
+    padding-left            : 29px;
+    text-indent             : 0 !important;
+    background              : url(../images/search.png) no-repeat 8px center;
+    background-color        : var(--color-D) !important;
+    background-size         : 14px;
+    -webkit-background-size : 14px;
+    -moz-background-size    : 14px;
+    -o-background-size      : 14px;
+}
+
+.dataTables_info
+{
+    padding-top : 0 !important;
+}
+
+.dataTables_paginate
+{
+
+}
+
+/* ////////////////////////////////////////////////// */
+
+
