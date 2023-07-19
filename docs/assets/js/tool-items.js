@@ -115,7 +115,7 @@ function Tool_Items ( deferred )
         {
             event.preventDefault( );
             var url = $( this ).attr( 'href' );
-            _util_copy( url, function ( ) { _util_popup_notice( 'Link copied' ) } );
+            _util_copy( url, function ( ) { _util_popup_notice( 'Link copied' ) }, function ( error ) { _util_popup_notice( 'Link not copied: ' + error ) } );
             return false;
         }
     );
