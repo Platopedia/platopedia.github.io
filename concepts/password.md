@@ -1,13 +1,10 @@
 ---
-layout: content-title
-title: Password
+layout: tool-content
+title: Platopedia - Password
+heading: <span class="badge badge-type">Account</span>&nbsp;Password
 ---
 
-<script>
-$( document ).ready( function ( ) { $( 'h1' ).prepend( '<span class="badge badge-type">Account</span>&nbsp;' ) } );
-</script>
-
-<div class="content-linebreak"></div>
+<div class="linebreak"></div>
 
 **Author:** Fear
 
@@ -17,10 +14,8 @@ Players who have registered their accounts will see a new "Account Password" opt
 
 In case of a forgotten password, they can reset it using a one-time code sent to their registered email. If they do not have access to the registered email, they will be unable to reset the password.
 
-<div class="content-linebreak"></div>
+<div class="linebreak"></div>
 
 <div class="content-image" data-url="/docs/assets/images/concepts/password.png" data-width="600px" data-label=""></div>
 
-<div class="content-linebreak"></div>
-
-
+<div class="linebreak"></div>

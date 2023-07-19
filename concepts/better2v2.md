@@ -1,13 +1,10 @@
 ---
-layout: content-title
-title: Better 2v2
+layout: tool-content
+title: Platopedia - Better 2v2
+heading: <span class="badge badge-type">Game</span>&nbsp;Better 2v2
 ---
 
-<script>
-$( document ).ready( function ( ) { $( 'h1' ).prepend( '<span class="badge badge-type">Game</span>&nbsp;' ) } );
-</script>
-
-<div class="content-linebreak"></div>
+<div class="linebreak"></div>
 
 **Author:** Fear
 
@@ -17,10 +14,8 @@ In this concept, if a player misses their turn, the turn is passed to their team
 
 Supported games: Pool, Table Soccer
 
-<div class="content-linebreak"></div>
+<div class="linebreak"></div>
 
 <div class="content-image" data-url="/docs/assets/images/concepts/better2v2.png" data-width="600px" data-label=""></div>
 
-<div class="content-linebreak"></div>
-
-
+<div class="linebreak"></div>

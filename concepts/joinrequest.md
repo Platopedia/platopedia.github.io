@@ -1,22 +1,17 @@
 ---
-layout: content-title
-title: Join Request
+layout: tool-content
+title: Platopedia - Join Request
+heading: <span class="badge badge-type">Group</span>&nbsp;Join Request
 ---
 
-<script>
-$( document ).ready( function ( ) { $( 'h1' ).prepend( '<span class="badge badge-type">Group</span>&nbsp;' ) } );
-</script>
-
-<div class="content-linebreak"></div>
+<div class="linebreak"></div>
 
 **Author:** Fear
 
 This concept gives group administrators the ability to control who joins the group through an invite link. They would have the option to either accept or decline the request from players wishing to join the group. This allows group administrators to share the invite link with the general public without fear of unwanted or excessive new members.
 
-<div class="content-linebreak"></div>
+<div class="linebreak"></div>
 
 <div class="content-image" data-url="/docs/assets/images/concepts/joinrequest.png" data-width="600px" data-label=""></div>
 
-<div class="content-linebreak"></div>
-
-
+<div class="linebreak"></div>

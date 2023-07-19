@@ -1,13 +1,10 @@
 ---
-layout: content-title
-title: Ghost
+layout: tool-content
+title: Platopedia - Ghost
+heading: <span class="badge badge-type">Item</span>&nbsp;Ghost
 ---
 
-<script>
-$( document ).ready( function ( ) { $( 'h1' ).prepend( '<span class="badge badge-type">Item</span>&nbsp;' ) } );
-</script>
-
-<div class="content-linebreak"></div>
+<div class="linebreak"></div>
 
 **Author:** Fear
 
@@ -15,10 +12,8 @@ The "Ghost" can be purchased as an item, such as a badge. Once equipped, users w
 
 Note: Even if some players are ghosted, the online list will still show the actual number of online players.
 
-<div class="content-linebreak"></div>
+<div class="linebreak"></div>
 
 <div class="content-image" data-url="/docs/assets/images/concepts/ghost.png" data-width="600px" data-label=""></div>
 
-<div class="content-linebreak"></div>
-
-
+<div class="linebreak"></div>

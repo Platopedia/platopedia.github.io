@@ -1,13 +1,10 @@
 ---
-layout: content-title
-title: Badge Slots
+layout: tool-content
+title: Platopedia - Badge Slots
+heading: <span class="badge badge-type">Profile</span>&nbsp;Badge Slots
 ---
 
-<script>
-$( document ).ready( function ( ) { $( 'h1' ).prepend( '<span class="badge badge-type">Profile</span>&nbsp;' ) } );
-</script>
-
-<div class="content-linebreak"></div>
+<div class="linebreak"></div>
 
 **Author:** abc
 
@@ -21,10 +18,8 @@ As part of the migration, gold stars and chat badges become standard badges. Pla
 
 This will let players have more control over how their profile looks, allowing them to be more creative and unique. They will be able to make use of duplicate badges they currently own. It gives them an incentive to purchase duplicate badges (7 red pixels) or sets of badges (all cats).
 
-<div class="content-linebreak"></div>
+<div class="linebreak"></div>
 
 <div class="content-image" data-url="/docs/assets/images/concepts/badgeslots.png" data-width="600px" data-label=""></div>
 
-<div class="content-linebreak"></div>
-
-
+<div class="linebreak"></div>

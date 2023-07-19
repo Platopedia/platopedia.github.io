@@ -1,25 +1,21 @@
 ---
-layout: content-title
-title: Artrade
+layout: tool-content
+title: Platopedia - Artrade
+heading: <img src="/docs/assets/images/groups/artrade/ar-logo.png" />&nbsp;Artrade
 ---
 
 <style>
-h1 { display:flex }
 h2 { color:#E44026 !important }
 h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 </style>
 
-<script>
-$( document ).ready( function ( ) { $( 'h1' ).prepend( '<img src="/docs/assets/images/groups/artrade/ar-logo.png" />&nbsp;' ) } );
-</script>
-
-<div class="content-linebreak"></div>
+<div class="linebreak"></div>
 
 Artrade helps you connect with trusted item traders and merchants from our community.
 
 <div class="content-contents text-left" data-open="true" data-icon="&#xf068;,&#xf067;">We provide <embed/></div>
 
-<div class="content-linebreak"></div>
+<div class="linebreak"></div>
 
 ## 1. Free Membership
 
@@ -27,7 +23,7 @@ Become a member of Artrade. Join our group by clicking the link below!
 
 [https://plato.app/1m6ejp9z2n21z](https://plato.app/1m6ejp9z2n21z)
 
-<div class="content-linebreak"></div>
+<div class="linebreak"></div>
 
 ## 2. Item Trading
 
@@ -37,7 +33,7 @@ Become a member of Artrade. Join our group by clicking the link below!
 
 To take part in item trading, request for your desired item/s in the group, and wait for a merchant to accept your trade.
 
-<div class="content-linebreak"></div>
+<div class="linebreak"></div>
 
 #### Incentive Bonus
 
@@ -82,7 +78,7 @@ Merchants receive an incentive bonus from the requester's end. Some important po
     </tbody>
 </table>
 
-<div class="content-linebreak"></div>
+<div class="linebreak"></div>
 
 #### Artrade Trading Rules
 
@@ -94,7 +90,7 @@ During a trade, merchants and requesters must follow the trading rules listed be
 - Both parties are advised to take screenshots or screen recordings during a trade.
 - If there's an issue, you must report to the group owners.
 
-<div class="content-linebreak"></div>
+<div class="linebreak"></div>
 
 ## 3. Scam Insurance
 
@@ -104,7 +100,7 @@ Artrade provides insurance for any scam related incidents during a trade. You mu
 - The insurance only applies when trading with one of our merchants.
 - The insurance does not cover trade value exceeding 10,000 coins.
 
-<div class="content-linebreak"></div>
+<div class="linebreak"></div>
 
 ## 4. Plato Items Website
 
@@ -112,7 +108,7 @@ The following website contains the entire list of Plato Items (including images 
 
 [https://platopedia.com/items](https://platopedia.github.io/items)
 
-<div class="content-linebreak"></div>
+<div class="linebreak"></div>
 
 ## 5. Trusted Merchants
 
@@ -203,6 +199,4 @@ All of our merchants and their stats are listed below. If you wish to become a m
     </tbody>
 </table>
 
-<div class="content-linebreak"></div>
-
-
+<div class="linebreak"></div>
