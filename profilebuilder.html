@@ -1,66 +1,23 @@
 ---
-layout: content-tool
-title: Profile Builder
+layout: tool-profilebuilder
+title: Platopedia - Profile Builder
+heading: Profile Builder
 description: Build your Plato profile with every Plato item
-navprofilebuilder: active
 ---
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" integrity="sha512-cyzxRvewl+FOKTtpBzYjW6x6IAYUCZy3sGP40hn+DQkqeluGRCax7qztK2ImL64SA+C7kVWdLI6wvdlStawhyw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" href="/docs/assets/css/bootstrap-select.min.css" />
-<link rel="stylesheet" href="/docs/assets/css/tool-profilebuilder.css" />
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js" integrity="sha512-6lplKUSl86rUVprDIjiW8DuOniNX8UDoRATqZSds/7t6zCQZfaCe3e5zcGaQwxa8Kpn5RTM9Fvl3X2lLV4grPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="/docs/assets/js/bootstrap-select.min.js"></script>
-<script src="/docs/assets/js/util.js"></script>
-<script src="/docs/assets/js/tool-cropper.js"></script>
-<script src="/docs/assets/js/tool-element.js"></script>
-<script src="/docs/assets/js/tool-profilebuilder.js"></script>
-
 <script>
-$( document ).ready
-(
-    function ( )
-    {
-        Tool_Profilebuilder_canvas
-        (
-            undefined,
-            $( '#tool_profilebuilder_canvas_default' ),
-            'https://platopedia.com/docs/assets/images/profilebuilder/picture/default.png',
-            'Platopedia',
-            'Platopedia.com/profilebuilder',
-            'https://platopedia.com/docs/assets/images/profilebuilder/banner/iap_banner_default_light.png',
-            undefined,
-            undefined,
-            'https://platopedia.com/docs/assets/images/profilebuilder/chat/iap_greybubble_asset.png',
-            '#000000',
-            undefined,
-            undefined,
-            undefined,
-            0,
-        );
-        
-        Tool_Profilebuilder( );
-        
-        $( '[data-toggle="tooltip"]' ).tooltip
-        (
-            {
-                container         : $( '#tool_profilebuilder_modal_default' ),
-                boundary          : 'viewport',
-                trigger           : 'hover focus',
-                placement         : 'top',
-                fallbackPlacement : [ 'top' ],
-            }
-        );
-        
-        setTimeout( function ( ) { $( '.is-selectpicker' ).selectpicker( ) }, 200 );
-    }
-);
+var items = null;
 </script>
 
 <div id="tool_profilebuilder_canvas_default" oncontextmenu="return false;"></div>
-<div class="content-linebreak"></div>
+
+<div class="linebreak"></div>
+<div class="linebreak"></div>
+
 <p class="text-center"><button id="tool_profilebuilder_modal_default_button_open" class="btn btn-dark font-weight-bold" type="button" data-target="#tool_profilebuilder_modal_default" data-toggle="modal">Update Profile</button></p>
-<div class="content-linebreak"></div>
+
+<div class="linebreak"></div>
+<div class="linebreak"></div>
 
 <div id="tool_profilebuilder_modal_default" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered modal-lg">
