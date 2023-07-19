@@ -27,17 +27,17 @@ table.dataTable thead .sorting_desc::after
 
 table.dataTable thead .sorting::after
 {
-    content : "\25B8" !important; /* \25B6 */
+    content : "\25B8\FE0E" !important; /* \25B6 */
 }
 
 table.dataTable thead .sorting_asc::after
 {
-    content : "\25BE" !important; /* \25BC */
+    content : "\25BE\FE0E" !important; /* \25BC */
 }
 
 table.dataTable thead .sorting_desc::after
 {
-    content : "\25B4" !important; /* \25B2 */
+    content : "\25B4\FE0E" !important; /* \25B2 */
 }
 
 table.dataTable thead tr th
