@@ -96,20 +96,6 @@ function Tool_Items ( deferred )
     $( document ).on
     (
         'click',
-        '#tool_items_modal_default_button_prev, #tool_items_modal_default_button_next',
-        function ( event )
-        {
-            event.preventDefault( );
-            var id  = $( this ).attr( 'data-id' );
-            var row = datatable_default.obj.row( id );
-            Tool_Items_popup( datatable_default.obj, modal_default, row );
-            return false;
-        }
-    );
-    
-    $( document ).on
-    (
-        'click',
         '#tool_items_modal_default_button_copy',
         function ( event )
         {
@@ -119,7 +105,7 @@ function Tool_Items ( deferred )
             (
                 url,
                 function (       ) { _util_popup_notice( 'Link copied'  ) },
-                function ( error ) { _util_popup_input ( undefined, url ) } // _util_popup_notice( 'Link not copied: ' + error )
+                function ( error ) { _util_popup_input ( undefined, url ) }
             );
             return false;
         }
@@ -224,7 +210,7 @@ function Tool_Items_query ( datatable, modal )
     
     if ( query.id )
     {
-        var id = $.fn.dataTable.util.escapeRegex( query.id ).split( ' ' );
+        var id = query.id.split( ' ' );
         
         if ( id.some( function ( id ) { return typeof items[id] === 'undefined' } ) )
         {
@@ -237,21 +223,8 @@ function Tool_Items_query ( datatable, modal )
             datatable.draw( );
         }
         else
-        {
-            id = id[0];
-            var itemsb = items[id]['items'];
-            
-            /*
-            if ( typeof itemsb !== 'undefined' )
-            {
-              //itemsb = [ id[0] ].concat( itemsb );
-                var regexp = '^(' + itemsb.join( '|' ) + ')$';
-                datatable.column( col.id ).search( regexp, true, false );
-                datatable.draw( );
-            }
-            */
-            
-            var row = datatable.row( '#id-' + id );
+        {       
+            var row = datatable.row( '#id-' + id[0] );
             Tool_Items_popup( datatable, modal, row );
         }
     }
@@ -314,14 +287,10 @@ function Tool_Items_popup ( datatable, modal, row )
   //cats = $.map( cats, function ( cat, idx ) { return '<span class="badge badge-pill badge-type">' + cat + '</span>' } );
     cats = cats.join( ', ' );
     
-    var modal_body  = modal.find( '.modal-body' );
-    var modal_title = $( '#tool_items_modal_default_title_default' );
-    var modal_prev  = $( '#tool_items_modal_default_button_prev'   );
-    var modal_next  = $( '#tool_items_modal_default_button_next'   );
+    var modal_title = modal.find( '.modal-title' );
+    var modal_body  = modal.find( '.modal-body'  );
     
     modal_title.html( name );
-  //modal_prev.attr( 'data-id', row.prev( ).index( ) );
-  //modal_next.attr( 'data-id', row.next( ).index( ) );
     
     modal_body.empty( );
     
@@ -420,6 +389,18 @@ function Tool_Items_popup ( datatable, modal, row )
     }
     
     modal.modal( 'show' );
+    
+    modal.off( 'swiped' )
+    .on
+    (
+        'swiped',
+        function ( event )
+        {
+            var dir = event.detail.dir;
+            if      ( dir === 'right' ) Tool_Items_popup( datatable, modal, row.prev( ) );
+            else if ( dir === 'left'  ) Tool_Items_popup( datatable, modal, row.next( ) );
+        }
+    );
     
     return true;
 }
