@@ -8,6 +8,8 @@ heading: Tips - Items
 
 We've compiled a list of useful tips and tricks when using the Items tool.
 
+<div class="linebreak"></div>
+
 ## Tip #1
 
 To learn more about an item, click on the item row to see useful information, including images, audios, etc.
