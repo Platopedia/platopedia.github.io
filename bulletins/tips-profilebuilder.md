@@ -1,47 +1,37 @@
 ---
 layout: tool-content
-title: Platopedia - Tips - Items
-heading: Tips - Items
+title: Platopedia - Tips - Profile Builder
+heading: Tips - Profile Builder
 ---
 
 <div class="linebreak"></div>
 
-## Tip #1 - Items
+## Tip #1 - Profile Builder
 
-To learn more about an item, click on the item row to see useful information, including images, audios, etc.
-
-<div class="linebreak"></div>
-
-<div class="content-image" data-url="/docs/assets/images/bulletins/tip1-items.jpg" data-width="600px" data-label=""></div>
+Design a profile. Take the time to explore all of the available items and experiment with different combinations until you find the perfect theme for you.
 
 <div class="linebreak"></div>
 
-## Tip #2 - Items
-
-Make use of the item filters to refine your search and easily find the items you're looking for. If you're specifically interested in newly released items, check out the "New" category.
+<div class="content-image" data-url="/docs/assets/images/bulletins/tip1-pb.jpg" data-width="600px" data-label=""></div>
 
 <div class="linebreak"></div>
 
-<div class="content-image" data-url="/docs/assets/images/bulletins/tip2-items.jpg" data-width="600px" data-label=""></div>
+## Tip #2 - Profile Builder
+
+Load images via the file reader by clicking the Load button (1). Download edited images by clicking the Download button (2).
 
 <div class="linebreak"></div>
 
-## Tip #3 - Items
-
-Click on an item row and select "Click to copy" to get the URL for the item modal, which you can then share with others.
+<div class="content-image" data-url="/docs/assets/images/bulletins/tip2-pb.jpg" data-width="600px" data-label=""></div>
 
 <div class="linebreak"></div>
 
-<div class="content-image" data-url="/docs/assets/images/bulletins/tip3-items.jpg" data-width="600px" data-label=""></div>
+## Tip #3 - Profile Builder
+
+Randomly select an item by clicking on the buttons adjacent to each menu.
 
 <div class="linebreak"></div>
 
-## Tip #4 - Items
-
-Click on an item row and then swipe left or right to easily navigate through items.
-
-<div class="linebreak"></div>
-
-<div class="content-image" data-url="/docs/assets/images/bulletins/tip4-items.jpg" data-width="600px" data-label=""></div>
+<div class="content-image" data-url="/docs/assets/images/bulletins/tip3-pb.jpg" data-width="600px" data-label=""></div>
 
 <div class="linebreak"></div>
