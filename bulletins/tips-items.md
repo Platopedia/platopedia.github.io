@@ -6,7 +6,9 @@ heading: Tips - Items
 
 <div class="linebreak"></div>
 
-## Tip #1 - Items
+We've compiled a list of useful tips and tricks when using the Items tool.
+
+## Tip #1
 
 To learn more about an item, click on the item row to see useful information, including images, audios, etc.
 
@@ -16,7 +18,7 @@ To learn more about an item, click on the item row to see useful information, in
 
 <div class="linebreak"></div>
 
-## Tip #2 - Items
+## Tip #2
 
 Make use of the item filters to refine your search and easily find the items you're looking for. If you're specifically interested in newly released items, check out the "New" category.
 
@@ -26,7 +28,7 @@ Make use of the item filters to refine your search and easily find the items you
 
 <div class="linebreak"></div>
 
-## Tip #3 - Items
+## Tip #3
 
 Click on an item row and select "Click to copy" to get the URL for the item modal, which you can then share with others.
 
@@ -36,7 +38,7 @@ Click on an item row and select "Click to copy" to get the URL for the item moda
 
 <div class="linebreak"></div>
 
-## Tip #4 - Items
+## Tip #4
 
 Click on an item row and then swipe left or right to easily navigate through items.
 
