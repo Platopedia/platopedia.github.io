@@ -1,7 +1,7 @@
 ---
 layout: tool-content
-title: Platopedia - Item Tips
-heading: Item Tips
+title: Platopedia - Tips - Items
+heading: Tips - Items
 ---
 
 <div class="linebreak"></div>
