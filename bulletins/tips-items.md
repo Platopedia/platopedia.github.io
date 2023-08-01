@@ -1,37 +1,47 @@
 ---
 layout: tool-content
-title: Platopedia - Overall Progress
-heading: <span class="badge badge-type">Profile</span>&nbsp;Overall Progress
+title: Platopedia - Item Tips
+heading: Item Tips
 ---
 
 <div class="linebreak"></div>
 
-**Author:** Fear
+## Tip #1 - Items
 
-This concept combines a player's experience points (XP) across all games into a single score, giving them a comprehensive view of their overall progress. The XP gained from winning games adds to their overall progress, which they can use to advance to new levels and unlock special ranks or badges.
-
-<div class="linebreak"></div>
-
-<div class="content-image" data-url="/docs/assets/images/concepts/overallprogress1.png" data-width="600px" data-label=""></div>
+To learn more about an item, click on the item row to see useful information, including images, audios, etc.
 
 <div class="linebreak"></div>
 
-## Special Badges
-
-These badges serve as a public recognition of their gaming journey and provide a sense of pride and satisfaction.
+<div class="content-image" data-url="/docs/assets/images/bulletins/tip1-items.jpg" data-width="600px" data-label=""></div>
 
 <div class="linebreak"></div>
 
-<div class="content-image" data-url="/docs/assets/images/concepts/overallprogress2.png" data-width="600px" data-label=""></div>
+## Tip #2 - Items
+
+Make use of the item filters to refine your search and easily find the items you're looking for. If you're specifically interested in newly released items, check out the "New" category.
 
 <div class="linebreak"></div>
 
-## Double XP
-
-Players can purchase consumable items from the in-game shop to temporarily receive double the amount of experience points (XP) for each win. This boost can greatly accelerate the player's progression and help them quickly level up. Double XP expires after one hour, providing a limited window of opportunity for players to make the most of the boost.
+<div class="content-image" data-url="/docs/assets/images/bulletins/tip2-items.jpg" data-width="600px" data-label=""></div>
 
 <div class="linebreak"></div>
 
-<div class="content-image" data-url="/docs/assets/images/concepts/overallprogress3.png" data-width="600px" data-label=""></div>
+## Tip #3 - Items
+
+Click on an item row and select "Click to copy" to get the URL for the item modal, which you can then share with others.
+
+<div class="linebreak"></div>
+
+<div class="content-image" data-url="/docs/assets/images/bulletins/tip3-items.jpg" data-width="600px" data-label=""></div>
+
+<div class="linebreak"></div>
+
+## Tip #4 - Items
+
+Click on an item row and then swipe left or right to easily navigate through items.
+
+<div class="linebreak"></div>
+
+<div class="content-image" data-url="/docs/assets/images/bulletins/tip4-items.jpg" data-width="600px" data-label=""></div>
 
 <div class="linebreak"></div>
