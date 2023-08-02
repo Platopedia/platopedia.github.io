@@ -196,6 +196,9 @@ All of our merchants and their stats are listed below. If you wish to become a m
         <tr>
             <td>MfcnUnicorn</td>
         </tr>
+        <tr>
+            <td>R0b0Tr0N</td>
+        </tr>
     </tbody>
 </table>
 
