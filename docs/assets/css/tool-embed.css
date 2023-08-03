@@ -21,6 +21,12 @@ h1
     margin-bottom : 0;
 }
 
+.content
+{
+    padding-left  : 0 !important;
+    padding-right : 0 !important;
+}
+
 #tool_embed_div_default
 {
     margin         : 0;
