@@ -32,7 +32,7 @@ Click on an item row to see useful information about the item, including images,
 
 ## Tip #3 - Copy and share item URL
 
-Click on an item row, then click "Click to copy" to copy the item URL, which you can then share with others.
+Click on an item row, then click "Click to copy" to copy the item URL, which you can share with others.
 
 <div class="linebreak"></div>
 
