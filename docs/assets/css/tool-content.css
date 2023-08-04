@@ -26,14 +26,14 @@ h1
 .content > *:first-child,
 .content .content-rowcol > .rowb > .colb > *:first-child
 {
-    margin-top : 15px !important;
+    margin-top : 15px;
 }
 
 .content > *,
 .content .content-rowcol > .rowb > .colb > *,
 .content .content-collect .dataTable tbody tr td > *
 {
-    margin-bottom : 15px !important;
+    margin-bottom : 15px;
 }
 
 .content .content-rowcol
