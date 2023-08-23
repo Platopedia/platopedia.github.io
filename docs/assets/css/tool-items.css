@@ -23,7 +23,8 @@ h1
 
 .modal .modal-button-left
 {
-    color : #FFD600;
+    color   : #FFD600;
+    opacity : 1;
 }
 
 .modal .modal-button-left.is-on::after
