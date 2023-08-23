@@ -1,0 +1,48 @@
+/* ////////////////////////////////////////////////// */
+
+html,
+body,
+.container,
+.content
+{
+    height         : 100%;
+    display        : flex;
+    flex-direction : column;
+}
+
+footer
+{
+    height      : 0px;
+    flex-shrink : 0;
+}
+
+h1
+{
+    margin-bottom : 0;
+}
+
+.content
+{
+    padding-left  : 0 !important;
+    padding-right : 0 !important;
+}
+
+#tool_embed_div_default
+{
+    margin         : 0;
+    height         : 100%;
+    display        : flex;
+    flex-direction : column;
+}
+
+#tool_embed_div_default iframe
+{
+    display   : block;
+    width     : 100%;
+    border    : none;
+    flex-grow : 1;
+}
+
+/* ////////////////////////////////////////////////// */
+
+
