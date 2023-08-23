@@ -49,3 +49,13 @@ Click on an item row, then swipe left or right to easily navigate through items.
 <div class="content-image" data-url="/docs/assets/images/bulletins/itemstips4.jpg" data-width="600px" data-label=""></div>
 
 <div class="linebreak"></div>
+
+## Tip #5 - Favorite Items
+
+Click on the star at the top left corner of the item popup to favorite an item. You can find your favorite items in the "Favorite" category.
+
+<div class="linebreak"></div>
+
+<div class="content-image" data-url="/docs/assets/images/bulletins/favoriteitems.jpg" data-width="600px" data-label=""></div>
+
+<div class="linebreak"></div>
