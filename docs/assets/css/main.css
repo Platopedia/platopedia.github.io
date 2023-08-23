@@ -446,8 +446,8 @@ audio
 .modal .modal-button-left,
 .modal .modal-button-right
 {
-    padding          : 1rem 6px 0 6px;
-    width            : 40px;
+    padding          : 1rem 0 0 0;
+    width            : 30px;
     font-size        : 21pt;
     font-weight      : 700;
     line-height      : 1;
