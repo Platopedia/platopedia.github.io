@@ -20,7 +20,7 @@ Make use of the item filters to refine your search and easily find the items you
 
 <div class="linebreak"></div>
 
-## Tip #2 - Item info popup
+## Tip #2 - Item popup
 
 Click on an item row to see useful information about the item, including images, audios, etc.
 
