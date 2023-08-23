@@ -56,6 +56,6 @@ Click on the star at the top left corner of the item popup to favorite an item. 
 
 <div class="linebreak"></div>
 
-<div class="content-image" data-url="/docs/assets/images/bulletins/favoriteitems.jpg" data-width="600px" data-label=""></div>
+<div class="content-image" data-url="/docs/assets/images/bulletins/itemstips5.jpg" data-width="600px" data-label=""></div>
 
 <div class="linebreak"></div>
