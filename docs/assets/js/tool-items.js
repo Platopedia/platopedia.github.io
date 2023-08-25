@@ -25,7 +25,7 @@ const Tool_Items_var =
 {
     'list_ver'  : 1,
     'list_bool' : 0,
-    'list_max'  : 100,
+    'list_max'  : 1000,
 };
 
 /////
@@ -51,8 +51,8 @@ if ( query.ck ) cache_key = 'tool_items_' + query.ck;
 delete query.ck;
 
 var cache_clear = false;
-if ( query.cc ) cache_clear = true;
-delete query.cc;
+//if ( query.cc ) cache_clear = true;
+//delete query.cc;
 
 var cache = Util_Cache
 (
@@ -116,6 +116,10 @@ function Tool_Items ( deferred )
                 
                 Tool_Items_menu ( datatable );
                 Tool_Items_query( datatable, modal_default );
+                
+                var container = $( datatable.table( ).container( ) );
+                container.wrap( '<form autocomplete="off"></form>' );
+                container.find( 'input, select' ).attr( 'autocomplete', 'off' );
                 
                 if ( typeof deferred !== 'undefined' ) deferred.resolve( );
             },
@@ -203,7 +207,7 @@ function Tool_Items_menu ( datatable )
     $( '\
         <select id="tool_items_table_default_field_cat" class="custom-select custom-select-sm form-control form-control-sm">\
             <option value="Any"        data-filter="" selected          >Any Category</option>\
-            <option value="Favourite"  data-filter=""                   >&#9734; Favourite</option>\
+            <option value="Favorite"   data-filter=""                   >&#9734; Favorite</option>\
             <option value="New"        data-filter="' + col.new   + '=1">New</option>\
             <option value="Discounted" data-filter="' + col.disc  + '=1">Discounted</option>\
             <option value="Rare"       data-filter="' + col.rare  + '=1">Rare</option>\
@@ -278,7 +282,7 @@ function Tool_Items_menu ( datatable )
                     );
                     
                     Tool_Items_var.list_bool = 0;
-                    if ( menu_cat.val( ) === 'Favourite' )
+                    if ( menu_cat.val( ) === 'Favorite' )
                     {
                         Tool_Items_var.list_bool = 1;
                         cache.read( );
@@ -496,15 +500,18 @@ function Tool_Items_popup ( datatable, modal, row )
         {
             if ( typeof cache.ref.list[id] === 'undefined' )
             {
-                if ( Object.keys( cache.ref.list ).length >= Tool_Items_var.list_max ) return _util_popup_notice( 'Maximum of ' + Tool_Items_var.list_max + ' Favourites exceeded' );
+                if ( Object.keys( cache.ref.list ).length >= Tool_Items_var.list_max ) return _util_popup_notice( 'Maximum of ' + Tool_Items_var.list_max + ' Favorites exceeded' );
+                
                 cache.ref.list[id] = 1;
+                if ( cache.write( ) ) modal_button_left.trigger( 'toggle.popup' );
+                else delete cache.ref.list[id];
             }
             else
             {
                 delete cache.ref.list[id];
+                if ( cache.write( ) ) modal_button_left.trigger( 'toggle.popup' );
+                else cache.ref.list[id] = 1;
             }
-            
-            if ( cache.write( ) ) modal_button_left.trigger( 'toggle.popup' );
         }
     );
     
