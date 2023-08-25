@@ -432,8 +432,7 @@ audio
 .modal .modal-header,
 .modal .modal-footer
 {
-    padding-top    : 0;
-    padding-bottom : 0;
+    padding        : 0;
     border         : none;
 }
 
@@ -442,16 +441,15 @@ audio
     padding : 4px 0 0 0 !important;
 }
 
-.modal .close,
 .modal .modal-button-left,
 .modal .modal-button-right
 {
-    padding          : 1rem 0 0 0;
-    width            : 30px;
+    width            : 60px;
+    height           : 55px;
     font-size        : 21pt;
     font-weight      : 700;
-    line-height      : 1;
-    color            : #000000;
+    line-height      : 0;
+    color            : var(--color-A);
     text-shadow      : 0 1px 0 #FFFFFF;
     background-color : transparent;
     border           : 0;
@@ -460,15 +458,16 @@ audio
 .modal .modal-button-left
 {
     float   : left;
-    margin  : -1rem auto -1rem -1rem;
-    opacity : 1;
+    margin  : -20px 0 0 -20px;
+    padding : 18px 0 0 20px;
 }
 
 .modal .modal-button-right
 {
     float   : right;
-    margin  : -1rem -1rem -1rem auto;
-    opacity : 0.5;
+    margin  : -20px -20px 0 0;
+    padding : 12px 14px 0 0;
+    opacity : 0.6;
 }
 
 .modal .modal-body .table
