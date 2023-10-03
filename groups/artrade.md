@@ -199,6 +199,9 @@ All of our merchants and their stats are listed below. If you wish to become a m
         <tr>
             <td>R0b0Tr0N</td>
         </tr>
+        <tr>
+            <td>yeojin</td>
+        </tr>
     </tbody>
 </table>
 
