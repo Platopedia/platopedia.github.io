@@ -1,0 +1,27 @@
+<span class="font-weight-bold">Theme:</span>
+<form autocomplete="off">
+    <div class="radio-theme">
+        <div class="form-check form-check-inline">
+            <input id="util_theme_device" class="form-check-input" type="radio" name="util_theme" value="device" autocomplete="off" checked />
+            <label class="form-check-label" for="util_theme_device">Auto</label>
+            <input id="util_theme_light" class="form-check-input" type="radio" name="util_theme" value="light" autocomplete="off" />
+            <label class="form-check-label" for="util_theme_light">Light</label>
+            <input id="util_theme_dark" class="form-check-input" type="radio" name="util_theme" value="dark" autocomplete="off" />
+            <label class="form-check-label" for="util_theme_dark">Dark</label>
+        </div>
+    </div>
+</form>
+<script>
+document.addEventListener
+(
+    'util_theme_out',
+    function ( event )
+    {
+        var theme = event.detail.theme;
+        var color = ( theme === 'light' ) ? '#FFFFFF' : '#000000';
+        document.querySelector( 'meta[name="theme-color"]' ).setAttribute( 'content', color );
+    }
+);
+
+Util_Theme( );
+</script>
