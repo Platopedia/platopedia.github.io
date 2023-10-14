@@ -632,7 +632,7 @@ function Tool_Profilebuilder ( deferred )
                                 return;
                             }
                             
-                            var picture_element = cropper_default.canvasquad( );
+                            var picture_element = cropper_default.canvascirc( );
                             if ( ! picture_element ) return;
                             var picture_url = picture_element.toDataURL( 'image/png' );
                             
