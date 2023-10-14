@@ -59,7 +59,7 @@ var theme_ref =
     'theme.platoidcolor.default' :
     {
         'light' : '#343A40',
-        'dark'  : '#A89E94',
+        'dark'  : '#CBC5BF', // #A89E94
     },
     'theme.banner.default' :
     {
@@ -74,7 +74,7 @@ var theme_ref =
     'theme.chat_color.default' :
     {
         'light' : '#343A40',
-        'dark'  : '#A89E94',
+        'dark'  : '#CBC5BF', // #A89E94
     },
 };
 
