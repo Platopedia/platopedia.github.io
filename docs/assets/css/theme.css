@@ -38,7 +38,7 @@ body[data-theme="light"]
     
     --color-modal-bord          : var(--color-B);
     --color-modal-btn-left      : var(--color-text);
-    --color-modal-btn-right     : #A89E94;
+    --color-modal-btn-right     : #CBC5BF; /*#A89E94*/
     
     --color-badge-cat-back      : var(--color-A);
     --color-badge-cat-text      : var(--color-D);
@@ -76,7 +76,7 @@ body[data-theme="dark"]
     --color-C                   : #1A1A1A;
     --color-D                   : #000000;
     
-    --color-text                : #A89E94;
+    --color-text                : #CBC5BF; /*#A89E94*/
     --color-link                : #0056B3;
     
     --color-nav-back-A          : var(--color-C);
@@ -95,7 +95,7 @@ body[data-theme="dark"]
     
     --color-modal-bord          : var(--color-B);
     --color-modal-btn-left      : var(--color-text);
-    --color-modal-btn-right     : #A89E94;
+    --color-modal-btn-right     : #CBC5BF; /*#A89E94*/
     
     --color-badge-cat-back      : var(--color-A);
     --color-badge-cat-text      : var(--color-text);
