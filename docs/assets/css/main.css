@@ -411,19 +411,19 @@ audio::-webkit-media-controls-toggle-closed-captions-button
     font-family  : 'Kaushan Script', sans-serif;
     font-size    : 2.5rem;
     font-weight  : bold;
-    color        : #343A40 !important;
-    filter       : invert( var(--filter-invert) ); /*brightness( 80% )*/
+    color        : var(--color-text) !important;
 }
 
 .navbar .navbar-brand img
 {
   /*float        : left;*/
     margin-right : 0;
+    filter       : invert( var(--filter-invert) ); /*brightness( 80% )*/
 }
 
 .navbar .navbar-nav
 {
-
+    
 }
 
 .navbar .navbar-text
