@@ -1,0 +1,96 @@
+/* ////////////////////////////////////////////////// */
+
+.bootstrap-select button.dropdown-toggle
+{
+    color            : var(--color-form-field-text) !important;
+    border           : 1px solid var(--color-form-field-bord) !important;
+    background-color : var(--color-form-field-back) !important;
+    z-index          : 10;
+}
+
+.bootstrap-select button.dropdown-toggle:focus,
+.bootstrap-select button.dropdown-toggle:hover
+{
+    outline      : none !important;
+    border-color : transparent !important;
+    box-shadow   : 0 0 8px var(--color-form-field-box) !important;
+}
+
+.bootstrap-select button.dropdown-toggle.bs-placeholder,
+.bootstrap-select button.dropdown-toggle.bs-placeholder:hover,
+.bootstrap-select button.dropdown-toggle.bs-placeholder:focus,
+.bootstrap-select button.dropdown-toggle.bs-placeholder:active
+{
+    color : var(--color-form-field-text) !important;
+}
+
+.bootstrap-select .dropdown-menu
+{
+  /*margin-top       : 0 !important;*/
+    padding-top      : 0 !important;
+    padding-bottom   : 0 !important;
+    background-color : var(--color-form-field-back) !important;
+    border-color     : var(--color-form-field-bord) !important;
+}
+
+.bootstrap-select .bs-searchbox
+{
+    padding       : 0;
+    border-bottom : 1px solid var(--color-form-field-bord)
+}
+
+.bootstrap-select .bs-searchbox .form-control
+{
+    padding-left            : 29px;
+    text-indent             : 0 !important;
+    background              : url(../images/query.png) no-repeat 8px center;
+    background-color        : var(--color-form-field-back) !important;
+    background-size         : 14px;
+    -webkit-background-size : 14px;
+    -moz-background-size    : 14px;
+    -o-background-size      : 14px;
+}
+
+.bootstrap-select .bs-searchbox .form-control,
+.bootstrap-select .bs-searchbox .form-control:hover,
+.bootstrap-select .bs-searchbox .form-control:focus,
+.bootstrap-select .bs-searchbox .form-control:active
+{
+    border             : none !important;
+    -webkit-box-shadow : none !important;
+    -moz-box-shadow    : none !important;
+    box-shadow         : none !important;
+}
+
+.bootstrap-select .no-results
+{
+    color            : var(--color-form-field-text);
+    background-color : transparent !important;
+}
+
+.bootstrap-select .dropdown-item
+{
+    padding-left : 8px;
+    height       : 32px;
+    display      : flex;
+    align-items  : center;
+    color        : var(--color-form-field-text) !important;
+}
+
+.bootstrap-select .dropdown-item.active,
+.bootstrap-select .dropdown-item:hover,
+.bootstrap-select .dropdown-item:focus,
+.bootstrap-select .dropdown-item:active
+{
+    background-color : var(--color-form-field-hov) !important;
+}
+
+.bootstrap-select .filter-option img,
+.bootstrap-select .dropdown-item img
+{
+    height : 24px;
+}
+
+/* ////////////////////////////////////////////////// */
+
+

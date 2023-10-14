@@ -1,0 +1,127 @@
+/* ////////////////////////////////////////////////// */
+
+:root
+{
+    --unit-text-A               : 14pt;
+    --unit-text-B               : 12pt;
+    --unit-text-C               : 10pt;
+    --unit-text-D               : 8pt;
+}
+
+body,
+body[data-theme="light"]
+{
+    --filter-invert             : 0%;
+    --filter-bright             : 100%;
+    
+    --color-A                   : #343A40;
+    --color-B                   : #DEE2E6;
+    --color-C                   : #F2F2F2;
+    --color-D                   : #FFFFFF;
+    
+    --color-text                : #343A40;
+    --color-link                : #007BFF;
+    
+    --color-nav-back-A          : var(--color-C);
+    --color-nav-text-A          : var(--color-A);
+    --color-nav-back-B          : var(--color-A);
+    --color-nav-text-B          : var(--color-D);
+    
+    --color-pagi-back-A         : var(--color-D);
+    --color-pagi-text-A         : var(--color-A);
+    --color-pagi-back-B         : var(--color-A);
+    --color-pagi-text-B         : var(--color-D);
+    
+    --color-table-back          : var(--color-A);
+    --color-table-text          : var(--color-D);
+    --color-table-hov           : var(--color-C);
+    
+    --color-modal-bord          : var(--color-B);
+    --color-modal-btn-left      : var(--color-text);
+    --color-modal-btn-right     : #A89E94;
+    
+    --color-badge-cat-back      : var(--color-A);
+    --color-badge-cat-text      : var(--color-D);
+    --color-badge-cat-top-back  : #D17484;
+    --color-badge-cat-top-text  : var(--color-D);
+    --color-badge-cat-new-back  : #6D97C9;
+    --color-badge-cat-new-text  : var(--color-D);
+    --color-badge-cat-plan-back : #F29D72;
+    --color-badge-cat-plan-text : var(--color-D);
+    --color-badge-cat-rele-back : #8CC3A0;
+    --color-badge-cat-rele-text : var(--color-D);    
+    --color-badge-type-back     : var(--color-A);
+    --color-badge-type-text     : var(--color-D);
+    
+    --color-form-btn-back-A     : var(--color-A);
+    --color-form-btn-text-A     : var(--color-D);
+    --color-form-btn-back-B     : var(--color-A);
+    --color-form-btn-text-B     : var(--color-D);
+    
+    --color-form-field-back     : var(--color-D);
+    --color-form-field-bord     : var(--color-B);
+    --color-form-field-box      : var(--color-A);
+    --color-form-field-hov      : var(--color-C);
+    --color-form-field-text     : var(--color-A);
+}
+
+/*body,*/
+body[data-theme="dark"]
+{
+    --filter-invert             : 100%;
+    --filter-bright             : 80%;
+    
+    --color-A                   : #343A40;
+    --color-B                   : #343A40;
+    --color-C                   : #1A1A1A;
+    --color-D                   : #000000;
+    
+    --color-text                : #A89E94;
+    --color-link                : #0056B3;
+    
+    --color-nav-back-A          : var(--color-C);
+    --color-nav-text-A          : var(--color-text);
+    --color-nav-back-B          : var(--color-A);
+    --color-nav-text-B          : var(--color-text);
+    
+    --color-pagi-back-A         : var(--color-D);
+    --color-pagi-text-A         : var(--color-text);
+    --color-pagi-back-B         : var(--color-A);
+    --color-pagi-text-B         : var(--color-text);
+    
+    --color-table-back          : var(--color-A);
+    --color-table-text          : var(--color-text);
+    --color-table-hov           : var(--color-C);
+    
+    --color-modal-bord          : var(--color-B);
+    --color-modal-btn-left      : var(--color-text);
+    --color-modal-btn-right     : #A89E94;
+    
+    --color-badge-cat-back      : var(--color-A);
+    --color-badge-cat-text      : var(--color-text);
+    --color-badge-cat-top-back  : #7A2836;
+    --color-badge-cat-top-text  : var(--color-text);
+    --color-badge-cat-new-back  : #2A4A71;
+    --color-badge-cat-new-text  : var(--color-text);
+    --color-badge-cat-plan-back : #A3410F;
+    --color-badge-cat-plan-text : var(--color-text);
+    --color-badge-cat-rele-back : #396E4D;
+    --color-badge-cat-rele-text : var(--color-text);
+    --color-badge-type-back     : var(--color-A);
+    --color-badge-type-text     : var(--color-text);
+    
+    --color-form-btn-back-A     : var(--color-A);
+    --color-form-btn-text-A     : var(--color-text);
+    --color-form-btn-back-B     : var(--color-A);
+    --color-form-btn-text-B     : var(--color-text);
+    
+    --color-form-field-back     : var(--color-D);
+    --color-form-field-bord     : var(--color-B);
+    --color-form-field-box      : var(--color-text);
+    --color-form-field-hov      : var(--color-C);
+    --color-form-field-text     : var(--color-text);
+}
+
+/* ////////////////////////////////////////////////// */
+
+
