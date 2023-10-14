@@ -172,7 +172,8 @@ function Util_Cropper ( param )
     {
         if ( ! that.objready ) return false; // _util_warn( 'cannot canvasquad: obj not ready' );
         
-        var canvas = that.obj.getCroppedCanvas( { width : width, height : height } );
+      //var canvas = that.obj.getCroppedCanvas( { width : width, height : height } );
+        var canvas = that.obj.getCroppedCanvas( { maxWidth : 1000, maxHeight : 1000 } );
         
         return canvas;
     };
