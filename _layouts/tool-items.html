@@ -1,0 +1,34 @@
+---
+layout: default
+---
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="/docs/assets/css/util-datatable.css" />
+<link rel="stylesheet" href="/docs/assets/css/tool-items.css" />
+
+<script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/swiped-events/1.1.7/swiped-events.min.js" integrity="sha512-q2rGCiN6EL2X7aJwVzSD6E0GbpfcGSjipdpZ12lqArQfSMb/LTDXlSFZLrohrSanuRk2/oP96lb14NNgPCAZPw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script type="text/javascript" src="/docs/assets/js/util-datatable.js"></script>
+<script type="text/javascript" src="/docs/assets/js/util-cache.js"></script>
+<script type="text/javascript" src="/docs/assets/js/tool-items.js"></script>
+
+<ul class="nav nav-pills nav-justified">
+    <li class="nav-item">
+        <a class="nav-link active" href="/items">Items</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/profilebuilder">Profile Builder</a>
+    </li>
+</ul>
+
+<h1 class="position-relative">
+    <a class="position-absolute" href="#" data-target="#tool_items_modal_info" data-toggle="modal" style="left:15px">
+        <span class="icon">&#xf05a;</span>
+    </a>
+    <span>{{ page.heading }}</span>
+</h1>
+
+<div class="content d-none loaded-b">
+    {{ content }}
+</div>
