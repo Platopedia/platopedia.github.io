@@ -11,6 +11,9 @@
         </div>
     </div>
 </form>
+
+<div id="detect-autodarktheme" style="display:none;background-color:canvas;color-scheme:light"></div>
+
 <script>
 document.addEventListener
 (
@@ -24,4 +27,19 @@ document.addEventListener
 );
 
 Util_Theme( );
+
+(
+    function ( )
+    {
+        var detect_autodarktheme = getComputedStyle( document.querySelector( 'div#detect-autodarktheme' ) ).backgroundColor != 'rgb(255, 255, 255)';
+        
+        if ( detect_autodarktheme )
+        {
+            var rule    = 'iframe { filter:none !important }';
+            var element = document.createElement( 'style' ); element.type = 'text/css'; element.appendChild( document.createTextNode( rule ) );
+            document.querySelector( 'head' ).appendChild( element );
+        }
+    }
+)
+( );
 </script>
