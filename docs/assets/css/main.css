@@ -442,9 +442,9 @@ audio::-webkit-media-controls-toggle-closed-captions-button
 
 .navbar .navbar-toggler
 {
-    width   : 60px;
-    padding : 0;
-    border  : none;
+    width         : 60px;
+    padding-right : 0;
+    border        : none;
 }
 
 .navbar .navbar-toggler > *
