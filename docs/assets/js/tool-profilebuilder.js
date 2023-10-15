@@ -134,7 +134,6 @@ function Tool_Profilebuilder ( deferred )
     var hash = window.location.hash.slice( 1 );
     if ( hash ) _util_call_noexcep( function ( ) { $( '#' + hash ).modal( 'show' ) } );
     
-    /*
     $( '.modal' ).each
     (
         function ( )
@@ -166,7 +165,6 @@ function Tool_Profilebuilder ( deferred )
             );
         }
     );
-    */
     
     var modal_default = $( '#tool_profilebuilder_modal_default' );
     
