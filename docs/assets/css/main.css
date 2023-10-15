@@ -433,8 +433,16 @@ audio::-webkit-media-controls-toggle-closed-captions-button
 
 .navbar .navbar-toggler
 {
-    width  : 60px;
-    filter : invert( var(--filter-invert) );
+    width   : 60px;
+    padding : 0;
+    border  : none;
+}
+
+.navbar .navbar-toggler > *
+{
+    float     : right;
+    font-size : 28px;
+    color     : var(--color-text) !important;
 }
 
 .navbar .nav-item
