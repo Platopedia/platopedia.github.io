@@ -11,8 +11,9 @@
 body,
 body[data-theme="light"]
 {
-    --filter-invert             : 0%;
+    --filter-invert             : 0;
     --filter-bright             : 100%;
+    --filter-hue                : 0;
     
     --color-A                   : #343A40;
     --color-B                   : #DEE2E6;
@@ -70,6 +71,7 @@ body[data-theme="dark"]
 {
     --filter-invert             : 100%;
     --filter-bright             : 80%;
+    --filter-hue                : 180deg;
     
     --color-A                   : #343A40;
     --color-B                   : #343A40;

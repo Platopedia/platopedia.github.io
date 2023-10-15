@@ -37,10 +37,12 @@ h1
 
 #tool_embed_div_default iframe
 {
-    display   : block;
-    width     : 100%;
-    border    : none;
-    flex-grow : 1;
+    display          : block;
+    width            : 100%;
+    border           : none;
+    flex-grow        : 1;
+    background-color : #FFFFFF;
+    filter           : invert( var(--filter-invert) ) hue-rotate( var(--filter-hue) );
 }
 
 /* ////////////////////////////////////////////////// */
