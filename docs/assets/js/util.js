@@ -81,6 +81,14 @@ function _util_excep ( message )
     return excep;
 }
 
+function _util_call_noexcep ( callback = _util_default_callback )
+{
+    var errorb = null;
+    try             { callback( )    }
+    catch ( error ) { errorb = error }
+    return errorb;
+}
+
 function _util_popup_notice ( message = '', callback = _util_default_callback )
 {
     alert( message );

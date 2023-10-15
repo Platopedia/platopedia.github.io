@@ -131,6 +131,43 @@ function Tool_Profilebuilder ( deferred )
     
     // modal
     
+    var hash = window.location.hash.slice( 1 );
+    if ( hash ) _util_call_noexcep( function ( ) { $( '#' + hash ).modal( 'show' ) } );
+    
+    /*
+    $( '.modal' ).each
+    (
+        function ( )
+        {
+            var modal = $( this );
+            var id    = modal.attr( 'id' );
+            var hash  = '#' + id;
+            
+            var cb_back = function ( ) { modal.modal( 'hide' ) };
+            
+            modal.on
+            (
+                'shown.bs.modal',
+                function ( )
+                {
+                    window.history.pushState( hash, id, window.location.pathname + window.location.search + hash );
+                    window.addEventListener( 'popstate', cb_back, false );
+                }
+            );
+            
+            modal.on
+            (
+                'hidden.bs.modal',
+                function ( )
+                {
+                    if ( window.history.state === hash ) window.history.go( -1 );
+                    window.removeEventListener( 'popstate', cb_back );
+                }
+            );
+        }
+    );
+    */
+    
     var modal_default = $( '#tool_profilebuilder_modal_default' );
     
     modal_default.on
@@ -329,7 +366,7 @@ function Tool_Profilebuilder ( deferred )
             {
                 'click' : function ( event )
                 {
-                    var picture_element = cropper_default.canvascirc( );
+                    var picture_element = cropper_default.canvascirc( 1000, 1000 );
                     if ( ! picture_element ) return;
                     var picture_url = picture_element.toDataURL( 'image/png' );
                     var picture_name = 'profilebuilder_' + Date.now( ) + '.png';
@@ -632,7 +669,7 @@ function Tool_Profilebuilder ( deferred )
                                 return;
                             }
                             
-                            var picture_element = cropper_default.canvascirc( );
+                            var picture_element = cropper_default.canvascirc( 1000, 1000 );
                             if ( ! picture_element ) return;
                             var picture_url = picture_element.toDataURL( 'image/png' );
                             
