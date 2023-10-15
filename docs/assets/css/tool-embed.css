@@ -42,7 +42,6 @@ h1
     border           : none;
     flex-grow        : 1;
     background-color : #FFFFFF;
-    filter           : invert( var(--filter-invert) ) hue-rotate( var(--filter-hue) );
 }
 
 /* ////////////////////////////////////////////////// */
