@@ -35,7 +35,7 @@ Util_Theme( );
         
         if ( detect_autodarktheme )
         {
-            var rule    = 'iframe { filter:none !important }';
+            var rule    = '[data-theme="dark"] iframe { filter:none !important }';
             var element = document.createElement( 'style' ); element.type = 'text/css'; element.appendChild( document.createTextNode( rule ) );
             document.querySelector( 'head' ).appendChild( element );
         }
