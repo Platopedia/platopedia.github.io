@@ -36,7 +36,7 @@ function Util_Theme ( )
         theme_cache( theme  );
         theme_field( theme  );
         
-        if ( util_theme === themeb ) return;
+      //if ( util_theme === themeb ) return; // won't trigger detect_theme_forcedark
         
         util_theme = themeb;
         
