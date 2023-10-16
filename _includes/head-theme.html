@@ -12,7 +12,7 @@
     </div>
 </form>
 
-<div id="detect-autodarktheme" style="display:none;background-color:canvas;color-scheme:light"></div>
+<div id="detect-theme-forcedark" style="display:none;background-color:canvas;color-scheme:light"></div>
 
 <script>
 document.addEventListener
@@ -20,25 +20,15 @@ document.addEventListener
     'util_theme_out',
     function ( event )
     {
-        var theme = event.detail.theme;
-        var color = ( theme === 'light' ) ? '#FFFFFF' : '#000000';
-        document.querySelector( 'meta[name="theme-color"]' ).setAttribute( 'content', color );
+        var detect_theme_light = event.detail.theme == 'light';
+        var theme_color = detect_theme_light ? '#FFFFFF' : '#000000';
+        document.querySelector( 'meta[name="theme-color"]' ).setAttribute( 'content', theme_color );
+        
+        var detect_theme_forcedark = getComputedStyle( document.querySelector( '#detect-theme-forcedark' ) ).backgroundColor != 'rgb(255, 255, 255)';
+        var theme_forcedark = detect_theme_forcedark ? 'on' : 'off';
+        document.body.setAttribute( 'data-theme-forcedark', theme_forcedark );
     }
 );
 
 Util_Theme( );
-
-(
-    function ( )
-    {
-        var is_autodarktheme = getComputedStyle( document.querySelector( '#detect-autodarktheme' ) ).backgroundColor != 'rgb(255, 255, 255)';
-        var theme = ( is_autodarktheme ) ? 'light' : 'dark';
-        var rule = '[data-theme="' + theme + '"] iframe { filter:invert( 100% ) hue-rotate( 180deg ) !important }';
-        var element = document.createElement( 'style' );
-        element.type = 'text/css';
-        element.appendChild( document.createTextNode( rule ) );
-        document.querySelector( 'head' ).appendChild( element );
-    }
-)
-( );
 </script>
