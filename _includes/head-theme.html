@@ -27,17 +27,6 @@ document.addEventListener
         var detect_theme_forcedark = getComputedStyle( document.querySelector( '#detect-theme-forcedark' ) ).backgroundColor != 'rgb(255, 255, 255)';
         var theme_forcedark = detect_theme_forcedark ? 'on' : 'off';
         document.body.setAttribute( 'data-theme-forcedark', theme_forcedark );
-        
-        setTimeout
-        (
-            function ( )
-            {
-                var detect_theme_forcedark = getComputedStyle( document.querySelector( '#detect-theme-forcedark' ) ).backgroundColor != 'rgb(255, 255, 255)';
-                var theme_forcedark = detect_theme_forcedark ? 'on' : 'off';
-                document.body.setAttribute( 'data-theme-forcedark', theme_forcedark );
-            },
-            1000
-        );
     }
 );
 
