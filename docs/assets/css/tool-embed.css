@@ -44,6 +44,22 @@ h1
     background-color : #FFFFFF;
 }
 
+body[data-theme-forcedark="on" ][data-theme="dark" ] #tool_embed_div_default:not([data-theme])   iframe,
+body[data-theme-forcedark="off"][data-theme="light"] #tool_embed_div_default:not([data-theme])   iframe,
+body[data-theme-forcedark="on" ]                     #tool_embed_div_default[data-theme="dark" ] iframe,
+body[data-theme-forcedark="off"]                     #tool_embed_div_default[data-theme="light"] iframe
+{
+    filter : none;
+}
+
+body[data-theme-forcedark="on" ][data-theme="light"] #tool_embed_div_default:not([data-theme])   iframe,
+body[data-theme-forcedark="off"][data-theme="dark" ] #tool_embed_div_default:not([data-theme])   iframe,
+body[data-theme-forcedark="on" ]                     #tool_embed_div_default[data-theme="light"] iframe,
+body[data-theme-forcedark="off"]                     #tool_embed_div_default[data-theme="dark" ] iframe
+{
+    filter : invert( 100% ) hue-rotate( 180deg );
+}
+
 /* ////////////////////////////////////////////////// */
 
 
