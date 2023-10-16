@@ -101,6 +101,7 @@ function Tool_Items ( deferred )
     
     var modal_default = $( '#popup-item' );
     
+    /*
     $( '.modal' ).each
     (
         function ( )
@@ -116,7 +117,7 @@ function Tool_Items ( deferred )
                 'shown.bs.modal',
                 function ( )
                 {
-                    window.history.pushState( hash, id, window.location.pathname + window.location.search + hash );
+                    window.history.pushState( '', '', window.location.pathname + window.location.search + hash );
                     window.addEventListener( 'popstate', cb_back, false );
                 }
             );
@@ -132,6 +133,7 @@ function Tool_Items ( deferred )
             );
         }
     );
+    */
     
     var hash = window.location.hash.slice( 1 );
     if ( hash && hash != 'popup-item' ) _util_call_noexcep( function ( ) { $( '#' + hash ).modal( 'show' ) } );

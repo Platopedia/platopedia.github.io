@@ -159,6 +159,7 @@ function Tool_Profilebuilder ( deferred )
         }
     );
     
+    /*
     $( '.modal' ).each
     (
         function ( )
@@ -190,6 +191,7 @@ function Tool_Profilebuilder ( deferred )
             );
         }
     );
+    */
     
     var hash = window.location.hash.slice( 1 );
     if ( hash ) _util_call_noexcep( function ( ) { $( '#' + hash ).modal( 'show' ) } );
