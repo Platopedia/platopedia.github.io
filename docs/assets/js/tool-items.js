@@ -99,7 +99,42 @@ function Tool_Items ( deferred )
     
     // modal
     
-    var modal_default = $( '#tool_items_modal_default' );
+    var modal_default = $( '#popup-item' );
+    
+    $( '.modal' ).each
+    (
+        function ( )
+        {
+            var modal = $( this );
+            var id    = modal.attr( 'id' );
+            var hash  = '#' + id;
+            
+            var cb_back = function ( ) { modal.modal( 'hide' ) };
+            
+            modal.on
+            (
+                'shown.bs.modal',
+                function ( )
+                {
+                    window.history.pushState( hash, id, window.location.pathname + window.location.search + hash );
+                    window.addEventListener( 'popstate', cb_back, false );
+                }
+            );
+            
+            modal.on
+            (
+                'hidden.bs.modal',
+                function ( )
+                {
+                    if ( window.history.state === hash ) window.history.go( -1 );
+                    window.removeEventListener( 'popstate', cb_back );
+                }
+            );
+        }
+    );
+    
+    var hash = window.location.hash.slice( 1 );
+    if ( hash && hash != 'popup-item' ) _util_call_noexcep( function ( ) { $( '#' + hash ).modal( 'show' ) } );
     
     // datatable
     
@@ -180,7 +215,7 @@ function Tool_Items ( deferred )
     $( document ).on
     (
         'click',
-        '#tool_items_modal_default_button_copy',
+        '.button-copy',
         function ( event )
         {
             event.preventDefault( );
@@ -354,7 +389,7 @@ function Tool_Items_popup ( datatable, modal, row )
     var info   = row_data[col.info ];
     var images = items[id].med.images;
     var audios = items[id].med.audios;
-    var url    = window.location.href.split( '?' )[0] + '?id=' + id;
+    var url    = 'https://platopedia.com/items?id=' + id; // window.location.protocol + window.location.host + window.location.pathname + '?id=' + id; // window.location.href.split( '?' )[0] + '?id=' + id;
     
     var cats = [ 'New', 'Discounted', 'Rare', 'Tournament Prize', 'Ranked Prize', 'Event Prize' ];
     cats = $.grep( cats, function ( cat, idx ) { return row_data[idx + col.new] === '1' } );
@@ -396,7 +431,7 @@ function Tool_Items_popup ( datatable, modal, row )
                     </tr>\
                     <tr>\
                         <td class="text-left align-top font-weight-bold">Link:</td>\
-                        <td class="text-left"><a id="tool_items_modal_default_button_copy" href="'+ url + '">Click to copy</a></td>\
+                        <td class="text-left"><a class="button-copy" href="'+ url + '">Click to copy</a></td>\
                     </tr>\
                 </tbody>\
             </table>\

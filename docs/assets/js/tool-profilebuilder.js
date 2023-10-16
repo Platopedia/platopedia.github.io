@@ -13,7 +13,7 @@ $( document ).ready
         $( '[data-toggle="tooltip"]' ).tooltip
         (
             {
-                container         : $( '#tool_profilebuilder_modal_default' ),
+                container         : $( '#popup-update' ),
                 boundary          : 'viewport',
                 trigger           : 'hover focus',
                 placement         : 'top',
@@ -131,10 +131,34 @@ function Tool_Profilebuilder ( deferred )
     
     // modal
     
-    var hash = window.location.hash.slice( 1 );
-    if ( hash ) _util_call_noexcep( function ( ) { $( '#' + hash ).modal( 'show' ) } );
+    var modal_default = $( '#popup-update' );
     
-    /*
+    modal_default.on
+    (
+        'shown.bs.modal',
+        function ( event )
+        {
+            cropper_default.create( );
+            
+          //cropper_default.create( );
+          //console.log( cropper_default.objready );
+            
+          //var deferred = $.Deferred( );
+          //$.when( deferred ).then( function ( ) { console.log( cropper_default.objready ) } );
+          //cropper_default.create( deferred );
+        }
+    );
+    
+    modal_default.on
+    (
+        'hidden.bs.modal',
+        function ( event )
+        {
+            cropper_default.datacurr( );
+            cropper_default.destroy( );
+        }
+    );
+    
     $( '.modal' ).each
     (
         function ( )
@@ -166,35 +190,9 @@ function Tool_Profilebuilder ( deferred )
             );
         }
     );
-    */
     
-    var modal_default = $( '#tool_profilebuilder_modal_default' );
-    
-    modal_default.on
-    (
-        'shown.bs.modal',
-        function ( event )
-        {
-            cropper_default.create( );
-            
-          //cropper_default.create( );
-          //console.log( cropper_default.objready );
-            
-          //var deferred = $.Deferred( );
-          //$.when( deferred ).then( function ( ) { console.log( cropper_default.objready ) } );
-          //cropper_default.create( deferred );
-        }
-    );
-    
-    modal_default.on
-    (
-        'hidden.bs.modal',
-        function ( event )
-        {
-            cropper_default.datacurr( );
-            cropper_default.destroy( );
-        }
-    );
+    var hash = window.location.hash.slice( 1 );
+    if ( hash ) _util_call_noexcep( function ( ) { $( '#' + hash ).modal( 'show' ) } );
     
     // form
     
