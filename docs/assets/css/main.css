@@ -418,8 +418,10 @@ audio::-webkit-media-controls-toggle-closed-captions-button
 {
   /*float          : left;*/
     margin-right   : 0;
+    /*
     filter         : invert( var(--filter-invert) ) !important;
     -webkit-filter : invert( var(--filter-invert) ) !important;
+    */
 }
 
 .navbar .navbar-nav
