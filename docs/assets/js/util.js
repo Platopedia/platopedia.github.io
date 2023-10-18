@@ -89,14 +89,44 @@ function _util_call_noexcep ( callback = _util_default_callback )
     return errorb;
 }
 
-function _util_popup_notice ( message = '', callback = _util_default_callback )
+function _util_dprc_popup_notice ( message = '', callback = _util_default_callback )
 {
     alert( message );
     callback( );
     return true;
 }
 
-function _util_popup_confirm ( message = '', callback_true = _util_default_callback, callback_false = _util_default_callback )
+function _util_popup_notice ( message = '', callback = _util_default_callback )
+{
+    bootbox.dialog
+    (
+        {
+            title          : '',
+            message        : message,
+            backdrop       : false,
+            centerVertical : true,
+            onEscape       : true,
+            
+            onShow : event => $( 'body' ).append( '<div class="modal-backdrop bootbox-modal-backdrop fade show"></div>' ),
+            onHide : event => $( '.modal-backdrop.bootbox-modal-backdrop' ).remove( ),
+            
+            buttons :
+            {
+                close :
+                {
+                    label     : 'Close',
+                    className : 'btn btn-form font-weight-bold m-0 mr-3 mb-3',
+                    callback  : callback,
+                },
+            }
+        }
+    );
+  //.find( '.modal-content' ).
+    
+    return true;
+}
+
+function _util_dprc_popup_confirm ( message = '', callback_true = _util_default_callback, callback_false = _util_default_callback )
 {
     var time = new Date( );
     var bool = confirm( message );
@@ -109,12 +139,78 @@ function _util_popup_confirm ( message = '', callback_true = _util_default_callb
     return bool;
 }
 
-function _util_popup_input ( message, text = '', callback_true = _util_default_callback, callback_false = _util_default_callback )
+function _util_popup_confirm ( message = '', callback_true = _util_default_callback, callback_false = _util_default_callback )
+{
+    bootbox.dialog
+    (
+        {
+            title          : '',
+            message        : message,
+            backdrop       : false,
+            centerVertical : true,
+            onEscape       : true,
+            
+            onShow : event => $( 'body' ).append( '<div class="modal-backdrop bootbox-modal-backdrop fade show"></div>' ),
+            onHide : event => $( '.modal-backdrop.bootbox-modal-backdrop' ).remove( ),
+            
+            buttons :
+            {
+                no :
+                {
+                    label     : 'No',
+                    className : 'btn btn-form font-weight-bold m-0 mr-3 mb-3',
+                    callback  : callback_false,
+                },
+                yes :
+                {
+                    label     : 'Yes',
+                    className : 'btn btn-form font-weight-bold m-0 mr-3 mb-3',
+                    callback  : callback_true,
+                }
+            }
+        }
+    );
+  //.find( '.modal-content' ).
+    
+    return true;
+}
+
+function _util_dprc_popup_input ( message, text = '', callback_true = _util_default_callback, callback_false = _util_default_callback )
 {
     var textb = prompt( message, text );
     if   ( textb !== null ) { callback_true ( ) }
     else                    { callback_false( ) }
     return textb;
+}
+
+function _util_popup_input ( message, text = '', callback_true = _util_default_callback, callback_false = _util_default_callback )
+{
+    bootbox.dialog
+    (
+        {
+            title          : '',
+            message        : '<input class="form-control" type="text" value="' + text + '" />',
+            backdrop       : false,
+            centerVertical : true,
+            onEscape       : true,
+            
+            onShow : event => $( 'body' ).append( '<div class="modal-backdrop bootbox-modal-backdrop fade show"></div>' ),
+            onHide : event => $( '.modal-backdrop.bootbox-modal-backdrop' ).remove( ),
+            
+            buttons :
+            {
+                close :
+                {
+                    label     : 'Close',
+                    className : 'btn btn-form font-weight-bold m-0 mr-3 mb-3',
+                    callback  : callback_true,
+                },
+            }
+        }
+    );
+  //.find( '.modal-content' ).
+    
+    return true;
 }
 
 function _util_popup_null ( undefined, callback = _util_default_callback )
