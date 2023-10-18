@@ -50,6 +50,14 @@ table.dataTable tbody tr:hover td
     background-color : var(--color-table-hov);
 }
 
+@media ( hover : none )
+{
+    table.dataTable tbody tr:hover td
+    {
+        background-color : transparent;
+    }
+}
+
 .dataTables_wrapper
 {
 
