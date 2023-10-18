@@ -2,6 +2,16 @@
 
 /* ////////////////////////////////////////////////// */
 
+$( document ).on
+(
+    'hidden.bs.modal',
+    '.bootbox.modal',
+    function ( event )
+    {
+        if ( $( '.modal' ).hasClass( 'show' ) ) $( 'body' ).addClass( 'modal-open' );
+    }
+);
+
 $( document ).ready
 (
     function ( )

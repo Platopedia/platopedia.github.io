@@ -2,6 +2,16 @@
 
 /* ////////////////////////////////////////////////// */
 
+$( document ).on
+(
+    'hidden.bs.modal',
+    '.bootbox.modal',
+    function ( event )
+    {
+        if ( $( '.modal' ).hasClass( 'show' ) ) $( 'body' ).addClass( 'modal-open' );
+    }
+);
+
 $( document ).ready
 (
     function ( )
@@ -230,7 +240,7 @@ function Tool_Items ( deferred )
             _util_copy
             (
                 url,
-                function (       ) { _util_popup_notice( 'Link copied'  ) },
+                function (       ) { _util_popup_notice( 'Link copied.' ) },
                 function ( error ) { _util_popup_input ( undefined, url ) }
             );
             return false;
