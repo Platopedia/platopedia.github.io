@@ -685,6 +685,38 @@ audio::-webkit-media-controls-toggle-closed-captions-button
 }
 */
 
+/*
+body.modal-open
+{
+    overflow : inherit;
+}
+*/
+
+.bootbox-modal-backdrop
+{
+    z-index : 1060 !important;
+}
+
+.bootbox.modal
+{
+    z-index : 1070 !important;
+}
+
+.bootbox.modal .modal-dialog
+{
+  /*margin : 0 auto !important;*/
+}
+
+.bootbox.modal .modal-header
+{
+    display : none;
+}
+
+.bootbox.modal .modal-content
+{
+    
+}
+
 .fa-thumbtack
 {
     position : relative;
