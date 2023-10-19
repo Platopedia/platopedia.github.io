@@ -8,6 +8,8 @@ heading: <span class="badge badge-type">Design</span>&nbsp;Nintendo
 
 **Designer:** versadce
 
+**This is just a concept.**
+
 Designed by @versadce. Includes: Chat Upgrade, Badge.
 
 <div class="linebreak"></div>
