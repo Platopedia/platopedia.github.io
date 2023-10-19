@@ -8,6 +8,8 @@ heading: <span class="badge badge-type">Profile</span>&nbsp;Preview Profile Pict
 
 **Author:** abc
 
+**This is just a concept.**
+
 Currently, players can change their profile picture a limited number of times a day. For players that want to try different pictures, or crop their picture just right, this limitation is frustrating. It would be ideal if players could locally preview their profile picture over their profile an unlimited number of times before applying the change.
 
 <div class="linebreak"></div>
