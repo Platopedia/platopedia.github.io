@@ -8,7 +8,13 @@ heading: <span class="badge badge-type">Item</span>&nbsp;Item Links
 
 **Author:** Fear
 
-Players can request to join verified groups from the Public Feed. Group owners would have the option to either accept or decline the request, or they could disable the requests entirely from group settings.
+An option to share item links with your friends on Plato or any platform that supports links. Here's how it could work:
+
+• After opening an item from the shop or your collection, press the link button to grab the link, which you can then share with your friends.
+
+• When your friend opens the link, they will see a preview of the item and an option to purchase or gift to a friend.
+
+This concept would be useful, especially for gifting friends, item trading or giveaways.
 
 <div class="linebreak"></div>
 
