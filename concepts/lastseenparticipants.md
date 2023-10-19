@@ -8,6 +8,8 @@ heading: <span class="badge badge-type">Group</span>&nbsp;Last Seen Participants
 
 **Author:** Fear
 
+**This is just a concept.**
+
 The feature displays the last seen time and date of group participants. This could help group owners identify and remove inactive members, contributing to a more active group.
 
 <div class="linebreak"></div>
