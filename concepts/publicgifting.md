@@ -8,6 +8,8 @@ heading: <span class="badge badge-type">Item</span>&nbsp;Public Gifting
 
 **Author:** Fear
 
+**This is just a concept.**
+
 We currently don't have the option of gifting items to players in public rooms or groups. It's a feature that would make those spaces even more interactive and fun. 
 
 In this concept, we are able to select and gift anyone from the list of online participants. Public gifts are announced in the chat for all to see, but we need to ensure that the gift messages are not too intrusive.
