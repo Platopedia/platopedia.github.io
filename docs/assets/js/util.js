@@ -244,7 +244,7 @@ function _util_download ( url, name = '' )
     var link = document.createElement( 'a' );
     link.download = name;
     link.href = url;
-    link.target = '_blank';
+  //link.target = '';
     document.body.appendChild( link );
     link.click( );
     document.body.removeChild( link );
