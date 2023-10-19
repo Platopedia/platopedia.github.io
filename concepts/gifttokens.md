@@ -8,6 +8,8 @@ heading: <span class="badge badge-type">Item</span>&nbsp;Gift Tokens
 
 **Author:** Fear
 
+**This is just a concept.**
+
 Gift tokens can be purchased or gifted from the shop. Each costing only 250 coins, it's not just an item, but a token that you and your friends can collect and later use to claim exclusive packs.
 
 - New exclusive packs containing *very rare* items are added to the shop every month.
