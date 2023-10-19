@@ -47,15 +47,12 @@ var console =
     {
         var that = new Object( null );
         
-        that.cust = function ( text )
-        {
-            document.getElementById( 'console-textarea' ).value += text + "\n";
-        };
+        var callback = function ( text ) { document.getElementById( 'console-textarea' ).value += text + "\n" };
         
-        that.log   = function ( text ) { consoleb.log  ( text ); that.cust( text ) };
-        that.info  = function ( text ) { consoleb.info ( text ); that.cust( text ) };
-        that.warn  = function ( text ) { consoleb.warn ( text ); that.cust( text ) };
-        that.error = function ( text ) { consoleb.error( text ); that.cust( text ) };
+        that.log   = function ( text ) { consoleb.log  ( text ); callback( text ) };
+        that.info  = function ( text ) { consoleb.info ( text ); callback( text ) };
+        that.warn  = function ( text ) { consoleb.warn ( text ); callback( text ) };
+        that.error = function ( text ) { consoleb.error( text ); callback( text ) };
         
         return that;
     }
