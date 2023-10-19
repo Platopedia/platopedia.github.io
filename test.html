@@ -6,12 +6,13 @@ description: Test
 ---
 
 <style>
+textarea,
 iframe
 {
     display : block;
     width   : 100%;
     height  : 200px;
-    border  : none;
+    border  : 1px solid #000000;
 }
 </style>
 
@@ -20,23 +21,53 @@ iframe
 <div class="content-contents text-left" data-open="true" data-icon="&#xf068;,&#xf067;"><embed/></div>
 
 <div class="linebreak"></div>
-
-<h2 id="intent">intent</h2>
-
-<a href="https://plato.app/2uqx9clho7ysg" target="intent-iframe">https://plato.app/2uqx9clho7ysg</a>
-
-<iframe src="https://platopedia.com/test" name="intent-iframe"></iframe>
+<h2 id="console">console</h2>
+<textarea id="console-textarea" autocomplete="off"></textarea>
 
 <div class="linebreak"></div>
+<h2 id="intent">intent</h2>
+<a href="https://plato.app/2uqx9clho7ysg" target="intent-iframe">https://plato.app/2uqx9clho7ysg</a>
+<br />
+<iframe id="intent-iframe" src="https://platopedia.com/test" name="intent-iframe"></iframe>
 
+<div class="linebreak"></div>
 <h2 id="upload">upload</h2>
-
 <input type="file" />
 
 <div class="linebreak"></div>
-
 <h2 id="download">download</h2>
-
 <a href="data:application/octet-stream;base64,iVBORw0KGgoAAAANSUhEUgAAAE4AAABOCAYAAACOqiAdAAAFGUlEQVR4Xu2cTWwbRRTH39s0oRLlgLjwcYATX1KQwDZq7CjeSAQhEQlOfBxyay8UcQPRHEBwCAhOIHpqbxwonEByRUUOXUdxirADEpGg9AIc+DhQcUgrtUm8jze7tpvYa3t2du3dLW8ly9J6581/f57dmXnz5iEkdNi2ffjadZgFCx8EcB8i5G+C+wjgDuQPAPFHHbjN57b53DYg/IFElwGsX8Cly7cfhnXHca4ncQusZ3xHoWDf7U7BIhIscq3qMxGx9iaXrxBCxdqBSr3u/B3RnnbxkYN74ujcI9YELnJrYlA4p63M6EJa41ZZcZtU+f7btZ+NTGgWGhm4/KxtgwvLrGNBU0vcl62CBSsNfpjjNuy9QOI2mpuZm0a0FLCX4rZtaO8skbuyeXFty7B8YLHYwD1eWrh3AnaX+ZE8EafA2GwhnGrC5MoPtdU/47AZC7jcTPkdRFSt7FAcokZoY4+IuPVV345aRyRw07Ozd97mHvqURTwbVciYy5+7Ye0tba2v/2tarzG4J0t23iVQ0B42rTzhcpcshKXvak7DRIcRuEJp/gV+4TI0nDKpND1laIc7sqV67cIXYTWFBpebsd9EhPfCVpTm6xFpuV6rhrqnUOAKRfs0T3+OpRmCqTYGcaa+4RzXLa8NrlAqnyTCFV3DWbyOCE5uXnTe19GuBc5/p9HnOgazfg0Pq17UeecNBef3nlTLfkeg+5fSjoVYGtbbDgTXGqdtZHjIoUur+7pLPM4rDhrnDQSXL9qVDA5uTWF1lzvX2HCU6yvw6AuuNY16Ky4VWbTD7/V3+03PAsF5E3ba/Z1vNu1zz1H/H3tNnLw/yDEQCC5fsj9JrZdj1Ki67bNXpVFzXu093XWm5U/7cdz60lwfTy8f6/bn9bQ47hA+45tIixMyLTzPckfx8n4xB8C13N0X0qI2VTosmN/vhj8Irmh/w2KTWiNIFacAMavc6p5un++A81ajLOuntKtPUp/ruo+2V8864PKl8utA+EGSwlJfN9IbjVr1Q6XzJrhiuTr6dc/UoxkikNYaG9VyB5xaYadJ+CvrtzUO/bgL96iIAa/F5Ur2MQ5LOD2OirNeB4dbHN+sOWc8cDx2+5K/nsv6TY1J/1fcuz6PKmro6g5c5UqjBsCMSXfi1TSPTMERLBy1nyILVhOXkyEB6MICForzrxDQqQzpTlwqAp5gcOWPCPC1xNVkSAACfYzsQvqaXUjPZEh38lIRziP3qMqFNJ28mkwp2MJc0f6VxyQPZEp2wmJ5Uf431eL+YR13Jawla9VfYXDlG/+fNdO4/h8O1hFwJjA9cPKoGqC7Ip2DAbV25yDDkfDwtmQAHB6acv+elymXAThvyiWT/PDk/Em+uJVCk/PcSuLIDM3Nd2SqYuI6DwXPd52rIrJYow/uwGKNLA/qgzuwPOg/rrIgPRxf14K0B05CIIZzCwqBkKCb4dwCg25avauEefXnFxzm5YHz99FLYGEQvEGBha1WJ6GsveAGh7J6Yzo/GYEET++DpxU87fewEq7f4aYbrq8KyAaRDrZwG0T8R9bL7CBbkvpkjJBNcP2HH2ab4JQ92XbZP72GbPTtaXExbPRt25St5b3P89AW1y5yK6bN6MYRJo2GNjhViaTPuIk6FDgP3i2YRiNM2ow2utDgfHiSIsgInIInSan6DwCH/iJp0IYiGnyBJN6LAFBSPUaA5zsHJLloJISSzjYSPgBJoBwRoDf+k5Td0SlmPUn8fyA/M/VnWApxAAAAAElFTkSuQmCC" download="test.png">Download</a>
 
 <div class="linebreak"></div>
+
+<script>
+var console =
+(
+    function ( consoleb )
+    {
+        var that = new Object( null );
+        
+        that.cust = function ( text )
+        {
+            document.getElementById( 'console-textarea' ).value += text + "\n";
+        };
+        
+        that.log   = function ( text ) { consoleb.log  ( text ); that.cust( text ) };
+        that.info  = function ( text ) { consoleb.info ( text ); that.cust( text ) };
+        that.warn  = function ( text ) { consoleb.warn ( text ); that.cust( text ) };
+        that.error = function ( text ) { consoleb.error( text ); that.cust( text ) };
+        
+        return that;
+    }
+    (
+        window.console
+    )
+);
+
+window.console = console;
+
+console.log  ( 'test log'   );
+console.info ( 'test info'  );
+console.warn ( 'test warn'  );
+console.error( 'test error' );
+</script>
