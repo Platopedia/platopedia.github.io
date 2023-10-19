@@ -8,6 +8,8 @@ heading: <span class="badge badge-type">Item</span>&nbsp;Item Link
 
 **Author:** Fear
 
+**This is just a concept.**
+
 An option to share item links with your friends on Plato or any platform that supports links. Here's how it could work:
 
 • After opening an item from the shop or your collection, press the link button to grab the link, which you can then share with your friends.
