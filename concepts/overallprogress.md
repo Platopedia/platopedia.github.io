@@ -8,6 +8,8 @@ heading: <span class="badge badge-type">Profile</span>&nbsp;Overall Progress
 
 **Author:** Fear
 
+**This is just a concept.**
+
 This concept combines a player's experience points (XP) across all games into a single score, giving them a comprehensive view of their overall progress. The XP gained from winning games adds to their overall progress, which they can use to advance to new levels and unlock special ranks or badges.
 
 <div class="linebreak"></div>
