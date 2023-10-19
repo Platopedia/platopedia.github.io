@@ -28,7 +28,7 @@ iframe
 <h2 id="intent">intent</h2>
 <a href="https://plato.app/2uqx9clho7ysg" target="intent-iframe">https://plato.app/2uqx9clho7ysg</a>
 <br />
-<iframe id="intent-iframe" src="https://platopedia.com/test" name="intent-iframe"></iframe>
+<iframe id="intent-iframe" src="https://platopedia.com/404" name="intent-iframe"></iframe>
 
 <div class="linebreak"></div>
 <h2 id="upload">upload</h2>
@@ -53,6 +53,7 @@ var console =
         that.info  = function ( text ) { consoleb.info ( text ); callback( text ) };
         that.warn  = function ( text ) { consoleb.warn ( text ); callback( text ) };
         that.error = function ( text ) { consoleb.error( text ); callback( text ) };
+        that.trace = function ( text ) { consoleb.trace( text ); callback( text ) };
         
         return that;
     }
@@ -63,8 +64,13 @@ var console =
 
 window.console = console;
 
-console.log  ( 'test log'   );
-console.info ( 'test info'  );
-console.warn ( 'test warn'  );
-console.error( 'test error' );
+window.console.log  ( 'test log'   );
+window.console.info ( 'test info'  );
+window.console.warn ( 'test warn'  );
+window.console.error( 'test error' );
+window.console.trace( 'test trace' );
+
+_util_dump ( 'util dump'  );
+_util_warn ( 'util warn'  );
+_util_error( 'util error' );
 </script>
