@@ -8,6 +8,8 @@ heading: <span class="badge badge-type">Group</span>&nbsp;Direct Remove Members
 
 **Author:** Fear
 
+**This is just a concept.**
+
 When there are too many participants in a private group, it can be tedious to find a specific player from the list. An option to directly remove players from within the chat would be extremely useful.
 
 <div class="linebreak"></div>
