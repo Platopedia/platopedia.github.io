@@ -365,8 +365,14 @@ function Tool_Profilebuilder ( deferred )
             'element'  : $( '#tool_profilebuilder_form_default_field_picture_button_upload' ),
             'callback' :
             {
+                /*
                 'click' : function ( event )
                 {
+                    var cb_notice = function ( ) { _util_popup_notice( 'Pictures cannot currently be loaded within Plato News. In the meantime, please visit <b>platopedia.com/profilebuilder</b> in your preferred web browser.' ) };
+                    
+                    console.warnb = console.warn;
+                    console.warn  = cb_notice;
+                    
                     var error = _util_call_noexcep
                     (
                         function ( )
@@ -378,7 +384,14 @@ function Tool_Profilebuilder ( deferred )
                         }
                     );
                     
-                    if ( error ) _util_popup_notice( 'Pictures cannot currently be loaded within Plato News. In the meantime, please visit <b>platopedia.com/profilebuilder</b> in your preferred web browser.' );
+                    if ( error ) cb_notice( );
+                    
+                    console.warn = console.warnb;
+                },
+                */
+                'click' : function ( event )
+                {
+                    form_default_field_picture_input_default.eventexecute( 'click' );
                 },
             },
         }
@@ -390,6 +403,7 @@ function Tool_Profilebuilder ( deferred )
             'element'  : $( '#tool_profilebuilder_form_default_field_picture_button_download' ),
             'callback' :
             {
+                /*
                 'click' : function ( event )
                 {
                     var cb_notice = function ( ) { _util_popup_notice( 'Pictures cannot currently be downloaded within Plato News. In the meantime, please visit <b>platopedia.com/profilebuilder</b> in your preferred web browser.' ) };
@@ -415,6 +429,15 @@ function Tool_Profilebuilder ( deferred )
                     if ( error ) cb_notice( );
                     
                     console.warn = console.warnb;
+                },
+                */
+                'click' : function ( event )
+                {
+                    var picture_element = cropper_default.canvascirc( 1000, 1000 );
+                    if ( ! picture_element ) return;
+                    var picture_url = picture_element.toDataURL( 'image/png' );
+                    var picture_name = 'profilebuilder_' + Date.now( ) + '.png';
+                    _util_download( picture_url, picture_name );
                 },
             },
         }
