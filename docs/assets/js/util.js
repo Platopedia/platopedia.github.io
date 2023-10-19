@@ -229,12 +229,25 @@ function _util_upload ( file, callback_errored = _util_default_callback, callbac
     return true;
 }
 
-function _util_download ( url, name = '' )
+function _util_dprc_download ( url, name = '' )
 {
     url = url.replace( /^data\:[A-Z]+\/[A-Z]+\;/i, 'data:application/octet-stream;' );
     var link = document.createElement( 'a' );
     link.addEventListener( 'click', function ( ) { link.href = url; link.download = name }, false );
     link.click( );
+    return true;
+}
+
+function _util_download ( url, name = '' )
+{
+    url = url.replace( /^data\:[A-Z]+\/[A-Z]+\;/i, 'data:application/octet-stream;' );
+    var link = document.createElement( 'a' );
+    link.download = name;
+    link.href = url;
+    document.body.appendChild( link );
+    link.click( );
+    document.body.removeChild( link );
+    delete link;
     return true;
 }
 
