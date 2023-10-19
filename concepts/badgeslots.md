@@ -7,7 +7,8 @@ heading: <span class="badge badge-type">Profile</span>&nbsp;Badge Slots
 <div class="linebreak"></div>
 
 **Author:** abc
-**This is just a concept**
+
+**This is just a concept.**
 
 Currently, there are up to 7 slots available next to a player's username for badges, 5 for gold stars, 1 for a chat badge, and 1 for a standard badge.
 
