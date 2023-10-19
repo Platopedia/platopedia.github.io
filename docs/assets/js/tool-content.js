@@ -253,6 +253,9 @@ function Tool_Content ( deferred )
                     
                     container.find( '.dataTables_filter' ).prepend( menu );
                     
+                    container.wrap( '<form autocomplete="off"></form>' );
+                    container.find( 'input, select' ).attr( 'autocomplete', 'off' );
+                    
                   //datatable.columns(       ).visible( false );
                   //datatable.columns( [ 0 ] ).visible( true  );
                     
@@ -315,6 +318,9 @@ function Tool_Content ( deferred )
                     );
                     
                     container.find( '.dataTables_filter' ).prepend( menu );
+                    
+                    container.wrap( '<form autocomplete="off"></form>' );
+                    container.find( 'input, select' ).attr( 'autocomplete', 'off' );
                     
                     datatable.columns(       ).visible( false );
                     datatable.columns( [ 0 ] ).visible( true  );
