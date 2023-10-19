@@ -6,7 +6,7 @@ heading: <span class="badge badge-type">Profile</span>&nbsp;Badge Slots
 
 <div class="linebreak"></div>
 
-<div class="text-center">This is just a concept.</div>
+**<div class="text-center">This is just a concept.</div>**
 
 **Author:** abc
 
