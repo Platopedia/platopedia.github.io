@@ -8,6 +8,8 @@ heading: <span class="badge badge-type">Item</span>&nbsp;Premium Packs
 
 **Author:** Fear
 
+**This is just a concept.**
+
 Premium packs contain *very rare* items and can only be obtained through in-app purchases.
 
 - Items inside a premium pack cannot be gifted or purchased with coins.
