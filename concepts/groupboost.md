@@ -8,6 +8,8 @@ heading: <span class="badge badge-type">Group</span>&nbsp;Group Boost
 
 **Author:** Fear
 
+**This is just a concept.**
+
 A premium feature for group owners who want to take their groups to the next level and establish a strong presence on the platform. In this concept, group owners have the option to "boost" their groups to unlock limited-time perks, such as a verification badge. Additionally, they gain access to a public feed where boosted or verified groups can share announcements. The boost expires after 7 days and can be reactivated for a set amount of coins.
 
 <div class="linebreak"></div>
