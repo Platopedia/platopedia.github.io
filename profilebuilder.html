@@ -30,6 +30,10 @@ var items = null;
             <div class="modal-body">
                 <div>
                     <form id="tool_profilebuilder_form_default" autocomplete="off">
+                        <div class="alert alert-warning alert-dismissible fade show p-0" role="alert">
+                            <small class="form-text m-0 pt-0 pb-0" style="padding-left:15px;padding-right:30px">Picture load or download might not work within Plato News. For now, please visit <b>platopedia.com</b> in your preferred web browser.</small>
+                            <button class="close p-0" type="button" data-dismiss="alert" style="margin-right:4px;font-size:21pt">&times;</button>
+                        </div>
                         <div id="tool_profilebuilder_form_default_field_picture" class="form-group row">
                             <label class="col-sm-2 col-form-label">Picture:</label>
                             <div class="col-sm-10">
@@ -52,8 +56,8 @@ var items = null;
                                 <div id="tool_profilebuilder_form_default_field_picture_media_preview" class="mt-3" oncontextmenu="return false;">
                                     <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="></img>
                                 </div>
-                                <small class="form-text x-text-muted">
-                                    <b>Note:</b> Your picture is never uploaded to Platopedia, your web browser locally reads it via the <a href="https://developer.mozilla.org/en-US/docs/Web/API/FileReader" target="_blank">FileReader API</a>.
+                                <small class="form-text">
+                                    <b>Note:</b> Your picture is never uploaded to Platopedia, your web browser locally reads it via the <a href="https://developer.mozilla.org/en-US/docs/Web/API/FileReader">FileReader API</a>.
                                 </small>
                             </div>
                         </div>
