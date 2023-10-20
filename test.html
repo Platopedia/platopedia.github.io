@@ -25,6 +25,10 @@ iframe
 <textarea id="console-textarea" autocomplete="off"></textarea>
 
 <div class="linebreak"></div>
+<h2 id="info">info</h2>
+<textarea id="info-textarea" autocomplete="off"></textarea>
+
+<div class="linebreak"></div>
 <h2 id="intent">intent</h2>
 <a href="https://plato.app/2uqx9clho7ysg" target="intent-iframe">https://plato.app/2uqx9clho7ysg</a>
 <br />
@@ -41,6 +45,7 @@ iframe
 <div class="linebreak"></div>
 
 <script>
+/*
 var console =
 (
     function ( consoleb )
@@ -73,4 +78,14 @@ window.console.trace( 'test trace' );
 _util_dump ( 'util dump'  );
 _util_warn ( 'util warn'  );
 _util_error( 'util error' );
+*/
+
+var info =
+[
+    navigator.userAgent,
+    navigator.language,
+];
+
+var element = document.getElementById( 'info-textarea' );
+info.forEach( function ( item ) { element.value += item + "\n" } );
 </script>
