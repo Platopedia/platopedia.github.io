@@ -220,7 +220,7 @@ function _util_popup_copy ( message, text = '', callback_true = _util_default_ca
         {
             message :
             '\
-                <p class="mb-3">Copy and paste the link below:</p>\
+                <!--<p class="mb-3">...</p>-->\
                 <input class="form-control" type="text" value="' + text + '" />\
             ',
             
