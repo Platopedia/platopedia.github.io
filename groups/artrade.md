@@ -114,7 +114,7 @@ The following website contains the entire list of Plato Items (including images 
 
 <p>
     <a href="https://platopedia.com/items">https://platopedia.com/items</a>
-    <a class="btn btn-sm btn-field btn-copy icon font-weight-normal" href="https://platopedia.github.io/items">&#xf24d;</a>
+    <a class="btn btn-sm btn-field btn-copy icon font-weight-normal" href="https://platopedia.com/items">&#xf24d;</a>
 </p>
 
 <div class="linebreak"></div>
