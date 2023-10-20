@@ -27,7 +27,7 @@ Become a member of Artrade. Join our group by clicking the link below!
     <iframe class="d-none" name="intent" src="data:text/plain;charset=utf-8;base64,aW50ZW50"></iframe>
 </p>
 
-*If the link doesn't work, try copying and pasting it into your preferred web browser.*
+*If the link doesn't work, copy and paste it into Plato chat.*
 
 <div class="linebreak"></div>
 
@@ -113,7 +113,7 @@ Artrade provides insurance for any scam related incidents during a trade. You mu
 The following website contains the entire list of Plato Items (including images & audios).
 
 <p>
-    <a href="https://platopedia.github.io/items">https://platopedia.github.io/items</a>
+    <a href="https://platopedia.com/items">https://platopedia.com/items</a>
     <a class="btn btn-sm btn-field btn-copy icon font-weight-normal" href="https://platopedia.github.io/items">&#xf24d;</a>
 </p>
 
