@@ -27,7 +27,7 @@ Become a member of Artrade. Join our group by clicking the link below!
     <iframe class="d-none" name="intent" src="data:text/plain;charset=utf-8;base64,aW50ZW50"></iframe>
 </p>
 
-*If the link doesn't work, copy and paste it into Plato chat.*
+*If the link doesn't open, copy and paste it into Plato chat.*
 
 <div class="linebreak"></div>
 
