@@ -4,6 +4,24 @@
 
 $( document ).on
 (
+    'click',
+    '.btn-copy',
+    function ( event )
+    {
+        event.preventDefault( );
+        var url = $( this ).attr( 'href' );
+        _util_copy
+        (
+            url,
+            function (       ) { _util_popup_notice( 'Link copied!' ) },
+            function ( error ) { _util_popup_copy  ( undefined, url ) }
+        );
+        return false;
+    }
+);
+
+$( document ).on
+(
     'hidden.bs.modal',
     '.bootbox.modal',
     function ( event )
@@ -229,24 +247,6 @@ function Tool_Items ( deferred )
         }
     );
     
-    $( document ).on
-    (
-        'click',
-        '.button-copy',
-        function ( event )
-        {
-            event.preventDefault( );
-            var url = $( this ).attr( 'href' );
-            _util_copy
-            (
-                url,
-                function (       ) { _util_popup_notice( 'Link copied.' ) },
-                function ( error ) { _util_popup_input ( undefined, url ) }
-            );
-            return false;
-        }
-    );
-    
     //
     
     return that;
@@ -448,7 +448,7 @@ function Tool_Items_popup ( datatable, modal, row )
                     </tr>\
                     <tr>\
                         <td class="text-left align-top font-weight-bold">Link:</td>\
-                        <td class="text-left"><a class="button-copy" href="'+ url + '">Click to copy</a></td>\
+                        <td class="text-left"><a class="btn-copy" href="'+ url + '">Click to copy</a></td>\
                     </tr>\
                 </tbody>\
             </table>\

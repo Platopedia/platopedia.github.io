@@ -96,6 +96,27 @@ function _util_dprc_popup_notice ( message = '', callback = _util_default_callba
     return true;
 }
 
+function _util_dprc_popup_confirm ( message = '', callback_true = _util_default_callback, callback_false = _util_default_callback )
+{
+    var time = new Date( );
+    var bool = confirm( message );
+    var timeb = new Date( );
+    if ( timeb - time < 10 ) bool = true;
+    
+    if   ( bool ) { callback_true ( ) }
+    else          { callback_false( ) }
+    
+    return bool;
+}
+
+function _util_dprc_popup_input ( message, text = '', callback_true = _util_default_callback, callback_false = _util_default_callback )
+{
+    var textb = prompt( message, text );
+    if   ( textb !== null ) { callback_true ( ) }
+    else                    { callback_false( ) }
+    return textb;
+}
+
 function _util_popup_notice ( message = '', callback = _util_default_callback )
 {
     bootbox.dialog
@@ -124,19 +145,6 @@ function _util_popup_notice ( message = '', callback = _util_default_callback )
   //.find( '.modal-content' ).
     
     return true;
-}
-
-function _util_dprc_popup_confirm ( message = '', callback_true = _util_default_callback, callback_false = _util_default_callback )
-{
-    var time = new Date( );
-    var bool = confirm( message );
-    var timeb = new Date( );
-    if ( timeb - time < 10 ) bool = true;
-    
-    if   ( bool ) { callback_true ( ) }
-    else          { callback_false( ) }
-    
-    return bool;
 }
 
 function _util_popup_confirm ( message = '', callback_true = _util_default_callback, callback_false = _util_default_callback )
@@ -175,14 +183,6 @@ function _util_popup_confirm ( message = '', callback_true = _util_default_callb
     return true;
 }
 
-function _util_dprc_popup_input ( message, text = '', callback_true = _util_default_callback, callback_false = _util_default_callback )
-{
-    var textb = prompt( message, text );
-    if   ( textb !== null ) { callback_true ( ) }
-    else                    { callback_false( ) }
-    return textb;
-}
-
 function _util_popup_input ( message, text = '', callback_true = _util_default_callback, callback_false = _util_default_callback )
 {
     bootbox.dialog
@@ -190,6 +190,41 @@ function _util_popup_input ( message, text = '', callback_true = _util_default_c
         {
             title          : '',
             message        : '<input class="form-control" type="text" value="' + text + '" />',
+            backdrop       : false,
+            centerVertical : true,
+            onEscape       : true,
+            
+            onShow : event => $( 'body' ).append( '<div class="modal-backdrop bootbox-modal-backdrop fade show"></div>' ),
+            onHide : event => $( '.modal-backdrop.bootbox-modal-backdrop' ).remove( ),
+            
+            buttons :
+            {
+                close :
+                {
+                    label     : 'Close',
+                    className : 'btn btn-form font-weight-bold m-0 mr-3 mb-3',
+                    callback  : callback_true,
+                },
+            }
+        }
+    );
+  //.find( '.modal-content' ).
+    
+    return true;
+}
+
+function _util_popup_copy ( message, text = '', callback_true = _util_default_callback, callback_false = _util_default_callback )
+{
+    bootbox.dialog
+    (
+        {
+            message :
+            '\
+                <p class="mb-3">Copy and paste the URL below:</p>\
+                <input class="form-control" type="text" value="' + text + '" />\
+            ',
+            
+            title          : '',
             backdrop       : false,
             centerVertical : true,
             onEscape       : true,
