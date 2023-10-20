@@ -25,7 +25,9 @@ Become a member of Artrade. Join our group by clicking the link below!
     <a href="https://plato.app/2uqx9clho7ysg" target="intent">https://plato.app/2uqx9clho7ysg</a>
     <a class="btn btn-sm btn-field btn-copy icon font-weight-normal" href="https://plato.app/2uqx9clho7ysg">&#xf24d;</a>
     <iframe class="d-none" name="intent" src="data:text/plain;charset=utf-8;base64,aW50ZW50"></iframe>
-    <br />
+</p>
+
+<p>
     *** If the link doesn't open, copy then post it into Plato chat.
 </p>
 
