@@ -80,12 +80,12 @@ _util_warn ( 'util warn'  );
 _util_error( 'util error' );
 */
 
-var info =
+var items =
 [
     navigator.userAgent,
     navigator.language,
 ];
 
 var element = document.getElementById( 'info-textarea' );
-info.forEach( function ( item ) { element.value += item + "\n" } );
+items.forEach( function ( item ) { element.value += item + "\n" } );
 </script>
