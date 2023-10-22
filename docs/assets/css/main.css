@@ -8,6 +8,13 @@
 }
 */
 
+::selection,
+::-moz-selection
+{
+    color      : var(--color-high-text);
+    background : var(--color-high-back);
+}
+
 html
 {
     margin  : 0;
@@ -604,6 +611,13 @@ audio::-webkit-media-controls-toggle-closed-captions-button
     background-color : var(--color-D);
 }
 
+.modal-open,
+.modal
+{
+    padding-left  : 0 !important;
+    padding-right : 0 !important;
+}
+
 .modal .modal-content
 {
     background-color : var(--color-D);
@@ -613,8 +627,8 @@ audio::-webkit-media-controls-toggle-closed-captions-button
 .modal .modal-header,
 .modal .modal-footer
 {
-    padding        : 0;
-    border         : none;
+    padding : 0;
+    border  : none;
 }
 
 .modal .modal-title
@@ -685,13 +699,6 @@ audio::-webkit-media-controls-toggle-closed-captions-button
 }
 */
 
-/*
-body.modal-open
-{
-    overflow : inherit;
-}
-*/
-
 .bootbox-modal-backdrop
 {
     z-index : 1060 !important;
@@ -699,22 +706,19 @@ body.modal-open
 
 .bootbox.modal
 {
-    z-index : 1070 !important;
+    overflow : hidden;
+    z-index  : 1070 !important;
 }
 
-.bootbox.modal .modal-dialog
+.bootbox.modal .modal-content
 {
-  /*margin : 0 auto !important;*/
+    margin-left  : 15px !important;
+    margin-right : 15px !important;
 }
 
 .bootbox.modal .modal-header
 {
     display : none;
-}
-
-.bootbox.modal .modal-content
-{
-    
 }
 
 .fa-thumbtack

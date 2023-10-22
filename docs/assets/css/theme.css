@@ -23,6 +23,9 @@ body[data-theme="light"]
     --color-text                : #343A40;
     --color-link                : #007BFF;
     
+    --color-high-back           : var(--color-A);
+    --color-high-text           : var(--color-D);
+    
     --color-nav-back-A          : var(--color-C);
     --color-nav-text-A          : var(--color-A);
     --color-nav-back-B          : var(--color-A);
@@ -80,6 +83,9 @@ body[data-theme="dark"]
     
     --color-text                : #CBC5BF; /*#A89E94*/
     --color-link                : #0056B3;
+    
+    --color-high-back           : var(--color-text);
+    --color-high-text           : var(--color-A);
     
     --color-nav-back-A          : var(--color-C);
     --color-nav-text-A          : var(--color-text);
