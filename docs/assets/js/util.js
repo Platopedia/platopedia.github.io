@@ -269,11 +269,11 @@ function _util_popup_copy ( text = '', callback_true = _util_default_callback, c
         {
             var input = $( this ).find( 'input' );
             
-          //input.on( 'focus',       function ( ) { _util_call_noexcep( ( ) => input.select( ) ) } );
-          //input.on( 'click xblur', function ( ) { window.setTimeout( function ( ) { input.trigger( 'focus' ) }, 0 ) } );
-          //input.trigger( 'focus' );
+          //input.on( 'click', function ( ) { _util_call_noexcep( ( ) => input.select( ) ) } );
             
-            input.on( 'click', function ( ) { _util_call_noexcep( ( ) => input.select( ) ) } );
+            input.on( 'focus',       function ( ) { _util_call_noexcep( ( ) => input.select( ) ) } );
+            input.on( 'click xblur', function ( ) { window.setTimeout( function ( ) { input.trigger( 'focus' ) }, 0 ) } );
+            input.trigger( 'focus' );
         }
     );
     
