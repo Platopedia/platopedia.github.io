@@ -8,8 +8,19 @@
 }
 */
 
-::selection,
+::selection
+{
+    color      : var(--color-high-text);
+    background : var(--color-high-back);
+}
+
 ::-moz-selection
+{
+    color      : var(--color-high-text);
+    background : var(--color-high-back);
+}
+
+::-webkit-selection
 {
     color      : var(--color-high-text);
     background : var(--color-high-back);
