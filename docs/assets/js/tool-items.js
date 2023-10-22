@@ -2,34 +2,6 @@
 
 /* ////////////////////////////////////////////////// */
 
-$( document ).on
-(
-    'click',
-    '.btn-copy',
-    function ( event )
-    {
-        event.preventDefault( );
-        var url = $( this ).attr( 'href' );
-        _util_copy
-        (
-            url,
-            function (       ) { _util_popup_notice( 'Link copied!' ) },
-            function ( error ) { _util_popup_copy  ( undefined, url ) }
-        );
-        return false;
-    }
-);
-
-$( document ).on
-(
-    'hidden.bs.modal',
-    '.bootbox.modal',
-    function ( event )
-    {
-        if ( $( '.modal' ).hasClass( 'show' ) ) $( 'body' ).addClass( 'modal-open' );
-    }
-);
-
 $( document ).ready
 (
     function ( )
@@ -128,48 +100,6 @@ function Tool_Items ( deferred )
     // modal
     
     var modal_default = $( '#popup-item' );
-    
-    var hash = window.location.hash.slice( 1 );
-    if ( hash && hash != 'popup-item' ) _util_call_noexcep( function ( ) { $( '#' + hash ).modal( 'show' ) } );
-    
-    $( document ).one
-    (
-        'click',
-        function ( )
-        {
-            $( '.modal' ).each
-            (
-                function ( )
-                {
-                    var modal = $( this );
-                    var id    = modal.attr( 'id' );
-                    var hash  = '#' + id;
-                    
-                    var cb_back = function ( ) { modal.modal( 'hide' ) };
-                    
-                    modal.on
-                    (
-                        'shown.bs.modal',
-                        function ( )
-                        {
-                            window.history.pushState( hash, id, window.location.pathname + window.location.search + hash );
-                            window.addEventListener( 'popstate', cb_back, false );
-                        }
-                    );
-                    
-                    modal.on
-                    (
-                        'hidden.bs.modal',
-                        function ( )
-                        {
-                            if ( window.history.state === hash ) window.history.go( -1 );
-                            window.removeEventListener( 'popstate', cb_back );
-                        }
-                    );
-                }
-            );
-        }
-    );
     
     // datatable
     

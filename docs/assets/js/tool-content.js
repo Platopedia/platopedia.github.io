@@ -2,24 +2,6 @@
 
 /* ////////////////////////////////////////////////// */
 
-$( document ).on
-(
-    'click',
-    '.btn-copy',
-    function ( event )
-    {
-        event.preventDefault( );
-        var url = $( this ).attr( 'href' );
-        _util_copy
-        (
-            url,
-            function (       ) { _util_popup_notice( 'Link copied!' ) },
-            function ( error ) { _util_popup_copy  ( undefined, url ) }
-        );
-        return false;
-    }
-);
-
 $( document ).ready
 (
     function ( )

@@ -36,6 +36,250 @@ $.fn.sortnumber = function ( )
 
 /* ////////////////////////////////////////////////// */
 
+$( document ).on
+(
+    'click',
+    '.btn-copy',
+    function ( event )
+    {
+        event.preventDefault( );
+        var url = $( this ).attr( 'href' );
+        _util_copy
+        (
+            url,
+            function ( ) { _util_popup_notice( 'Link copied!' ) },
+            function ( ) { _util_popup_copy  ( url )            }
+        );
+        return false;
+    }
+);
+
+$( document ).on
+(
+    'click', // mousedown
+    '.bootbox.modal',
+    function ( event )
+    {
+        if ( event.target === event.currentTarget ) $( this ).modal( 'hide' );
+    }
+);
+
+$( document ).on
+(
+    'show.bs.modal',
+    '.bootbox.modal',
+    function ( )
+    {
+        var modal = $( '.modal:not(.bootbox)' );
+        if ( modal.hasClass( 'show' ) && modal.get( 0 ).scrollHeight > modal.get( 0 ).clientHeight ) modal.css( 'overflow-y', 'hidden' );
+    }
+);
+
+/*
+$( document ).on
+(
+    'shown.bs.modal',
+    '.bootbox.modal',
+    function ( )
+    {
+        // x
+    }
+);
+*/
+
+$( document ).on
+(
+    'hide.bs.modal',
+    '.bootbox.modal',
+    function ( )
+    {
+        var modal = $( '.modal:not(.bootbox)' );
+        if ( modal.hasClass( 'show' ) && modal.get( 0 ).scrollHeight > modal.get( 0 ).clientHeight ) modal.css( 'overflow-y', 'auto' );
+    }
+);
+
+$( document ).on
+(
+    'hidden.bs.modal',
+    '.bootbox.modal',
+    function ( )
+    {
+        var modal = $( '.modal:not(.bootbox)' );
+        // todo: body padding-right
+        if ( modal.hasClass( 'show' ) ) $( 'body' ).addClass( 'modal-open' );
+    }
+);
+
+$( document ).ready
+(
+    function ( )
+    {
+        var hash = window.location.hash.slice( 1 );
+        if ( hash && hash != 'popup-item' ) _util_call_noexcep( ( ) => $( '#' + hash ).modal( 'show' ) );
+        
+        $( document ).one
+        (
+            'click', // mousedown
+            function ( )
+            {
+                $( '.modal' ).each
+                (
+                    function ( )
+                    {
+                        var modal = $( this );
+                        var id    = modal.attr( 'id' );
+                        var hash  = '#' + id;
+                        
+                        var cb_back = function ( ) { modal.modal( 'hide' ) };
+                        
+                        modal.on
+                        (
+                            'shown.bs.modal',
+                            function ( )
+                            {
+                                window.history.pushState( hash, id, window.location.pathname + window.location.search + hash );
+                                window.addEventListener( 'popstate', cb_back, false );
+                            }
+                        );
+                        
+                        modal.on
+                        (
+                            'hidden.bs.modal',
+                            function ( )
+                            {
+                                if ( window.history.state === hash ) window.history.go( -1 );
+                                window.removeEventListener( 'popstate', cb_back );
+                            }
+                        );
+                    }
+                );
+            }
+        );
+    }
+);
+
+/* ////////////////////////////////////////////////// */
+
+function _util_popup_notice ( message = '', callback = _util_default_callback )
+{
+    var modal = bootbox.dialog
+    (
+        {
+            title          : '',
+            message        : message,
+            backdrop       : false,
+            centerVertical : true,
+            onEscape       : true,
+            
+            onShow : event => $( 'body' ).append( '<div class="modal-backdrop bootbox-modal-backdrop fade show"></div>' ),
+            onHide : event => $( '.modal-backdrop.bootbox-modal-backdrop' ).remove( ),
+            
+            buttons :
+            {
+                close :
+                {
+                    label     : 'Close',
+                    className : 'btn btn-form font-weight-bold m-0 mr-3 mb-3',
+                    callback  : callback,
+                },
+            }
+        }
+    );
+    
+    return true;
+}
+
+function _util_popup_confirm ( message = '', callback_true = _util_default_callback, callback_false = _util_default_callback )
+{
+    var modal = bootbox.dialog
+    (
+        {
+            title          : '',
+            message        : message,
+            backdrop       : false,
+            centerVertical : true,
+            onEscape       : true,
+            
+            onShow : event => $( 'body' ).append( '<div class="modal-backdrop bootbox-modal-backdrop fade show"></div>' ),
+            onHide : event => $( '.modal-backdrop.bootbox-modal-backdrop' ).remove( ),
+            
+            buttons :
+            {
+                no :
+                {
+                    label     : 'No',
+                    className : 'btn btn-form font-weight-bold m-0 mr-3 mb-3',
+                    callback  : callback_false,
+                },
+                yes :
+                {
+                    label     : 'Yes',
+                    className : 'btn btn-form font-weight-bold m-0 mr-3 mb-3',
+                    callback  : callback_true,
+                }
+            }
+        }
+    );
+    
+    return true;
+}
+
+function _util_popup_copy ( text = '', callback_true = _util_default_callback, callback_false = _util_default_callback )
+{
+    var modal = bootbox.dialog
+    (
+        {
+            title          : '',
+            message        : '<input class="form-control" type="text" value="' + text + '" />',
+            backdrop       : false,
+            centerVertical : true,
+            onEscape       : true,
+            
+            onShow : event => $( 'body' ).append( '<div class="modal-backdrop bootbox-modal-backdrop fade show"></div>' ),
+            onHide : event => $( '.modal-backdrop.bootbox-modal-backdrop' ).remove( ),
+            
+            buttons :
+            {
+                close :
+                {
+                    label     : 'Close',
+                    className : 'btn btn-form font-weight-bold m-0 mr-3 mb-3',
+                    callback  : callback_true,
+                },
+            }
+        }
+    );
+    
+    /*
+    modal.on
+    (
+        'keydown mousedown',
+        function ( event )
+        {
+            event.preventDefault( );
+            return false;
+        }
+    );
+    */
+    
+    modal.on
+    (
+        'shown.bs.modal',
+        function ( )
+        {
+            var input = $( this ).find( 'input' );
+            
+            input.on( 'focus',       function ( ) { _util_call_noexcep( ( ) => input.select( ) ) } );
+            input.on( 'click xblur', function ( ) { window.setTimeout( function ( ) { input.trigger( 'focus' ) }, 0 ) } );
+            input.trigger( 'focus' );
+        }
+    );
+    
+    return true;
+}
+
+/* ////////////////////////////////////////////////// */
+
 function _util_default_callback ( )
 {
     return true;
@@ -115,137 +359,6 @@ function _util_dprc_popup_input ( message, text = '', callback_true = _util_defa
     if   ( textb !== null ) { callback_true ( ) }
     else                    { callback_false( ) }
     return textb;
-}
-
-function _util_popup_notice ( message = '', callback = _util_default_callback )
-{
-    bootbox.dialog
-    (
-        {
-            title          : '',
-            message        : message,
-            backdrop       : false,
-            centerVertical : true,
-            onEscape       : true,
-            
-            onShow : event => $( 'body' ).append( '<div class="modal-backdrop bootbox-modal-backdrop fade show"></div>' ),
-            onHide : event => $( '.modal-backdrop.bootbox-modal-backdrop' ).remove( ),
-            
-            buttons :
-            {
-                close :
-                {
-                    label     : 'Close',
-                    className : 'btn btn-form font-weight-bold m-0 mr-3 mb-3',
-                    callback  : callback,
-                },
-            }
-        }
-    );
-  //.find( '.modal-content' ).
-    
-    return true;
-}
-
-function _util_popup_confirm ( message = '', callback_true = _util_default_callback, callback_false = _util_default_callback )
-{
-    bootbox.dialog
-    (
-        {
-            title          : '',
-            message        : message,
-            backdrop       : false,
-            centerVertical : true,
-            onEscape       : true,
-            
-            onShow : event => $( 'body' ).append( '<div class="modal-backdrop bootbox-modal-backdrop fade show"></div>' ),
-            onHide : event => $( '.modal-backdrop.bootbox-modal-backdrop' ).remove( ),
-            
-            buttons :
-            {
-                no :
-                {
-                    label     : 'No',
-                    className : 'btn btn-form font-weight-bold m-0 mr-3 mb-3',
-                    callback  : callback_false,
-                },
-                yes :
-                {
-                    label     : 'Yes',
-                    className : 'btn btn-form font-weight-bold m-0 mr-3 mb-3',
-                    callback  : callback_true,
-                }
-            }
-        }
-    );
-  //.find( '.modal-content' ).
-    
-    return true;
-}
-
-function _util_popup_input ( message, text = '', callback_true = _util_default_callback, callback_false = _util_default_callback )
-{
-    bootbox.dialog
-    (
-        {
-            title          : '',
-            message        : '<input class="form-control" type="text" value="' + text + '" />',
-            backdrop       : false,
-            centerVertical : true,
-            onEscape       : true,
-            
-            onShow : event => $( 'body' ).append( '<div class="modal-backdrop bootbox-modal-backdrop fade show"></div>' ),
-            onHide : event => $( '.modal-backdrop.bootbox-modal-backdrop' ).remove( ),
-            
-            buttons :
-            {
-                close :
-                {
-                    label     : 'Close',
-                    className : 'btn btn-form font-weight-bold m-0 mr-3 mb-3',
-                    callback  : callback_true,
-                },
-            }
-        }
-    );
-  //.find( '.modal-content' ).
-    
-    return true;
-}
-
-function _util_popup_copy ( message, text = '', callback_true = _util_default_callback, callback_false = _util_default_callback )
-{
-    bootbox.dialog
-    (
-        {
-            message :
-            '\
-                <!--<p class="mb-3">...</p>-->\
-                <input class="form-control" type="text" value="' + text + '" />\
-            ',
-            
-            title          : '',
-            backdrop       : false,
-            centerVertical : true,
-            onEscape       : true,
-            
-            onShow : event => $( 'body' ).append( '<div class="modal-backdrop bootbox-modal-backdrop fade show"></div>' ),
-            onHide : event => $( '.modal-backdrop.bootbox-modal-backdrop' ).remove( ),
-            
-            buttons :
-            {
-                close :
-                {
-                    label     : 'Close',
-                    className : 'btn btn-form font-weight-bold m-0 mr-3 mb-3',
-                    callback  : callback_true,
-                },
-            }
-        }
-    );
-  //.find( '.modal-content' ).
-    
-    return true;
 }
 
 function _util_popup_null ( undefined, callback = _util_default_callback )
