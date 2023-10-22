@@ -230,7 +230,7 @@ function _util_popup_copy ( text = '', callback_true = _util_default_callback, c
     (
         {
             title          : '',
-            message        : '<input class="form-control" type="text" value="' + text + '" />',
+            message        : '<input class="form-control" type="text" value="' + text + '" readonly />',
             backdrop       : false,
             centerVertical : true,
             onEscape       : true,
