@@ -202,12 +202,13 @@ label
 input,
 select
 {
-    font-size        : var(--unit-text-B) !important;
-    color            : var(--color-form-field-text) !important;
-    background-color : var(--color-form-field-back) !important;
-    background-clip  : border-box !important;
-    border           : 1px solid var(--color-form-field-bord) !important;
-    transition       : none !important;
+    -webkit-appearance : none;
+    font-size          : var(--unit-text-B) !important;
+    color              : var(--color-form-field-text) !important;
+    background-color   : var(--color-form-field-back) !important;
+    background-clip    : border-box !important;
+    border             : 1px solid var(--color-form-field-bord) !important;
+    transition         : none !important;
 }
 
 input:focus,
@@ -219,7 +220,6 @@ select:hover
     box-shadow         : 0 0 8px var(--color-form-field-box) !important;
     -webkit-box-shadow : 0 0 8px var(--color-form-field-box) !important;
     -moz-box-shadow    : 0 0 8px var(--color-form-field-box) !important;
-  /*-webkit-appearance : none;*/
 }
 
 input::-webkit-search-cancel-button
