@@ -274,6 +274,7 @@ function _util_popup_copy ( text = '', callback_true = _util_default_callback, c
             input.on( 'focus',       function ( ) { _util_call_noexcep( ( ) => input.select( ) ) } );
             input.on( 'click xblur', function ( ) { window.setTimeout( function ( ) { input.trigger( 'focus' ) }, 0 ) } );
             input.trigger( 'focus' );
+            window.setTimeout( function ( ) { input.trigger( 'click' ) }, 0 );
         }
     );
     
