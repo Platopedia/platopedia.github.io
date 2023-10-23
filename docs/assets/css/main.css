@@ -219,7 +219,7 @@ select:hover
     box-shadow         : 0 0 8px var(--color-form-field-box) !important;
     -webkit-box-shadow : 0 0 8px var(--color-form-field-box) !important;
     -moz-box-shadow    : 0 0 8px var(--color-form-field-box) !important;
-    -webkit-appearance : none;
+  /*-webkit-appearance : none;*/
 }
 
 input::-webkit-search-cancel-button
