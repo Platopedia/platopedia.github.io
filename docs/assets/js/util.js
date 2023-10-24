@@ -130,8 +130,8 @@ $( document ).on
     '.modal.bootbox',
     function ( )
     {
-        $( 'body' ).addClass( 'modal-open' );
         var modal = $( '.modal:not(.bootbox).show' );
+        if ( modal.length ) $( 'body' ).addClass( 'modal-open' );
         modal.trigger( 'focus' );
     }
 );
