@@ -91,14 +91,15 @@ var items =
     'filereader: ' + typeof window.FileReader,
     'filelist: '   + typeof window.FileList,
     'blob: '       + typeof window.Blob,
-    'inputfile: '  + test_inputfile( document.getElementById( 'upload-input' ) ),
+    'upload: '     + test_upload( ),
+    'download: '   + test_download( ),
 ];
 
 var element = document.getElementById( 'info-textarea' );
 items.forEach( function ( item ) { element.value += item + "\n" } );
 
 // https://github.com/Modernizr/Modernizr/blob/master/feature-detects/input/fileinput.js
-function test_inputfile ( element )
+function test_upload ( )
 {
     var ua = navigator.userAgent;
     if (ua.match(/(Android (1.0|1.1|1.5|1.6|2.0|2.1))|(Windows Phone (OS 7|8.0))|(XBLWP)|(ZuneWP)|(w(eb)?OSBrowser)|(webOS)|(Kindle\/(1.0|2.0|2.5|3.0))/) || ua.match(/\swv\).+(chrome)\/([\w\.]+)/i))
@@ -108,5 +109,11 @@ function test_inputfile ( element )
     var elem = document.createElement( 'input' );
     elem.type = 'file';
     return !elem.disabled;
+}
+
+// https://github.com/Modernizr/Modernizr/blob/master/feature-detects/a/download.js
+function test_upload ( )
+{
+    return ! window.externalHost && 'download' in document.createElement( 'a' );
 }
 </script>
