@@ -97,21 +97,16 @@ var items =
 var element = document.getElementById( 'info-textarea' );
 items.forEach( function ( item ) { element.value += item + "\n" } );
 
+// https://github.com/Modernizr/Modernizr/blob/master/feature-detects/input/fileinput.js
 function test_inputfile ( element )
 {
-  //var element = document.createElement( 'input' );
-  //element.type = 'file';
-    
-    if ( element.disabled ) return 'disabled';
-    
-    try
+    var ua = navigator.userAgent;
+    if (ua.match(/(Android (1.0|1.1|1.5|1.6|2.0|2.1))|(Windows Phone (OS 7|8.0))|(XBLWP)|(ZuneWP)|(w(eb)?OSBrowser)|(webOS)|(Kindle\/(1.0|2.0|2.5|3.0))/) || ua.match(/\swv\).+(chrome)\/([\w\.]+)/i))
     {
-        element.value = 'test'; // error if implemented
-        return element.value != 'test';
+        return false;
     }
-    catch ( error )
-    {
-        return element.type == 'file';
-    }
+    var elem = document.createElement( 'input' );
+    elem.type = 'file';
+    return !elem.disabled;
 }
 </script>
