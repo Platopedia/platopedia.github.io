@@ -91,8 +91,27 @@ var items =
     'filereader: ' + typeof window.FileReader,
     'filelist: '   + typeof window.FileList,
     'blob: '       + typeof window.Blob,
+    'inputfile: '  + test_inputfile( document.getElementById( 'upload-input' ) ),
 ];
 
 var element = document.getElementById( 'info-textarea' );
 items.forEach( function ( item ) { element.value += item + "\n" } );
+
+function test_inputfile ( element )
+{
+  //var element = document.createElement( 'input' );
+  //element.type = 'file';
+    
+    if ( element.disabled ) return 'disabled';
+    
+    try
+    {
+        element.value = 'test'; // error if implemented
+        return element.value != 'test';
+    }
+    catch ( error )
+    {
+        return element.type == 'file';
+    }
+}
 </script>
