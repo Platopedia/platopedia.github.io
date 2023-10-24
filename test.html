@@ -11,7 +11,7 @@ iframe
 {
     display : block;
     width   : 100%;
-    height  : 200px;
+    height  : 600px;
     border  : 1px solid #000000;
 }
 </style>
@@ -32,7 +32,7 @@ iframe
 <h2 id="intent">intent</h2>
 <a href="https://plato.app/2uqx9clho7ysg" target="intent-iframe">https://plato.app/2uqx9clho7ysg</a>
 <br />
-<iframe id="intent-iframe" src="https://platopedia.com/404" name="intent-iframe"></iframe>
+<iframe id="intent-iframe" src="https://platopedia.com/404" name="intent-iframe" sandbox="allow-scripts"></iframe>
 
 <div class="linebreak"></div>
 <h2 id="upload">upload</h2>
@@ -82,6 +82,10 @@ _util_warn ( 'util warn'  );
 _util_error( 'util error' );
 */
 
+var upload    = test_upload   ( );
+var download  = test_download ( );
+var downloadb = test_downloadb( ( bool ) => document.getElementById( 'info-textarea' ).value += 'downloadb: ' + bool + "\n" );
+
 var items =
 [
     'useragent: '  + navigator.userAgent,
@@ -91,8 +95,9 @@ var items =
     'filereader: ' + typeof window.FileReader,
     'filelist: '   + typeof window.FileList,
     'blob: '       + typeof window.Blob,
-    'upload: '     + test_upload( ),
-    'download: '   + test_download( ),
+    'upload: '     + upload,
+    'download: '   + download,
+  //'downloadb: '  + downloadb,
 ];
 
 var element = document.getElementById( 'info-textarea' );
@@ -115,5 +120,14 @@ function test_upload ( )
 function test_download ( )
 {
     return ! window.externalHost && 'download' in document.createElement( 'a' );
+}
+
+// https://github.com/Modernizr/Modernizr/blob/master/feature-detects/url/data-uri.js
+function test_downloadb ( callback )
+{
+    var datauri     = new Image( );
+    datauri.onerror = function ( ) { callback( false ) };
+    datauri.onload  = function ( ) { callback( ( datauri.width === 1 && datauri.height === 1 ) ? true : false ) };
+    datauri.src     = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
 }
 </script>
