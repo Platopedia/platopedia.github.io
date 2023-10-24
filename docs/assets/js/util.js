@@ -36,6 +36,8 @@ $.fn.sortnumber = function ( )
 
 /* ////////////////////////////////////////////////// */
 
+// misc
+
 $( document ).on
 (
     'click',
@@ -54,61 +56,98 @@ $( document ).on
     }
 );
 
-$( document ).on
-(
-    'click', // mousedown
-    '.bootbox.modal',
-    function ( event )
-    {
-        if ( event.target === event.currentTarget ) $( this ).modal( 'hide' );
-    }
-);
-
-$( document ).on
-(
-    'show.bs.modal',
-    '.bootbox.modal',
-    function ( )
-    {
-        var modal = $( '.modal:not(.bootbox)' );
-        if ( modal.hasClass( 'show' ) && modal.get( 0 ).scrollHeight > modal.get( 0 ).clientHeight ) modal.css( 'overflow-y', 'hidden' );
-    }
-);
+// modal
 
 /*
 $( document ).on
 (
-    'shown.bs.modal',
-    '.bootbox.modal',
-    function ( )
+    'keydown mousedown',
+    '.modal',
+    function ( event )
     {
-        // x
+        event.preventDefault( );
+        return false;
     }
 );
 */
 
+// modal not bootbox
+
 $( document ).on
 (
     'hide.bs.modal',
-    '.bootbox.modal',
+    '.modal:not(.bootbox)',
+    function ( event )
+    {
+        var modalboot = $( '.modal.bootbox.show' );
+        modalboot.modal( 'hide' );
+    }
+);
+
+// modal bootbox
+
+$( document ).on
+(
+    'show.bs.modal',
+    '.modal.bootbox',
     function ( )
     {
-        var modal = $( '.modal:not(.bootbox)' );
-        if ( modal.hasClass( 'show' ) && modal.get( 0 ).scrollHeight > modal.get( 0 ).clientHeight ) modal.css( 'overflow-y', 'auto' );
+        $( 'body' ).append( '<div class="bootbox-modal-backdrop modal-backdrop fade show"></div>' );
+        var modal = $( '.modal:not(.bootbox)' ); // .show
+        modal.addClass( 'overflow-hidden' );
+    }
+);
+
+$( document ).on
+(
+    'shown.bs.modal',
+    '.modal.bootbox',
+    function ( )
+    {
+        var modalboot = $( this ).filter( '.popup-copy' );
+        var input = modalboot.find( 'input' );
+        input.on( 'focus',       function ( ) { _util_call_noexcep( ( ) => input.select( ) ) } );
+        input.on( 'click xblur', function ( ) { window.setTimeout( function ( ) { input.trigger( 'focus' ) }, 0 ) } );
+        input.trigger( 'focus' );
+    }
+);
+
+$( document ).on
+(
+    'hide.bs.modal',
+    '.modal.bootbox',
+    function ( )
+    {
+        $( '.bootbox-modal-backdrop' ).remove( );
+        var modal = $( '.modal:not(.bootbox)' ); // .show
+        modal.removeClass( 'overflow-hidden' );
     }
 );
 
 $( document ).on
 (
     'hidden.bs.modal',
-    '.bootbox.modal',
+    '.modal.bootbox',
     function ( )
     {
-        var modal = $( '.modal:not(.bootbox)' );
-        // todo: body padding-right
-        if ( modal.hasClass( 'show' ) ) $( 'body' ).addClass( 'modal-open' );
+        $( 'body' ).addClass( 'modal-open' );
+        var modal = $( '.modal:not(.bootbox).show' );
+        modal.trigger( 'focus' );
     }
 );
+
+$( document ).on
+(
+    'click', // mousedown
+    '.modal.bootbox',
+    function ( event )
+    {
+        var modalboot = $( this );
+        if ( event.target === event.currentTarget ) modalboot.modal( 'hide' );
+    }
+);
+
+// document ready
 
 $( document ).ready
 (
@@ -120,9 +159,10 @@ $( document ).ready
         $( document ).one
         (
             'click', // mousedown
+            '.container',
             function ( )
             {
-                $( '.modal' ).each
+                $( '.modal:not(.bootbox)' ).each
                 (
                     function ( )
                     {
@@ -162,54 +202,48 @@ $( document ).ready
 
 function _util_popup_notice ( message = '', callback = _util_default_callback )
 {
-    var modal = bootbox.dialog
+    var modalboot = bootbox.dialog
     (
         {
+            className      : 'popup-notice',
             title          : '',
             message        : message,
             backdrop       : false,
             centerVertical : true,
             onEscape       : true,
-            
-            onShow : event => $( 'body' ).append( '<div class="modal-backdrop bootbox-modal-backdrop fade show"></div>' ),
-            onHide : event => $( '.modal-backdrop.bootbox-modal-backdrop' ).remove( ),
-            
-            buttons :
+            buttons        :
             {
                 close :
                 {
                     label     : 'Close',
                     className : 'btn btn-form font-weight-bold m-0 mr-3 mb-3',
-                    callback  : callback,
+                  //callback  : callback,
                 },
             }
         }
     );
     
-    return true;
+    return modalboot;
 }
 
 function _util_popup_confirm ( message = '', callback_true = _util_default_callback, callback_false = _util_default_callback )
 {
-    var modal = bootbox.dialog
+    var modalboot = bootbox.dialog
     (
         {
+            className      : 'popup-confirm',
             title          : '',
             message        : message,
             backdrop       : false,
             centerVertical : true,
             onEscape       : true,
-            
-            onShow : event => $( 'body' ).append( '<div class="modal-backdrop bootbox-modal-backdrop fade show"></div>' ),
-            onHide : event => $( '.modal-backdrop.bootbox-modal-backdrop' ).remove( ),
-            
-            buttons :
+            buttons        :
             {
                 no :
                 {
                     label     : 'No',
                     className : 'btn btn-form font-weight-bold m-0 mr-3 mb-3',
-                    callback  : callback_false,
+                  //callback  : callback_false,
                 },
                 yes :
                 {
@@ -221,63 +255,33 @@ function _util_popup_confirm ( message = '', callback_true = _util_default_callb
         }
     );
     
-    return true;
+    return modalboot;
 }
 
 function _util_popup_copy ( text = '', callback_true = _util_default_callback, callback_false = _util_default_callback )
 {
-    var modal = bootbox.dialog
+    var modalboot = bootbox.dialog
     (
         {
+            className      : 'popup-copy',
             title          : '',
             message        : '<input class="form-control" type="text" value="' + text + '" readonly />',
             backdrop       : false,
             centerVertical : true,
             onEscape       : true,
-            
-            onShow : event => $( 'body' ).append( '<div class="modal-backdrop bootbox-modal-backdrop fade show"></div>' ),
-            onHide : event => $( '.modal-backdrop.bootbox-modal-backdrop' ).remove( ),
-            
-            buttons :
+            buttons        :
             {
                 close :
                 {
                     label     : 'Close',
                     className : 'btn btn-form font-weight-bold m-0 mr-3 mb-3',
-                    callback  : callback_true,
+                  //callback  : callback_true,
                 },
             }
         }
     );
     
-    /*
-    modal.on
-    (
-        'keydown mousedown',
-        function ( event )
-        {
-            event.preventDefault( );
-            return false;
-        }
-    );
-    */
-    
-    modal.on
-    (
-        'shown.bs.modal',
-        function ( )
-        {
-            var input = $( this ).find( 'input' );
-            
-          //input.on( 'click', function ( ) { _util_call_noexcep( ( ) => input.select( ) ) } );
-            
-            input.on( 'focus',       function ( ) { _util_call_noexcep( ( ) => input.select( ) ) } );
-            input.on( 'click xblur', function ( ) { window.setTimeout( function ( ) { input.trigger( 'focus' ) }, 0 ) } );
-            input.trigger( 'focus' );
-        }
-    );
-    
-    return true;
+    return modalboot;
 }
 
 /* ////////////////////////////////////////////////// */

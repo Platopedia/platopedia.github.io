@@ -502,12 +502,14 @@ function Tool_Items_popup ( datatable, modal, row )
         'keyup.popup',
         function ( event )
         {
-            modal.focus( ); // quickfix
+          //modal.focus( ); // quickfix
             
             {
                 var op = event.key;
                 if ( op === '\\' ) modal_button_left.trigger( 'click.popup' );
             }
+            
+            modal.focus( ); // quickfix
         }
     );
     
@@ -519,7 +521,7 @@ function Tool_Items_popup ( datatable, modal, row )
         'keyup.popup',
         function ( event )
         {
-            modal.focus( ); // quickfix
+          //modal.focus( ); // quickfix
             
             if ( ! row.equal( row_prev, row_next ) )
             {
@@ -527,6 +529,8 @@ function Tool_Items_popup ( datatable, modal, row )
                 if      ( op === 'ArrowLeft'  ) Tool_Items_popup( datatable, modal, row_prev );
                 else if ( op === 'ArrowRight' ) Tool_Items_popup( datatable, modal, row_next );
             }
+            
+            modal.focus( ); // quickfix
         }
     );
     
@@ -535,7 +539,7 @@ function Tool_Items_popup ( datatable, modal, row )
         'swiped.popup',
         function ( event )
         {
-            modal.focus( ); // quickfix
+          //modal.focus( ); // quickfix
             
             if ( ! row.equal( row_prev, row_next ) )
             {
@@ -543,6 +547,8 @@ function Tool_Items_popup ( datatable, modal, row )
                 if      ( op === 'right' ) Tool_Items_popup( datatable, modal, row_prev );
                 else if ( op === 'left'  ) Tool_Items_popup( datatable, modal, row_next );
             }
+            
+            modal.focus( ); // quickfix
         }
     );
     
