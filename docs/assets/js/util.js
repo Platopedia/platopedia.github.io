@@ -104,11 +104,14 @@ $( document ).on
     '.modal.bootbox',
     function ( )
     {
-        var modalboot = $( this ).filter( '.popup-copy' );
-        var input = modalboot.find( 'input' );
-        input.on( 'focus',       function ( ) { _util_call_noexcep( ( ) => input.select( ) ) } );
-        input.on( 'click xblur', function ( ) { window.setTimeout( function ( ) { input.trigger( 'focus' ) }, 0 ) } );
-        input.trigger( 'focus' );
+        var modalboot = $( this ); // .filter( '.popup-copy' );
+        if ( modalboot.hasClass( 'popup-copy' ) )
+        {
+            var input = modalboot.find( 'input' );
+            input.on( 'focus',       function ( ) { _util_call_noexcep( ( ) => input.select( ) ) } );
+            input.on( 'click xblur', function ( ) { window.setTimeout( function ( ) { input.trigger( 'focus' ) }, 0 ) } );
+            input.trigger( 'focus' );
+        }
     }
 );
 
@@ -131,8 +134,11 @@ $( document ).on
     function ( )
     {
         var modal = $( '.modal:not(.bootbox).show' );
-        if ( modal.length ) $( 'body' ).addClass( 'modal-open' );
-        modal.trigger( 'focus' );
+        if ( modal.length )
+        {
+            $( 'body' ).addClass( 'modal-open' );
+            modal.trigger( 'focus' );
+        }
     }
 );
 
