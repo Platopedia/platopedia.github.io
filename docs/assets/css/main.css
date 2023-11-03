@@ -333,7 +333,7 @@ audio::-webkit-media-controls-toggle-closed-captions-button
 {
     top       : 0;
     bottom    : 0;
-    padding   : 0 3px 4px 0 !important;
+    padding   : 0 4px 0 0 !important;
     font-size : 21pt;
 }
 
