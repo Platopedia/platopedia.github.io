@@ -14,7 +14,7 @@ An option to share item links with your friends on Plato or any platform that su
 
 - After opening an item from the shop or your collection, press the link button to grab the link, which you can then share with your friends.
 
-- When your friend opens the link, they will see a preview of the item and an option to purchase or gift to a friend.
+- When your friend opens the link, they will see a preview of the item and an option to purchase or gift to a friend (if the item is available in the shop).
 
 This concept would be useful, especially for gifting friends, item trading or giveaways.
 
