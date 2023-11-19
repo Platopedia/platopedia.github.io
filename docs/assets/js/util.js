@@ -160,7 +160,7 @@ $( document ).ready
     function ( )
     {
         var hash = window.location.hash.slice( 1 );
-        if ( hash && hash != 'popup-item' ) _util_call_noexcep( ( ) => $( '#' + hash ).modal( 'show' ) );
+        if ( hash && ( hash == 'popup-info' || hash == 'popup-update' ) ) _util_call_noexcep( ( ) => $( '#' + hash ).modal( 'show' ) );
         
         $( document ).one
         (
