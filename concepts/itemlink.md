@@ -24,8 +24,6 @@ This concept would be useful, especially for gifting friends, item trading or gi
 
 <div class="linebreak"></div>
 
-<div class="linebreak"></div>
-
 <div class="content-image" data-url="/docs/assets/images/concepts/itemlink2.png" data-width="600px" data-label=""></div>
 
 <div class="linebreak"></div>
