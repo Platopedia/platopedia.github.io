@@ -143,13 +143,19 @@ body[data-theme="dark"]
 }
 */
 
-.navbar .navbar-brand,
-.navbar .navbar-toggler > *
+.navbar .navbar-brand
 {
     background              : -webkit-linear-gradient( red 35%, green 65% );
     -webkit-background-clip : text;
     -webkit-text-fill-color : transparent;
   /*-webkit-text-stroke     : 0.5px #FFFFFF;*/
+}
+
+.navbar .navbar-toggler > *
+{
+    background              : -webkit-linear-gradient( red 50%, green 50% );
+    -webkit-background-clip : text;
+    -webkit-text-fill-color : transparent;
 }
 
 .navbar .navbar-brand img
