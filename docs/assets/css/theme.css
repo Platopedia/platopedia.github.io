@@ -130,6 +130,31 @@ body[data-theme="dark"]
     --color-form-field-text     : var(--color-text);
 }
 
+/*
+.navbar .navbar-brand
+{
+    
+}
+
+.navbar .navbar-brand img
+{
+    filter         : invert( var(--filter-invert) ) !important;
+    -webkit-filter : invert( var(--filter-invert) ) !important;
+}
+*/
+
+.navbar .navbar-brand
+{
+    background              : -webkit-linear-gradient( red, green );
+    -webkit-background-clip : text;
+    -webkit-text-fill-color : transparent;
+}
+
+.navbar .navbar-brand img
+{
+    
+}
+
 /* ////////////////////////////////////////////////// */
 
 
