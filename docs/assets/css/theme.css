@@ -153,7 +153,7 @@ body[data-theme="dark"]
 
 .navbar .navbar-toggler > *
 {
-    background              : -webkit-linear-gradient( red 50%, green 50% );
+    background              : -webkit-linear-gradient( red 0, red 33.333%, #704700 33.333%, #704700 66.666%, green 66.666%, green 100% );
     -webkit-background-clip : text;
     -webkit-text-fill-color : transparent;
 }
