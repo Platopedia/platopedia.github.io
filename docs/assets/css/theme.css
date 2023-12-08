@@ -151,11 +151,6 @@ body[data-theme="dark"]
   /*-webkit-text-stroke     : 0.5px #FFFFFF;*/
 }
 
-body[data-theme="light"] .navbar .navbar-brand
-{
-    -webkit-text-stroke : 0;
-}
-
 .navbar .navbar-brand img
 {
     filter         : none !important;
