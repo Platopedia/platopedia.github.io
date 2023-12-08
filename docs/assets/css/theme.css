@@ -148,6 +148,7 @@ body[data-theme="dark"]
     background              : -webkit-linear-gradient( red, green );
     -webkit-background-clip : text;
     -webkit-text-fill-color : transparent;
+    -webkit-text-stroke     : 0.5px #FFFFFF;
 }
 
 .navbar .navbar-brand img
