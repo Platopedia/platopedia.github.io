@@ -143,7 +143,8 @@ body[data-theme="dark"]
 }
 */
 
-.navbar .navbar-brand
+.navbar .navbar-brand,
+.navbar .navbar-toggler > *
 {
     background              : -webkit-linear-gradient( red 35%, green 65% );
     -webkit-background-clip : text;
