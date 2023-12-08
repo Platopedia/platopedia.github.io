@@ -145,7 +145,7 @@ body[data-theme="dark"]
 
 .navbar .navbar-brand
 {
-    background              : -webkit-linear-gradient( red, green );
+    background              : -webkit-linear-gradient( red 45%, green 55% );
     -webkit-background-clip : text;
     -webkit-text-fill-color : transparent;
   /*-webkit-text-stroke     : 0.5px #FFFFFF;*/
