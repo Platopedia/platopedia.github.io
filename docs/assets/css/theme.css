@@ -130,12 +130,9 @@ body[data-theme="dark"]
     --color-form-field-text     : var(--color-text);
 }
 
-/*
-.navbar .navbar-brand
-{
-    
-}
+/* ///////////////////////// Default icon invert */
 
+/*
 .navbar .navbar-brand img
 {
     filter         : invert( var(--filter-invert) ) !important;
@@ -143,17 +140,21 @@ body[data-theme="dark"]
 }
 */
 
+/* ///////////////////////// Default icon noinvert */
+
+/*
+.navbar .navbar-brand img
+{
+    filter         : none !important;
+    -webkit-filter : none !important;
+}
+*/
+
+/* ///////////////////////// Christmas */
+
 .navbar .navbar-brand
 {
     background              : -webkit-linear-gradient( red 35%, green 65% );
-    -webkit-background-clip : text;
-    -webkit-text-fill-color : transparent;
-  /*-webkit-text-stroke     : 0.5px #FFFFFF;*/
-}
-
-.navbar .navbar-toggler > *
-{
-    background              : -webkit-linear-gradient( red 0, red 33.333%, #7F8000 33.333%, #7F8000 66.666%, green 66.666%, green 100% );
     -webkit-background-clip : text;
     -webkit-text-fill-color : transparent;
 }
@@ -162,6 +163,13 @@ body[data-theme="dark"]
 {
     filter         : none !important;
     -webkit-filter : none !important;
+}
+
+.navbar .navbar-toggler > *
+{
+    background              : -webkit-linear-gradient( red 0, red 33.333%, #7F8000 33.333%, #7F8000 66.666%, green 66.666%, green 100% );
+    -webkit-background-clip : text;
+    -webkit-text-fill-color : transparent;
 }
 
 /* ////////////////////////////////////////////////// */
