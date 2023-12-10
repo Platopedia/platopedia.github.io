@@ -130,7 +130,7 @@ body[data-theme="dark"]
     --color-form-field-text     : var(--color-text);
 }
 
-/* ///////////////////////// Default icon invert */
+/* ///////////////////////// Default */
 
 /*
 .navbar .navbar-brand img
@@ -140,15 +140,11 @@ body[data-theme="dark"]
 }
 */
 
-/* ///////////////////////// Default icon noinvert */
-
-/*
 .navbar .navbar-brand img
 {
     filter         : none !important;
     -webkit-filter : none !important;
 }
-*/
 
 /* ///////////////////////// Christmas */
 
@@ -157,12 +153,6 @@ body[data-theme="dark"]
     background              : -webkit-linear-gradient( red 35%, green 65% );
     -webkit-background-clip : text;
     -webkit-text-fill-color : transparent;
-}
-
-.navbar .navbar-brand img
-{
-    filter         : none !important;
-    -webkit-filter : none !important;
 }
 
 .navbar .navbar-toggler > *
