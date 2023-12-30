@@ -168,14 +168,14 @@ body[data-theme="dark"]
 
 .navbar .navbar-brand
 {
-    background              : -webkit-linear-gradient( #F3D157 25%, #213951 45% );
+    background              : -webkit-linear-gradient( #F3D157 25%, #17779D 45% );
     -webkit-background-clip : text;
     -webkit-text-fill-color : transparent;
 }
 
 .navbar .navbar-toggler > *
 {
-    color : #213951 !important;
+    color : #17779D !important;
 }
 
 /* ////////////////////////////////////////////////// */
