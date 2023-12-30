@@ -168,14 +168,16 @@ body[data-theme="dark"]
 
 .navbar .navbar-brand
 {
-    background              : -webkit-linear-gradient( #DFB253 25%, #176383 45% );
+    background              : -webkit-linear-gradient( #DFB253 25%, #176383 45%, #6F0F42 65% );
     -webkit-background-clip : text;
     -webkit-text-fill-color : transparent;
 }
 
 .navbar .navbar-toggler > *
 {
-    color : #176383 !important;
+    background              : -webkit-linear-gradient( #DFB253 0, #DFB253 33.333%, #176383 33.333%, #176383 66.666%, #6F0F42 66.666%, #6F0F42 100% );
+    -webkit-background-clip : text;
+    -webkit-text-fill-color : transparent;
 }
 
 /* ////////////////////////////////////////////////// */
