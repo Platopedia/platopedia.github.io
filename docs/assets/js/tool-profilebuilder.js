@@ -316,7 +316,7 @@ function Tool_Profilebuilder ( deferred )
                 /*
                 'click' : function ( event )
                 {
-                    var cb_notice = function ( ) { _util_popup_notice( 'Pictures cannot currently be loaded within Plato News. In the meantime, please visit <b>platopedia.com/profilebuilder</b> in your preferred web browser.' ) };
+                    var cb_notice = function ( ) { _util_popup_notice( '' ) };
                     
                     console.warnb = console.warn;
                     console.warn  = cb_notice;
