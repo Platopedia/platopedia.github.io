@@ -148,6 +148,7 @@ body[data-theme="dark"]
 
 /* ///////////////////////// Christmas */
 
+/*
 .navbar .navbar-brand
 {
     background              : -webkit-linear-gradient( red 35%, green 65% );
@@ -160,6 +161,21 @@ body[data-theme="dark"]
     background              : -webkit-linear-gradient( red 0, red 33.333%, #7F8000 33.333%, #7F8000 66.666%, green 66.666%, green 100% );
     -webkit-background-clip : text;
     -webkit-text-fill-color : transparent;
+}
+*/
+
+/* ///////////////////////// New Year */
+
+.navbar .navbar-brand
+{
+    background              : -webkit-linear-gradient( #F3D157 25%, #213951 45% );
+    -webkit-background-clip : text;
+    -webkit-text-fill-color : transparent;
+}
+
+.navbar .navbar-toggler > *
+{
+    color : #213951 !important;
 }
 
 /* ////////////////////////////////////////////////// */
