@@ -130,21 +130,25 @@ body[data-theme="dark"]
     --color-form-field-text     : var(--color-text);
 }
 
-/* ///////////////////////// Default */
+/* ///////////////////////// Filter */
 
-/*
 .navbar .navbar-brand img
 {
     filter         : invert( var(--filter-invert) ) !important;
     -webkit-filter : invert( var(--filter-invert) ) !important;
 }
-*/
 
+/*
 .navbar .navbar-brand img
 {
     filter         : none !important;
     -webkit-filter : none !important;
 }
+*/
+
+/* ///////////////////////// Default */
+
+
 
 /* ///////////////////////// Christmas */
 
@@ -166,6 +170,7 @@ body[data-theme="dark"]
 
 /* ///////////////////////// New Year */
 
+/*
 .navbar .navbar-brand
 {
     background              : -webkit-linear-gradient( #DFB253 25%, #176383 45%, #6F0F42 65% );
@@ -179,6 +184,7 @@ body[data-theme="dark"]
     -webkit-background-clip : text;
     -webkit-text-fill-color : transparent;
 }
+*/
 
 /* ////////////////////////////////////////////////// */
 
