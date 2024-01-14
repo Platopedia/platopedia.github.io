@@ -24,7 +24,7 @@ function _Util_Element ( param )
     {
         if ( that.param.rebuild ) that.rebuild( );
         if ( that.value ) that.valuedefault = that.value( );
-        if ( that.title ) that.titledefault = that.title( );
+        if ( that.title ) that.titledefault = that.element.attr( 'title' ); // that.title( );
         
         if ( that.callback       ) that.callback( );
         if ( that.param.callback ) $.each( that.param.callback, function ( event, callback ) { that.element.on( event, { that : that }, callback ) } );
@@ -96,23 +96,24 @@ function _Util_Element ( param )
     
     that.title = function ( titleb, disp = false )
     {
-        if ( typeof titleb !== 'undefined' )
+        if ( that.element.is( '[data-toggle="tooltip"]' ) )
         {
-            that.element.attr( 'title', titleb );
-            if ( that.element.is( '[data-toggle="tooltip"]' ) )
+            if ( typeof titleb !== 'undefined' )
             {
-                that.element.tooltip( '_fixTitle' );
-                
-              //that.element.attr( 'data-original-title', titleb );
-              //that.element.tooltip( 'update' );
-                
-              //that.element.tooltip( 'dispose' );
-              //that.element.tooltip( { title : titleb } );
-                
+                that.element.attr( 'data-original-title', titleb );
+                that.element.attr( 'title', '' );
                 if ( disp ) that.element.tooltip( 'show' );
             }
+            return that.element.attr( 'data-original-title' );
         }
-        return that.element.attr( 'title' );
+        else
+        {
+            if ( typeof titleb !== 'undefined' )
+            {
+                that.element.attr( 'title', titleb );
+            }
+            return that.element.attr( 'title' );
+        }
     };
     
     return that;

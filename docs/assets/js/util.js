@@ -160,7 +160,7 @@ $( document ).ready
     function ( )
     {
         var hash = window.location.hash.slice( 1 );
-        if ( hash && ( hash == 'popup-info' || hash == 'popup-update' ) ) _util_call_noexcep( ( ) => $( '#' + hash ).modal( 'show' ) );
+        if ( hash && hash == 'popup-info' ) _util_call_noexcep( ( ) => $( '#' + hash ).modal( 'show' ) );
         
         $( document ).one
         (
@@ -174,7 +174,8 @@ $( document ).ready
                     {
                         var modal = $( this );
                         var id    = modal.attr( 'id' );
-                        var hash  = '#' + id;
+                        var ref   = id;
+                        var hash  = '#'; if ( id == 'popup-info' ) hash += id;
                         
                         var cb_back = function ( ) { modal.modal( 'hide' ) };
                         
@@ -183,7 +184,7 @@ $( document ).ready
                             'shown.bs.modal',
                             function ( )
                             {
-                                window.history.pushState( hash, id, window.location.pathname + window.location.search + hash );
+                                window.history.pushState( ref, '', window.location.pathname + window.location.search + hash );
                                 window.addEventListener( 'popstate', cb_back, false );
                             }
                         );
@@ -193,7 +194,7 @@ $( document ).ready
                             'hidden.bs.modal',
                             function ( )
                             {
-                                if ( window.history.state === hash ) window.history.go( -1 );
+                                if ( window.history.state === ref ) window.history.go( -1 );
                                 window.removeEventListener( 'popstate', cb_back );
                             }
                         );
@@ -311,6 +312,12 @@ function _util_is_hash ( ref )
     if ( typeof ref !== 'object' ) return false;
     if ( Array.isArray( ref )    ) return false;
     return true;
+}
+
+function _util_is_iniframe ( )
+{
+    try             { return window.self !== window.top }
+    catch ( error ) { return false }
 }
 
 function _util_dump ( message )
