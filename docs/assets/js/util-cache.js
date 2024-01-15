@@ -161,25 +161,25 @@ function Util_Cache_Driver_Local ( )
     that.test = function ( )
     {
         var key = 'util_cache_test';
-        localStorage.setItem   ( key, '' );
-        localStorage.getItem   ( key );
-        localStorage.removeItem( key );
+        window.localStorage.setItem   ( key, '' );
+        window.localStorage.getItem   ( key );
+        window.localStorage.removeItem( key );
     };
     
     that.read = function ( key = '_' )
     {
-        return JSON.parse( localStorage.getItem( key ) );
+        return JSON.parse( window.localStorage.getItem( key ) );
     };
     
     that.write = function ( key = '_', val )
     {
-        return localStorage.setItem( key, JSON.stringify( val ) );
+        return window.localStorage.setItem( key, JSON.stringify( val ) );
     };
     
     that.clear = function ( key )
     {
-        if ( key ) localStorage.removeItem( key );
-        else localStorage.clear( );
+        if ( key ) window.localStorage.removeItem( key );
+        else window.localStorage.clear( );
     };
     
     return that;

@@ -160,7 +160,12 @@ $( document ).ready
     function ( )
     {
         var hash = window.location.hash.slice( 1 );
-        if ( hash && hash == 'popup-info' ) _util_call_noexcep( ( ) => $( '#' + hash ).modal( 'show' ) );
+        
+        if ( hash )
+        {
+            if      ( hash == 'info'   ) $( '#popup-info'   ).modal( 'show' );
+            else if ( hash == 'update' ) $( '#popup-update' ).modal( 'show' );
+        }
         
         $( document ).one
         (
@@ -175,7 +180,13 @@ $( document ).ready
                         var modal = $( this );
                         var id    = modal.attr( 'id' );
                         var ref   = id;
-                        var hash  = '#'; if ( id == 'popup-info' ) hash += id;
+                        var hash  = '#';
+                        
+                        if ( hash )
+                        {
+                            if      ( id == 'popup-info'   ) hash += 'info';
+                          //else if ( id == 'popup-update' ) hash += 'update';
+                        }
                         
                         var cb_back = function ( ) { modal.modal( 'hide' ) };
                         
