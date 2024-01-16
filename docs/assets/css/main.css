@@ -451,6 +451,14 @@ audio::-webkit-media-controls-toggle-closed-captions-button
     color         : var(--color-text);
 }
 
+.navbar .navbar-brand:link,
+.navbar .navbar-brand:visited,
+.navbar .navbar-brand:hover,
+.navbar .navbar-brand:active
+{
+    color : inherit;
+}
+
 .navbar .navbar-brand img
 {
   /*float        : left;*/
