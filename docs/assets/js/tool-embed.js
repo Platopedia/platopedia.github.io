@@ -40,8 +40,6 @@ function Tool_Embed ( deferred )
     frame_default.one( 'load',  function ( ) { if ( typeof deferred !== 'undefined' ) deferred.resolve( ) } );
   //frame_default.one( 'error', function ( ) { if ( typeof deferred !== 'undefined' ) deferred.resolve( ) } );
     
-    var host = window.location.host;
-    
     frame_default.on
     (
         'load',
@@ -49,13 +47,16 @@ function Tool_Embed ( deferred )
         {
             try
             {
+                var host  = window.location.host;
                 var hostb = this.contentWindow.location.host;
                 
                 if ( host && hostb && host == hostb )
                 {
-                    this.contentWindow.stop( );
-                    this.contentWindow.document.body.style.display = 'none';
-                    this.contentWindow.history.go( -1 );
+                  //this.contentWindow.stop( );
+                  //this.contentWindow.history.go( -1 );
+                    
+                    frame_default.contents( ).find( '*' ).hide( );
+                    window.location.replace( window.location.href );
                 }
             }
             catch ( error )
