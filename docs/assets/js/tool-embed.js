@@ -53,9 +53,8 @@ function Tool_Embed ( deferred )
                 if ( host && hostb && host == hostb )
                 {
                   //this.contentWindow.stop( );
-                  //this.contentWindow.history.go( -1 );
-                    
                     frame_default.contents( ).find( '*' ).hide( );
+                    this.contentWindow.history.go( -1 );
                     window.location.replace( this.contentWindow.location.href );
                 }
             }
