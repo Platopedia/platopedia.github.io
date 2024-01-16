@@ -56,6 +56,7 @@ function Tool_Embed ( deferred )
                   //this.contentWindow.history.go( -1 );
                   //window.location.replace( this.contentWindow.location.href );
                     
+                    frame_default.attr( 'src', 'about:blank' );
                     window.location.href = this.contentWindow.location.href;
                 }
             }
