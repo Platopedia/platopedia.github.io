@@ -76,6 +76,8 @@ function Tool_Embed ( deferred )
             {
                 var host  = window.location.host;
                 var hostb = windowb.location.host;
+                console.log( host );
+                console.log( hostb );
                 if ( host && hostb && host == hostb ) window.location.href = windowb.location.href;
             }
             catch ( error )
