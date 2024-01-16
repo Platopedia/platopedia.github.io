@@ -91,6 +91,7 @@ function Tool_Embed ( deferred )
         {
             try
             {
+                console.log( 'got here' );
                 setTimeout( function ( ) { callback( iframe.contentWindow ) }, 0 ); // timeout otherwise url won't be ready
             }
             catch ( error )
