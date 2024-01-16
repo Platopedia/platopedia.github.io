@@ -54,8 +54,9 @@ function Tool_Embed ( deferred )
                 {
                   //this.contentWindow.stop( );
                   //this.contentWindow.history.go( -1 );
+                  //window.location.replace( this.contentWindow.location.href );
                     
-                    window.location.replace( this.contentWindow.location.href );
+                    window.location.href = this.contentWindow.location.href;
                 }
             }
             catch ( error )
