@@ -56,7 +56,7 @@ function Tool_Embed ( deferred )
                   //this.contentWindow.history.go( -1 );
                     
                     frame_default.contents( ).find( '*' ).hide( );
-                    window.location.replace( window.location.href );
+                    window.location.replace( this.contentWindow.location.href );
                 }
             }
             catch ( error )
