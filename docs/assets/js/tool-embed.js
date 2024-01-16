@@ -45,7 +45,6 @@ function Tool_Embed ( deferred )
     // frame_default.attr( 'src', 'about:blank' );
     // window.location.replace( this.contentWindow.location.href );
     
-    /*
     frame_default.on
     (
         'load',
@@ -63,61 +62,6 @@ function Tool_Embed ( deferred )
             }
         }
     );
-    */
-    
-    // https://stackoverflow.com/questions/2429045/iframe-src-change-event-detection
-    
-    on_iframeurlchange
-    (
-        frame_default.get( 0 ),
-        function ( windowb )
-        {
-            try
-            {
-                var host  = window.location.host;
-                var hostb = windowb.location.host;
-                console.log( host );
-                console.log( hostb );
-                if ( host && hostb && host == hostb ) window.location.href = windowb.location.href;
-            }
-            catch ( error )
-            {
-                console.log( 'frame ' + error );
-            }
-        }
-    );
-    
-    function on_iframeurlchange ( iframe, callback )
-    {
-        var unload = function ( )
-        {
-            try
-            {
-                console.log( 'got here' );
-                setTimeout( function ( ) { callback( iframe.contentWindow ) }, 0 ); // timeout otherwise url won't be ready
-            }
-            catch ( error )
-            {
-                console.log( 'frameb ' + error );
-            }
-        };
-        
-        var unloadb = function ( )
-        {
-            try
-            {
-                iframe.contentWindow.removeEventListener( 'unload', unload ); // remove otherwise might dispatch twice
-                iframe.contentWindow.addEventListener   ( 'unload', unload );
-            }
-            catch ( error )
-            {
-                console.log( 'framec ' + error );
-            }
-        };
-        
-        iframe.addEventListener( 'load', unloadb );
-        unloadb( );
-    }
     
     //
     
