@@ -50,11 +50,17 @@ function Tool_Embed ( deferred )
             try
             {
                 var hostb = this.contentWindow.location.host;
-                if ( host && hostb && host == hostb ) this.contentWindow.history.go( -1 );
+                
+                if ( host && hostb && host == hostb )
+                {
+                    this.contentWindow.stop( );
+                    this.contentWindow.document.body.style.display = 'none';
+                    this.contentWindow.history.go( -1 );
+                }
             }
             catch ( error )
             {
-                
+                // x
             }
         }
     );
