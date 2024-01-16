@@ -80,7 +80,7 @@ function Tool_Embed ( deferred )
             }
             catch ( error )
             {
-                // x
+                console.log( 'frame ' + error );
             }
         }
     );
@@ -95,9 +95,9 @@ function Tool_Embed ( deferred )
             }
             catch ( error )
             {
-                // x
+                console.log( 'frameb ' + error );
             }
-        }
+        };
         
         var unloadb = function ( )
         {
@@ -108,9 +108,9 @@ function Tool_Embed ( deferred )
             }
             catch ( error )
             {
-                // x
+                console.log( 'framec ' + error );
             }
-        }
+        };
         
         iframe.addEventListener( 'load', unloadb );
         unloadb( );
