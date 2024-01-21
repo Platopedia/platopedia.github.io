@@ -40,11 +40,6 @@ function Tool_Embed ( deferred )
     frame_default.one( 'load',  function ( ) { if ( typeof deferred !== 'undefined' ) deferred.resolve( ) } );
   //frame_default.one( 'error', function ( ) { if ( typeof deferred !== 'undefined' ) deferred.resolve( ) } );
     
-    // this.contentWindow.stop( );
-    // this.contentWindow.history.go( -1 );
-    // frame_default.attr( 'src', 'about:blank' );
-    // window.location.replace( this.contentWindow.location.href );
-    
     frame_default.on
     (
         'load',
@@ -54,12 +49,7 @@ function Tool_Embed ( deferred )
             {
                 var host  = window.location.host;
                 var hostb = this.contentWindow.location.host;
-                
-                if ( host && hostb && host == hostb )
-                {
-                    frame_default.replaceWith( frame_default.clone( true, true ) );
-                    window.location.href = this.contentWindow.location.href;
-                }
+                if ( host && hostb && host == hostb ) window.location.href = this.contentWindow.location.href;
             }
             catch ( error )
             {
@@ -67,6 +57,13 @@ function Tool_Embed ( deferred )
             }
         }
     );
+    
+    //
+    
+    window.onpageshow = function ( event )
+    {
+        if ( event.persisted ) window.location.reload( );
+    }
     
     //
     
