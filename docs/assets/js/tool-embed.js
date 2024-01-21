@@ -49,7 +49,8 @@ function Tool_Embed ( deferred )
             {
                 var host  = window.location.host;
                 var hostb = this.contentWindow.location.host;
-                if ( host && hostb && host == hostb ) window.location.href = this.contentWindow.location.href;
+              //if ( host && hostb && host == hostb ) window.location.href = this.contentWindow.location.href;
+                if ( host && hostb && host == hostb ) this.contentWindow.history.go( -1 );
             }
             catch ( error )
             {
@@ -60,10 +61,12 @@ function Tool_Embed ( deferred )
     
     //
     
+    /*
     window.onpageshow = function ( event )
     {
         if ( event.persisted ) window.location.reload( );
     }
+    */
     
     //
     
