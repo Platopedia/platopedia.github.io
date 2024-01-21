@@ -61,6 +61,7 @@ h1
     margin-left         : auto;
     margin-right        : auto;
     width               : 100%;
+    min-width           : 310px;
     max-width           : 390px;
     height              : 300px;
     border              : 2px solid var(--color-C);
