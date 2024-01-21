@@ -54,7 +54,12 @@ function Tool_Embed ( deferred )
             {
                 var host  = window.location.host;
                 var hostb = this.contentWindow.location.host;
-                if ( host && hostb && host == hostb ) window.location.href = this.contentWindow.location.href;
+                
+                if ( host && hostb && host == hostb )
+                {
+                    frame_default.replaceWith( frame_default.clone( true, true ) );
+                    window.location.href = this.contentWindow.location.href;
+                }
             }
             catch ( error )
             {
