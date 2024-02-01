@@ -354,7 +354,7 @@ function Tool_Profilebuilder ( deferred )
                 /*
                 'click' : function ( event )
                 {
-                    var cb_notice = function ( ) { _util_popup_notice( 'Pictures cannot currently be downloaded within Plato News. In the meantime, please visit <b>platopedia.com/profilebuilder</b> in your preferred web browser.' ) };
+                    var cb_notice = function ( ) { _util_popup_notice( '' ) };
                     
                     console.warnb = console.warn;
                     console.warn  = cb_notice;
@@ -416,6 +416,20 @@ function Tool_Profilebuilder ( deferred )
     (
         {
             'element' : $( '#tool_profilebuilder_form_default_field_platoidcolor_input_default' ),
+        }
+    );
+    
+    Util_Element_Button_Default
+    (
+        {
+            'element'  : $( '#tool_profilebuilder_form_default_field_platoidcolor_button_random' ),
+            'callback' :
+            {
+                'click' : function ( event )
+                {
+                    form_default_field_platoidcolor_input_default.value( form_default_field_platoidcolor_input_default.valuebyrand( ) );
+                },
+            },
         }
     );
     
