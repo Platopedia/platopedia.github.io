@@ -1,3 +1,35 @@
+<style>
+.navbar .navbar-brand,
+.navbar .navbar-text,
+.navbar .navbar-toggler > *,
+.navbar .nav-link
+{
+    --color-brand-text : #c01b39;
+}
+
+.navbar .navbar-toggler > *
+{
+    --color-A               : #c01b39;
+    --color-B               : transparent;
+    background              : -webkit-linear-gradient( var(--color-A) 0,
+                                                       var(--color-A) 25%,
+                                                       var(--color-B) 25%,
+                                                       var(--color-B) 35%,
+                                                       var(--color-A) 35%,
+                                                       var(--color-A) 45%,
+                                                       var(--color-B) 45%,
+                                                       var(--color-B) 55%,
+                                                       var(--color-A) 55%,
+                                                       var(--color-A) 65%,
+                                                       var(--color-B) 65%,
+                                                       var(--color-B) 75%,
+                                                       var(--color-A) 75%,
+                                                       var(--color-A) 100% );
+    -webkit-background-clip : text;
+    -webkit-text-fill-color : transparent;
+}
+</style>
+
 <a class="navbar-brand" href="/">
     <img class="" src="/docs/assets/images/logos/valentine.png" alt="Platopedia" style="width:60px" onerror="this.style.display='none';">
     <span class="notranslate">Platopedia</span>
