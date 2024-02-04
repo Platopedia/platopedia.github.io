@@ -23,6 +23,8 @@ body[data-theme="light"]
     --color-text                : #343A40;
     --color-link                : #007BFF;
     
+    --color-brand-text          : var(--color-text);
+    
     --color-high-back           : var(--color-A);
     --color-high-text           : var(--color-D);
     
@@ -84,6 +86,8 @@ body[data-theme="dark"]
     --color-text                : #CBC5BF; /*#A89E94*/
     --color-link                : #0056B3;
     
+    --color-brand-text          : var(--color-text);
+    
     --color-high-back           : var(--color-text);
     --color-high-text           : var(--color-A);
     
@@ -130,13 +134,15 @@ body[data-theme="dark"]
     --color-form-field-text     : var(--color-text);
 }
 
-/* ///////////////////////// Filter */
+/* ///////////////////////// Theme Default */
 
 .navbar .navbar-brand img
 {
     filter         : invert( var(--filter-invert) ) !important;
     -webkit-filter : invert( var(--filter-invert) ) !important;
 }
+
+/* ///////////////////////// Theme Halloween */
 
 /*
 .navbar .navbar-brand img
@@ -146,17 +152,15 @@ body[data-theme="dark"]
 }
 */
 
-/* ///////////////////////// Theme Default */
-
-
-
-/* ///////////////////////// Theme Halloween */
-
-
-
 /* ///////////////////////// Theme Christmas */
 
 /*
+.navbar .navbar-brand img
+{
+    filter         : none !important;
+    -webkit-filter : none !important;
+}
+
 .navbar .navbar-brand
 {
     background              : -webkit-linear-gradient( red 35%, green 65% );
@@ -175,6 +179,12 @@ body[data-theme="dark"]
 /* ///////////////////////// Theme New Year */
 
 /*
+.navbar .navbar-brand img
+{
+    filter         : none !important;
+    -webkit-filter : none !important;
+}
+
 .navbar .navbar-brand
 {
     background              : -webkit-linear-gradient( #DFB253 25%, #176383 45%, #6F0F42 65% );
@@ -187,6 +197,24 @@ body[data-theme="dark"]
     background              : -webkit-linear-gradient( #DFB253 0, #DFB253 33.333%, #176383 33.333%, #176383 66.666%, #6F0F42 66.666%, #6F0F42 100% );
     -webkit-background-clip : text;
     -webkit-text-fill-color : transparent;
+}
+*/
+
+/* ///////////////////////// Theme Valentine */
+
+/*
+.navbar .navbar-brand img
+{
+    filter         : none !important;
+    -webkit-filter : none !important;
+}
+
+.navbar .navbar-brand,
+.navbar .navbar-text,
+.navbar .navbar-toggler > *,
+.navbar .nav-link
+{
+    --color-brand-text : #c01b39;
 }
 */
 

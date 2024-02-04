@@ -453,7 +453,7 @@ audio::-webkit-media-controls-toggle-closed-captions-button
     font-family   : 'Kaushan Script', sans-serif;
     font-size     : 24pt; /*2.5rem*/
     font-weight   : bold;
-    color         : var(--color-text);
+    color         : var(--color-brand-text);
 }
 
 .navbar .navbar-brand:link,
@@ -461,7 +461,7 @@ audio::-webkit-media-controls-toggle-closed-captions-button
 .navbar .navbar-brand:hover,
 .navbar .navbar-brand:active
 {
-    color : inherit;
+    color : var(--color-brand-text); /* inherit */
 }
 
 .navbar .navbar-brand img
@@ -470,14 +470,9 @@ audio::-webkit-media-controls-toggle-closed-captions-button
     margin-right : 0;
 }
 
-.navbar .navbar-nav
-{
-    
-}
-
 .navbar .navbar-text
 {
-    color : var(--color-text);
+    color : var(--color-brand-text);
 }
 
 .navbar .navbar-toggler
@@ -491,7 +486,7 @@ audio::-webkit-media-controls-toggle-closed-captions-button
 {
     float     : right;
     font-size : 28px;
-    color     : var(--color-text);
+    color     : var(--color-brand-text);
 }
 
 .navbar .nav-item
@@ -501,7 +496,7 @@ audio::-webkit-media-controls-toggle-closed-captions-button
 
 .navbar .nav-link
 {
-    color : var(--color-text) !important;
+    color : var(--color-brand-text) !important;
 }
 
 /*
