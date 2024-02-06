@@ -16,11 +16,11 @@ var audios = [ ];
     }
 )
 (
+    '/docs/assets/images/404.webp',
     '/docs/assets/images/icon.png',
     '/docs/assets/images/query.png',
     '/docs/assets/images/coin.png',
     '/docs/assets/images/pip.png',
-    '/docs/assets/images/404.webp',
     '/docs/assets/images/profilebuilder/picture/default-light.png',
     '/docs/assets/images/profilebuilder/picture/default-dark.png',
     '/docs/assets/images/profilebuilder/banner/iap_banner_default_light.png',
