@@ -21,6 +21,54 @@ h1
 }
 */
 
+td:nth-child(3)
+{
+    white-space : nowrap;
+}
+
+td br
+{
+    margin-bottom : 0;
+}
+
+/*
+i.c:before
+{
+    content     : "\f111";
+    font-family : 'Font Awesome\ 5 Free';
+    font-weight : 900;
+    font-style  : normal;
+    color       : #F9DB37;
+}
+
+i.p:before
+{
+    content     : "\f111";
+    font-family : 'Font Awesome\ 5 Free';
+    font-weight : 900;
+    font-style  : normal;
+    color       : #01BCFD;
+}
+*/
+
+i.c
+{
+    display          : inline-block;
+    height           : 10px;
+    width            : 10px;
+    background-image : url(../images/coin.png);
+    background-size  : 10px 10px;
+}
+
+i.p
+{
+    display          : inline-block;
+    height           : 10px;
+    width            : 10px;
+    background-image : url(../images/pip.png);
+    background-size  : 10px 10px;
+}
+
 .modal .modal-button-left
 {
     color : #FFD600;
