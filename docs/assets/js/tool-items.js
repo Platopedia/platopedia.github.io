@@ -31,7 +31,7 @@ const Tool_Items_var =
 /////
 
 var col = new Object( null );
-$.each( [ 'id', 'type', 'name', 'coins', 'info', 'new', 'disc', 'rare', 'tour', 'rank', 'event' ], function ( idx, val ) { col[val] = idx } );
+$.each( [ 'id', 'type', 'name', 'price', 'info', 'new', 'disc', 'rare', 'tour', 'rank', 'event' ], function ( idx, val ) { col[val] = idx } );
 
 var uri_image = function ( row, idx = 0 ) { return items[row.data( )[col.id]].med.images[idx].uri };
 var uri_audio = function ( row, idx = 0 ) { return items[row.data( )[col.id]].med.audios[idx].uri };
@@ -112,7 +112,7 @@ function Tool_Items ( deferred )
             'init' : function ( datatable )
             {
                 datatable.columns( ).visible( false );
-                datatable.columns( [ col.type, col.name, col.coins, col.info ] ).visible( true );
+                datatable.columns( [ col.type, col.name, col.price, col.info ] ).visible( true );
                 
                 Tool_Items_menu ( datatable );
                 Tool_Items_query( datatable, modal_default );
@@ -129,17 +129,9 @@ function Tool_Items ( deferred )
                 Tool_Items_popup( datatable, modal_default, row );
             },
             
-            'callbackinfo' : function ( undefined, undefined, undefined, itemsb, items, text, coins, coinsb )
+            'callbackinfo' : function ( undefined, undefined, undefined, undefined, items )
             {
-                items  = items .toLocaleString( 'en-US' );
-              //itemsb = itemsb.toLocaleString( 'en-US' );
-                coins  = this.api( ).column( col.coins, { filter : 'applied' } ).total( ).toLocaleString( 'en-US' );
-              //coinsb = this.api( ).column( col.coins                         ).total( ).toLocaleString( 'en-US' );
-                
-              //if ( items === itemsb )
-                
-              //return text;
-                return items + ' items / ' + coins + ' coins';
+                return items.toLocaleString( 'en-US' ) + ' items';
             },
         }
     );
@@ -308,13 +300,13 @@ function Tool_Items_query ( datatable, modal )
         if ( query.q   ) datatable                    .search( query.q,   false, false );
         if ( query.qt  ) datatable.column( col.type  ).search( query.qt,  false, false );
         if ( query.qn  ) datatable.column( col.name  ).search( query.qn,  false, false );
-        if ( query.qc  ) datatable.column( col.coins ).search( query.qc,  false, false );
+        if ( query.qp  ) datatable.column( col.price ).search( query.qp,  false, false );
         if ( query.qi  ) datatable.column( col.info  ).search( query.qi,  false, false );
         
-      //if ( query.qr  ) datatable.columns( [ col.type, col.name, col.coins, col.info ] ).search( query.qr, true, false );
+      //if ( query.qr  ) datatable.columns( [ col.type, col.name, col.price, col.info ] ).search( query.qr, true, false );
         if ( query.qrt ) datatable.column( col.type  ).search( query.qrt, true,  false );
         if ( query.qrn ) datatable.column( col.name  ).search( query.qrn, true,  false );
-        if ( query.qrc ) datatable.column( col.coins ).search( query.qrc, true,  false );
+        if ( query.qrp ) datatable.column( col.price ).search( query.qrp, true,  false );
         if ( query.qri ) datatable.column( col.info  ).search( query.qri, true,  false );
         
         datatable.draw( );
@@ -332,7 +324,7 @@ function Tool_Items_popup ( datatable, modal, row )
     var id     = row_data[col.id   ];
     var type   = row_data[col.type ];
     var name   = row_data[col.name ];
-    var coins  = row_data[col.coins];
+    var price  = row_data[col.price].display;
     var info   = row_data[col.info ];
     var images = items[id].med.images;
     var audios = items[id].med.audios;
@@ -369,8 +361,8 @@ function Tool_Items_popup ( datatable, modal, row )
                         <td class="text-left">' + type + '</td>\
                     </tr>\
                     <tr>\
-                        <td class="text-left align-top font-weight-bold">Coins:</td>\
-                        <td class="text-left">' + coins + '</td>\
+                        <td class="text-left align-top font-weight-bold">Price:</td>\
+                        <td class="text-left">' + price + '</td>\
                     </tr>\
                     <tr>\
                         <td class="text-left align-top font-weight-bold">Info:</td>\

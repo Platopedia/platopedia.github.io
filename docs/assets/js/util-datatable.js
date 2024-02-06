@@ -116,6 +116,7 @@ function Util_Datatable ( param )
             'cache'            : false,
             'query'            : '',
             'wordentries'      : 'entries',
+            'def'              : null,
             'init'             : null,
             'callbackrowclick' : null,
             'callbackinfo'     : null,
@@ -137,6 +138,7 @@ function Util_Datatable ( param )
                 lengthMenu   : [ 10, 100 ],
                 pageLength   : 100,
                 order        : [ ],
+              //columnDefs   : that.param.def,
                 infoCallback : that.param.callbackinfo,
                 
                 language :
