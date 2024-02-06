@@ -53,20 +53,24 @@ i.p:before
 
 i.c
 {
-    display          : inline-block;
-    height           : 10px;
-    width            : 10px;
-    background-image : url(../images/coin.png);
-    background-size  : 10px 10px;
+    display             : inline-block;
+    height              : 10px;
+    width               : 10px;
+    background-image    : url(../images/coin.png);
+    background-size     : 10px 10px;
+    background-position : center;
+    background-repeat   : no-repeat;
 }
 
 i.p
 {
-    display          : inline-block;
-    height           : 10px;
-    width            : 10px;
-    background-image : url(../images/pip.png);
-    background-size  : 10px 10px;
+    display             : inline-block;
+    height              : 10px;
+    width               : 10px;
+    background-image    : url(../images/pip.png);
+    background-size     : 10px 10px;
+    background-position : center;
+    background-repeat   : no-repeat;
 }
 
 .modal .modal-button-left
