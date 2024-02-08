@@ -309,6 +309,8 @@ function Tool_Items_query ( datatable, modal )
         if ( query.qrp ) datatable.column( col.price ).search( query.qrp, true,  false );
         if ( query.qri ) datatable.column( col.info  ).search( query.qri, true,  false );
         
+        if ( query.p ) datatable.column( col.price ).search( '>\\s' + query.p + '$', true, false );
+        
         datatable.draw( );
     }
     
