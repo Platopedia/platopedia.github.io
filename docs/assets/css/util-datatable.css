@@ -102,7 +102,7 @@ table.dataTable tbody tr:hover td
     width         : 260px !important;
 }
 
-.dataTables_filter input
+.dataTables_filter label:first-of-type input
 {
     padding-left            : 29px;
     text-indent             : 0 !important;
