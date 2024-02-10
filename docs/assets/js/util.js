@@ -185,7 +185,7 @@ $( document ).ready
                         if ( hash )
                         {
                             if      ( id == 'popup-info'   ) hash += 'info';
-                          //else if ( id == 'popup-update' ) hash += 'update';
+                            else if ( id == 'popup-update' ) hash += 'update';
                         }
                         
                         var cb_back = function ( ) { modal.modal( 'hide' ) };
