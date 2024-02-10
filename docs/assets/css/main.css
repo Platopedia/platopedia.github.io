@@ -477,9 +477,9 @@ audio::-webkit-media-controls-toggle-closed-captions-button
 
 .navbar .navbar-toggler
 {
-    width         : 60px;
-    padding-right : 0;
-    border        : none;
+    width   : auto;
+    padding : 10px 0 10px 0;
+    border  : none;
 }
 
 .navbar .navbar-toggler > *
