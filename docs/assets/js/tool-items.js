@@ -114,8 +114,8 @@ function Tool_Items ( deferred )
                 datatable.columns( ).visible( false );
                 datatable.columns( [ col.type, col.name, col.price, col.info ] ).visible( true );
                 
-                Tool_Items_menu ( datatable );
-                Tool_Items_query( datatable, modal_default );
+                Tool_Items_field( datatable );
+                Tool_Items_query( datatable );
                 
                 var container = $( datatable.table( ).container( ) );
                 container.wrap( '<form autocomplete="off"></form>' );
@@ -126,7 +126,7 @@ function Tool_Items ( deferred )
             
             'callbackrowclick' : function ( datatable, row )
             {
-                Tool_Items_popup( datatable, modal_default, row );
+                Tool_Items_popup( datatable, row );
             },
             
             'callbackinfo' : function ( undefined, undefined, undefined, undefined, items )
@@ -174,10 +174,12 @@ function Tool_Items ( deferred )
     return that;
 }
 
-function Tool_Items_menu ( datatable )
+function Tool_Items_field ( datatable )
 {
-    // <select class="form-control is-selectpicker" multiple>
-    var menu_cat =
+    var fields  = [ ];
+    var fieldsb = [ ];
+    
+    var field_cat =
     $( '\
         <select id="tool_items_table_default_field_cat" class="custom-select custom-select-sm form-control form-control-sm">\
             <option value="Any"        data-filter="" selected          >Any Category</option>\
@@ -191,35 +193,24 @@ function Tool_Items_menu ( datatable )
         </select>\
     ' );
     
-    // <select class="form-control is-selectpicker" multiple>
-    var menu_type =
+    fields.push( field_cat );
+    
+    var field_type =
     $( '\
         <select id="tool_items_table_default_field_type" class="custom-select custom-select-sm form-control form-control-sm">\
             <option value="Any" data-filter="" selected>Any Type</option>\
         </select>\
     ' );
     
-    datatable.column( col.type ).data( ).unique( )
-    .sort
-    (
-        function ( a, b )
-        {
-            return a.toLowerCase( ).localeCompare( b.toLowerCase( ) );
-        }
-    )
-    .each
-    (
-        function ( val )
-        {
-            menu_type.append( '<option value="' + val + '" data-filter="' + col.type + '=' + val + '">' + val + '</option>' );
-        }
-    );
+    fields.push( field_type );
     
-    var menus = [ menu_cat, menu_type ];
+    datatable.column( col.type ).data( ).unique( )
+    .sort( function ( a, b ) { return a.toLowerCase( ).localeCompare( b.toLowerCase( ) ) } )
+    .each( function ( val  ) { field_type.append( '<option value="' + val + '" data-filter="' + col.type + '=' + val + '">' + val + '</option>' ) } );
     
     $.each
     (
-        menus,
+        [ field_cat, field_type ],
         function ( idx, menu )
         {
             menu.on
@@ -243,7 +234,7 @@ function Tool_Items_menu ( datatable )
                     
                     $.each
                     (
-                        menus,
+                        [ field_cat, field_type ],
                         function ( idx, menu )
                         {
                             var filter = menu.find( 'option' ).filter( ':selected' ).data( 'filter' );
@@ -256,7 +247,7 @@ function Tool_Items_menu ( datatable )
                     );
                     
                     Tool_Items_var.list_bool = 0;
-                    if ( menu_cat.val( ) === 'Favorite' )
+                    if ( field_cat.val( ) === 'Favorite' )
                     {
                         Tool_Items_var.list_bool = 1;
                         cache.read( );
@@ -268,19 +259,88 @@ function Tool_Items_menu ( datatable )
         }
     );
     
-    $( datatable.table( ).container( ) ).find( '.dataTables_filter' ).prepend
-    (
-        $.map
+    if ( 'p' in query )
+    {
+        var field_price       = $( '<input id="tool_items_table_default_field_price" class="form-control form-control-sm" type="text"></input>' );
+        var field_price_label = $( '<label class="font-weight-bold">Price: </label>' );
+        
+        field_price_label.append( field_price       );
+        fieldsb.push            ( field_price_label );
+        
+        field_price.on
         (
-            menus,
-            function ( menu ) { return [ menu, '<br/>' ] }
-        )
-    );
+            'val',
+            function ( event, val = '', draw = false )
+            {
+                field_price.val( val );
+                field_price.trigger( 'input', [ draw ] );
+            }
+        );
+        
+        var min = 0;
+        var max = Infinity;
+        
+        field_price.on
+        (
+            'input',
+            function ( event, draw = true )
+            {
+                var range = $( this ).val( );
+                range = range.replace( /[^\d-]/g, '' );
+                var rangeb = range.split( '-', 2 );
+                
+                if ( /^\d+$/.test( range ) )
+                {
+                    min = parseInt( rangeb[0], 10 );
+                    max = min;
+                }
+                else if ( /^\d+-$/.test( range ) )
+                {
+                    min = parseInt( rangeb[0], 10 );
+                    max = Infinity;
+                }
+                else if ( /^-\d+$/.test( range ) )
+                {
+                    min = 0;
+                    max = parseInt( rangeb[1], 10 );
+                }
+                else if ( /^\d+-\d+$/.test( range ) )
+                {
+                    min = parseInt( rangeb[0], 10 );
+                    max = parseInt( rangeb[1], 10 );
+                }
+                else
+                {
+                    min = 0;
+                    max = Infinity;
+                }
+                
+                if ( min > max ) [ min, max ] = [ max, min ];
+                
+                if ( draw ) datatable.draw( );
+            }
+        );
+        
+        $.fn.dataTable.ext.search.push
+        (
+            function ( undefined, undefined, undefined, row_data )
+            {
+                var mid = parseFloat( row_data[col.price]['@data-order'] ) || 0;
+                if ( min <= mid && mid <= max ) return true;
+                return false;
+            }
+        );
+    }
+    
+    fields  = $.map( fields,  function ( field ) { return [ field, '<br/>' ] } );
+    fieldsb = $.map( fieldsb, function ( field ) { return [ '<br/>', field ] } );
+    
+    $( datatable.table( ).container( ) ).find( '.dataTables_filter' ).prepend( fields  ).append ( fieldsb );
     
     return true;
 }
 
-function Tool_Items_query ( datatable, modal )
+function Tool_Items_query ( datatable )
 {
     if ( jQuery.isEmptyObject( query ) ) return;
     
@@ -290,26 +350,14 @@ function Tool_Items_query ( datatable, modal )
         
         if ( id.some( function ( id ) { return typeof items[id] === 'undefined' } ) ) _util_popup_notice( 'Invalid item id' );
         else if ( id.length > 1 ) datatable.column( col.id ).search( '^(' + id.join( '|' ) + ')$', true, false ).draw( );
-        else Tool_Items_popup( datatable, modal, datatable.row( '#id-' + id[0] ) );
+        else Tool_Items_popup( datatable, datatable.row( '#id-' + id[0] ) );
     }
     else
     {
-        if ( query.c ) $( '#tool_items_table_default_field_cat'  ).trigger( 'val', query.c );
-        if ( query.t ) $( '#tool_items_table_default_field_type' ).trigger( 'val', query.t );
-        
-        if ( query.q   ) datatable                    .search( query.q,   false, false );
-        if ( query.qt  ) datatable.column( col.type  ).search( query.qt,  false, false );
-        if ( query.qn  ) datatable.column( col.name  ).search( query.qn,  false, false );
-        if ( query.qp  ) datatable.column( col.price ).search( query.qp,  false, false );
-        if ( query.qi  ) datatable.column( col.info  ).search( query.qi,  false, false );
-        
-      //if ( query.qr  ) datatable.columns( [ col.type, col.name, col.price, col.info ] ).search( query.qr, true, false );
-        if ( query.qrt ) datatable.column( col.type  ).search( query.qrt, true,  false );
-        if ( query.qrn ) datatable.column( col.name  ).search( query.qrn, true,  false );
-        if ( query.qrp ) datatable.column( col.price ).search( query.qrp, true,  false );
-        if ( query.qri ) datatable.column( col.info  ).search( query.qri, true,  false );
-        
-        if ( query.p ) datatable.column( col.price ).search( '>\\s' + query.p + '$', true, false );
+        if ( query.p ) $( '#tool_items_table_default_field_price' ).trigger( 'val', query.p ); // ensure price filter pushed first
+        if ( query.c ) $( '#tool_items_table_default_field_cat'   ).trigger( 'val', query.c );
+        if ( query.t ) $( '#tool_items_table_default_field_type'  ).trigger( 'val', query.t );
+        if ( query.q ) datatable.search( query.q );
         
         datatable.draw( );
     }
@@ -317,7 +365,7 @@ function Tool_Items_query ( datatable, modal )
     return true;
 }
 
-function Tool_Items_popup ( datatable, modal, row )
+function Tool_Items_popup ( datatable, row )
 {
   //var element = $( row.node( ) );
     
@@ -338,6 +386,7 @@ function Tool_Items_popup ( datatable, modal, row )
   //cats = $.map( cats, function ( cat, idx ) { return '<span class="badge badge-pill badge-cat">' + cat + '</span>' } );
     cats = cats.join( ', ' );
     
+    var modal              = $( '#popup-item' );
     var modal_button_left  = modal.find( '.modal-button-left'  );
   //var modal_button_right = modal.find( '.modal-button-right' );
     var modal_title        = modal.find( '.modal-title'        );
@@ -520,8 +569,8 @@ function Tool_Items_popup ( datatable, modal, row )
             if ( ! row.equal( row_prev, row_next ) )
             {
                 var op = event.key;
-                if      ( op === 'ArrowLeft'  ) Tool_Items_popup( datatable, modal, row_prev );
-                else if ( op === 'ArrowRight' ) Tool_Items_popup( datatable, modal, row_next );
+                if      ( op === 'ArrowLeft'  ) Tool_Items_popup( datatable, row_prev );
+                else if ( op === 'ArrowRight' ) Tool_Items_popup( datatable, row_next );
             }
             
             modal.focus( ); // quickfix
@@ -538,8 +587,8 @@ function Tool_Items_popup ( datatable, modal, row )
             if ( ! row.equal( row_prev, row_next ) )
             {
                 var op = event.detail.dir;
-                if      ( op === 'right' ) Tool_Items_popup( datatable, modal, row_prev );
-                else if ( op === 'left'  ) Tool_Items_popup( datatable, modal, row_next );
+                if      ( op === 'right' ) Tool_Items_popup( datatable, row_prev );
+                else if ( op === 'left'  ) Tool_Items_popup( datatable, row_next );
             }
             
             modal.focus( ); // quickfix
