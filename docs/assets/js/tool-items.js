@@ -259,10 +259,11 @@ function Tool_Items_field ( datatable )
         }
     );
     
+    /*
     if ( 'p' in query )
     {
-        var field_price       = $( '<input id="tool_items_table_default_field_price" class="form-control form-control-sm" type="text"></input>' );
         var field_price_label = $( '<label class="font-weight-bold">Price: </label>' );
+        var field_price       = $( '<input id="tool_items_table_default_field_price" class="form-control form-control-sm" type="text"></input>' );
         
         field_price_label.append( field_price       );
         fieldsb.push            ( field_price_label );
@@ -331,6 +332,64 @@ function Tool_Items_field ( datatable )
             }
         );
     }
+    */
+    
+    if ( 'p' in query || 'pmin' in query || 'pmax' in query )
+    {
+        var field_pricemin_label = $( '<label class="font-weight-bold">Price Min: </label>' );
+        var field_pricemin       = $( '<input id="tool_items_table_default_field_pricemin" class="form-control form-control-sm" type="text" style="width:100px!important;"></input>' );
+        var field_pricemax_label = $( '<label class="font-weight-bold">Price Max: </label>' );
+        var field_pricemax       = $( '<input id="tool_items_table_default_field_pricemax" class="form-control form-control-sm" type="text" style="width:100px!important;"></input>' );
+        
+        field_pricemin_label.append( field_pricemin       );
+        fieldsb.push               ( field_pricemin_label );
+        field_pricemax_label.append( field_pricemax       );
+        fieldsb.push               ( field_pricemax_label );
+        
+        var range_def = [ 0, Infinity ];
+        var range     = [ 0, Infinity ];
+        
+        $.each
+        (
+            [ field_pricemin, field_pricemax ],
+            function ( idx, field )
+            {
+                field.on
+                (
+                    'val',
+                    function ( event, val = '', draw = false )
+                    {
+                        field.val( val );
+                        field.trigger( 'input', [ draw ] );
+                    }
+                );
+                
+                field.on
+                (
+                    'input',
+                    function ( event, draw = true )
+                    {
+                        var val = field.val( );
+                        val = val.replace( /\D+/g, '' );
+                        field.val( val );
+                        val = parseInt( val, 10 );
+                        range[idx] = ( isNaN( val ) ) ? range_def[idx] : val;
+                        if ( draw ) datatable.draw( );
+                    }
+                );
+            }
+        );
+        
+        $.fn.dataTable.ext.search.push
+        (
+            function ( undefined, undefined, undefined, row_data )
+            {
+                var mid = parseFloat( row_data[col.price]['@data-order'] ) || 0;
+                if ( range[0] <= mid && mid <= range[1] ) return true;
+                return false;
+            }
+        );
+    }
     
     fields  = $.map( fields,  function ( field ) { return [ field, '<br/>' ] } );
     fieldsb = $.map( fieldsb, function ( field ) { return [ '<br/>', field ] } );
@@ -354,10 +413,16 @@ function Tool_Items_query ( datatable )
     }
     else
     {
-        if ( query.p ) $( '#tool_items_table_default_field_price' ).trigger( 'val', query.p ); // ensure price filter pushed first
         if ( query.c ) $( '#tool_items_table_default_field_cat'   ).trigger( 'val', query.c );
         if ( query.t ) $( '#tool_items_table_default_field_type'  ).trigger( 'val', query.t );
         if ( query.q ) datatable.search( query.q );
+        
+        if ( query.p || query.pmin || query.pmax )
+        {
+          //$( '#tool_items_table_default_field_price'    ).trigger( 'val', query.p );
+            $( '#tool_items_table_default_field_pricemin' ).trigger( 'val', query.p || query.pmin );
+            $( '#tool_items_table_default_field_pricemax' ).trigger( 'val', query.p || query.pmax );
+        }
         
         datatable.draw( );
     }
