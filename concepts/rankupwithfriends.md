@@ -1,6 +1,6 @@
 ---
 layout: tool-content
-title: Platopedia - Rank Up With Friends
+title: Rank Up With Friends - Platopedia
 heading: <span class="badge badge-type">Game</span>&nbsp;Rank Up With Friends
 ---
 

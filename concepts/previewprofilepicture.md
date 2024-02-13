@@ -1,6 +1,6 @@
 ---
 layout: tool-content
-title: Platopedia - Preview Profile Picture
+title: Preview Profile Picture - Platopedia
 heading: <span class="badge badge-type">Profile</span>&nbsp;Preview Profile Picture
 ---
 

@@ -1,6 +1,6 @@
 ---
 layout: tool-content
-title: Platopedia - Direct Remove Members
+title: Direct Remove Members - Platopedia
 heading: <span class="badge badge-type">Group</span>&nbsp;Direct Remove Members
 ---
 

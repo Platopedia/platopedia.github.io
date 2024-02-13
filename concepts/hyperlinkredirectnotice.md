@@ -1,6 +1,6 @@
 ---
 layout: tool-content
-title: Platopedia - Hyperlink Redirect Notice
+title: Hyperlink Redirect Notice - Platopedia
 heading: <span class="badge badge-type">Privacy</span>&nbsp;Hyperlink Redirect Notice
 ---
 

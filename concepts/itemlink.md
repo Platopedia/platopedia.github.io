@@ -1,6 +1,6 @@
 ---
 layout: tool-content
-title: Platopedia - Item Link
+title: Item Link - Platopedia
 heading: <span class="badge badge-type">Item</span>&nbsp;Item Link
 ---
 

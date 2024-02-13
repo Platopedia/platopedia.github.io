@@ -1,6 +1,6 @@
 ---
 layout: tool-content
-title: Platopedia - Fairer 2v2
+title: Fairer 2v2 - Platopedia
 heading: <span class="badge badge-type">Game</span>&nbsp;Fairer 2v2
 ---
 

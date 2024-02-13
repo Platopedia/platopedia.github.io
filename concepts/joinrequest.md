@@ -1,6 +1,6 @@
 ---
 layout: tool-content
-title: Platopedia - Join Request
+title: Join Request - Platopedia
 heading: <span class="badge badge-type">Group</span>&nbsp;Join Request
 ---
 

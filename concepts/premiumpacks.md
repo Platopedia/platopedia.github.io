@@ -1,6 +1,6 @@
 ---
 layout: tool-content
-title: Platopedia - Premium Packs
+title: Premium Packs - Platopedia
 heading: <span class="badge badge-type">Item</span>&nbsp;Premium Packs
 ---
 

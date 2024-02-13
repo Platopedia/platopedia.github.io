@@ -1,6 +1,6 @@
 ---
 layout: tool-content
-title: Platopedia - Mute Chat
+title: Mute Chat - Platopedia
 heading: <span class="badge badge-type">Group</span>&nbsp;Mute Chat
 ---
 

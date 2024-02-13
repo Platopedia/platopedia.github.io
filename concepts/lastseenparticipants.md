@@ -1,6 +1,6 @@
 ---
 layout: tool-content
-title: Platopedia - Last Seen Participants
+title: Last Seen Participants - Platopedia
 heading: <span class="badge badge-type">Group</span>&nbsp;Last Seen Participants
 ---
 

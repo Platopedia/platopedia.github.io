@@ -1,6 +1,6 @@
 ---
 layout: tool-content
-title: Platopedia - Badge Slots
+title: Badge Slots - Platopedia
 heading: <span class="badge badge-type">Profile</span>&nbsp;Badge Slots
 ---
 

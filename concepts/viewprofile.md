@@ -1,6 +1,6 @@
 ---
 layout: tool-content
-title: Platopedia - View Profile
+title: View Profile - Platopedia
 heading: <span class="badge badge-type">Profile</span>&nbsp;View Profile
 ---
 

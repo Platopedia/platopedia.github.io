@@ -1,6 +1,6 @@
 ---
 layout: tool-content
-title: Platopedia - Increase Members
+title: Increase Members - Platopedia
 heading: <span class="badge badge-type">Group</span>&nbsp;Increase Members
 ---
 

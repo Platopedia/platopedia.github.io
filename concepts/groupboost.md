@@ -1,6 +1,6 @@
 ---
 layout: tool-content
-title: Platopedia - Group Boost
+title: Group Boost - Platopedia
 heading: <span class="badge badge-type">Group</span>&nbsp;Group Boost
 ---
 

@@ -1,6 +1,6 @@
 ---
 layout: tool-content
-title: Platopedia - Password
+title: Password - Platopedia
 heading: <span class="badge badge-type">Account</span>&nbsp;Password
 ---
 

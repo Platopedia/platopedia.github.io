@@ -1,6 +1,6 @@
 ---
 layout: tool-content
-title: Platopedia - Public Gifting
+title: Public Gifting - Platopedia
 heading: <span class="badge badge-type">Item</span>&nbsp;Public Gifting
 ---
 

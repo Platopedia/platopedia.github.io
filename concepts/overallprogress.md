@@ -1,6 +1,6 @@
 ---
 layout: tool-content
-title: Platopedia - Overall Progress
+title: Overall Progress - Platopedia
 heading: <span class="badge badge-type">Profile</span>&nbsp;Overall Progress
 ---
 

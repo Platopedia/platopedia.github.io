@@ -1,6 +1,6 @@
 ---
 layout: tool-content
-title: Platopedia - Inactive Members List
+title: Inactive Members List - Platopedia
 heading: <span class="badge badge-type">Group</span>&nbsp;Inactive Members List
 ---
 

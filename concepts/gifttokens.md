@@ -1,6 +1,6 @@
 ---
 layout: tool-content
-title: Platopedia - Gift Tokens
+title: Gift Tokens - Platopedia
 heading: <span class="badge badge-type">Item</span>&nbsp;Gift Tokens
 ---
 

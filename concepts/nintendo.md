@@ -1,6 +1,6 @@
 ---
 layout: tool-content
-title: Platopedia - Nintendo
+title: Nintendo - Platopedia
 heading: <span class="badge badge-type">Design</span>&nbsp;Nintendo
 ---
 

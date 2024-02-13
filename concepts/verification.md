@@ -1,6 +1,6 @@
 ---
 layout: tool-content
-title: Platopedia - Verification
+title: Verification - Platopedia
 heading: <span class="badge badge-type">Group</span>&nbsp;Verification
 ---
 

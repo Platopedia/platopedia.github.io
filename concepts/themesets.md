@@ -1,6 +1,6 @@
 ---
 layout: tool-content
-title: Platopedia - Theme Sets
+title: Theme Sets - Platopedia
 heading: <span class="badge badge-type">Profile</span>&nbsp;Theme Sets
 ---
 

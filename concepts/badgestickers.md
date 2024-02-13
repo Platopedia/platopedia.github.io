@@ -1,6 +1,6 @@
 ---
 layout: tool-content
-title: Platopedia - Badge Stickers
+title: Badge Stickers - Platopedia
 heading: <span class="badge badge-type">Item</span>&nbsp;Badge Stickers
 ---
 
