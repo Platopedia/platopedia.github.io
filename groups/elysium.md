@@ -1,6 +1,6 @@
 ---
 layout: tool-embed
-title: Platopedia - Elysium
+title: Elysium - Platopedia
 heading: <img src="/docs/assets/images/groups/elysium/el-logo.png" />&nbsp;Elysium
 ---
 

@@ -1,6 +1,6 @@
 ---
 layout: tool-content
-title: Platopedia - Arcade
+title: Arcade - Platopedia
 heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 ---
 

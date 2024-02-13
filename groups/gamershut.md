@@ -1,6 +1,6 @@
 ---
 layout: tool-embed
-title: Platopedia - Gamers Hut
+title: Gamers Hut - Platopedia
 heading: <img src="/docs/assets/images/groups/gamershut/gh-logo.png" />&nbsp;Gamers Hut
 ---
 
