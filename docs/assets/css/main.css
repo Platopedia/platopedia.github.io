@@ -314,7 +314,7 @@ audio::-webkit-media-controls-toggle-closed-captions-button
     border-right     : 2px solid var(--color-C);
 }
 
-@media ( max-width : 576px )
+@media ( max-width : 575.98px )
 {
     .container
     {

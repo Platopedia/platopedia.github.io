@@ -17,7 +17,7 @@ h1
     border-bottom : 2px solid var(--color-C);
 }
 
-@media ( max-width : 576px )
+@media ( max-width : 575.98px )
 {
     .content
     {
@@ -174,7 +174,7 @@ h1
 {
     display         : flex;
     align-items     : center;
-    justify-content : center;    
+    justify-content : center;
     position        : absolute;
     top             : 220px;
     left            : 0;
