@@ -113,10 +113,11 @@ function Util_Datatable ( param )
         param,
         {
             'element'          : null,
+            'dom'              : "<'row'<'col-sm-12 col-md-6'><'col-sm-12 col-md-6'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+            'def'              : null,
             'cache'            : false,
             'query'            : '',
             'wordentries'      : 'entries',
-            'def'              : null,
             'init'             : null,
             'callbackrowclick' : null,
             'callbackinfo'     : null,
@@ -133,12 +134,12 @@ function Util_Datatable ( param )
         var datatable = that.element.DataTable
         (
             {
+                dom          : that.param.dom,
+                columnDefs   : that.param.def,
                 stateSave    : that.param.cache,
-                dom          : "<'row'<'col-sm-12 col-md-6'><'col-sm-12 col-md-6'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                 lengthMenu   : [ 10, 100 ],
                 pageLength   : 100,
-                order        : [ ],
-              //columnDefs   : that.param.def,
+                order        : [ ],              
                 infoCallback : that.param.callbackinfo,
                 
                 language :

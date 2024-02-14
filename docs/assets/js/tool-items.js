@@ -23,9 +23,8 @@ const Tool_Items_conf =
 
 const Tool_Items_var =
 {
-    'list_ver'  : 1,
-    'list_bool' : 0,
-    'list_max'  : 1000,
+    'list_ver' : 1,
+    'list_max' : 1000,
 };
 
 /////
@@ -72,18 +71,16 @@ var cache = Util_Cache
     }
 );
 
-$.fn.dataTable.ext.search.push
-(
-    function ( undefined, row_data )
-    {
-        if ( Tool_Items_var.list_bool )
-        {
-            if ( typeof cache.ref.list[row_data[col.id]] === 'undefined' ) return false;
-        }
-        
-        return true;
-    }
-);
+var filter =
+{
+    id       : null,
+    list     : 0,
+  //query    : null,
+    cat      : null,
+    type     : null,
+    pricemin : null,
+    pricemax : null,
+};
 
 /* ////////////////////////////////////////////////// */
 
@@ -95,7 +92,7 @@ function Tool_Items ( deferred )
     
     var table_default = $( '#tool_items_table_default' );
     
-  //table_default.on( 'draw.dt', function ( ) { _util_dump( 'draw' ) } ); // preDraw.dt draw.dt search.dt
+  //table_default.on( 'draw.dt', function ( ) { _util_dump( filter ) } ); // preDraw.dt draw.dt search.dt
     
     // modal
     
@@ -107,19 +104,14 @@ function Tool_Items ( deferred )
     (
         {
             'element'     : table_default,
+            'dom'         : "<'row'<'#tool_items_dom_filter.col-sm-12'>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+            'def'         : [ { targets : [ col.type, col.name, col.price, col.info ], visible : true, searchable : true }, { targets : '_all', visible : false, searchable : false } ],
             'wordentries' : 'items',
             
             'init' : function ( datatable )
             {
-                datatable.columns( ).visible( false );
-                datatable.columns( [ col.type, col.name, col.price, col.info ] ).visible( true );
-                
-                Tool_Items_field( datatable );
-                Tool_Items_query( datatable );
-                
-                var container = $( datatable.table( ).container( ) );
-                container.wrap( '<form autocomplete="off"></form>' );
-                container.find( 'input, select' ).attr( 'autocomplete', 'off' );
+                Tool_Items_filter( datatable );
+                Tool_Items_query ( datatable );
                 
                 if ( typeof deferred !== 'undefined' ) deferred.resolve( );
             },
@@ -138,24 +130,11 @@ function Tool_Items ( deferred )
     
     //
     
-    /*
-    modal_default.on
-    (
-        'shown.bs.modal',
-        function ( event )
-        {
-            
-        }
-    );
-    */
-    
     modal_default.on
     (
         'hidden.bs.modal',
         function ( event )
         {
-          //if ( Tool_Items_var.list_bool ) datatable_default.obj.draw( );
-            
             modal_default.find( 'audio' ).each
             (
                 function ( )
@@ -174,227 +153,241 @@ function Tool_Items ( deferred )
     return that;
 }
 
-function Tool_Items_field ( datatable )
+function Tool_Items_filter ( datatable )
 {
-    var fields  = [ ];
-    var fieldsb = [ ];
+    // dom filter
     
-    var field_cat =
-    $( '\
-        <select id="tool_items_table_default_field_cat" class="custom-select custom-select-sm form-control form-control-sm">\
-            <option value="Any"        data-filter="" selected          >Any Category</option>\
-            <option value="Favorite"   data-filter=""                   >&#9734; Favorite</option>\
-            <option value="New"        data-filter="' + col.new   + '=1">New</option>\
-            <option value="Discounted" data-filter="' + col.disc  + '=1">Discounted</option>\
-            <option value="Rare"       data-filter="' + col.rare  + '=1">Rare</option>\
-            <option value="Tournament" data-filter="' + col.tour  + '=1">Tournament Prize</option>\
-            <option value="Ranked"     data-filter="' + col.rank  + '=1">Ranked Prize</option>\
-            <option value="Event"      data-filter="' + col.event + '=1">Event Prize</option>\
-        </select>\
-    ' );
-    
-    fields.push( field_cat );
-    
-    var field_type =
-    $( '\
-        <select id="tool_items_table_default_field_type" class="custom-select custom-select-sm form-control form-control-sm">\
-            <option value="Any" data-filter="" selected>Any Type</option>\
-        </select>\
-    ' );
-    
-    fields.push( field_type );
-    
-    datatable.column( col.type ).data( ).unique( )
-    .sort( function ( a, b ) { return a.toLowerCase( ).localeCompare( b.toLowerCase( ) ) } )
-    .each( function ( val  ) { field_type.append( '<option value="' + val + '" data-filter="' + col.type + '=' + val + '">' + val + '</option>' ) } );
-    
-    $.each
+    $( '#tool_items_dom_filter' ).html
     (
-        [ field_cat, field_type ],
-        function ( idx, menu )
+        '\
+            <form id="tool_items_form_filter" autocomplete="off">\
+                <div class="form-group">\
+                    <select id="tool_items_form_filter_field_cat" class="custom-select custom-select-sm form-control form-control-sm" autocomplete="off">\
+                        <option value="Any" data-filter-col="" data-filter-val="" selected>Any Category</option>\
+                    </select>\
+                </div>\
+                <div class="form-group">\
+                    <select id="tool_items_form_filter_field_type" class="custom-select custom-select-sm form-control form-control-sm" autocomplete="off">\
+                        <option value="Any" data-filter-col="" data-filter-val="" selected>Any Type</option>\
+                    </select>\
+                </div>\
+                <div class="form-group">\
+                    <input id="tool_items_form_filter_field_query" class="form-control form-control-sm" type="search" autocomplete="off">\
+                </div>\
+                <div class="form-group">\
+                    <p id="tool_items_form_filter_collap_additional_button_open" class="collapsed" data-toggle="collapse" data-target="#tool_items_form_filter_collap_additional" aria-expanded="false" aria-controls="tool_items_form_filter_collap_additional">\
+                        <i class="fa" data-icon-o="&#xf068;" data-icon-c="&#xf067;"></i> Additional Filters\
+                    </p>\
+                </div>\
+                <div id="tool_items_form_filter_collap_additional" class="collapse hide">\
+                    <div class="form-group row">\
+                        <label class="col-auto col-form-label" for="tool_items_form_filter_field_pricemin">Price Min:</label>\
+                        <div class="col pl-0">\
+                            <input id="tool_items_form_filter_field_pricemin" class="form-control form-control-sm" type="text" autocomplete="off"></input>\
+                        </div>\
+                    </div>\
+                    <div class="form-group row">\
+                        <label class="col-auto col-form-label" for="tool_items_form_filter_field_pricemax">Price Max:</label>\
+                        <div class="col pl-0">\
+                            <input id="tool_items_form_filter_field_pricemax" class="form-control form-control-sm" type="text" autocomplete="off"></input>\
+                        </div>\
+                    </div>\
+                </div>\
+            </form>\
+        '
+    );
+    
+    // field query
+    
+    var field_query = $( '#tool_items_form_filter_field_query' );
+    
+    field_query.on
+    (
+        'val',
+        function ( event, val = '', draw = false )
         {
-            menu.on
-            (
-                'val',
-                function ( event, val = '', draw = false )
-                {
-                    var regexp = new RegExp( $.fn.dataTable.util.escapeRegex( val ).split( ' ' ).join( '.+' ), 'i' );
-                    var filter = function ( ) { return regexp.test( $( this ).val( ) ) };
-                    menu.find( 'option' ).filter( filter ).first( ).attr( 'selected', true ); // .not( ':first' )
-                    menu.trigger( 'change', [ draw ] );
-                }
-            );
-            
-            menu.on
-            (
-                'change',
-                function ( event, draw = true )
-                {
-                    datatable.columns( ).search( '' );
-                    
-                    $.each
-                    (
-                        [ field_cat, field_type ],
-                        function ( idx, menu )
-                        {
-                            var filter = menu.find( 'option' ).filter( ':selected' ).data( 'filter' );
-                            if ( filter == '' ) return;
-                            filter = filter.split( '=', 2 );
-                            filter[1] = $.fn.dataTable.util.escapeRegex( filter[1] );
-                            var regexp = '^' + filter[1] + '$';
-                            datatable.column( filter[0] ).search( regexp, true, false );
-                        }
-                    );
-                    
-                    Tool_Items_var.list_bool = 0;
-                    if ( field_cat.val( ) === 'Favorite' )
-                    {
-                        Tool_Items_var.list_bool = 1;
-                        cache.read( );
-                    }
-                    
-                    if ( draw ) datatable.draw( );
-                }
-            );
+            $( this ).val( val );
+            $( this ).trigger( 'input', [ draw ] );
         }
     );
     
-    /*
-    if ( 'p' in query )
-    {
-        var field_price_label = $( '<label class="font-weight-bold">Price: </label>' );
-        var field_price       = $( '<input id="tool_items_table_default_field_price" class="form-control form-control-sm" type="text"></input>' );
-        
-        field_price_label.append( field_price       );
-        fieldsb.push            ( field_price_label );
-        
-        field_price.on
-        (
-            'val',
-            function ( event, val = '', draw = false )
-            {
-                field_price.val( val );
-                field_price.trigger( 'input', [ draw ] );
-            }
-        );
-        
-        var min = 0;
-        var max = Infinity;
-        
-        field_price.on
-        (
-            'input',
-            function ( event, draw = true )
-            {
-                var range = $( this ).val( );
-                range = range.replace( /[^\d-]/g, '' );
-                var rangeb = range.split( '-', 2 );
-                
-                if ( /^\d+$/.test( range ) )
-                {
-                    min = parseInt( rangeb[0], 10 );
-                    max = min;
-                }
-                else if ( /^\d+-$/.test( range ) )
-                {
-                    min = parseInt( rangeb[0], 10 );
-                    max = Infinity;
-                }
-                else if ( /^-\d+$/.test( range ) )
-                {
-                    min = 0;
-                    max = parseInt( rangeb[1], 10 );
-                }
-                else if ( /^\d+-\d+$/.test( range ) )
-                {
-                    min = parseInt( rangeb[0], 10 );
-                    max = parseInt( rangeb[1], 10 );
-                }
-                else
-                {
-                    min = 0;
-                    max = Infinity;
-                }
-                
-                if ( min > max ) [ min, max ] = [ max, min ];
-                
-                if ( draw ) datatable.draw( );
-            }
-        );
-        
-        $.fn.dataTable.ext.search.push
-        (
-            function ( undefined, undefined, undefined, row_data )
-            {
-                var mid = parseFloat( row_data[col.price]['@data-order'] ) || 0;
-                if ( min <= mid && mid <= max ) return true;
-                return false;
-            }
-        );
-    }
-    */
+    field_query.on
+    (
+        'input',
+        function ( event, draw = true )
+        {
+            var val = $( this ).val( );
+            datatable.search( val );
+            if ( draw ) datatable.draw( );
+        }
+    );
     
-    if ( 'p' in query || 'pmin' in query || 'pmax' in query )
-    {
-        var field_pricemin_label = $( '<label class="font-weight-bold">Price Min: </label>' );
-        var field_pricemin       = $( '<input id="tool_items_table_default_field_pricemin" class="form-control form-control-sm" type="text" style="width:100px!important;"></input>' );
-        var field_pricemax_label = $( '<label class="font-weight-bold">Price Max: </label>' );
-        var field_pricemax       = $( '<input id="tool_items_table_default_field_pricemax" class="form-control form-control-sm" type="text" style="width:100px!important;"></input>' );
-        
-        field_pricemin_label.append( field_pricemin       );
-        fieldsb.push               ( field_pricemin_label );
-        field_pricemax_label.append( field_pricemax       );
-        fieldsb.push               ( field_pricemax_label );
-        
-        var range_def = [ 0, Infinity ];
-        var range     = [ 0, Infinity ];
-        
-        $.each
-        (
-            [ field_pricemin, field_pricemax ],
-            function ( idx, field )
-            {
-                field.on
-                (
-                    'val',
-                    function ( event, val = '', draw = false )
-                    {
-                        field.val( val );
-                        field.trigger( 'input', [ draw ] );
-                    }
-                );
-                
-                field.on
-                (
-                    'input',
-                    function ( event, draw = true )
-                    {
-                        var val = field.val( );
-                        val = val.replace( /\D+/g, '' );
-                        field.val( val );
-                        val = parseInt( val, 10 );
-                        range[idx] = ( isNaN( val ) ) ? range_def[idx] : val;
-                        if ( draw ) datatable.draw( );
-                    }
-                );
-            }
-        );
-        
-        $.fn.dataTable.ext.search.push
-        (
-            function ( undefined, undefined, undefined, row_data )
-            {
-                var mid = parseFloat( row_data[col.price]['@data-order'] ) || 0;
-                if ( range[0] <= mid && mid <= range[1] ) return true;
-                return false;
-            }
-        );
-    }
+    // field cat
     
-    fields  = $.map( fields,  function ( field ) { return [ field, '<br/>' ] } );
-    fieldsb = $.map( fieldsb, function ( field ) { return [ '<br/>', field ] } );
+    var field_cat = $( '#tool_items_form_filter_field_cat' );
     
-    $( datatable.table( ).container( ) ).find( '.dataTables_filter' ).prepend( fields  ).append ( fieldsb );
+    $(
+        [
+            [ 'Favorite',   'list',    '',  '&#9734; Favorite' ],
+            [ 'New',        col.new,   '1', 'New'              ],
+            [ 'Discounted', col.disc,  '1', 'Discounted'       ],
+            [ 'Rare',       col.rare,  '1', 'Rare'             ],
+            [ 'Tournament', col.tour,  '1', 'Tournament Prize' ],
+            [ 'Ranked',     col.rank,  '1', 'Ranked Prize'     ],
+            [ 'Event',      col.event, '1', 'Event Prize'      ],
+        ]
+    )
+    .each( function ( idx, val ) { field_cat.append( '<option value="' + val[0] + '" data-filter-col="' + val[1] + '" data-filter-val="' + val[2] + '">' + val[3] + '</option>' ) } );
+    
+    field_cat.on
+    (
+        'val',
+        function ( event, val = '', draw = false )
+        {
+            var regexp = new RegExp( $.fn.dataTable.util.escapeRegex( val ).split( ' ' ).join( '.+' ), 'i' );
+            var filter = function ( ) { return regexp.test( $( this ).val( ) ) };
+            $( this ).find( 'option' ).filter( filter ).first( ).attr( 'selected', true );
+            $( this ).trigger( 'change', [ draw ] );
+        }
+    );
+    
+    field_cat.on
+    (
+        'change',
+        function ( event, draw = true )
+        {
+            var opt = $( this ).find( 'option' ).filter( ':selected' );
+            var col = opt.data( 'filter-col' );
+            var val = opt.data( 'filter-val' );
+            
+            if      ( ! col )         { filter.cat = null;         filter.list = 0                }
+            else if ( col == 'list' ) { filter.cat = null;         filter.list = 1; cache.read( ) }
+            else                      { filter.cat = [ col, val ]; filter.list = 0                }
+            
+            if ( draw ) datatable.draw( );
+        }
+    );
+    
+    // field type
+    
+    var field_type = $( '#tool_items_form_filter_field_type' );
+    
+    datatable.column( col.type ).data( ).unique( )
+    .sort( function ( a, b ) { return a.toLowerCase( ).localeCompare( b.toLowerCase( ) ) } )
+    .each( function ( val  ) { field_type.append( '<option value="' + val + '" data-filter-col="' + col.type + '" data-filter-val="' + val + '">' + val + '</option>' ) } );
+    
+    field_type.on
+    (
+        'val',
+        function ( event, val = '', draw = false )
+        {
+            var regexp = new RegExp( $.fn.dataTable.util.escapeRegex( val ).split( ' ' ).join( '.+' ), 'i' );
+            var filter = function ( ) { return regexp.test( $( this ).val( ) ) };
+            $( this ).find( 'option' ).filter( filter ).first( ).attr( 'selected', true );
+            $( this ).trigger( 'change', [ draw ] );
+        }
+    );
+    
+    field_type.on
+    (
+        'change',
+        function ( event, draw = true )
+        {
+            var opt = $( this ).find( 'option' ).filter( ':selected' );
+            var col = opt.data( 'filter-col' );
+            var val = opt.data( 'filter-val' );
+            
+            if   ( ! col ) filter.type = null;
+            else           filter.type = [ col, val ];
+            
+            if ( draw ) datatable.draw( );
+        }
+    );
+    
+    // field pricemin
+    
+    var field_pricemin = $( '#tool_items_form_filter_field_pricemin' );
+    
+    field_pricemin.on
+    (
+        'val',
+        function ( event, val = '', draw = false )
+        {
+            $( this ).val( val );
+            $( this ).trigger( 'input', [ draw ] );
+        }
+    );
+    
+    field_pricemin.on
+    (
+        'input',
+        function ( event, draw = true )
+        {
+            var val = $( this ).val( );
+            val = val.replace( /\D+/g, '' );
+            $( this ).val( val );
+            val = parseInt( val, 10 );
+            
+            if   ( isNaN( val ) ) filter.pricemin = null;
+            else                  filter.pricemin = [ val ];
+            
+            if ( draw ) datatable.draw( );
+        }
+    );
+    
+    // field pricemax
+    
+    var field_pricemax = $( '#tool_items_form_filter_field_pricemax' );
+    
+    field_pricemax.on
+    (
+        'val',
+        function ( event, val = '', draw = false )
+        {
+            $( this ).val( val );
+            $( this ).trigger( 'input', [ draw ] );
+        }
+    );
+    
+    field_pricemax.on
+    (
+        'input',
+        function ( event, draw = true )
+        {
+            var val = $( this ).val( );
+            val = val.replace( /\D+/g, '' );
+            $( this ).val( val );
+            val = parseInt( val, 10 );
+            
+            if   ( isNaN( val ) ) filter.pricemax = null;
+            else                  filter.pricemax = [ val ];
+            
+            if ( draw ) datatable.draw( );
+        }
+    );
+    
+    //
+    
+    $.fn.dataTable.ext.search.push
+    (
+        function ( undefined, undefined, undefined, row_data )
+        {
+            if ( filter.id   && ! filter.id.includes( row_data[col.id] )                ) return false;
+            if ( filter.list && typeof cache.ref.list[row_data[col.id]] === 'undefined' ) return false;
+            if ( filter.cat  && row_data[filter.cat [0]] != filter.cat [1]              ) return false;
+            if ( filter.type && row_data[filter.type[0]] != filter.type[1]              ) return false;
+            if ( filter.pricemin || filter.pricemax )
+            {
+                var price = parseFloat( row_data[col.price]['@data-order'] ) || 0;
+                if ( filter.pricemin && filter.pricemin[0] > price ) return false;
+                if ( filter.pricemax && filter.pricemax[0] < price ) return false;
+            }
+            
+            return true;
+        }
+    );
+    
+    //
     
     return true;
 }
@@ -403,29 +396,64 @@ function Tool_Items_query ( datatable )
 {
     if ( jQuery.isEmptyObject( query ) ) return;
     
-    if ( query.id )
+    if ( query.id && /^\d+$/.test( query.id ) )
+    {
+        var id = query.id;
+        if ( typeof items[id] === 'undefined' ) _util_popup_notice( 'Invalid item id' );
+        else Tool_Items_popup( datatable, datatable.row( '#id-' + id ) );
+        return;
+    }
+    
+    var draw = false;
+    
+    if ( query.id && ! /^\d+$/.test( query.id ) )
     {
         var id = query.id.split( ' ' );
-        
         if ( id.some( function ( id ) { return typeof items[id] === 'undefined' } ) ) _util_popup_notice( 'Invalid item id' );
-        else if ( id.length > 1 ) datatable.column( col.id ).search( '^(' + id.join( '|' ) + ')$', true, false ).draw( );
-        else Tool_Items_popup( datatable, datatable.row( '#id-' + id[0] ) );
+        else filter.id = id;
+        draw = true;
     }
-    else
+    
+    if ( query.q )
     {
-        if ( query.c ) $( '#tool_items_table_default_field_cat'   ).trigger( 'val', query.c );
-        if ( query.t ) $( '#tool_items_table_default_field_type'  ).trigger( 'val', query.t );
-        if ( query.q ) datatable.search( query.q );
-        
-        if ( query.p || query.pmin || query.pmax )
-        {
-          //$( '#tool_items_table_default_field_price'    ).trigger( 'val', query.p );
-            $( '#tool_items_table_default_field_pricemin' ).trigger( 'val', query.p || query.pmin );
-            $( '#tool_items_table_default_field_pricemax' ).trigger( 'val', query.p || query.pmax );
-        }
-        
-        datatable.draw( );
+        $( '#tool_items_form_filter_field_query' ).trigger( 'val', query.q );
+        draw = true;
     }
+    
+    if ( query.c )
+    {
+        $( '#tool_items_form_filter_field_cat' ).trigger( 'val', query.c );
+        draw = true;
+    }
+    
+    if ( query.t )
+    {
+        $( '#tool_items_form_filter_field_type' ).trigger( 'val', query.t );
+        draw = true;
+    }
+    
+    if ( query.p || query.pmin )
+    {
+        $( '#tool_items_form_filter_field_pricemin' ).trigger( 'val', query.p || query.pmin );
+        draw = true;
+    }
+    
+    if ( query.p || query.pmax )
+    {
+        $( '#tool_items_form_filter_field_pricemax' ).trigger( 'val', query.p || query.pmax );
+        draw = true;
+    }
+    
+    if ( draw ) datatable.draw( );
+    
+    /*
+    if ( query.id && /^\d+$/.test( query.id ) )
+    {
+        var id = query.id;
+        if ( typeof items[id] === 'undefined' ) _util_popup_notice( 'Invalid item id' );
+        else Tool_Items_popup( datatable, datatable.row( '#id-' + id ) );
+    }
+    */
     
     return true;
 }
@@ -570,14 +598,7 @@ function Tool_Items_popup ( datatable, row )
             element.removeClass( 'is-off is-on' );
             if ( typeof cache.ref.list[id] === 'undefined' ) element.addClass( 'is-off' );
             else                                             element.addClass( 'is-on'  );
-            
-            if ( Tool_Items_var.list_bool )
-            {
-                datatable.draw( 'full-hold' );
-                
-              //row.page( true );
-              //var info = datatable.page.info( ); if ( info.page > 0 && info.start === info.end ) datatable.page( 'previous' ).draw( 'page' );
-            }
+            if ( filter.list ) datatable.draw( 'full-hold' );
         }
     );
     
@@ -610,8 +631,6 @@ function Tool_Items_popup ( datatable, row )
         'keyup.popup',
         function ( event )
         {
-          //modal.focus( ); // quickfix
-            
             {
                 var op = event.key;
                 if ( op === '\\' ) modal_button_left.trigger( 'click.popup' );
@@ -629,8 +648,6 @@ function Tool_Items_popup ( datatable, row )
         'keyup.popup',
         function ( event )
         {
-          //modal.focus( ); // quickfix
-            
             if ( ! row.equal( row_prev, row_next ) )
             {
                 var op = event.key;
@@ -647,8 +664,6 @@ function Tool_Items_popup ( datatable, row )
         'swiped.popup',
         function ( event )
         {
-          //modal.focus( ); // quickfix
-            
             if ( ! row.equal( row_prev, row_next ) )
             {
                 var op = event.detail.dir;
