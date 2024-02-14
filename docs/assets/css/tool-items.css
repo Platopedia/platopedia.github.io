@@ -88,6 +88,51 @@ i.p
     content : "\2606";
 }
 
+#tool_items_form_filter
+{
+    float          : right;
+    margin-left    : auto;
+    margin-right   : auto;
+    padding-bottom : 15px;
+    width          : 260px;
+    text-align     : center;
+}
+
+@media ( max-width : 766px )
+{
+    #tool_items_form_filter
+    {
+        float : none;
+    }
+}
+
+#tool_items_form_filter label
+{
+    padding-top    : .310rem;
+    padding-bottom : .310rem;
+    padding-right  : 4px;
+    min-width      : 100px;
+    font-weight    : normal;
+    text-align     : left;
+}
+
+#tool_items_form_filter_collap_additional_button_open
+{
+    cursor      : pointer;
+    font-weight : normal;
+}
+
+#tool_items_form_filter_field_query
+{
+    padding-left            : 29px;
+    text-indent             : 0;
+    background              : url(../images/query.png) no-repeat 8px center;
+    background-size         : 14px;
+    -webkit-background-size : 14px;
+    -moz-background-size    : 14px;
+    -o-background-size      : 14px;
+}
+
 /* ////////////////////////////////////////////////// */
 
 
