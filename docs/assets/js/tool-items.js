@@ -434,13 +434,15 @@ function Tool_Items_query ( datatable )
     
     if ( query.p || query.pmin )
     {
-        $( '#tool_items_form_filter_field_pricemin' ).trigger( 'val', query.p || query.pmin );
+        $( '#tool_items_form_filter_collap_additional' ).collapse( 'show' );
+        $( '#tool_items_form_filter_field_pricemin'    ).trigger( 'val', query.p || query.pmin );
         draw = true;
     }
     
     if ( query.p || query.pmax )
     {
-        $( '#tool_items_form_filter_field_pricemax' ).trigger( 'val', query.p || query.pmax );
+        $( '#tool_items_form_filter_collap_additional' ).collapse( 'show' );
+        $( '#tool_items_form_filter_field_pricemax'    ).trigger( 'val', query.p || query.pmax );
         draw = true;
     }
     
