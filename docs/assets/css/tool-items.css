@@ -119,7 +119,12 @@ i.p
 #tool_items_form_filter_collap_additional_button_open
 {
     cursor      : pointer;
+    display     : inline-block;
+    position    : relative;
+    margin      : -15px -40px -15px -40px;
+    padding     : 15px 40px 15px 40px;
     font-weight : normal;
+    z-index     : 1;
 }
 
 #tool_items_form_filter_field_query
