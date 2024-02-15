@@ -183,13 +183,13 @@ function Tool_Items_filter ( datatable )
                     <div class="form-group row">\
                         <label class="col-auto col-form-label" for="tool_items_form_filter_field_pricemin">Price Min:</label>\
                         <div class="col pl-0">\
-                            <input id="tool_items_form_filter_field_pricemin" class="form-control form-control-sm" type="text" maxlength="10" autocomplete="off"></input>\
+                            <input id="tool_items_form_filter_field_pricemin" class="form-control form-control-sm" type="search" inputmode="numeric" maxlength="10" autocomplete="off"></input>\
                         </div>\
                     </div>\
                     <div class="form-group row">\
                         <label class="col-auto col-form-label" for="tool_items_form_filter_field_pricemax">Price Max:</label>\
                         <div class="col pl-0">\
-                            <input id="tool_items_form_filter_field_pricemax" class="form-control form-control-sm" type="text" maxlength="10" autocomplete="off"></input>\
+                            <input id="tool_items_form_filter_field_pricemax" class="form-control form-control-sm" type="search" inputmode="numeric" maxlength="10" autocomplete="off"></input>\
                         </div>\
                     </div>\
                 </div>\
