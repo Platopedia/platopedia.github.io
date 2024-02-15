@@ -175,11 +175,11 @@ function Tool_Items_filter ( datatable )
                     <input id="tool_items_form_filter_field_query" class="form-control form-control-sm" type="search" autocomplete="off">\
                 </div>\
                 <div class="form-group">\
-                    <p id="tool_items_form_filter_collap_additional_button_open" class="collapsed" data-toggle="collapse" data-target="#tool_items_form_filter_collap_additional" aria-expanded="false" aria-controls="tool_items_form_filter_collap_additional">\
+                    <p id="tool_items_form_filter_collap_other_button_open" class="collapsed" data-toggle="collapse" data-target="#tool_items_form_filter_collap_other" aria-expanded="false" aria-controls="tool_items_form_filter_collap_other">\
                         <i class="fa" data-icon-o="&#xf068;" data-icon-c="&#xf067;"></i> Additional Filters\
                     </p>\
                 </div>\
-                <div id="tool_items_form_filter_collap_additional" class="collapse hide">\
+                <div id="tool_items_form_filter_collap_other" class="collapse">\
                     <div class="form-group row">\
                         <label class="col-auto col-form-label" for="tool_items_form_filter_field_pricemin">Price Min:</label>\
                         <div class="col pl-0">\
@@ -296,10 +296,7 @@ function Tool_Items_filter ( datatable )
             var opt = $( this ).find( 'option' ).filter( ':selected' );
             var col = opt.data( 'filter-col' );
             var val = opt.data( 'filter-val' );
-            
-            if   ( ! col ) filter.type = null;
-            else           filter.type = [ col, val ];
-            
+            filter.type = ( ! col ) ? null : [ col, val ];
             if ( draw ) datatable.draw( );
         }
     );
@@ -324,13 +321,9 @@ function Tool_Items_filter ( datatable )
         function ( event, draw = true )
         {
             var val = $( this ).val( );
-            val = val.replace( /\D+/g, '' );
-            $( this ).val( val );
+            if ( ! /^\d{0,10}$/.test( val ) ) $( this ).val( val = val.replace( /\D+/g, '' ).substring( 0, 10 ) );
             val = parseInt( val, 10 );
-            
-            if   ( isNaN( val ) ) filter.pricemin = null;
-            else                  filter.pricemin = [ val ];
-            
+            filter.pricemin = ( isNaN( val ) ) ? null : [ val ];
             if ( draw ) datatable.draw( );
         }
     );
@@ -355,13 +348,9 @@ function Tool_Items_filter ( datatable )
         function ( event, draw = true )
         {
             var val = $( this ).val( );
-            val = val.replace( /\D+/g, '' );
-            $( this ).val( val );
+            if ( ! /^\d{0,10}$/.test( val ) ) $( this ).val( val = val.replace( /\D+/g, '' ).substring( 0, 10 ) );
             val = parseInt( val, 10 );
-            
-            if   ( isNaN( val ) ) filter.pricemax = null;
-            else                  filter.pricemax = [ val ];
-            
+            filter.pricemax = ( isNaN( val ) ) ? null : [ val ];
             if ( draw ) datatable.draw( );
         }
     );
@@ -396,7 +385,7 @@ function Tool_Items_query ( datatable )
 {
     if ( jQuery.isEmptyObject( query ) ) return;
     
-    if ( query.id && /^\d+$/.test( query.id ) )
+    if ( query.id && /^\S+$/.test( query.id ) )
     {
         var id = query.id;
         if ( typeof items[id] === 'undefined' ) _util_popup_notice( 'Invalid item id' );
@@ -404,9 +393,11 @@ function Tool_Items_query ( datatable )
         return;
     }
     
-    var draw = false;
+    var draw          = false;
+    var collap_other  = false;
+  //var collap_hidden = false;
     
-    if ( query.id && ! /^\d+$/.test( query.id ) )
+    if ( query.id && ! /^\S+$/.test( query.id ) )
     {
         var id = query.id.split( ' ' );
         if ( id.some( function ( id ) { return typeof items[id] === 'undefined' } ) ) _util_popup_notice( 'Invalid item id' );
@@ -434,19 +425,27 @@ function Tool_Items_query ( datatable )
     
     if ( query.p || query.pmin )
     {
-        $( '#tool_items_form_filter_collap_additional' ).collapse( 'show' );
-        $( '#tool_items_form_filter_field_pricemin'    ).trigger( 'val', query.p || query.pmin );
+        $( '#tool_items_form_filter_field_pricemin' ).trigger( 'val', query.p || query.pmin );
         draw = true;
+        collap_other = true;
     }
     
     if ( query.p || query.pmax )
     {
-        $( '#tool_items_form_filter_collap_additional' ).collapse( 'show' );
-        $( '#tool_items_form_filter_field_pricemax'    ).trigger( 'val', query.p || query.pmax );
+        $( '#tool_items_form_filter_field_pricemax' ).trigger( 'val', query.p || query.pmax );
         draw = true;
+        collap_other = true;
     }
     
     if ( draw ) datatable.draw( );
+    
+    if ( collap_other )
+    {
+      //$( '#tool_items_form_filter_collap_other' ).collapse( 'show' );
+        
+        $( '#tool_items_form_filter_collap_other_button_open' ).attr( 'class', '' ).attr( 'aria-expanded', 'true' );
+        $( '#tool_items_form_filter_collap_other'             ).attr( 'class', 'collapse show' );
+    }
     
     /*
     if ( query.id && /^\d+$/.test( query.id ) )
