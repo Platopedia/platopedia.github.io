@@ -6,7 +6,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="{{ page.description }}">
         
-        <title>Demo - Modal</title>
+        <title>Demo - Popup</title>
         
         <meta name="color-scheme" content="only light">
         <meta name="theme-color" content="#FFFFFF">
@@ -36,229 +36,40 @@
         <meta name="application-name" content="Platopedia">
         <meta name="msapplication-TileColor" content="#343A40">
         <meta name="msapplication-config" content="/docs/assets/images/icons/browserconfig.xml">
+        
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css">
+        <link rel="stylesheet" href="/docs/assets/css/util-datatable.css" />
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/6.0.0/bootbox.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/swiped-events/1.1.7/swiped-events.min.js" integrity="sha512-q2rGCiN6EL2X7aJwVzSD6E0GbpfcGSjipdpZ12lqArQfSMb/LTDXlSFZLrohrSanuRk2/oP96lb14NNgPCAZPw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script type="text/javascript" src="/docs/assets/js/util-datatable.js"></script>
+        <script type="text/javascript" src="/docs/assets/js/util-cache.js"></script>
+        
+        <script>
+        $( document ).ready( function ( ) { $( '#popup-item' ).modal( 'show' ) } );
+        </script>
     </head>
-    <body>
-        <noscript>
-            <div class="alert alert-danger" role="alert">
-                javascript disabled
-            </div>
-        </noscript>
-        
-        <header>
-            <nav class="navbar navbar-expand-lg navbar-light">
-                {% include head-brand-default.html %}
-                <div id="navbar-content" class="collapse navbar-collapse">
-                    <ul class="navbar-nav mr-auto">
-                        {% include head-menu.html %}
-                    </ul>
-                    <span class="navbar-text d-flex">
-                        {% include head-theme.html %}
-                    </span>
-                </div>
-            </nav>
-        </header>
-        
+    <body>        
         <div class="container">
-
-<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css">
-<link rel="stylesheet" href="/docs/assets/css/util-datatable.css" />
-
-<style>
-/* ////////////////////////////////////////////////// */
-
-/*
-footer
-{
-    height : 0px;
-}
-*/
-
-h1
-{
-    margin-bottom : 0;
-}
-
-/*
-.content
-{
-    padding-left  : 0 !important;
-    padding-right : 0 !important;
-    border-bottom : 2px solid var(--color-C);
-}
-*/
-
-td:nth-child(3)
-{
-    white-space : nowrap;
-}
-
-td br
-{
-    margin-bottom : 0;
-}
-
-/*
-i.c:before
-{
-    content     : "\f111";
-    font-family : 'Font Awesome\ 5 Free';
-    font-weight : 900;
-    font-style  : normal;
-    color       : #F9DB37;
-}
-
-i.p:before
-{
-    content     : "\f111";
-    font-family : 'Font Awesome\ 5 Free';
-    font-weight : 900;
-    font-style  : normal;
-    color       : #01BCFD;
-}
-*/
-
-i.c
-{
-    display             : inline-block;
-    height              : 10px;
-    width               : 10px;
-    background-image    : url(../images/coin.png);
-    background-size     : 10px 10px;
-    background-position : center;
-    background-repeat   : no-repeat;
-}
-
-i.p
-{
-    display             : inline-block;
-    height              : 10px;
-    width               : 10px;
-    background-image    : url(../images/pip.png);
-    background-size     : 10px 10px;
-    background-position : center;
-    background-repeat   : no-repeat;
-}
-
-.modal .modal-button-left
-{
-    color : #FFD600;
-}
-
-.modal .modal-button-left.is-on::after
-{
-    content : "\2605";
-}
-
-.modal .modal-button-left.is-off::after
-{
-    content : "\2606";
-}
-
-/* ////////////////////////////////////////////////// */
-</style>
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/6.0.0/bootbox.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/swiped-events/1.1.7/swiped-events.min.js" integrity="sha512-q2rGCiN6EL2X7aJwVzSD6E0GbpfcGSjipdpZ12lqArQfSMb/LTDXlSFZLrohrSanuRk2/oP96lb14NNgPCAZPw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script type="text/javascript" src="/docs/assets/js/util-datatable.js"></script>
-<script type="text/javascript" src="/docs/assets/js/util-cache.js"></script>
-
-<script>
-(function(){
-
-/* ////////////////////////////////////////////////// */
-
-$( document ).ready
-(
-    function ( )
-    {
-        $( '#popup-item' ).modal( 'show' );
-    }
-);
-
-/* ////////////////////////////////////////////////// */
-
-})()
-</script>
-
-<ul class="nav nav-pills nav-justified">
-    <li class="nav-item">
-        <a class="nav-link active" href="/items">Items</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="/profilebuilder">Profile Builder</a>
-    </li>
-</ul>
-
-<h1 class="position-relative">
-    <a class="position-absolute" href="#" data-target="#popup-info" data-toggle="modal" style="left:15px">
-        <span class="icon">&#xf05a;</span>
-    </a>
-    <span>Demo - Modal</span>
-</h1>
-
-<div class="content d-none loaded-b">
-
-
-
-<div class="linebreak"></div>
-<div class="linebreak"></div>
-
-<p>Demo Modal</p>
-
-<div class="linebreak"></div>
-<div class="linebreak"></div>
-
-</div>
-
-<div id="popup-item" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header text-center">
-                <button class="modal-button-left" type="button"></button>
-                <h4 class="modal-title w-100"></h4>
-                <button class="modal-button-right" type="button" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                This is an item.
-            </div>
-            <div class="modal-footer">
-                
-            </div>
+            <h1>Demo - Popup</h1>
+            <p>Demo - Popup</p>
         </div>
-    </div>
-</div>
-
-<div id="popup-info" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header text-center">
-                <div class="modal-button-left"></div>
-                <h4 class="modal-title w-100">Items Info</h4>
-                <button class="modal-button-right" type="button" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p><b>Last updated:</b> 14/02/24 22:59 GMT</p>
-                {% include items-info.html %}
-            </div>
-            <div class="modal-footer">
-                
-            </div>
-        </div>
-    </div>
-</div>
-
-        </div>
-        
-        <footer class="d-none loaded-b">
-            <div class="container-fluid">
-                <div class="text-center">
-                
+        <div id="popup-item" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        Modal Head.
+                    </div>
+                    <div class="modal-body">
+                        Popup Body.
+                    </div>
+                    <div class="modal-footer">
+                        Popup Foot.
+                    </div>
                 </div>
             </div>
-        </footer>
-        
-        {% include foot-counter.html %}
+        </div>
     </body>
 </html>
