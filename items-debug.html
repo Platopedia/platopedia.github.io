@@ -270,9 +270,8 @@ function Tool_Items ( deferred )
             'init' : function ( datatable )
             {
                 Tool_Items_filter( datatable );
-                Tool_Items_query ( datatable );
-                
                 if ( typeof deferred !== 'undefined' ) deferred.resolve( );
+                Tool_Items_query ( datatable );
             },
             
             'callbackrowclick' : function ( datatable, row )
