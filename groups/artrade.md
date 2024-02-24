@@ -22,7 +22,7 @@ Artrade helps you connect with trusted item traders and merchants from our commu
 Become a member of Artrade. Join our group by clicking the link below!
 
 <p>
-    <a href="https://plato.app/2uqx9clho7ysg">https://plato.app/2uqx9clho7ysg</a>
+    <a href="https://plato.app/1jur51x8jitb6">https://plato.app/1jur51x8jitb6</a>
     <a class="btn btn-sm btn-field btn-copy icon font-weight-normal" href="https://plato.app/2uqx9clho7ysg">&#xf24d;</a>
     <iframe class="d-none" name="intent" src="data:text/plain;charset=utf-8;base64,aW50ZW50"></iframe>
 </p>
