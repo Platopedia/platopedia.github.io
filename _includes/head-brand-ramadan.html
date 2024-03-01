@@ -1,0 +1,91 @@
+<style>
+.navbar .navbar-brand img
+{
+    filter         : none;
+    -webkit-filter : none;
+}
+
+.navbar .navbar-brand,
+.navbar .navbar-text,
+.navbar .navbar-toggler > *,
+.navbar .nav-link
+{
+    --color-brand-text : #A58E62;
+}
+
+/* https://codepen.io/joshuapekera/pen/xGjMMq */
+
+.navbar .effect
+{
+    margin-left                       : -140px;
+    margin-right                      : -140px;
+    padding-left                      : 140px;
+    padding-right                     : 140px;
+    text-align                        : center;
+    color                             : rgba( 255, 255, 255, 0.1 );
+    
+    background                        : -webkit-gradient( linear, left top, right top, from( #A58E62 ), to( #A58E62 ), color-stop( 0.5, #FFFFFF ) );
+    background                        : -moz-gradient   ( linear, left top, right top, from( #A58E62 ), to( #A58E62 ), color-stop( 0.5, #FFFFFF ) );
+    background                        : gradient        ( linear, left top, right top, from( #A58E62 ), to( #A58E62 ), color-stop( 0.5, #FFFFFF ) );
+    
+    -webkit-background-size           : 125px 100%;
+    -moz-background-size              : 125px 100%;
+    background-size                   : 125px 100%;
+    
+    -webkit-background-clip           : text;
+    -moz-background-clip              : text;
+    background-clip                   : text;
+    
+    -webkit-animation-name            : effect;
+    -moz-animation-name               : effect;
+    animation-name                    : effect;
+    
+    -webkit-animation-delay           : 1s;
+    -moz-animation-delay              : 1s;
+    animation-delay                   : 1s;
+    
+    -webkit-animation-duration        : 2s;
+    -moz-animation-duration           : 2s;
+    animation-duration                : 2s;
+    
+    -webkit-animation-iteration-count : 1; /*infinite*/
+    -moz-animation-iteration-count    : 1; /*infinite*/
+    animation-iteration-count         : 1; /*infinite*/
+    
+    background-repeat                 : no-repeat;
+    background-position               : 0 0;
+    background-color                  : #A58E62;
+}
+
+@-moz-keyframes effect
+{
+    0%   { background-position : top left  }
+    100% { background-position : top right }
+}
+
+@-webkit-keyframes effect
+{
+    0%   { background-position : top left  }
+    100% { background-position : top right }
+}
+
+@-o-keyframes effect
+{
+    0%   { background-position : top left  }
+    100% { background-position : top right }
+}
+
+@keyframes effect
+{
+    0%   { background-position : top left  }
+    100% { background-position : top right }
+}
+</style>
+
+<a class="navbar-brand" href="/">
+    <img class="" src="/docs/assets/images/logos/ramadan.png" alt="Platopedia" style="width:60px" onerror="this.style.display='none';">
+    <span class="notranslate effect">Platopedia</span>
+</a>
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-content" aria-controls="#navbar-content" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="icon">&#xf0c9;</span>
+</button>
