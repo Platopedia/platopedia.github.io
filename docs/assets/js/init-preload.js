@@ -18,7 +18,7 @@ var audios = [ ];
 (
     '/docs/assets/images/404.webp',
     '/docs/assets/images/logos/default.png',
-    '/docs/assets/images/logos/valentine.png',
+    '/docs/assets/images/logos/ramadan.png',
     '/docs/assets/images/query.png',
     '/docs/assets/images/coin.png',
     '/docs/assets/images/pip.png',
