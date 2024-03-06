@@ -13,16 +13,20 @@
     --color-brand-text : #A58E62;
 }
 
-/* https://codepen.io/joshuapekera/pen/xGjMMq */
+.navbar .navbar-toggler
+{
+    margin-left  : -40px;
+    padding-left : 40px;
+}
 
-.navbar .effect
+.navbar .effect /*.effectb*/
 {
     margin-left                       : -140px;
     margin-right                      : -140px;
     padding-left                      : 140px;
     padding-right                     : 140px;
     text-align                        : center;
-    color                             : rgba( 255, 255, 255, 0.1 );
+    color                             : transparent; /*rgba( 255, 255, 255, 0.1 )*/
     
     background                        : -webkit-gradient( linear, left top, right top, from( #A58E62 ), to( #A58E62 ), color-stop( 0.5, #FFFFFF ) );
     background                        : -moz-gradient   ( linear, left top, right top, from( #A58E62 ), to( #A58E62 ), color-stop( 0.5, #FFFFFF ) );
@@ -81,6 +85,10 @@
     100% { background-position : top right }
 }
 </style>
+
+<script>
+//window.onload = function ( ) { document.querySelector( '.effect' ).className += ' effectb' }
+</script>
 
 <a class="navbar-brand" href="/">
     <img class="" src="/docs/assets/images/logos/ramadan.png" alt="Platopedia" style="width:60px" onerror="this.style.display='none';">
