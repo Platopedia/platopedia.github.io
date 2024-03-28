@@ -148,19 +148,10 @@ All of our merchants and their stats are listed below. If you wish to become a m
             <td>RBT</td>
         </tr>
         <tr>
-            <td>_R3AP3R</td>
-        </tr>
-        <tr>
             <td>mishii</td>
         </tr>
         <tr>
-            <td>SoyJuancho</td>
-        </tr>
-        <tr>
             <td>Zack__243</td>
-        </tr>
-        <tr>
-            <td>89sVault</td>
         </tr>
         <tr>
             <td>esmerilados</td>
@@ -170,15 +161,9 @@ All of our merchants and their stats are listed below. If you wish to become a m
         </tr>
         <tr>
             <td>GAX</td>
-        </tr>
-        <tr>
-            <td>EmpressT</td>
         </tr>        
         <tr>
             <td>arlovp</td>
-        </tr>
-        <tr>
-            <td>skoal</td>
         </tr>
         <tr>
             <td>hmode</td>
@@ -196,9 +181,6 @@ All of our merchants and their stats are listed below. If you wish to become a m
             <td>Er_Acer</td>
         </tr>
         <tr>
-            <td>Mdame</td>
-        </tr>
-        <tr>
             <td>potatorwr</td>
         </tr>
         <tr>
@@ -206,9 +188,6 @@ All of our merchants and their stats are listed below. If you wish to become a m
         </tr>
         <tr>
             <td>MfcnUnicorn</td>
-        </tr>
-        <tr>
-            <td>R0b0Tr0N</td>
         </tr>
         <tr>
             <td>yeojin</td>
