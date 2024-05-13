@@ -1,7 +1,7 @@
 ---
 layout: tool-content
 title: Star Themes - Platopedia
-heading: <span class="badge badge-type">Profile</span>&nbsp;Theme Sets
+heading: <span class="badge badge-type">Profile</span>&nbsp;Star Themes
 ---
 
 <div class="linebreak"></div>
