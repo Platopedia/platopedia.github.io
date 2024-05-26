@@ -1,7 +1,7 @@
 ---
 layout: tool-content
-title: Artrade - Platopedia
-heading: <img src="/docs/assets/images/groups/artrade/ar-logo.png" />&nbsp;Artrade
+title: Rose's Birthday - Platopedia
+heading: <img src="/docs/assets/images/groups/artrade/ar-logo.png" />&nbsp;Rose's Birthday
 ---
 
 <style>
@@ -59,6 +59,7 @@ To celebrate Rose's Birthday, Arcade is hosting a massive Bingo giveaway on June
 Book your spot by adding one of these accounts linked below. Rest assured, an invite will be sent to you on the event day. Please don't add more than one account.
 
 <p>
+    @MafiaRose
     <a href="https://plato.app/1jur51x8jitb6">https://plato.app/1jur51x8jitb6</a>
     <a class="btn btn-sm btn-field btn-copy icon font-weight-normal" href="https://plato.app/1jur51x8jitb6">&#xf24d;</a>
     <iframe class="d-none" name="intent" src="data:text/plain;charset=utf-8;base64,aW50ZW50"></iframe>
