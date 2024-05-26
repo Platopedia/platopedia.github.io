@@ -61,6 +61,10 @@ To celebrate Rose's Birthday, Arcade is hosting a massive Bingo giveaway on June
             <td>Raja</td>
             <td>25,000</td>
         </tr>
+        <tr>
+            <td> class="w-50">Test</td>
+            <td> class="w-50">Test</td>
+        </tr>
     </tbody>
 </table>
 
