@@ -5,7 +5,7 @@ heading: <img src="/docs/assets/images/rose.png" />&nbsp;Rose's Birthday &#x1F33
 ---
 
 <style>
-h2 { color:#C70039 !important }
+h2 { color:#AD2323 !important }
 h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 </style>
 
