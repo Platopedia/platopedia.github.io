@@ -54,9 +54,15 @@ Test
 
 <div class="linebreak"></div>
 
-## How to join?
+## How to get invited?
 
-Add one of these accounts
+Secure your spot for the Bingo giveaway by adding one of these accounts. An invitation will be sent to you on June 9 @ 2:30 PM (GMT). Please do not add more than one account.
+
+<p>
+    <a href="https://plato.app/1jur51x8jitb6">https://plato.app/1jur51x8jitb6</a>
+    <a class="btn btn-sm btn-field btn-copy icon font-weight-normal" href="https://plato.app/1jur51x8jitb6">&#xf24d;</a>
+    <iframe class="d-none" name="intent" src="data:text/plain;charset=utf-8;base64,aW50ZW50"></iframe>
+</p>
 
 <p>
     <a href="https://plato.app/1jur51x8jitb6">https://plato.app/1jur51x8jitb6</a>
