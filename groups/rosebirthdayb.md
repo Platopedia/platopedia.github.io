@@ -22,7 +22,7 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 .syotimer             { margin:0 auto;padding:0;text-align:center; }
 .syotimer-cell        { display:inline-block;margin:0 5px;width:60px; }
 .syotimer-cell__value { margin:0 0 5px;height:40px;font-size:20px;color:#AD2323;line-height:40px;border:1px solid #AD2323; }
-.syotimer-cell__unit  { font-size:12px;color:#AD2323;text-transform:uppercase; }
+.syotimer-cell__unit  { font-size:12px;color:#AD2323;text-transform:uppercase;border:1px solid #AD2323; }
 </style>
 
 <script type="text/javascript">
@@ -45,6 +45,7 @@ To celebrate Rose's Birthday, Arcade is hosting a massive Bingo giveaway on June
 jQuery( function ( $ ) { $( '.countdown' ).syotimer( { date : new Date( '2024-06-08T15:00:00+00:00' ), lang : 'eng' } ) } );
 </script>
 
+<div class="linebreak"></div>
 <div class="linebreak"></div>
 
 ## List of Sponsors
