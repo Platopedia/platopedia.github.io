@@ -21,34 +21,46 @@ To celebrate Rose's Birthday, Arcade is hosting a massive Bingo giveaway on June
     <thead>
         <tr>
             <th class="w-50">Sponsors</th>
-            <th class="w-50">Amount</th>
+            <th class="w-50">Amount (Coins)</th>
         </tr>
     </thead>
     <tbody>
         <tr>
-            <td>1 - 999 Coins</td>
-            <td>250 Coins</td>
+            <td>Fear</td>
+            <td>500,000</td>
         </tr>
         <tr>
-            <td>1000 - 2999 Coins</td>
-            <td>500 Coins</td>
+            <td>Globe</td>
+            <td>100,000</td>
         </tr>
         <tr>
-            <td>3000 - 4999 Coins</td>
-            <td>750 Coins</td>
+            <td>Mont</td>
+            <td>100,000</td>
         </tr>
         <tr>
-            <td>5000 - 6999 Coins</td>
-            <td>1000 Coins</td>
+            <td>_Neff</td>
+            <td>85,000</td>
         </tr>
         <tr>
-            <td>7000 - 8999 Coins</td>
-            <td>1250 Coins</td>
+            <td>Arts</td>
+            <td>30,000</td>
         </tr>
         <tr>
-            <td>9000 - 10000 Coins</td>
-            <td>1500 Coins</td>
-        </tr>        
+            <td>Galaxy</td>
+            <td>25,000</td>
+        </tr>
+        <tr>
+            <td>Miaw</td>
+            <td>25,000</td>
+        </tr>
+        <tr>
+            <td>Levs</td>
+            <td>25,000</td>
+        </tr>
+        <tr>
+            <td>Raja</td>
+            <td>25,000</td>
+        </tr>
     </tbody>
 </table>
 
