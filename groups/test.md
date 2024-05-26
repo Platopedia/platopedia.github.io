@@ -20,8 +20,8 @@ Test
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th class="w-50">Trade Value</th>
-            <th class="w-50">Incentive Bonus</th>
+            <th class="w-50">Sponsors</th>
+            <th class="w-50">Amount</th>
         </tr>
     </thead>
     <tbody>
@@ -51,6 +51,24 @@ Test
         </tr>        
     </tbody>
 </table>
+
+<div class="linebreak"></div>
+
+## How to join?
+
+Add one of these accounts
+
+<p>
+    <a href="https://plato.app/1jur51x8jitb6">https://plato.app/1jur51x8jitb6</a>
+    <a class="btn btn-sm btn-field btn-copy icon font-weight-normal" href="https://plato.app/1jur51x8jitb6">&#xf24d;</a>
+    <iframe class="d-none" name="intent" src="data:text/plain;charset=utf-8;base64,aW50ZW50"></iframe>
+</p>
+
+<p>
+    <a href="https://plato.app/1jur51x8jitb6">https://plato.app/1jur51x8jitb6</a>
+    <a class="btn btn-sm btn-field btn-copy icon font-weight-normal" href="https://plato.app/1jur51x8jitb6">&#xf24d;</a>
+    <iframe class="d-none" name="intent" src="data:text/plain;charset=utf-8;base64,aW50ZW50"></iframe>
+</p>
 
 <div class="linebreak"></div>
 
