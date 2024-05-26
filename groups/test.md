@@ -11,11 +11,11 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 
 <div class="linebreak"></div>
 
-Test
+To celebrate Rose's Birthday, Arcade is hosting a massive Bingo giveaway on June 8th at 3 PM (GPT). We hope to see you all there!
 
 <div class="linebreak"></div>
 
-## 2. Item Trading
+## List of Sponsors
 
 <table class="table table-bordered">
     <thead>
@@ -54,9 +54,9 @@ Test
 
 <div class="linebreak"></div>
 
-## How to get invited?
+## Group Invite
 
-Secure your spot for the Bingo giveaway by adding one of these accounts. An invitation will be sent to you on June 9 @ 2:30 PM (GMT). Please do not add more than one account.
+Book your spot by adding one of these accounts linked below. Rest assured, an invite will be sent to you on the event day. Please don't add more than one account.
 
 <p>
     <a href="https://plato.app/1jur51x8jitb6">https://plato.app/1jur51x8jitb6</a>
@@ -78,18 +78,14 @@ Secure your spot for the Bingo giveaway by adding one of these accounts. An invi
 
 <div class="linebreak"></div>
 
-## 1. Free Membership
+## For Sponsors
 
-Become a member of Artrade. Join our group by clicking the link below!
+If you're interested in sponsoring, add @Win on Plato and let them know. Once confirmed, we'll add your username to the list of sponsors.
 
 <p>
     <a href="https://plato.app/1jur51x8jitb6">https://plato.app/1jur51x8jitb6</a>
     <a class="btn btn-sm btn-field btn-copy icon font-weight-normal" href="https://plato.app/1jur51x8jitb6">&#xf24d;</a>
     <iframe class="d-none" name="intent" src="data:text/plain;charset=utf-8;base64,aW50ZW50"></iframe>
-</p>
-
-<p>
-    *** If the link doesn't work, copy then post it into Plato chat.
 </p>
 
 <div class="linebreak"></div>
