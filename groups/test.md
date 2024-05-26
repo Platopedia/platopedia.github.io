@@ -5,7 +5,7 @@ heading: <img src="/docs/assets/images/groups/artrade/ar-logo.png" />&nbsp;Rose'
 ---
 
 <style>
-h2 { color:#A7232A !important }
+h2 { color:#992634 !important }
 h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 </style>
 
