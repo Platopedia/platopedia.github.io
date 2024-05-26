@@ -62,8 +62,8 @@ To celebrate Rose's Birthday, Arcade is hosting a massive Bingo giveaway on June
             <td>25,000</td>
         </tr>
         <tr>
-            <td> class="w-50">Test</td>
-            <td> class="w-50">Test</td>
+            <th class="w-50">Sponsors</th>
+            <th class="w-50">Amount (Coins)</th>
         </tr>
     </tbody>
 </table>
