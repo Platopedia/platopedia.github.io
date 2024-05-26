@@ -1,11 +1,11 @@
 ---
 layout: tool-content
-title: Rose's Birthday - Platopedia
-heading: <img src="/docs/assets/images/groups/artrade/ar-logo.png" />&nbsp;Rose's Birthday
+title: Rose's Birthday &#x1F339; - Platopedia
+heading: <img src="/docs/assets/images/groups/artrade/ar-logo.png" />&nbsp;Rose's Birthday &#x1F339;
 ---
 
 <style>
-h2 { color:#992634 !important }
+h2 { color:#E2122C !important }
 h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 </style>
 
