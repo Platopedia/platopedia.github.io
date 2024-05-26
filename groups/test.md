@@ -5,7 +5,7 @@ heading: <img src="/docs/assets/images/groups/artrade/ar-logo.png" />&nbsp;Rose'
 ---
 
 <style>
-h2 { color:#E44026 !important }
+h2 { color:#A83B48 !important }
 h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 </style>
 
@@ -60,10 +60,6 @@ To celebrate Rose's Birthday, Arcade is hosting a massive Bingo giveaway on June
         <tr>
             <td>Raja</td>
             <td>25,000</td>
-        </tr>
-        <tr>
-            <th class="w-50">Sponsors</th>
-            <th class="w-50">Amount (Coins)</th>
         </tr>
     </tbody>
 </table>
