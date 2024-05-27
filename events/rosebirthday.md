@@ -23,7 +23,7 @@ h4                    { color:#008080 !important;font-size:var(--unit-text-B) !i
 
 <div class="linebreak"></div>
 
-To celebrate Rose's Birthday, Arcade is hosting a massive Bingo giveaway on June 8th at 3 PM (GPT). We hope to see you all there!
+To celebrate Rose's Birthday, Arcade is hosting a massive Bingo giveaway on June 8th at 3 PM (GMT). We hope to see you all there!
 
 <div class="linebreak"></div>
 
