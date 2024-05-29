@@ -156,7 +156,7 @@ Book your spot by adding one of these accounts linked below. Rest assured, an in
 
 ## For Sponsors
 
-If you're interested in sponsoring, add @Win on Plato and let them know. Once confirmed, we'll add your username to the list of sponsors.
+If you're interested in sponsoring, add @Win on Plato and let them know. Once confirmed, we'll add your username to the list of sponsors. (refresh)
 
 <p>
     <a href="https://plato.app/11825g8rolrpg">https://plato.app/11825g8rolrpg</a>
