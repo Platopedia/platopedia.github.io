@@ -46,6 +46,10 @@ $( '.countdown' ).syotimer( { date : new Date( '2024-06-08T15:00:00+00:00' ), af
     </thead>
     <tbody>
         <tr>
+            <td>PlatoCity</td>
+            <td>1,000,000</td>
+        </tr>
+        <tr>
             <td>Fear</td>
             <td>400,000</td>
         </tr>
