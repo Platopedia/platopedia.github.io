@@ -29,7 +29,7 @@ To celebrate Rose's Birthday, Arcade is hosting a massive Bingo giveaway on June
 
 <div class="countdown"></div>
 
-<script type="text/javascript">
+<script>
 $( '.countdown' ).syotimer( { date : new Date( '2024-06-08T15:00:00+00:00' ), afterDeadline : function ( syotimer ) { syotimer.bodyBlock.html( '<b>HAPPY BIRTHDAY ROSE!!!</b>' ) } } );
 </script>
 
@@ -71,10 +71,6 @@ $( '.countdown' ).syotimer( { date : new Date( '2024-06-08T15:00:00+00:00' ), af
         </tr>
         <tr>
             <td>7777777</td>
-            <td>100,000</td>
-        </tr>
-        <tr>
-            <td>abc</td>
             <td>100,000</td>
         </tr>
         <tr>
@@ -129,8 +125,21 @@ $( '.countdown' ).syotimer( { date : new Date( '2024-06-08T15:00:00+00:00' ), af
             <td>Spring</td>
             <td>10,000</td>
         </tr>
+        <tr>
+            <td colspan="2">&nbsp;</td>
+        </tr>
+        <tr class="total">
+            <td><b>TOTAL</b></td>
+            <td></td>
+        </tr>
     </tbody>
 </table>
+
+<script>
+var total = 0;
+$( 'table tbody tr:not(.total) td:nth-child(2)' ).each( function ( ) { total += $( this ).html( ).replace( /[^\d]/g, '' ) * 1 } );
+$( 'table tbody tr.total td:nth-child(2)'       ).html( total.toLocaleString( 'en-US' ) );
+</script>
 
 <div class="linebreak"></div>
 
