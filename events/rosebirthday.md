@@ -126,22 +126,19 @@ countdown.syotimer( { date : new Date( '2024-06-08T15:00:00+00:00' ), afterDeadl
             <td>Spring</td>
             <td>10,000</td>
         </tr>
-        <tr>
-            <td colspan="2">&nbsp;</td>
-        </tr>
-        <tr class="total">
-            <td></td>
-            <td></td>
-        </tr>
     </tbody>
 </table>
+
+<span class="total d-block text-center"></span>
 
 <script>
 var total = 0;
 var table = $( '.table' ).last( );
 table.find( 'tbody tr:not(.total) td:nth-child(2)' ).each( function ( ) { total += $( this ).html( ).replace( /[^\d]/g, '' ) * 1 } );
-table.find( 'tbody tr.total td:nth-child(1)'       ).html( '<b>TOTAL</b>' );
-table.find( 'tbody tr.total td:nth-child(2)'       ).html( '<b>' + total.toLocaleString( 'en-US' ) + '</b>' );
+//table.find( 'tbody tr.total td:nth-child(1)'       ).html( '<b>TOTAL</b>' );
+//table.find( 'tbody tr.total td:nth-child(2)'       ).html( '<b>' + total.toLocaleString( 'en-US' ) + '</b>' );
+var span = $( '.total' ).last( );
+span.html( '<b>Total:</b> ' + total.toLocaleString( 'en-US' ) );
 </script>
 
 <div class="linebreak"></div>
