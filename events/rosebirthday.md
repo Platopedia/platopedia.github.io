@@ -129,7 +129,7 @@ $( '.countdown' ).syotimer( { date : new Date( '2024-06-08T15:00:00+00:00' ), af
             <td colspan="2">&nbsp;</td>
         </tr>
         <tr class="total">
-            <td><b>TOTAL</b></td>
+            <td><b>Total</b></td>
             <td></td>
         </tr>
     </tbody>
