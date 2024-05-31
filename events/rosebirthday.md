@@ -133,16 +133,14 @@ countdown.syotimer( { date : new Date( '2024-06-08T15:00:00+00:00' ), afterDeadl
     </tbody>
 </table>
 
-<span class="total d-block text-center"></span>
+<div class="total text-center"></div>
 
 <script>
-var total = 0;
+var coins = 0;
 var table = $( '.table' ).last( );
-table.find( 'tbody tr:not(.total) td:nth-child(2)' ).each( function ( ) { total += $( this ).html( ).replace( /[^\d]/g, '' ) * 1 } );
-//table.find( 'tbody tr.total td:nth-child(1)'       ).html( '<b>TOTAL</b>' );
-//table.find( 'tbody tr.total td:nth-child(2)'       ).html( '<b>' + total.toLocaleString( 'en-US' ) + '</b>' );
-var span = $( '.total' ).last( );
-span.html( '<b>Total:</b> ' + total.toLocaleString( 'en-US' ) );
+table.find( 'tbody tr:not(.total) td:nth-child(2)' ).each( function ( ) { coins += $( this ).html( ).replace( /[^\d]/g, '' ) * 1 } );
+var total = $( '.total' ).last( );
+total.html( '<b>Total:</b> ' + coins.toLocaleString( 'en-US' ) );
 </script>
 
 <div class="linebreak"></div>
