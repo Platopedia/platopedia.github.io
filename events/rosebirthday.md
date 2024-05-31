@@ -129,7 +129,7 @@ $( '.countdown' ).syotimer( { date : new Date( '2024-06-08T15:00:00+00:00' ), af
             <td colspan="2">&nbsp;</td>
         </tr>
         <tr class="total">
-            <td><b>Total</b></td>
+            <td></td>
             <td></td>
         </tr>
     </tbody>
@@ -138,7 +138,8 @@ $( '.countdown' ).syotimer( { date : new Date( '2024-06-08T15:00:00+00:00' ), af
 <script>
 var total = 0;
 $( 'table tbody tr:not(.total) td:nth-child(2)' ).each( function ( ) { total += $( this ).html( ).replace( /[^\d]/g, '' ) * 1 } );
-$( 'table tbody tr.total td:nth-child(2)'       ).html( total.toLocaleString( 'en-US' ) );
+$( 'table tbody tr.total td:nth-child(1)'       ).html( '<b>TOTAL</b>' );
+$( 'table tbody tr.total td:nth-child(2)'       ).html( '<b>' + total.toLocaleString( 'en-US' ) + '</b>' );
 </script>
 
 <div class="linebreak"></div>
