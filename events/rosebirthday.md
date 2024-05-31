@@ -30,7 +30,7 @@ To celebrate Rose's Birthday, Arcade is hosting a massive Bingo giveaway on June
 <div class="countdown"></div>
 
 <script>
-$( '.countdown' ).syotimer( { date : new Date( '2024-06-08T15:00:00+00:00' ), afterDeadline : function ( syotimer ) { syotimer.bodyBlock.html( '<b>HAPPY BIRTHDAY ROSE!!!</b>' ) } } );
+$( '.countdown' ).last( ).syotimer( { date : new Date( '2024-06-08T15:00:00+00:00' ), afterDeadline : function ( syotimer ) { syotimer.bodyBlock.html( '<b>HAPPY BIRTHDAY ROSE!!!</b>' ) } } );
 </script>
 
 <div class="linebreak"></div>
@@ -137,9 +137,9 @@ $( '.countdown' ).syotimer( { date : new Date( '2024-06-08T15:00:00+00:00' ), af
 
 <script>
 var total = 0;
-$( 'table tbody tr:not(.total) td:nth-child(2)' ).each( function ( ) { total += $( this ).html( ).replace( /[^\d]/g, '' ) * 1 } );
-$( 'table tbody tr.total td:nth-child(1)'       ).html( '<b>TOTAL</b>' );
-$( 'table tbody tr.total td:nth-child(2)'       ).html( '<b>' + total.toLocaleString( 'en-US' ) + '</b>' );
+$( '.table' ).last( ).find( 'tbody tr:not(.total) td:nth-child(2)' ).each( function ( ) { total += $( this ).html( ).replace( /[^\d]/g, '' ) * 1 } );
+$( '.table' ).last( ).find( 'tbody tr.total td:nth-child(1)'       ).html( '<b>TOTAL</b>' );
+$( '.table' ).last( ).find( 'tbody tr.total td:nth-child(2)'       ).html( '<b>' + total.toLocaleString( 'en-US' ) + '</b>' );
 </script>
 
 <div class="linebreak"></div>
