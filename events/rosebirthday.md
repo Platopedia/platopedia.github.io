@@ -111,6 +111,10 @@ Book your spot by adding one of these accounts linked below. Rest assured, an in
             <td>50,000</td>
         </tr>
         <tr>
+            <td>SOL</td>
+            <td>50,000</td>
+        </tr>
+        <tr>
             <td>Hitman</td>
             <td>35,000</td>
         </tr>
