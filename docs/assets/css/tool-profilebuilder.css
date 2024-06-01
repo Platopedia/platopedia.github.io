@@ -43,8 +43,14 @@ h1
 }
 
 .is-loading > *,
+.is-loading-block > *,
+.is-loading-inline > *,
 .is-loaded > *,
-.is-errored > *
+.is-loaded-block > *,
+.is-loaded-inline > *,
+.is-errored > *,
+.is-errored-block > *,
+.is-errored-inline > *
 {
     display : none;
 }
@@ -53,6 +59,18 @@ h1
 .is-loaded > *:last-child
 {
     display : block;
+}
+
+.is-loading-block > *:first-child,
+.is-loaded-block > *:last-child
+{
+    display : block;
+}
+
+.is-loading-inline > *:first-child,
+.is-loaded-inline > *:last-child
+{
+    display : inline;
 }
 
 #tool_profilebuilder_canvas_default
