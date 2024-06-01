@@ -139,13 +139,6 @@ function Tool_Profilebuilder ( deferred )
         function ( event )
         {
             cropper_default.create( );
-            
-          //cropper_default.create( );
-          //console.log( cropper_default.objready );
-            
-          //var deferred = $.Deferred( );
-          //$.when( deferred ).then( function ( ) { console.log( cropper_default.objready ) } );
-          //cropper_default.create( deferred );
         }
     );
     
@@ -313,30 +306,6 @@ function Tool_Profilebuilder ( deferred )
             'element'  : $( '#tool_profilebuilder_form_default_field_picture_button_upload' ),
             'callback' :
             {
-                /*
-                'click' : function ( event )
-                {
-                    var cb_notice = function ( ) { _util_popup_notice( '' ) };
-                    
-                    console.warnb = console.warn;
-                    console.warn  = cb_notice;
-                    
-                    var error = _util_call_noexcep
-                    (
-                        function ( )
-                        {
-                          //_util_warn( );
-                          //_util_error( );
-                            
-                            form_default_field_picture_input_default.eventexecute( 'click' );
-                        }
-                    );
-                    
-                    if ( error ) cb_notice( );
-                    
-                    console.warn = console.warnb;
-                },
-                */
                 'click' : function ( event )
                 {
                     form_default_field_picture_input_default.eventexecute( 'click' );
@@ -351,34 +320,6 @@ function Tool_Profilebuilder ( deferred )
             'element'  : $( '#tool_profilebuilder_form_default_field_picture_button_download' ),
             'callback' :
             {
-                /*
-                'click' : function ( event )
-                {
-                    var cb_notice = function ( ) { _util_popup_notice( '' ) };
-                    
-                    console.warnb = console.warn;
-                    console.warn  = cb_notice;
-                    
-                    var error = _util_call_noexcep
-                    (
-                        function ( )
-                        {
-                          //_util_warn( );
-                          //_util_error( );
-                            
-                            var picture_element = cropper_default.canvascirc( 1000, 1000 );
-                            if ( ! picture_element ) return;
-                            var picture_url = picture_element.toDataURL( 'image/png' );
-                            var picture_name = 'profilebuilder_' + Date.now( ) + '.png';
-                            _util_download( picture_url, picture_name );
-                        }
-                    );
-                    
-                    if ( error ) cb_notice( );
-                    
-                    console.warn = console.warnb;
-                },
-                */
                 'click' : function ( event )
                 {
                     var picture_element = cropper_default.canvascirc( 1000, 1000 );
@@ -625,6 +566,8 @@ function Tool_Profilebuilder ( deferred )
             {
                 'click' : function ( event )
                 {
+                    var that = event.data.that;
+                    
                     _util_popup_confirm
                     (
                         'Do you want to reset your profile?',
@@ -646,17 +589,8 @@ function Tool_Profilebuilder ( deferred )
                                 form_default_field_bio_input_default,
                             );
                             
-                            if ( valid )
-                            {
-                                modal_default.modal( 'show' );
-                                modal_default.animate( { scrollTop : 0 }, 0 );
-                            }
-                            else
-                            {
-                                modal_default.modal( 'show' );
-                                modal_default.animate( { scrollTop : 0 }, 0 );
-                                return;
-                            }
+                            modal_default.modal( 'show' );
+                            modal_default.animate( { scrollTop : 0 }, 0 );
                         },
                     );
                 },
@@ -675,6 +609,8 @@ function Tool_Profilebuilder ( deferred )
               //'init click' : function ( event )
                 'click' : function ( event )
                 {
+                    var that = event.data.that;
+                    
                     _util_popup_null
                     (
                         'Do you want to apply your profile?',
@@ -687,52 +623,62 @@ function Tool_Profilebuilder ( deferred )
                                 form_default_field_bio_input_default,
                             );
                             
-                            if ( valid )
-                            {
-                                modal_default.modal( 'hide' );
-                            }
-                            else
+                            if ( ! valid )
                             {
                                 modal_default.modal( 'show' );
                                 modal_default.animate( { scrollTop : 0 }, 0 );
                                 return;
                             }
                             
-                            var picture_element = cropper_default.canvascirc( 1000, 1000 );
-                            if ( ! picture_element ) return;
-                            var picture_url = picture_element.toDataURL( 'image/png' );
+                            var loader = that.element.find( '.loader' );
+                            loader.removeClass( 'd-none' ).addClass( 'd-inline-flex' );
                             
-                            var picture      = picture_url;
-                            var platoid      = form_default_field_platoid_input_default     .value( );
-                            var platoidcolor = form_default_field_platoidcolor_input_default.value( );
-                            var bio          = form_default_field_bio_input_default         .value( );
-                            var banner       = form_default_field_banner_input_default      .item( ).datab( 'banner' );
-                            var frame        = form_default_field_frame_input_default       .item( ).datab( 'frame' );
-                            var frame_layer  = form_default_field_frame_input_default       .item( ).datab( 'frame-layer' );
-                            var chat         = form_default_field_chat_input_default        .item( ).datab( 'chat' );
-                            var chat_color   = form_default_field_chat_input_default        .item( ).datab( 'chat-color' );
-                            var chatbadge    = form_default_field_chat_input_default        .item( ).datab( 'chatbadge' );
-                            var badge        = form_default_field_badge_input_default       .item( ).datab( 'badge' );
-                            var starbadge    = form_default_field_starbadge_input_default   .element.datab( 'starbadge' );
-                            var starbadge_n  = form_default_field_starbadge_input_default   .value( );
-                            
-                            Tool_Profilebuilder_canvas
+                            setTimeout
                             (
-                                undefined,
-                                canvas_default,
-                                picture,
-                                platoid,
-                                platoidcolor,
-                                bio,
-                                banner,
-                                frame,
-                                frame_layer,
-                                chat,
-                                chat_color,
-                                chatbadge,
-                                badge,
-                                starbadge,
-                                starbadge_n,
+                                function ( )
+                                {
+                                    var picture_element = cropper_default.canvascirc( 1000, 1000 );
+                                    if ( ! picture_element ) return;
+                                    var picture_url = picture_element.toDataURL( 'image/png' );
+                                    
+                                    var picture      = picture_url;
+                                    var platoid      = form_default_field_platoid_input_default     .value( );
+                                    var platoidcolor = form_default_field_platoidcolor_input_default.value( );
+                                    var bio          = form_default_field_bio_input_default         .value( );
+                                    var banner       = form_default_field_banner_input_default      .item( ).datab( 'banner' );
+                                    var frame        = form_default_field_frame_input_default       .item( ).datab( 'frame' );
+                                    var frame_layer  = form_default_field_frame_input_default       .item( ).datab( 'frame-layer' );
+                                    var chat         = form_default_field_chat_input_default        .item( ).datab( 'chat' );
+                                    var chat_color   = form_default_field_chat_input_default        .item( ).datab( 'chat-color' );
+                                    var chatbadge    = form_default_field_chat_input_default        .item( ).datab( 'chatbadge' );
+                                    var badge        = form_default_field_badge_input_default       .item( ).datab( 'badge' );
+                                    var starbadge    = form_default_field_starbadge_input_default   .element.datab( 'starbadge' );
+                                    var starbadge_n  = form_default_field_starbadge_input_default   .value( );
+                                    
+                                    Tool_Profilebuilder_canvas
+                                    (
+                                        undefined,
+                                        canvas_default,
+                                        picture,
+                                        platoid,
+                                        platoidcolor,
+                                        bio,
+                                        banner,
+                                        frame,
+                                        frame_layer,
+                                        chat,
+                                        chat_color,
+                                        chatbadge,
+                                        badge,
+                                        starbadge,
+                                        starbadge_n,
+                                    );
+                                    
+                                    loader.removeClass( 'd-inline-flex' ).addClass( 'd-none' );
+                                    
+                                    modal_default.modal( 'hide' );
+                                },
+                                0
                             );
                         },
                     );
@@ -747,23 +693,9 @@ function Tool_Profilebuilder ( deferred )
     {
         canvas_default.empty( );
         
-        /*
-        if
-        (
-          //form_default_field_picture_input_default.element.get( 0 ).files.length <= 0
-          //&&
-            Tool_Profilebuilder_canvas_param[2] === 'theme.picture.default'
-        )
-        {
-            var url = 'theme.picture.default'; // form_default_field_picture_input_default.element.attr( 'data-url' ); // .reset( );
-            form_default_field_picture_input_default.element.trigger( 'loaded', [ url ] );
-        }
-        */
-        
         form_default_field_banner_input_default.eventexecute( 'change' );
         form_default_field_chat_input_default  .eventexecute( 'change' );
         
-      //form_default_button_apply.eventexecute( 'click' ); // cropper not necessarily ready
         Tool_Profilebuilder_canvas.apply( null, Tool_Profilebuilder_canvas_param );
     };
     
