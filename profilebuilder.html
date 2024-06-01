@@ -1364,7 +1364,7 @@ var items = null;
                                     </div>
                                 </div>
                                 <div id="tool_profilebuilder_form_default_field_banner_media_preview" class="is-loaded" oncontextmenu="return false;">
-                                    <div class="spinner-border text-dark" role="status"><span class="sr-only">Loading...</span></div>
+                                    <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>
                                     <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="></img>
                                 </div>
                             </div>
@@ -2011,7 +2011,7 @@ var items = null;
                                     </div>
                                 </div>
                                 <div id="tool_profilebuilder_form_default_field_frame_media_preview" class="is-loaded" oncontextmenu="return false;">
-                                    <div class="spinner-border text-dark" role="status"><span class="sr-only">Loading...</span></div>
+                                    <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>
                                     <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="></img>
                                 </div>
                             </div>
@@ -2585,7 +2585,7 @@ var items = null;
                                     </div>
                                 </div>
                                 <div id="tool_profilebuilder_form_default_field_chat_media_preview" class="is-loaded" oncontextmenu="return false;">
-                                    <div class="spinner-border text-dark" role="status"><span class="sr-only">Loading...</span></div>
+                                    <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>
                                     <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="></img>
                                     <canvas></canvas>
                                 </div>
@@ -4917,7 +4917,7 @@ var items = null;
                                     </div>
                                 </div>
                                 <div id="tool_profilebuilder_form_default_field_badge_media_preview" class="is-loaded" oncontextmenu="return false;">
-                                    <div class="spinner-border text-dark" role="status"><span class="sr-only">Loading...</span></div>
+                                    <div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>
                                     <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="></img>
                                 </div>
                             </div>
@@ -4944,7 +4944,11 @@ var items = null;
             </div>
             <div class="modal-footer pr-3 pb-3">
                 <div class="m-0">
-                    <button id="tool_profilebuilder_form_default_button_reset" class="btn btn-form font-weight-bold m-0 mr-3" type="button" title="Reset">Reset</button><button id="tool_profilebuilder_form_default_button_apply" class="btn btn-form font-weight-bold m-0" type="button" title="Apply">Apply</button>
+                    <button id="[% id_form_default_button_reset %]" class="btn btn-form font-weight-bold m-0 mr-3" type="button" title="Reset">
+                        Reset
+                    </button><button id="[% id_form_default_button_apply %]" class="btn btn-form font-weight-bold m-0" type="button" title="Apply">
+                        Apply<div class="loader d-none spinner-border spinner-border-sm ml-2" role="status"></div>
+                    </button>
                 </div>
             </div>
         </div>
