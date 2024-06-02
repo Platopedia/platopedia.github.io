@@ -41,20 +41,20 @@ countdown.syotimer( { date : new Date( '2024-06-08T15:00:00+00:00' ), afterDeadl
 Book your spot by adding one of these accounts linked below. Rest assured, an invite will be sent to you on the event day. Please don't add more than one account.
 
 <p>
-    <a href="https://plato.app/3dnemnnta3721">https://plato.app/3dnemnnta3721</a>
-    <a class="btn btn-sm btn-field btn-copy icon font-weight-normal" href="https://plato.app/3dnemnnta3721">&#xf24d;</a>
+    <a href="https://plato.app/2a8cl89crtvhc">https://plato.app/2a8cl89crtvhc</a>
+    <a class="btn btn-sm btn-field btn-copy icon font-weight-normal" href="https://plato.app/2a8cl89crtvhc">&#xf24d;</a>
     <iframe class="d-none" name="intent" src="data:text/plain;charset=utf-8;base64,aW50ZW50"></iframe>
 </p>
 
 <p>
-    <a href="https://plato.app/1wfal0uyp5ysr">https://plato.app/1wfal0uyp5ysr</a>
-    <a class="btn btn-sm btn-field btn-copy icon font-weight-normal" href="https://plato.app/1wfal0uyp5ysr">&#xf24d;</a>
+    <a href="https://plato.app/3uza1iw3066l5">https://plato.app/3uza1iw3066l5</a>
+    <a class="btn btn-sm btn-field btn-copy icon font-weight-normal" href="https://plato.app/3uza1iw3066l5">&#xf24d;</a>
     <iframe class="d-none" name="intent" src="data:text/plain;charset=utf-8;base64,aW50ZW50"></iframe>
 </p>
 
 <p>
-    <a href="https://plato.app/wy3duuttqitg">https://plato.app/wy3duuttqitg</a>
-    <a class="btn btn-sm btn-field btn-copy icon font-weight-normal" href="https://plato.app/wy3duuttqitg">&#xf24d;</a>
+    <a href="https://plato.app/3uza1iw3066l5">https://plato.app/3uza1iw3066l5</a>
+    <a class="btn btn-sm btn-field btn-copy icon font-weight-normal" href="https://plato.app/3uza1iw3066l5">&#xf24d;</a>
     <iframe class="d-none" name="intent" src="data:text/plain;charset=utf-8;base64,aW50ZW50"></iframe>
 </p>
 
@@ -180,8 +180,8 @@ total.html( '<b>Total:</b> ' + coins.toLocaleString( 'en-US' ) + ' coins' );
 If you're interested in sponsoring, add @Win on Plato and let them know. Once confirmed, we'll add your username to the list of sponsors.
 
 <p>
-    <a href="https://plato.app/11825g8rolrpg">https://plato.app/11825g8rolrpg</a>
-    <a class="btn btn-sm btn-field btn-copy icon font-weight-normal" href="https://plato.app/11825g8rolrpg">&#xf24d;</a>
+    <a href="https://plato.app/1z9emz3agz2z4">https://plato.app/1z9emz3agz2z4</a>
+    <a class="btn btn-sm btn-field btn-copy icon font-weight-normal" href="https://plato.app/1z9emz3agz2z4">&#xf24d;</a>
     <iframe class="d-none" name="intent" src="data:text/plain;charset=utf-8;base64,aW50ZW50"></iframe>
 </p>
 
