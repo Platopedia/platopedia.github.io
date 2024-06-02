@@ -139,6 +139,8 @@ function Tool_Profilebuilder ( deferred )
         function ( event )
         {
             cropper_default.create( );
+            
+            $( '#tool_profilebuilder_form_default_button_apply .loader' ).removeClass( 'd-inline-flex' ).addClass( 'd-none' );
         }
     );
     
@@ -149,6 +151,8 @@ function Tool_Profilebuilder ( deferred )
         {
             cropper_default.datacurr( );
             cropper_default.destroy( );
+            
+            $( '#tool_profilebuilder_form_default_button_apply .loader' ).removeClass( 'd-inline-flex' ).addClass( 'd-none' );
         }
     );
     
@@ -387,6 +391,8 @@ function Tool_Profilebuilder ( deferred )
     
     // form banner
     
+    var preload_banner = null;
+    
     var form_default_field_banner_media_preview = Util_Element_Media_Image
     (
         {
@@ -405,6 +411,7 @@ function Tool_Profilebuilder ( deferred )
                     var that = event.data.that;
                     var banner = theme_val( that.value( ) );
                     form_default_field_banner_media_preview.value( banner );
+                    preload_banner = new Image( ); preload_banner.src = banner; // theme_val( that.item( ).datab( 'banner' ) );
                 },
             },
         }
@@ -426,6 +433,8 @@ function Tool_Profilebuilder ( deferred )
     
     // form frame
     
+    var preload_frame = null;
+    
     var form_default_field_frame_media_preview = Util_Element_Media_Image
     (
         {
@@ -442,7 +451,9 @@ function Tool_Profilebuilder ( deferred )
                 'init change' : function ( event )
                 {
                     var that = event.data.that;
-                    form_default_field_frame_media_preview.value( that.value( ) );
+                    var frame = that.value( );
+                    form_default_field_frame_media_preview.value( frame );
+                    preload_frame = new Image( ); preload_frame.src = frame; // that.item( ).datab( 'frame' );
                 },
             },
         }
@@ -463,6 +474,9 @@ function Tool_Profilebuilder ( deferred )
     );
     
     // form chat
+    
+    var preload_chat      = null;
+    var preload_chatbadge = null;
     
     var form_default_field_chat_media_preview = Util_Element_Media_Image
     (
@@ -489,7 +503,9 @@ function Tool_Profilebuilder ( deferred )
                 {
                     var that = event.data.that;
                     var chat = theme_val( that.value( ) );
-                    form_default_field_chat_media_preview.value( chat );
+                    form_default_field_chat_media_preview.value( chat );                    
+                    preload_chat      = new Image( ); preload_chat.src      = chat; // theme_val( that.item( ).datab( 'chat' ) );
+                    preload_chatbadge = new Image( ); preload_chatbadge.src = that.item( ).datab( 'chatbadge' );
                 },
             },
         }
@@ -511,6 +527,8 @@ function Tool_Profilebuilder ( deferred )
     
     // form badge
     
+    var preload_badge = null;
+    
     var form_default_field_badge_media_preview = Util_Element_Media_Image
     (
         {
@@ -527,7 +545,9 @@ function Tool_Profilebuilder ( deferred )
                 'init change' : function ( event )
                 {
                     var that = event.data.that;
-                    form_default_field_badge_media_preview.value( that.value( ) );
+                    var badge = that.value( );
+                    form_default_field_badge_media_preview.value( badge );                    
+                    preload_badge = new Image( ); preload_badge.src = that.item( ).datab( 'badge' );
                 },
             },
         }
@@ -549,10 +569,20 @@ function Tool_Profilebuilder ( deferred )
     
     // form starbadge
     
+    var preload_starbadge = null;
+    
     var form_default_field_starbadge_input_default = Util_Element_Input_Radiocheck
     (
         {
             'element' : $( '#tool_profilebuilder_form_default_field_starbadge_input_default' ),
+            'callback' :
+            {
+                'init' : function ( event )
+                {
+                    var that = event.data.that;                   
+                    preload_starbadge = new Image( ); preload_starbadge.src = that.element.datab( 'starbadge' );
+                },
+            },
         }
     );
     
@@ -630,8 +660,7 @@ function Tool_Profilebuilder ( deferred )
                                 return;
                             }
                             
-                            var loader = that.element.find( '.loader' );
-                            loader.removeClass( 'd-none' ).addClass( 'd-inline-flex' );
+                            that.element.find( '.loader' ).removeClass( 'd-none' ).addClass( 'd-inline-flex' );
                             
                             setTimeout
                             (
@@ -674,7 +703,7 @@ function Tool_Profilebuilder ( deferred )
                                         starbadge_n,
                                     );
                                     
-                                    loader.removeClass( 'd-inline-flex' ).addClass( 'd-none' );
+                                  //that.element.find( '.loader' ).removeClass( 'd-inline-flex' ).addClass( 'd-none' );
                                     
                                     modal_default.modal( 'hide' );
                                 },
