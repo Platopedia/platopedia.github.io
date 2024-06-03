@@ -2,6 +2,14 @@
 
 /* ////////////////////////////////////////////////// */
 
+/*
+* SyoTimer v.3.1.1 | under MIT license
+* https://mrfratello.github.io/SyoTimer
+*/
+!function(e){"use strict";e.syotimerLang={rus:{second:["секунда","секунды","секунд"],minute:["минута","минуты","минут"],hour:["час","часа","часов"],day:["день","дня","дней"],handler:function(e,t){return e%100>4&&e%100<20?t[2]:t[[2,0,1,1,1,2][e%10<5?e%10:5]]}},eng:{second:["second","seconds"],minute:["minute","minutes"],hour:["hour","hours"],day:["day","days"]},por:{second:["segundo","segundos"],minute:["minuto","minutos"],hour:["hora","horas"],day:["dia","dias"]},spa:{second:["segundo","segundos"],minute:["minuto","minutos"],hour:["hora","horas"],day:["día","días"]},heb:{second:["שניה","שניות"],minute:["דקה","דקות"],hour:["שעה","שעות"],day:["יום","ימים"]}};var t="day",i="hour",n="minute",o="second",s=86400,r=3600,a=60,d={d:t,h:i,m:n,s:o},l={list:[o,n,i,t],next:function(e){var t=this.list.indexOf(e);return t<this.list.length?this.list[t+1]:null},prev:function(e){var t=this.list.indexOf(e);return t>0?this.list[t-1]:null}},u={second:!1,minute:!1,hour:!1,day:!1},c={date:0,layout:"dhms",periodic:!1,periodInterval:7,periodUnit:"d",doubleNumbers:!0,effectType:"none",lang:"eng",headTitle:"",footTitle:"",afterDeadline:function(e){e.bodyBlock.html('<p style="font-size: 1.2em;">The countdown is finished!</p>')},itemTypes:["day","hour","minute","second"],itemsHas:e.extend({},u)};function m(e){switch(e){case"d":case t:return s;case"h":case i:return r;case"m":case n:return a;default:return 1}}var h=function(e,t){return 1===e?t[0]:t[1]};function y(e,t,i){return($.syotimerLang[t].handler||h)(e,$.syotimerLang[t][i])}var p=function(){function i(t,i){this.element=e(t),this.element.data("syotimer-options",i),this.render()}return i.prototype.render=function(){for(var t,i,n,o=this.element.data("syotimer-options"),s=(t=$("<div/>",{class:"syotimer-cell__value",text:"0"}),i=$("<div/>",{class:"syotimer-cell__unit"}),(n=$("<div/>",{class:"syotimer-cell"})).append(t).append(i),n),r=e("<div/>",{class:"syotimer__head"}).html(o.headTitle),a=e("<div/>",{class:"syotimer__body"}),d=e("<div/>",{class:"syotimer__footer"}).html(o.footTitle),l={},u=0;u<o.itemTypes.length;u+=1){var c=s.clone();c.addClass("syotimer-cell_type_".concat(o.itemTypes[u])),a.append(c),l[o.itemTypes[u]]=c}var m={headBlock:r,bodyBlock:a,footBlock:d};this.element.data("syotimer-blocks",m).data("syotimer-items",l).addClass("syotimer").append(r).append(a).append(d)},i.prototype.tick=function(){var t=this.element.data("syotimer-options");e(".syotimer-cell > .syotimer-cell__value",this.element).css("opacity",1);var i=(new Date).getTime(),n=function(e,t){var i,n=e/1e3;if(n=Math.floor(n),!t.periodic)return n;var o=m(t.periodUnit),s=e/(1e3*o);s=Math.ceil(s),s=Math.abs(s),n>=0?(i=0==(i=s%t.periodInterval)?t.periodInterval:i,i-=1):i=t.periodInterval-s%t.periodInterval;var r=n%o;return 0===r&&n<0&&(i-=1),Math.abs(i*o+r)}((t.date instanceof Date?t.date.getTime():t.date)-i,t);if(n>=0)this.refreshUnitsDom(n),this.applyEffectSwitch(t.effectType);else{var o=e.extend(this.element,this.element.data("syotimer-blocks"));t.afterDeadline(o)}},i.prototype.refreshUnitsDom=function(i){var n,o,s=this.element.data("syotimer-options"),r=this.element.data("syotimer-items"),a=s.itemTypes,d=function(e){var i=e,n=t,o={day:0,hour:0,minute:0,second:0};do{var s=m(n);o[n]=Math.floor(i/s),i%=s}while(n=l.prev(n));return o}(i);s.itemsHas.day||(d.hour+=24*d.day),s.itemsHas.hour||(d.minute+=60*d.hour),s.itemsHas.minute||(d.second+=60*d.minute);for(var u=0;u<a.length;u+=1){var c=a[u],h=d[c],p=r[c];p.data("syotimer-unit-value",h),e(".syotimer-cell__value",p).html((n=h,o=c!==t&&s.doubleNumbers,n<=9&&o?"0".concat(n):String(n))),e(".syotimer-cell__unit",p).html(y(h,s.lang,c))}},i.prototype.applyEffectSwitch=function(t,i){var n=this;if(void 0===i&&(i=o),"opacity"!==t)setTimeout((function(){return n.tick()}),1e3);else{var s=this.element.data("syotimer-items")[i];if(s){var r=l.next(i),a=s.data("syotimer-unit-value");e(".syotimer-cell__value",s).animate({opacity:.1},1e3,"linear",(function(){return n.tick()})),r&&0===a&&this.applyEffectSwitch(t,r)}}},i}();function f(t,i){var n=e.extend({},c,i||{});n.itemTypes=function(e){for(var t=[],i=0;i<e.length;i+=1)t.push(d[e[i]]);return t}(n.layout),n.itemsHas=e.extend({},u);for(var o=0;o<n.itemTypes.length;o+=1)n.itemsHas[n.itemTypes[o]]=!0;return t.each((function(){new p(this,n).tick()}))}var v={setOption:function(t,i){var n=e(this),o=n.data("syotimer-options");Object.prototype.hasOwnProperty.call(o,t)&&(o[t]=i,n.data("syotimer-options",o))}};e.fn.extend({syotimer:function(t,i,n){return"string"==typeof t&&"setOption"===t?this.each((function(){v[t].apply(this,[i,n])})):null==t||"object"==typeof t?f(this,t):e.error("SyoTimer. Error in call methods: methods is not exist")}})}(jQuery);
+
+/* ////////////////////////////////////////////////// */
+
 $( document ).ready
 (
     function ( )
@@ -32,17 +40,29 @@ function Tool_Content ( deferred )
     
     //
     
-    var content          = $( '.content' );
+    var content           = $( '.content' );
     
-    var content_contents = content.find( '.content-contents' );
-    var content_carousel = content.find( '.content-carousel' );
-    var content_collapse = content.find( '.content-collapse' );
-    var content_webpage  = content.find( '.content-webpage'  );
-    var content_image    = content.find( '.content-image'    );
-    var content_table    = content.find( '.content-table'    );
-    var content_collect  = content.find( '.content-collect'  );
+    var content_contents  = content.find( '.content-contents'  );
+    var content_carousel  = content.find( '.content-carousel'  );
+    var content_collapse  = content.find( '.content-collapse'  );
+    var content_webpage   = content.find( '.content-webpage'   );
+    var content_image     = content.find( '.content-image'     );
+    var content_link      = content.find( '.content-link'      );
+    var content_report    = content.find( '.content-report'    );
+    var content_countdown = content.find( '.content-countdown' );
+    var content_table     = content.find( '.content-table'     );
+    var content_collect   = content.find( '.content-collect'   );
     
-    var content_count    = content_contents.length + content_carousel.length + content_collapse.length + content_webpage.length + content_image.length + content_table.length + content_collect.length;
+    var content_count     = content_contents.length  +
+                            content_carousel.length  +
+                            content_collapse.length  +
+                            content_webpage.length   +
+                            content_image.length     +
+                            content_link.length      +
+                            content_report.length    +
+                            content_countdown.length +
+                            content_table.length     +
+                            content_collect.length;
     
     var content_callback = function ( ) { if ( --content_count !== -1 ) return; if ( typeof deferred !== 'undefined' ) deferred.resolve( ) };
     
@@ -211,6 +231,60 @@ function Tool_Content ( deferred )
       
         content_callback( );
 
+    } );
+    
+    content_link.each( function ( ) {
+        
+        var element = $( this );
+        var url     = element.data( 'url'  ) || '#';
+        var text    = element.data( 'text' ) || url;
+        var copy    = element.data( 'copy' ) || false;
+        
+        var elementb = $( '<p></p>' );
+        elementb.append( '<a href="' + url + '">' + text + '</a>' );
+        if ( copy ) elementb.append( ' <a class="btn btn-sm btn-field btn-copy icon font-weight-normal" href="' + url + '">&#xf24d;</a>' );
+        
+        elementb.appendTo( element );
+        
+        content_callback( );
+        
+    } );
+    
+    content_report.each( function ( ) {
+        
+        var element = $( this );
+        var type    = element.data( 'type'  );
+        var query   = element.data( 'query' );
+        
+        var html = null;
+        
+        if      ( type == 'count' ) { html = $( query ).length; html = html.toLocaleString( 'en-US' ) }
+        else if ( type == 'total' ) { html = 0; $( query ).each( function ( ) { html += $( this ).html( ).replace( /[^\d]/g, '' ) * 1 } ); html = html.toLocaleString( 'en-US' ) }
+        
+        element.html( html );
+        
+        content_callback( );
+        
+    } );
+    
+    content_countdown.each( function ( ) {
+        
+        var element  = $( this );
+        var html     = element.html( );
+        var datetime = element.data( 'datetime' );
+        
+        element.empty( );
+        
+        element.syotimer
+        (
+            {
+                date          : new Date( datetime ),
+                afterDeadline : function ( syotimer ) { syotimer.bodyBlock.html( html ) },
+            }
+        );
+        
+        content_callback( );
+        
     } );
     
     content_table.each( function ( ) {
