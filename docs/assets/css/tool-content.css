@@ -195,6 +195,39 @@ h1
     color       : var(--color-text) !important;
 }
 
+.content .content-countdown .syotimer
+{
+    margin-left  : auto;
+    margin-right : auto;
+    padding      : 0;
+}
+
+.content .content-countdown .syotimer-cell
+{
+    display    : inline-block;
+    margin     : 0 5px;
+    width      : 60px;
+    text-align : center;
+}
+
+.content .content-countdown .syotimer-cell__value
+{
+    margin        : 0 0 5px;
+    width         : 60px;
+    height        : 60px;
+    line-height   : 60px;
+    font-size     : 20px;
+    font-weight   : bold;
+    border        : 1px solid var(--color-text);
+    border-radius : 10px;
+}
+
+.content .content-countdown .syotimer-cell__unit
+{
+    font-size      : 12px;
+    text-transform : uppercase;
+}
+
 .content .content-collect
 {
 
