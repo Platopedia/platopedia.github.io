@@ -29,7 +29,7 @@ Book your spot by adding one of these accounts linked below. Rest assured, an in
 
 <span class="content-link" data-url="https://plato.app/3uza1iw3066l5" data-text="" data-copy="true"></span>
 
-<span class="content-link" data-url="https://plato.app/3uza1iw3066l5" data-text="" data-copy="true"></span>
+<span class="content-link" data-url="https://plato.app/3slzzesqp9jb8" data-text="" data-copy="true"></span>
 
 <div class="linebreak"></div>
 
