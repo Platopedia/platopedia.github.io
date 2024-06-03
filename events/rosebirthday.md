@@ -48,6 +48,10 @@ Book your spot by adding one of these accounts linked below. Rest assured, an in
             <td>1,000,000</td>
         </tr>
         <tr>
+            <td>Reza</td>
+            <td>500,000</td>
+        </tr>
+        <tr>
             <td>Fear</td>
             <td>400,000</td>
         </tr>
