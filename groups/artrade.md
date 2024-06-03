@@ -108,7 +108,10 @@ Artrade provides insurance for any scam related incidents during a trade. You mu
 
 The following website contains the entire list of Plato Items (including images & audios).
 
-<span class="content-link" data-url="https://platopedia.com/items" data-text="" data-copy="true"></span>
+<p>
+    <a href="https://platopedia.com/items">https://platopedia.com/items</a>
+    <a class="btn btn-sm btn-field btn-copy icon font-weight-normal" href="https://platopedia.com/items">&#xf24d;</a>
+</p>
 
 <div class="linebreak"></div>
 
