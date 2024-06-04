@@ -42,24 +42,24 @@ function Tool_Content ( deferred )
     
     var content           = $( '.content' );
     
+    var content_execute   = content.find( '.content-execute'   );
     var content_contents  = content.find( '.content-contents'  );
     var content_carousel  = content.find( '.content-carousel'  );
     var content_collapse  = content.find( '.content-collapse'  );
     var content_webpage   = content.find( '.content-webpage'   );
     var content_image     = content.find( '.content-image'     );
     var content_link      = content.find( '.content-link'      );
-    var content_report    = content.find( '.content-report'    );
     var content_countdown = content.find( '.content-countdown' );
     var content_table     = content.find( '.content-table'     );
     var content_collect   = content.find( '.content-collect'   );
     
-    var content_count     = content_contents.length  +
+    var content_count     = content_execute.length   +
+                            content_contents.length  +
                             content_carousel.length  +
                             content_collapse.length  +
                             content_webpage.length   +
                             content_image.length     +
                             content_link.length      +
-                            content_report.length    +
                             content_countdown.length +
                             content_table.length     +
                             content_collect.length;
@@ -67,6 +67,17 @@ function Tool_Content ( deferred )
     var content_callback = function ( ) { if ( --content_count !== -1 ) return; if ( typeof deferred !== 'undefined' ) deferred.resolve( ) };
     
     //
+    
+    content_execute.each( function ( ) {
+        
+        var element = $( this );
+        var code    = element.data( 'code' );
+        
+        element.html( eval( code ) );
+        
+        content_callback( );
+        
+    } );
     
     content_contents.each( function ( ) {
     
@@ -250,27 +261,10 @@ function Tool_Content ( deferred )
         
     } );
     
-    content_report.each( function ( ) {
-        
-        var element = $( this );
-        var type    = element.data( 'type'  );
-        var query   = element.data( 'query' );
-        
-        var html = null;
-        
-        if      ( type == 'count' ) { html = $( query ).length; html = html.toLocaleString( 'en-US' ) }
-        else if ( type == 'total' ) { html = 0; $( query ).each( function ( ) { html += $( this ).html( ).replace( /[^\d]/g, '' ) * 1 } ); html = html.toLocaleString( 'en-US' ) }
-        
-        element.html( html );
-        
-        content_callback( );
-        
-    } );
-    
     content_countdown.each( function ( ) {
         
         var element  = $( this );
-        var html     = element.html( );
+        var content  = element.html( );
         var datetime = element.data( 'datetime' );
         
         element.empty( );
@@ -279,7 +273,7 @@ function Tool_Content ( deferred )
         (
             {
                 date          : new Date( datetime ),
-                afterDeadline : function ( syotimer ) { syotimer.bodyBlock.html( html ) },
+                afterDeadline : function ( syotimer ) { syotimer.bodyBlock.html( content ) },
             }
         );
         

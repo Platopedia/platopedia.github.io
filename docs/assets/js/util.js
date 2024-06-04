@@ -34,6 +34,21 @@ $.fn.sortnumber = function ( )
     return this.pushStack( this.sort( function ( a, b ) { return a - b } ), arguments );
 };
 
+$.fn.count = function ( format = true )
+{
+    var count = this.length;
+    if ( format ) count = count.toLocaleString( 'en-US' );
+    return count;
+};
+
+$.fn.total = function ( format = true )
+{
+    var total = 0;
+    this.each( function ( ) { total += $( this ).html( ).replace( /[^\d]/g, '' ) * 1 } );
+    if ( format ) total = total.toLocaleString( 'en-US' );
+    return total;
+};
+
 /* ////////////////////////////////////////////////// */
 
 // misc
