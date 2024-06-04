@@ -140,7 +140,7 @@ Book your spot by adding one of these accounts linked below. Rest assured, an in
 
 <div class="linebreak"></div>
 
-<p class="text-center"><b>Total:</b> <span class="content-report" data-type="total" data-query="#sponsors tbody tr td:nth-child(2)"></span> coins</p>
+<p class="text-center"><b>Total:</b> <span class="content-execute" data-code="$('#sponsors tbody tr td:nth-child(2)').total( )"></span> coins</p>
 
 <div class="linebreak"></div>
 
