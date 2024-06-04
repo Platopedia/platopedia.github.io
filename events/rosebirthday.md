@@ -8,7 +8,7 @@ heading: <img src="/docs/assets/images/events/rosebirthday/rose.png" />&nbsp;Ros
 h2                    { color:#AD2323 !important }
 h4                    { color:#008080 !important;font-size:var(--unit-text-B) !important }
 .syotimer-cell__value { border-color:#AD2323 !important }
-.syotimer-cell__unit  { color:#AD2323; }
+.syotimer-cell__unit  { color:#AD2323 }
 </style>
 
 <div class="linebreak"></div>
