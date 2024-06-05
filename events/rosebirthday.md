@@ -17,7 +17,7 @@ To celebrate Rose's Birthday, Arcade is hosting a massive Bingo giveaway on June
 
 <div class="linebreak"></div>
 
-<div class="content-countdown text-center" data-datetime="2024-06-08T15:00:00+00:00"><b>HAPPY BIRTHDAY ROSE!!!</b></div>
+<div class="content-countdown text-center" data-datetime="2024-06-08T15:00:00+00:00"><b>HAPPY BIRTHDAY ROSE &#x1F973;!!!</b></div>
 
 <div class="linebreak"></div>
 
