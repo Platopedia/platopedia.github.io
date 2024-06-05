@@ -42,7 +42,7 @@ function Tool_Content ( deferred )
     
     var content           = $( '.content' );
     
-    var content_execute   = content.find( '.content-execute'   );
+    var content_custom    = content.find( '.content-custom'    );
     var content_contents  = content.find( '.content-contents'  );
     var content_carousel  = content.find( '.content-carousel'  );
     var content_collapse  = content.find( '.content-collapse'  );
@@ -53,7 +53,7 @@ function Tool_Content ( deferred )
     var content_table     = content.find( '.content-table'     );
     var content_collect   = content.find( '.content-collect'   );
     
-    var content_count     = content_execute.length   +
+    var content_count     = content_custom.length    +
                             content_contents.length  +
                             content_carousel.length  +
                             content_collapse.length  +
@@ -68,12 +68,15 @@ function Tool_Content ( deferred )
     
     //
     
-    content_execute.each( function ( ) {
+    content_custom.each( function ( ) {
         
         var element = $( this );
         var code    = element.data( 'code' );
         
-        element.html( eval( code ) );
+        var content = '';
+        try             { content = eval( code ) }
+        catch ( error ) { _util_warn( error )    }
+        element.html( content );
         
         content_callback( );
         
