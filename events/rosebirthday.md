@@ -135,6 +135,10 @@ Book your spot by adding one of these accounts linked below. Rest assured, an in
             <td>Spring</td>
             <td>10,000</td>
         </tr>
+        <tr>
+            <td>Anonymous Tip</td>
+            <td>2,000,000</td>
+        </tr>
     </tbody>
 </table>
 
