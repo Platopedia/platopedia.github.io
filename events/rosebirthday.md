@@ -128,6 +128,10 @@ Book your spot by adding one of these accounts linked below. Rest assured, an in
             <td>20,000</td>
         </tr>
         <tr>
+            <td>encikabu</td>
+            <td>12,500</td>
+        </tr>
+        <tr>
             <td>Spring</td>
             <td>10,000</td>
         </tr>
