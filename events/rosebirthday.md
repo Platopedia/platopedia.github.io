@@ -25,9 +25,7 @@ To celebrate Rose's Birthday, Arcade is hosting a massive Bingo giveaway on June
 
 Book your spot by adding one of these accounts linked below. Rest assured, an invite will be sent to you on the event day. Please don't add more than one account.
 
-<span class="content-link" data-url="https://plato.app/1wj3uab9capyz" data-text="" data-copy="true"></span>
-
-<span class="content-link" data-url="https://plato.app/2fyqxcq0or1l" data-text="" data-copy="true"></span>
+**Invites are closed.**
 
 <div class="linebreak"></div>
 
