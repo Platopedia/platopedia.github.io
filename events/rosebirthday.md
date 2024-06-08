@@ -100,6 +100,10 @@ Book your spot by adding one of these accounts linked below. Rest assured, an in
             <td>30,000</td>
         </tr>
         <tr>
+            <td>EPA</td>
+            <td>30,000</td>
+        </tr>
+        <tr>
             <td>Galaxy</td>
             <td>25,000</td>
         </tr>
