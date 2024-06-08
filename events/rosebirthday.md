@@ -21,14 +21,6 @@ To celebrate Rose's Birthday, Arcade is hosting a massive Bingo giveaway on June
 
 <div class="linebreak"></div>
 
-## Group Invite
-
-Book your spot by adding one of these accounts linked below. Rest assured, an invite will be sent to you on the event day. Please don't add more than one account.
-
-**Invites are closed.**
-
-<div class="linebreak"></div>
-
 ## List of Sponsors
 
 <table id="sponsors" class="table table-bordered">
