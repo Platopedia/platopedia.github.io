@@ -13,6 +13,8 @@ h4                    { color:#008080 !important;font-size:var(--unit-text-B) !i
 
 <div class="linebreak"></div>
 
+<div class="content-image" data-url="/docs/assets/images/groups/arcade/ar-fear.jpg" data-width="600px"
+
 Mark your calendars for a spectacular Bingo giveaway on June 26th at 4 PM (GMT) in honor of PlatoBot's unwavering loyalty and friendship. Don't miss out on the excitement - we're looking forward to seeing you all!
 
 <div class="linebreak"></div>
@@ -25,9 +27,9 @@ Mark your calendars for a spectacular Bingo giveaway on June 26th at 4 PM (GMT) 
 
 Book your spot by adding one of these accounts linked below. An invite will be sent to you on the event day. Please don't add more than one account.
 
-<span class="content-link" data-url="https://plato.app/26b5stvrgkcdd" data-text="" data-copy="true"></span>
+<span class="content-link" data-url="https://plato.app/2lwozh450t8ro" data-text="" data-copy="true"></span>
 
-<span class="content-link" data-url="https://plato.app/26b5stvrgkcdd" data-text="" data-copy="true"></span>
+<span class="content-link" data-url="https://plato.app/74o97f5sdizo" data-text="" data-copy="true"></span>
 
 <div class="linebreak"></div>
 
