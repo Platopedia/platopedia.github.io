@@ -5,15 +5,15 @@ heading: <img src="/docs/assets/images/events/platobotparty/platobot.png" />&nbs
 ---
 
 <style>
-h2                    { color:#AD2323 !important }
+h2                    { color:#1776CD !important }
 h4                    { color:#008080 !important;font-size:var(--unit-text-B) !important }
-.syotimer-cell__value { border-color:#AD2323 !important }
-.syotimer-cell__unit  { color:#AD2323 }
+.syotimer-cell__value { border-color:#1776CD !important }
+.syotimer-cell__unit  { color:#1776CD }
 </style>
 
 <div class="linebreak"></div>
 
-Join us on June 26th at 4 PM (GMT) for an epic giveaway in honor of PlatoBot's unwavering loyalty and friendship. Don't miss out on the excitement - we're looking forward to seeing you all!
+Mark your calendars for a spectacular Bingo giveaway on June 26th at 4 PM (GMT) in honor of PlatoBot's unwavering loyalty and friendship. Don't miss out on the excitement - we're looking forward to seeing you all!
 
 <div class="linebreak"></div>
 
