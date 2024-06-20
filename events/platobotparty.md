@@ -21,6 +21,16 @@ Join us on June 26th at 4 PM (GMT) for an epic giveaway in honor of PlatoBot's u
 
 <div class="linebreak"></div>
 
+## Group Invite
+
+Book your spot by adding one of these accounts linked below. An invite will be sent to you on the event day. Please don't add more than one account.
+
+<span class="content-link" data-url="https://plato.app/26b5stvrgkcdd" data-text="" data-copy="true"></span>
+
+<span class="content-link" data-url="https://plato.app/26b5stvrgkcdd" data-text="" data-copy="true"></span>
+
+<div class="linebreak"></div>
+
 ## Sponsor
 
 <table id="sponsors" class="table table-bordered">
