@@ -17,7 +17,7 @@ Join us on June 26th at 4 PM (GMT) for an epic giveaway in honor of PlatoBot's u
 
 <div class="linebreak"></div>
 
-<div class="content-countdown text-center" data-datetime="2024-06-08T15:00:00+00:00"><b>HAPPY BIRTHDAY ROSE &#x1F973;!!!</b></div>
+<div class="content-countdown text-center" data-datetime="2024-06-26T16:00:00+00:00"><b>PARTTTYYYYY!!!</b></div>
 
 <div class="linebreak"></div>
 
