@@ -27,8 +27,6 @@ Mark your calendars for a spectacular Bingo giveaway on June 26th at 4 PM (GMT) 
 
 Book your spot by adding one of these accounts linked below. An invite will be sent to you on the event day. Please don't add more than one account.
 
-<span class="content-link" data-url="https://plato.app/2lwozh450t8ro" data-text="" data-copy="true"></span>
-
 <span class="content-link" data-url="https://plato.app/74o97f5sdizo" data-text="" data-copy="true"></span>
 
 <div class="linebreak"></div>
