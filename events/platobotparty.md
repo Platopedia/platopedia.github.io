@@ -29,6 +29,8 @@ Book your spot by adding one of these accounts linked below. An invite will be s
 
 <span class="content-link" data-url="https://plato.app/74o97f5sdizo" data-text="" data-copy="true"></span>
 
+https://plato.app/2lwozh450t8ro (Full)
+
 <div class="linebreak"></div>
 
 ## Sponsor
