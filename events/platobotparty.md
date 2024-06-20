@@ -13,7 +13,7 @@ h4                    { color:#008080 !important;font-size:var(--unit-text-B) !i
 
 <div class="linebreak"></div>
 
-<div class="content-image" data-url="/docs/assets/images/events/platobotparty/platobotbanner.png" data-width="600px"></div>
+<div class="content-image" data-url="/docs/assets/images/events/platobotparty/platobotbanner.png" data-width="600px" data-label=""></div>
 
 Mark your calendars for a spectacular Bingo giveaway on June 26th at 4 PM (GMT) in honor of PlatoBot's unwavering loyalty and friendship. Don't miss out on the excitement - we're looking forward to seeing you all!
 
