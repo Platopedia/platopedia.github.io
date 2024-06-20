@@ -1,7 +1,7 @@
 ---
 layout: tool-content
 title: PlatoBot Party - Platopedia
-heading: <img src="/docs/assets/images/events/platobotparty/platobot.png" />&nbsp;PlatoBot Party &#x1F339;
+heading: <img src="/docs/assets/images/events/platobotparty/platobot.png" />&nbsp;PlatoBot Party
 ---
 
 <style>
@@ -13,7 +13,7 @@ h4                    { color:#008080 !important;font-size:var(--unit-text-B) !i
 
 <div class="linebreak"></div>
 
-To celebrate Rose's Birthday, Arcade is hosting a massive Bingo giveaway on June 8th at 3 PM (GMT). We hope to see you all there!
+Join us on June 26th at 4 PM (GMT) for an epic giveaway in honor of PlatoBot's unwavering loyalty and friendship. Don't miss out on the excitement - we're looking forward to seeing you all!
 
 <div class="linebreak"></div>
 
