@@ -5,21 +5,21 @@ heading: <img src="/docs/assets/images/events/leobday/leobday.png" />&nbsp;Leo's
 ---
 
 <style>
-h2                    { color:#636363 !important }
+h2                    { color:#828282 !important }
 h4                    { color:#008080 !important;font-size:var(--unit-text-B) !important }
-.syotimer-cell__value { border-color:#636363 !important }
-.syotimer-cell__unit  { color:#636363 }
+.syotimer-cell__value { border-color:#828282 !important }
+.syotimer-cell__unit  { color:#828282 }
 </style>
 
 <div class="linebreak"></div>
 
 <div class="content-image" data-url="/docs/assets/images/events/leobday/leobday.png" data-width="250px" data-label=""></div>
 
-To celebrate @Hitman, Leo's Birthday, Arcade is hosting a dangerous Bingo giveaway on August 6th at 3 PM (GMT). We hope to see you all there! Don't miss out on the excitement - we're looking forward to seeing you all!
+To celebrate @Hitman, Leo's Birthday, Arcade is hosting a dangerous Bingo giveaway on August 5th at 3 PM (GMT). We hope to see you all there! Don't miss out on the excitement - we're looking forward to seeing you all!
 
 <div class="linebreak"></div>
 
-<div class="content-countdown text-center" data-datetime="2024-08-06T15:00:00+00:00"><b>HAPPY BIRTHDAYYYYY LEO!!!</b></div>
+<div class="content-countdown text-center" data-datetime="2024-08-05T15:00:00+00:00"><b>HAPPY BIRTHDAYYYYY LEO!!!</b></div>
 
 <div class="linebreak"></div>
 
