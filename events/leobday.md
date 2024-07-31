@@ -5,17 +5,17 @@ heading: <img src="/docs/assets/images/events/platobotparty/platobot.png" />&nbs
 ---
 
 <style>
-h2                    { color:#1776CD !important }
+h2                    { color:#636363 !important }
 h4                    { color:#008080 !important;font-size:var(--unit-text-B) !important }
-.syotimer-cell__value { border-color:#1776CD !important }
-.syotimer-cell__unit  { color:#1776CD }
+.syotimer-cell__value { border-color:#636363 !important }
+.syotimer-cell__unit  { color:#636363 }
 </style>
 
 <div class="linebreak"></div>
 
 <div class="content-image" data-url="/docs/assets/images/events/platobotparty/platobotbanner.png" data-width="600px" data-label=""></div>
 
-Mark your calendars for a spectacular Bingo giveaway on June 26th at 4 PM (GMT) in honor of PlatoBot's unwavering loyalty and friendship. Don't miss out on the excitement - we're looking forward to seeing you all!
+To celebrate Leo's (@Hitman) Birthday, Arcade is hosting a dangerous Bingo giveaway on August 6th at 3 PM (GMT). We hope to see you all there! Don't miss out on the excitement - we're looking forward to seeing you all!
 
 <div class="linebreak"></div>
 
