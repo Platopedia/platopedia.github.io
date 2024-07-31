@@ -15,6 +15,8 @@ h4                    { color:#008080 !important;font-size:var(--unit-text-B) !i
 
 <div class="content-image" data-url="/docs/assets/images/events/leobday/leobday.png" data-width="250px" data-label=""></div>
 
+## Leo's Birthday
+
 To celebrate @Hitman, Leo's Birthday, Arcade is hosting a dangerous Bingo giveaway on August 5th at 3 PM (GMT). We hope to see you all there! Don't miss out on the excitement - we're looking forward to seeing you all!
 
 <div class="linebreak"></div>
