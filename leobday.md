@@ -1,6 +1,6 @@
 ---
 layout: redirect
-path: events/platobotparty
+path: events/leobday
 ---
 
 
