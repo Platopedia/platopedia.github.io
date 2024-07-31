@@ -19,19 +19,7 @@ Mark your calendars for a spectacular Bingo giveaway on June 26th at 4 PM (GMT) 
 
 <div class="linebreak"></div>
 
-<div class="content-countdown text-center" data-datetime="2024-06-26T16:00:00+00:00"><b>PARTTTYYYYY!!!</b></div>
-
-<div class="linebreak"></div>
-
-## Group Invite
-
-Book your spot by adding one of these accounts linked below. An invite will be sent to you on the event day. Please don't add more than one account.
-
-https://plato.app/3sdemmkcequ52 **(Full)**
-
-https://plato.app/74o97f5sdizo **(Full)**
-
-https://plato.app/2lwozh450t8ro **(Full)**
+<div class="content-countdown text-center" data-datetime="2024-08-06T15:00:00+00:00"><b>HAPPY BIRTHDAYYYYY LEO!!!</b></div>
 
 <div class="linebreak"></div>
 
@@ -46,8 +34,8 @@ https://plato.app/2lwozh450t8ro **(Full)**
     </thead>
     <tbody>
         <tr>
-            <td>PlatoBot</td>
-            <td>1,000,000</td>
+            <td>Fear</td>
+            <td>150,000</td>
         </tr>
     </tbody>
 </table>
