@@ -1,7 +1,7 @@
 ---
 layout: tool-content
-title: PlatoBot Party - Platopedia
-heading: <img src="/docs/assets/images/events/platobotparty/platobot.png" />&nbsp;PlatoBot Party
+title: Leo's Birthday - Platopedia
+heading: <img src="/docs/assets/images/events/leobday/leobday.png" />&nbsp;Leo's Birthday
 ---
 
 <style>
