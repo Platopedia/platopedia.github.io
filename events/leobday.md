@@ -44,6 +44,10 @@ To celebrate @Hitman, Leo's Birthday, Arcade is hosting a dangerous Bingo giveaw
             <td>100,000</td>
         </tr>
         <tr>
+            <td>MMs</td>
+            <td>100,000</td>
+        </tr>
+        <tr>
             <td>Rose</td>
             <td>50,000</td>
         </tr>
