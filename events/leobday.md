@@ -13,7 +13,7 @@ h4                    { color:#008080 !important;font-size:var(--unit-text-B) !i
 
 <div class="linebreak"></div>
 
-<div class="content-image" data-url="/docs/assets/images/events/leobday/leobday.png" data-width="250px" data-label=""></div>
+<div class="content-image" data-url="/docs/assets/images/events/leobday/leobday.png" data-width="200px" data-label=""></div>
 
 <div class="linebreak"></div>
 
