@@ -80,6 +80,10 @@ Book your spot by adding one of these accounts linked below. An invite will be s
             <td>50,000</td>
         </tr>
         <tr>
+            <td>LA_GIRL07</td>
+            <td>50,000</td>
+        </tr>
+        <tr>
             <td>Neff</td>
             <td>35,000</td>
         </tr>
