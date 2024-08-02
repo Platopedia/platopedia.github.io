@@ -60,6 +60,18 @@ To celebrate @Hitman, Leo's Birthday, Arcade is hosting a dangerous Bingo giveaw
             <td>50,000</td>
         </tr>
         <tr>
+            <td>Reza</td>
+            <td>50,000</td>
+        </tr>
+        <tr>
+            <td>Fairy</td>
+            <td>50,000</td>
+        </tr>
+        <tr>
+            <td>Neff</td>
+            <td>35,000</td>
+        </tr>
+        <tr>
             <td>MangoNado</td>
             <td>20,000</td>
         </tr>
