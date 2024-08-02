@@ -88,6 +88,10 @@ Book your spot by adding one of these accounts linked below. An invite will be s
             <td>35,000</td>
         </tr>
         <tr>
+            <td>Darth_Deigo</td>
+            <td>35,000</td>
+        </tr>
+        <tr>
             <td>MangoNado</td>
             <td>20,000</td>
         </tr>
