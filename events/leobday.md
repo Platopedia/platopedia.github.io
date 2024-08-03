@@ -52,17 +52,17 @@ Book your spot by adding one of these accounts linked below. An invite will be s
             <td>150,000</td>
         </tr>
         <tr>
+            <td>Rose</td>
+            <td>100,000</td>
+        </tr>
+        <tr>
             <td>Mdame</td>
             <td>100,000</td>
         </tr>
         <tr>
             <td>MMs</td>
             <td>100,000</td>
-        </tr>
-        <tr>
-            <td>Rose</td>
-            <td>50,000</td>
-        </tr>
+        </tr>
         <tr>
             <td>7777777</td>
             <td>50,000</td>
@@ -92,8 +92,16 @@ Book your spot by adding one of these accounts linked below. An invite will be s
             <td>35,000</td>
         </tr>
         <tr>
+            <td>Arts</td>
+            <td>30,000</td>
+        </tr>
+        <tr>
             <td>MangoNado</td>
             <td>20,000</td>
+        </tr>
+        <tr>
+            <td>Encikabu</td>
+            <td>12,500</td>
         </tr>
     </tbody>
 </table>
