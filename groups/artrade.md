@@ -166,9 +166,6 @@ All of our merchants and their stats are listed below. If you wish to become a m
             <td>userstrange</td>
         </tr>
         <tr>
-            <td>userstrange</td>
-        </tr>
-        <tr>
             <td>3MM</td>
         </tr>
         <tr>
