@@ -130,40 +130,40 @@ All of our merchants and their stats are listed below. If you wish to become a m
             <td>Rose</td>
         </tr>
         <tr>
-            <td>Satue</td>
+            <td>Globe</td>
         </tr>
         <tr>
-            <td>mishii</td>
-        </tr>
-        <tr>
-            <td>Acer</td>
-        </tr>
-        <tr>
-            <td>Hamid</td>
-        </tr>
-        <tr>
-            <td>MMs</td>
-        </tr>        
-        <tr>
-            <td>RBT</td>
-        </tr>
-        <tr>
-            <td>Spring</td>
-        </tr>
-        <tr>
-            <td>Zack_243___</td>
+            <td>_Neff</td>
         </tr>
         <tr>
             <td>arlovp</td>
         </tr>
         <tr>
-            <td>carameowl</td>
+            <td>Aura</td>
         </tr>
         <tr>
-            <td>hmode</td>
+            <td>ChicaaG</td>
+        </tr>        
+        <tr>
+            <td>Fairy</td>
         </tr>
         <tr>
-            <td>potatorwr</td>
+            <td>MfknUnicorn</td>
+        </tr>
+        <tr>
+            <td>mishii</td>
+        </tr>
+        <tr>
+            <td>QueenyMeany</td>
+        </tr>
+        <tr>
+            <td>sohee</td>
+        </tr>
+        <tr>
+            <td>Spring</td>
+        </tr>
+        <tr>
+            <td>userstrange</td>
         </tr>
         <tr>
             <td>userstrange</td>
@@ -172,31 +172,28 @@ All of our merchants and their stats are listed below. If you wish to become a m
             <td>3MM</td>
         </tr>
         <tr>
-            <td>ADRlAN</td>
+            <td>ACER</td>
+        </tr>
+        <tr>
+            <td>badfacewanda</td>
+        </tr>
+        <tr>
+            <td>desangrarme</td>
+        </tr>
+        <tr>
+            <td>EmpressT</td>
+        </tr>
+        <tr>
+            <td>Fresa</td>
         </tr>
         <tr>
             <td>GAX</td>
         </tr>
         <tr>
-            <td>MfknUnicorn</td>
+            <td>Hamid</td>
         </tr>
         <tr>
-            <td>QueenyMeany</td>
-        </tr>
-        <tr>
-            <td>SENU</td>
-        </tr>
-        <tr>
-            <td>Watefrule</td>
-        </tr>
-        <tr>
-            <td>Yoselin</td>
-        </tr>
-        <tr>
-            <td>_Neff</td>
-        </tr>
-        <tr>
-            <td>desangrarme</td>
+            <td>hmode</td>
         </tr>
         <tr>
             <td>miaw</td>
@@ -211,7 +208,13 @@ All of our merchants and their stats are listed below. If you wish to become a m
             <td>nublo</td>
         </tr>
         <tr>
-            <td>yeojin</td>
+            <td>RBT</td>
+        </tr>
+        <tr>
+            <td>Zach_243</td>
+        </tr>
+        <tr>
+            <td>ZEN</td>
         </tr>
     </tbody>
 </table>
