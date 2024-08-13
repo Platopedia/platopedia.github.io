@@ -104,13 +104,13 @@ Scroll through some of our best moments...
     </script>
 </body>
 
-<style>
-    body, html {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        overflow: hidden;
+<script>
+    function resizeIframe() {
+        var iframe = document.getElementById('google-sheet');
+        iframe.style.height = iframe.contentWindow.document.body.scrollHeight + 'px';
+        iframe.style.width = iframe.contentWindow.document.body.scrollWidth + 'px';
     }
-</style>
+    document.getElementById('google-sheet').onload = resizeIframe;
+</script>
 
 <div class="linebreak"></div>
