@@ -86,6 +86,6 @@ Scroll through some of our best moments...
         filter: invert(1) hue-rotate(180deg);
     }
 </style>
-<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSx3YNy7n7DjGWDyXZkdoWtC67h3WnROuoB5dkvjSF3ngsTAWSIjVJKu0jNcZcBvpc7fZOcZrXMr_UI/pubhtml?gid=2008081180&single=false&widget=true&headers=true" style="width:100%; height:600px; border:none;"></iframe>
+<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSx3YNy7n7DjGWDyXZkdoWtC67h3WnROuoB5dkvjSF3ngsTAWSIjVJKu0jNcZcBvpc7fZOcZrXMr_UI/pubhtml?gid=2008081180&single=false&widget=true&headers=true" style="width:100%; border:none;"></iframe>
 
 <div class="linebreak"></div>
