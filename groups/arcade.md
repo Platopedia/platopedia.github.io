@@ -87,7 +87,7 @@ Scroll through some of our best moments...
                 style="width:100%; height:300px; border:none; filter: invert(1) hue-rotate(180deg);"></iframe>
     </div>
     <div style="width: 25%; display: flex; justify-content: center; align-items: center;">
-        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Logo" style="width: 50%; height: auto;">
+        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Logo" style="width: 75%; height: auto;">
     </div>
 </div>
 
