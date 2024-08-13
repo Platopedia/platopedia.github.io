@@ -81,23 +81,19 @@ Scroll through some of our best moments...
 
 <div class="linebreak"></div>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Embedded Google Sheet</title>
-    <style>
-        iframe {
-            filter: invert(1) hue-rotate(180deg);
-        }
-    </style>
-</head>
-<body>
-<div style="overflow-x:auto;">
-<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSx3YNy7n7DjGWDyXZkdoWtC67h3WnROuoB5dkvjSF3ngsTAWSIjVJKu0jNcZcBvpc7fZOcZrXMr_UI/pubhtml?gid=2008081180&amp;single=false&amp;widget=true&amp;headers=true" style="width:100%; height:300px; border:none;"></iframe>
+<style>
+    iframe {
+        filter: invert(1) hue-rotate(180deg);
+        width: 100%;
+        height: 300px;
+        border: none;
+    }
+    .container {
+        overflow-x: auto;
+    }
+</style>
+<div class="container">
+    <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSx3YNy7n7DjGWDyXZkdoWtC67h3WnROuoB5dkvjSF3ngsTAWSIjVJKu0jNcZcBvpc7fZOcZrXMr_UI/pubhtml?gid=2008081180&single=false&widget=true&headers=true"></iframe>
 </div>
-
-<div style="overflow-x:auto;">
-       <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSx3YNy7n7DjGWDyXZkdoWtC67h3WnROuoB5dkvjSF3ngsTAWSIjVJKu0jNcZcBvpc7fZOcZrXMr_UI/pubhtml?gid=2008081180&amp;single=false&amp;widget=true&amp;headers=true" style="width:100%; height:300px; border:none;"></iframe>
-   </div>
 
 <div class="linebreak"></div>
