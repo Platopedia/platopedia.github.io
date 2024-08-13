@@ -79,6 +79,8 @@ Scroll through some of our best moments...
 
 <div class="content-image" data-url="/docs/assets/images/groups/arcade/ar-highest.jpg" data-width="600px" data-label="Highest Online Count"></div>
 
+<div class="linebreak"></div>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -92,9 +94,19 @@ Scroll through some of our best moments...
             filter: invert(1) hue-rotate(180deg);
         }
     </style>
+    <script>
+        document.getElementById('google-sheet').onload = function() {
+            var iframe = document.getElementById('google-sheet').contentWindow.document;
+            iframe.body.style.backgroundColor = '#121212';
+            iframe.body.style.color = '#ffffff';
+        };
+    </script>
 </head>
 <body>
     <div style="overflow-x:auto;">
         <iframe id="google-sheet" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSx3YNy7n7DjGWDyXZkdoWtC67h3WnROuoB5dkvjSF3ngsTAWSIjVJKu0jNcZcBvpc7fZOcZrXMr_UI/pubhtml?gid=2008081180&single=false&widget=true&headers=false" style="width:100%; height:300px; border:none;"></iframe>
+    </div>
+    <div class="linebreak"></div>
+</body>
 
 <div class="linebreak"></div>
