@@ -94,7 +94,7 @@ Scroll through some of our best moments...
     </style>
 </head>
 <body>
-<iframe class="content-image" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSx3YNy7n7DjGWDyXZkdoWtC67h3WnROuoB5dkvjSF3ngsTAWSIjVJKu0jNcZcBvpc7fZOcZrXMr_UI/pubhtml?gid=2008081180&amp;single=true&amp;widget=true&amp;headers=false" frameborder="0"></iframe>
+<iframe class="content-image" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSx3YNy7n7DjGWDyXZkdoWtC67h3WnROuoB5dkvjSF3ngsTAWSIjVJKu0jNcZcBvpc7fZOcZrXMr_UI/pubhtml?gid=2008081180&amp;single=true&amp;widget=true&amp;headers=false" frameborder="0" width="100%" border:none;></iframe>
     <script>
         document.getElementById('google-sheet').onload = function() {
             var iframe = document.getElementById('google-sheet').contentWindow.document;
@@ -105,7 +105,7 @@ Scroll through some of our best moments...
 </body>
 
 <div style="overflow-x:auto;">
-       <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSx3YNy7n7DjGWDyXZkdoWtC67h3WnROuoB5dkvjSF3ngsTAWSIjVJKu0jNcZcBvpc7fZOcZrXMr_UI/pubhtml?gid=2008081180&amp;single=true&amp;widget=true&amp;headers=true" style="width:100%; height:600px; border:none;"></iframe>
+       <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSx3YNy7n7DjGWDyXZkdoWtC67h3WnROuoB5dkvjSF3ngsTAWSIjVJKu0jNcZcBvpc7fZOcZrXMr_UI/pubhtml?gid=2008081180&amp;single=true&amp;widget=false&amp;headers=true" style="width:100%; height:600px; border:none;"></iframe>
    </div>
 
 <div class="linebreak"></div>
