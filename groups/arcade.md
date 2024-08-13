@@ -104,13 +104,4 @@ Scroll through some of our best moments...
     </script>
 </body>
 
-<script>
-    function resizeIframe() {
-        var iframe = document.getElementById('google-sheet');
-        iframe.style.height = iframe.contentWindow.document.body.scrollHeight + 'px';
-        iframe.style.width = iframe.contentWindow.document.body.scrollWidth + 'px';
-    }
-    document.getElementById('google-sheet').onload = resizeIframe;
-</script>
-
 <div class="linebreak"></div>
