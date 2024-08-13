@@ -103,6 +103,5 @@ Scroll through some of our best moments...
         };
     </script>
 </body>
-</html>
 
 <div class="linebreak"></div>
