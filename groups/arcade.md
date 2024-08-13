@@ -106,7 +106,5 @@ Scroll through some of our best moments...
     <div style="overflow-x:auto;">
         <iframe id="google-sheet" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSx3YNy7n7DjGWDyXZkdoWtC67h3WnROuoB5dkvjSF3ngsTAWSIjVJKu0jNcZcBvpc7fZOcZrXMr_UI/pubhtml?gid=2008081180&single=false&widget=true&headers=false" style="width:100%; height:300px; border:none;"></iframe>
     </div>
-    <div class="linebreak"></div>
-</body>
 
 <div class="linebreak"></div>
