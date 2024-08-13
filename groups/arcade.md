@@ -100,7 +100,7 @@ iframe.body.style.color = '#ffffff';
 };
 </script>
 <div style="overflow-x:auto;">
-<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSx3YNy7n7DjGWDyXZkdoWtC67h3WnROuoB5dkvjSF3ngsTAWSIjVJKu0jNcZcBvpc7fZOcZrXMr_UI/pubhtml?gid=2008081180&amp;single=false&amp;widget=true&amp;headers=true" style="width:100%; height:300px; border:none;"></iframe>
+<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSx3YNy7n7DjGWDyXZkdoWtC67h3WnROuoB5dkvjSF3ngsTAWSIjVJKu0jNcZcBvpc7fZOcZrXMr_UI/pubhtml?gid=2008081180&amp;single=false&amp;widget=true&amp;headers=false" style="width:100%; height:300px; border:none;"></iframe>
 </div>
 
 <div class="linebreak"></div>
