@@ -99,14 +99,6 @@ Scroll through some of our best moments...
 <div style="overflow-x:auto;">
 <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSx3YNy7n7DjGWDyXZkdoWtC67h3WnROuoB5dkvjSF3ngsTAWSIjVJKu0jNcZcBvpc7fZOcZrXMr_UI/pubhtml?gid=2008081180&amp;single=false&amp;widget=true&amp;headers=true" style="width:100%; height:300px; border:none;"></iframe>
 </div>
-    <script>
-        document.getElementById('google-sheet').onload = function() {
-            var iframe = document.getElementById('google-sheet').contentWindow.document;
-            iframe.body.style.backgroundColor = '#121212';
-            iframe.body.style.color = '#ffffff';
-        };
-    </script>
-</body>
 
 <div style="overflow-x:auto;">
        <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSx3YNy7n7DjGWDyXZkdoWtC67h3WnROuoB5dkvjSF3ngsTAWSIjVJKu0jNcZcBvpc7fZOcZrXMr_UI/pubhtml?gid=2008081180&amp;single=false&amp;widget=true&amp;headers=true" style="width:100%; height:300px; border:none;"></iframe>
