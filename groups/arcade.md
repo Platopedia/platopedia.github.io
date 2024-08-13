@@ -94,7 +94,7 @@ Scroll through some of our best moments...
     </style>
 </head>
 <body>
-<iframe class="content-image" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSx3YNy7n7DjGWDyXZkdoWtC67h3WnROuoB5dkvjSF3ngsTAWSIjVJKu0jNcZcBvpc7fZOcZrXMr_UI/pubhtml?gid=2008081180&amp;single=true&amp;widget=true&amp;headers=false" width="100%" height="100%"></iframe>
+<iframe class="content-image" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSx3YNy7n7DjGWDyXZkdoWtC67h3WnROuoB5dkvjSF3ngsTAWSIjVJKu0jNcZcBvpc7fZOcZrXMr_UI/pubhtml?gid=2008081180&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
     <script>
         document.getElementById('google-sheet').onload = function() {
             var iframe = document.getElementById('google-sheet').contentWindow.document;
