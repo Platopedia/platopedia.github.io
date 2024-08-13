@@ -81,11 +81,14 @@ Scroll through some of our best moments...
 
 <div class="linebreak"></div>
 
-<style>
-    iframe {
-        filter: invert(1) hue-rotate(180deg);
-    }
-</style>
-<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSx3YNy7n7DjGWDyXZkdoWtC67h3WnROuoB5dkvjSF3ngsTAWSIjVJKu0jNcZcBvpc7fZOcZrXMr_UI/pubhtml?gid=2008081180&single=false&widget=true&headers=true" style="width:100%; height:300px; border:none;"></iframe>
+<div style="display: flex; align-items: center;">
+    <div style="width: 50%;">
+        <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSx3YNy7n7DjGWDyXZkdoWtC67h3WnROuoB5dkvjSF3ngsTAWSIjVJKu0jNcZcBvpc7fZOcZrXMr_UI/pubhtml?gid=2008081180&single=false&widget=true&headers=true" 
+                style="width:100%; height:300px; border:none; filter: invert(1) hue-rotate(180deg);"></iframe>
+    </div>
+    <div style="width: 50%; display: flex; justify-content: center; align-items: center;">
+        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Logo" style="max-width: 100%; max-height: 100%;">
+    </div>
+</div>
 
 <div class="linebreak"></div>
