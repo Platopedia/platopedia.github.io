@@ -88,7 +88,7 @@ Scroll through some of our best moments...
     .iframe-container {
         width: 100%;
         height: 300px;
-        border: 2px solid #262626;
+        border: 2px solid #333333;
     }
     .iframe-container iframe {
         width: 100%;
