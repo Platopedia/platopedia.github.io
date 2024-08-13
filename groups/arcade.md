@@ -82,18 +82,19 @@ Scroll through some of our best moments...
 <div class="linebreak"></div>
 
 <style>
+    iframe {
+        filter: invert(1) hue-rotate(180deg);
+        width: 100%;
+        height: 300px;
+        border: none;
+        overflow-x: auto;
+    }
     .iframe-container {
         display: flex;
         justify-content: center;
         align-items: center;
         width: 100%;
-        height: 300px;
-    }
-    iframe {
-        filter: invert(1) hue-rotate(180deg);
-        width: 100%;
         height: 100%;
-        border: none;
     }
 </style>
 <div class="iframe-container">
