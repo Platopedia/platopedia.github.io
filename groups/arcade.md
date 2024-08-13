@@ -84,11 +84,8 @@ Scroll through some of our best moments...
 <style>
     iframe {
         filter: invert(1) hue-rotate(180deg);
-        -webkit-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
     }
 </style>
-<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSx3YNy7n7DjGWDyXZkdoWtC67h3WnROuoB5dkvjSF3ngsTAWSIjVJKu0jNcZcBvpc7fZOcZrXMr_UI/pubhtml?gid=2008081180&single=false&widget=true&headers=false" style="width:100%; height:300px; border:none;"></iframe>
+<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSx3YNy7n7DjGWDyXZkdoWtC67h3WnROuoB5dkvjSF3ngsTAWSIjVJKu0jNcZcBvpc7fZOcZrXMr_UI/pubhtml?gid=2008081180&single=false&widget=true&headers=true" style="width:100%; height:600px; border:none;"></iframe>
 
 <div class="linebreak"></div>
