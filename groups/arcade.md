@@ -82,10 +82,22 @@ Scroll through some of our best moments...
 <div class="linebreak"></div>
 
 <style>
+    .iframe-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 300px;
+    }
     iframe {
         filter: invert(1) hue-rotate(180deg);
+        width: 100%;
+        height: 100%;
+        border: none;
     }
 </style>
-<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSx3YNy7n7DjGWDyXZkdoWtC67h3WnROuoB5dkvjSF3ngsTAWSIjVJKu0jNcZcBvpc7fZOcZrXMr_UI/pubhtml?gid=2008081180&single=false&widget=true&headers=true" style="width:100%; border:none;"></iframe>
+<div class="iframe-container">
+    <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSx3YNy7n7DjGWDyXZkdoWtC67h3WnROuoB5dkvjSF3ngsTAWSIjVJKu0jNcZcBvpc7fZOcZrXMr_UI/pubhtml?gid=2008081180&single=false&widget=true&headers=true"></iframe>
+</div>
 
 <div class="linebreak"></div>
