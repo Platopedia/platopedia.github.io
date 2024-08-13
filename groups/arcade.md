@@ -79,10 +79,6 @@ Scroll through some of our best moments...
 
 <div class="content-image" data-url="/docs/assets/images/groups/arcade/ar-highest.jpg" data-width="600px" data-label="Highest Online Count"></div>
 
-<iframe class="content-image" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSx3YNy7n7DjGWDyXZkdoWtC67h3WnROuoB5dkvjSF3ngsTAWSIjVJKu0jNcZcBvpc7fZOcZrXMr_UI/pubhtml?gid=2008081180&amp;single=true&amp;widget=true&amp;headers=false" data-label="Sponsors"></iframe>
-
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
