@@ -80,28 +80,27 @@ Scroll through some of our best moments...
 <div class="content-image" data-url="/docs/assets/images/groups/arcade/ar-highest.jpg" data-width="600px" data-label="Highest Online Count"></div>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Embedded Google Sheet</title>
-    <style>
-        body {
-            background-color: #121212;
-            color: #ffffff;
-        }
-        iframe {
-            filter: invert(1) hue-rotate(180deg);
-        }
-    </style>
-    <script>
-        document.getElementById('google-sheet').onload = function() {
-            var iframe = document.getElementById('google-sheet').contentWindow.document;
-            iframe.body.style.backgroundColor = '#121212';
-            iframe.body.style.color = '#ffffff';
-        };
-    </script>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Embedded Google Sheet</title>
+<style>
+body {
+background-color: #121212;
+color: #ffffff;
+}
+iframe {
+filter: invert(1) hue-rotate(180deg);
+}
+</style>
+<script>
+document.getElementById('google-sheet').onload = function() {
+var iframe = document.getElementById('google-sheet').contentWindow.document;
+iframe.body.style.backgroundColor = '#121212';
+iframe.body.style.color = '#ffffff';
+};
+</script>
 <div style="overflow-x:auto;">
-       <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSx3YNy7n7DjGWDyXZkdoWtC67h3WnROuoB5dkvjSF3ngsTAWSIjVJKu0jNcZcBvpc7fZOcZrXMr_UI/pubhtml?gid=2008081180&amp;single=false&amp;widget=true&amp;headers=true" style="width:100%; height:300px; border:none;"></iframe>
-   </div>
+<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSx3YNy7n7DjGWDyXZkdoWtC67h3WnROuoB5dkvjSF3ngsTAWSIjVJKu0jNcZcBvpc7fZOcZrXMr_UI/pubhtml?gid=2008081180&amp;single=false&amp;widget=true&amp;headers=true" style="width:100%; height:300px; border:none;"></iframe>
+</div>
 
 <div class="linebreak"></div>
