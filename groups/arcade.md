@@ -104,7 +104,6 @@ Scroll through some of our best moments...
     </tbody>
 </table>
 
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -127,7 +126,6 @@ Scroll through some of our best moments...
             width: 100%; /* Full width of the wrapper */
             height: auto; /* Maintain aspect ratio */
             border-radius: 50%; /* Makes the images circular */
-            transform: scale(0.8); /* Reduces size by 80% while keeping width intact */
             object-fit: cover; /* Ensures the image fills the circle properly */
         }
         .ranking {
