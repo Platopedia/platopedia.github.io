@@ -5,7 +5,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 ---
 
 <style>
-h2 { color:#E44026 !important }
+h2 { color:#AD2323 !important }
 h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 </style>
 
@@ -29,57 +29,7 @@ Whether you're looking to make new friends, compete in exciting tournaments, or 
 
 <div class="linebreak"></div>
 
-## Shots
-
-Scroll through some of our best moments...
-
-<div class="content-image" data-url="/docs/assets/images/groups/arcade/ar-anniversary.jpg" data-width="600px" data-label="Arcade’s 1st Anniversary Event"></div>
-
-<div class="linebreak"></div>
-
-<div class="content-image" data-url="/docs/assets/images/groups/arcade/ar-shuweihat.jpg" data-width="600px" data-label="Shuweihat’s Birthday Event"></div>
-
-<div class="linebreak"></div>
-
-<div class="content-image" data-url="/docs/assets/images/groups/arcade/ar-fear.jpg" data-width="600px" data-label="Fear’s Birthday Event"></div>
-
-<div class="linebreak"></div>
-
-<div class="content-image" data-url="/docs/assets/images/groups/arcade/ar-fifa.jpg" data-width="600px" data-label="Fifa World Cup Event"></div>
-
-<div class="linebreak"></div>
-
-<div class="content-image" data-url="/docs/assets/images/groups/arcade/ar-arcadius.jpg" data-width="600px" data-label="Arcadius Immortalis Event"></div>
-
-<div class="linebreak"></div>
-
-<div class="content-image" data-url="/docs/assets/images/groups/arcade/ar-bingo.jpg" data-width="600px" data-label="Arcade Bingo Event"></div>
-
-<div class="linebreak"></div>
-
-<div class="content-image" data-url="/docs/assets/images/groups/arcade/ar-luna.jpg" data-width="600px" data-label="Luna’s Birthday Event"></div>
-
-<div class="linebreak"></div>
-
-<div class="content-image" data-url="/docs/assets/images/groups/arcade/ar-squidgame.jpg" data-width="600px" data-label="Squid Game Event"></div>
-
-<div class="linebreak"></div>
-
-<div class="content-image" data-url="/docs/assets/images/groups/arcade/ar-olympic.jpg" data-width="600px" data-label="Arcade Olympic Event"></div>
-
-<div class="linebreak"></div>
-
-<div class="content-image" data-url="/docs/assets/images/groups/arcade/ar-race.jpg" data-width="600px" data-label="Arcade Race Event"></div>
-
-<div class="linebreak"></div>
-
-<div class="content-image" data-url="/docs/assets/images/groups/arcade/ar-champions.jpg" data-width="600px" data-label="Champions League Event"></div>
-
-<div class="linebreak"></div>
-
-<div class="content-image" data-url="/docs/assets/images/groups/arcade/ar-highest.jpg" data-width="600px" data-label="Highest Online Count"></div>
-
-<div class="linebreak"></div>
+## Sponsors
 
 <table class="table table-bordered">
     <thead>
@@ -104,6 +54,10 @@ Scroll through some of our best moments...
     </tbody>
 </table>
 
+<div class="linebreak"></div>
+
+## Owners & Staff
+
 <head>
     <style>
         .thumbnail-grid {
@@ -124,7 +78,7 @@ Scroll through some of our best moments...
             border-radius: 50%; /* Makes the images circular */
             object-fit: cover; /* Ensures the image fills the circle properly */
         }
-        .ranking {
+        .username {
             margin-top: 5px; /* Spacing between image and text */
             font-size: 14px; /* Adjust as needed */
             color: #333; /* Text color */
