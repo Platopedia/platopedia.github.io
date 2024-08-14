@@ -11,7 +11,7 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 
 <div class="linebreak"></div>
 
-Arcade is an English community group that was founded on December 28, 2021.
+Arcade is a welcoming English community group established on December 28, 2021. We've hosted some of Plato's biggest events and have plenty more exciting stuff in store. Whether you're looking to make new friends, compete in exciting tournaments, or simply have fun, Arcade has something for everyone.
 
 Follow us on Instagram [@arcade.og](https://www.instagram.com/arcade.og/)
 
@@ -19,13 +19,9 @@ Follow us on Instagram [@arcade.og](https://www.instagram.com/arcade.og/)
 
 <div class="linebreak"></div>
 
-## Events
+## Waiting Group
 
-We have hosted a number of special events, such as:
-
-• Arcade Bingo Party, Squid Game, Champions League, Olympic Arcade, Arcade Race, Arcade FIFA world cup, The Mole, Sticker Hunt, and many more.
-
-Whether you're looking to make new friends, compete in exciting tournaments, or just have some fun, Arcade has something for everyone.
+Arcade is usually packed, and finding a spot can be very tricky. If you're still interested, head over to Arcade's waiting group where we post the link to our main group every Friday. Click the link below to get into the waiting group.
 
 <div class="linebreak"></div>
 
@@ -100,32 +96,32 @@ We have an amazing team of personalities leading Arcade. Get to know them:
     <div class="thumbnail-wrapper">
         <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Rose" class="thumbnail">
         <div class="username">Rose</div>
-        <div class="description">Our boss and leader, truly one of a kind.</div>
+        <div class="description">Our boss and leader, truly one of a kind</div>
     </div>
     <div class="thumbnail-wrapper">
         <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Fear" class="thumbnail">
         <div class="username">Fear</div>
-        <div class="description">Strange specimen who tends to hide from his own group, incredibly generous though.</div>
+        <div class="description">Strange specimen who tends to hide from his own group, incredibly generous though</div>
     </div>
     <div class="thumbnail-wrapper">
         <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Hitman" class="thumbnail">
         <div class="username">Hitman</div>
-        <div class="description">Charismatic, loyal, and funny. Responds to "Bilbul" or simply "Oi beta".</div>
+        <div class="description">Charismatic, loyal, and funny. Responds to "Bilbul" or simply "Oi beta"</div>
     </div>
     <div class="thumbnail-wrapper">
         <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Satue" class="thumbnail">
         <div class="username">Satue</div>
-        <div class="description">If you see a cool Arcade poster, it was likely designed by him.</div>
+        <div class="description">If you see a cool Arcade poster, it was likely designed by him</div>
     </div>
     <div class="thumbnail-wrapper">
         <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Fairy" class="thumbnail">
         <div class="username">Fairy</div>
-        <div class="description">Just like her username, she's sweet and helpful.</div>
+        <div class="description">Just like her username, she's sweet and helpful</div>
     </div>
     <div class="thumbnail-wrapper">
         <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Inna" class="thumbnail">
         <div class="username">Inna</div>
-        <div class="description">A loyal member of Arcade who has risen to the top.</div>
+        <div class="description">A loyal member of Arcade who has risen to the top</div>
     </div>
 </div>
 
