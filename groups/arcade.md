@@ -148,19 +148,19 @@ Scroll through some of our best moments...
     <div class="container">
         <div class="item">
             <div class="circle">
-                <img src="image1.jpg" alt="Image 1">
+                <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Image 1">
             </div>
             <div class="ranking">#1</div>
         </div>
         <div class="item">
             <div class="circle">
-                <img src="image2.jpg" alt="Image 2">
+                <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Image 2">
             </div>
             <div class="ranking">#2</div>
         </div>
         <div class="item">
             <div class="circle">
-                <img src="image3.jpg" alt="Image 3">
+                <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Image 3">
             </div>
             <div class="ranking">#3</div>
         </div>
