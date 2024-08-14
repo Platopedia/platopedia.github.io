@@ -112,9 +112,13 @@ Scroll through some of our best moments...
     <style>
         .container {
             display: flex;
-            justify-content: space-around;
+            justify-content: space-between;
             align-items: center;
             width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+            box-sizing: border-box;
+            padding: 0 10px;
         }
         .circle {
             width: 150px;
@@ -140,6 +144,7 @@ Scroll through some of our best moments...
         }
         .item {
             text-align: center;
+            flex: 1;
         }
     </style>
     <title>Circle Images with Ranking</title>
@@ -148,19 +153,19 @@ Scroll through some of our best moments...
     <div class="container">
         <div class="item">
             <div class="circle">
-                <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Image 1">
+                <img src="image1.jpg" alt="Image 1">
             </div>
             <div class="ranking">#1</div>
         </div>
         <div class="item">
             <div class="circle">
-                <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Image 2">
+                <img src="image2.jpg" alt="Image 2">
             </div>
             <div class="ranking">#2</div>
         </div>
         <div class="item">
             <div class="circle">
-                <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Image 3">
+                <img src="image3.jpg" alt="Image 3">
             </div>
             <div class="ranking">#3</div>
         </div>
