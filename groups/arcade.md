@@ -81,12 +81,27 @@ Scroll through some of our best moments...
 
 <div class="linebreak"></div>
 
-<style>
-    iframe {
-        filter: invert(1) hue-rotate(180deg);
-    }
-</style>
-
-<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQlzByllArYriijxydjnPND4Q3Ravpx0XuPZjjSLDmf71NnIIF5Ucl_2qekx2X8y4GjQ4vZJYGAfitZ/pubhtml?gid=1264608361&amp;single=true&amp;widget=true&amp;headers=false" style="width:100%; height:300px; border:none;"></iframe>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th class="w-50">Sponsors</th>
+            <th class="w-50">Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Fear</td>
+        <td>1000</td>
+    </tr>
+    <tr>
+        <td>Rose</td>
+        <td>1000</td>
+    </tr>
+    <tr>
+        <td>Peo</td>
+        <td>1000</td>
+    </tr>        
+    </tbody>
+</table>
 
 <div class="linebreak"></div>
