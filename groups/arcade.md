@@ -115,7 +115,7 @@ We have an amazing team of personalities leading Arcade. Get to know them:
     <div class="thumbnail-wrapper">
         <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Satue" class="thumbnail">
         <div class="username">Satue</div>
-        <div class="description">If you see a cool poster on our socials, it was likely designed by him.</div>
+        <div class="description">If you see a cool poster on our socials, it was most likely designed by him.</div>
     </div>
     <div class="thumbnail-wrapper">
         <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Fairy" class="thumbnail">
