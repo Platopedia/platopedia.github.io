@@ -116,7 +116,6 @@ Scroll through some of our best moments...
             flex-wrap: wrap; /* Allows wrapping to the next row */
             justify-content: space-between; /* Distribute space evenly between images */
             width: 100%;
-            max-width: 300px; /* Maximum width of the entire container */
             margin: auto;
         }
         .thumbnail-wrapper {
