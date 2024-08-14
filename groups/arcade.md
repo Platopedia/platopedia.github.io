@@ -108,7 +108,7 @@ We have an amazing team of personalities leading Arcade. Get to know them:
     <div class="thumbnail-wrapper">
         <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Hitman" class="thumbnail">
         <div class="username">Hitman</div>
-        <div class="description">Charismatic, loyal, and funny. Responds to "Bilbul" or simply "Oi beta". Pronouns: they/them.</div>
+        <div class="description">Charismatic, loyal, and funny. Responds to "Bilbul" or simply "Oi beta".</div>
     </div>
     <div class="thumbnail-wrapper">
         <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Satue" class="thumbnail">
