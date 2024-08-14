@@ -21,7 +21,7 @@ Follow us on Instagram [@arcade.og](https://www.instagram.com/arcade.og/)
 
 ## Waiting Group
 
-Arcade is usually packed, and finding a spot can be very tricky. If you're still interested, head over to Arcade's waiting group where we post the link to our main group every Friday. Click the link below to get into the waiting group.
+Finding spots at a busy Arcade can be tricky. If you're interested in joining, head over to Arcade's waiting group where we post the link to our main group every Friday. Click the link to get into the waiting group.
 
 <div class="linebreak"></div>
 
