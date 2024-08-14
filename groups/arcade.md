@@ -117,19 +117,40 @@ Scroll through some of our best moments...
             width: 100%;
             max-width: 300px; /* Maximum width of the entire container */
             margin: auto;
+            text-align: center; /* Center-aligns the ranking text */
+        }
+        .thumbnail-wrapper {
+            width: 95px; /* Fixed width */
         }
         .thumbnail {
-            width: 95px; /* Set the width of each thumbnail */
-            height: auto;
+            width: 100%; /* Full width of the wrapper */
+            height: auto; /* Maintain aspect ratio */
+            border-radius: 50%; /* Makes the images circular */
+            transform: scale(0.8); /* Reduces size by 80% while keeping width intact */
+            object-fit: cover; /* Ensures the image fills the circle properly */
+        }
+        .ranking {
+            margin-top: 5px; /* Spacing between image and text */
+            font-size: 14px; /* Adjust as needed */
+            color: #333; /* Text color */
         }
     </style>
 </head>
 <body>
 
 <div class="thumbnail-container">
-    <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Thumbnail 1" class="thumbnail">
-    <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Thumbnail 2" class="thumbnail">
-    <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Thumbnail 3" class="thumbnail">
+    <div class="thumbnail-wrapper">
+        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Thumbnail 1" class="thumbnail">
+        <div class="ranking">#1</div>
+    </div>
+    <div class="thumbnail-wrapper">
+        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Thumbnail 2" class="thumbnail">
+        <div class="ranking">#2</div>
+    </div>
+    <div class="thumbnail-wrapper">
+        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Thumbnail 3" class="thumbnail">
+        <div class="ranking">#3</div>
+    </div>
 </div>
 
 </body>
