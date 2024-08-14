@@ -140,15 +140,15 @@ Scroll through some of our best moments...
 
 <div class="thumbnail-container">
     <div class="thumbnail-wrapper">
-        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Thumbnail 1" class="thumbnail">
+        <img src="/docs/assets/images/groups/arcade/ar-logo.png" data-width="200px" alt="Thumbnail 1" class="thumbnail">
         <div class="ranking">#1</div>
     </div>
     <div class="thumbnail-wrapper">
-        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Thumbnail 2" class="thumbnail">
+        <img src="/docs/assets/images/groups/arcade/ar-logo.png" data-width="200px" alt="Thumbnail 2" class="thumbnail">
         <div class="ranking">#2</div>
     </div>
     <div class="thumbnail-wrapper">
-        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Thumbnail 3" class="thumbnail">
+        <img src="/docs/assets/images/groups/arcade/ar-logo.png" data-width="200px" alt="Thumbnail 3" class="thumbnail">
         <div class="ranking">#3</div>
     </div>
 </div>
