@@ -127,9 +127,9 @@ Scroll through some of our best moments...
 <body>
 
 <div class="thumbnail-container">
-    <img src="image1.jpg" alt="Thumbnail 1" class="thumbnail">
-    <img src="image2.jpg" alt="Thumbnail 2" class="thumbnail">
-    <img src="image3.jpg" alt="Thumbnail 3" class="thumbnail">
+    <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Thumbnail 1" class="thumbnail">
+    <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Thumbnail 2" class="thumbnail">
+    <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Thumbnail 3" class="thumbnail">
 </div>
 
 </body>
