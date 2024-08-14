@@ -60,6 +60,8 @@ Whether you're looking to make new friends, compete in exciting tournaments, or 
 
 We have an amazing team of personalities leading Arcade. Get to know them:
 
+<div class="linebreak"></div>
+
 <head>
     <style>
         .thumbnail-grid {
@@ -126,6 +128,8 @@ We have an amazing team of personalities leading Arcade. Get to know them:
         <div class="description">A loyal member of Arcade who has risen to the top.</div>
     </div>
 </div>
+
+<div class="linebreak"></div>
 
 And finally a big shout-out to the rest of our team:
 
