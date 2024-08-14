@@ -104,11 +104,7 @@ Scroll through some of our best moments...
     </tbody>
 </table>
 
-<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thumbnail Grid</title>
     <style>
         .thumbnail-grid {
             display: flex;
