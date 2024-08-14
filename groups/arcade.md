@@ -141,28 +141,28 @@ Scroll through some of our best moments...
 
 <div class="thumbnail-grid">
     <div class="thumbnail-wrapper">
-        <img src="image1.jpg" alt="Thumbnail 1" class="thumbnail">
-        <div class="ranking">#1</div>
+        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Thumbnail 1" class="thumbnail">
+        <div class="ranking">Rose</div>
     </div>
     <div class="thumbnail-wrapper">
-        <img src="image2.jpg" alt="Thumbnail 2" class="thumbnail">
-        <div class="ranking">#2</div>
+        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Thumbnail 2" class="thumbnail">
+        <div class="ranking">Fear</div>
     </div>
     <div class="thumbnail-wrapper">
-        <img src="image3.jpg" alt="Thumbnail 3" class="thumbnail">
-        <div class="ranking">#3</div>
+        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Thumbnail 3" class="thumbnail">
+        <div class="ranking">Hitman</div>
     </div>
     <div class="thumbnail-wrapper">
-        <img src="image4.jpg" alt="Thumbnail 4" class="thumbnail">
-        <div class="ranking">#4</div>
+        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Thumbnail 4" class="thumbnail">
+        <div class="ranking">Satue</div>
     </div>
     <div class="thumbnail-wrapper">
-        <img src="image5.jpg" alt="Thumbnail 5" class="thumbnail">
-        <div class="ranking">#5</div>
+        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Thumbnail 5" class="thumbnail">
+        <div class="ranking">Fairy</div>
     </div>
     <div class="thumbnail-wrapper">
-        <img src="image6.jpg" alt="Thumbnail 6" class="thumbnail">
-        <div class="ranking">#6</div>
+        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Thumbnail 6" class="thumbnail">
+        <div class="ranking">Inna</div>
     </div>
 </div>
 
