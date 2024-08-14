@@ -109,67 +109,42 @@ Scroll through some of our best moments...
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three Circle Images</title>
     <style>
         .container {
+            width: 600px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            max-width: 100%;
-            overflow: hidden;
-            box-sizing: border-box;
-            padding: 0 10px;
         }
-        .circle {
-            width: 150px;
-            height: 150px;
+        .circle-img {
+            width: 180px;
+            height: 180px;
             border-radius: 50%;
             overflow: hidden;
-            border: 5px solid #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            flex-shrink: 0;
         }
-        .circle img {
+        .circle-img img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-        .ranking {
-            text-align: center;
-            font-size: 1.2em;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-        .item {
-            text-align: center;
-            flex: 1;
-        }
     </style>
-    <title>Circle Images with Ranking</title>
 </head>
 <body>
-    <div class="container">
-        <div class="item">
-            <div class="circle">
-                <img src="image1.jpg" alt="Image 1">
-            </div>
-            <div class="ranking">#1</div>
-        </div>
-        <div class="item">
-            <div class="circle">
-                <img src="image2.jpg" alt="Image 2">
-            </div>
-            <div class="ranking">#2</div>
-        </div>
-        <div class="item">
-            <div class="circle">
-                <img src="image3.jpg" alt="Image 3">
-            </div>
-            <div class="ranking">#3</div>
-        </div>
+
+<div class="container">
+    <div class="circle-img">
+        <img src="image1.jpg" alt="Image 1">
     </div>
+    <div class="circle-img">
+        <img src="image2.jpg" alt="Image 2">
+    </div>
+    <div class="circle-img">
+        <img src="image3.jpg" alt="Image 3">
+    </div>
+</div>
+
 </body>
 </html>
 
