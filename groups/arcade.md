@@ -11,7 +11,7 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 
 <div class="linebreak"></div>
 
-Arcade is a welcoming English community group established on December 28, 2021. We've hosted some of Plato's biggest events and have plenty more exciting stuff in store. Whether you're looking to make new friends, compete in exciting tournaments, or simply have fun, Arcade has something for everyone.
+Arcade is a welcoming English community group established on December 28, 2021. We've hosted some of Plato's biggest events and have plenty more exciting stuff in store.
 
 Follow us on Instagram [@arcade.og](https://www.instagram.com/arcade.og/)
 
