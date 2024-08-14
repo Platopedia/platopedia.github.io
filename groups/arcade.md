@@ -116,7 +116,7 @@ Scroll through some of our best moments...
         .thumbnail-wrapper {
             width: 30%; /* Approx. 1/3 of the container width */
             margin-bottom: 20px; /* Space between the two rows */
-            text-align: center; /* Center-aligns the ranking text */
+            text-align: center; /* Center-aligns the username text */
         }
         .thumbnail {
             width: 100%; /* Full width of the wrapper */
@@ -135,28 +135,28 @@ Scroll through some of our best moments...
 
 <div class="thumbnail-grid">
     <div class="thumbnail-wrapper">
-        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Thumbnail 1" class="thumbnail">
-        <div class="ranking">Rose</div>
+        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Rose" class="thumbnail">
+        <div class="username">Rose</div>
     </div>
     <div class="thumbnail-wrapper">
-        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Thumbnail 2" class="thumbnail">
-        <div class="ranking">Fear</div>
+        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Fear" class="thumbnail">
+        <div class="username">Fear</div>
     </div>
     <div class="thumbnail-wrapper">
-        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Thumbnail 3" class="thumbnail">
-        <div class="ranking">Hitman</div>
+        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Hitman" class="thumbnail">
+        <div class="username">Hitman</div>
     </div>
     <div class="thumbnail-wrapper">
-        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Thumbnail 4" class="thumbnail">
-        <div class="ranking">Satue</div>
+        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Satue" class="thumbnail">
+        <div class="username">Satue</div>
     </div>
     <div class="thumbnail-wrapper">
-        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Thumbnail 5" class="thumbnail">
-        <div class="ranking">Fairy</div>
+        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Fairy" class="thumbnail">
+        <div class="username">Fairy</div>
     </div>
     <div class="thumbnail-wrapper">
-        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Thumbnail 6" class="thumbnail">
-        <div class="ranking">Inna</div>
+        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Inna" class="thumbnail">
+        <div class="username">Inna</div>
     </div>
 
 <div class="linebreak"></div>
