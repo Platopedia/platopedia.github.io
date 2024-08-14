@@ -104,13 +104,17 @@ Scroll through some of our best moments...
     </tbody>
 </table>
 
-E
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         .container {
             display: flex;
-            justify-content: center;
+            justify-content: space-around;
             align-items: center;
-            gap: 20px;
+            width: 100%;
         }
         .circle {
             width: 150px;
@@ -134,27 +138,32 @@ E
             font-weight: bold;
             margin-top: 10px;
         }
+        .item {
+            text-align: center;
+        }
     </style>
     <title>Circle Images with Ranking</title>
 </head>
 <body>
     <div class="container">
-        <div class="circle">
-            <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Image 1">
+        <div class="item">
+            <div class="circle">
+                <img src="image1.jpg" alt="Image 1">
+            </div>
+            <div class="ranking">#1</div>
         </div>
-        <div class="ranking">#1</div>
-    </div>
-    <div class="container">
-        <div class="circle">
-            <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Image 2">
+        <div class="item">
+            <div class="circle">
+                <img src="image2.jpg" alt="Image 2">
+            </div>
+            <div class="ranking">#2</div>
         </div>
-        <div class="ranking">#2</div>
-    </div>
-    <div class="container">
-        <div class="circle">
-            <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Image 3">
+        <div class="item">
+            <div class="circle">
+                <img src="image3.jpg" alt="Image 3">
+            </div>
+            <div class="ranking">#3</div>
         </div>
-        <div class="ranking">#3</div>
     </div>
 </body>
 </html>
