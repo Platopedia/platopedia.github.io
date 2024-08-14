@@ -104,4 +104,35 @@ Scroll through some of our best moments...
     </tbody>
 </table>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thumbnail Images Side by Side</title>
+    <style>
+        .thumbnail-container {
+            display: flex;
+            justify-content: space-between; /* Distribute space evenly between images */
+            width: 100%;
+            max-width: 300px; /* Maximum width of the entire container */
+            margin: auto;
+        }
+        .thumbnail {
+            width: 95px; /* Set the width of each thumbnail */
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="thumbnail-container">
+    <img src="image1.jpg" alt="Thumbnail 1" class="thumbnail">
+    <img src="image2.jpg" alt="Thumbnail 2" class="thumbnail">
+    <img src="image3.jpg" alt="Thumbnail 3" class="thumbnail">
+</div>
+
+</body>
+</html>
+
 <div class="linebreak"></div>
