@@ -104,48 +104,4 @@ Scroll through some of our best moments...
     </tbody>
 </table>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Three Circle Images</title>
-    <style>
-        .container {
-            width: 600px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-        }
-        .content-image {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-        .content-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <div class="content-image">
-        <img src="image1.jpg" alt="Image 1">
-    </div>
-    <div class="content-image">
-        <img src="image2.jpg" alt="Image 2">
-    </div>
-    <div class="content-image">
-        <img src="image3.jpg" alt="Image 3">
-    </div>
-</div>
-
-</body>
-</html>
-
 <div class="linebreak"></div>
