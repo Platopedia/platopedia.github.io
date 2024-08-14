@@ -158,10 +158,6 @@ Scroll through some of our best moments...
         <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Thumbnail 6" class="thumbnail">
         <div class="ranking">Inna</div>
     </div>
-    <div class="thumbnail-wrapper">
-        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Thumbnail 7" class="thumbnail">
-        <div class="ranking">Skull</div>
-    </div>
 </div>
 
 </body>
