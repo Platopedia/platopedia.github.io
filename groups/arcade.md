@@ -104,4 +104,59 @@ Scroll through some of our best moments...
     </tbody>
 </table>
 
+E
+    <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+        .circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .ranking {
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+    <title>Circle Images with Ranking</title>
+</head>
+<body>
+    <div class="container">
+        <div class="circle">
+            <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Image 1">
+        </div>
+        <div class="ranking">#1</div>
+    </div>
+    <div class="container">
+        <div class="circle">
+            <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Image 2">
+        </div>
+        <div class="ranking">#2</div>
+    </div>
+    <div class="container">
+        <div class="circle">
+            <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Image 3">
+        </div>
+        <div class="ranking">#3</div>
+    </div>
+</body>
+</html>
+
 <div class="linebreak"></div>
