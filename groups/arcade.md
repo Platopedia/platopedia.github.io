@@ -115,7 +115,6 @@ Scroll through some of our best moments...
             display: flex;
             justify-content: space-between; /* Distribute space evenly between images */
             width: 100%;
-            max-width: 300px; /* Maximum width of the entire container */
             margin: auto;
             text-align: center; /* Center-aligns the ranking text */
         }
