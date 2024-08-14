@@ -83,6 +83,11 @@ Whether you're looking to make new friends, compete in exciting tournaments, or 
             font-size: 14px; /* Adjust as needed */
             color: #333; /* Text color */
         }
+        .description {
+            font-size: 12px; /* Adjust as needed */
+            color: #666; /* Text color */
+            margin-top: 3px; /* Spacing between username and description */
+        }
     </style>
 </head>
 <body>
@@ -91,26 +96,33 @@ Whether you're looking to make new friends, compete in exciting tournaments, or 
     <div class="thumbnail-wrapper">
         <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Rose" class="thumbnail">
         <div class="username">Rose</div>
+        <div class="description">Short description for Rose</div>
     </div>
     <div class="thumbnail-wrapper">
         <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Fear" class="thumbnail">
         <div class="username">Fear</div>
+        <div class="description">Short description for Fear</div>
     </div>
     <div class="thumbnail-wrapper">
         <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Hitman" class="thumbnail">
         <div class="username">Hitman</div>
+        <div class="description">Short description for Hitman</div>
     </div>
     <div class="thumbnail-wrapper">
         <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Satue" class="thumbnail">
         <div class="username">Satue</div>
+        <div class="description">Short description for Satue</div>
     </div>
     <div class="thumbnail-wrapper">
         <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Fairy" class="thumbnail">
         <div class="username">Fairy</div>
+        <div class="description">Short description for Fairy</div>
     </div>
     <div class="thumbnail-wrapper">
         <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Inna" class="thumbnail">
         <div class="username">Inna</div>
+        <div class="description">Short description for Inna</div>
     </div>
+</div>
 
 <div class="linebreak"></div>
