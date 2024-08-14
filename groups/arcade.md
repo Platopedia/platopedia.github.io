@@ -117,14 +117,14 @@ Scroll through some of our best moments...
             display: flex;
             justify-content: space-between;
         }
-        .circle-img {
+        .content-image {
             width: 180px;
             height: 180px;
             border-radius: 50%;
             overflow: hidden;
             flex-shrink: 0;
         }
-        .circle-img img {
+        .content-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -134,13 +134,13 @@ Scroll through some of our best moments...
 <body>
 
 <div class="container">
-    <div class="circle-img">
+    <div class="content-image">
         <img src="image1.jpg" alt="Image 1">
     </div>
-    <div class="circle-img">
+    <div class="content-image">
         <img src="image2.jpg" alt="Image 2">
     </div>
-    <div class="circle-img">
+    <div class="content-image">
         <img src="image3.jpg" alt="Image 3">
     </div>
 </div>
