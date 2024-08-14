@@ -109,17 +109,20 @@ Scroll through some of our best moments...
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thumbnail Images Side by Side</title>
+    <title>Thumbnail Grid</title>
     <style>
-        .thumbnail-container {
+        .thumbnail-grid {
             display: flex;
+            flex-wrap: wrap; /* Allows wrapping to the next row */
             justify-content: space-between; /* Distribute space evenly between images */
             width: 100%;
+            max-width: 300px; /* Maximum width of the entire container */
             margin: auto;
-            text-align: center; /* Center-aligns the ranking text */
         }
         .thumbnail-wrapper {
-            width: 95px; /* Fixed width */
+            width: 30%; /* Approx. 1/3 of the container width */
+            margin-bottom: 20px; /* Space between the two rows */
+            text-align: center; /* Center-aligns the ranking text */
         }
         .thumbnail {
             width: 100%; /* Full width of the wrapper */
@@ -137,26 +140,30 @@ Scroll through some of our best moments...
 </head>
 <body>
 
-<div class="thumbnail-container">
+<div class="thumbnail-grid">
     <div class="thumbnail-wrapper">
-        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Thumbnail 1" class="thumbnail">
+        <img src="image1.jpg" alt="Thumbnail 1" class="thumbnail">
         <div class="ranking">#1</div>
     </div>
     <div class="thumbnail-wrapper">
-        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Thumbnail 2" class="thumbnail">
+        <img src="image2.jpg" alt="Thumbnail 2" class="thumbnail">
         <div class="ranking">#2</div>
     </div>
     <div class="thumbnail-wrapper">
-        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Thumbnail 3" class="thumbnail">
+        <img src="image3.jpg" alt="Thumbnail 3" class="thumbnail">
         <div class="ranking">#3</div>
     </div>
     <div class="thumbnail-wrapper">
-        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Thumbnail 4" class="thumbnail">
+        <img src="image4.jpg" alt="Thumbnail 4" class="thumbnail">
         <div class="ranking">#4</div>
     </div>
     <div class="thumbnail-wrapper">
-        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Thumbnail 5" class="thumbnail">
+        <img src="image5.jpg" alt="Thumbnail 5" class="thumbnail">
         <div class="ranking">#5</div>
+    </div>
+    <div class="thumbnail-wrapper">
+        <img src="image6.jpg" alt="Thumbnail 6" class="thumbnail">
+        <div class="ranking">#6</div>
     </div>
 </div>
 
