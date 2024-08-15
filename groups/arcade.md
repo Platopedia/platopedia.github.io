@@ -92,11 +92,10 @@ We're now keeping a record of sponsors, but the list below may not include those
     <tr>
         <td>Peo</td>
         <td>1000</td>
-    </tr>        
+    </tr>
+    <caption>To be added to the list, you need to have sponsored a minimum of 50k coins in total. We note down every amount you contribute.</caption>
     </tbody>
 </table>
-
-<caption>To be added to the list, you need to have sponsored a minimum of 50k coins in total. We note down every amount you contribute.</caption>
 
 <div class="linebreak"></div>
 
