@@ -35,6 +35,9 @@ Arcade is a welcoming English community group established on December 28, 2021. 
             width: 50px;
             height: 50px;
         }
+        .fa-instagram, .fa-discord {
+            font-size: 24px; /* Adjust this value to make the icons larger or smaller */
+        }
         .fa-instagram {
             background: #E4405F;
         }
