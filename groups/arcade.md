@@ -76,7 +76,6 @@ We're now keeping a record of sponsors, but the list below may not include those
 <table class="table table-bordered">
     <thead>
     <caption>To be added to the list, you need to have sponsored a minimum of 50k coins in total. We note down every amount you contribute.</caption>
-    <tr>
         <tr>
             <th class="w-50">Sponsors</th>
             <th class="w-50">Amount</th>
