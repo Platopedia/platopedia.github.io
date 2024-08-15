@@ -16,8 +16,8 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         @keyframes scroll {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
         }
         .announcement-strip {
             width: 100%;
@@ -30,8 +30,8 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
         }
         .announcement-strip span {
             display: inline-block;
-            padding-right: 0;
-            animation: scroll 10s linear infinite;
+            padding-left: 0;
+            animation: scroll 5s linear infinite;
         }
     </style>
 </head>
