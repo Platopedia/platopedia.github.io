@@ -22,7 +22,7 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
         }
         .announcement-strip {
             width: 100%;
-            background-color: #C30000;
+            background-color: #333333;
             color: white;
             overflow: hidden;
             white-space: nowrap;
@@ -34,7 +34,7 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
         .scrolling-text {
             display: inline-block;
             padding-left: 100%;
-            animation: scroll 10s linear infinite;
+            animation: scroll 5s linear infinite;
         }
         @keyframes scroll {
             0% {
@@ -50,7 +50,7 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 
 <div class="announcement-strip">
     <div class="scrolling-text">
-        This is a retro-themed announcement strip. It scrolls continuously and is easy to read!
+        Hello. The dress code for the party is to have batman pfp and "happy birthday Leo" frame.
     </div>
 </div>
 
