@@ -68,7 +68,7 @@ Finding spots at a busy Arcade can be tricky. If you're interested in joining, h
 ## Sponsors
 We're now keeping a record of sponsors, but the list below may not include those from past events. If you’re interested in sponsoring, click the link below to add @Win on Plato and let them know. We note down every amount you contribute; Arcade deeply appreciates your support!
 
-<pre><code style="white-space: pre-wrap; word-wrap: break-word;">To be added to the list, you need to have sponsored a minimum of 50k coins in total.</code></pre>
+<pre><code style="white-space: pre-wrap; word-wrap: break-word; background-color: #333; color: white; padding: 10px; border-radius: 5px;">To be added to the list, you need to have sponsored a minimum of 50k coins in total.</code></pre>
 
 <span class="content-link" data-url="https://plato.app/1x346e1xj7nnf" data-text="https://plato.app/1x346e1xj7nnf" data-copy="true"></span>
 
