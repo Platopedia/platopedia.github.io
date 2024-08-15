@@ -73,12 +73,12 @@ We're now keeping a record of sponsors, but the list below may not include those
 
 <div class="linebreak"></div>
 
-<table class="table table-bordered" style="border-color: #C30000;">
+<table class="table table-bordered">
     <caption>To be added to the list, you need to have sponsored a minimum of 50k coins in total. We note down every amount you contribute.</caption>
     <thead>
         <tr>
-            <th class="w-50" style="background-color: #C30000;">Sponsors</th>
-            <th class="w-50" style="background-color: #C30000;">Amount</th>
+            <th class="w-50">Sponsors</th>
+            <th class="w-50">Amount</th>
         </tr>
     </thead>
     <tbody>
@@ -132,7 +132,6 @@ We have an amazing team of personalities leading Arcade. Get to know them:
         }
         .description {
             font-size: 12px; /* Adjust as needed */
-            color: #6C747F; /* Text color */
             margin-top: 3px; /* Spacing between username and description */
         }
     </style>
