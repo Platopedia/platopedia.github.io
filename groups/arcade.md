@@ -17,26 +17,28 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
     <style>
         .announcement-strip {
             width: 100%;
-            background-color: #353A40;
+            height: 50px; /* Increased height */
+            background-color: #C30000; /* Changed color */
             color: white;
             overflow: hidden;
             white-space: nowrap;
             box-sizing: border-box;
+            font-family: 'Courier New', Courier, monospace; /* Retro code-like font */
         }
         .announcement-strip p {
             display: inline-block;
-            padding-left: 100%;
+            padding-right: 100%;
             animation: move 10s linear infinite;
         }
         @keyframes move {
-            0% { transform: translateX(0); }
+            0% { transform: translateX(100%); }
             100% { transform: translateX(-100%); }
         }
     </style>
 </head>
 <body>
     <div class="announcement-strip">
-        <p>Your announcement text goes here. This will move from left to right continuously.</p>
+        <p>Your announcement text goes here. This will move from right to left continuously.</p>
     </div>
 </body>
 
