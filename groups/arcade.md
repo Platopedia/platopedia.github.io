@@ -53,9 +53,9 @@ Arcade is a welcoming English community group established on December 28, 2021. 
     </div>
 </body>
 
-<span class="content-link" data-url="https://www.instagram.com/arcade.og/" data-text="https://www.instagram.com/arcade.og/" data-copy="true"></span>
+<span class="content-link" data-url="https://www.instagram.com/arcade.og/" data-text="IG Link" data-copy="true"></span>
 
-<span class="content-link" data-url="https://discord.gg/8szSEGtA" data-text="https://discord.gg/8szSEGtA" data-copy="true"></span>
+<span class="content-link" data-url="https://discord.gg/8szSEGtA" data-text="DC Link" data-copy="true"></span>
 
 <div class="content-contents text-left" data-open="true" data-icon="&#xf068;,&#xf067;">Contents <embed/></div>
 
@@ -72,7 +72,7 @@ Finding spots at a busy Arcade can be tricky. If you're interested in joining, h
 ## Sponsors
 We're now keeping a record of sponsors, but the list below may not include those from past events. To be added to the list, you need to have sponsored a minimum of 50k coins in total. If you're interested in sponsoring, add @Win on Plato and let them know. We note down every amount you contribute; Arcade deeply appreciates your support!
 
-@Win: <span class="content-link" data-url="https://plato.app/1x346e1xj7nnf" data-text="https://plato.app/1x346e1xj7nnf" data-copy="true"></span>
+<span class="content-link" data-url="https://plato.app/1x346e1xj7nnf" data-text="https://plato.app/1x346e1xj7nnf" data-copy="true"></span>
 
 <div class="linebreak"></div>
 
