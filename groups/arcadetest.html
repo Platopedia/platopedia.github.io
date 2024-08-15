@@ -10,6 +10,45 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 h2 { color:#C30000 !important }
 h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 
+    <style>
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            background-color: #f0f0f0;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        .marquee-content {
+            display: inline-block;
+            padding-right: 50px;
+            font-size: 24px;
+        }
+    </style>
+
+    <div class="marquee-container">
+        <div class="marquee-content">
+            This is your first message.
+        </div>
+        <div class="marquee-content">
+            Here comes the second message.
+        </div>
+        <div class="marquee-content">
+            Finally, the third message!
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            $('.marquee-container').marquee({
+                duration: 5000,
+                gap: 50,
+                delayBeforeStart: 0,
+                direction: 'left',
+                duplicated: true
+            });
+        });
+    </script>
+
 .announcement-strip {
     width: 100%;
     background: linear-gradient(90deg, #0D0D0D, #000000); /* Gradient background for visual appeal */
