@@ -23,7 +23,7 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
         .announcement-strip {
             width: 100%;
             background-color: #353A40;
-            color: white;
+            color: #CAC5BF;
             overflow: hidden;
             white-space: nowrap;
             box-sizing: border-box;
