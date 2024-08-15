@@ -27,7 +27,7 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
             overflow: hidden;
             white-space: nowrap;
             box-sizing: border-box;
-            padding: 5px 0;
+            padding: 2px 0;
             font-family: 'Courier New', Courier, monospace; /* Retro code-like font */
             font-size: 16px;
         }
