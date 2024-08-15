@@ -22,7 +22,7 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
         }
         .announcement-strip {
             width: 100%;
-            background-color: #333333;
+            background-color: #353A40;
             color: white;
             overflow: hidden;
             white-space: nowrap;
@@ -34,7 +34,7 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
         .scrolling-text {
             display: inline-block;
             padding-left: 100%;
-            animation: scroll 5s linear infinite;
+            animation: scroll 10s linear infinite;
         }
         @keyframes scroll {
             0% {
