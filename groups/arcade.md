@@ -34,7 +34,7 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
         .scrolling-text {
             display: inline-block;
             padding-left: 100%;
-            animation: scroll 15s linear infinite;
+            animation: scroll 10s linear infinite;
         }
         @keyframes scroll {
             0% {
