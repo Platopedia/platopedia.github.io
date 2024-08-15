@@ -11,34 +11,54 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 
 <div class="linebreak"></div>
 
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-100%); }
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0; /* Background color for contrast */
         }
         .announcement-strip {
             width: 100%;
-            overflow: hidden;
             background-color: #353A40;
-            color: #FFFFFF;
-            font-family: 'Courier New', Courier, monospace;
+            color: white;
+            overflow: hidden;
             white-space: nowrap;
             box-sizing: border-box;
+            padding: 10px 0;
+            font-family: 'Courier New', Courier, monospace; /* Retro code-like font */
+            font-size: 16px;
+            position: fixed;
+            top: 0;
+            left: 0;
         }
-        .announcement-strip span {
+        .scrolling-text {
             display: inline-block;
-            padding-right: 100%;
-            animation: scroll 10s linear infinite;
+            padding-left: 100%;
+            animation: scroll 15s linear infinite;
+        }
+        @keyframes scroll {
+            0% {
+                transform: translateX(0%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
         }
     </style>
 </head>
 <body>
-    <div class="announcement-strip">
-        <span>Welcome to the Retro Announcement Strip! Stay tuned for more updates! Welcome to the Retro Announcement Strip! Stay tuned for more updates!</span>
+
+<div class="announcement-strip">
+    <div class="scrolling-text">
+        This is a retro-themed announcement strip. It scrolls continuously and is easy to read!
     </div>
+</div>
+
 </body>
 
 Arcade is a welcoming English community group established on December 28, 2021. We've hosted some of Plato's biggest events and have plenty more exciting stuff in store.
