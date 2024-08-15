@@ -43,7 +43,7 @@ Arcade is a welcoming English community group established on December 28, 2021. 
 <body>
     <div class="social-buttons">
         <a href="https://www.instagram.com/yourprofile" class="fa fa-instagram"></a>
-        <a href="https://discord.com/invite/yourserver" class="fa fa-discord"></a>
+        <a href="https://discord.com/invite/KnT7KPaU" class="fa fa-discord"></a>
     </div>
 </body>
 </html>
