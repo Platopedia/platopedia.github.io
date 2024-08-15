@@ -57,11 +57,11 @@ Arcade is a welcoming English community group established on December 28, 2021. 
 
 <div class="linebreak"></div>
 
-## Waiting Group
+## Waiting Room
 
-Finding spots at a busy Arcade can be tricky. If you're interested in joining, head over to Arcade's waiting group where we post the link to our main group every Friday. Click the link to get into the waiting group.
+Finding spots at a busy Arcade can be tricky. If you're interested in joining, head over to Arcade's waiting room where we post the link to our main group every Friday. Click the link to get into the waiting room.
 
-<span class="content-link" data-url="https://plato.app/1x346e1xj7nnf" data-text="https://plato.app/1x346e1xj7nnf" data-copy="true"></span>
+<span class="content-link" data-url="https://plato.app/9xf0wtwtm9aj" data-text="https://plato.app/9xf0wtwtm9aj" data-copy="true"></span>
 
 <div class="linebreak"></div>
 
@@ -149,7 +149,7 @@ And a big shout-out to the rest of our team: <span style="background-color: #353
 
 We're now keeping a record of sponsors, but the list below may not include those from past events. If you’re interested in sponsoring, click the link below to add @Win on Plato and let them know.
 
-<span class="content-link" data-url="https://plato.app/1x346e1xj7nnf" data-text="https://plato.app/1x346e1xj7nnf" data-copy="true"></span>
+<span class="content-link" data-url="https://plato.app/157ma64hbpkkf" data-text="https://plato.app/157ma64hbpkkf" data-copy="true"></span>
 
 <div class="linebreak"></div>
 
