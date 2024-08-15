@@ -13,7 +13,43 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 
 Arcade is a welcoming English community group established on December 28, 2021. We've hosted some of Plato's biggest events and have plenty more exciting stuff in store.
 
-Follow us on Instagram [@arcade.og](https://www.instagram.com/arcade.og/)
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media Buttons</title>
+    <!-- Add Font Awesome library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .social-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .social-buttons a {
+            text-decoration: none;
+            color: white;
+            padding: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            text-align: center;
+        }
+        .fa-instagram {
+            background: #E4405F;
+        }
+        .fa-discord {
+            background: #7289DA;
+        }
+    </style>
+</head>
+<body>
+    <div class="social-buttons">
+        <a href="https://www.instagram.com/yourprofile" class="fa fa-instagram"></a>
+        <a href="https://discord.com/invite/yourserver" class="fa fa-discord"></a>
+    </div>
+</body>
+</html>
+
+Follow us on Instagram: [@arcade.og](https://www.instagram.com/arcade.og/)
+Our Discord Server:
 
 <div class="content-contents text-left" data-open="true" data-icon="&#xf068;,&#xf067;">Contents <embed/></div>
 
@@ -30,7 +66,7 @@ Finding spots at a busy Arcade can be tricky. If you're interested in joining, h
 ## Sponsors
 We're now keeping a record of sponsors, but the list below may not include those from past events. To be added to the list, you need to have sponsored a minimum of 50k coins in total. If you're interested in sponsoring, add @Win on Plato and let them know. We note down every amount you contribute; Arcade deeply appreciates your support!
 
-<span class="content-link" data-url="https://plato.app/1x346e1xj7nnf" data-text="https://plato.app/1x346e1xj7nnf" data-copy="true"></span>
+@Win: <span class="content-link" data-url="https://plato.app/1x346e1xj7nnf" data-text="https://plato.app/1x346e1xj7nnf" data-copy="true"></span>
 
 <div class="linebreak"></div>
 
