@@ -48,13 +48,14 @@ Arcade is a welcoming English community group established on December 28, 2021. 
 </head>
 <body>
     <div class="social-buttons">
-        <a href="https://www.instagram.com/yourprofile" class="fab fa-instagram"></a>
-        <a href="https://discord.com/invite/yourserver" class="fab fa-discord"></a>
+        <a href="https://www.instagram.com/arcade.og/" class="fab fa-instagram"></a>
+        <a href="https://discord.gg/8szSEGtA" class="fab fa-discord"></a>
     </div>
 </body>
 
-Follow us on Instagram: [@arcade.og](https://www.instagram.com/arcade.og/)
-Our Discord Server:
+<span class="content-link" data-url="https://www.instagram.com/arcade.og/" data-text="https://www.instagram.com/arcade.og/" data-copy="true"></span>
+
+<span class="content-link" data-url="https://discord.gg/8szSEGtA" data-text="https://discord.gg/8szSEGtA" data-copy="true"></span>
 
 <div class="content-contents text-left" data-open="true" data-icon="&#xf068;,&#xf067;">Contents <embed/></div>
 
