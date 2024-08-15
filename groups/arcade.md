@@ -132,7 +132,7 @@ We have an amazing team of personalities leading Arcade. Get to know them:
         }
         .description {
             font-size: 12px; /* Adjust as needed */
-            color: #666; /* Text color */
+            color: ##6C747F; /* Text color */
             margin-top: 3px; /* Spacing between username and description */
         }
     </style>
