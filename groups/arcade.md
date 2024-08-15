@@ -15,30 +15,29 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        .announcement-strip {
-            width: 100%;
-            height: 50px; /* Increased height */
-            background-color: #C30000; /* Changed color */
-            color: white;
-            overflow: hidden;
-            white-space: nowrap;
-            box-sizing: border-box;
-            font-family: 'Courier New', Courier, monospace; /* Retro code-like font */
-        }
-        .announcement-strip p {
-            display: inline-block;
-            padding-right: 100%;
-            animation: move 10s linear infinite;
-        }
-        @keyframes move {
+        @keyframes scroll {
             0% { transform: translateX(100%); }
             100% { transform: translateX(-100%); }
+        }
+        .announcement-strip {
+            width: 100%;
+            overflow: hidden;
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', Courier, monospace;
+            white-space: nowrap;
+            box-sizing: border-box;
+        }
+        .announcement-strip span {
+            display: inline-block;
+            padding-left: 100%;
+            animation: scroll 10s linear infinite;
         }
     </style>
 </head>
 <body>
     <div class="announcement-strip">
-        <p>Your announcement text goes here. This will move from right to left continuously.</p>
+        <span>Welcome to the Retro Announcement Strip! Stay tuned for more updates!</span>
     </div>
 </body>
 
