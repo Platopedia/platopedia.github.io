@@ -18,7 +18,7 @@ Arcade is a welcoming English community group established on December 28, 2021. 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Social Media Buttons</title>
     <!-- Add Font Awesome library -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         .social-buttons {
             display: flex;
@@ -42,11 +42,10 @@ Arcade is a welcoming English community group established on December 28, 2021. 
 </head>
 <body>
     <div class="social-buttons">
-        <a href="https://www.instagram.com/yourprofile" class="fa fa-instagram"></a>
-        <a href="https://discord.com/invite/KnT7KPaU" class="fa fa-discord"></a>
+        <a href="https://www.instagram.com/yourprofile" class="fab fa-instagram"></a>
+        <a href="https://discord.com/invite/yourserver" class="fab fa-discord"></a>
     </div>
 </body>
-</html>
 
 Follow us on Instagram: [@arcade.og](https://www.instagram.com/arcade.og/)
 Our Discord Server:
