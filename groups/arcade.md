@@ -70,11 +70,12 @@ Finding spots at a busy Arcade can be tricky. If you're interested in joining, h
 <head>
     <style>
         .code-box {
-            background-color: #333333;
+            background-color: #354A40;
             border: 1px solid #ccc;
             padding: 10px;
             font-family: 'Courier New', Courier, monospace;
             border-radius: 5px;
+            color: #fff; /* Set the font color here */
         }
     </style>
 </head>
