@@ -65,40 +65,6 @@ Finding spots at a busy Arcade can be tricky. If you're interested in joining, h
 
 <div class="linebreak"></div>
 
-## Sponsors
-
-We're now keeping a record of sponsors, but the list below may not include those from past events. If you’re interested in sponsoring, click the link below to add @Win on Plato and let them know.
-
-<span class="content-link" data-url="https://plato.app/1x346e1xj7nnf" data-text="https://plato.app/1x346e1xj7nnf" data-copy="true"></span>
-
-<div class="linebreak"></div>
-
-<table class="table table-bordered">
-    <caption>To be added to the list, you need to have sponsored a minimum of 50k coins in total. We note down every amount you contribute.</caption>
-    <thead>
-        <tr>
-            <th class="w-50">Sponsors</th>
-            <th class="w-50">Amount</th>
-        </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>Fear</td>
-        <td>1000</td>
-    </tr>
-    <tr>
-        <td>Rose</td>
-        <td>1000</td>
-    </tr>
-    <tr>
-        <td>Peo</td>
-        <td>1000</td>
-    </tr>
-    </tbody>
-</table>
-
-<div class="linebreak"></div>
-
 ## Owners & Staff
 
 We have an amazing team of personalities leading Arcade. Get to know them:
@@ -174,5 +140,39 @@ We have an amazing team of personalities leading Arcade. Get to know them:
 <div class="linebreak"></div>
 
 And a big shout-out to the rest of our team: <span style="background-color: #353A40; color: white;">7777777, abc, Amirberlink, Aura, DarkEstrela, Hamid, Reza, ureiz, Neff, 4DA, Arts, Galaxy, MangoNado, YR</span>
+
+<div class="linebreak"></div>
+
+## Sponsors
+
+We're now keeping a record of sponsors, but the list below may not include those from past events. If you’re interested in sponsoring, click the link below to add @Win on Plato and let them know.
+
+<span class="content-link" data-url="https://plato.app/1x346e1xj7nnf" data-text="https://plato.app/1x346e1xj7nnf" data-copy="true"></span>
+
+<div class="linebreak"></div>
+
+<table class="table table-bordered">
+    <caption>To be added to the list, you need to have sponsored a minimum of 50k coins in total. We note down every amount you contribute.</caption>
+    <thead>
+        <tr>
+            <th class="w-50">Sponsors</th>
+            <th class="w-50">Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Fear</td>
+        <td>1000</td>
+    </tr>
+    <tr>
+        <td>Rose</td>
+        <td>1000</td>
+    </tr>
+    <tr>
+        <td>Peo</td>
+        <td>1000</td>
+    </tr>
+    </tbody>
+</table>
 
 <div class="linebreak"></div>
