@@ -53,10 +53,6 @@ Arcade is a welcoming English community group established on December 28, 2021. 
     </div>
 </body>
 
-<span class="content-link" data-url="https://www.instagram.com/arcade.og/" data-text="IG Link" data-copy="true"></span>
-
-<span class="content-link" data-url="https://discord.gg/8szSEGtA" data-text="DC Link" data-copy="true"></span>
-
 <div class="content-contents text-left" data-open="true" data-icon="&#xf068;,&#xf067;">Contents <embed/></div>
 
 <div class="linebreak"></div>
