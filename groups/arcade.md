@@ -22,12 +22,12 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
         }
         .announcement-strip {
             width: 100%;
-            background-color: #353A40;
+            background-color: #C30000;
             color: white;
             overflow: hidden;
             white-space: nowrap;
             box-sizing: border-box;
-            padding: 2px 0;
+            padding: 1px 0;
             font-family: 'Courier New', Courier, monospace; /* Retro code-like font */
             font-size: 16px;
         }
@@ -55,6 +55,8 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 </div>
 
 </body>
+
+<div class="linebreak"></div>
 
 Arcade is a welcoming English community group established on December 28, 2021. We've hosted some of Plato's biggest events and have plenty more exciting stuff in store.
 
