@@ -22,20 +22,25 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
         }
         .announcement-strip {
             width: 100%;
-            background-color: #C30000;
-            color: #000000;
+            background: linear-gradient(90deg, #C30000, #FF4500); /* Gradient background for visual appeal */
+            color: #FFFFFF; /* White text color for better contrast */
             overflow: hidden;
             white-space: nowrap;
             box-sizing: border-box;
             padding: 0;
             font-family: 'Press Start 2P', cursive; /* Retro arcade font */
-            font-size: 12px;
-            text-align: center;
+            font-size: 14px; /* Slightly larger font for readability */
+            display: flex; /* Flexbox for centering */
+            align-items: center; /* Center items vertically */
+            height: 40px; /* Increased height for a more prominent strip */
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* Add shadow for depth */
+            border-top: 2px solid #FF4500; /* Add a border on top for a polished look */
+            border-bottom: 2px solid #C30000; /* Add a border on bottom for symmetry */
         }
         .scrolling-text {
             display: inline-block;
             padding-left: 100%;
-            animation: scroll 8s linear infinite;
+            animation: scroll 10s linear infinite; /* Adjusted speed for smoother scrolling */
         }
         @keyframes scroll {
             0% {
