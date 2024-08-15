@@ -9,15 +9,7 @@ h2 { color:#C30000 !important }
 h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 </style>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marquee Animation</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/aamirafridi/jQuery.Marquee/jquery.marquee.min.js"></script>
-    <style>
+<style>
         .marquee-container {
             width: 100%;
             overflow: hidden;
@@ -31,9 +23,19 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
             font-size: 24px;
         }
     </style>
-</head>
-<body>
-    <div class="marquee-container">
+
+<div class="marquee-container">
+        <div class="marquee-content">
+            This is your first message.
+        </div>
+        <div class="marquee-content">
+            Here comes the second message.
+        </div>
+        <div class="marquee-content">
+            Finally, the third message!
+        </div>
+    </div>
+<div class="marquee-container">
         <div class="marquee-content">
             This is your first message.
         </div>
@@ -55,8 +57,17 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
             });
         });
     </script>
-
-</body>
+    <script>
+        $(document).ready(function(){
+            $('.marquee-container').marquee({
+                duration: 5000,
+                gap: 50,
+                delayBeforeStart: 0,
+                direction: 'left',
+                duplicated: true
+            });
+        });
+    </script>
 
 Arcade is a welcoming English community group established on December 28, 2021. We've hosted some of Plato's biggest events and have plenty more exciting stuff in store.
 
