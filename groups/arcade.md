@@ -27,10 +27,13 @@ Arcade is a welcoming English community group established on December 28, 2021. 
         .social-buttons a {
             text-decoration: none;
             color: white;
-            padding: 10px;
+            padding: 20px;
             border-radius: 50%;
             display: inline-block;
             text-align: center;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
         }
         .fa-instagram {
             background: #E4405F;
