@@ -54,7 +54,7 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 
 <div class="announcement-strip">
     <div class="scrolling-text">
-        LEO LOVES BILBUL
+        We've revamped the Arcade website.
     </div>
 </div>
 
