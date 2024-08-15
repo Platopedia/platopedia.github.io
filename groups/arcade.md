@@ -128,7 +128,7 @@ We have an amazing team of personalities leading Arcade. Get to know them:
         .username {
             margin-top: 5px; /* Spacing between image and text */
             font-size: 14px; /* Adjust as needed */
-            color: #333; /* Text color */
+            color: #353A40; /* Text color */
         }
         .description {
             font-size: 12px; /* Adjust as needed */
