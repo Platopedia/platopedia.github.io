@@ -140,32 +140,32 @@ We have an amazing team of personalities leading Arcade. Get to know them:
 
 <div class="thumbnail-grid">
     <div class="thumbnail-wrapper">
-        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Rose" class="thumbnail">
+        <img src="/docs/assets/images/groups/arcade/rose.png" alt="Rose" class="thumbnail">
         <div class="username">Rose</div>
         <div class="description">Our boss and leader, truly one of a kind</div>
     </div>
     <div class="thumbnail-wrapper">
-        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Fear" class="thumbnail">
+        <img src="/docs/assets/images/groups/arcade/fear.png" alt="Fear" class="thumbnail">
         <div class="username">Fear</div>
         <div class="description">Strange specimen who tends to hide from his own group, incredibly generous though</div>
     </div>
     <div class="thumbnail-wrapper">
-        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Hitman" class="thumbnail">
+        <img src="/docs/assets/images/groups/arcade/hitman.png" alt="Hitman" class="thumbnail">
         <div class="username">Hitman</div>
         <div class="description">Charismatic, loyal, and funny. Responds to "Bilbul" or simply "Oi beta"</div>
     </div>
     <div class="thumbnail-wrapper">
-        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Satue" class="thumbnail">
-        <div class="username">Satue</div>
+        <img src="/docs/assets/images/groups/arcade/globe.png" alt="Satue" class="thumbnail">
+        <div class="username">Globe</div>
         <div class="description">If you see a cool Arcade poster, it was likely designed by him</div>
     </div>
     <div class="thumbnail-wrapper">
-        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Fairy" class="thumbnail">
+        <img src="/docs/assets/images/groups/arcade/fairy.png" alt="Fairy" class="thumbnail">
         <div class="username">Fairy</div>
         <div class="description">Just like her username, she's sweet and helpful</div>
     </div>
     <div class="thumbnail-wrapper">
-        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Inna" class="thumbnail">
+        <img src="/docs/assets/images/groups/arcade/inna.png" alt="Inna" class="thumbnail">
         <div class="username">Inna</div>
         <div class="description">A loyal member of Arcade who has risen to the top</div>
     </div>
