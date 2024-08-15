@@ -31,7 +31,7 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
         .announcement-strip span {
             display: inline-block;
             padding-left: 0;
-            animation: scroll 5s linear infinite;
+            animation: scroll 2s linear infinite;
         }
     </style>
 </head>
