@@ -23,14 +23,14 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
             width: 100%;
             overflow: hidden;
             background-color: #353A40;
-            color: #C30000;
+            color: #FFFFFF;
             font-family: 'Courier New', Courier, monospace;
             white-space: nowrap;
             box-sizing: border-box;
         }
         .announcement-strip span {
             display: inline-block;
-            padding-right: 100%;
+            padding-right: 0;
             animation: scroll 10s linear infinite;
         }
     </style>
