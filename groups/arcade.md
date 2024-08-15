@@ -48,11 +48,13 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 
 <div class="announcement-strip">
     <div class="scrolling-text">
-        Hello. The dress code for the party is to have batman pfp and "happy birthday Leo" frame.
+        LEO LOVES BILBUL
     </div>
 </div>
 
 </body>
+
+<div class="linebreak"></div>
 
 Arcade is a welcoming English community group established on December 28, 2021. We've hosted some of Plato's biggest events and have plenty more exciting stuff in store.
 
