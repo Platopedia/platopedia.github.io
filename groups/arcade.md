@@ -128,7 +128,7 @@ We have an amazing team of personalities leading Arcade. Get to know them:
     <div class="thumbnail-wrapper">
         <img src="/docs/assets/images/groups/arcade/fairy.png" alt="Fairy" class="thumbnail">
         <div class="username">Fairy</div>
-        <div class="description">Just like her username, she's sweet and helpful</div>
+        <div class="description">Just like her username, she's sweet, helpful, and has supported us since day 1</div>
     </div>
     <div class="thumbnail-wrapper">
         <img src="/docs/assets/images/groups/arcade/inna.png" alt="Inna" class="thumbnail">
