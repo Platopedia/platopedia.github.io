@@ -30,7 +30,6 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
             padding: 10px 0;
             font-family: 'Courier New', Courier, monospace; /* Retro code-like font */
             font-size: 16px;
-            position: fixed;
         }
         .scrolling-text {
             display: inline-block;
