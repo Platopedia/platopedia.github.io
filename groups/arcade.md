@@ -11,7 +11,7 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 
 <div class="linebreak"></div>
 
-<div class="content-image" data-url="/docs/assets/images/groups/arcade/ar-banner.png" data-width="200px" data-label=""></div>
+<div class="content-image" data-url="/docs/assets/images/groups/arcade/ar-banner.png" data-width="100%" data-label=""></div>
 
 Arcade is a welcoming English community group established on December 28, 2021. We've hosted some of Plato's biggest events and have plenty more exciting stuff in store.
 
