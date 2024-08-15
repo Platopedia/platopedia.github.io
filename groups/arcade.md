@@ -70,7 +70,7 @@ Finding spots at a busy Arcade can be tricky. If you're interested in joining, h
 <head>
     <style>
         .code-box {
-            background-color: #f4f4f4;
+            background-color: #333333;
             border: 1px solid #ccc;
             padding: 10px;
             font-family: 'Courier New', Courier, monospace;
