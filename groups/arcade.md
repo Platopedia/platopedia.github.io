@@ -16,21 +16,21 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         @keyframes scroll {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
         .announcement-strip {
             width: 100%;
             overflow: hidden;
-            background-color: #000;
-            color: #0f0;
+            background-color: #353A40;
+            color: #C30000;
             font-family: 'Courier New', Courier, monospace;
             white-space: nowrap;
             box-sizing: border-box;
         }
         .announcement-strip span {
             display: inline-block;
-            padding-left: 100%;
+            padding-right: 100%;
             animation: scroll 10s linear infinite;
         }
     </style>
