@@ -16,7 +16,7 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         @keyframes scroll {
-            0% { transform: translateX(100%); }
+            0% { transform: translateX(0); }
             100% { transform: translateX(-100%); }
         }
         .announcement-strip {
@@ -30,14 +30,14 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
         }
         .announcement-strip span {
             display: inline-block;
-            padding-left: 0;
-            animation: scroll 2s linear infinite;
+            padding-right: 100%;
+            animation: scroll 10s linear infinite;
         }
     </style>
 </head>
 <body>
     <div class="announcement-strip">
-        <span>Welcome to the Retro Announcement Strip! Stay tuned for more updates!</span>
+        <span>Welcome to the Retro Announcement Strip! Stay tuned for more updates! Welcome to the Retro Announcement Strip! Stay tuned for more updates!</span>
     </div>
 </body>
 
