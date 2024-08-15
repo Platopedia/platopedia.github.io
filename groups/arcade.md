@@ -12,6 +12,8 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Link to the Press Start 2P font -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
         body {
             margin: 0;
@@ -26,7 +28,7 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
             white-space: nowrap;
             box-sizing: border-box;
             padding: 0;
-            font-family: 'Courier New', Courier, monospace; /* Retro code-like font */
+            font-family: 'Press Start 2P', cursive; /* Retro arcade font */
             font-size: 12px;
         }
         .scrolling-text {
