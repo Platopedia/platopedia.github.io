@@ -207,49 +207,28 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 
 <div class="linebreak"></div>
 
-    <script src="https://cdn.jsdelivr.net/gh/aamirafridi/jQuery.Marquee/jquery.marquee.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/aamirafridi/jQuery.Marquee/jquery.marquee.min.js"></script>
 
     <style>
-        .marquee-container {
-            width: 100%;
-            overflow: hidden;
-            background-color: #f0f0f0;
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
-        .marquee-content {
-            display: inline-block;
-            padding-right: 50px;
-            font-size: 24px;
-        }
+        .marquee {
+  width: 300px; /* the plugin works for responsive layouts so width is not necessary */
+  overflow: hidden;
+  border:1px solid #ccc;
+}
     </style>
 
-    <div class="marquee-container">
-        <div class="marquee-content">
+    <div class="marquee">
             This is your first message.
-        </div>
-        <div class="marquee-content">
-            Here comes the second message.
-        </div>
-        <div class="marquee-content">
-            Finally, the third message!
-        </div>
     </div>
 
     <script>
-        $(document).ready(function(){
-            $('.marquee-container').marquee({
+    
+            $('.marquee').marquee({
                 duration: 5000,
                 gap: 50,
                 delayBeforeStart: 0,
                 direction: 'left',
                 duplicated: true
             });
-        });
-        }
-.scrolling-text {
-    display: inline-block;
-    padding-left: 50%;
-    animation: scroll 10s linear infinite; /* Adjusted speed for smoother scrolling */
-}
+ 
     </script>
