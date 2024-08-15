@@ -11,8 +11,6 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 
 <div class="linebreak"></div>
 
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
