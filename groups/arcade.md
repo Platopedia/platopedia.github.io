@@ -22,7 +22,7 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
         }
         .announcement-strip {
             width: 100%;
-            background: linear-gradient(90deg, #1A1A1A, #000000); /* Gradient background for visual appeal */
+            background: linear-gradient(90deg, #0D0D0D, #000000); /* Gradient background for visual appeal */
             color: #C30000; /* White text color for better contrast */
             overflow: hidden;
             white-space: nowrap;
