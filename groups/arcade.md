@@ -5,7 +5,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 ---
 
 <style>
-h2 { color:#AD2323 !important }
+h2 { color:#C30000 !important }
 h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 </style>
 
@@ -128,7 +128,7 @@ We have an amazing team of personalities leading Arcade. Get to know them:
         .username {
             margin-top: 5px; /* Spacing between image and text */
             font-size: 14px; /* Adjust as needed */
-            color: #353A40; /* Text color */
+            color: #C30000; /* Text color */
         }
         .description {
             font-size: 12px; /* Adjust as needed */
