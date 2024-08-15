@@ -71,8 +71,6 @@ We're now keeping a record of sponsors, but the list below may not include those
 
 <span class="content-link" data-url="https://plato.app/1x346e1xj7nnf" data-text="https://plato.app/1x346e1xj7nnf" data-copy="true"></span>
 
-To be added to the list, you need to have sponsored a minimum of 50k coins in total. We note down every amount you contribute.
-
 <div class="linebreak"></div>
 
 <table class="table table-bordered">
@@ -97,6 +95,8 @@ To be added to the list, you need to have sponsored a minimum of 50k coins in to
     </tr>        
     </tbody>
 </table>
+
+<caption>To be added to the list, you need to have sponsored a minimum of 50k coins in total. We note down every amount you contribute.</caption>
 
 <div class="linebreak"></div>
 
