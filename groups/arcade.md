@@ -22,7 +22,7 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
         }
         .announcement-strip {
             width: 100%;
-            background-color: #353A40;
+            background-color: #C30000;
             color: #CAC5BF;
             overflow: hidden;
             white-space: nowrap;
@@ -30,6 +30,7 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
             padding: 0;
             font-family: 'Press Start 2P', cursive; /* Retro arcade font */
             font-size: 12px;
+            text-align: center;
         }
         .scrolling-text {
             display: inline-block;
