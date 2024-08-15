@@ -174,6 +174,6 @@ We have an amazing team of personalities leading Arcade. Get to know them:
 
 <div class="linebreak"></div>
 
-And a big shout-out to the rest of our team: 7777777, abc, Amirberlink, Aura, DarkEstrela, Hamid, Reza, ureiz, Neff, 4DA, Arts, Galaxy, MangoNado, YR
+And a big shout-out to the rest of our team: <span style="background-color: #353A40; color: white;">7777777, abc, Amirberlink, Aura, DarkEstrela, Hamid, Reza, ureiz, Neff, 4DA, Arts, Galaxy, MangoNado, YR</span>
 
 <div class="linebreak"></div>
