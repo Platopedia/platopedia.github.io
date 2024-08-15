@@ -67,24 +67,11 @@ Finding spots at a busy Arcade can be tricky. If you're interested in joining, h
 
 ## Sponsors
 
-<head>
-    <style>
-        .code-box {
-            background-color: #353A40;
-            border: 1px solid #ccc;
-            padding: 10px;
-            font-family: 'Courier New', Courier, monospace;
-            border-radius: 5px;
-            color: #fff; /* Set the font color here */
-        }
-    </style>
-</head>
-
-We're now keeping a record of sponsors, but the list below may not include those from past events. If you’re interested in sponsoring, click the link below to add @Win on Plato and let them know. Arcade deeply appreciates your support!
+We're now keeping a record of sponsors, but the list below may not include those from past events. If you’re interested in sponsoring, click the link below to add @Win on Plato and let them know.
 
 <span class="content-link" data-url="https://plato.app/1x346e1xj7nnf" data-text="https://plato.app/1x346e1xj7nnf" data-copy="true"></span>
 
-<div class="code-box">To be added to the list, you need to have sponsored a minimum of 50k coins in total. We note down every amount you contribute.</div>
+To be added to the list, you need to have sponsored a minimum of 50k coins in total. We note down every amount you contribute.
 
 <div class="linebreak"></div>
 
