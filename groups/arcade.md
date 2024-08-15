@@ -11,7 +11,34 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 
 <div class="linebreak"></div>
 
-<div class="content-image" data-url="/docs/assets/images/groups/arcade/ar-banner.png" data-width="100%" data-label=""></div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .announcement-strip {
+            width: 100%;
+            background-color: #353A40;
+            color: white;
+            overflow: hidden;
+            white-space: nowrap;
+            box-sizing: border-box;
+        }
+        .announcement-strip p {
+            display: inline-block;
+            padding-left: 100%;
+            animation: move 10s linear infinite;
+        }
+        @keyframes move {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+    </style>
+</head>
+<body>
+    <div class="announcement-strip">
+        <p>Your announcement text goes here. This will move from left to right continuously.</p>
+    </div>
+</body>
 
 Arcade is a welcoming English community group established on December 28, 2021. We've hosted some of Plato's biggest events and have plenty more exciting stuff in store.
 
