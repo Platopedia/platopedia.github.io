@@ -34,8 +34,6 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
             align-items: center; /* Center items vertically */
             height: 40px; /* Increased height for a more prominent strip */
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* Add shadow for depth */
-            border-top: 2px solid #000000; /* Add a border on top for a polished look */
-            border-bottom: 2px solid #1A1A1A; /* Add a border on bottom for symmetry */
         }
         .scrolling-text {
             display: inline-block;
