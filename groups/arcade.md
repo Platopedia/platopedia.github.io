@@ -30,8 +30,6 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
             padding: 0;
             font-family: 'Press Start 2P', cursive; /* Retro arcade font */
             font-size: 14px; /* Slightly larger font for readability */
-            display: flex; /* Flexbox for centering */
-            align-items: center; /* Center items vertically */
             height: 40px; /* Increased height for a more prominent strip */
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* Add shadow for depth */
             border-top: 2px solid #111111; /* Add a border on top for a polished look */
