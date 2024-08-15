@@ -22,7 +22,7 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
         }
         .announcement-strip {
             width: 100%;
-            background: linear-gradient(90deg, #C30000, #FF4500); /* Gradient background for visual appeal */
+            background: linear-gradient(90deg, #C30000, #353A40); /* Gradient background for visual appeal */
             color: #FFFFFF; /* White text color for better contrast */
             overflow: hidden;
             white-space: nowrap;
@@ -34,7 +34,7 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
             align-items: center; /* Center items vertically */
             height: 40px; /* Increased height for a more prominent strip */
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* Add shadow for depth */
-            border-top: 2px solid #FF4500; /* Add a border on top for a polished look */
+            border-top: 2px solid #353A40; /* Add a border on top for a polished look */
             border-bottom: 2px solid #C30000; /* Add a border on bottom for symmetry */
         }
         .scrolling-text {
