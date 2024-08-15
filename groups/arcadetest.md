@@ -9,54 +9,52 @@ h2 { color:#C30000 !important }
 h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 </style>
 
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Link to the Press Start 2P font -->
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <title>Marquee Animation</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/aamirafridi/jQuery.Marquee/jquery.marquee.min.js"></script>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #f0f0f0; /* Background color for contrast */
-        }
-        .announcement-strip {
+        .marquee-container {
             width: 100%;
-            background: linear-gradient(90deg, #0D0D0D, #000000); /* Gradient background for visual appeal */
-            color: #C30000; /* White text color for better contrast */
             overflow: hidden;
-            white-space: nowrap;
-            box-sizing: border-box;
-            padding: 0;
-            font-family: 'Press Start 2P', cursive; /* Retro arcade font */
-            font-size: 14px; /* Slightly larger font for readability */
-            display: flex; /* Flexbox for centering */
-            align-items: center; /* Center items vertically */
-            height: 40px; /* Increased height for a more prominent strip */
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* Add shadow for depth */
+            background-color: #f0f0f0;
+            padding: 10px;
+            border: 1px solid #ddd;
         }
-        .scrolling-text {
+        .marquee-content {
             display: inline-block;
-            padding-left: 100%;
-            animation: scroll 10s linear infinite; /* Adjusted speed for smoother scrolling */
-        }
-        @keyframes scroll {
-            0% {
-                transform: translateX(0%);
-            }
-            100% {
-                transform: translateX(-100%);
-            }
+            padding-right: 50px;
+            font-size: 24px;
         }
     </style>
 </head>
 <body>
-
-<div class="announcement-strip">
-    <div class="scrolling-text">
-        We've revamped the Arcade website.
+    <div class="marquee-container">
+        <div class="marquee-content">
+            This is your first message.
+        </div>
+        <div class="marquee-content">
+            Here comes the second message.
+        </div>
+        <div class="marquee-content">
+            Finally, the third message!
+        </div>
     </div>
-</div>
+    <script>
+        $(document).ready(function(){
+            $('.marquee-container').marquee({
+                duration: 5000,
+                gap: 50,
+                delayBeforeStart: 0,
+                direction: 'left',
+                duplicated: true
+            });
+        });
+    </script>
 
 </body>
 
