@@ -211,7 +211,7 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 
     <style>
         .marquee {
-  width: 300px; /* the plugin works for responsive layouts so width is not necessary */
+  width: 100%; /* the plugin works for responsive layouts so width is not necessary */
   overflow: hidden;
   border:1px solid #ccc;
 }
@@ -224,7 +224,6 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
     <script>
     
             $('.marquee').marquee({
-allowCss3Support:false,
                 duration: 5000,
                 gap: 50,
                 delayBeforeStart: 0,
