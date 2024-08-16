@@ -10,72 +10,8 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 h2 { color:#C30000 !important }
 h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Announcement Strip</title>
-
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Arial', sans-serif;
-    }
-
-    .banner {
-      height: 40px; /* Slightly taller strip */
-      width: 100%;
-      box-sizing: border-box;
-      position: relative;
-      background: linear-gradient(90deg, #181818, #080808); /* Matte black gradient */
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-      border-radius: 8px; /* Rounded corners */
-    }
-
-    .marquee-container {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      position: absolute;
-      left: 0;
-      overflow: hidden;
-    }
-
-    .marquee-text {
-      font-size: 15px; /* Adjusted font size */
-      color: #C30000; /* Red color for the text */
-      white-space: nowrap;
-      display: inline-block;
-      line-height: 40px; /* Match the line-height with the height of the banner */
-      animation: marquee 12s linear infinite;
-      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Subtle text shadow */
-    }
-
-    .marquee-text:hover {
-      animation-play-state: paused;
-    }
-
-    @keyframes marquee {
-      0% {
-        transform: translateX(100%);
-      }
-      100% {
-        transform: translateX(-100%);
-      }
-    }
-  </style>
-</head>
-<body>
-
-<div class="banner">
-  <div class="marquee-container">
-    <span class="marquee-text">It's okay if this week has been exhausting. You're not super-human, so let yourself rest & recover.</span>
-  </div>
-</div>
-
-</body>
+<pre><code>
+function helloWorld() {
+    console.log("Hello, world!");
+}
+</code></pre>
