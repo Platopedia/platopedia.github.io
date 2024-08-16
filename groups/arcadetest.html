@@ -10,6 +10,72 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 h2 { color:#C30000 !important }
 h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Announcement Strip</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Courier New', Courier, monospace; /* Retro font */
+    }
+
+    .banner {
+      height: 50px; /* Thin strip */
+      width: 100%; /* Full width */
+      box-sizing: border-box;
+      position: relative;
+      background-color: #d50000; /* Red color for the strip */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .marquee-container {
+      width: 100%; /* 100% width of the strip */
+      height: 100%; /* Full height of the strip */
+      position: absolute;
+      left: 0;
+      overflow: hidden;
+    }
+
+    .marquee-text {
+      font-size: 20px; /* Adjusted font size */
+      font-weight: bold;
+      color: #fff;
+      white-space: nowrap; /* Ensure text doesn't wrap */
+      display: inline-block;
+      animation: marquee 20s linear infinite; /* Adjusted speed */
+    }
+
+    .marquee-text:hover {
+      animation-play-state: paused; /* Pause animation on hover */
+    }
+
+    @keyframes marquee {
+      0% {
+        transform: translateX(100%); /* Start off-screen */
+      }
+      100% {
+        transform: translateX(-100%); /* Move off-screen to the left */
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="banner">
+  <div class="marquee-container">
+    <span class="marquee-text">It's okay if this week has been exhausting. You're not super-human, so let yourself rest & recover.</span>
+  </div>
+</div>
+
+<p style="text-align: center;">Quote from <a href="https://www.instagram.com/p/B9HK6EbAE3V/" style="color: #d50000;">A Safe Place Inside Your Head</a>.</p>
+
+</body>
+
 .announcement-strip {
     width: 100%;
     background: linear-gradient(90deg, #0D0D0D, #000000); /* Gradient background for visual appeal */
