@@ -28,14 +28,16 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
       position: relative;
       background-color: #d50000; /* Red color for the strip */
       display: flex;
-      align-items: center;
-      justify-content: center;
+      align-items: center; /* Vertically center the content */
+      justify-content: center; /* Horizontally center the content */
       overflow: hidden;
     }
 
     .marquee-container {
       width: 100%; /* 100% width of the strip */
       height: 100%; /* Full height of the strip */
+      display: flex; /* Flexbox layout */
+      align-items: center; /* Vertically center text */
       position: absolute;
       left: 0;
       overflow: hidden;
@@ -47,6 +49,7 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
       color: #fff;
       white-space: nowrap; /* Ensure text doesn't wrap */
       display: inline-block;
+      line-height: 50px; /* Match the line-height with the height of the banner */
       animation: marquee 10s linear infinite; /* Adjusted speed */
     }
 
