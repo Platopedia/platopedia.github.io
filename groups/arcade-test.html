@@ -21,8 +21,8 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
         }
         .event-calendar {
             display: flex;
-            justify-content: space-between; /* Aligns the event items side by side with equal spacing */
-            align-items: center;
+            justify-content: space-between;
+            align-items: stretch; /* Ensures all event items have the same height */
             background-color: var(--color-form-field-hov);
             padding: 10px 20px;
             border-radius: 10px;
@@ -34,25 +34,30 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
             flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: space-between; /* Ensures even spacing between title and "Coming Next" */
+            justify-content: space-between;
             align-items: center;
             margin: 0 10px;
             text-align: center;
             padding: 10px;
-            min-height: 100px; /* Ensures all items have the same height */
+            min-height: 100px;
+            max-width: 250px;
+            overflow: hidden;
+            word-wrap: break-word; /* Allows text to wrap to the next line */
         }
         .event-item h3 {
             margin: 0;
             font-size: 18px;
             color: #333;
-            text-align: center; /* Centers the text horizontally */
-            line-height: 1.5; /* Adjusts the spacing within the title */
+            text-align: center;
+            line-height: 1.2;
+            word-wrap: break-word; /* Ensures long words wrap within the container */
+            max-width: 100%;
         }
         .event-item span {
             font-size: 14px;
             color: #888;
-            text-align: center; /* Centers the text horizontally */
-            margin-top: auto; /* Pushes "Coming Next" to the bottom */
+            text-align: center;
+            margin-top: auto;
         }
         .event-item:hover {
             transform: scale(1.05);
@@ -63,15 +68,15 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 <body>
     <div class="event-calendar">
         <div class="event-item">
-            <h3>Text wrapping test</h3>
+            <h3>Very Long Event Title</h3>
             <span>Coming Next</span>
         </div>
         <div class="event-item">
-            <h3>Huhuhuhuhuhu event</h3>
+            <h3>Another Long Event Title</h3>
             <span>Coming Next</span>
         </div>
         <div class="event-item">
-            <h3>Leo loves bilbul</h3>
+            <h3>Event 345678910 lol</h3>
             <span>Coming Next</span>
         </div>
     </div>
