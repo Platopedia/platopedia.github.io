@@ -32,8 +32,13 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
         }
         .event-item {
             flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             margin: 0 10px;
             text-align: center;
+            padding: 10px;
         }
         .event-item h3 {
             margin: 0;
@@ -41,7 +46,6 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
             color: #333;
         }
         .event-item span {
-            display: block;
             font-size: 14px;
             color: #888;
             margin-top: 5px;
@@ -55,15 +59,15 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 <body>
     <div class="event-calendar">
         <div class="event-item">
-            <h3>hello testing testin testing</h3>
+            <h3>Event 1</h3>
             <span>Coming Next</span>
         </div>
         <div class="event-item">
             <h3>Event 2</h3>
-            <span>text wrap wrapping</span>
+            <span>Coming Next</span>
         </div>
         <div class="event-item">
-            <h3>leo loves bilbul</h3>
+            <h3>Event 3</h3>
             <span>Coming Next</span>
         </div>
     </div>
