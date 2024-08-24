@@ -27,7 +27,8 @@ To celebrate @Hitman, Leo's Birthday, Arcade is hosting a dangerous Bingo giveaw
 
 ## Group Invite
 
-Book your spot by adding one of these accounts linked below. An invite will be sent to you on the event day. Please don't add more than one account.
+Book your spot by adding one of these accounts linked below. An invite will be sent to you on the event day. Please don't add more than one account.
+
 
 <span class="content-link" data-url="https://plato.app/1x346e1xj7nnf" data-text="https://plato.app/1x346e1xj7nnf" data-copy="true"></span>
 
@@ -60,7 +61,7 @@ Book your spot by adding one of these accounts linked below. An invite will be s
         <tr>
             <td>MMs</td>
             <td>100,000</td>
-        </tr>
+        </tr>
         <tr>
             <td>7777777</td>
             <td>50,000</td>
