@@ -21,7 +21,7 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
         }
         .event-calendar {
             display: flex;
-            justify-content: space-between;
+            justify-content: space-between; /* Aligns the event items side by side with equal spacing */
             align-items: center;
             background-color: var(--color-form-field-hov);
             padding: 10px 20px;
@@ -34,21 +34,25 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
             flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: space-between; /* Ensures even spacing between title and "Coming Next" */
             align-items: center;
             margin: 0 10px;
             text-align: center;
             padding: 10px;
+            min-height: 100px; /* Ensures all items have the same height */
         }
         .event-item h3 {
             margin: 0;
             font-size: 18px;
             color: #333;
+            text-align: center; /* Centers the text horizontally */
+            line-height: 1.5; /* Adjusts the spacing within the title */
         }
         .event-item span {
             font-size: 14px;
             color: #888;
-            margin-top: 5px;
+            text-align: center; /* Centers the text horizontally */
+            margin-top: auto; /* Pushes "Coming Next" to the bottom */
         }
         .event-item:hover {
             transform: scale(1.05);
@@ -59,15 +63,15 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 <body>
     <div class="event-calendar">
         <div class="event-item">
-            <h3>Test Event Title</h3>
+            <h3>Event 1</h3>
             <span>Coming Next</span>
         </div>
         <div class="event-item">
-            <h3>Nutella Crepe</h3>
+            <h3>Event 2</h3>
             <span>Coming Next</span>
         </div>
         <div class="event-item">
-            <h3>Leo loves bilbul</h3>
+            <h3>Event 3</h3>
             <span>Coming Next</span>
         </div>
     </div>
