@@ -8,6 +8,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 h2 { color:#C30000 !important }
 h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -42,7 +43,6 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
             min-height: 100px;
             max-width: 250px;
             overflow: hidden;
-            word-wrap: break-word; /* Allows text to wrap to the next line */
         }
         .event-item h3 {
             margin: 0;
@@ -50,7 +50,8 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
             color: #333;
             text-align: center;
             line-height: 1.2;
-            word-wrap: break-word; /* Ensures long words wrap within the container */
+            word-break: keep-all; /* Prevents words from breaking in the middle */
+            overflow-wrap: break-word; /* Allows long words to wrap to the next line at word boundaries */
             max-width: 100%;
         }
         .event-item span {
@@ -68,15 +69,15 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 <body>
     <div class="event-calendar">
         <div class="event-item">
-            <h3>Very Long Event Title</h3>
+            <h3>Very Long Event Title That Needs Proper Wrapping</h3>
             <span>Coming Next</span>
         </div>
         <div class="event-item">
-            <h3>Another Long Event Title</h3>
+            <h3>Another Event With a Lengthy Title</h3>
             <span>Coming Next</span>
         </div>
         <div class="event-item">
-            <h3>Event 345678910 lol</h3>
+            <h3>Event 3</h3>
             <span>Coming Next</span>
         </div>
     </div>
