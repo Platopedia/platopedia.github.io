@@ -131,6 +131,13 @@ ul.timeline > li:before {
     text-wrap: balance;
     font-family: monospace;
 }
+
+.dont-break-out {
+  overflow-wrap: break-word; /* Ensures the long string will wrap */
+  word-wrap: break-word;     /* Alternate name for overflow-wrap */
+  word-break: break-word;    /* Breaks the word at the end of the line */
+  hyphens: auto;             /* Adds a hyphen where the word breaks, if supported */
+}
 </style>
 
 <div class="linebreak"></div>
