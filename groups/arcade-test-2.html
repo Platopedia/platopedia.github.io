@@ -9,41 +9,32 @@ h2 { color:#C30000 !important }
 h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 
 .list-timeline {
-  margin: 0;
-  padding: 5px 0;
-  position: relative
+  position: relative;
+  padding-left: 20px;
+  list-style: none;
 }
 
-.list-timeline:before {
-  width: 1px;
-  background: #444;
+.list-timeline::before {
+  content: '';
   position: absolute;
-  left: 6px;
   top: 0;
   bottom: 0;
-  height: 100%;
-  content: ''
+  left: 10px;
+  width: 2px;
+  background: #e9ecef;
 }
 
 .list-timeline .list-timeline-item {
-  margin: 0;
-  padding: 0;
-  padding-left: 24px !important;
-  position: relative
+  position: relative;
+  padding-bottom: 20px;
 }
 
-.list-timeline .list-timeline-item:before {
-  width: 12px;
-  height: 12px;
-  background: #C30000;
-  border: 2px solid #C30000;
-  position: absolute;
-  left: 0;
-  top: 4px;
-  content: '';
-  border-radius: 100%;
-  -webkit-transition: all .3 ease-in-out;
-  transition: all .3 ease-in-out
+.list-timeline .list-timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+.list-timeline .list-timeline-item:last-child::before {
+  display: none;
 }
 </style>
 
