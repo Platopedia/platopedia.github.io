@@ -186,6 +186,11 @@ table
     color     : var(--color-text) !important;
 }
 
+table caption
+{
+    padding : 15px 0 0 0;
+}
+
 table tr
 {
     padding : 0;

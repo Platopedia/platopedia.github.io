@@ -195,6 +195,11 @@ h1
     color       : var(--color-text) !important;
 }
 
+.content .content-link
+{
+    overflow-wrap : break-word;
+}
+
 .content .content-countdown .syotimer
 {
     margin-left  : auto;
