@@ -188,7 +188,9 @@ table
 
 table caption
 {
-    padding : 15px 0 0 0;
+    padding   : 15px 0 0 0;
+    font-size : var(--unit-text-C);
+    color     : var(--color-text);
 }
 
 table tr
