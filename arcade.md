@@ -1,6 +1,6 @@
 ---
 layout: redirect
-path: events/leobday
+path: groups/arcade
 ---
 
 
