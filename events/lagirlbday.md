@@ -1,7 +1,7 @@
 ---
 layout: tool-content
 title: Leo's Birthday - Platopedia
-heading: <img src="/docs/assets/images/events/leobday/leobday.png" />&nbsp;Leo's Birthday
+heading: <img src="/docs/assets/images/events/lagirlbday/lagirlbday.png" />&nbsp;LA Girl's Birthday
 ---
 
 <style>
@@ -13,7 +13,7 @@ h4                    { color:#008080 !important;font-size:var(--unit-text-B) !i
 
 <div class="linebreak"></div>
 
-<div class="content-image" data-url="/docs/assets/images/events/lagirlbday/lagirl.png" data-width="100%" data-label=""></div>
+<div class="content-image" data-url="/docs/assets/images/events/lagirlbday/lagirlbday.png" data-width="100%" data-label=""></div>
 
 <div class="linebreak"></div>
 
