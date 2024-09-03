@@ -5,23 +5,23 @@ heading: <img src="/docs/assets/images/events/leobday/leobday.png" />&nbsp;Leo's
 ---
 
 <style>
-h2                    { color:#828282 !important }
+h2                    { color:#F2B729 !important }
 h4                    { color:#008080 !important;font-size:var(--unit-text-B) !important }
-.syotimer-cell__value { border-color:#828282 !important }
-.syotimer-cell__unit  { color:#828282 }
+.syotimer-cell__value { border-color:#F2B729 !important }
+.syotimer-cell__unit  { color:#F2B729 }
 </style>
 
 <div class="linebreak"></div>
 
-<div class="content-image" data-url="/docs/assets/images/events/leobday/leobday.png" data-width="200px" data-label=""></div>
+<div class="content-image" data-url="/docs/assets/images/events/lagirlbday/lagirl.png" data-width="100%" data-label=""></div>
 
 <div class="linebreak"></div>
 
-To celebrate @Hitman, Leo's Birthday, Arcade is hosting a dangerous Bingo giveaway on August 5th at 3 PM (GMT). We hope to see you all there! Don't miss out on the excitement - we're looking forward to seeing you all!
+LA_GIRL07's Birthday is just around the corner on September 7th! Get ready for a big giveaway as we celebrate this day.
 
 <div class="linebreak"></div>
 
-<div class="content-countdown text-center" data-datetime="2024-08-05T15:00:00+00:00"><b>HAPPY BIRTHDAYYYYY LEO!!!</b></div>
+<div class="content-countdown text-center" data-datetime="2024-09-07T13:00:00+00:00"><b>HAPPY BIRTHDAYYYYY LA GIRL!!!</b></div>
 
 <div class="linebreak"></div>
 
