@@ -17,7 +17,7 @@ h4                    { color:#008080 !important;font-size:var(--unit-text-B) !i
 
 <div class="linebreak"></div>
 
-LA_GIRL07's Birthday is just around the corner on September 7th! Get ready for a big giveaway as we celebrate this day.
+LA_GIRL07's Birthday is just around the corner on September 7th! Get ready for a big giveaway as we celebrate this special day.
 
 <div class="linebreak"></div>
 
@@ -27,7 +27,7 @@ LA_GIRL07's Birthday is just around the corner on September 7th! Get ready for a
 
 ## Group Invite
 
-Book your spot by adding one of these accounts linked below. An invite will be sent to you on the event day. Please don't add more than one account.
+Book your spot for the giveaway by adding one of these accounts linked below. An invite will be sent to you on the event day. Please don't add more than one account.
 
 
 <span class="content-link" data-url="https://plato.app/1697btjh6zcjz" data-text="" data-copy="true"></span>
