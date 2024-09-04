@@ -13,7 +13,7 @@ h4                    { color:#008080 !important;font-size:var(--unit-text-B) !i
 
 <div class="linebreak"></div>
 
-<div class="content-image" data-url="/docs/assets/images/events/lagirlbday/lagirlbday.png" data-width="100%" data-label=""></div>
+<div class="content-image" data-url="/docs/assets/images/events/lagirlbday/lagirlbday.png" data-width="600px" data-label=""></div>
 
 <div class="linebreak"></div>
 
