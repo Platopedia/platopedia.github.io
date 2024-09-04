@@ -5,10 +5,10 @@ heading: <img src="/docs/assets/images/events/lagirlbday/lagirlbday.png" />&nbsp
 ---
 
 <style>
-h2                    { color:#F2B729 !important }
+h2                    { color:#FF3131 !important }
 h4                    { color:#008080 !important;font-size:var(--unit-text-B) !important }
-.syotimer-cell__value { border-color:#F2B729 !important }
-.syotimer-cell__unit  { color:#F2B729 }
+.syotimer-cell__value { border-color:#FF3131 !important }
+.syotimer-cell__unit  { color:#FF3131 }
 </style>
 
 <div class="linebreak"></div>
@@ -47,60 +47,12 @@ Book your spot by adding one of these accounts linked below. An invite will be s
     </thead>
     <tbody>
         <tr>
-            <td>Fear</td>
-            <td>150,000</td>
-        </tr>
-        <tr>
-            <td>Rose</td>
-            <td>100,000</td>
-        </tr>
-        <tr>
-            <td>Mdame</td>
-            <td>100,000</td>
-        </tr>
-        <tr>
-            <td>MMs</td>
-            <td>100,000</td>
-        </tr>
-        <tr>
-            <td>7777777</td>
-            <td>50,000</td>
-        </tr>
-        <tr>
-            <td>Hamid</td>
-            <td>50,000</td>
-        </tr>
-        <tr>
-            <td>Reza</td>
-            <td>50,000</td>
-        </tr>
-        <tr>
-            <td>Fairy</td>
-            <td>50,000</td>
-        </tr>
-        <tr>
             <td>LA_GIRL07</td>
+            <td>250,000</td>
+        </tr>
+        <tr>
+            <td>Fear</td>
             <td>50,000</td>
-        </tr>
-        <tr>
-            <td>Neff</td>
-            <td>35,000</td>
-        </tr>
-        <tr>
-            <td>Darth_Deigo</td>
-            <td>35,000</td>
-        </tr>
-        <tr>
-            <td>Arts</td>
-            <td>30,000</td>
-        </tr>
-        <tr>
-            <td>MangoNado</td>
-            <td>20,000</td>
-        </tr>
-        <tr>
-            <td>Encikabu</td>
-            <td>12,500</td>
         </tr>
     </tbody>
 </table>
