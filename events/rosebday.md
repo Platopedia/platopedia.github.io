@@ -1,7 +1,7 @@
 ---
 layout: tool-content
 title: Rose's Birthday &#x1F339; - Platopedia
-heading: <img src="/docs/assets/images/events/rosebirthday/rose.png" />&nbsp;Rose's Birthday &#x1F339;
+heading: <img src="/docs/assets/images/events/rosebday/rosebday.png" />&nbsp;Rose's Birthday &#x1F339;
 ---
 
 <style>
