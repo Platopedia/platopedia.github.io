@@ -30,9 +30,9 @@ LA_GIRL07's Birthday is just around the corner on September 7th! Get ready for a
 Book your spot by adding one of these accounts linked below. An invite will be sent to you on the event day. Please don't add more than one account.
 
 
-<span class="content-link" data-url="https://plato.app/1x346e1xj7nnf" data-text="https://plato.app/1x346e1xj7nnf" data-copy="true"></span>
+<span class="content-link" data-url="https://plato.app/1697btjh6zcjz" data-text="" data-copy="true"></span>
 
-<span class="content-link" data-url="https://plato.app/2onslvfmyg6s2" data-text="https://plato.app/2onslvfmyg6s2" data-copy="true"></span>
+<span class="content-link" data-url="https://plato.app/ya142t87azkt" data-text="" data-copy="true"></span>
 
 <div class="linebreak"></div>
 
@@ -49,6 +49,10 @@ Book your spot by adding one of these accounts linked below. An invite will be s
         <tr>
             <td>LA_GIRL07</td>
             <td>250,000</td>
+        </tr>
+        <tr>
+            <td>0HZL</td>
+            <td>50,000</td>
         </tr>
         <tr>
             <td>Fear</td>
