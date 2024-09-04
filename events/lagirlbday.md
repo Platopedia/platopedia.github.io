@@ -9,14 +9,14 @@ h2                    { color:#FF3131 !important }
 h4                    { color:#008080 !important;font-size:var(--unit-text-B) !important }
 .syotimer-cell__value { border-color:#FF3131 !important }
 .syotimer-cell__unit  { color:#FF3131 }
-.content-image {
+.content-image2 {
     width: 100%;
     max-width: 600px;
     height: auto;
 }
 
 @media (max-width: 768px) {
-    .content-image {
+    .content-image2 {
         max-width: 100%;
     }
 }
@@ -24,7 +24,7 @@ h4                    { color:#008080 !important;font-size:var(--unit-text-B) !i
 
 <div class="linebreak"></div>
 
-<div class="content-image" data-url="/docs/assets/images/events/lagirlbday/lagirlbday.png" data-label=""></div>
+<div class="content-image2" data-url="/docs/assets/images/events/lagirlbday/lagirlbday.png" data-label=""></div>
 
 <div class="linebreak"></div>
 
