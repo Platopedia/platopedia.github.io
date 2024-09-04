@@ -11,11 +11,7 @@ h4                    { color:#008080 !important;font-size:var(--unit-text-B) !i
 .syotimer-cell__unit  { color:#F2B729 }
 </style>
 
-<div class="linebreak"></div>
-
 <div class="content-image" data-url="/docs/assets/images/events/lagirlbday/lagirlbday.png" data-width="100%" data-label=""></div>
-
-<div class="linebreak"></div>
 
 LA_GIRL07's Birthday is just around the corner on September 7th! Get ready for a big giveaway as we celebrate this day.
 
