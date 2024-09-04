@@ -1,6 +1,6 @@
 ---
 layout: tool-content
-title: Leo's Birthday - Platopedia
+title: LA Girl's Birthday - Platopedia
 heading: <img src="/docs/assets/images/events/lagirlbday/lagirlbday.png" />&nbsp;LA Girl's Birthday
 ---
 
