@@ -9,11 +9,22 @@ h2                    { color:#FF3131 !important }
 h4                    { color:#008080 !important;font-size:var(--unit-text-B) !important }
 .syotimer-cell__value { border-color:#FF3131 !important }
 .syotimer-cell__unit  { color:#FF3131 }
+.content-image {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    .content-image {
+        max-width: 100%;
+    }
+}
 </style>
 
 <div class="linebreak"></div>
 
-<div class="content-image" data-url="/docs/assets/images/events/lagirlbday/lagirlbday.png" data-width="600px" data-label=""></div>
+<div class="content-image" data-url="/docs/assets/images/events/lagirlbday/lagirlbday.png" data-label=""></div>
 
 <div class="linebreak"></div>
 
