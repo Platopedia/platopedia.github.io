@@ -21,7 +21,7 @@ LA_GIRL07's Birthday is just around the corner on September 7th! Get ready for a
 
 <div class="linebreak"></div>
 
-<div class="content-countdown text-center" data-datetime="2024-09-07T13:00:00+00:00"><b>HAPPY BIRTHDAYYYYY LA GIRL!!!</b></div>
+<div class="content-countdown text-center" data-datetime="2024-09-07T14:00:00+00:00"><b>HAPPY BIRTHDAYYYYY LA GIRL!!!</b></div>
 
 <div class="linebreak"></div>
 
