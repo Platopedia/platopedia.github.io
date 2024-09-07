@@ -29,9 +29,6 @@ LA_GIRL07's Birthday is just around the corner on September 7th! Get ready for a
 
 Book your spot for the giveaway by adding one of these accounts linked below. An invite will be sent to you on the event day. Please don't add more than one account.
 
-
-<span class="content-link" data-url="https://plato.app/1697btjh6zcjz" data-text="" data-copy="true"></span>
-
 <span class="content-link" data-url="https://plato.app/ya142t87azkt" data-text="" data-copy="true"></span>
 
 <div class="linebreak"></div>
