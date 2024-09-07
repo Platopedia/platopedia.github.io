@@ -59,6 +59,10 @@ Book your spot for the giveaway by adding one of these accounts linked below. An
             <td>100,000</td>
         </tr>
         <tr>
+            <td>Neff</td>
+            <td>100,000</td>
+        </tr>
+        <tr>
             <td>Yara</td>
             <td>50,000</td>
         </tr>
