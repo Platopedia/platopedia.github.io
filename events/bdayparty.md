@@ -15,8 +15,6 @@ h4                    { color:#008080 !important;font-size:var(--unit-text-B) !i
 
 <div class="content-image" data-url="/docs/assets/images/events/bdayparty/bdayparty.png" data-width="690px" data-label=""></div>
 
-<div class="linebreak"></div>
-
 LA_GIRL07's Birthday is just around the corner on September 7th! Get ready for a big giveaway as we celebrate this special day.
 
 <div class="linebreak"></div>
