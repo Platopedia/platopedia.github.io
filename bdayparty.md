@@ -1,4 +1,4 @@
 ---
 layout: redirect
-path: groups/arcade
+path: events/bdayparty
 ---
