@@ -15,7 +15,7 @@ h4                    { color:#008080 !important;font-size:var(--unit-text-B) !i
 
 <div class="content-image" data-url="/docs/assets/images/events/bdayparty/bdayparty.png" data-width="690px" data-label=""></div>
 
-LA_GIRL07's Birthday is just around the corner on September 7th! Get ready for a big giveaway as we celebrate this special day.
+Big day coming up for Arcade! We're celebrating Inna and Aura's birthdays with a special giveaway on September 15th at 3 PM GMT. Hope to see y'all there!
 
 <div class="linebreak"></div>
 
@@ -27,7 +27,9 @@ LA_GIRL07's Birthday is just around the corner on September 7th! Get ready for a
 
 Book your spot for the giveaway by adding one of these accounts linked below. An invite will be sent to you on the event day. Please don't add more than one account.
 
-<span class="content-link" data-url="https://plato.app/ya142t87azkt" data-text="" data-copy="true"></span>
+<span class="content-link" data-url="https://plato.app/3ayr76omv26cu" data-text="" data-copy="true"></span>
+
+<span class="content-link" data-url="https://plato.app/29zw3mw2s0ro7" data-text="" data-copy="true"></span>
 
 <div class="linebreak"></div>
 
@@ -42,15 +44,15 @@ Book your spot for the giveaway by adding one of these accounts linked below. An
     </thead>
     <tbody>
         <tr>
-            <td>LA_GIRL07</td>
-            <td>250,000</td>
+            <td>Fear</td>
+            <td>200,000</td>
         </tr>
         <tr>
             <td>TrolledYou</td>
             <td>200,000</td>
         </tr>
         <tr>
-            <td>Mdame</td>
+            <td>Rose</td>
             <td>100,000</td>
         </tr>
         <tr>
@@ -58,20 +60,12 @@ Book your spot for the giveaway by adding one of these accounts linked below. An
             <td>100,000</td>
         </tr>
         <tr>
-            <td>Yara</td>
-            <td>50,000</td>
+            <td>MangoNado</td>
+            <td>40,000</td>
         </tr>
         <tr>
-            <td>Mei</td>
-            <td>50,000</td>
-        </tr>
-        <tr>
-            <td>0HZL</td>
-            <td>50,000</td>
-        </tr>
-        <tr>
-            <td>Fear</td>
-            <td>50,000</td>
+            <td>Anonymous Sponsor</td>
+            <td>15,000</td>
         </tr>
     </tbody>
 </table>
