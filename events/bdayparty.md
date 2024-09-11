@@ -11,6 +11,8 @@ h4                    { color:#008080 !important;font-size:var(--unit-text-B) !i
 .syotimer-cell__unit  { color:#E239A0 }
 </style>
 
+<div class="linebreak"></div>
+
 <div class="content-image" data-url="/docs/assets/images/events/bdayparty/bdayparty.png" data-width="690px" data-label=""></div>
 
 <div class="linebreak"></div>
@@ -19,7 +21,7 @@ LA_GIRL07's Birthday is just around the corner on September 7th! Get ready for a
 
 <div class="linebreak"></div>
 
-<div class="content-countdown text-center" data-datetime="2024-09-07T14:00:00+00:00"><b>HAPPY BIRTHDAYYYYY LA GIRL!!!</b></div>
+<div class="content-countdown text-center" data-datetime="2024-09-15T15:00:00+00:00"><b>HAPPY BIRTHDAYYYYY LA GIRL!!!</b></div>
 
 <div class="linebreak"></div>
 
