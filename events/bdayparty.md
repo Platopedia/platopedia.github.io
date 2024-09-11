@@ -1,19 +1,19 @@
 ---
 layout: tool-content
-title: LA Girl's Birthday - Platopedia
-heading: <img src="/docs/assets/images/events/lagirlbday/lagirlbday.png" />&nbsp;LA Girl's Birthday
+title: Inna & Aura's Birthday - Platopedia
+heading: <img src="/docs/assets/images/events/bdayparty/bdayparty.png" />&nbsp;Inna & Aura's Birthday
 ---
 
 <style>
-h2                    { color:#FF3131 !important }
+h2                    { color:#E239A0 !important }
 h4                    { color:#008080 !important;font-size:var(--unit-text-B) !important }
-.syotimer-cell__value { border-color:#FF3131 !important }
-.syotimer-cell__unit  { color:#FF3131 }
+.syotimer-cell__value { border-color:#E239A0 !important }
+.syotimer-cell__unit  { color:#E239A0 }
 </style>
 
 <div class="linebreak"></div>
 
-<div class="content-image" data-url="/docs/assets/images/events/lagirlbday/lagirlbday.png" data-width="690px" data-label=""></div>
+<div class="content-image" data-url="/docs/assets/images/events/bdayparty/bdayparty.png" data-width="690px" data-label=""></div>
 
 <div class="linebreak"></div>
 
