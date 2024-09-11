@@ -11,8 +11,6 @@ h4                    { color:#008080 !important;font-size:var(--unit-text-B) !i
 .syotimer-cell__unit  { color:#E239A0 }
 </style>
 
-<div class="linebreak"></div>
-
 <div class="content-image" data-url="/docs/assets/images/events/bdayparty/bdayparty.png" data-width="690px" data-label=""></div>
 
 <div class="linebreak"></div>
