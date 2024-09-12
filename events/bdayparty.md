@@ -27,13 +27,15 @@ Big day coming up for Arcade! We're celebrating Inna and Aura's birthdays with a
 
 Book your spot for the giveaway by adding one of these accounts linked below. An invite will be sent to you on the event day. Please don't add more than one account.
 
-<p><strong>PartyBot:</strong></p>
+<div class="linebreak"></div>
+
+<p><strong>@PartyBot2:</strong></p>
 
 <span class="content-link" data-url="https://plato.app/29zw3mw2s0ro7" data-text="" data-copy="true"></span>
 
 <div class="linebreak"></div>
 
-<p><strong>PartyBot2:</strong></p>
+<p><strong>@PartyBot:</strong></p>
 
 <p>https://plato.app/3ayr76omv26cu <strong>(Full)</strong></p>
 
