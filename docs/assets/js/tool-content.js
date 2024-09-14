@@ -292,10 +292,12 @@ function Tool_Content ( deferred )
         var table = elementb.DataTable
         (
             {
-                'dom'        : "<'row'<'col-sm-12 col-md-6'>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                'dom'        : "<'row'<'col-sm-12 col-md-6'><'col-sm-12 col-md-6'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                 'lengthMenu' : [ 10, 100 ],
                 'pageLength' : 10,
                 'order'      : [ ],
+              //'searching'  : false,
+                'ordering'   : false,
                 
                 'language' :
                 {
@@ -335,18 +337,18 @@ function Tool_Content ( deferred )
             }
         );
         
-        table.on( 'search.dt', function ( ) {
-        
-          //history.replaceState( null, null, '#' + table.search( ) );
-                
-        } );
+      //table.on( 'search.dt', function ( ) {
+      //
+      //    history.replaceState( null, null, '#' + table.search( ) );
+      //        
+      //} );
             
-        table.on( 'page.dt', function ( ) {
-        
-            $( 'html, body' ).animate( { scrollTop : elementb.offset( ).top }, 'fast' );
-            elementb.find( 'thead tr th:first-child' ).focus( ).blur( );
-        
-        } );
+      //table.on( 'page.dt', function ( ) {
+      //
+      //    $( 'html, body' ).animate( { scrollTop : elementb.offset( ).top }, 'fast' );
+      //    elementb.find( 'thead tr th:first-child' ).focus( ).blur( );
+      //
+      //} );
         
     } );
     
