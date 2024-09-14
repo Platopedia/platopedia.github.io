@@ -292,9 +292,9 @@ function Tool_Content ( deferred )
         var table = elementb.DataTable
         (
             {
-                'dom'        : "<'row'<'col-sm-12 col-md-6'><'col-sm-12 col-md-6'f>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                'dom'        : "<'row'<'col-sm-12 col-md-6'>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                 'lengthMenu' : [ 10, 100 ],
-                'pageLength' : 100,
+                'pageLength' : 10,
                 'order'      : [ ],
                 
                 'language' :
