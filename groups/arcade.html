@@ -174,6 +174,14 @@ table caption {
     font-size: 12px;
     color: #777;
 }
+
+#sponsors tr.first td:nth-child(1):before {
+    content: "\1F451\00a0";
+}
+
+#sponsors tr.first td:nth-child(1):after {
+    content: "\00a0\1F451";
+}
 </style>
 
 <div class="linebreak"></div>
@@ -239,7 +247,7 @@ table caption {
 <div class="linebreak"></div>
 
 <div class="content-table">
-    <table class="table table-bordered">
+    <table id="sponsors" class="table table-bordered">
         <thead>
             <tr>
                 <th class="w-50">Sponsors</th>
@@ -247,7 +255,7 @@ table caption {
             </tr>
         </thead>
         <tbody>
-        <tr>
+        <tr class="first">
             <td>&#128081; TrolledYou &#128081;</td>
             <td>745000</td>
         </tr>
