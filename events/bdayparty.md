@@ -76,6 +76,10 @@ Book your spot for the giveaway by adding one of these accounts linked below. An
             <td>40,000</td>
         </tr>
         <tr>
+            <td>Spring</td>
+            <td>20,000</td>
+        </tr>
+        <tr>
             <td>Anonymous Sponsor</td>
             <td>15,000</td>
         </tr>
