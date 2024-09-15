@@ -5,6 +5,16 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 ---
 
 <style>
+body[data-theme="light"] {
+    --color-time-line : #000;
+    --color-time-circ: #000;
+}
+
+body[data-theme="dark"] {
+    --color-time-line : #FFF;
+    --color-time-circ: #FFF;
+}
+
 h2,h3 {
     color: #C30000 !important;
 }
@@ -95,7 +105,7 @@ h4,h5 {
 
 .timeline:before {
     content: ' ';
-    background: var(--color-form-field-back);
+    background: var(--color-time-line);
     display: inline-block;
     position: absolute;
     left: 9px;
@@ -106,7 +116,7 @@ h4,h5 {
 
 .timeline > li:before {
     content: ' ';
-    background: var(--color-form-field-back);
+    background: var(--color-time-circ);
     display: inline-block;
     position: absolute;
     border-radius: 50%;
