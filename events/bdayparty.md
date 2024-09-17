@@ -19,7 +19,7 @@ Big day coming up for Arcade! We're celebrating Inna and Aura's birthdays with a
 
 <div class="linebreak"></div>
 
-<div class="content-countdown text-center" data-datetime="2024-09-15T15:00:00+00:00"><b>HAPPY BIRTHDAYYYYY LA GIRL!!!</b></div>
+<div class="content-countdown text-center" data-datetime="2024-09-15T15:00:00+00:00"><b>HAPPY BIRTHDAYYYYY INNA & AURA!!!</b></div>
 
 <div class="linebreak"></div>
 
