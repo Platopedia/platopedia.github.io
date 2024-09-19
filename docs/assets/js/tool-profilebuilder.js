@@ -603,14 +603,15 @@ function Tool_Profilebuilder ( deferred )
                         'Do you want to reset your profile?',
                         function ( )
                         {
-                            form_default_field_picture_input_default  .reset( );
-                            form_default_field_platoid_input_default  .reset( );
-                            form_default_field_bio_input_default      .reset( );
-                            form_default_field_banner_input_default   .reset( );
-                            form_default_field_frame_input_default    .reset( );
-                            form_default_field_chat_input_default     .reset( );
-                            form_default_field_badge_input_default    .reset( );
-                            form_default_field_starbadge_input_default.reset( );
+                            form_default_field_picture_input_default     .reset( );
+                            form_default_field_platoid_input_default     .reset( );
+                            form_default_field_platoidcolor_input_default.reset( );
+                            form_default_field_bio_input_default         .reset( );
+                            form_default_field_banner_input_default      .reset( );
+                            form_default_field_frame_input_default       .reset( );
+                            form_default_field_chat_input_default        .reset( );
+                            form_default_field_badge_input_default       .reset( );
+                            form_default_field_starbadge_input_default   .reset( );
                             
                             var valid = Tool_Profilebuilder_valid
                             (
