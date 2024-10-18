@@ -58,6 +58,10 @@ Book your spot for the giveaway by adding one of these accounts linked below. An
             <td>200,000</td>
         </tr>
         <tr>
+            <td>Enes</td>
+            <td>200,000</td>
+        </tr>
+        <tr>
             <td>Fear</td>
             <td>100,000</td>
         </tr>
