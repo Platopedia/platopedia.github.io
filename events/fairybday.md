@@ -13,7 +13,7 @@ h4                    { color:#008080 !important;font-size:var(--unit-text-B) !i
 
 <div class="linebreak"></div>
 
-<div class="content-image" data-url="/docs/assets/images/events/bdayparty/fairybday-banner.png" data-width="690px" data-label=""></div>
+<div class="content-image" data-url="/docs/assets/images/events/fairybday/fairybday-banner.png" data-width="690px" data-label=""></div>
 
 Join us on **October 22 at 3 PM GMT** as Arcade celebrates Fairy’s Birthday with a Bingo giveaway! Hope to see you there – venue details coming soon.
 
