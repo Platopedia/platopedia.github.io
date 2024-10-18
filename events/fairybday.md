@@ -25,6 +25,24 @@ Join us on **October 22 at 3 PM GMT** as Arcade celebrates Fairy’s Birthday wi
 
 <div class="linebreak"></div>
 
+## Group Invite
+
+Book your spot for the giveaway by adding one of these accounts linked below. An invite will be sent to you on the event day. Please don't add more than one account.
+
+<div class="linebreak"></div>
+
+<p><strong>@PartyBot:</strong></p>
+
+<span class="content-link" data-url="https://plato.app/2nhs3sy7sc238" data-text="" data-copy="true"></span>
+
+<div class="linebreak"></div>
+
+<p><strong>@PartyBot2:</strong></p>
+
+<span class="content-link" data-url="https://plato.app/3eb9vxoka3fb4" data-text="" data-copy="true"></span>
+
+<div class="linebreak"></div>
+
 ## Sponsor
 
 <table id="sponsors" class="table table-bordered">
