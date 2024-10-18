@@ -1,7 +1,7 @@
 ---
 layout: tool-content
 title: Fairy's Birthday - Platopedia
-heading: <img src="/docs/assets/images/events/fairybday/fairybday-logo.png" />&nbsp;Fairy's Birthday
+heading: <img src="/docs/assets/images/events/fairybday/fairybday-banner.png" />&nbsp;Fairy's Birthday
 ---
 
 <style>
