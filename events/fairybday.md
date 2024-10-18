@@ -36,6 +36,10 @@ Join us on **October 22 at 3 PM GMT** as Arcade celebrates Fairy’s Birthday wi
     </thead>
     <tbody>
         <tr>
+            <td>TrolledYou</td>
+            <td>200,000</td>
+        </tr>
+        <tr>
             <td>Fear</td>
             <td>100,000</td>
         </tr>
