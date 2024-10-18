@@ -1,4 +1,4 @@
 ---
 layout: redirect
-path: events/bdayparty
+path: events/fairybday
 ---
