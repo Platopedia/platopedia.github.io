@@ -48,6 +48,10 @@ Join us on **October 22 at 3 PM GMT** as Arcade celebrates Fairy’s Birthday wi
             <td>100,000</td>
         </tr>
         <tr>
+            <td>Arts</td>
+            <td>50,000</td>
+        </tr>
+        <tr>
             <td>Bao</td>
             <td>35,000</td>
         </tr>
