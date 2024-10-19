@@ -77,6 +77,14 @@ Book your spot for the giveaway by adding one of these accounts linked below. An
             <td>Bao</td>
             <td>35,000</td>
         </tr>
+        <tr>
+            <td>MangoNado</td>
+            <td>25,000</td>
+        </tr>
+        <tr>
+            <td>Lawyer</td>
+            <td>25,000</td>
+        </tr>
     </tbody>
 </table>
 
