@@ -70,12 +70,12 @@ Book your spot for the giveaway by adding one of these accounts linked below. An
             <td>100,000</td>
         </tr>
         <tr>
-            <td>Arts</td>
-            <td>50,000</td>
+            <td>Bao</td>
+            <td>100,000</td>
         </tr>
         <tr>
-            <td>Bao</td>
-            <td>35,000</td>
+            <td>Arts</td>
+            <td>50,000</td>
         </tr>
         <tr>
             <td>MangoNado</td>
