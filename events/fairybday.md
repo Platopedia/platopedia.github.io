@@ -92,6 +92,10 @@ Book your spot for the giveaway by adding one of these accounts linked below. An
             <td>50,000</td>
         </tr>
         <tr>
+            <td>LA_GIRL</td>
+            <td>50,000</td>
+        </tr>
+        <tr>
             <td>MangoNado</td>
             <td>25,000</td>
         </tr>
