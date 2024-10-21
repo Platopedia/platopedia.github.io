@@ -31,15 +31,21 @@ Book your spot for the giveaway by adding one of these accounts linked below. An
 
 <div class="linebreak"></div>
 
-<p><strong>@PartyBot2:</strong></p>
+<p><strong>@PartyBot3:</strong></p>
 
-<span class="content-link" data-url="https://plato.app/3eb9vxoka3fb4" data-text="" data-copy="true"></span>
+<span class="content-link" data-url="https://plato.app/2eoekvbmye6c0" data-text="" data-copy="true"></span>
 
 <div class="linebreak"></div>
 
 <p><strong>@PartyBot:</strong></p>
 
 <p>https://plato.app/2nhs3sy7sc238 (Full)</p>
+
+<div class="linebreak"></div>
+
+<p><strong>@PartyBot2:</strong></p>
+
+<p>https://plato.app/3eb9vxoka3fb4 (Full)</p>
 
 <div class="linebreak"></div>
 
