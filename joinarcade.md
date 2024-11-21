@@ -1,4 +1,4 @@
 ---
 layout: redirect
-path: /groups/arcade#join-arcade
+path: /groups/arcade
 ---
