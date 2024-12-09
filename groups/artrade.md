@@ -154,7 +154,7 @@ All of our merchants and their stats are listed below. If you wish to become a m
         <td>Nefya</td>
     </tr>
     <tr>
-        <td>QueenyMeanny</td>
+        <td>QueenyMeany</td>
     </tr>
     <tr>
         <td>sohee</td>
@@ -163,7 +163,7 @@ All of our merchants and their stats are listed below. If you wish to become a m
         <td>Spring</td>
     </tr>
     <tr>
-        <td>Troledyou</td>
+        <td>Trolledyou</td>
     </tr>
     <tr>
         <td>userstrange</td>
