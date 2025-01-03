@@ -555,19 +555,7 @@ audio::-webkit-media-controls-toggle-closed-captions-button
 
 .nav
 {
-    margin    : auto;
-    max-width : 600px;
-}
-
-.nav .nav-link
-{
-    padding-top    : 4px;
-    padding-bottom : 0px;
-    height         : 29px;
-    font-size      : var(--unit-text-C);
-    font-weight    : bold;
-  /*border-bottom  : 2px solid var(--color-C);*/
-    border-radius  : 0 !important;
+    
 }
 
 .nav .nav-link:not(.active)
@@ -580,6 +568,46 @@ audio::-webkit-media-controls-toggle-closed-captions-button
 {
     color            : var(--color-nav-text-B) !important;
     background-color : var(--color-nav-back-B) !important;
+}
+
+.nav.nav-heading
+{
+    margin    : auto;
+    max-width : 600px;
+}
+
+.nav.nav-heading .nav-link
+{
+    padding-top    : 4px;
+    padding-bottom : 0px;
+    height         : 29px;
+    font-size      : var(--unit-text-C);
+    font-weight    : bold;
+  /*border-bottom  : 2px solid var(--color-C);*/
+    border-radius  : 0 !important;
+}
+
+.nav.nav-content
+{
+    
+}
+
+/*
+.nav.nav-content .nav-item:not(:last-child)
+{
+    padding-right : 15px !important;
+}
+*/
+
+.nav.nav-content .nav-link
+{
+    padding-top    : 4px;
+    padding-bottom : 0px;
+    height         : 29px;
+    font-size      : var(--unit-text-C);
+    font-weight    : bold;
+  /*border-bottom  : 2px solid var(--color-C);*/
+    border-radius  : 0 !important;
 }
 
 .table
