@@ -40,11 +40,6 @@ table.dataTable thead .sorting_desc::after
     content : "\f0d8" !important; /* \25B4 \FE0E */
 }
 
-table.dataTable thead tr th
-{
-    width : 25% !important;
-}
-
 table.dataTable tbody tr:hover td
 {
     background-color : var(--color-table-hov);

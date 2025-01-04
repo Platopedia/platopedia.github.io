@@ -21,6 +21,11 @@ h1
 }
 */
 
+th
+{
+    width : 25% !important;
+}
+
 td:nth-child(3)
 {
     white-space : nowrap;
