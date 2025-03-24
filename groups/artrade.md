@@ -123,14 +123,23 @@ All of our merchants and their stats are listed below. If you wish to become a m
         </tr>
     </thead>
     <tbody>
-        <tr>
+    <tr>
         <td>Fear</td>
+    </tr>
+    <tr>
+        <td>Focus</td>
     </tr>
     <tr>
         <td>Rose</td>
     </tr>
     <tr>
-        <td>Globe</td>
+        <td>Spring </td>
+    </tr>
+    <tr>
+        <td>zos</td>
+    </tr>
+    <tr>
+        <td>Acer</td>
     </tr>
     <tr>
         <td>arlovp</td>
@@ -160,19 +169,19 @@ All of our merchants and their stats are listed below. If you wish to become a m
         <td>sohee</td>
     </tr>
     <tr>
-        <td>Spring</td>
-    </tr>
-    <tr>
         <td>Trolledyou</td>
     </tr>
     <tr>
         <td>userstrange</td>
     </tr>
     <tr>
-        <td>Acer</td>
+        <td>_ilsx</td>
     </tr>
     <tr>
         <td>Arts</td>
+    </tr>
+    <tr>
+        <td>Darktored</td>
     </tr>
     <tr>
         <td>EmpressT</td>
@@ -181,16 +190,28 @@ All of our merchants and their stats are listed below. If you wish to become a m
         <td>Gift</td>
     </tr>
     <tr>
-        <td>LA_O7</td>
+        <td>Hades</td>
     </tr>
     <tr>
-        <td>miaw</td>
+        <td>Hera</td>
+    </tr>
+    <tr>
+        <td>Lagirl </td>
     </tr>
     <tr>
         <td>mishii</td>
     </tr>
     <tr>
+        <td>RBT</td>
+    </tr>
+    <tr>
+        <td>Ritme</td>
+    </tr>
+    <tr>
         <td>UniqueM_</td>
+    </tr>
+    <tr>
+        <td>veo</td>
     </tr>
     </tbody>
 </table>
