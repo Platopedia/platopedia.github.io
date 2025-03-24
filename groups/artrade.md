@@ -82,7 +82,7 @@ Merchants receive an incentive bonus from the requester's end. Some important po
 
 <div class="linebreak"></div>
 
-#### Artrade Trading Rules
+#### Artrade's Trading Rules
 
 During a trade, merchants and requesters must follow the trading rules listed below.
 
@@ -91,6 +91,8 @@ During a trade, merchants and requesters must follow the trading rules listed be
 - Both parties are only allowed to exchange items, and must not involve any other types of exchanges.
 - Both parties are advised to take screenshots or screen recordings during a trade.
 - If there's an issue, you must report to the group owners.
+- Members can only request items for their main account. Requesting items for other accounts, even your own, is prohibited.
+- Not following Artrade's trading rules can get you permanently removed from the group.
 
 <div class="linebreak"></div>
 
