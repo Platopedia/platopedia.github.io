@@ -55,6 +55,14 @@ Book your spot for the giveaway by adding one of these accounts linked below. An
             <td>Fear</td>
             <td>300,000</td>
         </tr>
+        <tr>
+            <td>Tear</td>
+            <td>100,000</td>
+        </tr>
+        <tr>
+            <td>7777777</td>
+            <td>100,000</td>
+        </tr>
     </tbody>
 </table>
 
