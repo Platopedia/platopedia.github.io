@@ -56,6 +56,10 @@ Book your spot for the giveaway by adding one of these accounts linked below. An
             <td>300,000</td>
         </tr>
         <tr>
+            <td>abc</td>
+            <td>100,000</td>
+        </tr>
+        <tr>
             <td>Tear</td>
             <td>100,000</td>
         </tr>
@@ -64,8 +68,16 @@ Book your spot for the giveaway by adding one of these accounts linked below. An
             <td>100,000</td>
         </tr>
         <tr>
+            <td>4DA</td>
+            <td>30,000</td>
+        </tr>
+        <tr>
             <td>Spring</td>
             <td>20,000</td>
+        </tr>
+        <tr>
+            <td>Kikutie</td>
+            <td>15,000</td>
         </tr>
     </tbody>
 </table>
