@@ -1,25 +1,25 @@
 ---
 layout: tool-content
-title: Inna & Aura's Birthday - Platopedia
-heading: <img src="/docs/assets/images/events/bdayparty/bdayparty.png" />&nbsp;Inna & Aura's Birthday
+title: Rose's Birthday - Platopedia
+heading: <img src="/docs/assets/images/events/roseday/roseday.png" />&nbsp;Rose's Birthday
 ---
 
 <style>
-h2                    { color:#E239A0 !important }
+h2                    { color:#BD9C48 !important }
 h4                    { color:#008080 !important;font-size:var(--unit-text-B) !important }
-.syotimer-cell__value { border-color:#E239A0 !important }
-.syotimer-cell__unit  { color:#E239A0 }
+.syotimer-cell__value { border-color:#BD9C48 !important }
+.syotimer-cell__unit  { color:#BD9C48 }
 </style>
 
 <div class="linebreak"></div>
 
-<div class="content-image" data-url="/docs/assets/images/events/bdayparty/bdayparty.png" data-width="690px" data-label=""></div>
+<div class="content-image" data-url="/docs/assets/images/events/roseday/roseday.png" data-width="690px" data-label=""></div>
 
-Big day coming up for Arcade! We're celebrating Inna and Aura's birthdays with a special giveaway on September 15th at 3 PM GMT. Hope to see y'all there!
+We're getting closer to one of Plato's biggest events — <strong>Rose's Birthday!</strong> OG Arcade owner, the crowned Queen of Plato, and our sweetest friend. The celebration takes place in a new group on June 8 at exactly 2PM GMT. Make sure you're there (and alive) to win some big prizes! Instructions to get invited are below.
 
 <div class="linebreak"></div>
 
-<div class="content-countdown text-center" data-datetime="2024-09-15T15:00:00+00:00"><b>HAPPY BIRTHDAYYYYY INNA & AURA!!!</b></div>
+<div class="content-countdown text-center" data-datetime="2025-06-08T14:00:00+00:00"><b>HAPPY BIRTHDAYYYYY ROSE!!!</b></div>
 
 <div class="linebreak"></div>
 
@@ -29,15 +29,15 @@ Book your spot for the giveaway by adding one of these accounts linked below. An
 
 <div class="linebreak"></div>
 
-<p><strong>@PartyBot2:</strong></p>
+<p><strong>@PartyBot:</strong></p>
 
-<span class="content-link" data-url="https://plato.app/29zw3mw2s0ro7" data-text="" data-copy="true"></span>
+<span class="content-link" data-url="https://plato.app/" data-text="" data-copy="true"></span>
 
 <div class="linebreak"></div>
 
-<p><strong>@PartyBot:</strong></p>
+<p><strong>@PartyBot2:</strong></p>
 
-<p>https://plato.app/3ayr76omv26cu <strong>(Full)</strong></p>
+<span class="content-link" data-url="https://plato.app/" data-text="" data-copy="true"></span>
 
 <div class="linebreak"></div>
 
@@ -54,34 +54,6 @@ Book your spot for the giveaway by adding one of these accounts linked below. An
         <tr>
             <td>Fear</td>
             <td>200,000</td>
-        </tr>
-        <tr>
-            <td>TrolledYou</td>
-            <td>200,000</td>
-        </tr>
-        <tr>
-            <td>Rose</td>
-            <td>100,000</td>
-        </tr>
-        <tr>
-            <td>Neff</td>
-            <td>100,000</td>
-        </tr>
-        <tr>
-            <td>Arts</td>
-            <td>60,000</td>
-        </tr>
-        <tr>
-            <td>MangoNado</td>
-            <td>40,000</td>
-        </tr>
-        <tr>
-            <td>Spring</td>
-            <td>20,000</td>
-        </tr>
-        <tr>
-            <td>Anonymous Sponsor</td>
-            <td>15,000</td>
         </tr>
     </tbody>
 </table>
