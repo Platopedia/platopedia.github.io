@@ -63,6 +63,10 @@ Book your spot for the giveaway by adding one of these accounts linked below. An
             <td>7777777</td>
             <td>100,000</td>
         </tr>
+        <tr>
+            <td>Spring</td>
+            <td>20,000</td>
+        </tr>
     </tbody>
 </table>
 
