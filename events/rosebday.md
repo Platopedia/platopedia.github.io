@@ -72,6 +72,10 @@ Book your spot for the giveaway by adding one of these accounts linked below. An
             <td>100,000</td>
         </tr>
         <tr>
+            <td>Fairy</td>
+            <td>100,000</td>
+        </tr>
+        <tr>
             <td>Mellissaaaa</td>
             <td>50,000</td>
         </tr>
@@ -97,6 +101,10 @@ Book your spot for the giveaway by adding one of these accounts linked below. An
         </tr>
         <tr>
             <td>calisha</td>
+            <td>20,000</td>
+        </tr>
+        <tr>
+            <td>888k</td>
             <td>20,000</td>
         </tr>
         <tr>
