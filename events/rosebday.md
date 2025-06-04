@@ -5,17 +5,17 @@ heading: <img src="/docs/assets/images/events/rosebday/rosebday-thumbnail.png" /
 ---
 
 <style>
-h2                    { color:#BD9C48 !important }
+h2                    { color:#A8934C !important }
 h4                    { color:#008080 !important;font-size:var(--unit-text-B) !important }
-.syotimer-cell__value { border-color:#BD9C48 !important }
-.syotimer-cell__unit  { color:#BD9C48 }
+.syotimer-cell__value { border-color:#A8934C !important }
+.syotimer-cell__unit  { color:#A8934C }
 </style>
 
 <div class="linebreak"></div>
 
 <div class="content-image" data-url="/docs/assets/images/events/rosebday/rosebday-banner.png" data-width="500px" data-label="By Royal Decree: It's Rose's Day!"></div>
 
-We're getting closer to one of Plato's biggest events — <strong>Rose's Birthday!</strong> OG Arcade owner, the crowned Queen of Plato, and our sweetest friend. The celebration takes place in a new group on June 8 at exactly 2PM GMT. Make sure you're there (and alive) to win some big prizes! Instructions to get invited are below.
+We're getting closer to one of Plato's biggest events — **Rose's Birthday!** OG Arcade owner, the crowned Queen of Plato, and our sweetest friend. The celebration takes place in a new group on June 8 at exactly 2PM GMT. Make sure you're there (and alive) to win some big prizes! Instructions to get invited are below.
 
 <div class="linebreak"></div>
 
@@ -29,13 +29,13 @@ Book your spot for the giveaway by adding one of these accounts linked below. An
 
 <div class="linebreak"></div>
 
-<p><strong>@PartyBot:</strong></p>
+**@PartyBot:**
 
 <span class="content-link" data-url="https://plato.app/" data-text="" data-copy="true"></span>
 
 <div class="linebreak"></div>
 
-<p><strong>@PartyBot2:</strong></p>
+**@PartyBot2:**
 
 <span class="content-link" data-url="https://plato.app/" data-text="" data-copy="true"></span>
 
