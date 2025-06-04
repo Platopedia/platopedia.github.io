@@ -1,7 +1,7 @@
 ---
 layout: tool-content
 title: Rose's Birthday - Platopedia
-heading: <img src="/docs/assets/images/events/roseday/roseday-badge.png" />&nbsp;Rose's Birthday
+heading: <img src="/docs/assets/images/events/rosebday/rosebday-badge.png" />&nbsp;Rose's Birthday
 ---
 
 <style>
@@ -13,7 +13,7 @@ h4                    { color:#008080 !important;font-size:var(--unit-text-B) !i
 
 <div class="linebreak"></div>
 
-<div class="content-image" data-url="/docs/assets/images/events/roseday/roseday-banner.png" data-width="500px" data-label="By Royal Decree: It's Rose's Day!"></div>
+<div class="content-image" data-url="/docs/assets/images/events/rosebday/rosebday-banner.png" data-width="500px" data-label="By Royal Decree: It's Rose's Day!"></div>
 
 We're getting closer to one of Plato's biggest events — <strong>Rose's Birthday!</strong> OG Arcade owner, the crowned Queen of Plato, and our sweetest friend. The celebration takes place in a new group on June 8 at exactly 2PM GMT. Make sure you're there (and alive) to win some big prizes! Instructions to get invited are below.
 
