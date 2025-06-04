@@ -84,11 +84,19 @@ Book your spot for the giveaway by adding one of these accounts linked below. An
             <td>30,000</td>
         </tr>
         <tr>
+            <td>Aura</td>
+            <td>25,000</td>
+        </tr>
+        <tr>
             <td>Spring</td>
             <td>20,000</td>
         </tr>
         <tr>
             <td>Qear</td>
+            <td>20,000</td>
+        </tr>
+        <tr>
+            <td>calisha</td>
             <td>20,000</td>
         </tr>
         <tr>
