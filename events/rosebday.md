@@ -80,6 +80,10 @@ Book your spot for the giveaway by adding one of these accounts linked below. An
             <td>50,000</td>
         </tr>
         <tr>
+            <td>H22</td>
+            <td>50,000</td>
+        </tr>
+        <tr>
             <td>LA7</td>
             <td>50,000</td>
         </tr>
