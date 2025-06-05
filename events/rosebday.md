@@ -116,6 +116,14 @@ Book your spot for the giveaway by adding one of these accounts linked below. An
             <td>20,000</td>
         </tr>
         <tr>
+            <td>amor</td>
+            <td>20,000</td>
+        </tr>
+        <tr>
+            <td>Hades</td>
+            <td>20,000</td>
+        </tr>
+        <tr>
             <td>Kikutie</td>
             <td>15,000</td>
         </tr>
