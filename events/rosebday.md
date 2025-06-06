@@ -90,7 +90,15 @@ Book your spot for the giveaway by adding one of these accounts linked below. An
             <td>50,000</td>
         </tr>
         <tr>
+            <td>YR_</td>
+            <td>50,000</td>
+        </tr>
+        <tr>
             <td>4DA</td>
+            <td>30,000</td>
+        </tr>
+        <tr>
+            <td>Kikutie</td>
             <td>30,000</td>
         </tr>
         <tr>
@@ -120,10 +128,6 @@ Book your spot for the giveaway by adding one of these accounts linked below. An
         <tr>
             <td>Hades</td>
             <td>20,000</td>
-        </tr>
-        <tr>
-            <td>Kikutie</td>
-            <td>15,000</td>
         </tr>
         <tr>
             <td>Diem17</td>
