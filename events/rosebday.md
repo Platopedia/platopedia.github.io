@@ -29,12 +29,6 @@ Book your spot for the giveaway by adding one of these accounts linked below. An
 
 <div class="linebreak"></div>
 
-**@PartyBot:**
-
-<span class="content-link" data-url="https://plato.app/hbfqxdcpxq9t" data-text="" data-copy="true"></span>
-
-<div class="linebreak"></div>
-
 **@PartyBot2:**
 
 <span class="content-link" data-url="https://plato.app/xnx2mf9fipad" data-text="" data-copy="true"></span>
