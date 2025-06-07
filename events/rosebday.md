@@ -51,7 +51,7 @@ Book your spot for the giveaway by adding one of these accounts linked below. An
     <tbody>
         <tr>
             <td>Risk</td>
-            <td>700,000</td>
+            <td>1,000,000</td>
         </tr>
         <tr>
             <td>Fear</td>
