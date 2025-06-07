@@ -42,12 +42,13 @@ Book your spot for the giveaway by adding one of these accounts linked below. An
 ## Birthday Frame
 
 <style>
-  .download-button {
+  .download-button,
+  .download-button:visited {
     display: inline-block;
     padding: 10px 20px;
     margin-top: 10px;
     background-color: transparent;
-    color: #A8934C;
+    color: inherit;
     text-decoration: none;
     border: 2px solid #A8934C;
     border-radius: 4px;
