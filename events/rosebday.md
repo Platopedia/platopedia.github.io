@@ -41,13 +41,29 @@ Book your spot for the giveaway by adding one of these accounts linked below. An
 
 ## Birthday Frame
 
+<style>
+  .download-button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 10px;
+    background-color: transparent;
+    color: #A8934C;
+    text-decoration: none;
+    border: 2px solid #A8934C;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  .download-button:hover {
+    background-color: #A8934C;
+    color: #fff;
+  }
+</style>
+
 <div style="text-align: center; margin: 20px 0;">
   <img src="/docs/assets/images/events/rosebday/rosebday-frame.png" alt="Birthday Event Poster" style="max-width:90%; border: 2px solid #A8934C; border-radius: 8px;" />
   <br/>
-  <a href="/docs/assets/images/events/rosebday/rosebday-frame.png" download
-     style="display: inline-block; padding: 10px 20px; margin-top: 10px;
-            background-color: #A8934C; color: #fff; text-decoration: none;
-            border-radius: 4px;">
+  <a href="/docs/assets/images/events/rosebday/rosebday-frame.png" download class="download-button">
     Download Frame
   </a>
 </div>
