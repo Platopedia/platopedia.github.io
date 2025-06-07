@@ -95,9 +95,9 @@ Book your spot for the giveaway by adding one of these accounts linked below. An
 ## Download Event Frame
 
 <div style="text-align: center; margin: 20px 0;">
-  <img src="/docs/assets/images/events/bdayparty/bdayposter.png" alt="Birthday Event Poster" style="max-width:90%; border: 2px solid #E239A0; border-radius: 8px;" />
+  <img src="/docs/assets/images/events/bdayparty/bdayparty.png" alt="Birthday Event Poster" style="max-width:90%; border: 2px solid #E239A0; border-radius: 8px;" />
   <br/>
-  <a href="/docs/assets/images/events/bdayparty/bdayposter.png" download
+  <a href="/docs/assets/images/events/bdayparty/bdayparty.png" download
      style="display: inline-block; padding: 10px 20px; margin-top: 10px;
             background-color: #008080; color: #fff; text-decoration: none;
             border-radius: 4px;">
