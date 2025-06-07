@@ -46,12 +46,12 @@ Book your spot for the giveaway by adding one of these accounts linked below. An
     </thead>
     <tbody>
         <tr>
-            <td>Fear</td>
-            <td>300,000</td>
+            <td>Risk</td>
+            <td>700,000</td>
         </tr>
         <tr>
-            <td>Risk</td>
-            <td>200,000</td>
+            <td>Fear</td>
+            <td>300,000</td>
         </tr>
         <tr>
             <td>Dracula</td>
