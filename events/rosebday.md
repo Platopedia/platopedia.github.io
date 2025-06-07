@@ -39,7 +39,7 @@ Book your spot for the giveaway by adding one of these accounts linked below. An
 
 <div class="linebreak"></div>
 
-## Download Event Frame
+## Birthday Frame
 
 <div style="text-align: center; margin: 20px 0;">
   <img src="/docs/assets/images/events/rosebday/rosebday-frame.png" alt="Birthday Event Poster" style="max-width:90%; border: 2px solid #A8934C; border-radius: 8px;" />
@@ -48,7 +48,7 @@ Book your spot for the giveaway by adding one of these accounts linked below. An
      style="display: inline-block; padding: 10px 20px; margin-top: 10px;
             background-color: #A8934C; color: #fff; text-decoration: none;
             border-radius: 4px;">
-    Download Poster
+    Download Frame
   </a>
 </div>
 
