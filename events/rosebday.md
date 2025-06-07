@@ -48,7 +48,7 @@ Book your spot for the giveaway by adding one of these accounts linked below. An
     padding: 10px 20px;
     margin-top: 10px;
     background-color: transparent;
-    color: inherit;
+    color: #A8934C;
     text-decoration: none;
     border: 2px solid #A8934C;
     border-radius: 4px;
