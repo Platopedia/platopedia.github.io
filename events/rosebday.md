@@ -156,6 +156,10 @@ Book your spot for the giveaway by adding one of these accounts linked below. An
             <td>Diem17</td>
             <td>15,000</td>
         </tr>
+        <tr>
+            <td>Ruby</td>
+            <td>10,000</td>
+        </tr>
     </tbody>
 </table>
 
