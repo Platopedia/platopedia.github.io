@@ -25,9 +25,7 @@ We're getting closer to one of Plato's biggest events — **Rose's Birthday!** O
 
 ## Winners List
 
-Thank you for celebrating with us! Here's the complete list of winners from **Rose's Birthday Party.**
-
-<div class="linebreak"></div>
+Thank you for celebrating with us! Here's the complete list of winners from **Rose's Birthday Party.** For any issues, add @Arcade on Plato.
 
 <span class="content-link" data-url="https://docs.google.com/spreadsheets/d/1n004yabbjNhhqd7Iu71Zs9G8JaWIySJlCDNtqVA8-os/edit?usp=sharing" data-text="" data-copy="true"></span>
 
