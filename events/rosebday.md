@@ -23,15 +23,13 @@ We're getting closer to one of Plato's biggest events — **Rose's Birthday!** O
 
 <div class="linebreak"></div>
 
-## Group Invite
+## Winners List
 
-Book your spot for the giveaway by adding one of these accounts linked below. An invite will be sent to you on the event day. Please don't add more than one account.
+Thank you for celebrating with us! Here's the complete list of winners from **Rose's Birthday Party.**
 
 <div class="linebreak"></div>
 
-**@PartyBot3:**
-
-<span class="content-link" data-url="https://plato.app/2y1g51xbklxqb" data-text="" data-copy="true"></span>
+<span class="content-link" data-url="https://docs.google.com/spreadsheets/d/1n004yabbjNhhqd7Iu71Zs9G8JaWIySJlCDNtqVA8-os/edit?usp=sharing" data-text="" data-copy="true"></span>
 
 <div class="linebreak"></div>
 
