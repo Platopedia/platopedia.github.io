@@ -223,23 +223,19 @@ function Tool_Content ( deferred )
 
     content_image.each( function ( ) {
 
-        var element = $( this );
-        var url     = element.data( 'url'   );
-        var width   = element.data( 'width' );
-        var label   = element.data( 'label' );
+        var element  = $( this );
+        var url      = element.data( 'url'      );
+        var width    = element.data( 'width'    );
+        var label    = element.data( 'label'    );
+        var download = element.data( 'download' );
         
-        var elementb =
-        $( '\
-            <figure class="figure">\
-                <img src="' + url + '" alt="' + label + '" title="' + label + '" style="max-width:' + width + '" />\
-                <figcaption class="figure-caption">' + label + '</figcaption>\
-            </figure>\
-        ' );
-        
-        if ( ! label ) elementb.find( '.figure-caption' ).css( 'display', 'none' );
+        var elementb = $( '<figure class="figure"></figure>' );
+        elementb.append( '<img src="' + url + '" alt="' + label + '" title="' + label + '" style="max-width:' + width + '" />' );
+        if ( label ) elementb.append( '<figcaption class="figure-caption">' + label + '</figcaption>' );
+        if ( download ) elementb.append( '<p><a class="btn btn-field mt-3" href="' + url + '" download>Download <span class="icon">&#xf019;</span></a></p>' );
         
         elementb.appendTo( element );
-
+        
       //elementb.on( 'load',  function ( ) { content_callback( ) } );
       //elementb.on( 'error', function ( ) { content_callback( ) } );
       
