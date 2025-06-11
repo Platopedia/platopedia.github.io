@@ -9,6 +9,8 @@ h2                    { color:#A8934C !important }
 h4                    { color:#008080 !important;font-size:var(--unit-text-B) !important }
 .syotimer-cell__value { border-color:#A8934C !important }
 .syotimer-cell__unit  { color:#A8934C }
+#frame img            { border:2px solid #A8934C;border-radius:15px }
+#frame a              { color:#FFFFFF !important;background-color:#A8934C !important }
 </style>
 
 <div class="linebreak"></div>
@@ -33,16 +35,7 @@ Thank you for celebrating with us! Here's the complete list of winners from **Ro
 
 ## Birthday Frame
 
-<div style="text-align: center; margin: 20px 0;">
-  <img src="/docs/assets/images/events/rosebday/rosebday-frame.png" alt="Birthday Event Poster" style="max-width:90%; border: 2px solid #A8934C; border-radius: 8px;" />
-  <br/>
-  <a href="/docs/assets/images/events/rosebday/rosebday-frame.png" download
-     style="display: inline-block; padding: 10px 20px; margin-top: 10px;
-            background-color: #A8934C; color: #fff; text-decoration: none;
-            border-radius: 4px;">
-    Download Frame
-  </a>
-</div>
+<div id="frame" class="content-image" data-url="/docs/assets/images/events/rosebday/rosebday-frame.png" data-width="300px" data-download="true"></div>
 
 <div class="linebreak"></div>
 
