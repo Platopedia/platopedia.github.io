@@ -226,8 +226,8 @@ function Tool_Content ( deferred )
         var element  = $( this );
         var url      = element.data( 'url'      );
         var width    = element.data( 'width'    );
-        var label    = element.data( 'label'    );
-        var download = element.data( 'download' );
+        var label    = element.data( 'label'    ) || '';
+        var download = element.data( 'download' ) || false;
         
         var elementb = $( '<figure class="figure"></figure>' );
         elementb.append( '<img src="' + url + '" alt="' + label + '" title="' + label + '" style="max-width:' + width + '" />' );
