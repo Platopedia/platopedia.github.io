@@ -8,4 +8,4 @@ heading: Example
 h1 { display:none !important }
 </style>
 
-<div id="tool_embed_div_default" data-url="https://apple.com/" data-height="0" style="margin-left:0;margin-right:0"></div>
+<div id="tool_embed_div_default" data-url="https://getbootstrap.com/docs/4.0/examples/blog/" data-height="0" style="margin-left:0;margin-right:0"></div>
