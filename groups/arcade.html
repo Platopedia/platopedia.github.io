@@ -137,25 +137,26 @@ h4,h5 {
     justify-content: center;
     width: 100%;
     margin: auto;
+    gap: 20px 0; /* Optional vertical gap */
 }
 
+/* Default size for all thumbnails */
 .thumbnail-wrapper {
     font-family: monospace;
     width: 30%;
-    margin: 10px;
     text-align: center;
 }
 
+/* Make rows with only 2 items centered */
 .thumbnail-wrapper:nth-child(4),
-.thumbnail-wrapper:nth-child(5) {
-    width: 40%;
-}
-
+.thumbnail-wrapper:nth-child(5),
 .thumbnail-wrapper:nth-child(6),
 .thumbnail-wrapper:nth-child(7) {
-    width: 40%;
+    margin-left: 5%;
+    margin-right: 5%;
 }
 
+/* Thumbnail image styling */
 .thumbnail-wrapper .thumbnail {
     width: 75%;
     height: auto;
@@ -163,23 +164,32 @@ h4,h5 {
     object-fit: cover;
 }
 
-@media (min-width: 768px) {
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .thumbnail-wrapper {
+        width: 45%;
+        margin-left: 2.5%;
+        margin-right: 2.5%;
+    }
+
     .thumbnail-wrapper .thumbnail {
-        width: 50%;
+        width: 70%;
     }
 }
 
+/* Username */
 .thumbnail-wrapper .username {
     margin-top: 5px;
     font-size: 13px;
     font-weight: bold;
-    color: #555;
+    color: #ccc;
 }
 
+/* Description */
 .thumbnail-wrapper .description {
     margin-top: 3px;
     font-size: 10px;
-    color: #777;
+    color: #aaa;
     text-wrap: balance;
 }
 
