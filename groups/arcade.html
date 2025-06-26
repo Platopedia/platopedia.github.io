@@ -131,25 +131,29 @@ h4,h5 {
     color: #555;
 }
 
-.timeline .description {
-    font-size: 13px;
-    color: #777;
-}
-
 .thumbnail-grid {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
     width: 100%;
     margin: auto;
-    justify-content: center;
 }
 
 .thumbnail-wrapper {
     font-family: monospace;
     width: 30%;
-    margin-bottom: 15px;
+    margin: 10px;
     text-align: center;
+}
+
+.thumbnail-wrapper:nth-child(4),
+.thumbnail-wrapper:nth-child(5) {
+    width: 40%;
+}
+
+.thumbnail-wrapper:nth-child(6),
+.thumbnail-wrapper:nth-child(7) {
+    width: 40%;
 }
 
 .thumbnail-wrapper .thumbnail {
