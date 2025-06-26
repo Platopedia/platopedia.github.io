@@ -132,48 +132,68 @@ h4,h5 {
 }
 
 .thumbnail-row {
-  text-align: center;
-  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 20px;
+  margin-bottom: 25px;
 }
 
 .row-3 .thumbnail-wrapper {
-  display: inline-block;
   width: 30%;
-  margin: 1%;
 }
 
 .row-2 .thumbnail-wrapper {
-  display: inline-block;
   width: 40%;
-  margin: 2.5%;
+}
+
+.thumbnail-wrapper {
+  text-align: center;
+  font-family: monospace;
 }
 
 .thumbnail-wrapper .thumbnail {
   width: 75%;
+  height: auto;
   border-radius: 50%;
   object-fit: cover;
 }
 
 .username {
-  margin-top: 5px;
+  margin-top: 6px;
   font-size: 13px;
   font-weight: bold;
   color: #ddd;
 }
 
 .description {
+  margin-top: 4px;
   font-size: 11px;
   color: #aaa;
-  margin-top: 3px;
+  line-height: 1.4;
   text-wrap: balance;
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-@media (max-width: 600px) {
+
+@media (max-width: 768px) {
+  .thumbnail-row {
+    flex-wrap: nowrap;
+  }
+  
   .row-3 .thumbnail-wrapper,
   .row-2 .thumbnail-wrapper {
+    width: 30vw;
+  }
+
+  .thumbnail-wrapper .thumbnail {
     width: 80%;
-    margin: 10px auto;
-    display: block;
+  }
+
+  .description {
+    font-size: 10px;
   }
 }
 
