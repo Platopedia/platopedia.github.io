@@ -131,70 +131,52 @@ h4,h5 {
     color: #555;
 }
 
-.thumbnail-row {
-  display: flex;
-  justify-content: center;
-  flex-wrap: nowrap;
-  gap: 20px;
-  margin-bottom: 25px;
+.timeline .description {
+    font-size: 13px;
+    color: #777;
 }
 
-.row-3 .thumbnail-wrapper {
-  width: 30%;
-}
-
-.row-2 .thumbnail-wrapper {
-  width: 40%;
+.thumbnail-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+    margin: auto;
+    justify-content: center;
 }
 
 .thumbnail-wrapper {
-  text-align: center;
-  font-family: monospace;
+    font-family: monospace;
+    width: 30%;
+    margin-bottom: 15px;
+    text-align: center;
 }
 
 .thumbnail-wrapper .thumbnail {
-  width: 75%;
-  height: auto;
-  border-radius: 50%;
-  object-fit: cover;
+    width: 75%;
+    height: auto;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
-.username {
-  margin-top: 6px;
-  font-size: 13px;
-  font-weight: bold;
-  color: #ddd;
+@media (min-width: 768px) {
+    .thumbnail-wrapper .thumbnail {
+        width: 50%;
+    }
 }
 
-.description {
-  margin-top: 4px;
-  font-size: 11px;
-  color: #aaa;
-  line-height: 1.4;
-  text-wrap: balance;
-  max-width: 90%;
-  margin-left: auto;
-  margin-right: auto;
+.thumbnail-wrapper .username {
+    margin-top: 5px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #555;
 }
 
-
-@media (max-width: 768px) {
-  .thumbnail-row {
-    flex-wrap: nowrap;
-  }
-  
-  .row-3 .thumbnail-wrapper,
-  .row-2 .thumbnail-wrapper {
-    width: 30vw;
-  }
-
-  .thumbnail-wrapper .thumbnail {
-    width: 80%;
-  }
-
-  .description {
+.thumbnail-wrapper .description {
+    margin-top: 3px;
     font-size: 10px;
-  }
+    color: #777;
+    text-wrap: balance;
 }
 
 .shoutout {
@@ -653,51 +635,42 @@ $('#wins-counter-weekly tr:first-child td:first-child').prepend('&#127919; ').ap
 
 <h2 id="our-team">Our Team</h2>
 
-<!-- Row 1 (3) -->
-<div class="thumbnail-row row-3">
-  <div class="thumbnail-wrapper">
-    <img class="thumbnail" src="/docs/assets/images/groups/arcade/rose.png" alt="Rose">
-    <div class="username">Rose</div>
-    <div class="description">Our boss and leader, truly one of a kind. Just don't push her buttons</div>
-  </div>
-  <div class="thumbnail-wrapper">
-    <img class="thumbnail" src="/docs/assets/images/groups/arcade/fear.png" alt="Fear">
-    <div class="username">Fear</div>
-    <div class="description">Strange specimen who tends to hide from his own group, incredibly generous though</div>
-  </div>
-  <div class="thumbnail-wrapper">
-    <img class="thumbnail" src="/docs/assets/images/groups/arcade/hitman.png" alt="Hitman">
-    <div class="username">Hitman</div>
-    <div class="description">If you're looking for the definition of loyalty, you'll find his name in the dictionary</div>
-  </div>
-</div>
-
-<!-- Row 2 (2) -->
-<div class="thumbnail-row row-2">
-  <div class="thumbnail-wrapper">
-    <img class="thumbnail" src="/docs/assets/images/groups/arcade/fairy.png" alt="Fairy">
-    <div class="username">Fairy</div>
-    <div class="description">Just like her username, she's sweet, helpful, and has supported us since day one</div>
-  </div>
-  <div class="thumbnail-wrapper">
-    <img class="thumbnail" src="/docs/assets/images/groups/arcade/inna.png" alt="Inna">
-    <div class="username">Inna</div>
-    <div class="description">A loyal member of Arcade who has risen to the top</div>
-  </div>
-</div>
-
-<!-- Row 3 (2) -->
-<div class="thumbnail-row row-2">
-  <div class="thumbnail-wrapper">
-    <img class="thumbnail" src="/docs/assets/images/groups/arcade/tear.gif" alt="Tear">
-    <div class="username">Tear</div>
-    <div class="description">One of a kind. Ain't nobody else like him. Most humble and generous person ever</div>
-  </div>
-  <div class="thumbnail-wrapper">
-    <img class="thumbnail" src="/docs/assets/images/groups/arcade/risk.png" alt="Risk">
-    <div class="username">Risk</div>
-    <div class="description">Lives up to the name – bold, unpredictable, and full of surprises, the wild card every team needs</div>
-  </div>
+<div class="thumbnail-grid">
+    <div class="thumbnail-wrapper">
+        <img class="thumbnail" src="/docs/assets/images/groups/arcade/rose.png" alt="Rose">
+        <div class="username">Rose</div>
+        <div class="description">Our boss and leader, truly one of a kind. Just don't push her buttons</div>
+    </div>
+    <div class="thumbnail-wrapper">
+        <img class="thumbnail" src="/docs/assets/images/groups/arcade/fear.png" alt="Fear">
+        <div class="username">Fear</div>
+        <div class="description">Strange specimen who tends to hide from his own group, incredibly generous though</div>
+    </div>
+    <div class="thumbnail-wrapper">
+        <img class="thumbnail" src="/docs/assets/images/groups/arcade/hitman.png" alt="Hitman">
+        <div class="username">Hitman</div>
+        <div class="description">If you're looking for the definition of loyalty, you'll find his name in the dictionary</div>
+    </div>
+    <div class="thumbnail-wrapper">
+        <img class="thumbnail" src="/docs/assets/images/groups/arcade/fairy.png" alt="Fairy">
+        <div class="username">Fairy</div>
+        <div class="description">Just like her username, she's sweet, helpful, and has supported us since day one</div>
+    </div>
+    <div class="thumbnail-wrapper">
+        <img class="thumbnail" src="/docs/assets/images/groups/arcade/inna.png" alt="Inna">
+        <div class="username">Inna</div>
+        <div class="description">A loyal member of Arcade who has risen to the top</div>
+    </div>
+    <div class="thumbnail-wrapper">
+        <img class="thumbnail" src="/docs/assets/images/groups/arcade/tear.gif" alt="Tear">
+        <div class="username">Tear</div>
+        <div class="description">One of a kind. Ain't nobody else like him. Most humble and generous person ever</div>
+    </div>
+        <div class="thumbnail-wrapper">
+        <img class="thumbnail" src="/docs/assets/images/groups/arcade/risk.png" alt="Risk">
+        <div class="username">Risk</div>
+        <div class="description">Lives up to the name - bold, unpredictable, and full of surprises, the wild card every team needs</div>
+    </div>
 </div>
 
 <div class="linebreak"></div>
