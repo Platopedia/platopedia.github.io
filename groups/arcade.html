@@ -132,31 +132,25 @@ h4,h5 {
 }
 
 .thumbnail-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
     width: 100%;
     margin: auto;
-    gap: 20px 0; /* Optional vertical gap */
 }
 
-/* Default size for all thumbnails */
+.thumbnail-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
 .thumbnail-wrapper {
-    font-family: monospace;
     width: 30%;
     text-align: center;
+    font-family: monospace;
+    margin: 10px 0;
 }
 
-/* Make rows with only 2 items centered */
-.thumbnail-wrapper:nth-child(4),
-.thumbnail-wrapper:nth-child(5),
-.thumbnail-wrapper:nth-child(6),
-.thumbnail-wrapper:nth-child(7) {
-    margin-left: 5%;
-    margin-right: 5%;
-}
-
-/* Thumbnail image styling */
+/* Thumbnail Image */
 .thumbnail-wrapper .thumbnail {
     width: 75%;
     height: auto;
@@ -164,12 +158,11 @@ h4,h5 {
     object-fit: cover;
 }
 
-/* Responsive adjustments for smaller screens */
+/* Responsive thumbnail width */
 @media (max-width: 768px) {
     .thumbnail-wrapper {
         width: 45%;
-        margin-left: 2.5%;
-        margin-right: 2.5%;
+        margin: 5px;
     }
 
     .thumbnail-wrapper .thumbnail {
@@ -177,20 +170,24 @@ h4,h5 {
     }
 }
 
-/* Username */
+/* Username (name under image) */
 .thumbnail-wrapper .username {
     margin-top: 5px;
     font-size: 13px;
     font-weight: bold;
-    color: #ccc;
+    color: #ddd;
 }
 
-/* Description */
+/* Description (short paragraph) */
 .thumbnail-wrapper .description {
     margin-top: 3px;
-    font-size: 10px;
+    font-size: 11px;
     color: #aaa;
     text-wrap: balance;
+    line-height: 1.4;
+    max-width: 95%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .shoutout {
@@ -650,40 +647,51 @@ $('#wins-counter-weekly tr:first-child td:first-child').prepend('&#127919; ').ap
 <h2 id="our-team">Our Team</h2>
 
 <div class="thumbnail-grid">
-    <div class="thumbnail-wrapper">
-        <img class="thumbnail" src="/docs/assets/images/groups/arcade/rose.png" alt="Rose">
-        <div class="username">Rose</div>
-        <div class="description">Our boss and leader, truly one of a kind. Just don't push her buttons</div>
-    </div>
-    <div class="thumbnail-wrapper">
-        <img class="thumbnail" src="/docs/assets/images/groups/arcade/fear.png" alt="Fear">
-        <div class="username">Fear</div>
-        <div class="description">Strange specimen who tends to hide from his own group, incredibly generous though</div>
-    </div>
-    <div class="thumbnail-wrapper">
-        <img class="thumbnail" src="/docs/assets/images/groups/arcade/hitman.png" alt="Hitman">
-        <div class="username">Hitman</div>
-        <div class="description">If you're looking for the definition of loyalty, you'll find his name in the dictionary</div>
-    </div>
-    <div class="thumbnail-wrapper">
-        <img class="thumbnail" src="/docs/assets/images/groups/arcade/fairy.png" alt="Fairy">
-        <div class="username">Fairy</div>
-        <div class="description">Just like her username, she's sweet, helpful, and has supported us since day one</div>
-    </div>
-    <div class="thumbnail-wrapper">
-        <img class="thumbnail" src="/docs/assets/images/groups/arcade/inna.png" alt="Inna">
-        <div class="username">Inna</div>
-        <div class="description">A loyal member of Arcade who has risen to the top</div>
-    </div>
-    <div class="thumbnail-wrapper">
-        <img class="thumbnail" src="/docs/assets/images/groups/arcade/tear.gif" alt="Tear">
-        <div class="username">Tear</div>
-        <div class="description">One of a kind. Ain't nobody else like him. Most humble and generous person ever</div>
-    </div>
+    <!-- Row 1 (3) -->
+    <div class="thumbnail-row">
         <div class="thumbnail-wrapper">
-        <img class="thumbnail" src="/docs/assets/images/groups/arcade/risk.png" alt="Risk">
-        <div class="username">Risk</div>
-        <div class="description">Lives up to the name - bold, unpredictable, and full of surprises, the wild card every team needs</div>
+            <img class="thumbnail" src="/docs/assets/images/groups/arcade/rose.png" alt="Rose">
+            <div class="username">Rose</div>
+            <div class="description">Our boss and leader, truly one of a kind. Just don't push her buttons</div>
+        </div>
+        <div class="thumbnail-wrapper">
+            <img class="thumbnail" src="/docs/assets/images/groups/arcade/fear.png" alt="Fear">
+            <div class="username">Fear</div>
+            <div class="description">Strange specimen who tends to hide from his own group, incredibly generous though</div>
+        </div>
+        <div class="thumbnail-wrapper">
+            <img class="thumbnail" src="/docs/assets/images/groups/arcade/hitman.png" alt="Hitman">
+            <div class="username">Hitman</div>
+            <div class="description">If you're looking for the definition of loyalty, you'll find his name in the dictionary</div>
+        </div>
+    </div>
+
+    <!-- Row 2 (2) -->
+    <div class="thumbnail-row">
+        <div class="thumbnail-wrapper">
+            <img class="thumbnail" src="/docs/assets/images/groups/arcade/fairy.png" alt="Fairy">
+            <div class="username">Fairy</div>
+            <div class="description">Just like her username, she's sweet, helpful, and has supported us since day one</div>
+        </div>
+        <div class="thumbnail-wrapper">
+            <img class="thumbnail" src="/docs/assets/images/groups/arcade/inna.png" alt="Inna">
+            <div class="username">Inna</div>
+            <div class="description">A loyal member of Arcade who has risen to the top</div>
+        </div>
+    </div>
+
+    <!-- Row 3 (2) -->
+    <div class="thumbnail-row">
+        <div class="thumbnail-wrapper">
+            <img class="thumbnail" src="/docs/assets/images/groups/arcade/tear.gif" alt="Tear">
+            <div class="username">Tear</div>
+            <div class="description">One of a kind. Ain't nobody else like him. Most humble and generous person ever</div>
+        </div>
+        <div class="thumbnail-wrapper">
+            <img class="thumbnail" src="/docs/assets/images/groups/arcade/risk.png" alt="Risk">
+            <div class="username">Risk</div>
+            <div class="description">Lives up to the name - bold, unpredictable, and full of surprises, the wild card every team needs</div>
+        </div>
     </div>
 </div>
 
