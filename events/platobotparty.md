@@ -1,25 +1,25 @@
 ---
 layout: tool-content
 title: PlatoBot Party - Platopedia
-heading: <img src="/docs/assets/images/events/platobotparty/platobot.png" />&nbsp;PlatoBot Party
+heading: <img src="/docs/assets/images/events/platobotparty/platobot-thumbnail.png" />&nbsp;PlatoBot Party
 ---
 
 <style>
-h2                    { color:#1776CD !important }
+h2                    { color:#0176D6 !important }
 h4                    { color:#008080 !important;font-size:var(--unit-text-B) !important }
-.syotimer-cell__value { border-color:#1776CD !important }
-.syotimer-cell__unit  { color:#1776CD }
+.syotimer-cell__value { border-color:#0176D6 !important }
+.syotimer-cell__unit  { color:#0176D6 }
 </style>
 
 <div class="linebreak"></div>
 
-<div class="content-image" data-url="/docs/assets/images/events/platobotparty/platobotbanner.png" data-width="600px" data-label=""></div>
+<div class="content-image" data-url="/docs/assets/images/events/platobotparty/platobot-banner.png" data-width="690px" data-label=""></div>
 
-Mark your calendars for a spectacular Bingo giveaway on June 26th at 4 PM (GMT) in honor of PlatoBot's unwavering loyalty and friendship. Don't miss out on the excitement - we're looking forward to seeing you all!
+It's that time of the year — PlatoBot Giveaway 2.0 is here! PlatoBot is feeling generous once again, and this time it's giving away more than ever before: 180 Coin Bundles worth 5.5k coins, with chances to win up to 12.5k Coin Bundles. You can't miss this special event. Save the date: June 8 • 4PM GMT!
 
 <div class="linebreak"></div>
 
-<div class="content-countdown text-center" data-datetime="2024-06-26T16:00:00+00:00"><b>PARTTTYYYYY!!!</b></div>
+<div class="content-countdown text-center" data-datetime="2025-07-08T16:00:00+00:00"><b>PARTTTYYYYY!!!</b></div>
 
 <div class="linebreak"></div>
 
@@ -27,11 +27,11 @@ Mark your calendars for a spectacular Bingo giveaway on June 26th at 4 PM (GMT) 
 
 Book your spot by adding one of these accounts linked below. An invite will be sent to you on the event day. Please don't add more than one account.
 
-https://plato.app/3sdemmkcequ52 **(Full)**
+<div class="linebreak"></div>
 
-https://plato.app/74o97f5sdizo **(Full)**
+<p><strong>@PartyBot:</strong></p>
 
-https://plato.app/2lwozh450t8ro **(Full)**
+<span class="content-link" data-url="https://plato.app/" data-text="" data-copy="true"></span>
 
 <div class="linebreak"></div>
 
