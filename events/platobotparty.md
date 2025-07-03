@@ -15,7 +15,7 @@ h4                    { color:#008080 !important;font-size:var(--unit-text-B) !i
 
 <div class="content-image" data-url="/docs/assets/images/events/platobotparty/platobot-banner.png" data-width="690px" data-label=""></div>
 
-It's that time of the year — **PlatoBot Giveaway 2.0** is here! PlatoBot is feeling generous once again, and this time it's giving away more than ever before: **180 Coin Bundles** worth 5.5k coins, with chances to win up to 12.5k coins. You can't miss this special event. Save the date: **June 8 • 4PM GMT**!
+It's that time of the year — **PlatoBot Giveaway 2.0** is here! PlatoBot is feeling generous once again, and this time it's giving away more than ever before: **180 Coin Bundles** worth 5.5k coins, with chances to win up to 12.5k coins. You can't miss this special event. Save the date: **July 8 • 4PM GMT**!
 
 <div class="linebreak"></div>
 
