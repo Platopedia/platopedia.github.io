@@ -29,13 +29,13 @@ Book your spot by adding one of these accounts linked below. An invite will be s
 
 <div class="linebreak"></div>
 
-**@PartyBot:**
-
-<span class="content-link" data-url="https://plato.app/3kxxvvbkf88ap" data-text="" data-copy="true"></span>
-
 **@PartyBot2:**
 
 <span class="content-link" data-url="https://plato.app/kjh9umzmnqsk" data-text="" data-copy="true"></span>
+
+**@PartyBot3:**
+
+<span class="content-link" data-url="https://plato.app/feu9ln0r38rx" data-text="" data-copy="true"></span>
 
 <div class="linebreak"></div>
 
