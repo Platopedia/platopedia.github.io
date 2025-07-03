@@ -15,7 +15,7 @@ h4                    { color:#008080 !important;font-size:var(--unit-text-B) !i
 
 <div class="content-image" data-url="/docs/assets/images/events/platobotparty/platobot-banner.png" data-width="690px" data-label=""></div>
 
-It's that time of the year — PlatoBot Giveaway 2.0 is here! PlatoBot is feeling generous once again, and this time it's giving away more than ever before: 180 Coin Bundles worth 5.5k coins, with chances to win up to 12.5k Coin Bundles. You can't miss this special event. Save the date: June 8 • 4PM GMT!
+It's that time of the year — **PlatoBot Giveaway 2.0** is here! PlatoBot is feeling generous once again, and this time it's giving away more than ever before: **180 Coin Bundles** worth 5.5k coins, with chances to win up to 12.5k coins. You can't miss this special event. Save the date: **June 8 • 4PM GMT**!
 
 <div class="linebreak"></div>
 
@@ -29,9 +29,13 @@ Book your spot by adding one of these accounts linked below. An invite will be s
 
 <div class="linebreak"></div>
 
-<p><strong>@PartyBot:</strong></p>
+**@PartyBot:**
 
-<span class="content-link" data-url="https://plato.app/" data-text="" data-copy="true"></span>
+<span class="content-link" data-url="https://plato.app/3kxxvvbkf88ap" data-text="" data-copy="true"></span>
+
+**@PartyBot2:**
+
+<span class="content-link" data-url="https://plato.app/kjh9umzmnqsk" data-text="" data-copy="true"></span>
 
 <div class="linebreak"></div>
 
