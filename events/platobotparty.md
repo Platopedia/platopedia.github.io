@@ -19,7 +19,7 @@ It's that time of the year — **PlatoBot Giveaway 2.0** is here! PlatoBot is fe
 
 <div class="linebreak"></div>
 
-<div class="content-countdown text-center" data-datetime="2025-07-08T16:00:00+00:00"><b>PARTTTYYYYY!!!</b></div>
+<div class="content-countdown text-center" data-datetime="2025-07-08T15:30:00+00:00"><b>PARTTTYYYYY!!!</b></div>
 
 <div class="linebreak"></div>
 
@@ -29,7 +29,8 @@ Book your spot by adding one of these accounts linked below. An invite will be s
 
 <div class="linebreak"></div>
 
-**Invites are closed.**
+**Invites are closed.**
+
 
 <div class="linebreak"></div>
 
