@@ -1,0 +1,481 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.3">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Times; -webkit-text-stroke: #000000}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Times; -webkit-text-stroke: #000000; min-height: 14.0px}
+    span.s1 {font-kerning: none}
+    span.s2 {font: 12.0px 'Zapf Dingbats'; font-kerning: none}
+    span.s3 {font: 12.0px 'Hiragino Mincho ProN'; font-kerning: none}
+    span.s4 {font: 12.0px 'Apple Color Emoji'; font-kerning: none}
+    span.s5 {font: 12.0px 'Times New Roman'; font-kerning: none}
+  </style>
+</head>
+<body>
+<p class="p1"><span class="s1">&lt;!DOCTYPE html&gt;</span></p>
+<p class="p1"><span class="s1">&lt;html lang="en" data-theme="dark"&gt;</span></p>
+<p class="p1"><span class="s1">&lt;head&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;title&gt;Arcade // Neon Cyberpunk&lt;/title&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;!-- Retro-futuristic fonts --&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&amp;family=Press+Start+2P&amp;family=Rajdhani:wght@400;600;700&amp;display=swap" rel="stylesheet"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;style&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>:root {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--bg-0: #050507;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--bg-1: #0a0a0f;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--red-0: #FF1E2D; /* primary neon red */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--red-1: #E1100D; /* brand red */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--teal:<span class="Apple-converted-space">  </span>#00F0FF; /* accent holo */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--vio: <span class="Apple-converted-space">  </span>#8A2BE2; /* accent */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--amber: #FFC857;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--white: #e9eef6;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--muted: #9aa3ad;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--card:<span class="Apple-converted-space">  </span>#0c0d12cc;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--glass: rgba(255,255,255,.04);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--border: rgba(255, 30, 45, .35);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--shadow: 0 0 12px rgba(255,30,45,.35), 0 0 32px rgba(255,30,45,.15);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--glow-red: 0 0 12px #ff2a3a, 0 0 24px #ff2a3a, inset 0 0 24px rgba(255,42,58,.25);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--glow-teal: 0 0 8px #00f0ff, 0 0 22px #00f0ff, inset 0 0 18px rgba(0,240,255,.25);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--radius-2xl: 18px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--radius-xl: 14px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--radius-lg: 12px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>/* Global reset */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>* { box-sizing: border-box; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>html, body { height: 100%; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>body {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>margin: 0; color: var(--white); background: var(--bg-0);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>font-family: 'Rajdhani', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>overflow-x: hidden;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>/* Layered immersive background */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.bg {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>position: fixed; inset: 0; z-index: -3; pointer-events: none;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>background: radial-gradient(1200px 800px at 70% 20%, rgba(255,30,45,.25), transparent 55%),</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                  </span>radial-gradient(900px 600px at 5% 85%, rgba(0,240,255,.18), transparent 60%),</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                  </span>linear-gradient(180deg, var(--bg-1), #06060a 35%, #08070c 100%);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>filter: saturate(1.05);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>/* Neon grid */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.grid {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>position: fixed; inset: 0; z-index: -2; pointer-events: none;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>background-image: linear-gradient(transparent 96%, rgba(255,30,45,.18) 96%),</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>linear-gradient(90deg, transparent 96%, rgba(255,30,45,.18) 96%);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>background-size: 38px 38px, 38px 38px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>opacity: .18;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>transform: perspective(900px) rotateX(60deg) translateY(18%);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>transform-origin: top;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>filter: blur(.25px) contrast(120%);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>/* Subtle animated circuit overlay using SVG data URI */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.circuit {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: .22; mix-blend-mode: screen;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600'%3E%3Cg fill='none' stroke='%23FF1E2D' stroke-opacity='.25' stroke-width='1'%3E%3Cpath d='M0 40h50v-20h40v60h40v-40h40v100h40v-60h40v20h40v-80h40v60h40v-40h40v120h40v-100h40v40h40v-60h40'/%3E%3Ccircle cx='120' cy='60' r='2'/%3E%3Ccircle cx='260' cy='100' r='2'/%3E%3Ccircle cx='420' cy='140' r='2'/%3E%3C/g%3E%3C/svg%3E");</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>background-size: 300px 300px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>animation: drift 40s linear infinite;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>@keyframes drift { from { background-position: 0 0; } to { background-position: 600px 600px; } }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>/* Scanline + chroma fuzz */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.scanlines::before {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 50; mix-blend-mode: overlay;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>background-image: repeating-linear-gradient( to bottom, rgba(255,255,255,.04), rgba(255,255,255,.04) 1px, transparent 1px, transparent 3px );</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>opacity: .17;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>header.navbar {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>position: sticky; top: 0; z-index: 60; backdrop-filter: blur(10px) saturate(130%);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>background: linear-gradient( to right, rgba(10,10,15,.75), rgba(10,10,15,.35) );</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>border-bottom: 1px solid var(--border);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.nav-inner { display: flex; align-items: center; gap: 14px; padding: 10px clamp(14px, 3vw, 32px); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.brand-badge {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>width: 36px; height: 36px; border-radius: 8px; background: #140508;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>box-shadow: var(--glow-red); border: 1px solid var(--border);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>display: grid; place-items: center; font-family: 'Press Start 2P', monospace; font-size: 12px; color: var(--amber);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>letter-spacing: -1px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.brand-title { font-family: 'Orbitron', sans-serif; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.brand-title .glitch {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>position: relative; display: inline-block; color: var(--white); text-shadow: 0 0 10px #fff;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.brand-title .glitch::before,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.brand-title .glitch::after {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>content: attr(data-text); position: absolute; left: 0; top: 0; clip-path: inset(0 0 0 0);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>animation: glitch 2.2s infinite linear alternate-reverse;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.brand-title .glitch::before { color: var(--teal); transform: translateX(2px); opacity: .8; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.brand-title .glitch::after<span class="Apple-converted-space">  </span>{ color: var(--red-0); transform: translateX(-2px); opacity: .8; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>@keyframes glitch {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>0% { clip-path: inset(0 0 85% 0); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>10% { clip-path: inset(0 0 20% 0); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>20% { clip-path: inset(30% 0 50% 0); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>35% { clip-path: inset(60% 0 5% 0); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>55% { clip-path: inset(15% 0 35% 0); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>75% { clip-path: inset(80% 0 0 0); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>100% { clip-path: inset(0 0 0 0); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.nav-actions { margin-left: auto; display: flex; gap: 10px; flex-wrap: wrap; }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.btn {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>--btn-bg: linear-gradient( to bottom right, rgba(255,42,58,.18), rgba(255,42,58,.05) );</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>display: inline-flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 999px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>border: 1px solid var(--border); color: var(--white); text-decoration: none; font-weight: 700; letter-spacing: .06em;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>background: var(--btn-bg); box-shadow: var(--glow-red); position: relative; overflow: hidden; isolation: isolate;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>transition: transform .15s ease, filter .15s ease, box-shadow .15s ease;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.btn::before {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>background: conic-gradient(from 0deg, rgba(255,42,58,.0), rgba(255,42,58,.6), rgba(0,240,255,.45), rgba(255,42,58,.0));</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>-webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>-webkit-mask-composite: xor; mask-composite: exclude; opacity: .5; filter: blur(.6px);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.btn:hover { transform: translateY(-2px) scale(1.01); filter: saturate(120%); box-shadow: 0 0 18px #ff2a3a, 0 0 48px rgba(255,42,58,.45); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.btn--teal { --btn-bg: linear-gradient( to bottom right, rgba(0,240,255,.14), rgba(0,240,255,.05) ); box-shadow: var(--glow-teal); border-color: rgba(0,240,255,.35); }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>/* HERO */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.hero { position: relative; padding: clamp(48px, 6vw, 96px)<span class="Apple-converted-space">  </span>clamp(16px, 4vw, 48px); display: grid; grid-template-columns: 1.2fr .8fr; gap: clamp(24px, 4vw, 48px); align-items: center; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>@media (max-width: 980px){ .hero { grid-template-columns: 1fr; } }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.holo-card {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>position: relative; background: linear-gradient( to bottom right, rgba(255,255,255,.06), rgba(20,20,32,.25) );</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>border: 1px solid var(--border); border-radius: var(--radius-2xl); padding: clamp(18px, 2.5vw, 28px);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>box-shadow: var(--shadow);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>overflow: hidden; isolation: isolate;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.holo-card::before {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>content: ""; position: absolute; inset: -2px; border-radius: inherit; pointer-events: none;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>background: radial-gradient(600px 180px at 0% 0%, rgba(0,240,255,.25), transparent 60%),</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                  </span>radial-gradient(600px 180px at 100% 100%, rgba(255,42,58,.28), transparent 60%);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>mix-blend-mode: screen; filter: blur(1px);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.holo-card::after {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>content: ""; position: absolute; inset: 0; background: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%224%22 height=%224%22 viewBox=%220 0 4 4%22%3E%3Cg fill=%22%23ffffff%22 fill-opacity=%220.05%22%3E%3Crect width=%221%22 height=%221%22/%3E%3Crect x=%222%22 y=%222%22 width=%221%22 height=%221%22/%3E%3C/g%3E%3C/svg%3E'); opacity: .6; mix-blend-mode: overlay;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.hero-title { font-family: 'Orbitron', sans-serif; font-weight: 800; text-transform: uppercase; line-height: .95; font-size: clamp(32px, 6vw, 76px); letter-spacing: .06em; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.hero-title span { color: var(--red-0); text-shadow: 0 0 22px rgba(255,42,58,.65); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.hero-sub { font-size: clamp(14px, 2.2vw, 18px); color: var(--muted); margin: 12px 0 22px; }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.ticker { display: flex; align-items: center; gap: 12px; padding: 8px 12px; border: 1px dashed rgba(255,42,58,.45); border-radius: 999px; width: max-content; box-shadow: var(--glow-red); background: rgba(255,42,58,.06); font-family: 'Press Start 2P', monospace; font-size: 10px; }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.holo-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 18px; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.stat { background: linear-gradient( to bottom, rgba(255,42,58,.08), rgba(0,0,0,.1) ); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 14px; text-align: center; box-shadow: var(--glow-red); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.stat .num { font-family: 'Orbitron', sans-serif; font-weight: 800; letter-spacing: .08em; font-size: clamp(18px, 4vw, 28px); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.stat .lbl { font-family: 'Press Start 2P', monospace; font-size: 10px; color: var(--muted); }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>/* Section */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>section { padding: clamp(32px, 6vw, 72px) clamp(16px, 4vw, 48px); position: relative; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.section-title { font-family: 'Orbitron'; font-size: clamp(22px, 4vw, 36px); text-transform: uppercase; margin: 0 0 18px; letter-spacing: .12em; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.section-title .accent { color: var(--red-0); text-shadow: 0 0 16px rgba(255,42,58,.6); }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>/* Cards grid */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(14px, 2.4vw, 22px); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>@media (max-width: 980px){ .grid-3 { grid-template-columns: 1fr; } }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.card {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-xl);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>padding: 18px; position: relative; overflow: hidden; transition: transform .25s ease, box-shadow .25s ease, filter .25s ease;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.card:hover { transform: translateY(-6px) scale(1.01); box-shadow: 0 0 24px rgba(255,42,58,.35), 0 0 48px rgba(0,240,255,.18); filter: saturate(120%); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.card .chip { position: absolute; top: 12px; right: 12px; font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--amber); padding: 6px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.04); box-shadow: inset 0 0 12px rgba(255,42,58,.25); }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>/* Leaderboards */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.table { width: 100%; border-collapse: collapse; font-family: 'Rajdhani'; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.table th, .table td { border-bottom: 1px solid rgba(255,255,255,.06); padding: 10px 8px; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.table thead th { font-family: 'Press Start 2P'; font-size: 10px; color: var(--muted); text-align: left; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.table tbody tr { transition: background .2s ease; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.table tbody tr:hover { background: rgba(255,42,58,.06); }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.pill {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 999px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>border: 1px solid rgba(255,42,58,.35); background: rgba(255,42,58,.08); box-shadow: var(--glow-red);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>font-family: 'Press Start 2P'; font-size: 9px; letter-spacing: .06em; color: #ffd7db;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>/* Pixel art flourish */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.pixel-heart { width: 16px; height: 16px; image-rendering: pixelated; background: conic-gradient(from 45deg, var(--red-0) 0 25%, #b50010 0 50%, var(--red-0) 0 75%, #b50010 0); clip-path: polygon(0% 37%, 12% 25%, 25% 12%, 37% 25%, 50% 37%, 62% 25%, 75% 12%, 87% 25%, 100% 37%, 50% 100%); filter: drop-shadow(0 0 8px rgba(255,42,58,.6)); }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>/* Hologram list items */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.holo-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.holo-list li { display: grid; grid-template-columns: 24px 1fr; gap: 12px; align-items: center; padding: 10px 12px; border: 1px solid rgba(0,240,255,.28); border-radius: 12px; background: linear-gradient( to right, rgba(0,240,255,.08), rgba(255,42,58,.04) ); box-shadow: var(--glow-teal); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.bullet { width: 24px; height: 24px; border-radius: 50%; border: 1px solid rgba(0,240,255,.6); box-shadow: var(--glow-teal); }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>/* Tabs */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.tabs { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 18px; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.tab { cursor: pointer; padding: 10px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.04); font-weight: 700; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.tab.active { border-color: rgba(255,42,58,.55); box-shadow: var(--glow-red); }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>/* Footer */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>footer { padding: 40px 16px 60px; text-align: center; color: var(--muted); border-top: 1px solid var(--border); background: linear-gradient( to top, rgba(255,42,58,.06), transparent ); }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>/* Particle cursor canvas */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>canvas#particles { position: fixed; inset: 0; z-index: 10; pointer-events: none; }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>/* Utility */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.muted { color: var(--muted); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/head&gt;</span></p>
+<p class="p1"><span class="s1">&lt;body class="scanlines"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;div class="bg"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;div class="grid"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;div class="circuit"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;canvas id="particles"&gt;&lt;/canvas&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;header class="navbar"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="nav-inner"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;a class="brand" href="#"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="brand-badge"&gt;AR&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="brand-title"&gt;&lt;span class="glitch" data-text="ARCADE"&gt;ARCADE&lt;/span&gt; &lt;span class="muted"&gt;// CYBER&lt;/span&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/a&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="nav-actions"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;a class="btn" href="#join"&gt;JOIN GROUP&lt;/a&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;a class="btn btn--teal" href="#team"&gt;OUR TEAM&lt;/a&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;a class="btn" href="#boards"&gt;LEADERBOARDS&lt;/a&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/header&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;section class="hero"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="holo-card"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="ticker"&gt;UPDATE </span><span class="s2">✱</span><span class="s1"> ArcadeBot auto-creates featured game tabs hourly. Top weekly winners get rewards.&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;h1 class="hero-title"&gt;Welcome to the &lt;span&gt;Arcade&lt;/span&gt; // Neon Ops&lt;/h1&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;p class="hero-sub"&gt;A high-energy hub where retro pixels meet holographic UI. Dive into events, leaderboards, and a living city of neon.&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="row"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;a class="btn" href="#boards"&gt;VIEW RANKS&lt;/a&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;a class="btn btn--teal" href="#sponsors"&gt;BECOME A SPONSOR&lt;/a&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="holo-stats"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="stat"&gt;&lt;div class="num"&gt;8.4M&lt;/div&gt;&lt;div class="lbl"&gt;COINS SPONSORED&lt;/div&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="stat"&gt;&lt;div class="num"&gt;68,686&lt;/div&gt;&lt;div class="lbl"&gt;TOP MESSAGES&lt;/div&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="stat"&gt;&lt;div class="num"&gt;56&lt;/div&gt;&lt;div class="lbl"&gt;WEEKLY WINS&lt;/div&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="holo-card"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;h3 class="section-title"&gt;&lt;span class="accent"&gt;About&lt;/span&gt; Arcade&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;ul class="holo-list"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;li&gt;&lt;div class="bullet"&gt;&lt;/div&gt;&lt;div&gt;Established Dec 28, 2021 — Home to some of Plato's biggest events and weekly challenges.&lt;/div&gt;&lt;/li&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;li&gt;&lt;div class="bullet"&gt;&lt;/div&gt;&lt;div&gt;English-first, globally inclusive community with a focus on fair play and high vibes.&lt;/div&gt;&lt;/li&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;li&gt;&lt;div class="bullet"&gt;&lt;/div&gt;&lt;div&gt;ArcadeBot tracks messages, wins, and featured game tabs to keep the action flowing.&lt;/div&gt;&lt;/li&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/ul&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="row" style="margin-top:14px"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;a class="btn" id="copyInvite" data-copy="https://platoapp.com/link/3gpmf8vsry32p"&gt;INVITE LINK&lt;/a&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;a class="btn btn--teal" href="https://discord.com/invite/mq7QMY88KU" target="_blank" rel="noreferrer noopener"&gt;DISCORD&lt;/a&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;a class="btn" href="https://instagram.com/arcade.og/" target="_blank" rel="noreferrer noopener"&gt;INSTAGRAM&lt;/a&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/section&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;section id="boards"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;h3 class="section-title"&gt;&lt;span class="accent"&gt;Message&lt;/span&gt; Counter </span><span class="s3">▷</span><span class="s1"> Weekly&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="tabs" id="boardTabs"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="tab active" data-target="#weekly"&gt;Weekly&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="tab" data-target="#alltime"&gt;All Time&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="pill"&gt;&lt;span class="pixel-heart"&gt;&lt;/span&gt; No spam&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="grid-3"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="card" id="weekly"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="chip"&gt;08/08/2025&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;table class="table"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Plato ID&lt;/th&gt;&lt;th&gt;Weekly Count&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;tbody&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;tr&gt;&lt;td&gt;Keistaa </span><span class="s4">🏆</span><span class="s1">&lt;/td&gt;&lt;td&gt;9124&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;tr&gt;&lt;td&gt;_EVe__&lt;/td&gt;&lt;td&gt;8983&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;tr&gt;&lt;td&gt;_CALIX&lt;/td&gt;&lt;td&gt;8881&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;tr&gt;&lt;td&gt;Vaella&lt;/td&gt;&lt;td&gt;4492&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;tr&gt;&lt;td&gt;calisha&lt;/td&gt;&lt;td&gt;2111&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;tr&gt;&lt;td&gt;abdullahshah&lt;/td&gt;&lt;td&gt;1921&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;tr&gt;&lt;td&gt;INNA&lt;/td&gt;&lt;td&gt;1842&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;tr&gt;&lt;td&gt;4DA&lt;/td&gt;&lt;td&gt;1444&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;tr&gt;&lt;td&gt;DontTouchMe&lt;/td&gt;&lt;td&gt;1419&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;tr&gt;&lt;td&gt;DRAXUN&lt;/td&gt;&lt;td&gt;1294&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/tbody&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/table&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="card" id="alltime" style="display:none"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="chip"&gt;Updated Weekly&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;table class="table"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Plato ID&lt;/th&gt;&lt;th&gt;All Time Count&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;tbody&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;tr&gt;&lt;td&gt;calisha </span><span class="s4">🔥</span><span class="s1">&lt;/td&gt;&lt;td&gt;68686&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;tr&gt;&lt;td&gt;Xulann_Pro&lt;/td&gt;&lt;td&gt;55450&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;tr&gt;&lt;td&gt;Keistaa&lt;/td&gt;&lt;td&gt;51809&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;tr&gt;&lt;td&gt;QQB&lt;/td&gt;&lt;td&gt;44483&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;tr&gt;&lt;td&gt;NeVenZo&lt;/td&gt;&lt;td&gt;42856&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;tr&gt;&lt;td&gt;INNA&lt;/td&gt;&lt;td&gt;38586&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;tr&gt;&lt;td&gt;DontTouchMe&lt;/td&gt;&lt;td&gt;38542&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;tr&gt;&lt;td&gt;Kikutie&lt;/td&gt;&lt;td&gt;35248&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;tr&gt;&lt;td&gt;Akamehhh&lt;/td&gt;&lt;td&gt;32648&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;tr&gt;&lt;td&gt;books&lt;/td&gt;&lt;td&gt;29278&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/tbody&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/table&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="card"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;h4 class="section-title" style="font-size:22px; margin:0 0 8px"&gt;&lt;span class="accent"&gt;Wins&lt;/span&gt; Counter </span><span class="s4">🎯</span><span class="s1">&lt;/h4&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;table class="table"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Plato ID&lt;/th&gt;&lt;th&gt;Weekly Wins&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;tbody&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;tr&gt;&lt;td&gt;Mari_Dee </span><span class="s4">🥇</span><span class="s1">&lt;/td&gt;&lt;td&gt;56&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;tr&gt;&lt;td&gt;vmyi&lt;/td&gt;&lt;td&gt;29&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;tr&gt;&lt;td&gt;_kyraa_&lt;/td&gt;&lt;td&gt;29&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;tr&gt;&lt;td&gt;___Don&lt;/td&gt;&lt;td&gt;21&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;tr&gt;&lt;td&gt;Eunoir&lt;/td&gt;&lt;td&gt;20&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;tr&gt;&lt;td&gt;ius&lt;/td&gt;&lt;td&gt;19&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;tr&gt;&lt;td&gt;labeeba&lt;/td&gt;&lt;td&gt;17&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;tr&gt;&lt;td&gt;Darth_Deigo&lt;/td&gt;&lt;td&gt;15&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;tr&gt;&lt;td&gt;Andrheaa&lt;/td&gt;&lt;td&gt;13&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;tr&gt;&lt;td&gt;calisha&lt;/td&gt;&lt;td&gt;12&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;/tbody&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/table&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/section&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;section id="sponsors"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;h3 class="section-title"&gt;&lt;span class="accent"&gt;Sponsors&lt;/span&gt; </span><span class="s4">👑</span><span class="s1">&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="grid-3"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="card"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="chip"&gt;Top Sponsors&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;ul class="holo-list"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;li&gt;&lt;div class="bullet"&gt;&lt;/div&gt;&lt;div&gt;Tear — 8,476,850&lt;/div&gt;&lt;/li&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;li&gt;&lt;div class="bullet"&gt;&lt;/div&gt;&lt;div&gt;Risk — 6,766,600&lt;/div&gt;&lt;/li&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;li&gt;&lt;div class="bullet"&gt;&lt;/div&gt;&lt;div&gt;Fear — 5,292,000&lt;/div&gt;&lt;/li&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;li&gt;&lt;div class="bullet"&gt;&lt;/div&gt;&lt;div&gt;TrolledYou — 3,782,000&lt;/div&gt;&lt;/li&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/ul&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="row" style="margin-top:12px"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;a class="btn" href="#" id="openSponsor"&gt;Become a Sponsor&lt;/a&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="card"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="chip"&gt;Perks&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;p class="muted"&gt;Sponsor a total of &lt;b&gt;50k+&lt;/b&gt; coins to be added to the wall. Get role flair, early access, and featured shoutouts.&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="row"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;span class="pill"&gt;Role Flair&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;span class="pill"&gt;Early Access&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;span class="pill"&gt;Shoutouts&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="card"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="chip"&gt;Contact&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;p&gt;Join our &lt;a class="btn btn--teal" style="padding:6px 10px" href="https://discord.com/invite/mq7QMY88KU" target="_blank"&gt;Discord&lt;/a&gt; and open &lt;b&gt;#sponsor-tickets&lt;/b&gt; </span><span class="s5">→</span><span class="s1"> &lt;b&gt;Sponsor&lt;/b&gt;.&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/section&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;section id="team"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;h3 class="section-title"&gt;&lt;span class="accent"&gt;Our&lt;/span&gt; Team&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="grid-3"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="card"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="row" style="align-items:center"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="pixel-heart"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;h4 style="margin:0 0 0 8px"&gt;Rose&lt;/h4&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;p class="muted"&gt;Our boss and leader, truly one of a kind. Just don't push her buttons.&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="card"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="row" style="align-items:center"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="pixel-heart"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;h4 style="margin:0 0 0 8px"&gt;Fear&lt;/h4&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;p class="muted"&gt;Strange specimen who tends to hide from his own group, incredibly generous though.&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;div class="card"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="row" style="align-items:center"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;div class="pixel-heart"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>&lt;h4 style="margin:0 0 0 8px"&gt;Hitman&lt;/h4&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;p class="muted"&gt;If you're looking for the definition of loyalty, you'll find his name in the dictionary.&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/section&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;footer&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div style="font-family:'Press Start 2P'; font-size:10px; letter-spacing:.08em;"&gt;ARCADE // POWERED BY NEON&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="muted" style="margin-top:10px"&gt;© 2025 Arcade. Built with love, pixels, and way too much neon.&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/footer&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;script&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>// Copy invite link</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>document.getElementById('copyInvite')?.addEventListener('click', (e) =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const url = e.currentTarget.getAttribute('data-copy');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>navigator.clipboard.writeText(url).then(() =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>e.currentTarget.textContent = 'COPIED </span><span class="s4">✅</span><span class="s1">';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>setTimeout(()=&gt; e.currentTarget.textContent = 'INVITE LINK', 1200);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>});</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>});</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>// Simple tabs</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>document.getElementById('boardTabs')?.addEventListener('click', (e) =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const t = e.target.closest('.tab');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>if(!t) return;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.querySelectorAll('.tab').forEach(x=&gt;x.classList.remove('active'));</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>t.classList.add('active');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>const target = t.getAttribute('data-target');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.querySelector('#weekly').style.display = target === '#weekly' ? '' : 'none';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.querySelector('#alltime').style.display = target === '#alltime' ? '' : 'none';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>});</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>// Particle cursor trail</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const canvas = document.getElementById('particles');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const ctx = canvas.getContext('2d');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>let W, H; const DPR = Math.min(2, window.devicePixelRatio || 1);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>function resize(){ W = canvas.width = innerWidth * DPR; H = canvas.height = innerHeight * DPR; canvas.style.width = innerWidth + 'px'; canvas.style.height = innerHeight + 'px'; ctx.scale(DPR, DPR); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>resize(); addEventListener('resize', resize);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const parts = [];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const hueBase = 355; // red</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>function spawn(x,y){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>for(let i=0;i&lt;3;i++){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>parts.push({ x, y, vx:(Math.random()-0.5)*2.2, vy:(Math.random()-0.5)*2.2, life: 36+Math.random()*18 });</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>addEventListener('pointermove', e=&gt;{ const r = canvas.getBoundingClientRect(); spawn(e.clientX - r.left, e.clientY - r.top); });</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>function tick(){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>ctx.clearRect(0,0,innerWidth,innerHeight);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>for(let i=parts.length-1; i&gt;=0; i--){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const p = parts[i]; p.life-=1; if(p.life&lt;=0){ parts.splice(i,1); continue; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>p.x += p.vx; p.y += p.vy; p.vy += 0.02;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const alpha = Math.max(0, p.life/50);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const glow = `hsla(${hueBase}, 95%, 60%, ${alpha})`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>ctx.beginPath(); ctx.arc(p.x, p.y, 2, 0, Math.PI*2);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>ctx.fillStyle = glow; ctx.shadowBlur = 12; ctx.shadowColor = glow; ctx.fill();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>requestAnimationFrame(tick);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>tick();</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>// Tilt micro-interactions for cards/buttons</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>function addTilt(sel){</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>document.querySelectorAll(sel).forEach(el=&gt;{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>el.addEventListener('pointermove', (e)=&gt;{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>const r = el.getBoundingClientRect();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>const dx = (e.clientX - r.left)/r.width - .5;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>const dy = (e.clientY - r.top)/r.height - .5;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">          </span>el.style.transform = `rotateX(${(-dy*6).toFixed(2)}deg) rotateY(${(dx*6).toFixed(2)}deg) translateY(-6px)`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>});</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>el.addEventListener('pointerleave', ()=&gt;{ el.style.transform = ''; });</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">      </span>});</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>addTilt('.card'); addTilt('.btn');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/body&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/html&gt;</span></p>
+</body>
+</html>
