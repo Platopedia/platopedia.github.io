@@ -3,205 +3,155 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Arcade // Neon Cyberpunk v2</title>
+  <title>Arcade – Platopedia (Cyberpunk Red)</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Press+Start+2P&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg-0: #050507;
-      --bg-1: #0a0a0f;
-      --red-0: #FF1E2D; /* primary neon red */
-      --red-1: #E1100D; /* brand red */
-      --teal:  #00F0FF; /* accent holo */
-      --vio:   #8A2BE2; /* accent */
-      --amber: #FFC857;
-      --white: #e9eef6;
-      --muted: #9aa3ad;
-      --card:  #0c0d12cc;
-      --glass: rgba(255,255,255,.04);
-      --border: rgba(255, 30, 45, .35);
-      --shadow: 0 0 12px rgba(255,30,45,.35), 0 0 32px rgba(255,30,45,.15);
-      --glow-red: 0 0 12px #ff2a3a, 0 0 24px #ff2a3a, inset 0 0 24px rgba(255,42,58,.25);
-      --glow-teal: 0 0 8px #00f0ff, 0 0 22px #00f0ff, inset 0 0 18px rgba(0,240,255,.25);
-      --radius-2xl: 18px;
-      --radius-xl: 14px;
-      --radius-lg: 12px;
+    /* === Core cyberpunk skin layered over Platopedia structure === */
+    :root{
+      --bg-0:#050507;--bg-1:#0a0a0f;--panel:#0c0d12cc;--primary:#E1100D;--neon:#FF1E2D;--holo:#00F0FF;--text:#e9eef6;--muted:#9aa3ad;--border:rgba(255,30,45,.35);
     }
+    html,body{height:100%}
+    body{background:var(--bg-0);color:var(--text);font-family:'Rajdhani',system-ui;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
-    body {
-      margin: 0; color: var(--white); background: var(--bg-0);
-      font-family: 'Rajdhani', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
-    }
+    /* Subtle neon atmosphere that won't clash with site styles */
+    .arcade-bg{position:fixed;inset:0;z-index:-3;pointer-events:none;background:
+      radial-gradient(1000px 700px at 80% 10%, rgba(255,30,45,.20), transparent 55%),
+      radial-gradient(900px 600px at 5% 85%, rgba(0,240,255,.14), transparent 60%),
+      linear-gradient(180deg, var(--bg-1), #06060a 40%, #09070a)}
+    .arcade-grid{position:fixed;inset:0;z-index:-2;pointer-events:none;opacity:.10;
+      background-image:linear-gradient(transparent 96%, rgba(255,30,45,.14) 96%),linear-gradient(90deg,transparent 96%, rgba(255,30,45,.14) 96%);
+      background-size:38px 38px;transform:perspective(880px) rotateX(52deg) translateY(12%);transform-origin:top;filter:blur(.3px) contrast(120%)}
+    .scanlines:before{content:"";position:fixed;inset:0;z-index:50;pointer-events:none;mix-blend-mode:overlay;opacity:.07;background-image:repeating-linear-gradient(to bottom,rgba(255,255,255,.03),rgba(255,255,255,.03) 1px,transparent 1px,transparent 3px)}
 
-    /* Layered immersive background */
-    .bg { position: fixed; inset: 0; z-index: -3; pointer-events: none;
-      background: radial-gradient(1200px 800px at 70% 20%, rgba(255,30,45,.22), transparent 55%),
-                  radial-gradient(900px 600px at 5% 85%, rgba(0,240,255,.16), transparent 60%),
-                  linear-gradient(180deg, var(--bg-1), #06060a 35%, #08070c 100%);
-      filter: saturate(1.05); }
+    /* Keep your existing colors/typography but add neon accents */
+    h2,h3{color:var(--primary)!important;text-shadow:0 0 14px rgba(255,42,58,.35)}
+    h4,h5{color:#008080!important;font-size:var(--unit-text-B)!important}
 
-    /* Neon grid */
-    .grid { position: fixed; inset: 0; z-index: -2; pointer-events: none;
-      background-image: linear-gradient(transparent 96%, rgba(255,30,45,.14) 96%),
-                        linear-gradient(90deg, transparent 96%, rgba(255,30,45,.14) 96%);
-      background-size: 38px 38px, 38px 38px; opacity: .12;
-      transform: perspective(900px) rotateX(55deg) translateY(12%);
-      transform-origin: top; filter: blur(.25px) contrast(120%); }
+    /* Announcement strip override if your CSS vars are absent */
+    .announcement-strip{background-image:linear-gradient(to bottom,#2b0a0c,#4a0f12,#2b0a0c)!important;border-top:2px solid #4a0f12!important;border-bottom:2px solid #4a0f12!important;box-shadow:0 4px 6px rgba(0,0,0,.45)!important}
+    .scrolling-text{animation:scroll 16s linear infinite}
+    @keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
 
-    /* Animated circuit overlay */
-    .circuit { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: .2; mix-blend-mode: screen;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600'%3E%3Cg fill='none' stroke='%23FF1E2D' stroke-opacity='.25' stroke-width='1'%3E%3Cpath d='M0 40h50v-20h40v60h40v-40h40v100h40v-60h40v20h40v-80h40v60h40v-40h40v120h40v-100h40v40h40v-60h40'/%3E%3Ccircle cx='120' cy='60' r='2'/%3E%3Ccircle cx='260' cy='100' r='2'/%3E%3Ccircle cx='420' cy='140' r='2'/%3E%3C/g%3E%3C/svg%3E");
-      background-size: 300px 300px; animation: drift 40s linear infinite; }
-    @keyframes drift { from { background-position: 0 0; } to { background-position: 600px 600px; } }
+    /* Neon panels for content-table */
+    .content-table .table{border:1px solid var(--border);box-shadow:0 0 14px rgba(255,30,45,.18)}
+    .table thead th{font-family:'Press Start 2P',monospace;color:var(--muted);font-size:10px}
+    .table tbody tr:hover{background:rgba(255,42,58,.06)}
 
-    /* CRT scanlines */
-    .scanlines::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 50; mix-blend-mode: overlay;
-      background-image: repeating-linear-gradient( to bottom, rgba(255,255,255,.03), rgba(255,255,255,.03) 1px, transparent 1px, transparent 3px );
-      opacity: .1; }
+    /* Social icons */
+    .social-buttons a{box-shadow:0 0 12px rgba(255,30,45,.25);transition:filter .15s}
+    .social-buttons a:hover{filter:saturate(120%)}
 
-    header.navbar { position: sticky; top: 0; z-index: 60; backdrop-filter: blur(10px) saturate(130%);
-      background: linear-gradient( to right, rgba(10,10,15,.75), rgba(10,10,15,.35) ); border-bottom: 1px solid var(--border); }
-    .nav-inner { display: flex; align-items: center; gap: 14px; padding: 10px clamp(14px, 3vw, 32px); }
-    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .brand-badge { width: 36px; height: 36px; border-radius: 8px; background: #140508; box-shadow: var(--glow-red); border: 1px solid var(--border);
-      display: grid; place-items: center; font-family: 'Press Start 2P', monospace; font-size: 12px; color: var(--amber); letter-spacing: -1px; }
-    .brand-title { font-family: 'Orbitron', sans-serif; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
-    .brand-title .glitch { position: relative; display: inline-block; color: var(--white); text-shadow: 0 0 10px #fff; }
-    .brand-title .glitch::before, .brand-title .glitch::after { content: attr(data-text); position: absolute; left: 0; top: 0; clip-path: inset(0 0 0 0); animation: glitch 2.2s infinite linear alternate-reverse; }
-    .brand-title .glitch::before { color: var(--teal); transform: translateX(2px); opacity: .8; }
-    .brand-title .glitch::after  { color: var(--red-0); transform: translateX(-2px); opacity: .8; }
-    @keyframes glitch { 0% { clip-path: inset(0 0 85% 0); } 10% { clip-path: inset(0 0 20% 0); } 20% { clip-path: inset(30% 0 50% 0); } 35% { clip-path: inset(60% 0 5% 0); } 55% { clip-path: inset(15% 0 35% 0); } 75% { clip-path: inset(80% 0 0 0); } 100% { clip-path: inset(0 0 0 0); } }
+    /* Team thumbs – keep your classes */
+    .thumbnail-wrapper .thumbnail{box-shadow:0 0 16px rgba(255,42,58,.35)}
+    .thumbnail-wrapper .username{color:#ffd7db}
 
-    .nav-actions { margin-left: auto; display: flex; gap: 10px; flex-wrap: wrap; }
-    .btn { --btn-bg: linear-gradient( to bottom right, rgba(255,42,58,.18), rgba(255,42,58,.05) ); display: inline-flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 999px; border: 1px solid var(--border); color: var(--white); text-decoration: none; font-weight: 700; letter-spacing: .06em; background: var(--btn-bg); box-shadow: var(--glow-red); position: relative; overflow: hidden; isolation: isolate; transition: filter .15s ease, box-shadow .15s ease; will-change: transform; transform-style: preserve-3d; }
-    .btn::before { content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; background: conic-gradient(from 0deg, rgba(255,42,58,.0), rgba(255,42,58,.6), rgba(0,240,255,.45), rgba(255,42,58,.0)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: .5; filter: blur(.6px); }
-    .btn:hover { filter: saturate(120%); box-shadow: 0 0 18px #ff2a3a, 0 0 48px rgba(255,42,58,.45); }
-    .btn--teal { --btn-bg: linear-gradient( to bottom right, rgba(0,240,255,.14), rgba(0,240,255,.05) ); box-shadow: var(--glow-teal); border-color: rgba(0,240,255,.35); }
-
-    .hero { position: relative; padding: clamp(48px, 6vw, 96px)  clamp(16px, 4vw, 48px); display: grid; grid-template-columns: 1.2fr .8fr; gap: clamp(24px, 4vw, 48px); align-items: center; }
-    @media (max-width: 980px){ .hero { grid-template-columns: 1fr; padding-top: 32px; } }
-
-    .holo-card { position: relative; background: linear-gradient( to bottom right, rgba(255,255,255,.06), rgba(20,20,32,.25) ); border: 1px solid var(--border); border-radius: var(--radius-2xl); padding: clamp(18px, 2.5vw, 28px); box-shadow: var(--shadow); overflow: hidden; isolation: isolate; }
-    .holo-card::before { content: ""; position: absolute; inset: -2px; border-radius: inherit; pointer-events: none; background: radial-gradient(600px 180px at 0% 0%, rgba(0,240,255,.25), transparent 60%), radial-gradient(600px 180px at 100% 100%, rgba(255,42,58,.28), transparent 60%); mix-blend-mode: screen; filter: blur(1px); }
-    .holo-card::after { content: ""; position: absolute; inset: 0; background: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%224%22 height=%224%22 viewBox=%220 0 4 4%22%3E%3Cg fill=%22%23ffffff%22 fill-opacity=%220.05%22%3E%3Crect width=%221%22 height=%221%22/%3E%3Crect x=%222%22 y=%222%22 width=%221%22 height=%221%22/%3E%3C/g%3E%3C/svg%3E'); opacity: .6; mix-blend-mode: overlay; }
-
-    .hero-title { font-family: 'Orbitron', sans-serif; font-weight: 800; text-transform: uppercase; line-height: .95; font-size: clamp(32px, 6vw, 76px); letter-spacing: .06em; }
-    .hero-title span { color: var(--red-0); text-shadow: 0 0 22px rgba(255,42,58,.65); }
-    .hero-sub { font-size: clamp(14px, 2.2vw, 18px); color: var(--muted); margin: 12px 0 22px; }
-
-    .ticker { display: inline-flex; align-items: center; gap: 12px; padding: 8px 12px; border: 1px dashed rgba(255,42,58,.45); border-radius: 999px; width: max-content; box-shadow: var(--glow-red); background: rgba(255,42,58,.06); font-family: 'Press Start 2P', monospace; font-size: 10px; }
-
-    .holo-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 18px; }
-    .stat { background: linear-gradient( to bottom, rgba(255,42,58,.08), rgba(0,0,0,.1) ); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 14px; text-align: center; box-shadow: var(--glow-red); }
-    .stat .num { font-family: 'Orbitron', sans-serif; font-weight: 800; letter-spacing: .08em; font-size: clamp(18px, 4vw, 28px); }
-    .stat .lbl { font-family: 'Press Start 2P', monospace; font-size: 10px; color: var(--muted); }
-
-    section { padding: clamp(32px, 6vw, 72px) clamp(16px, 4vw, 48px); position: relative; }
-    .section-title { font-family: 'Orbitron'; font-size: clamp(22px, 4vw, 36px); text-transform: uppercase; margin: 0 0 18px; letter-spacing: .12em; }
-    .section-title .accent { color: var(--red-0); text-shadow: 0 0 16px rgba(255,42,58,.6); }
-
-    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(14px, 2.4vw, 22px); }
-    @media (max-width: 980px){ .grid-3 { grid-template-columns: 1fr; } }
-
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 18px; position: relative; overflow: hidden; transition: box-shadow .25s ease, filter .25s ease; will-change: transform; transform-style: preserve-3d; contain: layout paint style; }
-    .card:hover { box-shadow: 0 0 24px rgba(255,42,58,.35), 0 0 48px rgba(0,240,255,.18); filter: saturate(120%); }
-    .card .chip { position: absolute; top: 12px; right: 12px; font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--amber); padding: 6px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.04); box-shadow: inset 0 0 12px rgba(255,42,58,.25); }
-
-    .table { width: 100%; border-collapse: collapse; font-family: 'Rajdhani'; }
-    .table th, .table td { border-bottom: 1px solid rgba(255,255,255,.06); padding: 10px 8px; }
-    .table thead th { font-family: 'Press Start 2P'; font-size: 10px; color: var(--muted); text-align: left; }
-    .table tbody tr { transition: background .2s ease; }
-    .table tbody tr:hover { background: rgba(255,42,58,.06); }
-
-    .pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 999px; border: 1px solid rgba(255,42,58,.35); background: rgba(255,42,58,.08); box-shadow: var(--glow-red); font-family: 'Press Start 2P'; font-size: 9px; letter-spacing: .06em; color: #ffd7db; }
-    .pixel-heart { width: 16px; height: 16px; image-rendering: pixelated; background: conic-gradient(from 45deg, var(--red-0) 0 25%, #b50010 0 50%, var(--red-0) 0 75%, #b50010 0); clip-path: polygon(0% 37%, 12% 25%, 25% 12%, 37% 25%, 50% 37%, 62% 25%, 75% 12%, 87% 25%, 100% 37%, 50% 100%); filter: drop-shadow(0 0 8px rgba(255,42,58,.6)); }
-
-    .holo-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
-    .holo-list li { display: grid; grid-template-columns: 24px 1fr; gap: 12px; align-items: center; padding: 10px 12px; border: 1px solid rgba(0,240,255,.28); border-radius: 12px; background: linear-gradient( to right, rgba(0,240,255,.08), rgba(255,42,58,.04) ); box-shadow: var(--glow-teal); }
-    .bullet { width: 24px; height: 24px; border-radius: 50%; border: 1px solid rgba(0,240,255,.6); box-shadow: var(--glow-teal); }
-
-    footer { padding: 40px 16px 60px; text-align: center; color: var(--muted); border-top: 1px solid var(--border); background: linear-gradient( to top, rgba(255,42,58,.06), transparent ); }
-
-    canvas#particles { position: fixed; inset: 0; z-index: 10; pointer-events: none; }
-
-    .row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
-    .muted { color: var(--muted); }
+    /* Tabs polish (keeps your structure) */
+    .nav-pills .nav-link.active{background:linear-gradient(to right, rgba(255,42,58,.25), rgba(0,240,255,.18));border:1px solid var(--border);box-shadow:0 0 12px rgba(255,42,58,.35)}
 
     /* Reduced motion */
-    @media (prefers-reduced-motion: reduce) {
-      * { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: 0s !important; scroll-behavior: auto !important; }
-      .scanlines::before, .circuit, .grid { animation: none !important; }
-    }
+    @media(prefers-reduced-motion:reduce){.scrolling-text{animation:none}}
   </style>
 </head>
 <body class="scanlines">
-  <div class="bg"></div>
-  <div class="grid"></div>
-  <div class="circuit"></div>
-  <canvas id="particles"></canvas>
+  <div class="arcade-bg" aria-hidden="true"></div>
+  <div class="arcade-grid" aria-hidden="true"></div>
 
-  <header class="navbar">
-    <div class="nav-inner">
-      <a class="brand" href="#">
-        <div class="brand-badge">AR</div>
-        <div class="brand-title"><span class="glitch" data-text="ARCADE">ARCADE</span> <span class="muted">// CYBER</span></div>
-      </a>
-      <div class="nav-actions">
-        <a class="btn" href="#join">JOIN GROUP</a>
-        <a class="btn btn--teal" href="#team">OUR TEAM</a>
-        <a class="btn" href="#boards">LEADERBOARDS</a>
-      </div>
-    </div>
-  </header>
+  <!-- === Your original content starts here (structure preserved) === -->
+  <div class="linebreak"></div>
 
-  <section class="hero">
-    <div class="holo-card">
-      <div class="ticker">UPDATE ✱ ArcadeBot auto-creates featured game tabs hourly. Top weekly winners get rewards.</div>
-      <h1 class="hero-title">Welcome to the <span>Arcade</span> // Neon Ops</h1>
-      <p class="hero-sub">A high-energy hub where retro pixels meet holographic UI. Dive into events, leaderboards, and a living city of neon.</p>
-      <div class="row">
-        <a class="btn" href="#boards">VIEW RANKS</a>
-        <a class="btn btn--teal" href="#sponsors">BECOME A SPONSOR</a>
-      </div>
-      <div class="holo-stats">
-        <div class="stat"><div class="num">8.4M</div><div class="lbl">COINS SPONSORED</div></div>
-        <div class="stat"><div class="num">68,686</div><div class="lbl">TOP MESSAGES</div></div>
-        <div class="stat"><div class="num">56</div><div class="lbl">WEEKLY WINS</div></div>
-      </div>
+  <div class="announcement-strip">
+    <div class="scrolling-text">
+      <strong>UPDATE:</strong> ArcadeBot will auto-create featured game tabs every hour and track wins throughout the week. Players with the most wins are rewarded weekly.
     </div>
-    <div class="holo-card">
-      <h3 class="section-title"><span class="accent">About</span> Arcade</h3>
-      <ul class="holo-list">
-        <li><div class="bullet"></div><div>Established Dec 28, 2021 — Home to some of Plato's biggest events and weekly challenges.</div></li>
-        <li><div class="bullet"></div><div>English-first, globally inclusive community with a focus on fair play and high vibes.</div></li>
-        <li><div class="bullet"></div><div>ArcadeBot tracks messages, wins, and featured game tabs to keep the action flowing.</div></li>
-      </ul>
-      <div class="row" style="margin-top:14px">
-        <a class="btn" id="copyInvite" data-copy="https://platoapp.com/link/3gpmf8vsry32p">INVITE LINK</a>
-        <a class="btn btn--teal" href="https://discord.com/invite/mq7QMY88KU" target="_blank" rel="noreferrer noopener">DISCORD</a>
-        <a class="btn" href="https://instagram.com/arcade.og/" target="_blank" rel="noreferrer noopener">INSTAGRAM</a>
-      </div>
-    </div>
-  </section>
+  </div>
 
-  <section id="boards">
-    <h3 class="section-title"><span class="accent">Message</span> Counter ▷ Weekly</h3>
-    <div class="tabs" id="boardTabs">
-      <div class="tab active" data-target="#weekly">Weekly</div>
-      <div class="tab" data-target="#alltime">All Time</div>
-      <div class="pill"><span class="pixel-heart"></span> No spam</div>
-    </div>
+  <div class="linebreak"></div>
 
-    <div class="grid-3">
-      <div class="card" id="weekly">
-        <div class="chip">08/08/2025</div>
-        <table class="table">
-          <thead><tr><th>Plato ID</th><th>Weekly Count</th></tr></thead>
+  <div class="content-image" data-url="/docs/assets/images/groups/arcade/game-on-banner.png" data-width="690px" data-label=""></div>
+
+  <div class="linebreak"></div>
+
+  <h3 id="about-arcade">About Arcade</h3>
+  <p>Arcade is a welcoming English community group established on December 28, 2021. We've hosted some of Plato's biggest events and have plenty more exciting stuff in store.</p>
+
+  <div class="social-buttons">
+    <a class="fab fa-instagram" href="https://instagram.com/arcade.og/"></a>
+    <a class="fab fa-discord" href="https://discord.com/invite/mq7QMY88KU"></a>
+  </div>
+
+  <div class="linebreak"></div>
+  <div class="content-contents text-left" data-open="false" data-icon="&#xf068;,&#xf067;">Contents <embed/></div>
+  <div class="linebreak"></div>
+
+  <h2 id="join-arcade">Join Arcade Group</h2>
+  <p>We're making it easier for you to join our group. Say goodbye to the waiting room - now, all you need to do is add one of our invite accounts linked below. Every Friday, we'll send out invites to new members (we promise).</p>
+  <p>Add <strong>@Arcade:</strong></p>
+  <p><span class="content-link" data-url="https://platoapp.com/link/3gpmf8vsry32p" data-text="" data-copy="true"></span></p>
+
+  <div class="linebreak"></div>
+
+  <h2 id="team-invite">Arcade Team Invite</h2>
+  <p>We're rebuilding the Arcade team completely with clearer roles, a better team structure and recruitment process. If you love Arcade, this is your chance to join our incredible team. Let's create something amazing together!</p>
+  <p><span class="content-link" data-url="https://forms.gle/VHVLroERoB3oyJm37" data-text="" data-copy="true"></span></p>
+
+  <div class="linebreak"></div>
+
+  <h2 id="sponsors">Sponsors 👑</h2>
+  <p>To be added to the list, you need to have sponsored a minimum of 50k coins in total. If you'd like to sponsor, head over to <a href="https://discord.com/channels/1059760594128998400/1339249377406881793">#sponsor-tickets</a> on Arcade's Discord and click the <strong>Sponsor</strong> button.</p>
+
+  <div class="linebreak"></div>
+
+  <div class="content-table">
+    <table id="sponsors-amount" class="table table-bordered">
+      <thead>
+        <tr><th class="w-50">Sponsors</th><th class="w-50">Amount</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Tear</td><td>8476850</td></tr>
+        <tr><td>Risk</td><td>6766600</td></tr>
+        <tr><td>Fear</td><td>5292000</td></tr>
+        <tr><td>TrolledYou</td><td>3782000</td></tr>
+        <tr><td>LA_GIRL07</td><td>2660000</td></tr>
+        <tr><td>Mdame</td><td>1160000</td></tr>
+        <tr><td>Nefya</td><td>1025000</td></tr>
+        <tr><td>Fairy</td><td>1014500</td></tr>
+        <tr><td>Rose</td><td>1007500</td></tr>
+        <tr><td>Alqubaisi</td><td>800000</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="linebreak"></div>
+  <p class="text-center"><b>Total:</b> <span id="sponsors-total-fallback" class="content-custom" data-code="$('#sponsors-amount tbody tr td:nth-child(2)').total()">…</span> coins</p>
+
+  <div class="linebreak"></div>
+
+  <h2 id="message-counter">Message Counter 🔥</h2>
+  <p>As of 13/12/2024, ArcadeBot is keeping track of all messages sent in Arcade. The lists below shows our top 20 most active members for the week and of all time, updated every Friday. #nospam</p>
+  <p><strong>Last Updated:</strong> 08/08/25</p>
+
+  <div class="linebreak"></div>
+
+  <ul class="nav nav-pills x-nav-justified justify-content-center nav-content" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" href="#" role="tab" data-toggle="tab" data-target="#tab-message-counter-weekly">Weekly Count</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#" role="tab" data-toggle="tab" data-target="#tab-message-counter-alltime">All Time Count</a>
+    </li>
+  </ul>
+
+  <div class="linebreak"></div>
+
+  <div class="tab-content">
+    <div id="tab-message-counter-weekly" class="tab-pane fade show active" role="tabpanel">
+      <div class="content-table">
+        <table id="message-counter-weekly" class="table table-bordered">
+          <thead>
+            <tr><th class="w-50">Plato ID</th><th class="w-50">Weekly Count</th></tr>
+          </thead>
           <tbody>
-            <tr><td>Keistaa 🏆</td><td>9124</td></tr>
+            <tr><td>Keistaa</td><td>9124</td></tr>
             <tr><td>_EVe__</td><td>8983</td></tr>
             <tr><td>_CALIX</td><td>8881</td></tr>
             <tr><td>Vaella</td><td>4492</td></tr>
@@ -209,18 +159,18 @@
             <tr><td>abdullahshah</td><td>1921</td></tr>
             <tr><td>INNA</td><td>1842</td></tr>
             <tr><td>4DA</td><td>1444</td></tr>
-            <tr><td>DontTouchMe</td><td>1419</td></tr>
-            <tr><td>DRAXUN</td><td>1294</td></tr>
           </tbody>
         </table>
       </div>
-
-      <div class="card" id="alltime" style="display:none">
-        <div class="chip">Updated Weekly</div>
-        <table class="table">
-          <thead><tr><th>Plato ID</th><th>All Time Count</th></tr></thead>
+    </div>
+    <div id="tab-message-counter-alltime" class="tab-pane fade" role="tabpanel">
+      <div class="content-table">
+        <table id="message-counter-alltime" class="table table-bordered">
+          <thead>
+            <tr><th class="w-50">Plato ID</th><th class="w-50">All Time Count</th></tr>
+          </thead>
           <tbody>
-            <tr><td>calisha 🔥</td><td>68686</td></tr>
+            <tr><td>calisha</td><td>68686</td></tr>
             <tr><td>Xulann_Pro</td><td>55450</td></tr>
             <tr><td>Keistaa</td><td>51809</td></tr>
             <tr><td>QQB</td><td>44483</td></tr>
@@ -228,166 +178,119 @@
             <tr><td>INNA</td><td>38586</td></tr>
             <tr><td>DontTouchMe</td><td>38542</td></tr>
             <tr><td>Kikutie</td><td>35248</td></tr>
-            <tr><td>Akamehhh</td><td>32648</td></tr>
-            <tr><td>books</td><td>29278</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="card">
-        <h4 class="section-title" style="font-size:22px; margin:0 0 8px"><span class="accent">Wins</span> Counter 🎯</h4>
-        <table class="table">
-          <thead><tr><th>Plato ID</th><th>Weekly Wins</th></tr></thead>
-          <tbody>
-            <tr><td>Mari_Dee 🥇</td><td>56</td></tr>
-            <tr><td>vmyi</td><td>29</td></tr>
-            <tr><td>_kyraa_</td><td>29</td></tr>
-            <tr><td>___Don</td><td>21</td></tr>
-            <tr><td>Eunoir</td><td>20</td></tr>
-            <tr><td>ius</td><td>19</td></tr>
-            <tr><td>labeeba</td><td>17</td></tr>
-            <tr><td>Darth_Deigo</td><td>15</td></tr>
-            <tr><td>Andrheaa</td><td>13</td></tr>
-            <tr><td>calisha</td><td>12</td></tr>
           </tbody>
         </table>
       </div>
     </div>
-  </section>
+  </div>
 
-  <section id="sponsors">
-    <h3 class="section-title"><span class="accent">Sponsors</span> 👑</h3>
-    <div class="grid-3">
-      <div class="card">
-        <div class="chip">Top Sponsors</div>
-        <ul class="holo-list">
-          <li><div class="bullet"></div><div>Tear — 8,476,850</div></li>
-          <li><div class="bullet"></div><div>Risk — 6,766,600</div></li>
-          <li><div class="bullet"></div><div>Fear — 5,292,000</div></li>
-          <li><div class="bullet"></div><div>TrolledYou — 3,782,000</div></li>
-        </ul>
-        <div class="row" style="margin-top:12px">
-          <a class="btn" href="#" id="openSponsor">Become a Sponsor</a>
-        </div>
-      </div>
-      <div class="card">
-        <div class="chip">Perks</div>
-        <p class="muted">Sponsor a total of <b>50k+</b> coins to be added to the wall. Get role flair, early access, and featured shoutouts.</p>
-        <div class="row">
-          <span class="pill">Role Flair</span>
-          <span class="pill">Early Access</span>
-          <span class="pill">Shoutouts</span>
-        </div>
-      </div>
-      <div class="card">
-        <div class="chip">Contact</div>
-        <p>Join our <a class="btn btn--teal" style="padding:6px 10px" href="https://discord.com/invite/mq7QMY88KU" target="_blank">Discord</a> and open <b>#sponsor-tickets</b> → <b>Sponsor</b>.</p>
-      </div>
+  <div class="linebreak"></div>
+
+  <h2 id="wins-counter">Wins Counter 🎯</h2>
+  <div class="linebreak"></div>
+  <div class="content-table">
+    <table id="wins-counter-weekly" class="table table-bordered">
+      <thead>
+        <tr><th class="w-50">Plato ID</th><th class="w-50">Weekly Wins</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Mari_Dee</td><td>56</td></tr>
+        <tr><td>vmyi</td><td>29</td></tr>
+        <tr><td>_kyraa_</td><td>29</td></tr>
+        <tr><td>___Don</td><td>21</td></tr>
+        <tr><td>Eunoir</td><td>20</td></tr>
+        <tr><td>ius</td><td>19</td></tr>
+        <tr><td>labeeba</td><td>17</td></tr>
+        <tr><td>Darth_Deigo</td><td>15</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="linebreak"></div>
+
+  <h2 id="our-team">Our Team</h2>
+  <div class="thumbnail-grid">
+    <div class="thumbnail-wrapper">
+      <img class="thumbnail" src="/docs/assets/images/groups/arcade/rose.png" alt="Rose">
+      <div class="username">Rose</div>
+      <div class="description">Our boss and leader, truly one of a kind. Just don't push her buttons</div>
     </div>
-  </section>
-
-  <section id="team">
-    <h3 class="section-title"><span class="accent">Our</span> Team</h3>
-    <div class="grid-3">
-      <div class="card">
-        <div class="row" style="align-items:center">
-          <div class="pixel-heart"></div>
-          <h4 style="margin:0 0 0 8px">Rose</h4>
-        </div>
-        <p class="muted">Our boss and leader, truly one of a kind. Just don't push her buttons.</p>
-      </div>
-      <div class="card">
-        <div class="row" style="align-items:center">
-          <div class="pixel-heart"></div>
-          <h4 style="margin:0 0 0 8px">Fear</h4>
-        </div>
-        <p class="muted">Strange specimen who tends to hide from his own group, incredibly generous though.</p>
-      </div>
-      <div class="card">
-        <div class="row" style="align-items:center">
-          <div class="pixel-heart"></div>
-          <h4 style="margin:0 0 0 8px">Hitman</h4>
-        </div>
-        <p class="muted">If you're looking for the definition of loyalty, you'll find his name in the dictionary.</p>
-      </div>
+    <div class="thumbnail-wrapper">
+      <img class="thumbnail" src="/docs/assets/images/groups/arcade/fear.png" alt="Fear">
+      <div class="username">Fear</div>
+      <div class="description">Strange specimen who tends to hide from his own group, incredibly generous though</div>
     </div>
-  </section>
+    <div class="thumbnail-wrapper">
+      <img class="thumbnail" src="/docs/assets/images/groups/arcade/hitman.png" alt="Hitman">
+      <div class="username">Hitman</div>
+      <div class="description">If you're looking for the definition of loyalty, you'll find his name in the dictionary</div>
+    </div>
+    <div class="thumbnail-wrapper">
+      <img class="thumbnail" src="/docs/assets/images/groups/arcade/fairy.png" alt="Fairy">
+      <div class="username">Fairy</div>
+      <div class="description">Just like her username, she's sweet, helpful, and has supported us since day one</div>
+    </div>
+    <div class="thumbnail-wrapper">
+      <img class="thumbnail" src="/docs/assets/images/groups/arcade/inna.png" alt="Inna">
+      <div class="username">Inna</div>
+      <div class="description">A loyal member of Arcade who has risen to the top</div>
+    </div>
+    <div class="thumbnail-wrapper">
+      <img class="thumbnail" src="/docs/assets/images/groups/arcade/tear.gif" alt="Tear">
+      <div class="username">Tear</div>
+      <div class="description">One of a kind. Ain't nobody else like him. Most humble and generous person ever</div>
+    </div>
+    <div class="thumbnail-wrapper">
+      <img class="thumbnail" src="/docs/assets/images/groups/arcade/risk.png" alt="Risk">
+      <div class="username">Risk</div>
+      <div class="description">Lives up to the name. Bold and unpredictable, the wild card every team needs</div>
+    </div>
+  </div>
 
-  <footer>
-    <div style="font-family:'Press Start 2P'; font-size:10px; letter-spacing:.08em;">ARCADE // POWERED BY NEON</div>
-    <div class="muted" style="margin-top:10px">© 2025 Arcade. Built with love, pixels, and way too much neon.</div>
-  </footer>
+  <div class="linebreak"></div>
+  <p class="shoutout">A big shout-out to the rest of our Team: <strong>4DA, abc, Akamehhh, alqubaisi, Arts, Aura, DarkEstrela, Diem17, esthell, Frequency, Galaxy, Kikutie, Mdame, Mellisssaaa, Nefya, pink1tty, Qear, Spring, Trolledyou, YR_</strong></p>
 
+  <!-- === Progressive enhancement for your jQuery helpers === -->
   <script>
-    // Copy invite link
-    document.getElementById('copyInvite')?.addEventListener('click', (e) => {
-      const url = e.currentTarget.getAttribute('data-copy');
-      navigator.clipboard.writeText(url).then(() => {
-        e.currentTarget.textContent = 'COPIED ✅';
-        setTimeout(()=> e.currentTarget.textContent = 'INVITE LINK', 1200);
-      });
-    });
-
-    // Simple tabs
-    document.getElementById('boardTabs')?.addEventListener('click', (e) => {
-      const t = e.target.closest('.tab');
-      if(!t) return;
-      document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
-      t.classList.add('active');
-      const target = t.getAttribute('data-target');
-      document.querySelector('#weekly').style.display = target === '#weekly' ? '' : 'none';
-      document.querySelector('#alltime').style.display = target === '#alltime' ? '' : 'none';
-    });
-
-    // Particle cursor trail (fixed DPR + perf)
-    const canvas = document.getElementById('particles');
-    const ctx = canvas.getContext('2d');
-    let W = 0, H = 0; const DPR = Math.min(2, window.devicePixelRatio || 1);
-    function resize(){
-      W = Math.floor(innerWidth); H = Math.floor(innerHeight);
-      canvas.width = Math.floor(W * DPR);
-      canvas.height = Math.floor(H * DPR);
-      canvas.style.width = W + 'px';
-      canvas.style.height = H + 'px';
-      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    // If jQuery is present, keep your original enhancements
+    if (window.jQuery) {
+      $('#sponsors-amount tr:first-child td:first-child').prepend('&#128081; ').append(' &#128081;');
+      $('#message-counter-weekly  tr:first-child td:first-child').prepend('&#127942; ').append(' &#127942;');
+      $('#message-counter-alltime tr:first-child td:first-child').prepend('&#128293; ').append(' &#128293;');
     }
-    resize(); addEventListener('resize', resize);
 
-    const parts = [];
-    const hueBase = 355; // red
-    function spawn(x,y){ for(let i=0;i<3;i++){ parts.push({ x, y, vx:(Math.random()-0.5)*2.2, vy:(Math.random()-0.5)*2.2, life: 36+Math.random()*18 }); } }
-    addEventListener('pointermove', e=>{ const r = canvas.getBoundingClientRect(); spawn(e.clientX - r.left, e.clientY - r.top); });
+    // Vanilla fallbacks (in case jQuery isn't loaded on this page preview)
+    (function(){
+      const sel = (s,c=document)=>c.querySelector(s);
+      const cell = sel('#sponsors-amount tbody tr:first-child td:first-child');
+      if(cell && !/👑/.test(cell.textContent)) cell.textContent = '👑 ' + cell.textContent + ' 👑';
+      const w = sel('#message-counter-weekly tbody tr:first-child td:first-child');
+      if(w && !/🏆/.test(w.textContent)) w.textContent = '🏆 ' + w.textContent + ' 🏆';
+      const a = sel('#message-counter-alltime tbody tr:first-child td:first-child');
+      if(a && !/🔥/.test(a.textContent)) a.textContent = '🔥 ' + a.textContent + ' 🔥';
 
-    function tick(){
-      ctx.clearRect(0,0,W,H);
-      for(let i=parts.length-1; i>=0; i--){
-        const p = parts[i]; p.life-=1; if(p.life<=0){ parts.splice(i,1); continue; }
-        p.x += p.vx; p.y += p.vy; p.vy += 0.02;
-        const alpha = Math.max(0, p.life/50);
-        const glow = `hsla(${hueBase}, 95%, 60%, ${alpha})`;
-        ctx.beginPath(); ctx.arc(p.x, p.y, 2, 0, Math.PI*2);
-        ctx.fillStyle = glow; ctx.shadowBlur = 6; ctx.shadowColor = glow; ctx.fill();
+      // Compute sponsors total if site helper doesn't fill content-custom
+      const totalSpan = sel('#sponsors-total-fallback');
+      if(totalSpan && (totalSpan.textContent === '…' || totalSpan.textContent.trim() === '')){
+        let sum = 0; document.querySelectorAll('#sponsors-amount tbody td:nth-child(2)')
+          .forEach(td => sum += parseInt(td.textContent.trim(),10)||0);
+        totalSpan.textContent = sum.toLocaleString('en-US');
       }
-      requestAnimationFrame(tick);
-    }
-    tick();
 
-    // Tilt micro-interactions (no hover transform conflicts)
-    function addTilt(sel){
-      document.querySelectorAll(sel).forEach(el=>{
-        let raf = null;
-        el.addEventListener('pointermove', (e)=>{
-          const r = el.getBoundingClientRect();
-          const dx = (e.clientX - r.left)/r.width - .5;
-          const dy = (e.clientY - r.top)/r.height - .5;
-          const rx = Math.max(-1, Math.min(1, -dy)) * 6;
-          const ry = Math.max(-1, Math.min(1, dx)) * 6;
-          if(!raf){ raf = requestAnimationFrame(()=>{ el.style.transform = `perspective(600px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) translateY(-6px)`; raf = null; }); }
+      // Bootstrap-like tabs without requiring Bootstrap JS
+      const tabLinks = document.querySelectorAll('.nav-link[role="tab"]');
+      tabLinks.forEach(link => link.addEventListener('click', (e)=>{
+        e.preventDefault();
+        tabLinks.forEach(x=>x.classList.remove('active'));
+        link.classList.add('active');
+        const target = link.getAttribute('data-target');
+        document.querySelectorAll('.tab-pane').forEach(p=>{
+          const show = '#' + p.id === target; 
+          p.classList.toggle('show', show);
+          p.classList.toggle('active', show);
         });
-        el.addEventListener('pointerleave', ()=>{ el.style.transform = ''; });
-      });
-    }
-    addTilt('.card'); addTilt('.btn');
+      }));
+    })();
   </script>
 </body>
 </html>
