@@ -5,252 +5,246 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 ---
 
 <style>
+body[data-theme="light"] {
+    --color-time-line: #555;
+    --color-time-circ: #FFF;
+}
 
+body[data-theme="dark"] {
+    --color-time-line: #555;
+    --color-time-circ: #000;
+}
 
-    *{box-sizing:border-box}
+h2,h3 {
+    color: #E1100D !important;
+}
 
-    .container{max-width:1000px;margin:auto;padding:16px}
+h4,h5 {
+    color: #008080 !important;
+    font-size: var(--unit-text-B) !important;
+}
 
-    /* HERO */
-    .hero{display:grid;gap:16px;grid-template-columns:1fr;align-items:center;margin-top:8px}
-    .card{background:transparent;border:1px solid transparent;border-radius:14px;padding:16px}
-    h1{font-size:clamp(28px,6vw,48px);margin:0 0 8px;font-weight:800}
-    h2{font-size:clamp(20px,4.5vw,28px);margin:0 0 10px}
-    .sub{color:var(--muted);margin:0 0 14px}
-    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:999px;background:transparent;border:1px solid transparent;text-decoration:none;font-weight:700}
+.announcement-strip {
+    width: 100%;
+    background-image: linear-gradient( to bottom, var(--color-C), var(--color-D), var(--color-C) );
+    overflow: hidden;
+    white-space: nowrap;
+    font-family: monospace;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    height: 40px;
+    box-shadow: 0px 4px 6px var(--color-B);
+    border-top: 2px solid var(--color-C);
+    border-bottom: 2px solid var(--color-C);
+    border-radius: 8px;
+}
 
-    /* Stats */
-    .stats{display:grid;gap:10px;grid-template-columns:repeat(3,1fr);margin-top:10px}
-    @media (max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}}
-    @media (max-width:480px){.stats{grid-template-columns:1fr}}
-    .stat{background:transparent;border:1px solid transparent;border-radius:10px;padding:12px;text-align:center}
-    .num{font-size:clamp(18px,4.8vw,28px);font-weight:800}
-    .lbl{font-size:12px;color:var(--muted)}
+.scrolling-text {
+    display: inline-block;
+    padding-left: 100%;
+    animation: scroll 12s linear infinite;
+}
 
-    /* Sections */
-    section{margin-top:26px}
-    .table-wrap{overflow:hidden;border-radius:10px;border:1px solid transparent}
-    table{width:100%;border-collapse:collapse;min-width:0;table-layout:fixed}
-    th,td{padding:10px 8px;border-bottom:1px solid rgba(255,255,255,.08)}
-    .table-wrap table th, .table-wrap table td{width:50%;text-align:center;word-break:break-word}
-    thead th{font-size:12px;color:var(--muted);text-align:center}
+@keyframes scroll {
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
 
-    /* Pagination */
-    .pager{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:flex-end;margin-top:10px}
-    .pager .info{margin-right:auto;color:var(--muted);font-size:14px}
-    .pager button{padding:8px 12px;border-radius:999px;border:1px solid var(--border);background:#1a1b24;color:#fff;font-weight:700}
-    .pager button[disabled]{opacity:.5}
+.social-buttons {
+    display: flex;
+    gap: 10px;
+}
 
-    /* Team */
-    .grid{display:grid;gap:16px;grid-template-columns:1fr}
-    .member{display:grid;gap:10px;grid-template-columns:64px 1fr;align-items:center}
-    .avatar{width:64px;height:64px;border-radius:50%;object-fit:cover;border:1px solid var(--border)}
-    .desc{color:var(--muted);font-size:14px;margin:6px 0 0}
+.social-buttons a {
+    text-decoration: none;
+    color: white;
+    padding: 10px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+}
 
-    /* Helpers */
-    .muted{color:var(--muted)}
-    .pill{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;border:1px solid var(--border);background:#1a1b24;font-weight:700}
+.fa-instagram, .fa-discord {
+    font-size: 24px;
+    background: #353A40;
+}
 
-    /* Tabs (weekly/all-time) */
-    .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 12px;align-items:center}
-    .tab{cursor:pointer;padding:10px 14px;border-radius:999px;border:1px solid var(--border);background:#1a1b24;font-weight:700}
-    .tab.active{border-color:rgba(255,30,45,.45);background:linear-gradient(180deg, rgba(255,30,45,.20), rgba(255,30,45,.06))}
-    .tab:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px}
-    .tab-content{margin-top:8px}
+.timeline {
+    font-family: monospace;
+    list-style-type: none;
+    padding-left: 35px;
+    position: relative;
+}
 
-  body[data-theme="light"] {
-      --color-time-line: #555;
-      --color-time-circ: #FFF;
-  }
+.timeline:before {
+    content: ' ';
+    background: var(--color-time-line);
+    display: inline-block;
+    position: absolute;
+    left: 9px;
+    width: 2px;
+    height: 100%;
+    z-index: 400;
+}
 
-  body[data-theme="dark"] {
-      --color-time-line: #555;
-      --color-time-circ: #000;
-  }
+.timeline > li:before {
+    content: ' ';
+    background: var(--color-time-circ);
+    display: inline-block;
+    position: absolute;
+    border-radius: 50%;
+    border: 3px solid #E1100D;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    z-index: 400;
+}
 
+.timeline > li {
+    margin: 0;
+}
 
-</style>
+.timeline > li:not(:last-child) {
+    margin-bottom: 15px;
+}
 
-/* Theme overlays using site data-theme (no body background set) */
-body[data-theme="dark"] .card{ background: rgba(255,255,255,.04); border-color: rgba(255,255,255,.12); }
-body[data-theme="light"] .card{ background: rgba(0,0,0,.04); border-color: rgba(0,0,0,.12); }
+.timeline > li > *:not(:last-child) {
+    margin-bottom: 5px;
+}
 
-body[data-theme="dark"] .btn{ background: rgba(255,255,255,.04); border-color: rgba(255,255,255,.12); }
-body[data-theme="light"] .btn{ background: rgba(0,0,0,.04); border-color: rgba(0,0,0,.12); }
+.timeline .title {
+    font-size: 15px;
+    font-weight: bold;
+    color: #E1100D;
+}
 
-body[data-theme="dark"] .table-wrap{ border-color: rgba(255,255,255,.12); }
-body[data-theme="light"] .table-wrap{ border-color: rgba(0,0,0,.12); }
+.timeline .datetime {
+    font-size: 15px;
+    color: #555;
+}
 
-body[data-theme="dark"] .stat{ background: rgba(255,255,255,.03); border-color: rgba(255,255,255,.10); }
-body[data-theme="light"] .stat{ background: rgba(0,0,0,.03); border-color: rgba(0,0,0,.10); }
+.timeline .description {
+    font-size: 13px;
+    color: #777;
+}
 
-/* Table row separators that respect theme */
-body[data-theme="dark"] th, body[data-theme="dark"] td{ border-bottom-color: rgba(255,255,255,.08); }
-body[data-theme="light"] th, body[data-theme="light"] td{ border-bottom-color: rgba(0,0,0,.08); }
+.thumbnail-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+    margin: auto;
+    justify-content: center;
+}
 
-:root{ --accent: var(--color-primary, #E1100D); }
+.thumbnail-wrapper {
+    font-family: monospace;
+    width: 45%;
+    margin-bottom: 15px;
+    text-align: center;
+}
 
-  .announcement-strip {
-      width: 100%;
-      background-image: linear-gradient( to bottom, var(--color-C), var(--color-D), var(--color-C) );
-      overflow: hidden;
-      white-space: nowrap;
-      font-family: monospace;
-      font-size: 16px;
-      display: flex;
-      align-items: center;
-      height: 40px;
-      box-shadow: 0px 4px 6px var(--color-B);
-      border-top: 2px solid var(--color-C);
-      border-bottom: 2px solid var(--color-C);
-      border-radius: 8px;
-  }
+.thumbnail-wrapper .thumbnail {
+    width: 75%;
+    height: auto;
+    border-radius: 50%;
+    object-fit: cover;
+}
 
-  .scrolling-text {
-      display: inline-block;
-      padding-left: 100%;
-      animation: scroll 12s linear infinite;
-  }
+@media (min-width: 768px) {
+    .thumbnail-wrapper .thumbnail {
+        width: 50%;
+    }
+}
 
-  @keyframes scroll {
-      0% {
-          transform: translateX(0%);
-      }
-      100% {
-          transform: translateX(-100%);
-      }
-  }
+.thumbnail-wrapper .username {
+    margin-top: 5px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #555;
+}
 
-  .social-buttons {
-      display: flex;
-      gap: 10px;
-  }
+.thumbnail-wrapper .description {
+    margin-top: 3px;
+    font-size: 10px;
+    color: #777;
+    text-wrap: balance;
+}
 
-  .social-buttons a {
-      text-decoration: none;
-      color: white;
-      padding: 10px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 50px;
-      height: 50px;
-  }
+.shoutout {
+    font-family: monospace;
+    font-size: 13px;
+    color: #777;
+}
 
-  .fa-instagram, .fa-discord {
-      font-size: 24px;
-      background: #353A40;
-  }
+/* =========================
+   Additive upgrades (rev B)
+   ========================= */
+/* Stats cards */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+@media (min-width: 768px) {
+  .stats-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+.stat-card {
+  font-family: monospace;
+  background-image: linear-gradient(to bottom, var(--color-C), var(--color-D));
+  border: 1px solid var(--color-B);
+  border-radius: 12px;
+  padding: 14px 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,.15);
+}
+.stat-card .label { font-size: 12px; color: #ddd; letter-spacing: .04em; text-transform: uppercase; }
+.stat-card .value { font-size: 28px; font-weight: 700; line-height: 1.1; color: #fff; }
+.stat-card .delta { font-size: 12px; color: #9ae6b4; }
 
-  .timeline {
-      font-family: monospace;
-      list-style-type: none;
-      padding-left: 35px;
-      position: relative;
-  }
+/* Table upgrades (keep your .table + .table-bordered) */
+.table-upgraded { border-radius: 10px; overflow: hidden; }
+.table-upgraded thead th {
+  position: sticky; top: 0; z-index: 1;
+  background: linear-gradient(0deg, var(--color-D), var(--color-C));
+  color: #fff; border-color: var(--color-C);
+}
+.table-upgraded tbody tr:nth-child(odd) { background: rgba(255,255,255,0.03); }
+.table-upgraded tbody tr:hover { background: rgba(225,16,13,0.1); }
+.table-upgraded td, .table-upgraded th { vertical-align: middle; }
+.table-caption { font-family: monospace; font-size: 12px; color: #777; margin: 6px 0 0; text-align: right; }
 
-  .timeline:before {
-      content: ' ';
-      background: var(--color-time-line);
-      display: inline-block;
-      position: absolute;
-      left: 9px;
-      width: 2px;
-      height: 100%;
-      z-index: 400;
-  }
+/* Sortable headers */
+.th-sortable { cursor: pointer; }
+.th-sortable:after { content: " \25B4\25BE"; opacity: .5; font-size: 11px; }
 
-  .timeline > li:before {
-      content: ' ';
-      background: var(--color-time-circ);
-      display: inline-block;
-      position: absolute;
-      border-radius: 50%;
-      border: 3px solid #E1100D;
-      left: 0;
-      width: 20px;
-      height: 20px;
-      z-index: 400;
-  }
+/* Team card glow using your existing markup */
+.thumbnail-grid { gap: 16px; }
+.thumbnail-wrapper {
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(0,0,0,0.06));
+  border: 1px solid var(--color-B);
+  border-radius: 16px;
+  padding: 14px 8px 18px;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.18);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.thumbnail-wrapper:hover { transform: translateY(-2px); box-shadow: 0 12px 22px rgba(0,0,0,0.24); }
+.thumbnail-wrapper .thumbnail { border: 2px solid #E1100D22; box-shadow: 0 0 0 3px #E1100D11; }
+.thumbnail-wrapper .username { color: #fff; display: inline-flex; align-items: center; gap: 6px; }
+.badge { display: inline-block; padding: 2px 6px; border-radius: 999px; font-size: 10px; background: #E1100D; color: #fff; }
 
-  .timeline > li {
-      margin: 0;
-  }
-
-  .timeline > li:not(:last-child) {
-      margin-bottom: 15px;
-  }
-
-  .timeline > li > *:not(:last-child) {
-      margin-bottom: 5px;
-  }
-
-  .timeline .title {
-      font-size: 15px;
-      font-weight: bold;
-      color: #E1100D;
-  }
-
-  .timeline .datetime {
-      font-size: 15px;
-      color: #555;
-  }
-
-  .timeline .description {
-      font-size: 13px;
-      color: #777;
-  }
-
-  .thumbnail-grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      width: 100%;
-      margin: auto;
-      justify-content: center;
-  }
-
-  .thumbnail-wrapper {
-      font-family: monospace;
-      width: 45%;
-      margin-bottom: 15px;
-      text-align: center;
-  }
-
-  .thumbnail-wrapper .thumbnail {
-      width: 75%;
-      height: auto;
-      border-radius: 50%;
-      object-fit: cover;
-  }
-
-  @media (min-width: 768px) {
-      .thumbnail-wrapper .thumbnail {
-          width: 50%;
-      }
-  }
-
-  .thumbnail-wrapper .username {
-      margin-top: 5px;
-      font-size: 13px;
-      font-weight: bold;
-      color: #555;
-  }
-
-  .thumbnail-wrapper .description {
-      margin-top: 3px;
-      font-size: 10px;
-      color: #777;
-      text-wrap: balance;
-  }
-
-  .shoutout {
-      font-family: monospace;
-      font-size: 13px;
-      color: #777;
-  }
+/* Compact on mobile */
+@media (max-width: 480px) {
+  .table-upgraded td, .table-upgraded th { padding: 6px; }
+  .stat-card .value { font-size: 22px; }
+}
 </style>
 
 <div class="linebreak"></div>
@@ -267,508 +261,623 @@ body[data-theme="light"] th, body[data-theme="light"] td{ border-bottom-color: r
 
 <div class="linebreak"></div>
 
-<div class="container">
-    <!-- HERO -->
-    <section class="hero">
-        <div class="card">
-            <h1>Welcome to the <span style="color:var(--accent)">Arcade</span></h1>
-            <p class="sub">Neon vibes later — first, a rock-solid, bug-free base. Buttons work. Tables paginate. Mobile-first.</p>
-            <div class="row">
-                <a class="btn btn--accent" href="#message">View Ranks</a>
-                <a class="btn btn--teal" href="#sponsors">Become a Sponsor</a>
-            </div>
-            <div class="stats">
-                <div class="stat"><div class="num">8.4M</div><div class="lbl">COINS SPONSORED</div></div>
-                <div class="stat"><div class="num">68,686</div><div class="lbl">TOP MESSAGES</div></div>
-                <div class="stat"><div class="num">56</div><div class="lbl">WEEKLY WINS</div></div>
-            </div>
-        </div>
+<h3 id="about-arcade">About Arcade</h3>
 
-        <div class="linebreak"></div>
+<p>Arcade is a welcoming English community group established on December 28, 2021. We've hosted some of Plato's biggest events and have plenty more exciting stuff in store.</p>
 
-        <h3 id="about-arcade">About Arcade</h3>
+<div class="social-buttons">
+    <a class="fab fa-instagram" href="https://instagram.com/arcade.og/"></a>
+    <a class="fab fa-discord" href="https://discord.com/invite/mq7QMY88KU"></a>
+</div>
 
-        <p>Arcade is a welcoming English community group established on December 28, 2021. We've hosted some of Plato's biggest events and have plenty more exciting stuff in store.</p>
+<div class="linebreak"></div>
 
-        <div class="social-buttons">
-            <a class="fab fa-instagram" href="https://instagram.com/arcade.og/"></a>
-            <a class="fab fa-discord" href="https://discord.com/invite/mq7QMY88KU"></a>
-        </div>
+<div class="content-contents text-left" data-open="false" data-icon="&#xf068;,&#xf067;">Contents <embed/></div>
 
-        <div class="linebreak"></div>
+<div class="linebreak"></div>
 
-        <div class="content-contents text-left" data-open="false" data-icon="&#xf068;,&#xf067;">Contents <embed/></div>
+<!-- =========================
+     Arcade Stats (new section)
+     ========================= -->
+<h2 id="arcade-stats">Arcade Stats</h2>
+<div class="stats-grid" aria-label="Arcade live statistics">
+  <div class="stat-card">
+    <div class="label">Total Sponsored</div>
+    <div class="value"><span id="stat-total-coins">—</span></div>
+    <div class="delta" id="stat-top-sponsor">Top sponsor: —</div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Weekly Messages</div>
+    <div class="value"><span id="stat-weekly-msgs">—</span></div>
+    <div class="delta">Updated: <span id="stat-weekly-updated">—</span></div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Weekly Wins</div>
+    <div class="value"><span id="stat-weekly-wins">—</span></div>
+    <div class="delta">Most wins: <span id="stat-weekly-winner">—</span></div>
+  </div>
+  <div class="stat-card">
+    <div class="label">Team Members</div>
+    <div class="value"><span id="stat-team-count">—</span></div>
+    <div class="delta">Including shout-outs</div>
+  </div>
+</div>
 
-        <div class="linebreak"></div>
+<div class="linebreak"></div>
 
-        <h2 id="join-arcade">Join Arcade Group</h2>
+<h2 id="join-arcade">Join Arcade Group</h2>
 
-        <p>We're making it easier for you to join our group. Say goodbye to the waiting room - now, all you need to do is add one of our invite accounts linked below. Every Friday, we'll send out invites to new members (we promise).</p>
+<p>We're making it easier for you to join our group. Say goodbye to the waiting room - now, all you need to do is add one of our invite accounts linked below. Every Friday, we'll send out invites to new members (we promise).</p>
 
-        <p>Add <strong>@Arcade:</strong></p>
-        <p><span class="content-link" data-url="https://platoapp.com/link/3gpmf8vsry32p" data-text="" data-copy="true"></span></p>
+<p>Add <strong>@Arcade:</strong></p>
+<p><span class="content-link" data-url="https://platoapp.com/link/3gpmf8vsry32p" data-text="" data-copy="true"></span></p>
 
-        <div class="linebreak"></div>
+<div class="linebreak"></div>
 
-        <h2 id="team-invite">Arcade Team Invite</h2>
+<h2 id="team-invite">Arcade Team Invite</h2>
 
-        <p>We're rebuilding the Arcade team completely with clearer roles, a better team structure and recruitment process. If you love Arcade, this is your chance to join our incredible team. Let's create something amazing together!</p>
+<p>We're rebuilding the Arcade team completely with clearer roles, a better team structure and recruitment process. If you love Arcade, this is your chance to join our incredible team. Let's create something amazing together!</p>
 
-        <p><span class="content-link" data-url="https://forms.gle/VHVLroERoB3oyJm37" data-text="" data-copy="true"></span></p>
+<p><span class="content-link" data-url="https://forms.gle/VHVLroERoB3oyJm37" data-text="" data-copy="true"></span></p>
 
-        <div class="linebreak"></div>
+<div class="linebreak"></div>
 
-        <h2 id="sponsors">Sponsors 👑</h2>
+<h2 id="sponsors">Sponsors 👑</h2>
 
-        <p>To be added to the list, you need to have sponsored a minimum of 50k coins in total. If you'd like to sponsor, head over to <a href="https://discord.com/channels/1059760594128998400/1339249377406881793">#sponsor-tickets</a> on Arcade's Discord and click the <strong>Sponsor</strong> button.</p>
+<p>To be added to the list, you need to have sponsored a minimum of 50k coins in total. If you'd like to sponsor, head over to <a href="https://discord.com/channels/1059760594128998400/1339249377406881793">#sponsor-tickets</a> on Arcade's Discord and click the <strong>Sponsor</strong> button.</p>
 
-        <div class="linebreak"></div>
+<div class="linebreak"></div>
 
+<div class="content-table">
+    <table id="sponsors-amount" class="table table-bordered table-upgraded">
+        <thead>
+            <tr>
+                <th class="w-50">Sponsors</th>
+                <th class="w-50">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+    <tr>
+        <td>Tear</td>
+        <td>8476850</td>
+    </tr>
+    <tr>
+        <td>Risk</td>
+        <td>6766600</td>
+    </tr>
+    <tr>
+        <td>Fear</td>
+        <td>5292000</td>
+    </tr>
+    <tr>
+        <td>TrolledYou</td>
+        <td>3782000</td>
+    </tr>
+    <tr>
+        <td>LA_GIRL07</td>
+        <td>2660000</td>
+    </tr>
+    <tr>
+        <td>Mdame</td>
+        <td>1160000</td>
+    </tr>
+    <tr>
+        <td>Nefya</td>
+        <td>1025000</td>
+    </tr>
+    <tr>
+        <td>Fairy</td>
+        <td>1014500</td>
+    </tr>
+    <tr>
+        <td>Rose</td>
+        <td>1007500</td>
+    </tr>
+    <tr>
+        <td>Alqubaisi</td>
+        <td>800000</td>
+    </tr>
+    <tr>
+        <td>Pink1tty</td>
+        <td>593500</td>
+    </tr>
+    <tr>
+        <td>Rivings</td>
+        <td>575500</td>
+    </tr>
+    <tr>
+        <td>Enes</td>
+        <td>504500</td>
+    </tr>
+    <tr>
+        <td>Arts</td>
+        <td>448000</td>
+    </tr>
+    <tr>
+        <td>Focus</td>
+        <td>435200</td>
+    </tr>
+    <tr>
+        <td>Bao</td>
+        <td>277500</td>
+    </tr>
+    <tr>
+        <td>YR_</td>
+        <td>275000</td>
+    </tr>
+    <tr>
+        <td>Mellisssaaa</td>
+        <td>235000</td>
+    </tr>
+    <tr>
+        <td>Casper</td>
+        <td>224800</td>
+    </tr>
+    <tr>
+        <td>Spring</td>
+        <td>202000</td>
+    </tr>
+    <tr>
+        <td>Aura</td>
+        <td>201500</td>
+    </tr>
+    <tr>
+        <td>7777777</td>
+        <td>200000</td>
+    </tr>
+    <tr>
+        <td>Gebrakin</td>
+        <td>200000</td>
+    </tr>
+    <tr>
+        <td>Dracula</td>
+        <td>200000</td>
+    </tr>
+    <tr>
+        <td>MangoNado</td>
+        <td>188000</td>
+    </tr>
+    <tr>
+        <td>Globe</td>
+        <td>187500</td>
+    </tr>
+    <tr>
+        <td>1Mei</td>
+        <td>174000</td>
+    </tr>
+    <tr>
+        <td>Galaxy</td>
+        <td>170000</td>
+    </tr>
+    <tr>
+        <td>Lawyer</td>
+        <td>135000</td>
+    </tr>
+    <tr>
+        <td>Kikutie</td>
+        <td>126000</td>
+    </tr>
+    <tr>
+        <td>1l1</td>
+        <td>120000</td>
+    </tr>
+    <tr>
+        <td>Frequency</td>
+        <td>114500</td>
+    </tr>
+    <tr>
+        <td>badfacewanda</td>
+        <td>105000</td>
+    </tr>
+    <tr>
+        <td>4DA</td>
+        <td>102000</td>
+    </tr>
+    <tr>
+        <td>AmirberlinK</td>
+        <td>100000</td>
+    </tr>
+    <tr>
+        <td>Reza</td>
+        <td>100000</td>
+    </tr>
+    <tr>
+        <td>SOL</td>
+        <td>100000</td>
+    </tr>
+    <tr>
+        <td>Hamid</td>
+        <td>100000</td>
+    </tr>
+    <tr>
+        <td>abc</td>
+        <td>100000</td>
+    </tr>
+    <tr>
+        <td>SiaShah</td>
+        <td>97000</td>
+    </tr>
+    <tr>
+        <td>Akamehhh</td>
+        <td>94000</td>
+    </tr>
+    <tr>
+        <td>Diem17</td>
+        <td>80000</td>
+    </tr>
+    <tr>
+        <td>H22</td>
+        <td>60000</td>
+    </tr>
+    <tr>
+        <td>0HZL</td>
+        <td>50000</td>
+    </tr>
+    <tr>
+        <td>Darth_Diego</td>
+        <td>50000</td>
+    </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+$('#sponsors-amount tr:first-child td:first-child').prepend('&#128081; ').append(' &#128081;');
+</script>
+
+<div class="linebreak"></div>
+
+<p class="text-center"><b>Total:</b> <span class="content-custom" data-code="$('#sponsors-amount tbody tr td:nth-child(2)').total()"></span> coins</p>
+
+<div class="linebreak"></div>
+
+<h2 id="message-counter">Message Counter 🔥</h2>
+
+<p>As of 13/12/2024, ArcadeBot is keeping track of all messages sent in Arcade. The lists below shows our top 20 most active members for the week and of all time, updated every Friday. #nospam</p>
+
+<p><strong>Last Updated:</strong> 08/08/25</p>
+
+<div class="linebreak"></div>
+
+<ul class="nav nav-pills x-nav-justified justify-content-center nav-content" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" href="#" role="tab" data-toggle="tab" data-target="#tab-message-counter-weekly">Weekly Count</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#" role="tab" data-toggle="tab" data-target="#tab-message-counter-alltime">All Time Count</a>
+    </li>
+</ul>
+
+<div class="linebreak"></div>
+
+<div class="tab-content">
+    <div id="tab-message-counter-weekly" class="tab-pane fade show active" role="tabpanel">
         <div class="content-table">
-            <table id="sponsors-amount" class="table table-bordered">
+            <table id="message-counter-weekly" class="table table-bordered table-upgraded">
                 <thead>
-                <tr>
-                    <th class="w-50">Sponsors</th>
-                    <th class="w-50">Amount</th>
-                </tr>
+                    <tr>
+                        <th class="w-50">Plato ID</th>
+                        <th class="w-50">Weekly Count</th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>Tear</td>
-                    <td>8476850</td>
-                </tr>
-                <tr>
-                    <td>Risk</td>
-                    <td>6766600</td>
-                </tr>
-                <tr>
-                    <td>Fear</td>
-                    <td>5292000</td>
-                </tr>
-                <tr>
-                    <td>TrolledYou</td>
-                    <td>3782000</td>
-                </tr>
-                <tr>
-                    <td>LA_GIRL07</td>
-                    <td>2660000</td>
-                </tr>
-                <tr>
-                    <td>Mdame</td>
-                    <td>1160000</td>
-                </tr>
-                <tr>
-                    <td>Nefya</td>
-                    <td>1025000</td>
-                </tr>
-                <tr>
-                    <td>Fairy</td>
-                    <td>1014500</td>
-                </tr>
-                <tr>
-                    <td>Rose</td>
-                    <td>1007500</td>
-                </tr>
-                <tr>
-                    <td>Alqubaisi</td>
-                    <td>800000</td>
-                </tr>
-                <tr>
-                    <td>Pink1tty</td>
-                    <td>593500</td>
-                </tr>
-                <tr>
-                    <td>Rivings</td>
-                    <td>575500</td>
-                </tr>
-                <tr>
-                    <td>Enes</td>
-                    <td>504500</td>
-                </tr>
-                <tr>
-                    <td>Arts</td>
-                    <td>448000</td>
-                </tr>
-                <tr>
-                    <td>Focus</td>
-                    <td>435200</td>
-                </tr>
-                <tr>
-                    <td>Bao</td>
-                    <td>277500</td>
-                </tr>
-                <tr>
-                    <td>YR_</td>
-                    <td>275000</td>
-                </tr>
-                <tr>
-                    <td>Mellisssaaa</td>
-                    <td>235000</td>
-                </tr>
-                <tr>
-                    <td>Casper</td>
-                    <td>224800</td>
-                </tr>
-                <tr>
-                    <td>Spring</td>
-                    <td>202000</td>
-                </tr>
-                <tr>
-                    <td>Aura</td>
-                    <td>201500</td>
-                </tr>
-                <tr>
-                    <td>7777777</td>
-                    <td>200000</td>
-                </tr>
-                <tr>
-                    <td>Gebrakin</td>
-                    <td>200000</td>
-                </tr>
-                <tr>
-                    <td>Dracula</td>
-                    <td>200000</td>
-                </tr>
-                <tr>
-                    <td>MangoNado</td>
-                    <td>188000</td>
-                </tr>
-                <tr>
-                    <td>Globe</td>
-                    <td>187500</td>
-                </tr>
-                <tr>
-                    <td>1Mei</td>
-                    <td>174000</td>
-                </tr>
-                <tr>
-                    <td>Galaxy</td>
-                    <td>170000</td>
-                </tr>
-                <tr>
-                    <td>Lawyer</td>
-                    <td>135000</td>
-                </tr>
-                <tr>
-                    <td>Kikutie</td>
-                    <td>126000</td>
-                </tr>
-                <tr>
-                    <td>1l1</td>
-                    <td>120000</td>
-                </tr>
-                <tr>
-                    <td>Frequency</td>
-                    <td>114500</td>
-                </tr>
-                <tr>
-                    <td>badfacewanda</td>
-                    <td>105000</td>
-                </tr>
-                <tr>
-                    <td>4DA</td>
-                    <td>102000</td>
-                </tr>
-                <tr>
-                    <td>AmirberlinK</td>
-                    <td>100000</td>
-                </tr>
-                <tr>
-                    <td>Reza</td>
-                    <td>100000</td>
-                </tr>
-                <tr>
-                    <td>SOL</td>
-                    <td>100000</td>
-                </tr>
-                <tr>
-                    <td>Hamid</td>
-                    <td>100000</td>
-                </tr>
-                <tr>
-                    <td>abc</td>
-                    <td>100000</td>
-                </tr>
-                <tr>
-                    <td>SiaShah</td>
-                    <td>97000</td>
-                </tr>
-                <tr>
-                    <td>Akamehhh</td>
-                    <td>94000</td>
-                </tr>
-                <tr>
-                    <td>Diem17</td>
-                    <td>80000</td>
-                </tr>
-                <tr>
-                    <td>H22</td>
-                    <td>60000</td>
-                </tr>
-                <tr>
-                    <td>0HZL</td>
-                    <td>50000</td>
-                </tr>
-                <tr>
-                    <td>Darth_Diego</td>
-                    <td>50000</td>
-                </tr>
+<tr><td>Keistaa</td><td>9124</td></tr>
+<tr><td>_EVe__</td><td>8983</td></tr>
+<tr><td>_CALIX</td><td>8881</td></tr>
+<tr><td>Vaella</td><td>4492</td></tr>
+<tr><td>calisha</td><td>2111</td></tr>
+<tr><td>abdullahshah</td><td>1921</td></tr>
+<tr><td>INNA</td><td>1842</td></tr>
+<tr><td>4DA</td><td>1444</td></tr>
+<tr><td>DontTouchMe</td><td>1419</td></tr>
+<tr><td>DRAXUN</td><td>1294</td></tr>
+<tr><td>R_O_S_E_03</td><td>1278</td></tr>
+<tr><td>drew_house</td><td>1262</td></tr>
+<tr><td>sowft</td><td>1086</td></tr>
+<tr><td>percevalthv</td><td>916</td></tr>
+<tr><td>hiffuu</td><td>884</td></tr>
+<tr><td>Endity</td><td>841</td></tr>
+<tr><td>esthell</td><td>832</td></tr>
+<tr><td>Akamehhh</td><td>818</td></tr>
+<tr><td>EvikaEve</td><td>749</td></tr>
+<tr><td>AlXAM</td><td>701</td></tr>
                 </tbody>
             </table>
         </div>
-
-        <script>
-            $('#sponsors-amount tr:first-child td:first-child').prepend('&#128081; ').append(' &#128081;');
-        </script>
-
-        <div class="linebreak"></div>
-
-        <p class="text-center"><b>Total:</b> <span class="content-custom" data-code="$('#sponsors-amount tbody tr td:nth-child(2)').total()"></span> coins</p>
-
-        <div class="linebreak"></div>
-
-        <h2 id="message-counter">Message Counter 🔥</h2>
-
-        <p>As of 13/12/2024, ArcadeBot is keeping track of all messages sent in Arcade. The lists below shows our top 20 most active members for the week and of all time, updated every Friday. #nospam</p>
-
-        <p><strong>Last Updated:</strong> 08/08/25</p>
-
-        <div class="linebreak"></div>
-
-        <ul class="nav nav-pills x-nav-justified justify-content-center nav-content" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" href="#" role="tab" data-toggle="tab" data-target="#tab-message-counter-weekly">Weekly Count</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" role="tab" data-toggle="tab" data-target="#tab-message-counter-alltime">All Time Count</a>
-            </li>
-        </ul>
-
-        <div class="linebreak"></div>
-
-        <div class="tab-content">
-            <div id="tab-message-counter-weekly" class="tab-pane fade show active" role="tabpanel">
-                <div class="content-table">
-                    <table id="message-counter-weekly" class="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th class="w-50">Plato ID</th>
-                            <th class="w-50">Weekly Count</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr><td>Keistaa</td><td>9124</td></tr>
-                        <tr><td>_EVe__</td><td>8983</td></tr>
-                        <tr><td>_CALIX</td><td>8881</td></tr>
-                        <tr><td>Vaella</td><td>4492</td></tr>
-                        <tr><td>calisha</td><td>2111</td></tr>
-                        <tr><td>abdullahshah</td><td>1921</td></tr>
-                        <tr><td>INNA</td><td>1842</td></tr>
-                        <tr><td>4DA</td><td>1444</td></tr>
-                        <tr><td>DontTouchMe</td><td>1419</td></tr>
-                        <tr><td>DRAXUN</td><td>1294</td></tr>
-                        <tr><td>R_O_S_E_03</td><td>1278</td></tr>
-                        <tr><td>drew_house</td><td>1262</td></tr>
-                        <tr><td>sowft</td><td>1086</td></tr>
-                        <tr><td>percevalthv</td><td>916</td></tr>
-                        <tr><td>hiffuu</td><td>884</td></tr>
-                        <tr><td>Endity</td><td>841</td></tr>
-                        <tr><td>esthell</td><td>832</td></tr>
-                        <tr><td>Akamehhh</td><td>818</td></tr>
-                        <tr><td>EvikaEve</td><td>749</td></tr>
-                        <tr><td>AlXAM</td><td>701</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div id="tab-message-counter-alltime" class="tab-pane fade" role="tabpanel">
-                <div class="content-table">
-                    <table id="message-counter-alltime" class="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th class="w-50">Plato ID</th>
-                            <th class="w-50">All Time Count</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr><td>calisha</td><td>68686</td></tr>
-                        <tr><td>Xulann_Pro</td><td>55450</td></tr>
-                        <tr><td>Keistaa</td><td>51809</td></tr>
-                        <tr><td>QQB</td><td>44483</td></tr>
-                        <tr><td>NeVenZo</td><td>42856</td></tr>
-                        <tr><td>INNA</td><td>38586</td></tr>
-                        <tr><td>DontTouchMe</td><td>38542</td></tr>
-                        <tr><td>Kikutie</td><td>35248</td></tr>
-                        <tr><td>Akamehhh</td><td>32648</td></tr>
-                        <tr><td>books</td><td>29278</td></tr>
-                        <tr><td>EvikaEve</td><td>29273</td></tr>
-                        <tr><td>sowft</td><td>27940</td></tr>
-                        <tr><td>abdullahshah</td><td>26138</td></tr>
-                        <tr><td>4DA</td><td>24382</td></tr>
-                        <tr><td>Min</td><td>23931</td></tr>
-                        <tr><td>Hitman</td><td>22589</td></tr>
-                        <tr><td>9u9</td><td>20359</td></tr>
-                        <tr><td>Ivyara</td><td>19835</td></tr>
-                        <tr><td>Puru_12</td><td>19542</td></tr>
-                        <tr><td>Darktored</td><td>19165</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <script>
-            $('#message-counter-weekly  tr:first-child td:first-child').prepend('&#127942; ').append(' &#127942;');
-            $('#message-counter-alltime tr:first-child td:first-child').prepend('&#128293; ').append(' &#128293;');
-        </script>
-
-        <div class="linebreak"></div>
-
-        <h2 id="wins-counter">Wins Counter 🎯</h2>
-
-        <div class="linebreak"></div>
-
+    </div>
+    <div id="tab-message-counter-alltime" class="tab-pane fade" role="tabpanel">
         <div class="content-table">
-            <table id="wins-counter-weekly" class="table table-bordered">
+            <table id="message-counter-alltime" class="table table-bordered table-upgraded">
                 <thead>
-                <tr>
-                    <th class="w-50">Plato ID</th>
-                    <th class="w-50">Weekly Wins</th>
-                </tr>
+                    <tr>
+                        <th class="w-50">Plato ID</th>
+                        <th class="w-50">All Time Count</th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>Mari_Dee</td>
-                    <td>56</td>
-                </tr>
-                <tr>
-                    <td>vmyi</td>
-                    <td>29</td>
-                </tr>
-                <tr>
-                    <td>_kyraa_</td>
-                    <td>29</td>
-                </tr>
-                <tr>
-                    <td>___Don</td>
-                    <td>21</td>
-                </tr>
-                <tr>
-                    <td>Eunoir</td>
-                    <td>20</td>
-                </tr>
-                <tr>
-                    <td>ius</td>
-                    <td>19</td>
-                </tr>
-                <tr>
-                    <td>labeeba</td>
-                    <td>17</td>
-                </tr>
-                <tr>
-                    <td>Darth_Deigo</td>
-                    <td>15</td>
-                </tr>
-                <tr>
-                    <td>Andrheaa</td>
-                    <td>13</td>
-                </tr>
-                <tr>
-                    <td>calisha</td>
-                    <td>12</td>
-                </tr>
-                <tr>
-                    <td>CUBEN0T7</td>
-                    <td>10</td>
-                </tr>
-                <tr>
-                    <td>olar</td>
-                    <td>10</td>
-                </tr>
-                <tr>
-                    <td>azee77r</td>
-                    <td>10</td>
-                </tr>
-                <tr>
-                    <td>zriele</td>
-                    <td>9</td>
-                </tr>
-                <tr>
-                    <td>IAMR</td>
-                    <td>9</td>
-                </tr>
-                <tr>
-                    <td>Rose786</td>
-                    <td>8</td>
-                </tr>
-                <tr>
-                    <td>syIle</td>
-                    <td>8</td>
-                </tr>
-                <tr>
-                    <td>ArcadeBot</td>
-                    <td>8</td>
-                </tr>
-                <tr>
-                    <td>Ever13</td>
-                    <td>7</td>
-                </tr>
-                <tr>
-                    <td>hnisssss</td>
-                    <td>7</td>
-                </tr>
+<tr><td>calisha</td><td>68686</td></tr>
+<tr><td>Xulann_Pro</td><td>55450</td></tr>
+<tr><td>Keistaa</td><td>51809</td></tr>
+<tr><td>QQB</td><td>44483</td></tr>
+<tr><td>NeVenZo</td><td>42856</td></tr>
+<tr><td>INNA</td><td>38586</td></tr>
+<tr><td>DontTouchMe</td><td>38542</td></tr>
+<tr><td>Kikutie</td><td>35248</td></tr>
+<tr><td>Akamehhh</td><td>32648</td></tr>
+<tr><td>books</td><td>29278</td></tr>
+<tr><td>EvikaEve</td><td>29273</td></tr>
+<tr><td>sowft</td><td>27940</td></tr>
+<tr><td>abdullahshah</td><td>26138</td></tr>
+<tr><td>4DA</td><td>24382</td></tr>
+<tr><td>Min</td><td>23931</td></tr>
+<tr><td>Hitman</td><td>22589</td></tr>
+<tr><td>9u9</td><td>20359</td></tr>
+<tr><td>Ivyara</td><td>19835</td></tr>
+<tr><td>Puru_12</td><td>19542</td></tr>
+<tr><td>Darktored</td><td>19165</td></tr>
                 </tbody>
             </table>
         </div>
+    </div>
+</div>
 
-        <script>
-            $('#wins-counter-weekly tr:first-child td:first-child').prepend('&#127919; ').append(' &#127919;');
-        </script>
+<script>
+$('#message-counter-weekly  tr:first-child td:first-child').prepend('&#127942; ').append(' &#127942;');
+$('#message-counter-alltime tr:first-child td:first-child').prepend('&#128293; ').append(' &#128293;');
+</script>
 
-        <div class="linebreak"></div>
+<div class="linebreak"></div>
 
-        <h2 id="our-team">Our Team</h2>
+<h2 id="wins-counter">Wins Counter 🎯</h2>
 
-        <div class="thumbnail-grid">
-            <div class="thumbnail-wrapper">
-                <img class="thumbnail" src="/docs/assets/images/groups/arcade/rose.png" alt="Rose">
-                <div class="username">Rose</div>
-                <div class="description">Our boss and leader, truly one of a kind. Just don't push her buttons</div>
-            </div>
-            <div class="thumbnail-wrapper">
-                <img class="thumbnail" src="/docs/assets/images/groups/arcade/fear.png" alt="Fear">
-                <div class="username">Fear</div>
-                <div class="description">Strange specimen who tends to hide from his own group, incredibly generous though</div>
-            </div>
-            <div class="thumbnail-wrapper">
-                <img class="thumbnail" src="/docs/assets/images/groups/arcade/hitman.png" alt="Hitman">
-                <div class="username">Hitman</div>
-                <div class="description">If you're looking for the definition of loyalty, you'll find his name in the dictionary</div>
-            </div>
-            <div class="thumbnail-wrapper">
-                <img class="thumbnail" src="/docs/assets/images/groups/arcade/fairy.png" alt="Fairy">
-                <div class="username">Fairy</div>
-                <div class="description">Just like her username, she's sweet, helpful, and has supported us since day one</div>
-            </div>
-            <div class="thumbnail-wrapper">
-                <img class="thumbnail" src="/docs/assets/images/groups/arcade/inna.png" alt="Inna">
-                <div class="username">Inna</div>
-                <div class="description">A loyal member of Arcade who has risen to the top</div>
-            </div>
-            <div class="thumbnail-wrapper">
-                <img class="thumbnail" src="/docs/assets/images/groups/arcade/tear.gif" alt="Tear">
-                <div class="username">Tear</div>
-                <div class="description">One of a kind. Ain't nobody else like him. Most humble and generous person ever</div>
-            </div>
-            <div class="thumbnail-wrapper">
-                <img class="thumbnail" src="/docs/assets/images/groups/arcade/risk.png" alt="Risk">
-                <div class="username">Risk</div>
-                <div class="description">Lives up to the name. Bold and unpredictable, the wild card every team needs</div>
-            </div>
-        </div>
+<div class="linebreak"></div>
 
-        <div class="linebreak"></div>
+<div class="content-table">
+    <table id="wins-counter-weekly" class="table table-bordered table-upgraded">
+        <thead>
+            <tr>
+                <th class="w-50">Plato ID</th>
+                <th class="w-50">Weekly Wins</th>
+            </tr>
+        </thead>
+        <tbody>
+    <tr>
+        <td>Mari_Dee</td>
+        <td>56</td>
+    </tr>
+    <tr>
+        <td>vmyi</td>
+        <td>29</td>
+    </tr>
+    <tr>
+        <td>_kyraa_</td>
+        <td>29</td>
+    </tr>
+    <tr>
+        <td>___Don</td>
+        <td>21</td>
+    </tr>
+    <tr>
+        <td>Eunoir</td>
+        <td>20</td>
+    </tr>
+    <tr>
+        <td>ius</td>
+        <td>19</td>
+    </tr>
+    <tr>
+        <td>labeeba</td>
+        <td>17</td>
+    </tr>
+    <tr>
+        <td>Darth_Deigo</td>
+        <td>15</td>
+    </tr>
+    <tr>
+        <td>Andrheaa</td>
+        <td>13</td>
+    </tr>
+    <tr>
+        <td>calisha</td>
+        <td>12</td>
+    </tr>
+    <tr>
+        <td>CUBEN0T7</td>
+        <td>10</td>
+    </tr>
+    <tr>
+        <td>olar</td>
+        <td>10</td>
+    </tr>
+    <tr>
+        <td>azee77r</td>
+        <td>10</td>
+    </tr>
+    <tr>
+        <td>zriele</td>
+        <td>9</td>
+    </tr>
+    <tr>
+        <td>IAMR</td>
+        <td>9</td>
+    </tr>
+    <tr>
+        <td>Rose786</td>
+        <td>8</td>
+    </tr>
+    <tr>
+        <td>syIle</td>
+        <td>8</td>
+    </tr>
+    <tr>
+        <td>ArcadeBot</td>
+        <td>8</td>
+    </tr>
+    <tr>
+        <td>Ever13</td>
+        <td>7</td>
+    </tr>
+    <tr>
+        <td>hnisssss</td>
+        <td>7</td>
+    </tr>
+        </tbody>
+    </table>
+</div>
 
-        <p class="shoutout">A big shout-out to the rest of our Team: <strong>4DA, abc, Akamehhh, alqubaisi, Arts, Aura, DarkEstrela, Diem17, esthell, Frequency, Galaxy, Kikutie, Mdame, Mellisssaaa, Nefya, pink1tty, Qear, Spring, Trolledyou, YR_</strong></p>
+<script>
+$('#wins-counter-weekly tr:first-child td:first-child').prepend('&#127919; ').append(' &#127919;');
+</script>
 
-        <div class="linebreak"></div>
+<div class="linebreak"></div>
+
+<h2 id="our-team">Our Team</h2>
+
+<div class="thumbnail-grid">
+    <div class="thumbnail-wrapper">
+        <img class="thumbnail" src="/docs/assets/images/groups/arcade/rose.png" alt="Rose">
+        <div class="username">Rose</div>
+        <div class="description">Our boss and leader, truly one of a kind. Just don't push her buttons</div>
+    </div>
+    <div class="thumbnail-wrapper">
+        <img class="thumbnail" src="/docs/assets/images/groups/arcade/fear.png" alt="Fear">
+        <div class="username">Fear</div>
+        <div class="description">Strange specimen who tends to hide from his own group, incredibly generous though</div>
+    </div>
+    <div class="thumbnail-wrapper">
+        <img class="thumbnail" src="/docs/assets/images/groups/arcade/hitman.png" alt="Hitman">
+        <div class="username">Hitman</div>
+        <div class="description">If you're looking for the definition of loyalty, you'll find his name in the dictionary</div>
+    </div>
+    <div class="thumbnail-wrapper">
+        <img class="thumbnail" src="/docs/assets/images/groups/arcade/fairy.png" alt="Fairy">
+        <div class="username">Fairy</div>
+        <div class="description">Just like her username, she's sweet, helpful, and has supported us since day one</div>
+    </div>
+    <div class="thumbnail-wrapper">
+        <img class="thumbnail" src="/docs/assets/images/groups/arcade/inna.png" alt="Inna">
+        <div class="username">Inna</div>
+        <div class="description">A loyal member of Arcade who has risen to the top</div>
+    </div>
+    <div class="thumbnail-wrapper">
+        <img class="thumbnail" src="/docs/assets/images/groups/arcade/tear.gif" alt="Tear">
+        <div class="username">Tear</div>
+        <div class="description">One of a kind. Ain't nobody else like him. Most humble and generous person ever</div>
+    </div>
+        <div class="thumbnail-wrapper">
+        <img class="thumbnail" src="/docs/assets/images/groups/arcade/risk.png" alt="Risk">
+        <div class="username">Risk</div>
+        <div class="description">Lives up to the name. Bold and unpredictable, the wild card every team needs</div>
+    </div>
+</div>
+
+<div class="linebreak"></div>
+
+<p class="shoutout">A big shout-out to the rest of our Team: <strong>4DA, abc, Akamehhh, alqubaisi, Arts, Aura, DarkEstrela, Diem17, esthell, Frequency, Galaxy, Kikutie, Mdame, Mellisssaaa, Nefya, pink1tty, Qear, Spring, Trolledyou, YR_</strong></p>
+
+<div class="linebreak"></div>
+
+<!-- ===== Extras: role badges, sortable headers, auto-stats ===== -->
+<script>
+// Tiny role badges for featured members (non-destructive)
+const BADGES = {
+  "Rose": "Lead",
+  "Fear": "Sponsor",
+  "Hitman": "Core",
+  "Fairy": "Core",
+  "Inna": "Core",
+  "Tear": "👑 Top",
+  "Risk": "👑 Top"
+};
+(function(){
+  document.querySelectorAll('.thumbnail-wrapper .username').forEach(el => {
+    const name = el.textContent.trim();
+    if (BADGES[name]) {
+      const b = document.createElement('span');
+      b.className = 'badge';
+      b.textContent = BADGES[name];
+      el.appendChild(b);
+    }
+  });
+})();
+
+// Click-to-sort headers
+(function(){
+  function makeSortable(table) {
+    if (!table) return;
+    const ths = table.querySelectorAll('thead th');
+    ths.forEach((th, colIdx) => {
+      th.classList.add('th-sortable');
+      th.addEventListener('click', () => {
+        const tbody = table.tBodies[0];
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        const isNumeric = rows.every(r => !isNaN(r.children[colIdx].textContent.replace(/[,\s]/g,'')));
+        const dir = th.dataset.dir === 'asc' ? 'desc' : 'asc';
+        ths.forEach(x => x.removeAttribute('data-dir'));
+        th.setAttribute('data-dir', dir);
+        rows.sort((a,b) => {
+          const A = a.children[colIdx].textContent.trim();
+          const B = b.children[colIdx].textContent.trim();
+          if (isNumeric) {
+            const aNum = parseInt(A.replace(/[,\s]/g,''),10) || 0;
+            const bNum = parseInt(B.replace(/[,\s]/g,''),10) || 0;
+            return dir === 'asc' ? aNum - bNum : bNum - aNum;
+          }
+          return dir === 'asc' ? A.localeCompare(B) : B.localeCompare(A);
+        });
+        rows.forEach(r => tbody.appendChild(r));
+      });
+    });
+  }
+  ['sponsors-amount','message-counter-weekly','message-counter-alltime','wins-counter-weekly']
+    .forEach(id => makeSortable(document.getElementById(id)));
+})();
+
+// Auto-calc stats from your existing tables
+(function(){
+  function sumColumn(tableId, colIdx){
+    const t = document.getElementById(tableId); if(!t) return 0;
+    return Array.from(t.querySelectorAll('tbody tr'))
+      .reduce((acc, tr) => acc + (parseInt(tr.children[colIdx].textContent.replace(/[,\s]/g,'')||'0',10)||0), 0);
+  }
+  function topRow(tableId, nameIdx, valueIdx) {
+    const t = document.getElementById(tableId); if(!t) return ['—',0];
+    const first = t.querySelector('tbody tr'); if(!first) return ['—',0];
+    const name = first.children[nameIdx].textContent.trim();
+    const value = parseInt(first.children[valueIdx].textContent.replace(/[,\s]/g,''),10) || 0;
+    return [name, value];
+  }
+  // Total coins
+  const totalCoins = sumColumn('sponsors-amount', 1).toLocaleString();
+  const totalEl = document.getElementById('stat-total-coins');
+  if (totalEl) totalEl.textContent = totalCoins + ' coins';
+  const [topSponsorName, topSponsorCoins] = topRow('sponsors-amount', 0, 1);
+  const topEl = document.getElementById('stat-top-sponsor');
+  if (topEl) topEl.textContent = `Top sponsor: ${topSponsorName} (${topSponsorCoins.toLocaleString()})`;
+
+  // Weekly messages
+  const weeklyMsgs = sumColumn('message-counter-weekly', 1).toLocaleString();
+  const wmEl = document.getElementById('stat-weekly-msgs');
+  if (wmEl) wmEl.textContent = weeklyMsgs;
+  const updText = (document.querySelector('p strong:contains("Last Updated:")')?.parentElement?.textContent.match(/(\d{2}\/\d{2}\/\d{2,4})/)||[])[1] || '—';
+  const wuEl = document.getElementById('stat-weekly-updated');
+  if (wuEl) wuEl.textContent = updText;
+
+  // Weekly wins
+  const weeklyWins = sumColumn('wins-counter-weekly', 1).toLocaleString();
+  const wwEl = document.getElementById('stat-weekly-wins');
+  if (wwEl) wwEl.textContent = weeklyWins;
+  const [weeklyWinner, weeklyWinnerWins] = topRow('wins-counter-weekly', 0, 1);
+  const wwlEl = document.getElementById('stat-weekly-winner');
+  if (wwlEl) wwlEl.textContent = `${weeklyWinner} (${weeklyWinnerWins})`;
+
+  // Team members count
+  const teamCards = document.querySelectorAll('.thumbnail-grid .thumbnail-wrapper').length;
+  const shout = document.querySelector('.shoutout strong');
+  const shoutCount = shout ? shout.textContent.split(',').length : 0;
+  const tcEl = document.getElementById('stat-team-count');
+  if (tcEl) tcEl.textContent = (teamCards + shoutCount).toString();
+})();
+</script>
+
+<div class="table-caption">Tip: click headers to sort.</div>
