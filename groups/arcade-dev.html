@@ -967,6 +967,29 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       });
       a.dataset.copyBound = '1';
     }
+
+    // Remove/hide any adjacent raw link or auto-rendered copy button duplicating this URL
+    const sibs = [el.previousElementSibling, el.nextElementSibling];
+    sibs.forEach(sib => {
+      if (!sib) return;
+      // Raw anchor right next to our button
+      if (sib.tagName && sib.tagName.toLowerCase() === 'a' && sib.href === url) {
+        sib.remove();
+        return;
+      }
+      // Common wrapper that might contain the raw URL or a copy icon
+      if (sib.matches && (sib.matches('.content-copy, [data-role="copy"], [aria-label*="copy" i]') || sib.textContent.trim() === url)) {
+        sib.remove();
+      }
+    });
+
+    // Also check within the same parent for a duplicate anchor outside our span
+    const parent = el.parentElement;
+    if (parent) {
+      parent.querySelectorAll(':scope > a[href]').forEach(outA => {
+        if (outA !== a && outA.href === url) outA.remove();
+      });
+    }
   });
 })();
 </script>
