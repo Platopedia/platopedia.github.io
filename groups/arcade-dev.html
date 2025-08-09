@@ -16,8 +16,7 @@
   .container{max-width:1000px;margin:auto;padding:16px}
 
   /* HERO */
-  .hero{display:grid;gap:16px;grid-template-columns:1.1fr .9fr;align-items:center;margin-top:8px}
-  @media (max-width:900px){.hero{grid-template-columns:1fr}}
+  .hero{display:grid;gap:16px;grid-template-columns:1fr;align-items:center;margin-top:8px}
   .card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:16px}
   h1{font-size:clamp(28px,6vw,48px);margin:0 0 8px;font-weight:800}
   h2{font-size:clamp(20px,4.5vw,28px);margin:0 0 10px}
@@ -37,10 +36,11 @@
 
   /* Sections */
   section{margin-top:26px}
-  .table-wrap{overflow:auto;border-radius:var(--radius-sm);border:1px solid var(--border)}
-  table{width:100%;border-collapse:collapse;min-width:420px}
+  .table-wrap{overflow:hidden;border-radius:var(--radius-sm);border:1px solid var(--border)}
+  table{width:100%;border-collapse:collapse;min-width:0;table-layout:fixed}
   th,td{padding:10px 8px;border-bottom:1px solid rgba(255,255,255,.08)}
-  thead th{font-size:12px;color:var(--muted);text-align:left}
+  .table-wrap table th, .table-wrap table td{width:50%;text-align:center;word-break:break-word}
+  thead th{font-size:12px;color:var(--muted);text-align:center}
 
   /* Pagination */
   .pager{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:flex-end;margin-top:10px}
@@ -49,9 +49,7 @@
   .pager button[disabled]{opacity:.5}
 
   /* Team */
-  .grid{display:grid;gap:16px;grid-template-columns:repeat(3,minmax(0,1fr))}
-  @media (max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
-  @media (max-width:560px){.grid{grid-template-columns:1fr}}
+  .grid{display:grid;gap:16px;grid-template-columns:1fr}
   .member{display:grid;gap:10px;grid-template-columns:64px 1fr;align-items:center}
   .avatar{width:64px;height:64px;border-radius:50%;object-fit:cover;border:1px solid var(--border)}
   .desc{color:var(--muted);font-size:14px;margin:6px 0 0}
@@ -66,7 +64,8 @@
   .tab.active{border-color:rgba(255,30,45,.45);background:linear-gradient(180deg, rgba(255,30,45,.20), rgba(255,30,45,.06))}
   .tab:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px}
   .tab-content{margin-top:8px}
-  .tab-pane[hidden]{display:none}
+</style>
+  section{display:block !important}
 </style>
 </head>
 <body>
