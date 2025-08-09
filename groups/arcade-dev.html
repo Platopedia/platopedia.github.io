@@ -1,439 +1,293 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
-import { Copy, Trophy, MessageCircle, Crown, Sparkles, ExternalLink, Instagram, Discord } from "lucide-react";
+---
+layout: tool-content
+title: Arcade - Platopedia
+heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
+---
 
-/**
- * Arcade - Platopedia
- * High-energy, futuristic, arcade-inspired cyberpunk UI
- * - Red-dominant palette with neon glows + holographic layers
- * - Circuit patterns, scanlines, glitchy headings
- * - Particle trails & micro-interactions
- * - Pixel flourishes and techno typography
- */
+<style>
+  /* ====== CYBERPUNK ARCADE SKIN (no external deps) ====== */
+  :root {
+    --neo-red: #E1100D;
+    --neo-cyan: #04F1F9;
+    --neo-bg: #0b0b11;
+    --neo-panel: #12121A;
+    --neo-border: rgba(225,16,13,.45);
+  }
+  body { background: radial-gradient(1200px 480px at 50% -10%, rgba(225,16,13,.23), transparent), linear-gradient(180deg,#09090f,#0b0b11 40%,#0c0c14); }
+  h2,h3 { color: var(--neo-red) !important; text-shadow: 0 0 12px rgba(225,16,13,.45); }
+  h4,h5 { color: #008080 !important; font-size: var(--unit-text-B) !important; }
 
-// --- Theme tokens (Tailwind-friendly via CSS variables) ---
-const tokens = {
-  red: "#E1100D",
-  redSoft: "#ff1e1a",
-  cyan: "#04F1F9",
-  magenta: "#FF4DFF",
-  amber: "#FFC857",
-  surface: "#0b0b11",
-  surface2: "#12121A",
-  border: "rgba(225,16,13,0.4)",
-  glow: "0 0 24px rgba(225,16,13,.65), 0 0 4px rgba(225,16,13,.75)",
-  glowCyan: "0 0 20px rgba(4,241,249,.5)",
-};
+  /* scanlines + circuit grid */
+  .fx-layer { position: fixed; inset: 0; pointer-events:none; z-index: 0; }
+  .fx-scan { mix-blend-mode: soft-light; opacity: .28; background: repeating-linear-gradient(0deg, rgba(255,255,255,.07) 0 1px, transparent 1px 3px); }
+  .fx-circuit { opacity:.18; }
 
-// --- Utility: classnames ---
-function cn(...a) { return a.filter(Boolean).join(" "); }
+  /* panels */
+  .neo-card { position: relative; border:1px solid var(--neo-border); border-radius: 20px; background: linear-gradient(180deg, rgba(2,8,23,.6), rgba(2,8,23,.3)); box-shadow: 0 0 32px rgba(225,16,13,.25); padding: 18px; }
+  .neo-card::before { content:""; position:absolute; inset:0; border-radius:20px; background: radial-gradient(600px 140px at 50% -12%, rgba(225,16,13,.28), transparent); opacity:.6; pointer-events:none; }
 
-// --- Background visual layers ---
-const Scanlines: React.FC = () => (
-  <div className="pointer-events-none absolute inset-0 mix-blend-soft-light opacity-30" style={{
-    backgroundImage:
-      "repeating-linear-gradient(0deg, rgba(255,255,255,0.07) 0px, rgba(255,255,255,0.07) 1px, transparent 1px, transparent 3px)",
-  }} />
-);
+  /* neon button */
+  .neo-btn { position: relative; display:inline-flex; align-items:center; gap:8px; padding:10px 16px; border-radius:14px; border:1px solid rgba(225,16,13,.5); background: linear-gradient(180deg, rgba(225,16,13,.28), rgba(90,0,0,.18)); color:#fff; font-weight:700; text-decoration:none; transition: transform .18s ease, box-shadow .18s ease, background .18s ease; box-shadow: 0 0 18px rgba(225,16,13,.55); }
+  .neo-btn:hover { transform: translateY(-2px); box-shadow: 0 0 24px rgba(225,16,13,.7); }
+  .pixel-label { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:11px; letter-spacing:.2em; text-transform:uppercase; padding:4px 6px; border-radius:6px; border:1px solid rgba(225,16,13,.4); background: rgba(120,0,0,.25); color:#ffdede; box-shadow:0 0 10px rgba(225,16,13,.35); }
 
-const CircuitGrid: React.FC = () => (
-  <svg className="pointer-events-none absolute inset-0 opacity-20" viewBox="0 0 100 100" preserveAspectRatio="none">
+  /* announcement marquee – keep your original API but amp up style */
+  .announcement-strip { width: 100%; background: linear-gradient(to bottom, var(--color-C, #190808), var(--color-D, #0f0a0a), var(--color-C, #190808)); overflow:hidden; white-space:nowrap; font-family: ui-monospace, monospace; font-size: 16px; display:flex; align-items:center; height: 44px; box-shadow: 0 4px 10px rgba(225,16,13,.25); border-top: 2px solid var(--neo-border); border-bottom: 2px solid var(--neo-border); border-radius: 12px; position: relative; }
+  .announcement-strip::after { content:""; position:absolute; inset:0; background: repeating-linear-gradient(90deg, rgba(225,16,13,.15) 0 2px, transparent 2px 6px); opacity:.35; pointer-events:none; }
+  .scrolling-text { display:inline-block; padding-left: 100%; animation: scroll 14s linear infinite; color:#ffdede; }
+  @keyframes scroll { 0% { transform: translateX(0%);} 100% { transform: translateX(-100%);} }
+
+  /* tables – neon borders */
+  .table.table-bordered { border-color: rgba(225,16,13,.35); box-shadow: 0 0 16px rgba(225,16,13,.2) inset; }
+  .table.table-bordered th { background: rgba(225,16,13,.18); color: #ffdede; border-color: rgba(225,16,13,.35); }
+  .table.table-bordered td { color: #ffefef; border-color: rgba(225,16,13,.2); }
+  .table.table-bordered tr:hover td { background: rgba(225,16,13,.08); }
+
+  /* thumbnails */
+  .thumbnail-grid { display:flex; flex-wrap:wrap; justify-content:center; gap:14px; width:100%; margin:auto; }
+  .thumbnail-wrapper { font-family: ui-monospace, monospace; width: 180px; text-align:center; background: rgba(10,10,16,.35); border:1px solid rgba(225,16,13,.25); padding:12px; border-radius:16px; transition: transform .18s ease, box-shadow .18s ease; }
+  .thumbnail-wrapper:hover { transform: translateY(-3px); box-shadow: 0 0 22px rgba(225,16,13,.35); }
+  .thumbnail-wrapper .thumbnail { width: 110px; height:110px; border-radius:50%; object-fit:cover; box-shadow:0 0 18px rgba(225,16,13,.35); }
+  .thumbnail-wrapper .username { margin-top: 7px; font-size: 13px; font-weight: 700; color: #ffdede; }
+  .thumbnail-wrapper .description { margin-top: 4px; font-size: 11px; color: #ffbcbc; text-wrap: balance; }
+
+  .shoutout { font-family: ui-monospace, monospace; font-size: 13px; color: #ffbcbc; }
+
+  /* badges */
+  .badge { display:inline-block; font-size:11px; padding:4px 8px; border-radius:8px; border:1px solid rgba(255,255,255,.15); }
+  .badge-live { background: rgba(225,16,13,.7); border-color: rgba(225,16,13,.6); color:#fff; box-shadow:0 0 14px rgba(225,16,13,.6); }
+  .badge-cyan { background: rgba(4,241,249,.35); border-color: rgba(4,241,249,.5); color:#eaffff; box-shadow:0 0 14px rgba(4,241,249,.6); }
+
+  /* helper spacing */
+  .neo-stack { display:grid; gap: 16px; }
+
+  /* keep your original theme vars for timeline parts */
+  body[data-theme="light"] { --color-time-line: #555; --color-time-circ: #FFF; }
+  body[data-theme="dark"]  { --color-time-line: #555; --color-time-circ: #000; }
+  .timeline { font-family: ui-monospace, monospace; list-style-type: none; padding-left: 35px; position: relative; }
+  .timeline:before { content: ' '; background: var(--color-time-line); display: inline-block; position: absolute; left: 9px; width: 2px; height: 100%; z-index: 400; }
+  .timeline > li:before { content: ' '; background: var(--color-time-circ); display: inline-block; position: absolute; border-radius: 50%; border: 3px solid var(--neo-red); left: 0; width: 20px; height: 20px; z-index: 400; }
+  .timeline .title { font-size: 15px; font-weight: bold; color: var(--neo-red); }
+  .timeline .datetime { font-size: 15px; color: #999; }
+  .timeline .description { font-size: 13px; color: #bbb; }
+</style>
+
+<!-- FX layers: circuit grid + scanlines + particle canvas -->
+<div class="fx-layer fx-circuit" aria-hidden="true">
+  <svg viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="100%">
     <defs>
       <pattern id="circuit" width="12" height="12" patternUnits="userSpaceOnUse">
-        <path d="M0 6 H5 M7 6 H12 M6 0 V5 M6 7 V12" stroke="rgba(255,0,0,0.35)" strokeWidth="0.6" />
+        <path d="M0 6 H5 M7 6 H12 M6 0 V5 M6 7 V12" stroke="rgba(255,0,0,0.35)" stroke-width="0.6" />
         <circle cx="6" cy="6" r="0.9" fill="rgba(4,241,249,0.4)" />
       </pattern>
     </defs>
     <rect width="100" height="100" fill="url(#circuit)" />
   </svg>
-);
+</div>
+<div class="fx-layer fx-scan" aria-hidden="true"></div>
+<canvas id="fx-particles" class="fx-layer" aria-hidden="true"></canvas>
 
-// --- Particle trails (cursor-reactive) ---
-const ParticleCanvas: React.FC = () => {
-  const ref = useRef<HTMLCanvasElement>(null);
-  const particles = useRef<any[]>([]);
-  const last = useRef(0);
+<div class="linebreak"></div>
 
-  useEffect(() => {
-    const c = ref.current!;
-    const ctx = c.getContext("2d")!;
-    let raf = 0;
-
-    function resize() {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      c.width = Math.floor(c.clientWidth * dpr);
-      c.height = Math.floor(c.clientHeight * dpr);
-      ctx.scale(dpr, dpr);
-    }
-    resize();
-    window.addEventListener("resize", resize);
-
-    const add = (x: number, y: number) => {
-      for (let i = 0; i < 6; i++) {
-        const a = Math.random() * Math.PI * 2;
-        const s = 1 + Math.random() * 2.5;
-        particles.current.push({
-          x, y,
-          vx: Math.cos(a) * s,
-          vy: Math.sin(a) * s,
-          life: 700 + Math.random() * 600,
-          born: performance.now(),
-          hue: Math.random() < 0.5 ? tokens.red : tokens.cyan,
-        });
-      }
-    };
-
-    const onMove = (e: MouseEvent) => {
-      const rect = c.getBoundingClientRect();
-      add(e.clientX - rect.left, e.clientY - rect.top);
-    };
-    c.addEventListener("mousemove", onMove);
-
-    function tick(t: number) {
-      raf = requestAnimationFrame(tick);
-      const dt = t - last.current; last.current = t;
-      ctx.clearRect(0, 0, c.clientWidth, c.clientHeight);
-
-      particles.current = particles.current.filter(p => t - p.born < p.life);
-      for (const p of particles.current) {
-        const age = (t - p.born) / p.life;
-        p.x += p.vx * (dt / 16);
-        p.y += p.vy * (dt / 16);
-        p.vx *= 0.98; p.vy *= 0.98; // drag
-        const alpha = 1 - age;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, 2 + (1 - alpha) * 2, 0, Math.PI * 2);
-        ctx.fillStyle = p.hue === tokens.red ? `rgba(225,16,13,${alpha})` : `rgba(4,241,249,${alpha})`;
-        ctx.shadowBlur = 10; ctx.shadowColor = p.hue;
-        ctx.fill();
-      }
-    }
-    raf = requestAnimationFrame(tick);
-    return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", resize); c.removeEventListener("mousemove", onMove); };
-  }, []);
-
-  return <canvas ref={ref} className="absolute inset-0 w-full h-full" />;
-};
-
-// --- Glitchy neon heading ---
-const GlitchTitle: React.FC<{ text: React.ReactNode }> = ({ text }) => (
-  <div className="relative inline-block select-none">
-    <h1 className="text-3xl md:text-5xl font-black tracking-tight text-white drop-shadow-[0_0_24px_rgba(225,16,13,.75)]">
-      {text}
-    </h1>
-    <span className="absolute left-0 top-0 blur-sm text-white/80" style={{ transform: "translate(2px,0)" }}>{text}</span>
-    <span className="absolute left-0 top-0 text-cyan-300/70 blur-[1px]" style={{ transform: "translate(-2px,0)" }}>{text}</span>
+<div class="announcement-strip neo-card" style="padding:0;">
+  <div class="scrolling-text">
+    <strong>UPDATE:</strong> ArcadeBot will auto-create featured game tabs every hour and track wins throughout the week. Players with the most wins are rewarded weekly.
   </div>
-);
+</div>
 
-// --- Neon button ---
-const NeonButton: React.FC<React.ComponentProps<typeof Button> & { glow?: boolean }> = ({ className, glow = true, children, ...props }) => (
-  <Button {...props} className={cn(
-    "relative overflow-hidden rounded-2xl px-5 py-6 text-base font-semibold",
-    "border border-red-600/50 bg-gradient-to-b from-red-600/30 to-red-900/20",
-    glow && "shadow-[0_0_18px_rgba(225,16,13,.65)]",
-    "hover:translate-y-[-1px] transition-all duration-200",
-    className
-  )}>
-    <span className="absolute inset-0 pointer-events-none opacity-60" style={{
-      background: "radial-gradient(600px 120px at 50% -20%, rgba(255,255,255,.12), transparent)",
-    }} />
-    <span className="relative flex items-center gap-2">{children}</span>
-  </Button>
-);
+<div class="linebreak"></div>
 
-// --- Data ---
-const sponsors = [
-  ["Tear", 8476850],
-  ["Risk", 6766600],
-  ["Fear", 5292000],
-  ["TrolledYou", 3782000],
-  ["LA_GIRL07", 2660000],
-  ["Mdame", 1160000],
-  ["Nefya", 1025000],
-  ["Fairy", 1014500],
-  ["Rose", 1007500],
-  ["Alqubaisi", 800000],
-] as const;
-
-const weekly = [
-  ["Keistaa", 9124],
-  ["_EVe__", 8983],
-  ["_CALIX", 8881],
-  ["Vaella", 4492],
-  ["calisha", 2111],
-  ["abdullahshah", 1921],
-  ["INNA", 1842],
-  ["4DA", 1444],
-] as const;
-
-const alltime = [
-  ["calisha", 68686],
-  ["Xulann_Pro", 55450],
-  ["Keistaa", 51809],
-  ["QQB", 44483],
-  ["NeVenZo", 42856],
-  ["INNA", 38586],
-  ["DontTouchMe", 38542],
-  ["Kikutie", 35248],
-] as const;
-
-const wins = [
-  ["Mari_Dee", 56],
-  ["vmyi", 29],
-  ["_kyraa_", 29],
-  ["___Don", 21],
-  ["Eunoir", 20],
-  ["ius", 19],
-  ["labeeba", 17],
-  ["Darth_Deigo", 15],
-] as const;
-
-// --- Badged heading row ---
-function HeadingRow() {
-  return (
-    <div className="flex items-center justify-between flex-wrap gap-4">
-      <div className="flex items-center gap-3">
-        <img src="/docs/assets/images/groups/arcade/ar-logo.png" alt="Arcade" className="h-10 w-10 rounded-md"/>
-        <GlitchTitle text={<><span className="text-red-500">Arcade</span> <span className="text-white/90">— Platopedia</span></>} />
-      </div>
-      <div className="flex items-center gap-2">
-        <Badge className="bg-red-600/70 border border-red-500/60 shadow-[0_0_14px_rgba(225,16,13,.7)]">Live</Badge>
-        <Badge className="bg-cyan-600/40 border border-cyan-400/50 shadow-[0_0_14px_rgba(4,241,249,.6)]">Neon v2</Badge>
+<div class="neo-card">
+  <div class="neo-stack" style="align-items:center; grid-template-columns: 1.2fr .8fr;">
+    <div class="content-image" data-url="/docs/assets/images/groups/arcade/game-on-banner.png" data-width="690px" data-label=""></div>
+    <div>
+      <span class="pixel-label">About Arcade</span>
+      <h3 id="about-arcade" style="margin-top:10px;">About Arcade</h3>
+      <p>Arcade is a welcoming English community group established on December 28, 2021. We've hosted some of Plato's biggest events and have plenty more exciting stuff in store.</p>
+      <div class="social-buttons" style="margin-top:10px;">
+        <a class="neo-btn" href="https://instagram.com/arcade.og/">Instagram</a>
+        <a class="neo-btn" href="https://discord.com/invite/mq7QMY88KU">Discord</a>
       </div>
     </div>
-  );
-}
+  </div>
+</div>
 
-// --- Announcement Marquee ---
-function Announcement() {
-  return (
-    <div className="relative w-full overflow-hidden rounded-2xl border border-red-600/40 bg-gradient-to-b from-red-900/40 to-red-900/10 shadow-[0_0_24px_rgba(225,16,13,.45)]">
-      <div className="absolute inset-0 opacity-40" style={{background:
-        "repeating-linear-gradient(90deg, rgba(225,16,13,.15) 0 2px, transparent 2px 6px)"}} />
-      <div className="whitespace-nowrap py-3 text-sm font-mono text-red-200 animate-[marquee_16s_linear_infinite] px-6">
-        <strong className="text-red-300">UPDATE:</strong> ArcadeBot will auto-create featured game tabs every hour and track wins throughout the week. Players with the most wins are rewarded weekly.
-      </div>
-      <style>{`@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}`}</style>
-    </div>
-  );
-}
+<div class="linebreak"></div>
 
-// --- Table (neon) ---
-function NeonTable({ rows, headers }: { rows: readonly (readonly [string, number])[]; headers: [string, string]; }) {
-  return (
-    <div className="overflow-hidden rounded-2xl border border-red-600/50 bg-slate-900/40 backdrop-blur-md shadow-[0_0_22px_rgba(225,16,13,.35)]">
-      <table className="w-full text-left">
-        <thead>
-          <tr className="bg-red-900/40">
-            <th className="p-3 text-xs md:text-sm text-red-200/90 font-semibold border-b border-red-600/40">{headers[0]}</th>
-            <th className="p-3 text-xs md:text-sm text-red-200/90 font-semibold border-b border-red-600/40">{headers[1]}</th>
-          </tr>
-        </thead>
+<div class="content-contents text-left" data-open="false" data-icon="&#xf068;,&#xf067;">Contents <embed/></div>
+
+<div class="linebreak"></div>
+
+<div class="neo-card">
+  <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;">
+    <h2 id="join-arcade" style="margin:0;">Join Arcade Group</h2>
+    <span class="badge badge-live">Live</span>
+    <span class="badge badge-cyan">Friday Invites</span>
+  </div>
+  <p>We're making it easier for you to join our group. Say goodbye to the waiting room - now, all you need to do is add one of our invite accounts linked below. Every Friday, we'll send out invites to new members (we promise).</p>
+  <p>Add <strong>@Arcade:</strong></p>
+  <p>
+    <a class="neo-btn" data-copy="true" href="https://platoapp.com/link/3gpmf8vsry32p">Copy Invite Link</a>
+  </p>
+</div>
+
+<div class="linebreak"></div>
+
+<div class="neo-card">
+  <h2 id="team-invite" style="margin-top:0;">Arcade Team Invite</h2>
+  <p>We're rebuilding the Arcade team completely with clearer roles, a better team structure and recruitment process. If you love Arcade, this is your chance to join our incredible team. Let's create something amazing together!</p>
+  <p><a class="neo-btn" href="https://forms.gle/VHVLroERoB3oyJm37">Apply Now</a></p>
+</div>
+
+<div class="linebreak"></div>
+
+<h2 id="sponsors">Sponsors 👑</h2>
+<p>To be added to the list, you need to have sponsored a minimum of 50k coins in total. If you'd like to sponsor, head over to <a href="https://discord.com/channels/1059760594128998400/1339249377406881793">#sponsor-tickets</a> on Arcade's Discord and click the <strong>Sponsor</strong> button.</p>
+
+<div class="content-table neo-card" style="padding:0;">
+  <table id="sponsors-amount" class="table table-bordered" style="margin:0;">
+    <thead>
+      <tr>
+        <th class="w-50">Sponsors</th>
+        <th class="w-50">Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Tear</td><td>8476850</td></tr>
+      <tr><td>Risk</td><td>6766600</td></tr>
+      <tr><td>Fear</td><td>5292000</td></tr>
+      <tr><td>TrolledYou</td><td>3782000</td></tr>
+      <tr><td>LA_GIRL07</td><td>2660000</td></tr>
+      <tr><td>Mdame</td><td>1160000</td></tr>
+      <tr><td>Nefya</td><td>1025000</td></tr>
+      <tr><td>Fairy</td><td>1014500</td></tr>
+      <tr><td>Rose</td><td>1007500</td></tr>
+      <tr><td>Alqubaisi</td><td>800000</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<p class="text-center"><b>Total:</b> <span id="sponsor-total"></span> coins</p>
+
+<div class="linebreak"></div>
+
+<h2 id="message-counter">Message Counter 🔥</h2>
+<p>As of 13/12/2024, ArcadeBot is keeping track of all messages sent in Arcade. The lists below shows our top 20 most active members for the week and of all time, updated every Friday. #nospam</p>
+<p><strong>Last Updated:</strong> 08/08/25</p>
+
+<ul class="nav nav-pills x-nav-justified justify-content-center nav-content" role="tablist">
+  <li class="nav-item"><a class="nav-link active" href="#" role="tab" data-toggle="tab" data-target="#tab-message-counter-weekly">Weekly Count</a></li>
+  <li class="nav-item"><a class="nav-link" href="#" role="tab" data-toggle="tab" data-target="#tab-message-counter-alltime">All Time Count</a></li>
+</ul>
+
+<div class="linebreak"></div>
+
+<div class="tab-content neo-card" style="padding:14px;">
+  <div id="tab-message-counter-weekly" class="tab-pane fade show active" role="tabpanel">
+    <div class="content-table">
+      <table id="message-counter-weekly" class="table table-bordered">
+        <thead><tr><th class="w-50">Plato ID</th><th class="w-50">Weekly Count</th></tr></thead>
         <tbody>
-          {rows.map(([name, val], i) => (
-            <tr key={name} className={cn(
-              "border-b border-red-600/20 hover:bg-red-800/10 transition-colors",
-              i === 0 && "relative"
-            )}>
-              <td className="p-3 text-sm text-red-50/90">
-                {i === 0 && <span className="mr-2">🏆</span>}{name}
-              </td>
-              <td className="p-3 text-sm tabular-nums text-red-100/90">{val.toLocaleString()}</td>
-            </tr>
-          ))}
+          <tr><td>Keistaa</td><td>9124</td></tr>
+          <tr><td>_EVe__</td><td>8983</td></tr>
+          <tr><td>_CALIX</td><td>8881</td></tr>
+          <tr><td>Vaella</td><td>4492</td></tr>
+          <tr><td>calisha</td><td>2111</td></tr>
+          <tr><td>abdullahshah</td><td>1921</td></tr>
+          <tr><td>INNA</td><td>1842</td></tr>
+          <tr><td>4DA</td><td>1444</td></tr>
         </tbody>
       </table>
     </div>
-  );
-}
-
-// --- Card shell ---
-function NeonCard({ children, className }: React.PropsWithChildren<{ className?: string }>) {
-  return (
-    <Card className={cn(
-      "relative overflow-hidden rounded-3xl border border-red-600/40 bg-gradient-to-b from-slate-950/80 to-slate-950/40",
-      "shadow-[0_0_40px_rgba(225,16,13,.25)]",
-      className
-    )}>
-      <div className="absolute inset-0 opacity-30" style={{
-        background: "radial-gradient(600px 140px at 50% -10%, rgba(225,16,13,.35), transparent)",
-      }} />
-      <CardContent className="relative p-6 md:p-8">
-        {children}
-      </CardContent>
-    </Card>
-  );
-}
-
-// --- Pixel label ---
-const PixelLabel: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <span className="font-mono text-[11px] uppercase tracking-[0.2em] px-2 py-1 rounded bg-red-900/30 border border-red-600/40 text-red-200/90 shadow-[0_0_10px_rgba(225,16,13,.45)]">{children}</span>
-);
-
-// --- Copyable link button ---
-function CopyLink({ href, label }: { href: string; label: string }) {
-  const [copied, setCopied] = useState(false);
-  return (
-    <NeonButton onClick={async () => { await navigator.clipboard.writeText(href); setCopied(true); setTimeout(()=>setCopied(false), 1500); }}>
-      <Copy className="h-4 w-4" />
-      {copied ? "Copied" : label}
-    </NeonButton>
-  );
-}
-
-// --- Avatar grid ---
-function Avatar({ src, name, desc }: { src: string; name: string; desc: string }) {
-  return (
-    <motion.div whileHover={{ y: -3 }} className="flex flex-col items-center gap-3 p-4 rounded-2xl border border-red-600/30 bg-slate-900/30 backdrop-blur-sm hover:shadow-[0_0_24px_rgba(225,16,13,.35)] transition-shadow">
-      <div className="relative">
-        <img src={src} alt={name} className="h-28 w-28 md:h-32 md:w-32 rounded-full object-cover" />
-        <span className="absolute inset-0 rounded-full ring-2 ring-red-500/50 animate-pulse" />
-      </div>
-      <div className="text-center">
-        <div className="font-bold text-red-200">{name}</div>
-        <div className="text-xs text-red-100/70 max-w-[16rem]">{desc}</div>
-      </div>
-    </motion.div>
-  );
-}
-
-export default function ArcadePlatopedia() {
-  const total = useMemo(() => sponsors.reduce((s, [, n]) => s + n, 0), []);
-  const [tab, setTab] = useState<"weekly"|"alltime">("weekly");
-
-  return (
-    <div className="relative min-h-screen text-white" style={{ background: `radial-gradient(1200px 500px at 50% -10%, rgba(225,16,13,.25), transparent), linear-gradient(180deg, #09090f, #0b0b11 40%, #0c0c14)` }}>
-      {/* Visual layers */}
-      <CircuitGrid />
-      <Scanlines />
-      <ParticleCanvas />
-
-      {/* Container */}
-      <div className="relative mx-auto max-w-6xl px-4 py-8 md:py-12 space-y-8">
-        <HeadingRow />
-
-        <Announcement />
-
-        {/* Banner */}
-        <NeonCard>
-          <div className="grid md:grid-cols-[1.2fr_.8fr] gap-6 items-center">
-            <img src="/docs/assets/images/groups/arcade/game-on-banner.png" alt="Game On" className="rounded-2xl w-full shadow-[0_0_24px_rgba(225,16,13,.35)]" />
-            <div className="space-y-4">
-              <PixelLabel>About Arcade</PixelLabel>
-              <p className="text-sm text-red-100/80">
-                Arcade is a welcoming English community group established on <span className="text-red-300">December 28, 2021</span>. We've hosted some of Plato's biggest events and have plenty more exciting stuff in store.
-              </p>
-              <div className="flex gap-3">
-                <a className="group" href="https://instagram.com/arcade.og/" target="_blank" rel="noreferrer">
-                  <NeonButton><Instagram className="h-4 w-4"/> Instagram</NeonButton>
-                </a>
-                <a className="group" href="https://discord.com/invite/mq7QMY88KU" target="_blank" rel="noreferrer">
-                  <NeonButton><Discord className="h-4 w-4"/> Discord</NeonButton>
-                </a>
-              </div>
-            </div>
-          </div>
-        </NeonCard>
-
-        {/* Join + Team invite */}
-        <div className="grid md:grid-cols-2 gap-6">
-          <NeonCard>
-            <div className="flex items-start justify-between gap-4">
-              <div className="space-y-3">
-                <GlitchTitle text={<span className="text-red-300">Join Arcade Group</span>} />
-                <p className="text-sm text-red-100/80 max-w-prose">We're making it easier for you to join our group. Say goodbye to the waiting room — add our invite account and we'll send invites every Friday.</p>
-                <div className="flex items-center gap-3">
-                  <PixelLabel>@Arcade</PixelLabel>
-                  <CopyLink href="https://platoapp.com/link/3gpmf8vsry32p" label="Copy Invite Link" />
-                </div>
-              </div>
-              <Badge className="bg-cyan-600/40 border border-cyan-400/50">Friday Invites</Badge>
-            </div>
-          </NeonCard>
-
-          <NeonCard>
-            <div className="space-y-3">
-              <GlitchTitle text={<span className="text-red-300">Arcade Team Invite</span>} />
-              <p className="text-sm text-red-100/80">We're rebuilding the Arcade team with clearer roles and a better structure. Love Arcade? Join the crew and help craft something amazing.</p>
-              <a href="https://forms.gle/VHVLroERoB3oyJm37" target="_blank" rel="noreferrer">
-                <NeonButton>
-                  <Sparkles className="h-4 w-4" /> Apply Now <ExternalLink className="h-4 w-4" />
-                </NeonButton>
-              </a>
-            </div>
-          </NeonCard>
-        </div>
-
-        {/* Sponsors */}
-        <NeonCard>
-          <div className="flex items-center justify-between mb-4">
-            <GlitchTitle text={<span className="text-red-300">Sponsors 👑</span>} />
-            <div className="text-sm text-red-200/80">Total: <span className="font-mono">{total.toLocaleString()} coins</span></div>
-          </div>
-          <p className="text-xs text-red-100/70 mb-4">To be added, sponsor a minimum of 50k coins. To sponsor, head to <span className="underline">#sponsor-tickets</span> on the Arcade Discord and click <strong>Sponsor</strong>.</p>
-          <NeonTable rows={sponsors} headers={["Sponsors", "Amount"]} />
-        </NeonCard>
-
-        {/* Message Counter */}
-        <NeonCard>
-          <div className="flex items-center justify-between mb-4">
-            <GlitchTitle text={<span className="text-red-300">Message Counter 🔥</span>} />
-            <div className="text-xs text-red-100/70">Last Updated: <span className="font-mono">08/08/25</span></div>
-          </div>
-          <div className="flex gap-2 mb-4">
-            <NeonButton onClick={() => setTab("weekly")} className={cn(tab!=="weekly" && "opacity-60")}>Weekly</NeonButton>
-            <NeonButton onClick={() => setTab("alltime")} className={cn(tab!=="alltime" && "opacity-60")}>All Time</NeonButton>
-          </div>
-          <AnimatePresence mode="wait">
-            {tab === "weekly" ? (
-              <motion.div key="w" initial={{opacity:0, y:6}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-6}}>
-                <NeonTable rows={weekly} headers={["Plato ID", "Weekly Count"]} />
-              </motion.div>
-            ) : (
-              <motion.div key="a" initial={{opacity:0, y:6}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-6}}>
-                <NeonTable rows={alltime} headers={["Plato ID", "All Time Count"]} />
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </NeonCard>
-
-        {/* Wins Counter */}
-        <NeonCard>
-          <div className="flex items-center justify-between mb-4">
-            <GlitchTitle text={<span className="text-red-300">Wins Counter 🎯</span>} />
-            <Badge className="bg-amber-600/40 border border-amber-300/50 flex items-center gap-1"><Trophy className="h-3 w-3"/> Weekly</Badge>
-          </div>
-          <NeonTable rows={wins} headers={["Plato ID", "Weekly Wins"]} />
-        </NeonCard>
-
-        {/* Our Team */}
-        <NeonCard>
-          <div className="mb-6"><GlitchTitle text={<span className="text-red-300">Our Team</span>} /></div>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
-            <Avatar src="/docs/assets/images/groups/arcade/rose.png" name="Rose" desc="Our boss and leader, truly one of a kind. Just don't push her buttons" />
-            <Avatar src="/docs/assets/images/groups/arcade/fear.png" name="Fear" desc="Strange specimen who hides from his own group, incredibly generous though" />
-            <Avatar src="/docs/assets/images/groups/arcade/hitman.png" name="Hitman" desc="If you're looking for the definition of loyalty, you'll find his name in the dictionary" />
-            <Avatar src="/docs/assets/images/groups/arcade/fairy.png" name="Fairy" desc="Just like her username, she's sweet, helpful, and has supported us since day one" />
-            <Avatar src="/docs/assets/images/groups/arcade/inna.png" name="Inna" desc="A loyal member of Arcade who has risen to the top" />
-            <Avatar src="/docs/assets/images/groups/arcade/tear.gif" name="Tear" desc="One of a kind. Ain't nobody else like him. Most humble and generous person ever" />
-            <Avatar src="/docs/assets/images/groups/arcade/risk.png" name="Risk" desc="Lives up to the name. Bold and unpredictable — the wild card every team needs" />
-          </div>
-          <p className="mt-6 text-xs text-red-100/70">A big shout-out to the rest of our Team: <strong>4DA, abc, Akamehhh, alqubaisi, Arts, Aura, DarkEstrela, Diem17, esthell, Frequency, Galaxy, Kikutie, Mdame, Mellisssaaa, Nefya, pink1tty, Qear, Spring, Trolledyou, YR_</strong></p>
-        </NeonCard>
-
-        {/* Footer */}
-        <div className="flex items-center justify-center gap-2 text-[11px] text-red-200/60 pb-8">
-          <span>© Arcade • Built with neon & grit</span>
-        </div>
-      </div>
-
-      {/* Extra glow ring */}
-      <div className="pointer-events-none absolute -top-40 left-1/2 h-[600px] w-[600px] -translate-x-1/2 rounded-full" style={{boxShadow: tokens.glow}} />
+  </div>
+  <div id="tab-message-counter-alltime" class="tab-pane fade" role="tabpanel">
+    <div class="content-table">
+      <table id="message-counter-alltime" class="table table-bordered">
+        <thead><tr><th class="w-50">Plato ID</th><th class="w-50">All Time Count</th></tr></thead>
+        <tbody>
+          <tr><td>calisha</td><td>68686</td></tr>
+          <tr><td>Xulann_Pro</td><td>55450</td></tr>
+          <tr><td>Keistaa</td><td>51809</td></tr>
+          <tr><td>QQB</td><td>44483</td></tr>
+          <tr><td>NeVenZo</td><td>42856</td></tr>
+          <tr><td>INNA</td><td>38586</td></tr>
+          <tr><td>DontTouchMe</td><td>38542</td></tr>
+          <tr><td>Kikutie</td><td>35248</td></tr>
+        </tbody>
+      </table>
     </div>
-  );
-}
+  </div>
+</div>
+
+<div class="linebreak"></div>
+
+<h2 id="wins-counter">Wins Counter 🎯</h2>
+<div class="content-table neo-card" style="padding:0;">
+  <table id="wins-counter-weekly" class="table table-bordered" style="margin:0;">
+    <thead><tr><th class="w-50">Plato ID</th><th class="w-50">Weekly Wins</th></tr></thead>
+    <tbody>
+      <tr><td>Mari_Dee</td><td>56</td></tr>
+      <tr><td>vmyi</td><td>29</td></tr>
+      <tr><td>_kyraa_</td><td>29</td></tr>
+      <tr><td>___Don</td><td>21</td></tr>
+      <tr><td>Eunoir</td><td>20</td></tr>
+      <tr><td>ius</td><td>19</td></tr>
+      <tr><td>labeeba</td><td>17</td></tr>
+      <tr><td>Darth_Deigo</td><td>15</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="linebreak"></div>
+
+<h2 id="our-team">Our Team</h2>
+<div class="thumbnail-grid">
+  <div class="thumbnail-wrapper"><img class="thumbnail" src="/docs/assets/images/groups/arcade/rose.png" alt="Rose"><div class="username">Rose</div><div class="description">Our boss and leader, truly one of a kind. Just don't push her buttons</div></div>
+  <div class="thumbnail-wrapper"><img class="thumbnail" src="/docs/assets/images/groups/arcade/fear.png" alt="Fear"><div class="username">Fear</div><div class="description">Strange specimen who tends to hide from his own group, incredibly generous though</div></div>
+  <div class="thumbnail-wrapper"><img class="thumbnail" src="/docs/assets/images/groups/arcade/hitman.png" alt="Hitman"><div class="username">Hitman</div><div class="description">If you're looking for the definition of loyalty, you'll find his name in the dictionary</div></div>
+  <div class="thumbnail-wrapper"><img class="thumbnail" src="/docs/assets/images/groups/arcade/fairy.png" alt="Fairy"><div class="username">Fairy</div><div class="description">Just like her username, she's sweet, helpful, and has supported us since day one</div></div>
+  <div class="thumbnail-wrapper"><img class="thumbnail" src="/docs/assets/images/groups/arcade/inna.png" alt="Inna"><div class="username">Inna</div><div class="description">A loyal member of Arcade who has risen to the top</div></div>
+  <div class="thumbnail-wrapper"><img class="thumbnail" src="/docs/assets/images/groups/arcade/tear.gif" alt="Tear"><div class="username">Tear</div><div class="description">One of a kind. Ain't nobody else like him. Most humble and generous person ever</div></div>
+  <div class="thumbnail-wrapper"><img class="thumbnail" src="/docs/assets/images/groups/arcade/risk.png" alt="Risk"><div class="username">Risk</div><div class="description">Lives up to the name. Bold and unpredictable, the wild card every team needs</div></div>
+</div>
+
+<p class="shoutout">A big shout-out to the rest of our Team: <strong>4DA, abc, Akamehhh, alqubaisi, Arts, Aura, DarkEstrela, Diem17, esthell, Frequency, Galaxy, Kikutie, Mdame, Mellisssaaa, Nefya, pink1tty, Qear, Spring, Trolledyou, YR_</strong></p>
+
+<script>
+  // crown the first sponsor
+  (function(){
+    var first = document.querySelector('#sponsors-amount tbody tr td:first-child');
+    if(first){ first.innerHTML = '👑 ' + first.innerHTML + ' 👑'; }
+  })();
+
+  // totals
+  (function(){
+    var cells = document.querySelectorAll('#sponsors-amount tbody tr td:nth-child(2)');
+    var total = 0; for (var i=0;i<cells.length;i++){ total += parseInt(cells[i].textContent,10)||0; }
+    var out = document.getElementById('sponsor-total'); if(out){ out.textContent = total.toLocaleString(); }
+  })();
+
+  // decorate leaders
+  (function(){
+    var w = document.querySelector('#message-counter-weekly tbody tr td:first-child');
+    var a = document.querySelector('#message-counter-alltime tbody tr td:first-child');
+    if(w) w.innerHTML = '🏆 ' + w.innerHTML + ' 🏆';
+    if(a) a.innerHTML = '🔥 ' + a.innerHTML + ' 🔥';
+  })();
+
+  // particle hover trails
+  (function(){
+    var c = document.getElementById('fx-particles'); if(!c) return; var ctx = c.getContext('2d');
+    function resize(){ var dpr = Math.min(window.devicePixelRatio||1,2); c.width = Math.floor(c.clientWidth*dpr); c.height = Math.floor(c.clientHeight*dpr); ctx.setTransform(dpr,0,0,dpr,0,0); }
+    var particles = []; var last=0; resize(); window.addEventListener('resize',resize);
+    function add(x,y){ for(var i=0;i<6;i++){ var a=Math.random()*Math.PI*2, s=1+Math.random()*2.5; particles.push({x:x,y:y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:700+Math.random()*600,born:performance.now(),h:Math.random()<.5?'red':'cyan'}); } }
+    c.addEventListener('mousemove', function(e){ var r=c.getBoundingClientRect(); add(e.clientX-r.left, e.clientY-r.top); });
+    function tick(t){ requestAnimationFrame(tick); var dt=t-last; last=t; ctx.clearRect(0,0,c.clientWidth,c.clientHeight); particles = particles.filter(function(p){return t-p.born < p.life;});
+      for(var i=0;i<particles.length;i++){ var p=particles[i]; var age=(t-p.born)/p.life; p.x+=p.vx*(dt/16); p.y+=p.vy*(dt/16); p.vx*=.98; p.vy*=.98; var alpha=1-age; ctx.beginPath(); ctx.arc(p.x,p.y, 2+(1-alpha)*2, 0, Math.PI*2); ctx.fillStyle = p.h==='red'? 'rgba(225,16,13,'+alpha+')':'rgba(4,241,249,'+alpha+')'; ctx.shadowBlur=10; ctx.shadowColor = p.h==='red'?'#E1100D':'#04F1F9'; ctx.fill(); }
+    }
+    requestAnimationFrame(tick);
+  })();
+
+  // copy-link buttons support if your framework doesn't auto-wire data-copy
+  document.querySelectorAll('[data-copy="true"]').forEach(function(el){ el.addEventListener('click', function(e){ e.preventDefault(); var href = el.getAttribute('href'); if(navigator.clipboard){ navigator.clipboard.writeText(href).then(function(){ el.textContent = 'Copied!'; setTimeout(function(){ el.textContent = 'Copy Invite Link'; }, 1200); }); } }); });
+</script>
