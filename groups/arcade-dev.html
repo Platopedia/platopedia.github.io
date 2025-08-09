@@ -243,47 +243,28 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       .table-upgraded td, .table-upgraded th { padding: 6px; }
       .stat-card .value { font-size: 22px; }
     }
-/* ===== 3D Futuristic Scroll & Tilt (frameless) ===== */
-:root{
-  --fx-perspective: 1100px;
-  --fx-tilt-max: 8deg;      /* mouse tilt */
-  --fx-rotateX-max: 10deg;  /* scroll pitch */
-  --fx-z-max: 120px;        /* depth range */
-}
-
-/* Establish a 3D scene without boxing content */
-body.fx-scene { perspective: var(--fx-perspective); }
-.fx-3d {
-  transform-style: preserve-3d;
-  will-change: transform;
-  transition: transform 260ms cubic-bezier(.2,.7,.2,1), box-shadow 260ms ease;
-  /* Futuristic, subtle neon-ish glow */
-  box-shadow:
-    0 20px 40px rgba(0,0,0,.28),
-    0 0 0 1px rgba(255,255,255,.04),
-    0 0 24px rgba(225,16,13,.12);
-  border-radius: 14px; /* keeps corners sleek without a heavy frame */
-}
-/* Keep native rounded look where applicable, but don't change layout width */
-.stats-grid.fx-3d,
-.content-table.fx-3d,
-.thumbnail-grid.fx-3d,
-.announcement-strip.fx-3d { padding: 6px; }
-
-/* Optional inner highlight edge for extra depth */
-.fx-3d::before {
-  content: '';
-  position: absolute; inset: 0; pointer-events: none;
-  border-radius: inherit;
-  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0));
-  mix-blend-mode: overlay; opacity: .35;
-}
-
-/* Respect users who prefer less motion */
-@media (prefers-reduced-motion: reduce){
-  .fx-3d { transition: none; }
-}
 </style>
+/* ===== Gradient blocks (uses your existing CSS vars) ===== */
+.gradient-block {
+  position: relative;
+  background-image: linear-gradient(180deg, var(--color-C), var(--color-D));
+  border: 1px solid var(--color-B);
+  border-radius: 14px;
+  padding: 8px; /* light padding so layout width stays the same */
+  box-shadow: 0 8px 18px rgba(0,0,0,.12);
+  background-clip: padding-box;
+}
+.gradient-block.g-2 { background-image: linear-gradient(180deg, var(--color-D), var(--color-C)); }
+.gradient-block.g-3 { background-image: linear-gradient(135deg, var(--color-C), var(--color-D)); }
+
+/* Make inner elements play nicely on gradient backgrounds */
+.gradient-block .table { background: transparent; }
+.gradient-block .thumbnail-wrapper { background: transparent; border-color: transparent; box-shadow: none; }
+.gradient-block .stat-card { background-image: linear-gradient(180deg, var(--color-C), var(--color-D)); border-color: rgba(255,255,255,.08); }
+
+@media (max-width: 480px){
+  .gradient-block { box-shadow: 0 6px 14px rgba(0,0,0,.10); }
+}
 
 <div class="linebreak"></div>
 
@@ -887,71 +868,23 @@ body.fx-scene { perspective: var(--fx-perspective); }
     })();
 </script>
 <script>
-// ===== 3D Futuristic Scroll & Tilt
+// Apply alternating gradient backgrounds to key blocks using existing vars
 (function(){
-  // Mark the page as a 3D scene
-  document.body.classList.add('fx-scene');
-
-  // Choose the blocks to give depth without changing markup structure
-  const targets = [
+  const picks = [
     '.announcement-strip',
     '.stats-grid',
     '.content-table',
     '.thumbnail-grid',
     '.social-buttons',
     '.content-image'
-  ].flatMap(sel => Array.from(document.querySelectorAll(sel)));
-
-  // Make them 3D-enabled
-  targets.forEach(el => {
-    // Skip if it's already tagged or not visible
-    if (!el || el.classList.contains('fx-3d')) return;
-    // Ensure the element can host the ::before sheen layer
-    if (getComputedStyle(el).position === 'static') el.style.position = 'relative';
-    el.classList.add('fx-3d');
-  });
-
-  const clamp = (v,min,max) => Math.max(min, Math.min(max, v));
-
-  function applyScrollDepth(){
-    const vh = window.innerHeight;
-    targets.forEach(el => {
-      if (!el) return;
-      const r = el.getBoundingClientRect();
-      const centerY = r.top + r.height/2;
-      const normY = (centerY - vh/2) / vh; // -0.5 .. 0.5-ish
-      const z = clamp(-normY * parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--fx-z-max')), -120, 120);
-      const rx = clamp(-normY * parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--fx-rotateX-max')), -12, 12);
-      // Maintain any mouse tilt ry we might set; we store it via dataset
-      const ry = parseFloat(el.dataset.ry || '0');
-      el.style.transform = `translateZ(${z}px) rotateX(${rx}deg) rotateY(${ry}deg)`;
-    });
-  }
-
-  // Mouse tilt for a playful futuristic feel
-  function handleMouse(e){
-    const vw = window.innerWidth;
-    const nx = (e.clientX / vw) * 2 - 1; // -1 .. 1
-    const ryGlobal = nx * parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--fx-tilt-max'));
-    targets.forEach(el => {
-      el.dataset.ry = ryGlobal; // cache current Y-tilt
-    });
-    applyScrollDepth();
-  }
-
-  let ticking = false;
-  function onScroll(){
-    if (!ticking){
-      window.requestAnimationFrame(() => { applyScrollDepth(); ticking = false; });
-      ticking = true;
+  ];
+  const els = picks.flatMap(sel => Array.from(document.querySelectorAll(sel)));
+  let i = 0;
+  els.forEach(el => {
+    if (!el.classList.contains('gradient-block')) {
+      el.classList.add('gradient-block', `g-${(i % 3) + 1}`);
+      i++;
     }
-  }
-
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', applyScrollDepth);
-  window.addEventListener('mousemove', handleMouse);
-
-  // First paint
-  applyScrollDepth();
+  });
 })();
 </script>
