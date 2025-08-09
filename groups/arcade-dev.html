@@ -243,34 +243,25 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       .table-upgraded td, .table-upgraded th { padding: 6px; }
       .stat-card .value { font-size: 22px; }
     }
+    /* Section bands (full-width, frameless) */
+    .section-band { margin: 18px 0 24px; padding: 8px 0 16px; }
+    .section-band.is-odd { background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06)); }
+    .section-band.is-even { background: linear-gradient(180deg, rgba(0,0,0,0.04), rgba(255,255,255,0.02)); }
+    .section-band > h2 { margin-top: 0; }
 
-/* Section cards + cleaner rhythm */
-.section-card {
-  border: 1px solid var(--color-B);
-  border-radius: 16px;
-  padding: 18px 18px 20px;
-  margin: 18px 0 22px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));
-  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-}
-.section-card > h2 { margin-top: 0; }
-.section-card + .section-card { margin-top: 22px; }
+    /* Headline accent bar (frameless) */
+    h2[id] { position: relative; padding-bottom: 6px; }
+    h2[id]::after {
+      content: '';
+      display: block;
+      width: 72px; height: 3px;
+      background: linear-gradient(90deg, #E1100D, rgba(225,16,13,0));
+      border-radius: 2px;
+      margin-top: 8px;
+    }
 
-/* Headline accent bar */
-h2[id] { position: relative; padding-bottom: 6px; }
-h2[id]::after {
-  content: '';
-  display: block;
-  width: 72px; height: 3px;
-  background: linear-gradient(90deg, #E1100D, rgba(225,16,13,0));
-  border-radius: 2px;
-  margin-top: 8px;
-}
-
-/* Softer dividers */
-.linebreak { height: 12px; background: transparent; border: 0; }
-.section-card .linebreak { height: 8px; }
-.section-card > .linebreak:first-child { display: none; }
+    /* Softer dividers */
+    .linebreak { height: 12px; background: transparent; border: 0; }
 </style>
 
 <div class="linebreak"></div>
@@ -876,17 +867,15 @@ h2[id]::after {
 </script>
 
 <script>
-// Wrap each H2 section in a visual card, without changing your markup
+// Frameless section bands: wrap each H2 and its content, alternate backgrounds
 (function(){
   const heads = Array.from(document.querySelectorAll('h2[id]'));
   heads.forEach((h2, i) => {
-    // Don't wrap if already inside a section-card
-    if (h2.closest('.section-card')) return;
+    if (h2.closest('.section-band')) return;
     const wrap = document.createElement('div');
-    wrap.className = 'section-card';
+    wrap.className = 'section-band ' + (i % 2 === 0 ? 'is-even' : 'is-odd');
     h2.parentNode.insertBefore(wrap, h2);
     wrap.appendChild(h2);
-    // Move siblings until the next H2
     let n = wrap.nextSibling;
     while (n && !(n.nodeType === 1 && n.tagName.toLowerCase() === 'h2')) {
       const move = n; n = n.nextSibling; wrap.appendChild(move);
