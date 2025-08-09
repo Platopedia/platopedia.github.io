@@ -264,6 +264,27 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .gradient-block { box-shadow: 0 6px 14px rgba(0,0,0,.10); }
   }
 </style>
+/* Gradient Link Buttons (uses existing vars) */
+.content-link.gradient-link { display: inline-block; }
+.content-link.gradient-link .gl-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background-image: linear-gradient(180deg, var(--color-C), var(--color-D));
+  border: 1px solid var(--color-B);
+  box-shadow: 0 6px 14px rgba(0,0,0,.12);
+  color: #fff !important;
+  text-decoration: none;
+  font-family: monospace;
+  font-size: 14px;
+  line-height: 1;
+  transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+}
+.content-link.gradient-link .gl-btn:hover { transform: translateY(-1px); box-shadow: 0 10px 18px rgba(0,0,0,.18); }
+.content-link.gradient-link .gl-btn:active { transform: translateY(0); box-shadow: 0 6px 14px rgba(0,0,0,.12); opacity: .95; }
+.content-link.gradient-link .gl-ico { font-style: normal; }
 
 <div class="linebreak"></div>
 
@@ -867,21 +888,62 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     })();
 </script>
 <script>
-// Apply alternating gradient backgrounds to key blocks using existing vars
+    // Apply alternating gradient backgrounds to key blocks using existing vars
+    (function(){
+      const picks = [
+        '.announcement-strip',
+        '.content-table',
+        '.social-buttons'
+      ];
+      const els = picks.flatMap(sel => Array.from(document.querySelectorAll(sel)));
+      let i = 0;
+      els.forEach(el => {
+        if (!el.classList.contains('gradient-block')) {
+          el.classList.add('gradient-block', `g-${(i % 3) + 1}`);
+          i++;
+        }
+      });
+    })();
+</script>
+<script>
+// Turn .content-link into a gradient button using existing color vars
 (function(){
-  const picks = [
-    '.announcement-strip',
-    '.content-table',
-    '.social-buttons',
-    '.content-link'
-  ];
-  const els = picks.flatMap(sel => Array.from(document.querySelectorAll(sel)));
-  let i = 0;
-  els.forEach(el => {
-    if (!el.classList.contains('gradient-block')) {
-      el.classList.add('gradient-block', `g-${(i % 3) + 1}`);
-      i++;
+  const links = Array.from(document.querySelectorAll('.content-link'));
+  links.forEach(el => {
+    const url = el.getAttribute('data-url');
+    if (!url) return;
+    el.classList.add('gradient-link');
+
+    // If there's already a button, skip creating another
+    if (el.querySelector('a.gl-btn')) return;
+
+    // Determine label
+    let label = (el.getAttribute('data-text') || '').trim();
+    if (!label) {
+      try { label = new URL(url).hostname.replace(/^www\./,''); }
+      catch(e){ label = 'Open link'; }
     }
+
+    // Build the anchor
+    const a = document.createElement('a');
+    a.className = 'gl-btn';
+    a.href = url;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.innerHTML = '<span class="gl-ico">🔗</span>' + label;
+
+    // If data-copy is true, also allow quick copy on Alt+Click
+    if (el.getAttribute('data-copy') === 'true') {
+      a.title = 'Click to open, Alt+Click to copy';
+      a.addEventListener('click', (evt) => {
+        if (evt.altKey) {
+          evt.preventDefault();
+          try { navigator.clipboard.writeText(url); a.textContent = 'Copied!'; setTimeout(()=>{ a.textContent = label; }, 900); } catch(e) {}
+        }
+      });
+    }
+
+    el.appendChild(a);
   });
 })();
 </script>
