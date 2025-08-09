@@ -215,7 +215,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       position: sticky; top: 0; z-index: 1;
       background: linear-gradient(0deg, var(--color-D), var(--color-C));
       border-color: var(--color-C);
-      color: var(--color-C) !important;
+      color: var(--color-text) !important;
     }
     .table-upgraded tbody tr:nth-child(odd) { background: rgba(255,255,255,0.03); }
     .table-upgraded tbody tr:hover { background: rgba(225,16,13,0.1); }
@@ -243,28 +243,46 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       .table-upgraded td, .table-upgraded th { padding: 6px; }
       .stat-card .value { font-size: 22px; }
     }
-    /* Modern section rhythm (frameless) */
-    h2[id] { margin: 36px 0 10px; letter-spacing: .2px; }
-    h2[id]::after {
-      content: '';
-      display: block;
-      width: 72px; height: 3px;
-      background: linear-gradient(90deg, var(--color-C), rgba(225,16,13,0));
-      border-radius: 2px;
-      margin-top: 8px;
-    }
-    /* Soften and standardize whitespace */
-    .linebreak { height: 14px; background: transparent; border: 0; }
-    /* Hide the linebreak immediately after an H2 */
-    h2[id] + .linebreak { display: none; }
+/* ===== 3D Futuristic Scroll & Tilt (frameless) ===== */
+:root{
+  --fx-perspective: 1100px;
+  --fx-tilt-max: 8deg;      /* mouse tilt */
+  --fx-rotateX-max: 10deg;  /* scroll pitch */
+  --fx-z-max: 120px;        /* depth range */
+}
 
-    /* Subtle depth only where needed */
-    .content-table .table { box-shadow: 0 8px 18px rgba(0,0,0,0.12); }
-    .stats-grid { margin-top: 6px; }
+/* Establish a 3D scene without boxing content */
+body.fx-scene { perspective: var(--fx-perspective); }
+.fx-3d {
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: transform 260ms cubic-bezier(.2,.7,.2,1), box-shadow 260ms ease;
+  /* Futuristic, subtle neon-ish glow */
+  box-shadow:
+    0 20px 40px rgba(0,0,0,.28),
+    0 0 0 1px rgba(255,255,255,.04),
+    0 0 24px rgba(225,16,13,.12);
+  border-radius: 14px; /* keeps corners sleek without a heavy frame */
+}
+/* Keep native rounded look where applicable, but don't change layout width */
+.stats-grid.fx-3d,
+.content-table.fx-3d,
+.thumbnail-grid.fx-3d,
+.announcement-strip.fx-3d { padding: 6px; }
 
-    /* Section reveal animation (no wrappers, no frames) */
-    .reveal { opacity: 0; transform: translateY(6px); animation: section-reveal .35s ease forwards; }
-    @keyframes section-reveal { to { opacity: 1; transform: none; } }
+/* Optional inner highlight edge for extra depth */
+.fx-3d::before {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0));
+  mix-blend-mode: overlay; opacity: .35;
+}
+
+/* Respect users who prefer less motion */
+@media (prefers-reduced-motion: reduce){
+  .fx-3d { transition: none; }
+}
 </style>
 
 <div class="linebreak"></div>
@@ -868,32 +886,72 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       if (tcEl) tcEl.textContent = (teamCards + shoutCount).toString();
     })();
 </script>
-
 <script>
-// Clean dividers around headings and add gentle reveal
+// ===== 3D Futuristic Scroll & Tilt
 (function(){
-  // Remove stray linebreaks right before/after headings
-  document.querySelectorAll('h2[id]').forEach(h2 => {
-    const prev = h2.previousElementSibling;
-    if (prev && prev.classList.contains('linebreak')) prev.remove();
-    const next = h2.nextElementSibling;
-    if (next && next.classList.contains('linebreak')) next.remove();
+  // Mark the page as a 3D scene
+  document.body.classList.add('fx-scene');
+
+  // Choose the blocks to give depth without changing markup structure
+  const targets = [
+    '.announcement-strip',
+    '.stats-grid',
+    '.content-table',
+    '.thumbnail-grid',
+    '.social-buttons',
+    '.content-image'
+  ].flatMap(sel => Array.from(document.querySelectorAll(sel)));
+
+  // Make them 3D-enabled
+  targets.forEach(el => {
+    // Skip if it's already tagged or not visible
+    if (!el || el.classList.contains('fx-3d')) return;
+    // Ensure the element can host the ::before sheen layer
+    if (getComputedStyle(el).position === 'static') el.style.position = 'relative';
+    el.classList.add('fx-3d');
   });
 
-  // Add reveal to headings and first content block(s) after each h2 (no wrappers)
-  const heads = Array.from(document.querySelectorAll('h2[id]'));
-  heads.forEach((h2) => {
-    h2.classList.add('reveal');
-    let n = h2.nextElementSibling;
-    let added = 0;
-    while (n && n.tagName.toLowerCase() !== 'h2' && added < 3) { // reveal up to 3 blocks
-      if (n.nodeType === 1) {
-        n.classList.add('reveal');
-        n.style.animationDelay = `${(added+1)*60}ms`;
-        added++;
-      }
-      n = n.nextElementSibling;
+  const clamp = (v,min,max) => Math.max(min, Math.min(max, v));
+
+  function applyScrollDepth(){
+    const vh = window.innerHeight;
+    targets.forEach(el => {
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      const centerY = r.top + r.height/2;
+      const normY = (centerY - vh/2) / vh; // -0.5 .. 0.5-ish
+      const z = clamp(-normY * parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--fx-z-max')), -120, 120);
+      const rx = clamp(-normY * parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--fx-rotateX-max')), -12, 12);
+      // Maintain any mouse tilt ry we might set; we store it via dataset
+      const ry = parseFloat(el.dataset.ry || '0');
+      el.style.transform = `translateZ(${z}px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+    });
+  }
+
+  // Mouse tilt for a playful futuristic feel
+  function handleMouse(e){
+    const vw = window.innerWidth;
+    const nx = (e.clientX / vw) * 2 - 1; // -1 .. 1
+    const ryGlobal = nx * parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--fx-tilt-max'));
+    targets.forEach(el => {
+      el.dataset.ry = ryGlobal; // cache current Y-tilt
+    });
+    applyScrollDepth();
+  }
+
+  let ticking = false;
+  function onScroll(){
+    if (!ticking){
+      window.requestAnimationFrame(() => { applyScrollDepth(); ticking = false; });
+      ticking = true;
     }
-  });
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', applyScrollDepth);
+  window.addEventListener('mousemove', handleMouse);
+
+  // First paint
+  applyScrollDepth();
 })();
 </script>
