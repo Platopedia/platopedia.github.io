@@ -3,308 +3,455 @@ layout: tool-content
 title: Arcade - Platopedia
 heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 ---
-<style>
-  :root{
-    --bg:#0a0a0f; --panel:#12131a; --text:#ecf0f8; --muted:#9aa3ad; --accent:#FF1E2D; --accent-2:#00F0FF;
-    --border:rgba(255,255,255,.12); --radius:14px; --radius-sm:10px;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;}
-  a{color:inherit}
-  .container{max-width:1000px;margin:auto;padding:16px}
+  <style>
+    :root {
+      --bg-0: #050507;
+      --bg-1: #0a0a0f;
+      --red-0: #FF1E2D; /* primary neon red */
+      --red-1: #E1100D; /* brand red */
+      --teal:  #00F0FF; /* accent holo */
+      --vio:   #8A2BE2; /* accent */
+      --amber: #FFC857;
+      --white: #e9eef6;
+      --muted: #9aa3ad;
+      --card:  #0c0d12cc;
+      --glass: rgba(255,255,255,.04);
+      --border: rgba(255, 30, 45, .35);
+      --shadow: 0 0 12px rgba(255,30,45,.35), 0 0 32px rgba(255,30,45,.15);
+      --glow-red: 0 0 12px #ff2a3a, 0 0 24px #ff2a3a, inset 0 0 24px rgba(255,42,58,.25);
+      --glow-teal: 0 0 8px #00f0ff, 0 0 22px #00f0ff, inset 0 0 18px rgba(0,240,255,.25);
+      --radius-2xl: 18px;
+      --radius-xl: 14px;
+      --radius-lg: 12px;
+    }
 
-  /* HERO */
-  .hero{display:grid;gap:16px;grid-template-columns:1fr;align-items:center;margin-top:8px}
-  .card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:16px}
-  h1{font-size:clamp(28px,6vw,48px);margin:0 0 8px;font-weight:800}
-  h2{font-size:clamp(20px,4.5vw,28px);margin:0 0 10px}
-  .sub{color:var(--muted);margin:0 0 14px}
-  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-  .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:999px;background:#1a1b24;border:1px solid var(--border);text-decoration:none;font-weight:700}
-  .btn--accent{background:linear-gradient(180deg, rgba(255,30,45,.20), rgba(255,30,45,.06));border-color:rgba(255,30,45,.45)}
-  .btn--teal{background:linear-gradient(180deg, rgba(0,240,255,.16), rgba(0,240,255,.06));border-color:rgba(0,240,255,.35)}
+    /* Global reset */
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0; color: var(--white); background: var(--bg-0);
+      font-family: 'Rajdhani', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      overflow-x: hidden;
+    }
 
-  /* Stats */
-  .stats{display:grid;gap:10px;grid-template-columns:repeat(3,1fr);margin-top:10px}
-  @media (max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}}
-  @media (max-width:480px){.stats{grid-template-columns:1fr}}
-  .stat{background:#161824;border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;text-align:center}
-  .num{font-size:clamp(18px,4.8vw,28px);font-weight:800}
-  .lbl{font-size:12px;color:var(--muted)}
+    /* Layered immersive background */
+    .bg {
+      position: fixed; inset: 0; z-index: -3; pointer-events: none;
+      background: radial-gradient(1200px 800px at 70% 20%, rgba(255,30,45,.25), transparent 55%),
+                  radial-gradient(900px 600px at 5% 85%, rgba(0,240,255,.18), transparent 60%),
+                  linear-gradient(180deg, var(--bg-1), #06060a 35%, #08070c 100%);
+      filter: saturate(1.05);
+    }
 
-  /* Sections */
-  section{margin-top:26px}
-  .table-wrap{overflow:hidden;border-radius:var(--radius-sm);border:1px solid var(--border)}
-  table{width:100%;border-collapse:collapse;min-width:0;table-layout:fixed}
-  th,td{padding:10px 8px;border-bottom:1px solid rgba(255,255,255,.08)}
-  .table-wrap table th, .table-wrap table td{width:50%;text-align:center;word-break:break-word}
-  thead th{font-size:12px;color:var(--muted);text-align:center}
+    /* Neon grid */
+    .grid {
+      position: fixed; inset: 0; z-index: -2; pointer-events: none;
+      background-image: linear-gradient(transparent 96%, rgba(255,30,45,.18) 96%),
+                        linear-gradient(90deg, transparent 96%, rgba(255,30,45,.18) 96%);
+      background-size: 38px 38px, 38px 38px;
+      opacity: .18;
+      transform: perspective(900px) rotateX(60deg) translateY(18%);
+      transform-origin: top;
+      filter: blur(.25px) contrast(120%);
+    }
 
-  /* Pagination */
-  .pager{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:flex-end;margin-top:10px}
-  .pager .info{margin-right:auto;color:var(--muted);font-size:14px}
-  .pager button{padding:8px 12px;border-radius:999px;border:1px solid var(--border);background:#1a1b24;color:#fff;font-weight:700}
-  .pager button[disabled]{opacity:.5}
+    /* Subtle animated circuit overlay using SVG data URI */
+    .circuit {
+      position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: .22; mix-blend-mode: screen;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600'%3E%3Cg fill='none' stroke='%23FF1E2D' stroke-opacity='.25' stroke-width='1'%3E%3Cpath d='M0 40h50v-20h40v60h40v-40h40v100h40v-60h40v20h40v-80h40v60h40v-40h40v120h40v-100h40v40h40v-60h40'/%3E%3Ccircle cx='120' cy='60' r='2'/%3E%3Ccircle cx='260' cy='100' r='2'/%3E%3Ccircle cx='420' cy='140' r='2'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: 300px 300px;
+      animation: drift 40s linear infinite;
+    }
+    @keyframes drift { from { background-position: 0 0; } to { background-position: 600px 600px; } }
 
-  /* Team */
-  .grid{display:grid;gap:16px;grid-template-columns:1fr}
-  .member{display:grid;gap:10px;grid-template-columns:64px 1fr;align-items:center}
-  .avatar{width:64px;height:64px;border-radius:50%;object-fit:cover;border:1px solid var(--border)}
-  .desc{color:var(--muted);font-size:14px;margin:6px 0 0}
+    /* Scanline + chroma fuzz */
+    .scanlines::before {
+      content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 50; mix-blend-mode: overlay;
+      background-image: repeating-linear-gradient( to bottom, rgba(255,255,255,.04), rgba(255,255,255,.04) 1px, transparent 1px, transparent 3px );
+      opacity: .17;
+    }
 
-  /* Helpers */
-  .muted{color:var(--muted)}
-  .pill{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;border:1px solid var(--border);background:#1a1b24;font-weight:700}
+    header.navbar {
+      position: sticky; top: 0; z-index: 60; backdrop-filter: blur(10px) saturate(130%);
+      background: linear-gradient( to right, rgba(10,10,15,.75), rgba(10,10,15,.35) );
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner { display: flex; align-items: center; gap: 14px; padding: 10px clamp(14px, 3vw, 32px); }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .brand-badge {
+      width: 36px; height: 36px; border-radius: 8px; background: #140508;
+      box-shadow: var(--glow-red); border: 1px solid var(--border);
+      display: grid; place-items: center; font-family: 'Press Start 2P', monospace; font-size: 12px; color: var(--amber);
+      letter-spacing: -1px;
+    }
+    .brand-title { font-family: 'Orbitron', sans-serif; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    .brand-title .glitch {
+      position: relative; display: inline-block; color: var(--white); text-shadow: 0 0 10px #fff;
+    }
+    .brand-title .glitch::before,
+    .brand-title .glitch::after {
+      content: attr(data-text); position: absolute; left: 0; top: 0; clip-path: inset(0 0 0 0);
+      animation: glitch 2.2s infinite linear alternate-reverse;
+    }
+    .brand-title .glitch::before { color: var(--teal); transform: translateX(2px); opacity: .8; }
+    .brand-title .glitch::after  { color: var(--red-0); transform: translateX(-2px); opacity: .8; }
+    @keyframes glitch {
+      0% { clip-path: inset(0 0 85% 0); }
+      10% { clip-path: inset(0 0 20% 0); }
+      20% { clip-path: inset(30% 0 50% 0); }
+      35% { clip-path: inset(60% 0 5% 0); }
+      55% { clip-path: inset(15% 0 35% 0); }
+      75% { clip-path: inset(80% 0 0 0); }
+      100% { clip-path: inset(0 0 0 0); }
+    }
 
-  /* Tabs (weekly/all-time) */
-  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 12px;align-items:center}
-  .tab{cursor:pointer;padding:10px 14px;border-radius:999px;border:1px solid var(--border);background:#1a1b24;font-weight:700}
-  .tab.active{border-color:rgba(255,30,45,.45);background:linear-gradient(180deg, rgba(255,30,45,.20), rgba(255,30,45,.06))}
-  .tab:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px}
-  .tab-content{margin-top:8px}
-</style>
-  section{display:block !important}
+    .nav-actions { margin-left: auto; display: flex; gap: 10px; flex-wrap: wrap; }
+
+    .btn {
+      --btn-bg: linear-gradient( to bottom right, rgba(255,42,58,.18), rgba(255,42,58,.05) );
+      display: inline-flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 999px;
+      border: 1px solid var(--border); color: var(--white); text-decoration: none; font-weight: 700; letter-spacing: .06em;
+      background: var(--btn-bg); box-shadow: var(--glow-red); position: relative; overflow: hidden; isolation: isolate;
+      transition: transform .15s ease, filter .15s ease, box-shadow .15s ease;
+    }
+    .btn::before {
+      content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px;
+      background: conic-gradient(from 0deg, rgba(255,42,58,.0), rgba(255,42,58,.6), rgba(0,240,255,.45), rgba(255,42,58,.0));
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude; opacity: .5; filter: blur(.6px);
+    }
+    .btn:hover { transform: translateY(-2px) scale(1.01); filter: saturate(120%); box-shadow: 0 0 18px #ff2a3a, 0 0 48px rgba(255,42,58,.45); }
+    .btn--teal { --btn-bg: linear-gradient( to bottom right, rgba(0,240,255,.14), rgba(0,240,255,.05) ); box-shadow: var(--glow-teal); border-color: rgba(0,240,255,.35); }
+
+    /* HERO */
+    .hero { position: relative; padding: clamp(48px, 6vw, 96px)  clamp(16px, 4vw, 48px); display: grid; grid-template-columns: 1.2fr .8fr; gap: clamp(24px, 4vw, 48px); align-items: center; }
+    @media (max-width: 980px){ .hero { grid-template-columns: 1fr; } }
+
+    .holo-card {
+      position: relative; background: linear-gradient( to bottom right, rgba(255,255,255,.06), rgba(20,20,32,.25) );
+      border: 1px solid var(--border); border-radius: var(--radius-2xl); padding: clamp(18px, 2.5vw, 28px);
+      box-shadow: var(--shadow);
+      overflow: hidden; isolation: isolate;
+    }
+    .holo-card::before {
+      content: ""; position: absolute; inset: -2px; border-radius: inherit; pointer-events: none;
+      background: radial-gradient(600px 180px at 0% 0%, rgba(0,240,255,.25), transparent 60%),
+                  radial-gradient(600px 180px at 100% 100%, rgba(255,42,58,.28), transparent 60%);
+      mix-blend-mode: screen; filter: blur(1px);
+    }
+    .holo-card::after {
+      content: ""; position: absolute; inset: 0; background: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%224%22 height=%224%22 viewBox=%220 0 4 4%22%3E%3Cg fill=%22%23ffffff%22 fill-opacity=%220.05%22%3E%3Crect width=%221%22 height=%221%22/%3E%3Crect x=%222%22 y=%222%22 width=%221%22 height=%221%22/%3E%3C/g%3E%3C/svg%3E'); opacity: .6; mix-blend-mode: overlay;
+    }
+
+    .hero-title { font-family: 'Orbitron', sans-serif; font-weight: 800; text-transform: uppercase; line-height: .95; font-size: clamp(32px, 6vw, 76px); letter-spacing: .06em; }
+    .hero-title span { color: var(--red-0); text-shadow: 0 0 22px rgba(255,42,58,.65); }
+    .hero-sub { font-size: clamp(14px, 2.2vw, 18px); color: var(--muted); margin: 12px 0 22px; }
+
+    .ticker { display: flex; align-items: center; gap: 12px; padding: 8px 12px; border: 1px dashed rgba(255,42,58,.45); border-radius: 999px; width: max-content; box-shadow: var(--glow-red); background: rgba(255,42,58,.06); font-family: 'Press Start 2P', monospace; font-size: 10px; }
+
+    .holo-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 18px; }
+    .stat { background: linear-gradient( to bottom, rgba(255,42,58,.08), rgba(0,0,0,.1) ); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 14px; text-align: center; box-shadow: var(--glow-red); }
+    .stat .num { font-family: 'Orbitron', sans-serif; font-weight: 800; letter-spacing: .08em; font-size: clamp(18px, 4vw, 28px); }
+    .stat .lbl { font-family: 'Press Start 2P', monospace; font-size: 10px; color: var(--muted); }
+
+    /* Section */
+    section { padding: clamp(32px, 6vw, 72px) clamp(16px, 4vw, 48px); position: relative; }
+    .section-title { font-family: 'Orbitron'; font-size: clamp(22px, 4vw, 36px); text-transform: uppercase; margin: 0 0 18px; letter-spacing: .12em; }
+    .section-title .accent { color: var(--red-0); text-shadow: 0 0 16px rgba(255,42,58,.6); }
+
+    /* Cards grid */
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(14px, 2.4vw, 22px); }
+    @media (max-width: 980px){ .grid-3 { grid-template-columns: 1fr; } }
+
+    .card {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-xl);
+      padding: 18px; position: relative; overflow: hidden; transition: transform .25s ease, box-shadow .25s ease, filter .25s ease;
+    }
+    .card:hover { transform: translateY(-6px) scale(1.01); box-shadow: 0 0 24px rgba(255,42,58,.35), 0 0 48px rgba(0,240,255,.18); filter: saturate(120%); }
+    .card .chip { position: absolute; top: 12px; right: 12px; font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--amber); padding: 6px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.04); box-shadow: inset 0 0 12px rgba(255,42,58,.25); }
+
+    /* Leaderboards */
+    .table { width: 100%; border-collapse: collapse; font-family: 'Rajdhani'; }
+    .table th, .table td { border-bottom: 1px solid rgba(255,255,255,.06); padding: 10px 8px; }
+    .table thead th { font-family: 'Press Start 2P'; font-size: 10px; color: var(--muted); text-align: left; }
+    .table tbody tr { transition: background .2s ease; }
+    .table tbody tr:hover { background: rgba(255,42,58,.06); }
+
+    .pill {
+      display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 999px;
+      border: 1px solid rgba(255,42,58,.35); background: rgba(255,42,58,.08); box-shadow: var(--glow-red);
+      font-family: 'Press Start 2P'; font-size: 9px; letter-spacing: .06em; color: #ffd7db;
+    }
+
+    /* Pixel art flourish */
+    .pixel-heart { width: 16px; height: 16px; image-rendering: pixelated; background: conic-gradient(from 45deg, var(--red-0) 0 25%, #b50010 0 50%, var(--red-0) 0 75%, #b50010 0); clip-path: polygon(0% 37%, 12% 25%, 25% 12%, 37% 25%, 50% 37%, 62% 25%, 75% 12%, 87% 25%, 100% 37%, 50% 100%); filter: drop-shadow(0 0 8px rgba(255,42,58,.6)); }
+
+    /* Hologram list items */
+    .holo-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+    .holo-list li { display: grid; grid-template-columns: 24px 1fr; gap: 12px; align-items: center; padding: 10px 12px; border: 1px solid rgba(0,240,255,.28); border-radius: 12px; background: linear-gradient( to right, rgba(0,240,255,.08), rgba(255,42,58,.04) ); box-shadow: var(--glow-teal); }
+    .bullet { width: 24px; height: 24px; border-radius: 50%; border: 1px solid rgba(0,240,255,.6); box-shadow: var(--glow-teal); }
+
+    /* Tabs */
+    .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 18px; }
+    .tab { cursor: pointer; padding: 10px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.04); font-weight: 700; }
+    .tab.active { border-color: rgba(255,42,58,.55); box-shadow: var(--glow-red); }
+
+    /* Footer */
+    footer { padding: 40px 16px 60px; text-align: center; color: var(--muted); border-top: 1px solid var(--border); background: linear-gradient( to top, rgba(255,42,58,.06), transparent ); }
+
+    /* Particle cursor canvas */
+    canvas#particles { position: fixed; inset: 0; z-index: 10; pointer-events: none; }
+
+    /* Utility */
+    .row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+    .muted { color: var(--muted); }
+  </style>
 </head>
-<body>
-  <div class="container">
-    <!-- HERO -->
-    <section class="hero">
-      <div class="card">
-        <h1>Welcome to the <span style="color:var(--accent)">Arcade</span></h1>
-        <p class="sub">Neon vibes later — first, a rock-solid, bug-free base. Buttons work. Tables paginate. Mobile-first.</p>
-        <div class="row">
-          <a class="btn btn--accent" href="#message">View Ranks</a>
-          <a class="btn btn--teal" href="#sponsors">Become a Sponsor</a>
-        </div>
-        <div class="stats">
-          <div class="stat"><div class="num">8.4M</div><div class="lbl">COINS SPONSORED</div></div>
-          <div class="stat"><div class="num">68,686</div><div class="lbl">TOP MESSAGES</div></div>
-          <div class="stat"><div class="num">56</div><div class="lbl">WEEKLY WINS</div></div>
-        </div>
+<body class="scanlines">
+  <div class="bg"></div>
+  <div class="grid"></div>
+  <div class="circuit"></div>
+  <canvas id="particles"></canvas>
+
+  <header class="navbar">
+    <div class="nav-inner">
+      <a class="brand" href="#">
+        <div class="brand-badge">AR</div>
+        <div class="brand-title"><span class="glitch" data-text="ARCADE">ARCADE</span> <span class="muted">// CYBER</span></div>
+      </a>
+      <div class="nav-actions">
+        <a class="btn" href="#join">JOIN GROUP</a>
+        <a class="btn btn--teal" href="#team">OUR TEAM</a>
+        <a class="btn" href="#boards">LEADERBOARDS</a>
       </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="holo-card">
+      <div class="ticker">UPDATE ✱ ArcadeBot auto-creates featured game tabs hourly. Top weekly winners get rewards.</div>
+      <h1 class="hero-title">Welcome to the <span>Arcade</span> // Neon Ops</h1>
+      <p class="hero-sub">A high-energy hub where retro pixels meet holographic UI. Dive into events, leaderboards, and a living city of neon.</p>
+      <div class="row">
+        <a class="btn" href="#boards">VIEW RANKS</a>
+        <a class="btn btn--teal" href="#sponsors">BECOME A SPONSOR</a>
+      </div>
+      <div class="holo-stats">
+        <div class="stat"><div class="num">8.4M</div><div class="lbl">COINS SPONSORED</div></div>
+        <div class="stat"><div class="num">68,686</div><div class="lbl">TOP MESSAGES</div></div>
+        <div class="stat"><div class="num">56</div><div class="lbl">WEEKLY WINS</div></div>
+      </div>
+    </div>
+    <div class="holo-card">
+      <h3 class="section-title"><span class="accent">About</span> Arcade</h3>
+      <ul class="holo-list">
+        <li><div class="bullet"></div><div>Established Dec 28, 2021 — Home to some of Plato's biggest events and weekly challenges.</div></li>
+        <li><div class="bullet"></div><div>English-first, globally inclusive community with a focus on fair play and high vibes.</div></li>
+        <li><div class="bullet"></div><div>ArcadeBot tracks messages, wins, and featured game tabs to keep the action flowing.</div></li>
+      </ul>
+      <div class="row" style="margin-top:14px">
+        <a class="btn" id="copyInvite" data-copy="https://platoapp.com/link/3gpmf8vsry32p">INVITE LINK</a>
+        <a class="btn btn--teal" href="https://discord.com/invite/mq7QMY88KU" target="_blank" rel="noreferrer noopener">DISCORD</a>
+        <a class="btn" href="https://instagram.com/arcade.og/" target="_blank" rel="noreferrer noopener">INSTAGRAM</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="boards">
+    <h3 class="section-title"><span class="accent">Message</span> Counter ▷ Weekly</h3>
+    <div class="tabs" id="boardTabs">
+      <div class="tab active" data-target="#weekly">Weekly</div>
+      <div class="tab" data-target="#alltime">All Time</div>
+      <div class="pill"><span class="pixel-heart"></span> No spam</div>
+    </div>
+
+    <div class="grid-3">
+      <div class="card" id="weekly">
+        <div class="chip">08/08/2025</div>
+        <table class="table">
+          <thead><tr><th>Plato ID</th><th>Weekly Count</th></tr></thead>
+          <tbody>
+            <tr><td>Keistaa 🏆</td><td>9124</td></tr>
+            <tr><td>_EVe__</td><td>8983</td></tr>
+            <tr><td>_CALIX</td><td>8881</td></tr>
+            <tr><td>Vaella</td><td>4492</td></tr>
+            <tr><td>calisha</td><td>2111</td></tr>
+            <tr><td>abdullahshah</td><td>1921</td></tr>
+            <tr><td>INNA</td><td>1842</td></tr>
+            <tr><td>4DA</td><td>1444</td></tr>
+            <tr><td>DontTouchMe</td><td>1419</td></tr>
+            <tr><td>DRAXUN</td><td>1294</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card" id="alltime" style="display:none">
+        <div class="chip">Updated Weekly</div>
+        <table class="table">
+          <thead><tr><th>Plato ID</th><th>All Time Count</th></tr></thead>
+          <tbody>
+            <tr><td>calisha 🔥</td><td>68686</td></tr>
+            <tr><td>Xulann_Pro</td><td>55450</td></tr>
+            <tr><td>Keistaa</td><td>51809</td></tr>
+            <tr><td>QQB</td><td>44483</td></tr>
+            <tr><td>NeVenZo</td><td>42856</td></tr>
+            <tr><td>INNA</td><td>38586</td></tr>
+            <tr><td>DontTouchMe</td><td>38542</td></tr>
+            <tr><td>Kikutie</td><td>35248</td></tr>
+            <tr><td>Akamehhh</td><td>32648</td></tr>
+            <tr><td>books</td><td>29278</td></tr>
+          </tbody>
+        </table>
+      </div>
+
       <div class="card">
-        <h2>About Arcade</h2>
-        <ul class="muted" style="margin:0 0 12px 18px">
-          <li>Established Dec 28, 2021 — big events weekly.</li>
-          <li>English-first, global, fair play.</li>
-          <li>ArcadeBot tracks messages & wins.</li>
+        <h4 class="section-title" style="font-size:22px; margin:0 0 8px"><span class="accent">Wins</span> Counter 🎯</h4>
+        <table class="table">
+          <thead><tr><th>Plato ID</th><th>Weekly Wins</th></tr></thead>
+          <tbody>
+            <tr><td>Mari_Dee 🥇</td><td>56</td></tr>
+            <tr><td>vmyi</td><td>29</td></tr>
+            <tr><td>_kyraa_</td><td>29</td></tr>
+            <tr><td>___Don</td><td>21</td></tr>
+            <tr><td>Eunoir</td><td>20</td></tr>
+            <tr><td>ius</td><td>19</td></tr>
+            <tr><td>labeeba</td><td>17</td></tr>
+            <tr><td>Darth_Deigo</td><td>15</td></tr>
+            <tr><td>Andrheaa</td><td>13</td></tr>
+            <tr><td>calisha</td><td>12</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="sponsors">
+    <h3 class="section-title"><span class="accent">Sponsors</span> 👑</h3>
+    <div class="grid-3">
+      <div class="card">
+        <div class="chip">Top Sponsors</div>
+        <ul class="holo-list">
+          <li><div class="bullet"></div><div>Tear — 8,476,850</div></li>
+          <li><div class="bullet"></div><div>Risk — 6,766,600</div></li>
+          <li><div class="bullet"></div><div>Fear — 5,292,000</div></li>
+          <li><div class="bullet"></div><div>TrolledYou — 3,782,000</div></li>
         </ul>
+        <div class="row" style="margin-top:12px">
+          <a class="btn" href="#" id="openSponsor">Become a Sponsor</a>
+        </div>
+      </div>
+      <div class="card">
+        <div class="chip">Perks</div>
+        <p class="muted">Sponsor a total of <b>50k+</b> coins to be added to the wall. Get role flair, early access, and featured shoutouts.</p>
         <div class="row">
-          <button class="btn" id="copyInvite" data-copy="https://platoapp.com/link/3gpmf8vsry32p">Invite Link</button>
-          <a class="btn btn--teal" target="_blank" href="https://discord.com/invite/mq7QMY88KU">Discord</a>
-          <a class="btn" target="_blank" href="https://instagram.com/arcade.og/">Instagram</a>
+          <span class="pill">Role Flair</span>
+          <span class="pill">Early Access</span>
+          <span class="pill">Shoutouts</span>
         </div>
       </div>
-    </section>
-
-    <!-- SPONSORS -->
-    <section id="sponsors">
-      <h2>Sponsors 👑</h2>
-      <p class="muted">Sponsor a total of <b>50k+</b> coins to be added to the wall. Perks include role flair, early access, and featured shoutouts.</p>
       <div class="card">
-        <h3 style="margin:0 0 8px">Top Sponsors</h3>
-        <div class="table-wrap">
-          <table id="sponsors-amount" data-paginate data-rows-per="10">
-            <thead><tr><th>Sponsor</th><th>Amount</th></tr></thead>
-            <tbody>
-                <tr><td>Tear</td><td>8476850</td></tr>
-                <tr><td>Risk</td><td>6766600</td></tr>
-                <tr><td>Fear</td><td>5292000</td></tr>
-                <tr><td>TrolledYou</td><td>3782000</td></tr>
-                <tr><td>LA_GIRL07</td><td>2660000</td></tr>
-                <tr><td>Mdame</td><td>1160000</td></tr>
-                <tr><td>Nefya</td><td>1025000</td></tr>
-                <tr><td>Fairy</td><td>1014500</td></tr>
-                <tr><td>Rose</td><td>1007500</td></tr>
-                <tr><td>Alqubaisi</td><td>800000</td></tr>
-                <tr><td>Pink1tty</td><td>593500</td></tr>
-                <tr><td>Rivings</td><td>575500</td></tr>
-                <tr><td>Enes</td><td>504500</td></tr>
-                <tr><td>Arts</td><td>448000</td></tr>
-                <tr><td>Focus</td><td>435200</td></tr>
-                <tr><td>Bao</td><td>277500</td></tr>
-                <tr><td>YR_</td><td>275000</td></tr>
-                <tr><td>Mellisssaaa</td><td>235000</td></tr>
-                <tr><td>Casper</td><td>224800</td></tr>
-                <tr><td>Spring</td><td>202000</td></tr>
-                <tr><td>Aura</td><td>201500</td></tr>
-                <tr><td>7777777</td><td>200000</td></tr>
-                <tr><td>Gebrakin</td><td>200000</td></tr>
-                <tr><td>Dracula</td><td>200000</td></tr>
-                <tr><td>MangoNado</td><td>188000</td></tr>
-                <tr><td>Globe</td><td>187500</td></tr>
-                <tr><td>1Mei</td><td>174000</td></tr>
-                <tr><td>Galaxy</td><td>170000</td></tr>
-                <tr><td>Lawyer</td><td>135000</td></tr>
-                <tr><td>Kikutie</td><td>126000</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="pager" aria-live="polite"></div>
-      </div>
-    </section>
-
-    <!-- MESSAGE COUNTER -->
-<section id="message">
-  <h2>Message Counter 🔥</h2>
-  <p class="muted">Updated weekly. No spam.</p>
-
-  <div class="tabs" id="msgTabs" role="tablist" aria-label="Message counters">
-    <button class="tab active" role="tab" aria-selected="true" aria-controls="tab-weekly" id="tabBtn-weekly">Weekly</button>
-    <button class="tab" role="tab" aria-selected="false" aria-controls="tab-alltime" id="tabBtn-alltime">All Time</button>
-  </div>
-
-  <div class="tab-content">
-    <div id="tab-weekly" class="tab-pane" role="tabpanel" aria-labelledby="tabBtn-weekly">
-      <div class="card" style="margin-top:10px">
-        <h3 style="margin:0 0 8px">Weekly</h3>
-        <div class="table-wrap">
-          <table id="message-counter-weekly" data-paginate data-rows-per="10">
-            <thead><tr><th>Plato ID</th><th>Weekly Count</th></tr></thead>
-            <tbody>
-<tr><td>Keistaa</td><td>9124</td></tr>
-<tr><td>_EVe__</td><td>8983</td></tr>
-<tr><td>_CALIX</td><td>8881</td></tr>
-<tr><td>Vaella</td><td>4492</td></tr>
-<tr><td>calisha</td><td>2111</td></tr>
-<tr><td>abdullahshah</td><td>1921</td></tr>
-<tr><td>INNA</td><td>1842</td></tr>
-<tr><td>4DA</td><td>1444</td></tr>
-<tr><td>DontTouchMe</td><td>1419</td></tr>
-<tr><td>DRAXUN</td><td>1294</td></tr>
-<tr><td>R_O_S_E_03</td><td>1278</td></tr>
-<tr><td>drew_house</td><td>1262</td></tr>
-<tr><td>sowft</td><td>1086</td></tr>
-<tr><td>percevalthv</td><td>916</td></tr>
-<tr><td>hiffuu</td><td>884</td></tr>
-<tr><td>Endity</td><td>841</td></tr>
-<tr><td>esthell</td><td>832</td></tr>
-<tr><td>Akamehhh</td><td>818</td></tr>
-<tr><td>EvikaEve</td><td>749</td></tr>
-<tr><td>AlXAM</td><td>701</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="pager" aria-live="polite"></div>
+        <div class="chip">Contact</div>
+        <p>Join our <a class="btn btn--teal" style="padding:6px 10px" href="https://discord.com/invite/mq7QMY88KU" target="_blank">Discord</a> and open <b>#sponsor-tickets</b> → <b>Sponsor</b>.</p>
       </div>
     </div>
+  </section>
 
-    <div id="tab-alltime" class="tab-pane" role="tabpanel" aria-labelledby="tabBtn-alltime" hidden>
-      <div class="card" style="margin-top:10px">
-        <h3 style="margin:0 0 8px">All Time</h3>
-        <div class="table-wrap">
-          <table id="message-counter-alltime" data-paginate data-rows-per="10">
-            <thead><tr><th>Plato ID</th><th>All Time Count</th></tr></thead>
-            <tbody>
-<tr><td>calisha</td><td>68686</td></tr>
-<tr><td>Xulann_Pro</td><td>55450</td></tr>
-<tr><td>Keistaa</td><td>51809</td></tr>
-<tr><td>QQB</td><td>44483</td></tr>
-<tr><td>NeVenZo</td><td>42856</td></tr>
-<tr><td>INNA</td><td>38586</td></tr>
-<tr><td>DontTouchMe</td><td>38542</td></tr>
-<tr><td>Kikutie</td><td>35248</td></tr>
-<tr><td>Akamehhh</td><td>32648</td></tr>
-<tr><td>books</td><td>29278</td></tr>
-<tr><td>EvikaEve</td><td>29273</td></tr>
-<tr><td>sowft</td><td>27940</td></tr>
-<tr><td>abdullahshah</td><td>26138</td></tr>
-<tr><td>4DA</td><td>24382</td></tr>
-<tr><td>Min</td><td>23931</td></tr>
-<tr><td>Hitman</td><td>22589</td></tr>
-<tr><td>9u9</td><td>20359</td></tr>
-<tr><td>Ivyara</td><td>19835</td></tr>
-<tr><td>Puru_12</td><td>19542</td></tr>
-<tr><td>Darktored</td><td>19165</td></tr>
-            </tbody>
-          </table>
+  <section id="team">
+    <h3 class="section-title"><span class="accent">Our</span> Team</h3>
+    <div class="grid-3">
+      <div class="card">
+        <div class="row" style="align-items:center">
+          <div class="pixel-heart"></div>
+          <h4 style="margin:0 0 0 8px">Rose</h4>
         </div>
-        <div class="pager" aria-live="polite"></div>
+        <p class="muted">Our boss and leader, truly one of a kind. Just don't push her buttons.</p>
+      </div>
+      <div class="card">
+        <div class="row" style="align-items:center">
+          <div class="pixel-heart"></div>
+          <h4 style="margin:0 0 0 8px">Fear</h4>
+        </div>
+        <p class="muted">Strange specimen who tends to hide from his own group, incredibly generous though.</p>
+      </div>
+      <div class="card">
+        <div class="row" style="align-items:center">
+          <div class="pixel-heart"></div>
+          <h4 style="margin:0 0 0 8px">Hitman</h4>
+        </div>
+        <p class="muted">If you're looking for the definition of loyalty, you'll find his name in the dictionary.</p>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-    <!-- WINS -->
-    <section id="wins">
-      <h2>Wins Counter 🎯</h2>
-      <div class="card">
-        <h3 style="margin:0 0 8px">Weekly Wins</h3>
-        <div class="table-wrap">
-          <table id="wins-counter-weekly" data-paginate data-rows-per="10">
-            <thead><tr><th>Plato ID</th><th>Weekly Wins</th></tr></thead>
-            <tbody>
-              <tr><td>Mari_Dee</td><td>56</td></tr>
-              <tr><td>vmyi</td><td>29</td></tr>
-              <tr><td>_kyraa_</td><td>29</td></tr>
-              <tr><td>___Don</td><td>21</td></tr>
-              <tr><td>Eunoir</td><td>20</td></tr>
-              <tr><td>ius</td><td>19</td></tr>
-              <tr><td>labeeba</td><td>17</td></tr>
-              <tr><td>Darth_Deigo</td><td>15</td></tr>
-              <tr><td>Andrheaa</td><td>13</td></tr>
-              <tr><td>calisha</td><td>12</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="pager" aria-live="polite"></div>
-      </div>
-    </section>
+  <footer>
+    <div style="font-family:'Press Start 2P'; font-size:10px; letter-spacing:.08em;">ARCADE // POWERED BY NEON</div>
+    <div class="muted" style="margin-top:10px">© 2025 Arcade. Built with love, pixels, and way too much neon.</div>
+  </footer>
 
-    <!-- TEAM -->
-    <section id="team">
-      <h2>Our Team</h2>
-      <div class="grid">
-        <div class="card"><div class="member"><img class="avatar" src="/docs/assets/images/groups/arcade/rose.png" alt="Rose"><div><strong>Rose</strong><p class="desc">Our boss and leader, truly one of a kind. Just don't push her buttons.</p></div></div></div>
-        <div class="card"><div class="member"><img class="avatar" src="/docs/assets/images/groups/arcade/fear.png" alt="Fear"><div><strong>Fear</strong><p class="desc">Strange specimen who tends to hide from his own group, incredibly generous though.</p></div></div></div>
-        <div class="card"><div class="member"><img class="avatar" src="/docs/assets/images/groups/arcade/hitman.png" alt="Hitman"><div><strong>Hitman</strong><p class="desc">If you're looking for the definition of loyalty, you'll find his name in the dictionary.</p></div></div></div>
-      </div>
-      <p class="muted" style="margin-top:12px">Shout-out to: <strong>4DA, abc, Akamehhh, alqubaisi, Arts, Aura, DarkEstrela, Diem17, esthell, Frequency, Galaxy, Kikutie, Mdame, Mellisssaaa, Nefya, pink1tty, Qear, Spring, Trolledyou, YR_</strong></p>
-    </section>
-  </div>
+  <script>
+    // Copy invite link
+    document.getElementById('copyInvite')?.addEventListener('click', (e) => {
+      const url = e.currentTarget.getAttribute('data-copy');
+      navigator.clipboard.writeText(url).then(() => {
+        e.currentTarget.textContent = 'COPIED ✅';
+        setTimeout(()=> e.currentTarget.textContent = 'INVITE LINK', 1200);
+      });
+    });
 
-<script>
-// Copy button
-const copyBtn=document.getElementById('copyInvite');
-copyBtn?.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(copyBtn.getAttribute('data-copy'));copyBtn.textContent='Copied ✅';setTimeout(()=>copyBtn.textContent='Invite Link',1200);}catch(e){}});
+    // Simple tabs
+    document.getElementById('boardTabs')?.addEventListener('click', (e) => {
+      const t = e.target.closest('.tab');
+      if(!t) return;
+      document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+      t.classList.add('active');
+      const target = t.getAttribute('data-target');
+      document.querySelector('#weekly').style.display = target === '#weekly' ? '' : 'none';
+      document.querySelector('#alltime').style.display = target === '#alltime' ? '' : 'none';
+    });
 
-// Tabs: Weekly / All Time
-(function(){
-  const tablist = document.getElementById('msgTabs');
-  if (!tablist) return;
-  function activate(btn){
-    const id = btn.getAttribute('aria-controls');
-    tablist.querySelectorAll('.tab').forEach(t=>{ t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
-    btn.classList.add('active'); btn.setAttribute('aria-selected','true');
-    document.querySelectorAll('#message .tab-pane').forEach(p=> p.hidden = true);
-    const panel = document.getElementById(id); if(panel) panel.hidden = false;
-  }
-  tablist.addEventListener('click', (e)=>{ const b = e.target.closest('.tab'); if(!b) return; activate(b); });
-  tablist.addEventListener('keydown', (e)=>{
-    const tabs = [...tablist.querySelectorAll('.tab')]; const i = tabs.indexOf(document.activeElement);
-    if (e.key==='ArrowRight'){ e.preventDefault(); (tabs[i+1]||tabs[0]).focus(); }
-    if (e.key==='ArrowLeft'){ e.preventDefault(); (tabs[i-1]||tabs.at(-1)).focus(); }
-    if (e.key==='Enter' || e.key===' '){ e.preventDefault(); const b=document.activeElement.closest('.tab'); if(b) activate(b); }
-  });
-})();
+    // Particle cursor trail
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let W, H; const DPR = Math.min(2, window.devicePixelRatio || 1);
+    function resize(){ W = canvas.width = innerWidth * DPR; H = canvas.height = innerHeight * DPR; canvas.style.width = innerWidth + 'px'; canvas.style.height = innerHeight + 'px'; ctx.scale(DPR, DPR); }
+    resize(); addEventListener('resize', resize);
 
-// Minimal pagination (no deps)
-function setupTablePager(table){
-  const rowsPer=parseInt(table.getAttribute('data-rows-per')||'10',10);
-  const tbody=table.querySelector('tbody');
-  const rows=[...tbody.querySelectorAll('tr')];
-  const pager=table.parentElement.nextElementSibling;
-  let page=1; const pages=Math.max(1, Math.ceil(rows.length/rowsPer));
-  function render(){
-    rows.forEach((tr,i)=>{tr.style.display=(i>=(page-1)*rowsPer && i<page*rowsPer)?'':'none'});
-    pager.innerHTML='';
-    const info=document.createElement('div');info.className='info';info.textContent=`Page ${page} / ${pages}`;pager.appendChild(info);
-    const prev=document.createElement('button');prev.textContent='Prev';prev.disabled=page===1;prev.onclick=()=>{page--;render()};pager.appendChild(prev);
-    const next=document.createElement('button');next.textContent='Next';next.disabled=page===pages;next.onclick=()=>{page++;render()};pager.appendChild(next);
-  }
-  render();
-}
-for (const t of document.querySelectorAll('table[data-paginate]')) setupTablePager(t);
-</script>
+    const parts = [];
+    const hueBase = 355; // red
+    function spawn(x,y){
+      for(let i=0;i<3;i++){
+        parts.push({ x, y, vx:(Math.random()-0.5)*2.2, vy:(Math.random()-0.5)*2.2, life: 36+Math.random()*18 });
+      }
+    }
+    addEventListener('pointermove', e=>{ const r = canvas.getBoundingClientRect(); spawn(e.clientX - r.left, e.clientY - r.top); });
+
+    function tick(){
+      ctx.clearRect(0,0,innerWidth,innerHeight);
+      for(let i=parts.length-1; i>=0; i--){
+        const p = parts[i]; p.life-=1; if(p.life<=0){ parts.splice(i,1); continue; }
+        p.x += p.vx; p.y += p.vy; p.vy += 0.02;
+        const alpha = Math.max(0, p.life/50);
+        const glow = `hsla(${hueBase}, 95%, 60%, ${alpha})`;
+        ctx.beginPath(); ctx.arc(p.x, p.y, 2, 0, Math.PI*2);
+        ctx.fillStyle = glow; ctx.shadowBlur = 12; ctx.shadowColor = glow; ctx.fill();
+      }
+      requestAnimationFrame(tick);
+    }
+    tick();
+
+    // Tilt micro-interactions for cards/buttons
+    function addTilt(sel){
+      document.querySelectorAll(sel).forEach(el=>{
+        el.addEventListener('pointermove', (e)=>{
+          const r = el.getBoundingClientRect();
+          const dx = (e.clientX - r.left)/r.width - .5;
+          const dy = (e.clientY - r.top)/r.height - .5;
+          el.style.transform = `rotateX(${(-dy*6).toFixed(2)}deg) rotateY(${(dx*6).toFixed(2)}deg) translateY(-6px)`;
+        });
+        el.addEventListener('pointerleave', ()=>{ el.style.transform = ''; });
+      });
+    }
+    addTilt('.card'); addTilt('.btn');
+  </script>
 </body>
 </html>
