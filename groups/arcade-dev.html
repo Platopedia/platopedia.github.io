@@ -72,6 +72,14 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .stat-card .value { display: block; font-size: clamp(22px, 6vw, 32px) !important; line-height: 1.1; overflow-wrap: anywhere; word-break: break-word; }
     @media (max-width: 480px){ .stat-card .value { font-size: clamp(20px, 7vw, 28px) !important; } }
 </style>
+    /* CTA wrapper (centers single buttons and normalizes spacing) */
+    .link-cta { text-align: center; margin: 8px 0 0; }
+    .link-cta .button-gradient { display: inline-flex; }
+
+    /* Copy button (small, unobtrusive) */
+    .copy-btn { display:inline-flex; align-items:center; gap:6px; margin-left:8px; padding:8px 10px; border-radius:10px; border:1px dashed var(--color-C); background: transparent; color: var(--color-C); font-family: monospace; font-size: 13px; line-height:1; cursor: pointer; transition: background .18s ease, color .18s ease, border-color .18s ease; }
+    .copy-btn:hover { background: rgba(225,16,13,0.08); }
+    .copy-btn:active { background: rgba(225,16,13,0.12); }
 
 <div class="linebreak"></div>
 
@@ -114,18 +122,20 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 <h2 id="join-arcade">Join Arcade Group</h2>
 <p>We're making it easier for you to join our group. Say goodbye to the waiting room - now, all you need to do is add one of our invite accounts linked below. Every Friday, we'll send out invites to new members (we promise).</p>
 <p>Add <strong>@Arcade:</strong></p>
-<div class="gradient-block g-2">
+<p class="link-cta">
     <a class="button-gradient" href="https://platoapp.com/link/3gpmf8vsry32p" target="_blank" rel="noopener">🔗 Join on Plato</a>
-</div>
+    <button class="copy-btn" type="button" data-copy-text="https://platoapp.com/link/3gpmf8vsry32p" aria-label="Copy link">📋 Copy</button>
+</p>
 
 <div class="linebreak"></div>
 
 <!-- Team Invite -->
 <h2 id="team-invite">Arcade Team Invite</h2>
 <p>We're rebuilding the Arcade team completely with clearer roles, a better team structure and recruitment process. If you love Arcade, this is your chance to join our incredible team. Let's create something amazing together!</p>
-<div class="gradient-block g-3">
+<p class="link-cta">
     <a class="button-gradient" href="https://forms.gle/VHVLroERoB3oyJm37" target="_blank" rel="noopener">🔗 Apply to Team</a>
-</div>
+    <button class="copy-btn" type="button" data-copy-text="https://forms.gle/VHVLroERoB3oyJm37" aria-label="Copy link">📋 Copy</button>
+</p>
 
 <div class="linebreak"></div>
 
@@ -366,4 +376,27 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       const shoutCount = shout ? shout.textContent.split(',').length : 0;
       const tc=document.getElementById('stat-team-count'); if(tc) tc.textContent = (teamCards + shoutCount).toString();
     })();
+</script>
+<script>
+// Copy buttons (idempotent)
+(function(){
+  const btns = document.querySelectorAll('.copy-btn');
+  btns.forEach(btn => {
+    if (btn.dataset.cpInit === '1') return;
+    btn.dataset.cpInit = '1';
+    btn.addEventListener('click', async () => {
+      const text = btn.getAttribute('data-copy-text') || '';
+      if (!text) return;
+      const original = btn.textContent;
+      try {
+        await navigator.clipboard.writeText(text);
+        btn.textContent = '✔ Copied!';
+        setTimeout(() => { btn.textContent = original; }, 900);
+      } catch (e) {
+        btn.textContent = '✖ Failed';
+        setTimeout(() => { btn.textContent = original; }, 1000);
+      }
+    });
+  });
+})();
 </script>
