@@ -914,38 +914,59 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
   links.forEach(el => {
     const url = el.getAttribute('data-url');
     if (!url) return;
+
+    // Prevent double-initialization
+    if (el.dataset.glInit === '1') return;
+    el.dataset.glInit = '1';
+
     el.classList.add('gradient-link');
 
-    // If there's already a button, skip creating another
-    if (el.querySelector('a.gl-btn')) return;
-
-    // Determine label
-    let label = (el.getAttribute('data-text') || '').trim();
-    if (!label) {
-      try { label = new URL(url).hostname.replace(/^www\./,''); }
-      catch(e){ label = 'Open link'; }
+    // Prefer to use an existing anchor if one is already rendered by the site
+    let a = el.querySelector('a[href]');
+    if (a) {
+      a.classList.add('gl-btn');
+      a.target = '_blank';
+      a.rel = 'noopener';
+      // Normalize label/icon
+      if (!a.querySelector('.gl-ico')) {
+        const ico = document.createElement('span');
+        ico.className = 'gl-ico';
+        ico.textContent = '🔗';
+        a.prepend(ico);
+        a.insertAdjacentText('beforeend', '');
+      }
+    } else {
+      // Build a new anchor only if none exists
+      let label = (el.getAttribute('data-text') || '').trim();
+      if (!label) {
+        try { label = new URL(url).hostname.replace(/^www\./,''); }
+        catch(e){ label = 'Open link'; }
+      }
+      a = document.createElement('a');
+      a.className = 'gl-btn';
+      a.href = url;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.innerHTML = '<span class="gl-ico">🔗</span>' + label;
+      el.appendChild(a);
     }
 
-    // Build the anchor
-    const a = document.createElement('a');
-    a.className = 'gl-btn';
-    a.href = url;
-    a.target = '_blank';
-    a.rel = 'noopener';
-    a.innerHTML = '<span class="gl-ico">🔗</span>' + label;
-
-    // If data-copy is true, also allow quick copy on Alt+Click
-    if (el.getAttribute('data-copy') === 'true') {
+    // If data-copy is true, also allow quick copy on Alt+Click (bind once)
+    if (el.getAttribute('data-copy') === 'true' && !a.dataset.copyBound) {
       a.title = 'Click to open, Alt+Click to copy';
       a.addEventListener('click', (evt) => {
         if (evt.altKey) {
           evt.preventDefault();
-          try { navigator.clipboard.writeText(url); a.textContent = 'Copied!'; setTimeout(()=>{ a.textContent = label; }, 900); } catch(e) {}
+          try {
+            navigator.clipboard.writeText(url);
+            const original = a.textContent;
+            a.textContent = 'Copied!';
+            setTimeout(()=>{ a.textContent = original; }, 900);
+          } catch(e) {}
         }
       });
+      a.dataset.copyBound = '1';
     }
-
-    el.appendChild(a);
   });
 })();
 </script>
