@@ -65,6 +65,12 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .stat-card .label{ font-size:12px; letter-spacing:.04em; text-transform:uppercase; }
     .stat-card .value{ font-size:28px; font-weight:700; line-height:1.1; }
     .stat-card .delta{ font-size:12px; }
+    /* Containment & responsive sizing to prevent overflow */
+    .stats-grid > * { min-width: 0; }
+    .stat-card { overflow: hidden; }
+    .stat-card .label, .stat-card .delta { white-space: normal; word-break: break-word; }
+    .stat-card .value { display: block; font-size: clamp(22px, 6vw, 32px) !important; line-height: 1.1; overflow-wrap: anywhere; word-break: break-word; }
+    @media (max-width: 480px){ .stat-card .value { font-size: clamp(20px, 7vw, 28px) !important; } }
 </style>
 
 <div class="linebreak"></div>
