@@ -52,12 +52,12 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
     /* Tables */
     .table-upgraded{ border-radius:10px; overflow:hidden; }
-    .table-upgraded thead th{ position:sticky; top:0; z-index:1; background:linear-gradient(0deg,var(--color-D),var(--color-C)); border-color:var(--color-C); color:var(--color-C) !important; }
+    .table-upgraded thead th{ position:sticky; top:0; z-index:1; background:linear-gradient(0deg,var(--color-D),var(--color-C)); border-color:var(--color-C); color:var(--color-text) !important; }
     .table-upgraded tbody tr:nth-child(odd){ background:rgba(255,255,255,.03); }
     .table-upgraded tbody tr:hover{ background:rgba(225,16,13,.1); }
     .table-upgraded td,.table-upgraded th{ vertical-align:middle; }
     @media (max-width:480px){ .table-upgraded td,.table-upgraded th{ padding:6px; } }
-  
+
     /* Stats */
     .stats-grid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
     @media (min-width:768px){ .stats-grid{ grid-template-columns:repeat(4,minmax(0,1fr)); } }
@@ -96,9 +96,9 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 <div class="gradient-block g-1">
     <div class="stats-grid" aria-label="Arcade live statistics">
         <div class="stat-card"><div class="label">Total Sponsored</div><div class="value"><span id="stat-total-coins">—</span></div><div class="delta" id="stat-top-sponsor">Top sponsor: —</div></div>
-        <div class="stat-card"><div class="label">Weekly Messages</div><div class="value"><span id="stat-weekly-msgs">—</span></div><div class="delta">Updated: <span id="stat-weekly-updated">—</span></div></div>
+        <div class="stat-card"><div class="label">Weekly Messages</div><div class="value"><span id="stat-weekly-msgs">—</span></div><div class="delta">Most Messages: <span id="stat-weekly-topuser">—</span></div></div>
         <div class="stat-card"><div class="label">Weekly Wins</div><div class="value"><span id="stat-weekly-wins">—</span></div><div class="delta">Most wins: <span id="stat-weekly-winner">—</span></div></div>
-        <div class="stat-card"><div class="label">Team Members</div><div class="value"><span id="stat-team-count">—</span></div><div class="delta">Including shout-outs</div></div>
+        <div class="stat-card"><div class="label">Team Members</div><div class="value"><span id="stat-team-count">—</span></div></div>
     </div>
 </div>
 
@@ -128,7 +128,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 <p>To be added to the list, you need to have sponsored a minimum of 50k coins in total. If you'd like to sponsor, head over to <a href="https://discord.com/channels/1059760594128998400/1339249377406881793">#sponsor-tickets</a> on Arcade's Discord and click the <strong>Sponsor</strong> button.</p>
 <div class="linebreak"></div>
 
-<div class="content-table gradient-block g-1">
+<div class="content-table gradient-block g-2">
     <table id="sponsors-amount" class="table table-bordered table-upgraded">
         <thead><tr><th class="w-50">Sponsors</th><th class="w-50">Amount</th></tr></thead>
         <tbody>
@@ -318,14 +318,6 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       document.querySelectorAll('.thumbnail-wrapper .username').forEach(el=>{ const name=el.textContent.trim(); if(BADGES[name]){ const b=document.createElement('span'); b.className='badge'; b.textContent=BADGES[name]; el.appendChild(b);} });
     })();
 
-    // Decorate first rows & totals (no jQuery)
-    (function(){
-      const firstCell = sel => { const el=document.querySelector(sel); if(el) el.innerHTML = el.innerHTML; return el; };
-      const s = firstCell('#sponsors-amount tbody tr:first-child td:first-child'); if (s) s.innerHTML = '👑 ' + s.innerHTML + ' 👑';
-      const mw = firstCell('#message-counter-weekly tbody tr:first-child td:first-child'); if (mw) mw.innerHTML = '🏆 ' + mw.innerHTML + ' 🏆';
-      const ma = firstCell('#message-counter-alltime tbody tr:first-child td:first-child'); if (ma) ma.innerHTML = '🔥 ' + ma.innerHTML + ' 🔥';
-      const ww = firstCell('#wins-counter-weekly tbody tr:first-child td:first-child'); if (ww) ww.innerHTML = '🎟️ ' + ww.innerHTML + ' 🎟️';
-    })();
 
     // Stats
     (function(){
@@ -334,13 +326,30 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
       // Sponsors total & top
       const totalCoins = sum('sponsors-amount',1); const totalEl=document.getElementById('total-sponsor-coins'); if(totalEl) totalEl.textContent = totalCoins.toLocaleString();
-      const frS = firstRow('sponsors-amount'); if(frS){ const name=frS.cells[0].textContent.trim(); const val=parseInt(frS.cells[1].textContent.replace(/[,\s]/g,''),10)||0; const topEl=document.getElementById('stat-top-sponsor'); if(topEl) topEl.textContent = `Top sponsor: ${name} (${val.toLocaleString()})`; }
+      const statTotalEl = document.getElementById('stat-total-coins'); if(statTotalEl) statTotalEl.textContent = totalCoins.toLocaleString();
+      const frS = firstRow('sponsors-amount'); if(frS){
+        let name=(frS.cells[0].textContent||'').trim().replace(/^[^A-Za-z0-9_]+|[^A-Za-z0-9_]+$/g,'');
+        const val=parseInt(frS.cells[1].textContent.replace(/[,\s]/g,''),10)||0;
+        const topEl=document.getElementById('stat-top-sponsor');
+        if(topEl) topEl.textContent = `Top sponsor: ${name} (${val.toLocaleString()})`;
+      }
 
-      // Weekly messages / wins & updated date
+      // Weekly messages / wins & top messenger
       const wm = sum('message-counter-weekly',1); const wmEl=document.getElementById('stat-weekly-msgs'); if(wmEl) wmEl.textContent = wm.toLocaleString();
-      const lastStrong = Array.from(document.querySelectorAll('p strong')).find(n=>n.textContent.trim().toLowerCase()==='last updated:');
-      const updated = lastStrong && lastStrong.parentNode ? (lastStrong.parentNode.textContent.replace(/.*Last Updated:\s*/i,'').trim()) : '—';
-      const updEl=document.getElementById('stat-weekly-updated'); if(updEl) updEl.textContent = updated;
+      // Weekly top messenger (name and count)
+      (function(){
+        const t = document.getElementById('message-counter-weekly');
+        let topName = '—', topVal = 0;
+        if (t && t.tBodies[0]) {
+          Array.from(t.tBodies[0].rows).forEach(r => {
+            const name = (r.cells[0].textContent || '').trim();
+            const val = parseInt((r.cells[1].textContent || '').replace(/[\,\s]/g,''),10) || 0;
+            if (val > topVal) { topVal = val; topName = name; }
+          });
+        }
+        const topEl = document.getElementById('stat-weekly-topuser');
+        if (topEl) topEl.textContent = `${topName} (${topVal.toLocaleString()})`;
+      })();
 
       const wwTotal = sum('wins-counter-weekly',1); const wwEl=document.getElementById('stat-weekly-wins'); if(wwEl) wwEl.textContent = wwTotal.toLocaleString();
       const frW = firstRow('wins-counter-weekly'); if(frW){ const name=frW.cells[0].textContent.trim(); const val=parseInt(frW.cells[1].textContent.replace(/[,\s]/g,''),10)||0; const wTop=document.getElementById('stat-weekly-winner'); if(wTop) wTop.textContent = `${name} (${val})`; }
