@@ -59,6 +59,14 @@
   /* Helpers */
   .muted{color:var(--muted)}
   .pill{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;border:1px solid var(--border);background:#1a1b24;font-weight:700}
+
+  /* Tabs (weekly/all-time) */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 12px;align-items:center}
+  .tab{cursor:pointer;padding:10px 14px;border-radius:999px;border:1px solid var(--border);background:#1a1b24;font-weight:700}
+  .tab.active{border-color:rgba(255,30,45,.45);background:linear-gradient(180deg, rgba(255,30,45,.20), rgba(255,30,45,.06))}
+  .tab:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px}
+  .tab-content{margin-top:8px}
+  .tab-pane[hidden]{display:none}
 </style>
 </head>
 <body>
@@ -138,53 +146,85 @@
     </section>
 
     <!-- MESSAGE COUNTER -->
-    <section id="message">
-      <h2>Message Counter 🔥</h2>
-      <p class="muted">Updated weekly. No spam.</p>
+<section id="message">
+  <h2>Message Counter 🔥</h2>
+  <p class="muted">Updated weekly. No spam.</p>
+
+  <div class="tabs" id="msgTabs" role="tablist" aria-label="Message counters">
+    <button class="tab active" role="tab" aria-selected="true" aria-controls="tab-weekly" id="tabBtn-weekly">Weekly</button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="tab-alltime" id="tabBtn-alltime">All Time</button>
+  </div>
+
+  <div class="tab-content">
+    <div id="tab-weekly" class="tab-pane" role="tabpanel" aria-labelledby="tabBtn-weekly">
       <div class="card" style="margin-top:10px">
         <h3 style="margin:0 0 8px">Weekly</h3>
         <div class="table-wrap">
-          <table data-paginate data-rows-per="10">
+          <table id="message-counter-weekly" data-paginate data-rows-per="10">
             <thead><tr><th>Plato ID</th><th>Weekly Count</th></tr></thead>
             <tbody>
-              <tr><td>Keistaa</td><td>9124</td></tr>
-              <tr><td>_EVe__</td><td>8983</td></tr>
-              <tr><td>_CALIX</td><td>8881</td></tr>
-              <tr><td>Vaella</td><td>4492</td></tr>
-              <tr><td>calisha</td><td>2111</td></tr>
-              <tr><td>abdullahshah</td><td>1921</td></tr>
-              <tr><td>INNA</td><td>1842</td></tr>
-              <tr><td>4DA</td><td>1444</td></tr>
-              <tr><td>DontTouchMe</td><td>1419</td></tr>
-              <tr><td>DRAXUN</td><td>1294</td></tr>
+<tr><td>Keistaa</td><td>9124</td></tr>
+<tr><td>_EVe__</td><td>8983</td></tr>
+<tr><td>_CALIX</td><td>8881</td></tr>
+<tr><td>Vaella</td><td>4492</td></tr>
+<tr><td>calisha</td><td>2111</td></tr>
+<tr><td>abdullahshah</td><td>1921</td></tr>
+<tr><td>INNA</td><td>1842</td></tr>
+<tr><td>4DA</td><td>1444</td></tr>
+<tr><td>DontTouchMe</td><td>1419</td></tr>
+<tr><td>DRAXUN</td><td>1294</td></tr>
+<tr><td>R_O_S_E_03</td><td>1278</td></tr>
+<tr><td>drew_house</td><td>1262</td></tr>
+<tr><td>sowft</td><td>1086</td></tr>
+<tr><td>percevalthv</td><td>916</td></tr>
+<tr><td>hiffuu</td><td>884</td></tr>
+<tr><td>Endity</td><td>841</td></tr>
+<tr><td>esthell</td><td>832</td></tr>
+<tr><td>Akamehhh</td><td>818</td></tr>
+<tr><td>EvikaEve</td><td>749</td></tr>
+<tr><td>AlXAM</td><td>701</td></tr>
             </tbody>
           </table>
         </div>
         <div class="pager" aria-live="polite"></div>
       </div>
+    </div>
 
-      <div class="card" style="margin-top:14px">
+    <div id="tab-alltime" class="tab-pane" role="tabpanel" aria-labelledby="tabBtn-alltime" hidden>
+      <div class="card" style="margin-top:10px">
         <h3 style="margin:0 0 8px">All Time</h3>
         <div class="table-wrap">
-          <table data-paginate data-rows-per="10">
+          <table id="message-counter-alltime" data-paginate data-rows-per="10">
             <thead><tr><th>Plato ID</th><th>All Time Count</th></tr></thead>
             <tbody>
-              <tr><td>calisha</td><td>68686</td></tr>
-              <tr><td>Xulann_Pro</td><td>55450</td></tr>
-              <tr><td>Keistaa</td><td>51809</td></tr>
-              <tr><td>QQB</td><td>44483</td></tr>
-              <tr><td>NeVenZo</td><td>42856</td></tr>
-              <tr><td>INNA</td><td>38586</td></tr>
-              <tr><td>DontTouchMe</td><td>38542</td></tr>
-              <tr><td>Kikutie</td><td>35248</td></tr>
-              <tr><td>Akamehhh</td><td>32648</td></tr>
-              <tr><td>books</td><td>29278</td></tr>
+<tr><td>calisha</td><td>68686</td></tr>
+<tr><td>Xulann_Pro</td><td>55450</td></tr>
+<tr><td>Keistaa</td><td>51809</td></tr>
+<tr><td>QQB</td><td>44483</td></tr>
+<tr><td>NeVenZo</td><td>42856</td></tr>
+<tr><td>INNA</td><td>38586</td></tr>
+<tr><td>DontTouchMe</td><td>38542</td></tr>
+<tr><td>Kikutie</td><td>35248</td></tr>
+<tr><td>Akamehhh</td><td>32648</td></tr>
+<tr><td>books</td><td>29278</td></tr>
+<tr><td>EvikaEve</td><td>29273</td></tr>
+<tr><td>sowft</td><td>27940</td></tr>
+<tr><td>abdullahshah</td><td>26138</td></tr>
+<tr><td>4DA</td><td>24382</td></tr>
+<tr><td>Min</td><td>23931</td></tr>
+<tr><td>Hitman</td><td>22589</td></tr>
+<tr><td>9u9</td><td>20359</td></tr>
+<tr><td>Ivyara</td><td>19835</td></tr>
+<tr><td>Puru_12</td><td>19542</td></tr>
+<tr><td>Darktored</td><td>19165</td></tr>
             </tbody>
           </table>
         </div>
         <div class="pager" aria-live="polite"></div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
     <!-- WINS -->
     <section id="wins">
@@ -225,6 +265,26 @@
 // Copy button
 const copyBtn=document.getElementById('copyInvite');
 copyBtn?.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(copyBtn.getAttribute('data-copy'));copyBtn.textContent='Copied ✅';setTimeout(()=>copyBtn.textContent='Invite Link',1200);}catch(e){}});
+
+// Tabs: Weekly / All Time
+(function(){
+  const tablist = document.getElementById('msgTabs');
+  if (!tablist) return;
+  function activate(btn){
+    const id = btn.getAttribute('aria-controls');
+    tablist.querySelectorAll('.tab').forEach(t=>{ t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+    btn.classList.add('active'); btn.setAttribute('aria-selected','true');
+    document.querySelectorAll('#message .tab-pane').forEach(p=> p.hidden = true);
+    const panel = document.getElementById(id); if(panel) panel.hidden = false;
+  }
+  tablist.addEventListener('click', (e)=>{ const b = e.target.closest('.tab'); if(!b) return; activate(b); });
+  tablist.addEventListener('keydown', (e)=>{
+    const tabs = [...tablist.querySelectorAll('.tab')]; const i = tabs.indexOf(document.activeElement);
+    if (e.key==='ArrowRight'){ e.preventDefault(); (tabs[i+1]||tabs[0]).focus(); }
+    if (e.key==='ArrowLeft'){ e.preventDefault(); (tabs[i-1]||tabs.at(-1)).focus(); }
+    if (e.key==='Enter' || e.key===' '){ e.preventDefault(); const b=document.activeElement.closest('.tab'); if(b) activate(b); }
+  });
+})();
 
 // Minimal pagination (no deps)
 function setupTablePager(table){
