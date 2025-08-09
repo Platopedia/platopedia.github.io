@@ -215,7 +215,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       position: sticky; top: 0; z-index: 1;
       background: linear-gradient(0deg, var(--color-D), var(--color-C));
       border-color: var(--color-C);
-      color: var(--color-text) !important;
+      color: var(--color-C) !important;
     }
     .table-upgraded tbody tr:nth-child(odd) { background: rgba(255,255,255,0.03); }
     .table-upgraded tbody tr:hover { background: rgba(225,16,13,0.1); }
@@ -243,25 +243,28 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       .table-upgraded td, .table-upgraded th { padding: 6px; }
       .stat-card .value { font-size: 22px; }
     }
-    /* Section bands (full-width, frameless) */
-    .section-band { margin: 18px 0 24px; padding: 8px 0 16px; }
-    .section-band.is-odd { background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06)); }
-    .section-band.is-even { background: linear-gradient(180deg, rgba(0,0,0,0.04), rgba(255,255,255,0.02)); }
-    .section-band > h2 { margin-top: 0; }
-
-    /* Headline accent bar (frameless) */
-    h2[id] { position: relative; padding-bottom: 6px; }
+    /* Modern section rhythm (frameless) */
+    h2[id] { margin: 36px 0 10px; letter-spacing: .2px; }
     h2[id]::after {
       content: '';
       display: block;
       width: 72px; height: 3px;
-      background: linear-gradient(90deg, #E1100D, rgba(225,16,13,0));
+      background: linear-gradient(90deg, var(--color-C), rgba(225,16,13,0));
       border-radius: 2px;
       margin-top: 8px;
     }
+    /* Soften and standardize whitespace */
+    .linebreak { height: 14px; background: transparent; border: 0; }
+    /* Hide the linebreak immediately after an H2 */
+    h2[id] + .linebreak { display: none; }
 
-    /* Softer dividers */
-    .linebreak { height: 12px; background: transparent; border: 0; }
+    /* Subtle depth only where needed */
+    .content-table .table { box-shadow: 0 8px 18px rgba(0,0,0,0.12); }
+    .stats-grid { margin-top: 6px; }
+
+    /* Section reveal animation (no wrappers, no frames) */
+    .reveal { opacity: 0; transform: translateY(6px); animation: section-reveal .35s ease forwards; }
+    @keyframes section-reveal { to { opacity: 1; transform: none; } }
 </style>
 
 <div class="linebreak"></div>
@@ -867,18 +870,29 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 </script>
 
 <script>
-// Frameless section bands: wrap each H2 and its content, alternate backgrounds
+// Clean dividers around headings and add gentle reveal
 (function(){
+  // Remove stray linebreaks right before/after headings
+  document.querySelectorAll('h2[id]').forEach(h2 => {
+    const prev = h2.previousElementSibling;
+    if (prev && prev.classList.contains('linebreak')) prev.remove();
+    const next = h2.nextElementSibling;
+    if (next && next.classList.contains('linebreak')) next.remove();
+  });
+
+  // Add reveal to headings and first content block(s) after each h2 (no wrappers)
   const heads = Array.from(document.querySelectorAll('h2[id]'));
-  heads.forEach((h2, i) => {
-    if (h2.closest('.section-band')) return;
-    const wrap = document.createElement('div');
-    wrap.className = 'section-band ' + (i % 2 === 0 ? 'is-even' : 'is-odd');
-    h2.parentNode.insertBefore(wrap, h2);
-    wrap.appendChild(h2);
-    let n = wrap.nextSibling;
-    while (n && !(n.nodeType === 1 && n.tagName.toLowerCase() === 'h2')) {
-      const move = n; n = n.nextSibling; wrap.appendChild(move);
+  heads.forEach((h2) => {
+    h2.classList.add('reveal');
+    let n = h2.nextElementSibling;
+    let added = 0;
+    while (n && n.tagName.toLowerCase() !== 'h2' && added < 3) { // reveal up to 3 blocks
+      if (n.nodeType === 1) {
+        n.classList.add('reveal');
+        n.style.animationDelay = `${(added+1)*60}ms`;
+        added++;
+      }
+      n = n.nextElementSibling;
     }
   });
 })();
