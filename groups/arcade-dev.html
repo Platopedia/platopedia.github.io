@@ -30,7 +30,15 @@ Arcade Neon x Platopedia hybrid
   --shadow: 0 0 12px rgba(255,30,45,.35), 0 0 32px rgba(255,30,45,.15);
 }
 .arcade-neon * { box-sizing: border-box; }
-.arcade-neon .bg { position: relative; inset: 0; width: 100%; height: 240px; border-radius: 16px; overflow: hidden; background: radial-gradient(1200px 800px at 70% 20%, rgba(255,30,45,.25), transparent 55%), radial-gradient(900px 600px at 5% 85%, rgba(0,240,255,.18), transparent 60%), linear-gradient(180deg, var(--bg-1), #06060a 35%, #08070c 100%); filter: saturate(1.05); }
+.arcade-neon .bg-fixed{position:fixed; inset:0; z-index:0; pointer-events:none;}
+.arcade-neon .bg { position:absolute; inset:0; z-index:-3; pointer-events:none;
+  background: radial-gradient(1200px 800px at 70% 20%, rgba(255,30,45,.25), transparent 55%),
+              radial-gradient(900px 600px at 5% 85%, rgba(0,240,255,.18), transparent 60%),
+              linear-gradient(180deg, var(--bg-1), #06060a 35%, #08070c 100%);
+  filter:saturate(1.05);} 
+.arcade-neon .grid { position:absolute; inset:0; z-index:-2; pointer-events:none; background-image: linear-gradient(transparent 96%, rgba(255,30,45,.18) 96%), linear-gradient(90deg, transparent 96%, rgba(255,30,45,.18) 96%); background-size: 38px 38px; opacity:.18; transform: perspective(900px) rotateX(60deg) translateY(18%); transform-origin: top; filter: blur(.25px) contrast(120%);} 
+.arcade-neon .circuit { position:absolute; inset:0; z-index:-1; pointer-events:none; opacity:.22; mix-blend-mode:screen; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600'%3E%3Cg fill='none' stroke='%23FF1E2D' stroke-opacity='.25' stroke-width='1'%3E%3Cpath d='M0 40h50v-20h40v60h40v-40h40v100h40v-60h40v20h40v-80h40v60h40v-40h40v120h40v-100h40 v40h40v-60h40'/%3E%3Ccircle cx='120' cy='60' r='2'/%3E%3Ccircle cx='260' cy='100' r='2'/%3E%3Ccircle cx='420' cy='140' r='2'/%3E%3C/g%3E%3C/svg%3E"); background-size:300px 300px; animation: drift 40s linear infinite;}
+@keyframes drift{from{background-position:0 0}to{background-position:600px 600px}}
 .arcade-neon .grid { position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(transparent 96%, rgba(255,30,45,.18) 96%), linear-gradient(90deg, transparent 96%, rgba(255,30,45,.18) 96%); background-size: 38px 38px; opacity: .18; transform: perspective(900px) rotateX(60deg) translateY(18%); transform-origin: top; filter: blur(.25px) contrast(120%); }
 .arcade-neon .hero { position: relative; padding: 18px 16px; color: var(--white); }
 .arcade-neon .hero-inner { display: grid; grid-template-columns: 1.2fr .8fr; gap: 16px; }
@@ -78,44 +86,47 @@ Arcade Neon x Platopedia hybrid
 }
 </style>
 
-<div class="arcade-neon">
-  <!-- Neon header hero that blends with the site -->
-  <div class="bg">
+<div class="arcade-neon" style="position:relative; isolation:isolate; color: var(--white); background: var(--bg-0);">
+  <!-- FULL NEON BACKDROP -->
+  <div class="bg-fixed">
+    <div class="bg"></div>
     <div class="grid"></div>
-    <div class="hero">
-      <div class="hero-inner">
-        <div class="holo-card">
-          <div class="title">Welcome to the <span class="accent">Arcade</span> // Neon Ops</div>
-          <p class="sub">A high-energy hub where retro pixels meet holographic UI. Dive into events, leaderboards, and weekly wins.</p>
-          <div class="row">
-            <a class="btn" href="#message-counter" data-scroll="#message-counter">View Ranks</a>
-            <a class="btn btn--teal" href="#sponsors" data-scroll="#sponsors">Become a Sponsor</a>
-          </div>
-          <div class="stats">
-            <div class="stat"><div class="num">8.4M</div><div class="lbl">COINS SPONSORED</div></div>
-            <div class="stat"><div class="num">68,686</div><div class="lbl">TOP MESSAGES</div></div>
-            <div class="stat"><div class="num">56</div><div class="lbl">WEEKLY WINS</div></div>
-          </div>
+    <div class="circuit"></div>
+    <canvas id="arcadeParticles" aria-hidden="true" style="position:fixed; inset:0; z-index:1; pointer-events:none;"></canvas>
+  </div>
+  <!-- Neon header hero -->
+  <div class="hero" style="position:relative; z-index:2;">
+    <div class="hero-inner">
+      <div class="holo-card">
+        <div class="title">Welcome to the <span class="accent">Arcade</span> // Neon Ops</div>
+        <p class="sub">A high-energy hub where retro pixels meet holographic UI. Dive into events, leaderboards, and weekly wins.</p>
+        <div class="row">
+          <a class="btn" href="#message-counter" data-scroll="#message-counter">View Ranks</a>
+          <a class="btn btn--teal" href="#sponsors" data-scroll="#sponsors">Become a Sponsor</a>
         </div>
-        <div class="holo-card">
-          <div class="section-title"><span class="accent">About</span> Arcade</div>
-          <ul style="margin:0; padding-left:18px; color: var(--muted);">
-            <li>Established Dec 28, 2021 — hosts some of Plato's biggest events.</li>
-            <li>English-first, globally inclusive; fair play and high vibes.</li>
-            <li>ArcadeBot tracks messages, wins, and featured game tabs.</li>
-          </ul>
-          <div class="row" style="margin-top:12px">
-            <button class="btn" id="copyInvite" data-copy="https://platoapp.com/link/3gpmf8vsry32p" aria-live="polite">Invite Link</button>
-            <a class="btn btn--teal" href="https://discord.com/invite/mq7QMY88KU" target="_blank" rel="noreferrer noopener">Discord</a>
-            <a class="btn" href="https://instagram.com/arcade.og/" target="_blank" rel="noreferrer noopener">Instagram</a>
-          </div>
+        <div class="stats">
+          <div class="stat"><div class="num">8.4M</div><div class="lbl">COINS SPONSORED</div></div>
+          <div class="stat"><div class="num">68,686</div><div class="lbl">TOP MESSAGES</div></div>
+          <div class="stat"><div class="num">56</div><div class="lbl">WEEKLY WINS</div></div>
+        </div>
+      </div>
+      <div class="holo-card">
+        <div class="section-title"><span class="accent">About</span> Arcade</div>
+        <ul style="margin:0; padding-left:18px; color: var(--muted);">
+          <li>Established Dec 28, 2021 — hosts some of Plato's biggest events.</li>
+          <li>English-first, globally inclusive; fair play and high vibes.</li>
+          <li>ArcadeBot tracks messages, wins, and featured game tabs.</li>
+        </ul>
+        <div class="row" style="margin-top:12px">
+          <button class="btn" id="copyInvite" data-copy="https://platoapp.com/link/3gpmf8vsry32p" aria-live="polite">Invite Link</button>
+          <a class="btn btn--teal" href="https://discord.com/invite/mq7QMY88KU" target="_blank" rel="noreferrer noopener">Discord</a>
+          <a class="btn" href="https://instagram.com/arcade.og/" target="_blank" rel="noreferrer noopener">Instagram</a>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Original site sections (kept, now benefit from fixes below) -->
-  <div class="linebreak"></div>
+  <div class="linebreak" style="position:relative; z-index:2;"></div>
   <div class="announcement-strip">
       <div class="scrolling-text">
           <strong>UPDATE:</strong> ArcadeBot will auto-create featured game tabs every hour and track wins throughout the week. Players with the most wins are rewarded weekly.
@@ -417,4 +428,26 @@ if (window.jQuery){
   $('#message-counter-alltime tr:first-child td:first-child').prepend('&#128293; ').append(' &#128293;');
   $('#wins-counter-weekly tr:first-child td:first-child').prepend('&#127919; ').append(' &#127919;');
 }
+// Particle backdrop (scoped)
+(function(){
+  const canvas = document.getElementById('arcadeParticles');
+  if(!canvas) return; const ctx = canvas.getContext('2d');
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches; if (prefersReduced) return;
+  const DPR = Math.min(2, window.devicePixelRatio||1);
+  function resize(){
+    ctx.setTransform(1,0,0,1,0,0);
+    canvas.width = Math.floor(window.innerWidth*DPR);
+    canvas.height= Math.floor(window.innerHeight*DPR);
+    canvas.style.width = window.innerWidth+'px';
+    canvas.style.height= window.innerHeight+'px';
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+  } resize(); window.addEventListener('resize', resize);
+  const parts=[]; const hue=355; const MAX=700; let rafSpawn=false;
+  function spawn(x,y){ for(let i=0;i<3;i++) parts.push({x,y,vx:(Math.random()-0.5)*2.2,vy:(Math.random()-0.5)*2.2,life:36+Math.random()*18}); }
+  window.addEventListener('pointermove', e=>{ if(rafSpawn) return; rafSpawn=true; requestAnimationFrame(()=>{ spawn(e.clientX, e.clientY); if(parts.length>MAX) parts.splice(0,parts.length-MAX); rafSpawn=false; }); });
+  function tick(){ ctx.setTransform(1,0,0,1,0,0); ctx.clearRect(0,0,canvas.width,canvas.height); ctx.setTransform(DPR,0,0,DPR,0,0);
+    for(let i=parts.length-1;i>=0;i--){ const p=parts[i]; p.life-=1; if(p.life<=0){ parts.splice(i,1); continue;} p.x+=p.vx; p.y+=p.vy; p.vy+=0.02; const a=Math.max(0,p.life/50); const glow=`hsla(${hue},95%,60%,${a})`; ctx.beginPath(); ctx.arc(p.x,p.y,2,0,Math.PI*2); ctx.fillStyle=glow; ctx.shadowBlur=12; ctx.shadowColor=glow; ctx.fill(); }
+    requestAnimationFrame(tick);
+  } requestAnimationFrame(tick);
+})();
 </script>
