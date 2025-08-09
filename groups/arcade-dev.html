@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Arcade — Stable Core</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+---
+layout: tool-content
+title: Arcade - Platopedia
+heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
+---
 <style>
   :root{
     --bg:#0a0a0f; --panel:#12131a; --text:#ecf0f8; --muted:#9aa3ad; --accent:#FF1E2D; --accent-2:#00F0FF;
@@ -66,7 +64,6 @@
   .tab-content{margin-top:8px}
 </style>
   section{display:block !important}
-</style>
 </head>
 <body>
   <div class="container">
@@ -104,44 +101,47 @@
     <section id="sponsors">
       <h2>Sponsors 👑</h2>
       <p class="muted">Sponsor a total of <b>50k+</b> coins to be added to the wall. Perks include role flair, early access, and featured shoutouts.</p>
-      <div class="table-wrap">
-        <table data-paginate data-rows-per="10">
-          <thead><tr><th>Sponsor</th><th>Amount</th></tr></thead>
-          <tbody>
-            <tr><td>Tear</td><td>8476850</td></tr>
-            <tr><td>Risk</td><td>6766600</td></tr>
-            <tr><td>Fear</td><td>5292000</td></tr>
-            <tr><td>TrolledYou</td><td>3782000</td></tr>
-            <tr><td>LA_GIRL07</td><td>2660000</td></tr>
-            <tr><td>Mdame</td><td>1160000</td></tr>
-            <tr><td>Nefya</td><td>1025000</td></tr>
-            <tr><td>Fairy</td><td>1014500</td></tr>
-            <tr><td>Rose</td><td>1007500</td></tr>
-            <tr><td>Alqubaisi</td><td>800000</td></tr>
-            <tr><td>Pink1tty</td><td>593500</td></tr>
-            <tr><td>Rivings</td><td>575500</td></tr>
-            <tr><td>Enes</td><td>504500</td></tr>
-            <tr><td>Arts</td><td>448000</td></tr>
-            <tr><td>Focus</td><td>435200</td></tr>
-            <tr><td>Bao</td><td>277500</td></tr>
-            <tr><td>YR_</td><td>275000</td></tr>
-            <tr><td>Mellisssaaa</td><td>235000</td></tr>
-            <tr><td>Casper</td><td>224800</td></tr>
-            <tr><td>Spring</td><td>202000</td></tr>
-            <tr><td>Aura</td><td>201500</td></tr>
-            <tr><td>7777777</td><td>200000</td></tr>
-            <tr><td>Gebrakin</td><td>200000</td></tr>
-            <tr><td>Dracula</td><td>200000</td></tr>
-            <tr><td>MangoNado</td><td>188000</td></tr>
-            <tr><td>Globe</td><td>187500</td></tr>
-            <tr><td>1Mei</td><td>174000</td></tr>
-            <tr><td>Galaxy</td><td>170000</td></tr>
-            <tr><td>Lawyer</td><td>135000</td></tr>
-            <tr><td>Kikutie</td><td>126000</td></tr>
-          </tbody>
-        </table>
+      <div class="card">
+        <h3 style="margin:0 0 8px">Top Sponsors</h3>
+        <div class="table-wrap">
+          <table id="sponsors-amount" data-paginate data-rows-per="10">
+            <thead><tr><th>Sponsor</th><th>Amount</th></tr></thead>
+            <tbody>
+                <tr><td>Tear</td><td>8476850</td></tr>
+                <tr><td>Risk</td><td>6766600</td></tr>
+                <tr><td>Fear</td><td>5292000</td></tr>
+                <tr><td>TrolledYou</td><td>3782000</td></tr>
+                <tr><td>LA_GIRL07</td><td>2660000</td></tr>
+                <tr><td>Mdame</td><td>1160000</td></tr>
+                <tr><td>Nefya</td><td>1025000</td></tr>
+                <tr><td>Fairy</td><td>1014500</td></tr>
+                <tr><td>Rose</td><td>1007500</td></tr>
+                <tr><td>Alqubaisi</td><td>800000</td></tr>
+                <tr><td>Pink1tty</td><td>593500</td></tr>
+                <tr><td>Rivings</td><td>575500</td></tr>
+                <tr><td>Enes</td><td>504500</td></tr>
+                <tr><td>Arts</td><td>448000</td></tr>
+                <tr><td>Focus</td><td>435200</td></tr>
+                <tr><td>Bao</td><td>277500</td></tr>
+                <tr><td>YR_</td><td>275000</td></tr>
+                <tr><td>Mellisssaaa</td><td>235000</td></tr>
+                <tr><td>Casper</td><td>224800</td></tr>
+                <tr><td>Spring</td><td>202000</td></tr>
+                <tr><td>Aura</td><td>201500</td></tr>
+                <tr><td>7777777</td><td>200000</td></tr>
+                <tr><td>Gebrakin</td><td>200000</td></tr>
+                <tr><td>Dracula</td><td>200000</td></tr>
+                <tr><td>MangoNado</td><td>188000</td></tr>
+                <tr><td>Globe</td><td>187500</td></tr>
+                <tr><td>1Mei</td><td>174000</td></tr>
+                <tr><td>Galaxy</td><td>170000</td></tr>
+                <tr><td>Lawyer</td><td>135000</td></tr>
+                <tr><td>Kikutie</td><td>126000</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pager" aria-live="polite"></div>
       </div>
-      <div class="pager" aria-live="polite"></div>
     </section>
 
     <!-- MESSAGE COUNTER -->
@@ -228,24 +228,27 @@
     <!-- WINS -->
     <section id="wins">
       <h2>Wins Counter 🎯</h2>
-      <div class="table-wrap">
-        <table data-paginate data-rows-per="10">
-          <thead><tr><th>Plato ID</th><th>Weekly Wins</th></tr></thead>
-          <tbody>
-            <tr><td>Mari_Dee</td><td>56</td></tr>
-            <tr><td>vmyi</td><td>29</td></tr>
-            <tr><td>_kyraa_</td><td>29</td></tr>
-            <tr><td>___Don</td><td>21</td></tr>
-            <tr><td>Eunoir</td><td>20</td></tr>
-            <tr><td>ius</td><td>19</td></tr>
-            <tr><td>labeeba</td><td>17</td></tr>
-            <tr><td>Darth_Deigo</td><td>15</td></tr>
-            <tr><td>Andrheaa</td><td>13</td></tr>
-            <tr><td>calisha</td><td>12</td></tr>
-          </tbody>
-        </table>
+      <div class="card">
+        <h3 style="margin:0 0 8px">Weekly Wins</h3>
+        <div class="table-wrap">
+          <table id="wins-counter-weekly" data-paginate data-rows-per="10">
+            <thead><tr><th>Plato ID</th><th>Weekly Wins</th></tr></thead>
+            <tbody>
+              <tr><td>Mari_Dee</td><td>56</td></tr>
+              <tr><td>vmyi</td><td>29</td></tr>
+              <tr><td>_kyraa_</td><td>29</td></tr>
+              <tr><td>___Don</td><td>21</td></tr>
+              <tr><td>Eunoir</td><td>20</td></tr>
+              <tr><td>ius</td><td>19</td></tr>
+              <tr><td>labeeba</td><td>17</td></tr>
+              <tr><td>Darth_Deigo</td><td>15</td></tr>
+              <tr><td>Andrheaa</td><td>13</td></tr>
+              <tr><td>calisha</td><td>12</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pager" aria-live="polite"></div>
       </div>
-      <div class="pager" aria-live="polite"></div>
     </section>
 
     <!-- TEAM -->
