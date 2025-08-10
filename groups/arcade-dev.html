@@ -54,7 +54,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
     /* Tables */
     .table-upgraded{ border-radius:10px; overflow:hidden; }
-    .table-upgraded thead th{ position:sticky; top:0; z-index:1; background:linear-gradient(0deg,var(--color-D),var(--color-C)); color:var(--color-text) !important; }
+    .table-upgraded thead th{ position:sticky; top:0; z-index:1; background:linear-gradient(0deg,var(--color-C),var(--color-B)); border-color:var(--color-C); color:var(--color-text) !important; }
     .table-upgraded tbody tr:nth-child(odd){ background:rgba(255,255,255,.03); }
     .table-upgraded td,.table-upgraded th{ vertical-align:middle; }
     @media (max-width:480px){ .table-upgraded td,.table-upgraded th{ padding:6px; } }
@@ -66,7 +66,6 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 .stat-card{font-family:monospace;background-image:linear-gradient(to bottom,var(--color-C),var(--color-D));border:1px solid var(--color-B);border-radius:12px;padding:14px 16px;box-shadow:0 4px 10px rgba(0,0,0,.15);overflow:hidden}
 .stat-card .label,.stat-card .delta{font-size:12px;letter-spacing:.04em;text-transform:uppercase;word-break:break-word}
 .stat-card .value{display:block;font:700 clamp(18px,5vw,26px)/1.1 monospace;overflow-wrap:anywhere;word-break:break-word}
-@media(max-width:480px){.stat-card .value{font-size:clamp(20px,7vw,28px)}}
 
 /* Last Updated alignment */
 .table-updated{text-align:center}
@@ -410,3 +409,4 @@ img.lazy-loaded{opacity:1;transform:none;background:none;animation:none}
   });
 })();
 </script>
+
