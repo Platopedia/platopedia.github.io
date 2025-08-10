@@ -450,21 +450,8 @@ img.lazy-loaded{opacity:1;transform:none;background:none;animation:none}
     chip.appendChild(text); h.appendChild(chip);
   });
 })();
-
-(function(){
-  const links=[...document.querySelectorAll('.nav-content .nav-link')];
-  const panes=[...document.querySelectorAll('.tab-content .tab-pane')];
-  if(!links.length||!panes.length) return;
-  function activate(a){
-    const sel=a.getAttribute('data-bs-target')||a.getAttribute('data-target')||a.getAttribute('href');
-    if(!sel) return;
-    links.forEach(x=>{x.classList.toggle('active',x===a);x.setAttribute('aria-selected',x===a?'true':'false')});
-    panes.forEach(p=>{const on=('#'+p.id)===sel; p.classList.toggle('show',on); p.classList.toggle('active',on);});
-  }
-  links.forEach(a=>a.addEventListener('click',e=>{e.preventDefault();activate(a)}));
-  activate(links.find(a=>a.classList.contains('active'))||links[0]);
-})();
 </script>
+
 
 
 
