@@ -10,8 +10,11 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     body[data-theme="dark"]  { --color-time-line:#555; --color-time-circ:#000; }
 
 /* Brand headings */
-h2,h3{display:inline-block;padding:8px 14px 8px 0;border-radius:8px;border:1px solid transparent;background:linear-gradient(135deg,var(--color-D),var(--color-C)) padding-box,linear-gradient(135deg,var(--color-D),var(--color-C)) border-box;color:var(--color-text)!important;font-weight:700;position:relative;margin:0 0 12px}
+/* full-width beam */
+h2,h3{position:relative;display:block;margin:0 0 12px}
 h2::after,h3::after{content:'';position:absolute;left:0;right:0;bottom:-6px;height:3px;border-radius:3px;background:linear-gradient(90deg,var(--color-C),var(--color-D));box-shadow:0 0 10px var(--color-C);opacity:.9}
+/* pill around just the text */
+h2>.title-chip,h3>.title-chip{display:inline-block;padding:8px 14px 8px 0;border-radius:8px;border:1px solid transparent;background:linear-gradient(135deg,var(--color-C),var(--color-D)) padding-box,linear-gradient(135deg,var(--color-C),var(--color-D)) border-box;color:var(--color-text)!important;font-weight:700}
 h4,h5{color:color:#008080!important;font-size:var(--unit-text-B)!important}
     
     /* Announcement */
@@ -410,7 +413,17 @@ img.lazy-loaded{opacity:1;transform:none;background:none;animation:none}
     img.addEventListener('error',()=>{ img.classList.remove('lazy-init'); },{once:true});
   });
 })();
+
+(function(){
+  document.querySelectorAll('h2,h3').forEach(h=>{
+    if(h.querySelector('.title-chip')) return;
+    const s=document.createElement('span'); s.className='title-chip';
+    while(h.firstChild) s.appendChild(h.firstChild);
+    h.appendChild(s);
+  });
+})();
 </script>
+
 
 
 
