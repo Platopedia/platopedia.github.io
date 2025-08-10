@@ -59,7 +59,7 @@ h2>.title-chip,h3>.title-chip{
     .gradient-block{ position:relative; background-image:linear-gradient(180deg,var(--color-C),var(--color-D)); border:1px solid var(--color-B); border-radius:14px; padding:8px; box-shadow:0 8px 18px rgba(0,0,0,.12); background-clip:padding-box; }
     .gradient-block.g-2{ background-image:linear-gradient(180deg,var(--color-D),var(--color-C)); }
     .gradient-block.g-3{ background-image:linear-gradient(135deg,var(--color-C),var(--color-D)); }
-    .gradient-block.g-4 { background-image:linear-gradient(135deg,var(--color-C),var(--color-D));display:inline-block;padding:8px 14px;border-radius:8px; }
+    .gradient-block.g-4{ background-image:linear-gradient(135deg,var(--color-C),var(--color-D));display:inline-block;padding:8px 14px;border-radius:8px; text-align:center; }
 
     /* Buttons */
     .button-gradient{ display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px; background-image:linear-gradient(180deg,var(--color-C),var(--color-D)); border:1px solid var(--color-B); box-shadow:0 6px 14px rgba(0,0,0,.12); color:#fff; text-decoration:none; font-family:monospace; font-size:14px; line-height:1; transition:transform .18s ease, box-shadow .18s ease, opacity .18s ease; }
@@ -80,7 +80,7 @@ h2>.title-chip,h3>.title-chip{
 .stat-card{font-family:monospace;background-image:linear-gradient(to bottom,var(--color-C),var(--color-D));border:1px solid var(--color-B);border-radius:12px;padding:14px 16px;box-shadow:0 4px 10px rgba(0,0,0,.15);overflow:hidden}
 .stat-card .label,.stat-card .delta{font-size:12px;letter-spacing:.04em;text-transform:uppercase;word-break:break-word}
 .stat-card .value{display:block;font:700 clamp(22px,6vw,32px)/1.1 monospace;overflow-wrap:anywhere;word-break:break-word}
-@media(max-width:480px){.stat-card .value{font-size:clamp(20px,7vw,28px)}}
+@media(max-width:480px){.stat-card .value{font-size:clamp(15px,5vw,20px)}}
 
 /* Last Updated alignment */
 .table-updated{text-align:center}
@@ -125,7 +125,7 @@ img.lazy-loaded{opacity:1;transform:none;background:none;animation:none}
 
 <div class="linebreak"></div>
 
-<h2 id="about-arcade">About Arcade</h2>
+<h3 id="about-arcade">About Arcade</h3>
 <p>Arcade is a welcoming English community group established on December 28, 2021. We've hosted some of Plato's biggest events and have plenty more exciting stuff in store.</p>
 
 <div class="gradient-block g-4">
@@ -151,7 +151,7 @@ img.lazy-loaded{opacity:1;transform:none;background:none;animation:none}
 <div class="linebreak"></div>
 
 <!-- Join -->
-<h3 id="join-arcade">Join Arcade Group</h3>
+<h2 id="join-arcade">Join Arcade Group</h2>
 <p>We're making it easier for you to join our group. Say goodbye to the waiting room - now, all you need to do is add one of our invite accounts linked below. Every Friday, we'll send out invites to new members (we promise).</p>
 <p>Add <strong>@Arcade:</strong></p>
 <div class="gradient-block g-4">
@@ -161,7 +161,7 @@ img.lazy-loaded{opacity:1;transform:none;background:none;animation:none}
 <div class="linebreak"></div>
 
 <!-- Sponsors -->
-<h3 id="sponsors">Sponsors 👑</h3>
+<h2 id="sponsors">Sponsors 👑</h2>
 <p>To be added to the list, you need to have sponsored a minimum of 50k coins in total. If you'd like to sponsor, head over to <a href="https://discord.com/channels/1059760594128998400/1339249377406881793">#sponsor-tickets</a> on Arcade's Discord and click the <strong>Sponsor</strong> button.</p>
 <div class="linebreak"></div>
 
@@ -463,3 +463,4 @@ img.lazy-loaded{opacity:1;transform:none;background:none;animation:none}
   activate(links.find(a=>a.classList.contains('active'))||links[0]);
 })();
 </script>
+
