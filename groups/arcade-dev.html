@@ -66,18 +66,16 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .stat-card .label{ font-size:12px; letter-spacing:.04em; text-transform:uppercase; }
     .stat-card .value{ font-size:28px; font-weight:700; line-height:1.1; }
     .stat-card .delta{ font-size:12px; }
-
     /* Containment & responsive sizing to prevent overflow */
     .stats-grid > * { min-width: 0; }
     .stat-card { overflow: hidden; }
     .stat-card .label, .stat-card .delta { white-space: normal; word-break: break-word; }
     .stat-card .value { display: block; font-size: clamp(22px, 6vw, 32px) !important; line-height: 1.1; overflow-wrap: anywhere; word-break: break-word; }
     @media (max-width: 480px){ .stat-card .value { font-size: clamp(20px, 7vw, 28px) !important; } }
-
-    /* --- Inserted nav-content nav-link styles below --- */
-.nav-content .nav-link{display:inline-block;background-image:linear-gradient(135deg,var(--color-C),var(--color-D));color:var(--color-text)!important;border:none;border-radius:999px!important;padding:6px 14px;margin:0 3px;font:700 13px/1 monospace;white-space:nowrap;box-shadow:0 2px 6px rgba(0,0,0,.15);transition:transform .15s ease,box-shadow .15s ease,filter .15s ease;}
-.nav-content .nav-link:hover{transform:translateY(-1px);filter:brightness(1.06) saturate(1.05);box-shadow:0 4px 10px rgba(0,0,0,.25);}
-.nav-content .nav-link.active{filter:brightness(1.1) saturate(1.1);box-shadow:0 6px 14px rgba(0,0,0,.28);}
+    .table-updated { text-align: center; }
+    @media (min-width: 768px) {
+      .table-updated { text-align: right; }
+    }
 </style>
 
 <div class="linebreak"></div>
@@ -133,7 +131,8 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 <div class="linebreak"></div>
 
 <div class="content-table gradient-block g-2">
-    <p class="table-updated" style="text-align:center;"><strong>Last Updated:</strong> <span data-updated></span></p>
+    <div class="linebreak"></div>
+    <p class="table-updated"><strong>Last Updated:</strong> <span data-updated></span></p>
     <div class="linebreak"></div>
     <table id="sponsors-amount" class="table table-bordered table-upgraded">
         <thead><tr><th class="w-50">Sponsors</th><th class="w-50">Amount</th></tr></thead>
@@ -196,13 +195,17 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 <p>As of 13/12/2024, ArcadeBot is keeping track of all messages sent in Arcade. The lists below shows our top 20 most active members for the week and of all time, updated every Friday. #nospam</p>
 <div class="linebreak"></div>
 
-<ul class="nav nav-pills x-nav-justified justify-content-center nav-content" role="tablist"><li class="nav-item"><a class="nav-link active" href="#" role="tab" data-toggle="tab" data-target="#tab-message-counter-weekly">Weekly Count</a></li><li class="nav-item"><a class="nav-link" href="#" role="tab" data-toggle="tab" data-target="#tab-message-counter-alltime">All Time Count</a></li><li class="nav-item"><a class="nav-link" href="#" role="tab" data-toggle="tab" data-target="#tab-wins-counter-weekly">Wins Count</a></li></ul>
+<ul class="nav nav-pills x-nav-justified justify-content-center nav-content" role="tablist">
+    <li class="nav-item"><a class="nav-link active" href="#" role="tab" data-toggle="tab" data-target="#tab-message-counter-weekly">Weekly Count</a></li>
+    <li class="nav-item"><a class="nav-link" href="#" role="tab" data-toggle="tab" data-target="#tab-message-counter-alltime">All Time Count</a></li>
+</ul>
 <div class="linebreak"></div>
 
 <div class="tab-content">
     <div id="tab-message-counter-weekly" class="tab-pane fade show active" role="tabpanel">
         <div class="content-table gradient-block g-2">
-            <p class="table-updated" style="text-align:center;"><strong>Last Updated:</strong> <span data-updated></span></p>
+            <div class="linebreak"></div>
+            <p class="table-updated"><strong>Last Updated:</strong> <span data-updated></span></p>
             <div class="linebreak"></div>
             <table id="message-counter-weekly" class="table table-bordered table-upgraded">
                 <thead><tr><th class="w-50">Plato ID</th><th class="w-50">Weekly Count</th></tr></thead>
@@ -233,7 +236,8 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     </div>
     <div id="tab-message-counter-alltime" class="tab-pane fade" role="tabpanel">
         <div class="content-table gradient-block g-2">
-            <p class="table-updated" style="text-align:center;"><strong>Last Updated:</strong> <span data-updated></span></p>
+            <div class="linebreak"></div>
+            <p class="table-updated"><strong>Last Updated:</strong> <span data-updated></span></p>
             <div class="linebreak"></div>
             <table id="message-counter-alltime" class="table table-bordered table-upgraded">
                 <thead><tr><th class="w-50">Plato ID</th><th class="w-50">All Time Count</th></tr></thead>
@@ -262,37 +266,41 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
             </table>
         </div>
     </div>
-    <div id="tab-wins-counter-weekly" class="tab-pane fade" role="tabpanel">
-        <div class="content-table gradient-block g-2">
-            <p class="table-updated" style="text-align:center;"><strong>Last Updated:</strong> <span data-updated></span></p>
-            <div class="linebreak"></div>
-            <table id="wins-counter-weekly" class="table table-bordered table-upgraded">
-                <thead><tr><th class="w-50">Plato ID</th><th class="w-50">Weekly Wins</th></tr></thead>
-                <tbody>
-                <tr><td>Mari_Dee</td><td>56</td></tr>
-                <tr><td>vmyi</td><td>29</td></tr>
-                <tr><td>_kyraa_</td><td>29</td></tr>
-                <tr><td>___Don</td><td>21</td></tr>
-                <tr><td>Eunoir</td><td>20</td></tr>
-                <tr><td>ius</td><td>19</td></tr>
-                <tr><td>labeeba</td><td>17</td></tr>
-                <tr><td>Darth_Deigo</td><td>15</td></tr>
-                <tr><td>Andrheaa</td><td>13</td></tr>
-                <tr><td>calisha</td><td>12</td></tr>
-                <tr><td>CUBEN0T7</td><td>10</td></tr>
-                <tr><td>olar</td><td>10</td></tr>
-                <tr><td>azee77r</td><td>10</td></tr>
-                <tr><td>zriele</td><td>9</td></tr>
-                <tr><td>IAMR</td><td>9</td></tr>
-                <tr><td>Rose786</td><td>8</td></tr>
-                <tr><td>syIle</td><td>8</td></tr>
-                <tr><td>ArcadeBot</td><td>8</td></tr>
-                <tr><td>Ever13</td><td>7</td></tr>
-                <tr><td>hnisssss</td><td>7</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+</div>
+
+<div class="linebreak"></div>
+
+<!-- Wins -->
+<h2 id="wins-counter">Wins Counter 🎯</h2>
+<div class="content-table gradient-block g-2">
+    <div class="linebreak"></div>
+    <p class="table-updated"><strong>Last Updated:</strong> <span data-updated></span></p>
+    <div class="linebreak"></div>
+    <table id="wins-counter-weekly" class="table table-bordered table-upgraded">
+        <thead><tr><th class="w-50">Plato ID</th><th class="w-50">Weekly Wins</th></tr></thead>
+        <tbody>
+        <tr><td>Mari_Dee</td><td>56</td></tr>
+        <tr><td>vmyi</td><td>29</td></tr>
+        <tr><td>_kyraa_</td><td>29</td></tr>
+        <tr><td>___Don</td><td>21</td></tr>
+        <tr><td>Eunoir</td><td>20</td></tr>
+        <tr><td>ius</td><td>19</td></tr>
+        <tr><td>labeeba</td><td>17</td></tr>
+        <tr><td>Darth_Deigo</td><td>15</td></tr>
+        <tr><td>Andrheaa</td><td>13</td></tr>
+        <tr><td>calisha</td><td>12</td></tr>
+        <tr><td>CUBEN0T7</td><td>10</td></tr>
+        <tr><td>olar</td><td>10</td></tr>
+        <tr><td>azee77r</td><td>10</td></tr>
+        <tr><td>zriele</td><td>9</td></tr>
+        <tr><td>IAMR</td><td>9</td></tr>
+        <tr><td>Rose786</td><td>8</td></tr>
+        <tr><td>syIle</td><td>8</td></tr>
+        <tr><td>ArcadeBot</td><td>8</td></tr>
+        <tr><td>Ever13</td><td>7</td></tr>
+        <tr><td>hnisssss</td><td>7</td></tr>
+        </tbody>
+    </table>
 </div>
 
 <div class="linebreak"></div>
