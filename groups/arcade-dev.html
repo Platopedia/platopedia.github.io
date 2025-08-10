@@ -114,9 +114,25 @@ img.lazy-loaded{opacity:1;transform:none;background:none;animation:none}
 }
 
 .pagination{gap:6px}
-.pagination .page-link{border:1px solid var(--color-B)!important;border-radius:999px!important;background:transparent!important;color:var(--color-C)!important;padding:6px 12px;line-height:1.2;box-shadow:0 2px 6px rgba(0,0,0,.1);transition:filter .18s,box-shadow .18s;}
-.pagination .page-link:hover{filter:brightness(1.08);box-shadow:0 0 8px var(--color-C),0 4px 10px rgba(0,0,0,.18)}
-.pagination .page-item.active .page-link{color:var(--color-C)!important;border-color:#E1100D!important;box-shadow:0 0 6px rgba(225,16,13,.6),0 4px 12px rgba(0,0,0,.2)!important}
+.pagination .page-link{
+  border:1px solid var(--color-B)!important;
+  border-radius:999px!important;
+  background:linear-gradient(135deg,var(--color-C),var(--color-D))!important;
+  color:var(--color-text)!important;
+  padding:6px 12px;
+  line-height:1.2;
+  box-shadow:0 2px 6px rgba(0,0,0,.1);
+  transition:filter .18s,box-shadow .18s
+}
+.pagination .page-link:hover{
+  filter:brightness(1.08);
+  box-shadow:0 0 8px var(--color-C),0 4px 10px rgba(0,0,0,.18)
+}
+.pagination .page-item.active .page-link{
+  color:var(--color-text)!important;
+  border-color:#E1100D!important;
+  box-shadow:0 0 6px rgba(225,16,13,.6),0 4px 12px rgba(0,0,0,.2)!important
+}
 
 /* keep g-4 chips from overflowing */
 .gradient-block.g-4{max-width:100%;white-space:normal;vertical-align:top}
@@ -475,3 +491,4 @@ img.lazy-loaded{opacity:1;transform:none;background:none;animation:none}
   activate(links.find(a=>a.classList.contains('active'))||links[0]);
 })();
 </script>
+
