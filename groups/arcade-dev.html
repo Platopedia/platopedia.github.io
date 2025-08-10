@@ -33,9 +33,10 @@ h2>.title-chip,h3>.title-chip{
     @keyframes scroll{ 0%{ transform:translateX(0%);} 100%{ transform:translateX(-100%);} }
 
     /* Social */
-    .social-buttons{ display:flex; gap:10px; }
-    .social-buttons a{ text-decoration:none; color:white; padding:10px; border-radius:50%; display:flex; align-items:center; justify-content:center; width:50px; height:50px; }
-    .fa-instagram,.fa-discord{ font-size:24px; background:#E1100D; }
+.social-buttons{display:flex;gap:10px}
+.social-buttons a{display:flex;align-items:center;justify-content:center;width:50px;height:50px;border-radius:50%;border:1px solid var(--color-B);background:linear-gradient(135deg,var(--color-C),var(--color-D));color:var(--color-text)!important;box-shadow:0 4px 10px rgba(0,0,0,.12);text-decoration:none;transition:transform .18s,box-shadow .18s,filter .18s}
+.social-buttons a:hover{filter:brightness(1.08);transform:translateY(-1px);box-shadow:0 8px 16px rgba(0,0,0,.18)}
+.fa-instagram,.fa-discord{font-size:24px;background:transparent}
 
     /* Timeline (kept for future use) */
     .timeline{ font-family:monospace; list-style:none; padding-left:35px; position:relative; }
@@ -79,7 +80,7 @@ h2>.title-chip,h3>.title-chip{
 .stats-grid>*{min-width:0}
 .stat-card{font-family:monospace;background-image:linear-gradient(to bottom,var(--color-C),var(--color-D));border:1px solid var(--color-B);border-radius:12px;padding:14px 16px;box-shadow:0 4px 10px rgba(0,0,0,.15);overflow:hidden}
 .stat-card .label,.stat-card .delta{font-size:12px;letter-spacing:.04em;text-transform:uppercase;word-break:break-word}
-.stat-card .value{display:block;font:700 clamp(15px,5vw,20px)/1.1 monospace;overflow-wrap:anywhere;word-break:break-word}
+.stat-card .value{display:block;font:700 clamp(15px,5vw,20px)/1.1 monospace;overflow-wrap:anywhere;word-break:break-word;color:#E1100D}
 @media(max-width:480px){.stat-card .value{font-size:clamp(20px,5vw,25px)}}
 
 /* Last Updated alignment */
@@ -491,4 +492,3 @@ img.lazy-loaded{opacity:1;transform:none;background:none;animation:none}
   activate(links.find(a=>a.classList.contains('active'))||links[0]);
 })();
 </script>
-
