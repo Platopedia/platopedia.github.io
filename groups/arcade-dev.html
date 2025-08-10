@@ -111,6 +111,25 @@ img.lazy-loaded{opacity:1;transform:none;background:none;animation:none}
   box-shadow:0 0 6px rgba(225,16,13,.6),0 4px 12px rgba(0,0,0,.2)!important;
   border-color:#E1100D!important
 }
+    
+.pagination{gap:6px}
+.pagination .page-link{
+  border:1px solid var(--color-B)!important;
+  border-radius:999px!important;
+  background:linear-gradient(135deg,var(--color-C),var(--color-D))!important;
+  color:var(--color-text)!important;
+  padding:6px 12px;line-height:1.2;
+  box-shadow:0 2px 6px rgba(0,0,0,.1);
+  transition:filter .18s,box-shadow .18s
+}
+.pagination .page-link:hover{
+  filter:brightness(1.08);
+  box-shadow:0 0 8px var(--color-C),0 4px 10px rgba(0,0,0,.18)
+}
+.pagination .page-item.active .page-link{
+  border-color:#E1100D!important;
+  box-shadow:0 0 6px rgba(225,16,13,.6),0 4px 12px rgba(0,0,0,.2)!important
+}    
 </style>
 
 <div class="linebreak"></div>
@@ -222,7 +241,7 @@ img.lazy-loaded{opacity:1;transform:none;background:none;animation:none}
 </div>
 
 <div class="linebreak"></div>
-<div class="gradient-block g-4"><p class="text-center"><b>Total:</b> <span id="total-sponsor-coins">—</span> coins</p></div>
+<p class="text-center"><b>Total:</b> <span id="total-sponsor-coins">—</span> coins</p>
 <div class="linebreak"></div>
 
 <!-- Message Counter -->
@@ -463,6 +482,3 @@ img.lazy-loaded{opacity:1;transform:none;background:none;animation:none}
   activate(links.find(a=>a.classList.contains('active'))||links[0]);
 })();
 </script>
-
-
-
