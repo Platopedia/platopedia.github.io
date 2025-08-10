@@ -411,5 +411,14 @@ img.lazy-loaded{opacity:1;transform:none;background:none;animation:none}
     img.addEventListener('error',()=>{ img.classList.remove('lazy-init'); },{once:true});
   });
 })();
+(function(){
+  document.querySelectorAll('h2,h3').forEach(h=>{
+    if(h.querySelector('.title-chip')) return;
+    const s=document.createElement('span'); s.className='title-chip';
+    while(h.firstChild) s.appendChild(h.firstChild);
+    h.appendChild(s);
+  });
+})();
 </script>
+
 
