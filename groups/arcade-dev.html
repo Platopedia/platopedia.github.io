@@ -15,8 +15,21 @@ h2,h3{
   padding:8px 14px;
   border-radius:8px;
   background-image:linear-gradient(135deg,var(--color-C),var(--color-D));
-  color:#fff!important;
+  color:var(--color-text) !important;
   font-weight:bold;
+  position:relative;
+}
+h2::after,h3::after{
+  content:'';
+  position:absolute;
+  left:0;
+  right:0;
+  height:3px;
+  margin-top:6px;
+  border-radius:3px;
+  background-image:linear-gradient(90deg,var(--color-C),var(--color-D));
+  box-shadow:0 0 10px var(--color-C);
+  opacity:.9;
 }
 h4,h5{color:var(--color-D)!important;font-size:var(--unit-text-B)!important}
     
@@ -417,6 +430,7 @@ img.lazy-loaded{opacity:1;transform:none;background:none;animation:none}
   });
 })();
 </script>
+
 
 
 
