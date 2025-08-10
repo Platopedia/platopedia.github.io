@@ -100,24 +100,16 @@ img.lazy-loaded{opacity:1;transform:none;background:none;animation:none}
   padding:6px 14px;margin:0 2px;border-radius:999px!important;
   background:linear-gradient(135deg,var(--color-C),var(--color-D))!important;
   color:var(--color-text)!important;border:1px solid var(--color-B)!important;
-  box-shadow:0 4px 10px rgba(0,0,0,.12);
-  line-height:1.2;transform:translateZ(0);
-  transition:transform .18s ease,box-shadow .18s ease,filter .18s ease
+  box-shadow:0 2px 6px rgba(0,0,0,.1);
+  opacity:.85;transition:all .18s ease
 }
 .nav.nav-pills.nav-content .nav-link:hover{
-  filter:brightness(1.08);
-  box-shadow:0 6px 16px rgba(0,0,0,.18),0 0 8px var(--color-C)
+  opacity:1;filter:brightness(1.08)
 }
 .nav.nav-pills.nav-content .nav-link.active,[role=tab][aria-selected="true"]{
-  /* same text colour, same palette — just “pop” it */
-  background:linear-gradient(135deg,var(--color-C),var(--color-D))!important;
-  color:var(--color-text)!important;border-color:var(--color-C)!important;
-  transform:translateY(-1px) scale(1.06);
-  box-shadow:0 10px 22px rgba(0,0,0,.28),0 0 16px var(--color-C)
-}
-@media (prefers-reduced-motion:reduce){
-  .nav.nav-pills.nav-content .nav-link{transition:none}
-  .nav.nav-pills.nav-content .nav-link.active,[role=tab][aria-selected="true"]{transform:none}
+  opacity:1;transform:scale(1.06);
+  box-shadow:0 0 10px #E1100D,0 0 20px #E1100D,0 4px 14px rgba(0,0,0,.25)!important;
+  border-color:#E1100D!important
 }
 </style>
 
@@ -475,6 +467,7 @@ img.lazy-loaded{opacity:1;transform:none;background:none;animation:none}
   activate(links.find(a=>a.classList.contains('active'))||links[0]);
 })();
 </script>
+
 
 
 
