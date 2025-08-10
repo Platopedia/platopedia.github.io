@@ -15,12 +15,11 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
         /* Containment (no viewport break) */
         .arcade-page .content-link,.arcade-page .content-link a{display:inline-block;max-width:100%;overflow-wrap:anywhere;word-break:break-word}
-        .arcade-page .content-table{overflow-x:visible}
-        @media(max-width:768px){.arcade-page .content-table{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-gutter:stable both-edges}}
+        .arcade-page .content-table{overflow-x:auto}
         .arcade-page .nav.nav-pills.nav-content{flex-wrap:wrap;gap:8px}
         .arcade-page .thumbnail-grid{max-width:100%}
         .arcade-page .thumbnail-wrapper{box-sizing:border-box;max-width:100%;word-break:break-word}
-        .arcade-page .linebreak{ height:15px!important; margin:0!important; }
+        .arcade-page .content-contents+.linebreak{display:block!important;height:15px!important;clear:both;flex-basis:100%;width:100%}
 
         /* =========================
            HEADINGS (chip + gradient text w/ shimmer)
@@ -154,8 +153,6 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     <!-- About -->
     <h3 id="about-arcade"><span class="title-chip"><span class="title-text">About Arcade</span></span></h3>
     <p>Arcade is a welcoming English community group established on December 28, 2021. We've hosted some of Plato's biggest events and have plenty more exciting stuff in store.</p>
-
-    <div class="linebreak"></div>
 
     <div class="gradient-block g-4">
         <div class="social-buttons">
