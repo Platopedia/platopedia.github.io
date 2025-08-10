@@ -437,7 +437,15 @@ img.lazy-loaded{opacity:1;transform:none;background:none;animation:none}
     chip.appendChild(text); h.appendChild(chip);
   });
 })();
+
+document.querySelectorAll('.nav-content .nav-link').forEach(a=>{
+  a.addEventListener('click',e=>{
+    document.querySelectorAll('.nav-content .nav-link').forEach(x=>x.classList.remove('active'));
+    a.classList.add('active');
+  });
+});
 </script>
+
 
 
 
