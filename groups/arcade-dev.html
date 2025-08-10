@@ -131,17 +131,8 @@ img.lazy-loaded{opacity:1;transform:none;background:none;animation:none}
   border-color:#E1100D!important;
   box-shadow:0 0 6px rgba(225,16,13,.6),0 4px 12px rgba(0,0,0,.2)!important
 }
-
-/* Width safety: prevent horizontal scroll */
-.arcade-page *{box-sizing:border-box}
-.arcade-page img,.arcade-page table{max-width:100%;height:auto}
-.arcade-page .content-link,.arcade-page .content-link a{max-width:100%;overflow-wrap:anywhere;word-break:break-word}
-.arcade-page .nav.nav-pills.nav-content{flex-wrap:wrap;gap:8px}
-.arcade-page .nav.nav-pills.nav-content .nav-link{min-width:0}
-.arcade-page .gradient-block.g-4{max-width:100%;flex-wrap:wrap;white-space:normal}
-.arcade-page .gradient-block.g-4>*{min-width:0}
-.arcade-page .content-table{overflow-x:visible}
-@media(max-width:768px){.arcade-page .content-table{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-gutter:stable both-edges}}
+.arcade-page .gradient-block .content-link,
+.arcade-page .gradient-block .content-link a{display:inline-block;max-width:100%;white-space:normal;overflow-wrap:anywhere;word-break:break-word}
 </style>
 
 <div class="linebreak"></div>
@@ -494,5 +485,3 @@ img.lazy-loaded{opacity:1;transform:none;background:none;animation:none}
   activate(links.find(a=>a.classList.contains('active'))||links[0]);
 })();
 </script>
-
-
