@@ -97,7 +97,7 @@ img.lazy-loaded{opacity:1;transform:none;background:none;animation:none}
 .nav.nav-pills.nav-content .nav-item{display:inline-flex}
 .nav.nav-pills.nav-content .nav-link{
   display:inline-flex;align-items:center;justify-content:center;
-  padding:6px 14px;margin:6px;border-radius:999px!important;
+  padding:6px 14px;margin:4px;border-radius:999px!important;
   background:linear-gradient(135deg,var(--color-C),var(--color-D))!important;
   color:var(--color-text)!important;border:1px solid var(--color-B)!important;
   box-shadow:0 2px 6px rgba(0,0,0,.1);
@@ -231,9 +231,9 @@ img.lazy-loaded{opacity:1;transform:none;background:none;animation:none}
 <div class="linebreak"></div>
 
 <ul class="nav nav-pills x-nav-justified justify-content-center nav-content" role="tablist">
-    <li class="nav-item"><a class="nav-link active" href="#" role="tab" data-toggle="tab" data-target="#tab-message-counter-weekly">Weekly Count</a></li>
-    <li class="nav-item"><a class="nav-link" href="#" role="tab" data-toggle="tab" data-target="#tab-message-counter-alltime">All Time Count</a></li>
-    <li class="nav-item"><a class="nav-link" href="#" role="tab" data-toggle="tab" data-target="#tab-wins-counter-weekly">Wins Count</a></li>
+    <li class="nav-item"><a class="nav-link active" href="#" role="tab" data-toggle="tab" data-target="#tab-message-counter-weekly">Weekly Message Count</a></li>
+    <li class="nav-item"><a class="nav-link" href="#" role="tab" data-toggle="tab" data-target="#tab-message-counter-alltime">All Time Message Count</a></li>
+    <li class="nav-item"><a class="nav-link" href="#" role="tab" data-toggle="tab" data-target="#tab-wins-counter-weekly">Weekly Wins Count</a></li>
 </ul>
 
 <div class="linebreak"></div>
@@ -466,4 +466,5 @@ img.lazy-loaded{opacity:1;transform:none;background:none;animation:none}
   activate(links.find(a=>a.classList.contains('active'))||links[0]);
 })();
 </script>
+
 
