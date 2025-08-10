@@ -131,8 +131,11 @@ img.lazy-loaded{opacity:1;transform:none;background:none;animation:none}
   border-color:#E1100D!important;
   box-shadow:0 0 6px rgba(225,16,13,.6),0 4px 12px rgba(0,0,0,.2)!important
 }
-.arcade-page .gradient-block .content-link,
-.arcade-page .gradient-block .content-link a{display:inline-block;max-width:100%;white-space:normal;overflow-wrap:anywhere;word-break:break-word}
+/* keep g-4 chips from overflowing */
+.arcade-page .gradient-block.g-4{max-width:100%;white-space:normal;vertical-align:top}
+.arcade-page .gradient-block.g-4 .content-link{display:block;max-width:100%}
+.arcade-page .gradient-block.g-4 .content-link a{display:inline-block;max-width:100%;overflow-wrap:anywhere;word-break:break-word}
+@media(max-width:768px){.arcade-page .gradient-block.g-4{display:block}}
 </style>
 
 <div class="linebreak"></div>
@@ -485,3 +488,4 @@ img.lazy-loaded{opacity:1;transform:none;background:none;animation:none}
   activate(links.find(a=>a.classList.contains('active'))||links[0]);
 })();
 </script>
+
