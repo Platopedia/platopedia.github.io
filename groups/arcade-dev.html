@@ -35,7 +35,7 @@ h2>.title-chip,h3>.title-chip{
     /* Social */
     .social-buttons{ display:flex; gap:10px; }
     .social-buttons a{ text-decoration:none; color:white; padding:10px; border-radius:50%; display:flex; align-items:center; justify-content:center; width:50px; height:50px; }
-    .fa-instagram,.fa-discord{ font-size:24px; background:#353A40; }
+    .fa-instagram,.fa-discord{ font-size:24px; background:#E1100D; }
 
     /* Timeline (kept for future use) */
     .timeline{ font-family:monospace; list-style:none; padding-left:35px; position:relative; }
@@ -114,30 +114,9 @@ img.lazy-loaded{opacity:1;transform:none;background:none;animation:none}
 }
 
 .pagination{gap:6px}
-.pagination .page-link{
-  border:1px solid var(--color-B)!important;
-  border-radius:999px!important;
-  background:linear-gradient(135deg,var(--color-C),var(--color-D))!important;
-  color:var(--color-text)!important;
-  padding:6px 12px;line-height:1.2;
-  box-shadow:0 2px 6px rgba(0,0,0,.1);
-  transition:filter .18s,box-shadow .18s
-  /* Pagination numbers: theme color, no background */
-.pagination .page-link,
-.pagination .page-item.active .page-link{color:var(--color-C)!important;background:transparent!important;border-color:var(--color-B)!important}
-}
-.pagination .page-link,
-.pagination .page-item.active .page-link {
-  color: var(--color-C) !important;
-  background: transparent !important;
-  border-color: var(--color-B) !important;
-}
-
-.pagination .page-link:hover {
-  color: var(--color-D) !important;
-  background: transparent !important;
-  border-color: var(--color-C) !important;
-}
+.pagination .page-link{border:1px solid var(--color-B)!important;border-radius:999px!important;background:transparent!important;color:var(--color-C)!important;padding:6px 12px;line-height:1.2;box-shadow:0 2px 6px rgba(0,0,0,.1);transition:filter .18s,box-shadow .18s;}
+.pagination .page-link:hover{filter:brightness(1.08);box-shadow:0 0 8px var(--color-C),0 4px 10px rgba(0,0,0,.18)}
+.pagination .page-item.active .page-link{color:var(--color-C)!important;border-color:#E1100D!important;box-shadow:0 0 6px rgba(225,16,13,.6),0 4px 12px rgba(0,0,0,.2)!important}
 
 /* keep g-4 chips from overflowing */
 .gradient-block.g-4{max-width:100%;white-space:normal;vertical-align:top}
