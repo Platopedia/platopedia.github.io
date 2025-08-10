@@ -122,15 +122,23 @@ img.lazy-loaded{opacity:1;transform:none;background:none;animation:none}
   padding:6px 12px;line-height:1.2;
   box-shadow:0 2px 6px rgba(0,0,0,.1);
   transition:filter .18s,box-shadow .18s
+  /* Pagination numbers: theme color, no background */
+.pagination .page-link,
+.pagination .page-item.active .page-link{color:var(--color-C)!important;background:transparent!important;border-color:var(--color-B)!important}
 }
-.pagination .page-link:hover{
-  filter:brightness(1.08);
-  box-shadow:0 0 8px var(--color-C),0 4px 10px rgba(0,0,0,.18)
+.pagination .page-link,
+.pagination .page-item.active .page-link {
+  color: var(--color-C) !important;
+  background: transparent !important;
+  border-color: var(--color-B) !important;
 }
-.pagination .page-item.active .page-link{
-  border-color:#E1100D!important;
-  box-shadow:0 0 6px rgba(225,16,13,.6),0 4px 12px rgba(0,0,0,.2)!important
+
+.pagination .page-link:hover {
+  color: var(--color-D) !important;
+  background: transparent !important;
+  border-color: var(--color-C) !important;
 }
+
 /* keep g-4 chips from overflowing */
 .gradient-block.g-4{max-width:100%;white-space:normal;vertical-align:top}
 .gradient-block.g-4 .content-link{display:block;max-width:100%}
