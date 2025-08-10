@@ -47,14 +47,9 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .gradient-block.g-3{ background-image:linear-gradient(135deg,var(--color-C),var(--color-D)); }
     .gradient-block.g-4 { background-image:linear-gradient(135deg,var(--color-C),var(--color-D));display:inline-block;padding:8px 14px;border-radius:8px; }
 
-    /* Buttons */
-    .button-gradient{ display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px; background-image:linear-gradient(180deg,var(--color-C),var(--color-D)); border:1px solid var(--color-B); box-shadow:0 6px 14px rgba(0,0,0,.12); color:#fff; text-decoration:none; font-family:monospace; font-size:14px; line-height:1; transition:transform .18s ease, box-shadow .18s ease, opacity .18s ease; }
-    .button-gradient:hover{ transform:translateY(-1px); box-shadow:0 10px 18px rgba(0,0,0,.18); }
-    .button-gradient:active{ transform:translateY(0); box-shadow:0 6px 14px rgba(0,0,0,.12); opacity:.95; }
-
     /* Tables */
     .table-upgraded{ border-radius:10px; overflow:hidden; }
-    .table-upgraded thead th{ position:sticky; top:0; z-index:1; background:linear-gradient(0deg,var(--color-C),var(--color-B)); border-color:var(--color-A); color:var(--color-text) !important; }
+    .table-upgraded thead th{ position:sticky; top:0; z-index:1; background:linear-gradient(0deg,var(--color-C),var(--color-B)); border-color:var(--color-B); color:var(--color-text) !important; }
     .table-upgraded tbody tr:nth-child(odd){ background:rgba(255,255,255,.03); }
     .table-upgraded td,.table-upgraded th{ vertical-align:middle; }
     @media (max-width:480px){ .table-upgraded td,.table-upgraded th{ padding:6px; } }
@@ -97,18 +92,20 @@ img.lazy-loaded{opacity:1;transform:none;background:none;animation:none}
 
 <div class="linebreak"></div>
 
-<div class="stats-grid" aria-label="Arcade live statistics">
-    <div class="stat-card"><div class="label">Coins Sponsored</div><div class="value"><span id="stat-total-coins">—</span></div><div class="delta">Top Sponsor: <span id="stat-top-sponsor">—</span></div></div>
-    <div class="stat-card"><div class="label">Weekly Messages</div><div class="value"><span id="stat-weekly-msgs">—</span></div><div class="delta">Most Messages: <span id="stat-weekly-topuser">—</span></div></div>
-    <div class="stat-card"><div class="label">Weekly Wins</div><div class="value"><span id="stat-weekly-wins">—</span></div><div class="delta">Most Wins: <span id="stat-weekly-winner">—</span></div></div>
-    <div class="stat-card"><div class="label">Team Members</div><div class="value"><span id="stat-team-count">—</span></div></div>
-</div>
-
 <div class="gradient-block g-4">
     <div class="social-buttons">
         <a class="fab fa-instagram" href="https://instagram.com/arcade.og/"></a>
         <a class="fab fa-discord" href="https://discord.com/invite/mq7QMY88KU"></a>
     </div>
+</div>
+
+<div class="linebreak"></div>
+
+<div class="stats-grid" aria-label="Arcade live statistics">
+    <div class="stat-card"><div class="label">Coins Sponsored</div><div class="value"><span id="stat-total-coins">—</span></div><div class="delta">Top Sponsor: <span id="stat-top-sponsor">—</span></div></div>
+    <div class="stat-card"><div class="label">Weekly Messages</div><div class="value"><span id="stat-weekly-msgs">—</span></div><div class="delta">Most Messages: <span id="stat-weekly-topuser">—</span></div></div>
+    <div class="stat-card"><div class="label">Weekly Wins</div><div class="value"><span id="stat-weekly-wins">—</span></div><div class="delta">Most Wins: <span id="stat-weekly-winner">—</span></div></div>
+    <div class="stat-card"><div class="label">Team Members</div><div class="value"><span id="stat-team-count">—</span></div></div>
 </div>
 
 <div class="linebreak"></div>
@@ -409,4 +406,5 @@ img.lazy-loaded{opacity:1;transform:none;background:none;animation:none}
   });
 })();
 </script>
+
 
