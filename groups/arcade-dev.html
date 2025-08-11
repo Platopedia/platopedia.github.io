@@ -395,9 +395,24 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     // Stats from tables
     (function(){
       const num=t=>parseInt(String(t||'').replace(/[,\s]/g,''),10)||0;
-      const sum=(id,col)=>{const t=document.getElementById(id); if(!t) return 0; return Array.from(t.tBodies[0].rows).reduce((a,r)=>a+num(r.cells[col].textContent),0);};
-      const first=(id)=>{const t=document.getElementById(id);return t&&t.tBodies[0].rows[0];};
+      const sum=(id,col)=>{
+        try{
+          const t=document.getElementById(id);
+          if(!(t && t.tBodies && t.tBodies[0])) return 0;
+          return Array.from(t.tBodies[0].rows).reduce((a,r)=>{
+            const cell=r.cells[col];
+            return a + (cell? num(cell.textContent) : 0);
+          },0);
+        }catch(e){ console.error('[sum]',id,e); return 0; }
+      };
+      const first=(id)=>{
+        try{
+          const t=document.getElementById(id);
+          return (t && t.tBodies && t.tBodies[0] && t.tBodies[0].rows[0]) || null;
+        }catch(e){ console.error('[first]',id,e); return null; }
+      };
 
+      try{
       const totalCoins=sum('sponsors-amount',1);
       const totalEl=document.getElementById('total-sponsor-coins'); if(totalEl) totalEl.textContent=totalCoins.toLocaleString();
       const statTotal=document.getElementById('stat-total-coins'); if(statTotal) statTotal.textContent=totalCoins.toLocaleString();
@@ -426,7 +441,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
           const count=num(r.cells[2]?.textContent||'0');
           return {rank:i+1,name,pic,count};
         });
-        host.innerHTML=items.map(({rank,name,pic,count})=>`
+        host.innerHTML=items.filter(x=>x.pic && /^https?:\/\//.test(x.pic)).map(({rank,name,pic,count})=>`
           <div class="podium-card rank-${rank}">
             <div class="rank-badge">${rank === 1 ? '1st' : rank === 2 ? '2nd' : '3rd'}</div>
             <img class="avatar" src="${pic}" alt="${name}'s avatar" loading="lazy"/>
@@ -434,6 +449,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
             <div class="score">${count.toLocaleString()} msgs</div>
           </div>`).join('');
       })();
+      }catch(e){ console.error('[stats]', e); }
     })();
 
     // Content image: lazy + fade-in
