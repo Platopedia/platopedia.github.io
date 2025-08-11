@@ -38,7 +38,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     /* Team grid */
     .thumbnail-grid{display:flex;flex-wrap:wrap;justify-content:center;width:100%;gap:16px}
     .thumbnail-wrapper{font-family:monospace;width:45%;margin-bottom:15px;text-align:center;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(0,0,0,.06));border:1px solid var(--color-B);border-radius:16px;padding:14px 8px 18px;box-shadow:0 8px 18px rgba(0,0,0,.18);transition:transform .18s ease,box-shadow .18s ease}
-    .thumbnail-wrapper:hover{transform:translateY(-2px);box-shadow:0 12px 22px rgba(0,0,0,.24)}
+    .thumbnail-wrapper:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 16px 28px rgba(0,0,0,.28)}
     .thumbnail{width:75%;height:auto;border-radius:50%;object-fit:cover;border:2px solid #E1100D22;box-shadow:0 0 0 3px #E1100D11}
     @media(min-width:768px){.thumbnail{width:50%}}
     .thumbnail-wrapper .username{display:flex;justify-content:center;align-items:center;gap:6px;margin-top:8px;font-size:13px;font-weight:bold}
@@ -73,7 +73,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     @media(min-width:768px){.stats-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
     .stats-grid>*{min-width:0}
     .stat-card{font-family:monospace;background-image:linear-gradient(to bottom,var(--color-C),var(--color-D));border:1px solid var(--color-B);border-radius:12px;padding:14px 16px;box-shadow:0 4px 10px rgba(0,0,0,.15);overflow:hidden;transition:transform .18s ease,box-shadow .18s ease}
-    .stat-card:hover{transform:translateY(-2px);box-shadow:0 12px 22px rgba(0,0,0,.24)}
+    .stat-card:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 16px 28px rgba(0,0,0,.28)}
     .stat-card:active{transform:translateY(0);box-shadow:0 8px 18px rgba(0,0,0,.18)}
     .stat-card .label,.stat-card .delta{font-size:12px;letter-spacing:.04em;text-transform:uppercase;word-break:break-word}
     .stat-card .value{display:block;font:700 clamp(10px,5vw,20px)/1.1 monospace;overflow-wrap:anywhere;word-break:break-word;color:#E1100D}
@@ -453,5 +453,6 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     // Unified last-updated date
     (function(){const LAST_UPDATED="08/08/25"; document.querySelectorAll('[data-updated]').forEach(el=>el.textContent=LAST_UPDATED);})();
 </script>
+
 
 
