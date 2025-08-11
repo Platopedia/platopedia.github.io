@@ -390,6 +390,30 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       document.querySelectorAll('.thumbnail-wrapper .username').forEach(el=>{
         const name=el.textContent.trim(); if(BADGES[name]){const b=document.createElement('span'); b.className='badge'; b.textContent=BADGES[name]; el.appendChild(b);}
       });
+    })();
+
+    // Stats from tables
+    (function(){
+      const num=t=>parseInt(String(t||'').replace(/[,\s]/g,''),10)||0;
+      const sum=(id,col)=>{const t=document.getElementById(id); if(!t) return 0; return Array.from(t.tBodies[0].rows).reduce((a,r)=>a+num(r.cells[col].textContent),0);};
+      const first=(id)=>{const t=document.getElementById(id);return t&&t.tBodies[0].rows[0];};
+
+      const totalCoins=sum('sponsors-amount',1);
+      const totalEl=document.getElementById('total-sponsor-coins'); if(totalEl) totalEl.textContent=totalCoins.toLocaleString();
+      const statTotal=document.getElementById('stat-total-coins'); if(statTotal) statTotal.textContent=totalCoins.toLocaleString();
+
+      const frS=first('sponsors-amount'); if(frS){let name=(frS.cells[0].textContent||'').trim().replace(/^[^A-Za-z0-9_]+|[^A-Za-z0-9_]+$/g,''); const val=num(frS.cells[1].textContent); const top=document.getElementById('stat-top-sponsor'); if(top) top.textContent=`${name} (${val.toLocaleString()})`; }
+
+      const wm=sum('message-counter-weekly',2); const wmEl=document.getElementById('stat-weekly-msgs'); if(wmEl) wmEl.textContent=wm.toLocaleString();
+      (function(){const t=document.getElementById('message-counter-weekly'); let best='—',score=0; if(t&&t.tBodies[0]){Array.from(t.tBodies[0].rows).forEach(r=>{const n=(r.cells[0].textContent||'').trim(); const v=num(r.cells[2].textContent); if(v>score){score=v;best=n;}});} const o=document.getElementById('stat-weekly-topuser'); if(o) o.textContent=`${best} (${score.toLocaleString()})`;})();
+
+      const wwTotal=sum('wins-counter-weekly',1); const wwEl=document.getElementById('stat-weekly-wins'); if(wwEl) wwEl.textContent=wwTotal.toLocaleString();
+      const frW=first('wins-counter-weekly'); if(frW){const n=frW.cells[0].textContent.trim(); const v=num(frW.cells[1].textContent); const w=document.getElementById('stat-weekly-winner'); if(w) w.textContent=`${n} (${v})`; }
+
+      const teamCards=document.querySelectorAll('.thumbnail-grid .thumbnail-wrapper').length;
+      const shout=document.querySelector('.shoutout strong'); const shoutCount=shout?shout.textContent.split(',').length:0;
+      const tc=document.getElementById('stat-team-count'); if(tc) tc.textContent=String(teamCards+shoutCount);
+
       // Render Top 3 Weekly (pictures under the weekly table's last-updated line)
       (function(){
         const t=document.getElementById('message-counter-weekly');
@@ -410,29 +434,6 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
             <div class="score">${count.toLocaleString()} msgs</div>
           </div>`).join('');
       })();
-    })();
-
-    // Stats from tables
-    (function(){
-      const num=t=>parseInt(String(t||'').replace(/[,\s]/g,''),10)||0;
-      const sum=(id,col)=>{const t=document.getElementById(id); if(!t) return 0; return Array.from(t.tBodies[0].rows).reduce((a,r)=>a+num(r.cells[col].textContent),0);};
-      const first=(id)=>{const t=document.getElementById(id);return t&&t.tBodies[0].rows[0];};
-
-      const totalCoins=sum('sponsors-amount',1);
-      const totalEl=document.getElementById('total-sponsor-coins'); if(totalEl) totalEl.textContent=totalCoins.toLocaleString();
-      const statTotal=document.getElementById('stat-total-coins'); if(statTotal) statTotal.textContent=totalCoins.toLocaleString();
-
-      const frS=first('sponsors-amount'); if(frS){let name=(frS.cells[0].textContent||'').trim().replace(/^[^A-Za-z0-9_]+|[^A-Za-z0-9_]+$/g,''); const val=num(frS.cells[1].textContent); const top=document.getElementById('stat-top-sponsor'); if(top) top.textContent=`${name} (${val.toLocaleString()})`; }
-
-      const wm=sum('message-counter-weekly',1); const wmEl=document.getElementById('stat-weekly-msgs'); if(wmEl) wmEl.textContent=wm.toLocaleString();
-      (function(){const t=document.getElementById('message-counter-weekly'); let best='—',score=0; if(t&&t.tBodies[0]){Array.from(t.tBodies[0].rows).forEach(r=>{const n=(r.cells[0].textContent||'').trim(); const v=num(r.cells[1].textContent); if(v>score){score=v;best=n;}});} const o=document.getElementById('stat-weekly-topuser'); if(o) o.textContent=`${best} (${score.toLocaleString()})`;})();
-
-      const wwTotal=sum('wins-counter-weekly',1); const wwEl=document.getElementById('stat-weekly-wins'); if(wwEl) wwEl.textContent=wwTotal.toLocaleString();
-      const frW=first('wins-counter-weekly'); if(frW){const n=frW.cells[0].textContent.trim(); const v=num(frW.cells[1].textContent); const w=document.getElementById('stat-weekly-winner'); if(w) w.textContent=`${n} (${v})`; }
-
-      const teamCards=document.querySelectorAll('.thumbnail-grid .thumbnail-wrapper').length;
-      const shout=document.querySelector('.shoutout strong'); const shoutCount=shout?shout.textContent.split(',').length:0;
-      const tc=document.getElementById('stat-team-count'); if(tc) tc.textContent=String(teamCards+shoutCount);
     })();
 
     // Content image: lazy + fade-in
