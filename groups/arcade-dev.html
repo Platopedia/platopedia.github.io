@@ -201,6 +201,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 <div class="content-table gradient-block g-2">
     <div class="linebreak"></div>
     <p class="table-updated"><strong>Last Updated:</strong> <span data-updated></span></p>
+    <div id="sponsors-top3" class="podium" aria-label="Top 3 Sponsors" data-table="sponsors-amount" data-images="https://plato-mediaservice-prod.platocdn.com/de78eae212cb2c3fd4366c5585ba38d71552, https://plato-mediaservice-prod.platocdn.com/de78eae212cb2c3fd4366c5585ba38d71552, https://plato-mediaservice-prod.platocdn.com/de78eae212cb2c3fd4366c5585ba38d71552"></div>
     <div class="linebreak"></div>
     <table id="sponsors-amount" class="table table-bordered table-upgraded">
         <thead><tr><th class="w-50">Sponsors</th><th class="w-50">Amount</th></tr></thead>
@@ -465,11 +466,12 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
           const isHttpUrl=s=>/^https?:\/\//.test(String(s||''));
           function renderFromTable(table, host){
             if(!(table && table.tBodies && table.tBodies[0] && host)) return;
+            const provided=(host.getAttribute('data-images')||'').split(',').map(s=>s.trim()).filter(Boolean);
             const rows=Array.from(table.tBodies[0].rows).slice(0,3);
             const items=rows.map((r,i)=>{
               const name=(r.cells[0]?.textContent||'').trim();
-              // Prefer pic at col 1; if missing/invalid, attempt to find first URL-y cell
-              let pic=(r.cells[1]?.textContent||'').trim();
+              // Prefer hardcoded image via data-images; else try col 1 or first URL-like cell
+              let pic=provided[i] || (r.cells[1]?.textContent||'').trim();
               if(!isHttpUrl(pic)){
                 for(let c=0;c<r.cells.length;c++){const t=(r.cells[c]?.textContent||'').trim(); if(isHttpUrl(t)){pic=t; break;}}
               }
