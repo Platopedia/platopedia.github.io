@@ -39,7 +39,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .thumbnail-grid{display:flex;flex-wrap:wrap;justify-content:center;width:100%;gap:16px}
     .thumbnail-wrapper{font-family:monospace;width:45%;margin-bottom:15px;text-align:center;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(0,0,0,.06));border:1px solid var(--color-B);border-radius:16px;padding:14px 8px 18px;box-shadow:0 8px 18px rgba(0,0,0,.18);transition:transform .18s ease,box-shadow .18s ease}
     .thumbnail-wrapper:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 16px 28px rgba(0,0,0,.28)}
-    .thumbnail{width:75%;height:auto;border-radius:50%;object-fit:cover;border:2px solid #E1100D22;box-shadow:0 0 0 3px #E1100D11}
+    .thumbnail{width:75%;height:auto;border-radius:50%;object-fit:cover;border:2px solid #E1100D22;box-shadow:0 0 0 3px #E1100D11;-webkit-user-drag:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;pointer-events:none}
     @media(min-width:768px){.thumbnail{width:50%}}
     .thumbnail-wrapper .username{display:flex;justify-content:center;align-items:center;gap:6px;margin-top:8px;font-size:13px;font-weight:bold}
     @media(min-width:768px){.thumbnail-wrapper .username{margin-top:10px;font-size:14px}}
@@ -70,7 +70,9 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
     /* Top-3 podium */
     .podium{display:flex;flex-wrap:nowrap;gap:12px;justify-content:center;align-items:flex-start;margin:6px 0 10px;width:100%;max-width:100%}
-    .podium-card{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:12px 14px 16px;border:1px solid var(--color-B);border-radius:14px;background-image:linear-gradient(180deg,var(--color-C),var(--color-D));box-shadow:0 6px 14px rgba(0,0,0,.12);min-width:0;max-width:none;flex:1 1 calc((100% - 24px)/3);min-height:128px}
+    .podium-card{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:12px 14px 16px;border:1px solid var(--color-B);border-radius:14px;background-image:linear-gradient(180deg,var(--color-C),var(--color-D));box-shadow:0 6px 14px rgba(0,0,0,.12);min-width:0;max-width:none;flex:1 1 calc((100% - 24px)/3);min-height:128px;transition:transform .18s ease,box-shadow .18s ease,filter .18s ease}
+.podium-card:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 16px 28px rgba(0,0,0,.28)}
+.podium-card:active{transform:translateY(0);box-shadow:0 8px 18px rgba(0,0,0,.18)}
     .content-table.gradient-block{overflow:hidden}
     .podium-card .avatar{width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid rgba(0,0,0,.12);box-shadow:0 0 0 3px var(--ring, #999),0 0 0 6px rgba(0,0,0,.06);-webkit-user-drag:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;pointer-events:none}
     .podium-card.rank-1{--ring:#FFD700}
@@ -367,7 +369,8 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
                 <tr><td>syIle</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/552f7b723caad7d93b91616dee8cebffcad6</td><td>8</td></tr>
                 <tr><td>ArcadeBot</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/653210002b84fc4f9a83eff6d75b26d17c54</td><td>8</td></tr>
                 <tr><td>Ever13</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/2ff7d94811828327a39596c944d12aaaf80b</td><td>7</td></tr>
-                <tr><td>hnisssss</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/cf8777efa21b925685af7ce322dc552201f5</td><td>7</td></tr>                </tbody>
+                <tr><td>hnisssss</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/cf8777efa21b925685af7ce322dc552201f5</td><td>7</td></tr>
+                </tbody>
             </table>
         </div>
     </div>
@@ -523,6 +526,17 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         const done=()=>{img.classList.remove('lazy-init');img.classList.add('lazy-loaded');};
         if(img.complete&&img.naturalWidth>0){done();return;}
         img.addEventListener('load',done,{once:true}); img.addEventListener('error',()=>img.classList.remove('lazy-init'),{once:true});
+      });
+    })();
+
+    // Block save/long-press on team thumbnails
+    (function(){
+      const grid=document.querySelector('.thumbnail-grid');
+      if(!grid) return;
+      grid.addEventListener('contextmenu',e=>{e.preventDefault();return false;});
+      grid.querySelectorAll('img.thumbnail').forEach(img=>{
+        img.setAttribute('draggable','false');
+        img.addEventListener('dragstart',e=>e.preventDefault());
       });
     })();
 
