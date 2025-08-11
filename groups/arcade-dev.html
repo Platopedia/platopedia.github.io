@@ -75,7 +75,6 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .podium-card.rank-1{--ring:#FFD700}
     .podium-card.rank-2{--ring:#C0C0C0}
     .podium-card.rank-3{--ring:#CD7F32}
-    .podium-card .rank-badge{position:absolute;top:-8px;left:-8px;background:#E1100D;color:#fff;border-radius:999px;border:2px solid #fff;font:700 12px/1 monospace;padding:6px 7px;box-shadow:0 4px 10px rgba(0,0,0,.15)}
     .podium-card .name{font:700 12px/1.1 monospace;text-align:center;word-break:break-word}
     .podium-card .score{font:500 11px/1 monospace;opacity:.8}
     @media(min-width:768px){.podium-card{min-width:120px;max-width:140px}.podium-card .avatar{width:90px;height:90px}}
@@ -394,14 +393,14 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
     // Stats from tables
     (function(){
-      const num=t=>parseInt(String(t||'').replace(/[,\s]/g,''),10)||0;
+      const num=t=>parseInt(String(t||'').replace(/[\,\s]/g,''),10)||0;
       const sum=(id,col)=>{
         try{
           const t=document.getElementById(id);
           if(!(t && t.tBodies && t.tBodies[0])) return 0;
           return Array.from(t.tBodies[0].rows).reduce((a,r)=>{
-            const cell=r.cells[col];
-            return a + (cell? num(cell.textContent) : 0);
+            const c=r.cells[col];
+            return a + (c? num(c.textContent) : 0);
           },0);
         }catch(e){ console.error('[sum]',id,e); return 0; }
       };
@@ -413,42 +412,60 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       };
 
       try{
-      const totalCoins=sum('sponsors-amount',1);
-      const totalEl=document.getElementById('total-sponsor-coins'); if(totalEl) totalEl.textContent=totalCoins.toLocaleString();
-      const statTotal=document.getElementById('stat-total-coins'); if(statTotal) statTotal.textContent=totalCoins.toLocaleString();
+        // Sponsors totals/top
+        const totalCoins=sum('sponsors-amount',1);
+        const totalEl=document.getElementById('total-sponsor-coins'); if(totalEl) totalEl.textContent=totalCoins.toLocaleString();
+        const statTotal=document.getElementById('stat-total-coins'); if(statTotal) statTotal.textContent=totalCoins.toLocaleString();
+        const frS=first('sponsors-amount');
+        if(frS){
+          let name=(frS.cells[0].textContent||'').trim().replace(/^[^A-Za-z0-9_]+|[^A-Za-z0-9_]+$/g,'');
+          const val=num(frS.cells[1].textContent);
+          const top=document.getElementById('stat-top-sponsor'); if(top) top.textContent=`${name} (${val.toLocaleString()})`;
+        }
 
-      const frS=first('sponsors-amount'); if(frS){let name=(frS.cells[0].textContent||'').trim().replace(/^[^A-Za-z0-9_]+|[^A-Za-z0-9_]+$/g,''); const val=num(frS.cells[1].textContent); const top=document.getElementById('stat-top-sponsor'); if(top) top.textContent=`${name} (${val.toLocaleString()})`; }
+        // Weekly messages stats (note: col 1 = hidden pic URL, col 2 = count)
+        const wm=sum('message-counter-weekly',2); const wmEl=document.getElementById('stat-weekly-msgs'); if(wmEl) wmEl.textContent=wm.toLocaleString();
+        (function(){
+          const t=document.getElementById('message-counter-weekly'); let best='—',score=0;
+          if(t&&t.tBodies&&t.tBodies[0]){
+            Array.from(t.tBodies[0].rows).forEach(r=>{
+              const n=(r.cells[0].textContent||'').trim();
+              const v=num(r.cells[2].textContent);
+              if(v>score){score=v;best=n;}
+            });
+          }
+          const o=document.getElementById('stat-weekly-topuser'); if(o) o.textContent=`${best} (${score.toLocaleString()})`;
+        })();
 
-      const wm=sum('message-counter-weekly',2); const wmEl=document.getElementById('stat-weekly-msgs'); if(wmEl) wmEl.textContent=wm.toLocaleString();
-      (function(){const t=document.getElementById('message-counter-weekly'); let best='—',score=0; if(t&&t.tBodies[0]){Array.from(t.tBodies[0].rows).forEach(r=>{const n=(r.cells[0].textContent||'').trim(); const v=num(r.cells[2].textContent); if(v>score){score=v;best=n;}});} const o=document.getElementById('stat-weekly-topuser'); if(o) o.textContent=`${best} (${score.toLocaleString()})`;})();
+        // Weekly wins
+        const wwTotal=sum('wins-counter-weekly',1); const wwEl=document.getElementById('stat-weekly-wins'); if(wwEl) wwEl.textContent=wwTotal.toLocaleString();
+        const frW=first('wins-counter-weekly'); if(frW){const n=frW.cells[0].textContent.trim(); const v=num(frW.cells[1].textContent); const w=document.getElementById('stat-weekly-winner'); if(w) w.textContent=`${n} (${v})`; }
 
-      const wwTotal=sum('wins-counter-weekly',1); const wwEl=document.getElementById('stat-weekly-wins'); if(wwEl) wwEl.textContent=wwTotal.toLocaleString();
-      const frW=first('wins-counter-weekly'); if(frW){const n=frW.cells[0].textContent.trim(); const v=num(frW.cells[1].textContent); const w=document.getElementById('stat-weekly-winner'); if(w) w.textContent=`${n} (${v})`; }
+        // Team count
+        const teamCards=document.querySelectorAll('.thumbnail-grid .thumbnail-wrapper').length;
+        const shout=document.querySelector('.shoutout strong'); const shoutCount=shout?shout.textContent.split(',').length:0;
+        const tc=document.getElementById('stat-team-count'); if(tc) tc.textContent=String(teamCards+shoutCount);
 
-      const teamCards=document.querySelectorAll('.thumbnail-grid .thumbnail-wrapper').length;
-      const shout=document.querySelector('.shoutout strong'); const shoutCount=shout?shout.textContent.split(',').length:0;
-      const tc=document.getElementById('stat-team-count'); if(tc) tc.textContent=String(teamCards+shoutCount);
+        // Render Top 3 Weekly (pictures under the weekly table's last-updated line)
+        (function(){
+          const t=document.getElementById('message-counter-weekly');
+          const host=document.getElementById('weekly-top3');
+          if(!(t && t.tBodies && t.tBodies[0] && host)) return;
+          const rows=Array.from(t.tBodies[0].rows).slice(0,3);
+          const items=rows.map((r,i)=>{
+            const name=(r.cells[0]?.textContent||'').trim();
+            const pic=(r.cells[1]?.textContent||'').trim(); // hidden URL column
+            const count=num(r.cells[2]?.textContent||'0');
+            return {rank:i+1,name,pic,count};
+          });
+          host.innerHTML=items.filter(x=>x.pic && /^https?:\/\//.test(x.pic)).map(({rank,name,pic,count})=>`
+            <div class="podium-card rank-${rank}">
+              <img class="avatar" src="${pic}" alt="${name}'s avatar" loading="lazy"/>
+              <div class="name">${name}</div>
+              <div class="score">${count.toLocaleString()} msgs</div>
+            </div>`).join('');
+        })();
 
-      // Render Top 3 Weekly (pictures under the weekly table's last-updated line)
-      (function(){
-        const t=document.getElementById('message-counter-weekly');
-        const host=document.getElementById('weekly-top3');
-        if(!(t && t.tBodies && t.tBodies[0] && host)) return;
-        const rows=Array.from(t.tBodies[0].rows).slice(0,3);
-        const items=rows.map((r,i)=>{
-          const name=(r.cells[0]?.textContent||'').trim();
-          const pic=(r.cells[1]?.textContent||'').trim(); // hidden URL column
-          const count=num(r.cells[2]?.textContent||'0');
-          return {rank:i+1,name,pic,count};
-        });
-        host.innerHTML=items.filter(x=>x.pic && /^https?:\/\//.test(x.pic)).map(({rank,name,pic,count})=>`
-          <div class="podium-card rank-${rank}">
-            <div class="rank-badge">${rank === 1 ? '1st' : rank === 2 ? '2nd' : '3rd'}</div>
-            <img class="avatar" src="${pic}" alt="${name}'s avatar" loading="lazy"/>
-            <div class="name">${name}</div>
-            <div class="score">${count.toLocaleString()} msgs</div>
-          </div>`).join('');
-      })();
       }catch(e){ console.error('[stats]', e); }
     })();
 
