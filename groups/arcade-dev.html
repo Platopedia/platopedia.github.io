@@ -290,7 +290,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
             <table id="message-counter-weekly" class="table table-bordered table-upgraded">
                 <thead><tr><th class="w-50">Plato ID</th><th style="display:none">Pic URL</th><th class="w-50">Weekly Count</th></tr></thead>
                 <tbody>
-                <tr><td>WWWWWWWWWWWWWWWWW</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/7e755a44901b17368873337c10594cb54583</td><td>5960000000000000000000000000</td></tr>
+                <tr><td>WWWWWWWWWWWWWWWWW</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/7e755a44901b17368873337c10594cb54583</td><td>5960000000000000000000000</td></tr>
                 <tr><td>_CALIX</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/d416ed61ae076d744b55ddedf4eecb8605fa</td><td>5338</td></tr>
                 <tr><td>Keistaa</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/5d70b4b7700d87c25b11717ecc3e8cedd9cc</td><td>5001</td></tr>
                 <tr><td>Vaella</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/a52d7eef3fe430db8cc52745ccd16ad1c518</td><td>2198</td></tr>
@@ -499,7 +499,6 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
               img.setAttribute('draggable','false');
               img.addEventListener('dragstart',e=>e.preventDefault());
             });
-            if(window.initLazyFade) window.initLazyFade(host);
           }
           document.querySelectorAll('.podium[data-table]').forEach(host=>{
             const tableId=host.getAttribute('data-table');
@@ -511,53 +510,29 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       }catch(e){ console.error('[stats]', e); }
     })();
 
-
-    // Unified lazy + fade-in for content images, podium avatars, and team thumbnails
+    // Content image: lazy + fade-in
     (function(){
-      function initContentImages(root){
-        const nodes=root.querySelectorAll('.content-image'); if(!nodes.length) return;
-        const load=el=>{ if(el.dataset.ciLoaded==='1') return; const url=el.getAttribute('data-url'); if(!url) return;
-          const w=el.getAttribute('data-width'); if(w){el.style.maxWidth=w; el.style.margin='0 auto';}
-          const img=new Image(); img.decoding='async'; img.loading='lazy'; img.alt=el.getAttribute('data-label')||''; img.src=url;
-          img.onload=()=>el.classList.add('ci-loaded'); el.innerHTML=''; el.appendChild(img); el.dataset.ciLoaded='1';
-        };
-        if('IntersectionObserver' in window){
-          const io=new IntersectionObserver(ents=>{ents.forEach(e=>{if(e.isIntersecting){load(e.target); io.unobserve(e.target);}})},{rootMargin:'200px'});
-          nodes.forEach(el=>{if(el.dataset.ciInit==='1') return; el.dataset.ciInit='1'; io.observe(el);});
-        }else{
-          nodes.forEach(load);
-        }
-      }
+      const nodes=document.querySelectorAll('.content-image'); if(!nodes.length) return;
+      const load=el=>{ if(el.dataset.ciLoaded==='1') return; const url=el.getAttribute('data-url'); if(!url) return;
+        const w=el.getAttribute('data-width'); if(w){el.style.maxWidth=w; el.style.margin='0 auto';}
+        const img=new Image(); img.decoding='async'; img.loading='lazy'; img.alt=el.getAttribute('data-label')||''; img.src=url;
+        img.onload=()=>el.classList.add('ci-loaded'); el.innerHTML=''; el.appendChild(img); el.dataset.ciLoaded='1';
+      };
+      if('IntersectionObserver'in window){const io=new IntersectionObserver(ents=>{ents.forEach(e=>{if(e.isIntersecting){load(e.target); io.unobserve(e.target);}})},{rootMargin:'200px'}); nodes.forEach(el=>{if(el.dataset.ciInit==='1')return; el.dataset.ciInit='1'; io.observe(el);});}
+      else{nodes.forEach(load);}
+    })();
 
-      function initImgs(root){
-        const imgs=[...root.querySelectorAll('img')].filter(img=>!img.closest('.content-image'));
-        imgs.forEach(img=>{
-          if(img.dataset.lazyInit==='1') return; img.dataset.lazyInit='1';
-          if(!img.getAttribute('loading')) img.setAttribute('loading','lazy');
-          // start hidden/shimmer state
-          img.classList.add('lazy-init');
-          const animateIn=()=>{
-            // ensure the browser registers the initial state before transitioning
-            requestAnimationFrame(()=>{
-              requestAnimationFrame(()=>{
-                img.classList.remove('lazy-init');
-                img.classList.add('lazy-loaded');
-              });
-            });
-          };
-          if(img.complete && img.naturalWidth>0){
-            // cached image: still animate in
-            animateIn();
-          }else{
-            img.addEventListener('load',animateIn,{once:true});
-            img.addEventListener('error',()=>img.classList.remove('lazy-init'),{once:true});
-          }
-        });
-      }
-
-      window.initLazyFade=function(root){ root=root||document; initContentImages(root); initImgs(root); };
-      // run once on load
-      window.initLazyFade(document);
+    // Lazy + fade for all other <img>
+    (function(){
+      const imgs=[...document.querySelectorAll('img')].filter(img=>!img.closest('.content-image'));
+      imgs.forEach(img=>{
+        if(img.dataset.lazyInit==='1') return; img.dataset.lazyInit='1';
+        if(!img.getAttribute('loading')) img.setAttribute('loading','lazy');
+        img.classList.add('lazy-init');
+        const done=()=>{img.classList.remove('lazy-init');img.classList.add('lazy-loaded');};
+        if(img.complete&&img.naturalWidth>0){done();return;}
+        img.addEventListener('load',done,{once:true}); img.addEventListener('error',()=>img.classList.remove('lazy-init'),{once:true});
+      });
     })();
 
     // Block save/long-press on team thumbnails
