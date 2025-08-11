@@ -70,9 +70,9 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
     /* Top-3 podium */
     .podium{display:flex;flex-wrap:nowrap;gap:12px;justify-content:center;align-items:flex-start;margin:6px 0 10px;width:100%;max-width:100%}
-    .podium-card{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 10px 12px;border:1px solid var(--color-B);border-radius:14px;background-image:linear-gradient(180deg,var(--color-C),var(--color-D));box-shadow:0 6px 14px rgba(0,0,0,.12);min-width:0;max-width:none;flex:1 1 calc((100% - 24px)/3)}
+    .podium-card{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 12px 16px;border:1px solid var(--color-B);border-radius:14px;background-image:linear-gradient(180deg,var(--color-C),var(--color-D));box-shadow:0 6px 14px rgba(0,0,0,.12);min-width:0;max-width:none;flex:1 1 calc((100% - 24px)/3);min-height:128px}
     .content-table.gradient-block{overflow:hidden}
-    .podium-card .avatar{width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid rgba(0,0,0,.12);box-shadow:0 0 0 3px var(--ring, #999),0 0 0 6px rgba(0,0,0,.06)}
+    .podium-card .avatar{width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid rgba(0,0,0,.12);box-shadow:0 0 0 3px var(--ring, #999),0 0 0 6px rgba(0,0,0,.06);-webkit-user-drag:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;pointer-events:none}
     .podium-card.rank-1{--ring:#FFD700}
     .podium-card.rank-2{--ring:#C0C0C0}
     .podium-card.rank-3{--ring:#CD7F32}
@@ -474,6 +474,12 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
               <div class="name">${name}</div>
               <div class="score">${count.toLocaleString()} msgs</div>
             </div>`).join('');
+          // discourage saving/downloading via context menu/drag
+          host.addEventListener('contextmenu',e=>{e.preventDefault();return false;});
+          host.querySelectorAll('.podium-card .avatar').forEach(img=>{
+            img.setAttribute('draggable','false');
+            img.addEventListener('dragstart',e=>e.preventDefault());
+          });
         })();
 
       }catch(e){ console.error('[stats]', e); }
