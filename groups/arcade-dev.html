@@ -111,17 +111,16 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
     /* ========== Podium (Top-3) ========== */
     .podium{
-      display:flex;flex-wrap:nowrap;gap:12px;justify-content:center;align-items:flex-end;margin:6px 0 10px;width:100%;max-width:100%
+      display:flex;flex-wrap:nowrap;gap:12px;justify-content:center;align-items:flex-start;margin:6px 0 10px;width:100%;max-width:100%
     }
     .podium-card{
       position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
       padding:12px 14px 16px;border:1px solid var(--color-B);border-radius:14px;background-image:linear-gradient(180deg,var(--color-C),var(--color-D));
       box-shadow:0 6px 14px rgba(0,0,0,.12);min-width:0;max-width:none;flex:1 1 calc((100% - 24px)/3);min-height:128px;
-      transition:transform .18s ease,box-shadow .18s ease,filter .18s ease;overflow:hidden;
-      --lift:0px;transform:translateY(var(--lift))
+      transition:transform .18s ease,box-shadow .18s ease,filter .18s ease;overflow:hidden
     }
-    .podium-card:hover{transform:translateY(calc(var(--lift) - 4px)) scale(1.03);box-shadow:0 16px 28px rgba(0,0,0,.28)}
-    .podium-card:active{transform:translateY(var(--lift));box-shadow:0 8px 18px rgba(0,0,0,.18)}
+    .podium-card:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 16px 28px rgba(0,0,0,.28)}
+    .podium-card:active{transform:translateY(0);box-shadow:0 8px 18px rgba(0,0,0,.18)}
     .content-table.gradient-block{overflow:hidden}
     .podium-card .avatar{
       width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid rgba(0,0,0,.12);
@@ -130,7 +129,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     }
     .podium-card.rank-1{--ring:#CDAB48; --lift:-12px; order:2}
     .podium-card.rank-2{--ring:#C0C0C0; --lift:-6px; order:1}
-    .podium-card.rank-3{--ring:#CD7F32; --lift:0px; order:3}
+    .podium-card.rank-3{--ring:#CD7F32; --lift:-6px; order:3}
     .podium-card .name{
       font:700 12px/1.1 monospace;text-align:center;word-break:break-word;max-width:100%;
       overflow:hidden;text-overflow:ellipsis;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;margin-top:6px
