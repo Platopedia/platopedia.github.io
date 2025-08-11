@@ -62,10 +62,14 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .button-gradient:active{transform:translateY(0);box-shadow:0 6px 14px rgba(0,0,0,.12);opacity:.95}
 
     /* Tables */
-    .table-upgraded{border-radius:10px;overflow:hidden}
+    .table-upgraded{border-radius:10px;overflow:hidden;table-layout:fixed;width:100%}
     .table-upgraded thead th{position:sticky;top:0;z-index:1;background:linear-gradient(0deg,var(--color-D),var(--color-C));border-color:var(--color-B);color:var(--color-text)!important}
     .table-upgraded tbody tr:nth-child(odd){background:rgba(255,255,255,.03)}
-    .table-upgraded td,.table-upgraded th{vertical-align:middle}
+    .table-upgraded td,.table-upgraded th{vertical-align:middle;white-space:normal;word-break:break-word;overflow-wrap:anywhere}
+    /* Ensure two visible columns split evenly; hidden pic URL column is display:none and removed from layout */
+    .table-upgraded thead th.w-50{width:50%}
+    .table-upgraded tbody td:first-child{width:50%}
+    .table-upgraded tbody td:last-child{width:50%}
     @media(max-width:480px){.table-upgraded td,.table-upgraded th{padding:6px}}
 
     /* Top-3 podium */
@@ -568,4 +572,3 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     // Unified last-updated date
     (function(){const LAST_UPDATED="08/08/25"; document.querySelectorAll('[data-updated]').forEach(el=>el.textContent=LAST_UPDATED);})();
 </script>
-
