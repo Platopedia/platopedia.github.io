@@ -68,6 +68,17 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .table-upgraded td,.table-upgraded th{vertical-align:middle}
     @media(max-width:480px){.table-upgraded td,.table-upgraded th{padding:6px}}
 
+    /* Top-3 podium */
+    .podium{display:flex;gap:12px;justify-content:center;align-items:flex-start;margin:6px 0 10px}
+    .podium-card{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 10px;border:1px solid var(--color-B);border-radius:14px;background-image:linear-gradient(180deg,var(--color-C),var(--color-D));box-shadow:0 6px 14px rgba(0,0,0,.12);min-width:90px;max-width:120px}
+    .podium-card .avatar{width:72px;height:72px;border-radius:50%;object-fit:cover;border:2px solid rgba(0,0,0,.12);box-shadow:0 0 0 3px var(--ring, #999),0 0 0 6px rgba(0,0,0,.06)}
+    .podium-card.rank-1{--ring:#FFD700}
+    .podium-card.rank-2{--ring:#C0C0C0}
+    .podium-card.rank-3{--ring:#CD7F32}
+    .podium-card .rank-badge{position:absolute;top:-8px;left:-8px;background:#E1100D;color:#fff;border-radius:999px;border:2px solid #fff;font:700 12px/1 monospace;padding:6px 7px;box-shadow:0 4px 10px rgba(0,0,0,.15)}
+    .podium-card .name{font:700 12px/1.1 monospace;text-align:center;word-break:break-word}
+    .podium-card .score{font:500 11px/1 monospace;opacity:.8}
+    @media(min-width:768px){.podium-card{min-width:120px;max-width:140px}.podium-card .avatar{width:90px;height:90px}}
     /* Stats */
     .stats-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
     @media(min-width:768px){.stats-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
@@ -254,30 +265,31 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         <div class="content-table gradient-block g-2">
             <div class="linebreak"></div>
             <p class="table-updated"><strong>Last Updated:</strong> <span data-updated></span></p>
+            <div id="weekly-top3" class="podium" aria-label="Top 3 Weekly"></div>
             <div class="linebreak"></div>
             <table id="message-counter-weekly" class="table table-bordered table-upgraded">
                 <thead><tr><th class="w-50">Plato ID</th><th class="w-50">Weekly Count</th></tr></thead>
                 <tbody>
-                <tr><td>Keistaa</td><td>9124</td></tr>
-                <tr><td>_EVe__</td><td>8983</td></tr>
-                <tr><td>_CALIX</td><td>8881</td></tr>
-                <tr><td>Vaella</td><td>4492</td></tr>
-                <tr><td>calisha</td><td>2111</td></tr>
-                <tr><td>abdullahshah</td><td>1921</td></tr>
-                <tr><td>INNA</td><td>1842</td></tr>
-                <tr><td>4DA</td><td>1444</td></tr>
-                <tr><td>DontTouchMe</td><td>1419</td></tr>
-                <tr><td>DRAXUN</td><td>1294</td></tr>
-                <tr><td>R_O_S_E_03</td><td>1278</td></tr>
-                <tr><td>drew_house</td><td>1262</td></tr>
-                <tr><td>sowft</td><td>1086</td></tr>
-                <tr><td>percevalthv</td><td>916</td></tr>
-                <tr><td>hiffuu</td><td>884</td></tr>
-                <tr><td>Endity</td><td>841</td></tr>
-                <tr><td>esthell</td><td>832</td></tr>
-                <tr><td>Akamehhh</td><td>818</td></tr>
-                <tr><td>EvikaEve</td><td>749</td></tr>
-                <tr><td>AlXAM</td><td>701</td></tr>
+                <tr><td>_EVe__</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/7e755a44901b17368873337c10594cb54583</td><td>5960</td></tr>
+                <tr><td>_CALIX</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/d416ed61ae076d744b55ddedf4eecb8605fa</td><td>5338</td></tr>
+                <tr><td>Keistaa</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/5d70b4b7700d87c25b11717ecc3e8cedd9cc</td><td>5001</td></tr>
+                <tr><td>Vaella</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/a52d7eef3fe430db8cc52745ccd16ad1c518</td><td>2198</td></tr>
+                <tr><td>R_O_S_E_03</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/2bc9978f2e6647f24e740d6271f9c9c93af3</td><td>1152</td></tr>
+                <tr><td>calisha</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/bc48e6a77efd0f00e4b2b917597f86de54ce</td><td>1054</td></tr>
+                <tr><td>4DA</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/89d9879c9f4eff0ea4784cf37b08da2212de</td><td>894</td></tr>
+                <tr><td>DontTouchMe</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/de78eae212cb2c3fd4366c5585ba38d71552</td><td>891</td></tr>
+                <tr><td>abdullahshah</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/ad6b29ac3e79521d60d17cffc6b24ef2e086</td><td>881</td></tr>
+                <tr><td>INNA</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/f16f2b5e066aa934e8dfc51f1fbd04df42c0</td><td>849</td></tr>
+                <tr><td>drew_house</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/e03e68e107e83cc4928442198a616458b5df</td><td>711</td></tr>
+                <tr><td>Endity</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/031176e427192ca993fc3043982ed6cba0d8</td><td>685</td></tr>
+                <tr><td>sowft</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/c10ee4bdc12fe499985dac606dcba851a38d</td><td>627</td></tr>
+                <tr><td>vow</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/c1e341ac79b15c895950d14b09bc0118b00a</td><td>556</td></tr>
+                <tr><td>Akamehhh</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/c44643fbebb1a2cd02ac3175088600a08ba3</td><td>549</td></tr>
+                <tr><td>QQB</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/a6e999e06fe2203bf287b62df39cca7f76dd</td><td>485</td></tr>
+                <tr><td>EvikaEve</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/ade4af8aa111a11e1bfd019cb69c17832451</td><td>456</td></tr>
+                <tr><td>books</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/c54207d4af0c613c1d682aba3474afcedac5</td><td>447</td></tr>
+                <tr><td>hiffuu</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/711c8eec6c5c0aa467ee8405428847428796</td><td>416</td></tr>
+                <tr><td>Erimasero</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/96644c33baca2369bc6c6d76fca66cc47b0c</td><td>393</td></tr>
                 </tbody>
             </table>
         </div>
@@ -378,6 +390,26 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       document.querySelectorAll('.thumbnail-wrapper .username').forEach(el=>{
         const name=el.textContent.trim(); if(BADGES[name]){const b=document.createElement('span'); b.className='badge'; b.textContent=BADGES[name]; el.appendChild(b);}
       });
+      // Render Top 3 Weekly (pictures under the weekly table's last-updated line)
+      (function(){
+        const t=document.getElementById('message-counter-weekly');
+        const host=document.getElementById('weekly-top3');
+        if(!(t && t.tBodies && t.tBodies[0] && host)) return;
+        const rows=Array.from(t.tBodies[0].rows).slice(0,3);
+        const items=rows.map((r,i)=>{
+          const name=(r.cells[0]?.textContent||'').trim();
+          const pic=(r.cells[1]?.textContent||'').trim(); // hidden URL column
+          const count=num(r.cells[2]?.textContent||'0');
+          return {rank:i+1,name,pic,count};
+        });
+        host.innerHTML=items.map(({rank,name,pic,count})=>`
+          <div class="podium-card rank-${rank}">
+            <div class="rank-badge">${rank === 1 ? '1st' : rank === 2 ? '2nd' : '3rd'}</div>
+            <img class="avatar" src="${pic}" alt="${name}'s avatar" loading="lazy"/>
+            <div class="name">${name}</div>
+            <div class="score">${count.toLocaleString()} msgs</div>
+          </div>`).join('');
+      })();
     })();
 
     // Stats from tables
@@ -456,6 +488,3 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     // Unified last-updated date
     (function(){const LAST_UPDATED="08/08/25"; document.querySelectorAll('[data-updated]').forEach(el=>el.textContent=LAST_UPDATED);})();
 </script>
-
-
-
