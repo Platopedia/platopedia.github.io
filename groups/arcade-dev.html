@@ -23,7 +23,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .social-buttons a{display:flex;align-items:center;justify-content:center;width:50px;height:50px;border-radius:50%;border:1px solid var(--color-B);background:linear-gradient(135deg,var(--color-C),var(--color-D));color:var(--color-text)!important;box-shadow:0 4px 10px rgba(0,0,0,.12);text-decoration:none;transition:transform .18s,box-shadow .18s,filter .18s;position:relative;overflow:hidden}
     .social-buttons a:hover{filter:brightness(1.08);transform:translateY(-1px);box-shadow:0 8px 16px rgba(0,0,0,.18)}
     .social-buttons a:active{transform:translateY(0);box-shadow:0 4px 10px rgba(0,0,0,.12);filter:brightness(.96)}
-    .social-buttons a:focus-visible{outline:2px solid #E1100D;outline-offset:2px}
+    .social-buttons a:focus-visible,.social-buttons a:focus{outline:0;box-shadow:0 0 0 2px #E1100D,0 8px 16px rgba(0,0,0,.18)}
     .social-buttons a .ripple{position:absolute;border-radius:50%;pointer-events:none;background:rgba(255,255,255,.35);transform:scale(0);animation:ripple-social .55s ease-out;left:calc(var(--x)*1px);top:calc(var(--y)*1px);width:var(--r);height:var(--r);margin-left:calc(var(--r)/-2);margin-top:calc(var(--r)/-2)}
     @keyframes ripple-social{to{transform:scale(1);opacity:0}}
     @media(prefers-reduced-motion:reduce){.social-buttons a .ripple{display:none}}
