@@ -20,9 +20,16 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
     /* ========== Social ========== */
     .social-buttons{display:flex;gap:10px}
-    .social-buttons a{display:flex;align-items:center;justify-content:center;width:50px;height:50px;border-radius:50%;border:1px solid var(--color-B);background:linear-gradient(135deg,var(--color-C),var(--color-D));color:var(--color-text)!important;box-shadow:0 4px 10px rgba(0,0,0,.12);text-decoration:none;transition:transform .18s,box-shadow .18s,filter .18s}
+    .social-buttons a{display:flex;align-items:center;justify-content:center;width:50px;height:50px;border-radius:50%;border:1px solid var(--color-B);background:linear-gradient(135deg,var(--color-C),var(--color-D));color:var(--color-text)!important;box-shadow:0 4px 10px rgba(0,0,0,.12);text-decoration:none;transition:transform .18s,box-shadow .18s,filter .18s;position:relative;overflow:hidden}
     .social-buttons a:hover{filter:brightness(1.08);transform:translateY(-1px);box-shadow:0 8px 16px rgba(0,0,0,.18)}
+    .social-buttons a:active{transform:translateY(0);box-shadow:0 4px 10px rgba(0,0,0,.12);filter:brightness(.96)}
+    .social-buttons a:focus-visible{outline:2px solid #E1100D;outline-offset:2px}
+    .social-buttons a .ripple{position:absolute;border-radius:50%;pointer-events:none;background:rgba(255,255,255,.35);transform:scale(0);animation:ripple-social .55s ease-out;left:calc(var(--x)*1px);top:calc(var(--y)*1px);width:var(--r);height:var(--r);margin-left:calc(var(--r)/-2);margin-top:calc(var(--r)/-2)}
+    @keyframes ripple-social{to{transform:scale(1);opacity:0}}
+    @media(prefers-reduced-motion:reduce){.social-buttons a .ripple{display:none}}
     .fa-instagram,.fa-discord{font-size:24px;background:transparent}
+    .social-box{display:flex;align-items:center;gap:10px;justify-content:center;flex-wrap:nowrap}
+    .social-note{font-family:monospace;font-size:13px;opacity:.9;line-height:1;white-space:nowrap}
 
     /* ========== (Commented) Announcement / Timeline ========== */
     /* Announcement
@@ -144,10 +151,10 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 <div class="linebreak"></div>
 
 <!-- Social -->
-<div class="gradient-block g-4"><div class="social-buttons">
+<div class="gradient-block g-4"><div class="social-box"><div class="social-buttons">
     <a class="fab fa-instagram" href="https://instagram.com/arcade.og/"></a>
     <a class="fab fa-discord" href="https://discord.com/invite/mq7QMY88KU"></a>
-</div></div>
+  </div><span class="social-note">Follow us to stay updated!</span></div></div>
 
 <!-- Stats -->
 <div class="stats-grid" aria-label="Arcade live statistics">
@@ -413,6 +420,9 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
     /* ========== Block save/long-press on team thumbnails ========== */
     (()=>{const grid=document.querySelector('.thumbnail-grid');if(!grid)return;grid.addEventListener('contextmenu',e=>{e.preventDefault();return false;});grid.querySelectorAll('img.thumbnail').forEach(img=>{img.setAttribute('draggable','false');img.addEventListener('dragstart',e=>e.preventDefault());});})();
+
+    /* ========== Social buttons: ripple click ========== */
+    (()=>{const q=document.querySelectorAll('.social-buttons a');if(!q.length||matchMedia('(prefers-reduced-motion: reduce)').matches)return;q.forEach(a=>{a.addEventListener('pointerdown',e=>{const r=a.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;const d=Math.max(Math.hypot(x,y),Math.hypot(r.width-x,y),Math.hypot(x,r.height-y),Math.hypot(r.width-x,r.height-y))*2;a.style.setProperty('--x',x);a.style.setProperty('--y',y);a.style.setProperty('--r',d+'px');const s=document.createElement('span');s.className='ripple';a.querySelectorAll('.ripple').forEach(n=>n.remove());a.appendChild(s);setTimeout(()=>s.remove(),600);},{passive:true});});})();
 
     /* ========== Title chips wrapper ========== */
     (()=>{document.querySelectorAll('h2,h3').forEach(h=>{if(h.querySelector('.title-chip'))return;const chip=document.createElement('span');chip.className='title-chip';const text=document.createElement('span');text.className='title-text';while(h.firstChild)text.appendChild(h.firstChild);chip.appendChild(text);h.appendChild(chip);});})();
