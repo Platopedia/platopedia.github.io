@@ -62,7 +62,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     }
     .thumbnail-wrapper:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 16px 28px rgba(0,0,0,.28)}
     .thumbnail{
-      width:75%;height:auto;aspect-ratio:1/1;border-radius:50%;object-fit:cover;border:2px solid #E1100D22;box-shadow:0 0 0 3px #E1100D11;
+      width:75%;height:auto;aspect-ratio:1/1;display:block;margin:0 auto;border-radius:50%;object-fit:cover;border:2px solid #E1100D22;box-shadow:0 0 0 3px #E1100D11;
       -webkit-user-drag:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;pointer-events:none
     }
     @media(min-width:768px){.thumbnail{width:50%}}
@@ -71,10 +71,6 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .thumbnail-wrapper .description{margin-top:3px;font-size:10px;color:#777;text-wrap:balance}
     .badge{display:inline-block;padding:2px 6px;border-radius:999px;font-size:10px;background:#E1100D;color:#fff}
     .shoutout{font-family:monospace;font-size:13px;color:#777;text-align:center;margin:8px 0;text-wrap:balance}
-
-    /* ========== Image reveal (avatars + thumbnails) ========== */
-    img.avatar, img.thumbnail{opacity:0;transform:scale(1.01);transition:opacity .35s ease,transform .35s ease}
-    img.avatar.is-visible, img.thumbnail.is-visible{opacity:1;transform:none}
 
     /* ========== Gradient Blocks ========== */
     .gradient-block{
@@ -193,6 +189,10 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     }
     .pagination .page-link:hover{filter:brightness(1.08);box-shadow:0 0 8px var(--color-C),0 4px 10px rgba(0,0,0,.18)}
     .pagination .page-item.active .page-link{color:var(--color-text)!important;border-color:#E1100D!important;box-shadow:0 0 6px rgba(225,16,13,.6),0 4px 12px rgba(0,0,0,.2)!important}
+
+    /* ========== Image reveal (avatars + thumbnails) ========== */
+    img.avatar, img.thumbnail{opacity:0;transform:scale(1.01);transition:opacity .35s ease,transform .35s ease}
+    img.avatar.is-visible, img.thumbnail.is-visible{opacity:1;transform:none}
 
     /* ========== Content Images (lazy fade) ========== */
     @keyframes imgsh{0%{background-position:200% 0}100%{background-position:-200% 0}}
@@ -583,18 +583,19 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       }catch(e){console.error('[stats]',e);}
     })();
 
-    /* ========== Group fade-in for avatars + team thumbnails ========== */
+    /* ========== Fade-in on load: avatars + thumbnails ========== */
     (function(){
       const imgs=[...document.querySelectorAll('img.avatar, img.thumbnail')];
       if(!imgs.length) return;
-
-      let revealed=false,pending=imgs.length;
-      const reveal=()=>{if(revealed)return;revealed=true;requestAnimationFrame(()=>requestAnimationFrame(()=>{imgs.forEach(img=>{if(img.complete&&img.naturalWidth>0){img.classList.add('is-visible');}else{img.addEventListener('load',()=>img.classList.add('is-visible'),{once:true});img.addEventListener('error',()=>img.classList.add('is-visible'),{once:true});}})}));};
-      const mark=()=>{if(--pending<=0)reveal();};
-      imgs.forEach(img=>img.complete&&img.naturalWidth>0?mark():(img.addEventListener('load',mark,{once:true}),img.addEventListener('error',mark,{once:true})));
-
-      // Fallback: after ~.5s, reveal what's ready now; slow ones fade later on load
-      setTimeout(reveal,500);
+      imgs.forEach(img=>{
+        const show=()=>img.classList.add('is-visible');
+        if(img.complete && img.naturalWidth>0){
+          requestAnimationFrame(()=>requestAnimationFrame(show));
+        }else{
+          img.addEventListener('load',show,{once:true});
+          img.addEventListener('error',show,{once:true});
+        }
+      });
     })();
 
     /* ========== Content image: lazy + fade-in ========== */
