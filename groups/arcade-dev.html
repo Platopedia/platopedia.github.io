@@ -21,7 +21,8 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     /* ========== Social ========== */
     .social-buttons{display:flex;gap:10px}
     .social-buttons a{display:flex;align-items:center;justify-content:center;width:50px;height:50px;border-radius:50%;border:1px solid var(--color-B);background:linear-gradient(135deg,var(--color-C),var(--color-D));color:var(--color-text)!important;box-shadow:0 4px 10px rgba(0,0,0,.12);text-decoration:none;transition:transform .18s,box-shadow .18s,filter .18s;position:relative;overflow:hidden}
-    .social-buttons a:hover{filter:brightness(1.06);transform:translateY(-1px);box-shadow:0 0 0 2px #E1100D,0 0 8px 2px rgba(225,16,13,.35),0 8px 16px rgba(0,0,0,.18)}
+    @media(any-hover:hover){.social-buttons a:hover{filter:brightness(1.06);transform:translateY(-1px);box-shadow:0 0 0 2px #E1100D,0 0 8px 2px rgba(225,16,13,.35),0 8px 16px rgba(0,0,0,.18)}}
+    .social-buttons a:focus-visible{outline:0;box-shadow:0 0 0 2px #E1100D,0 0 8px 2px rgba(225,16,13,.35),0 8px 16px rgba(0,0,0,.18)}
     .fa-instagram,.fa-discord{font-size:24px;background:transparent}
     .social-box{display:flex;align-items:center;gap:10px;justify-content:center;flex-wrap:nowrap}
     .social-note{font-family:monospace;font-size:13px;opacity:.9;line-height:1;white-space:nowrap}
