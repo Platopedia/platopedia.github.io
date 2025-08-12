@@ -593,8 +593,8 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       const mark=()=>{if(--pending<=0)reveal();};
       imgs.forEach(img=>img.complete&&img.naturalWidth>0?mark():(img.addEventListener('load',mark,{once:true}),img.addEventListener('error',mark,{once:true})));
 
-      // Fallback: after ~1.6s, reveal what's ready now; slow ones fade later on load
-      setTimeout(reveal,1600);
+      // Fallback: after ~1s, reveal what's ready now; slow ones fade later on load
+      setTimeout(reveal,1000);
     })();
 
     /* ========== Content image: lazy + fade-in ========== */
