@@ -97,6 +97,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .stat-card{font-family:monospace;background-image:linear-gradient(to bottom,var(--color-C),var(--color-D));border:1px solid var(--color-B);border-radius:12px;padding:14px 16px;box-shadow:0 4px 10px rgba(0,0,0,.15);overflow:hidden;transition:transform .18s ease,box-shadow .18s ease;--lift:0px;transform:translateY(var(--lift))}
     .stat-card:hover{transform:translateY(calc(var(--lift) - 4px)) scale(1.03);box-shadow:0 16px 28px rgba(0,0,0,.28)}
     .stat-card:active{transform:translateY(var(--lift));box-shadow:0 8px 18px rgba(0,0,0,.18)}
+    .stat-card.is-pressed{transform:translateY(var(--lift));box-shadow:0 8px 18px rgba(0,0,0,.18)}
     .stat-card .label,.stat-card .value,.stat-card .delta{pointer-events:none}
     @supports selector(:has(*)){.stat-card:has(:active){transform:translateY(var(--lift));box-shadow:0 8px 18px rgba(0,0,0,.18)}}
     .stat-card .label,.stat-card .delta{font-size:12px;letter-spacing:.04em;text-transform:uppercase;word-break:break-word}
@@ -404,6 +405,8 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         /* Anti-download on podiums */host.addEventListener('contextmenu',e=>{e.preventDefault();return false;});host.querySelectorAll('.podium-card .avatar').forEach(img=>{img.setAttribute('draggable','false');img.addEventListener('dragstart',e=>e.preventDefault());});}
         document.querySelectorAll('.podium[data-table]').forEach(host=>{const tableId=host.getAttribute('data-table');const table=document.getElementById(tableId);renderFromTable(table,host);});})();
     }catch(e){console.error('[stats]',e);}})();
+
+    /* ========== Stat-card press feedback (robust) ========== */(()=>{const cards=document.querySelectorAll('.stat-card');if(!cards.length)return;cards.forEach(c=>{const on=()=>c.classList.add('is-pressed'),off=()=>c.classList.remove('is-pressed');c.addEventListener('pointerdown',on);['pointerup','pointercancel','mouseleave','blur'].forEach(t=>c.addEventListener(t,off));});})();
 
     /* ========== Fade-in on load: avatars + thumbnails ========== */
     (()=>{const imgs=[...document.querySelectorAll('img.avatar, img.thumbnail')];if(!imgs.length)return;
