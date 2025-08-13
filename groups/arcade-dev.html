@@ -43,8 +43,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     /* ========== Team Grid ========== */
     .thumbnail-grid{display:flex;flex-wrap:wrap;justify-content:center;width:100%;gap:16px}
     .thumbnail-wrapper{font-family:monospace;width:45%;margin-bottom:15px;text-align:center;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(0,0,0,.06));border:1px solid var(--color-B);border-radius:16px;padding:14px 8px 18px;box-shadow:0 8px 18px rgba(0,0,0,.18);transition:transform .18s ease,box-shadow .18s ease}
-    @media(any-hover:hover){.thumbnail-wrapper:hover{transform:translateY(-6px) scale(1.05);box-shadow:0 18px 32px rgba(0,0,0,.30)}}
-    @media(any-hover:none){.thumbnail-wrapper:hover{transform:none;box-shadow:0 8px 18px rgba(0,0,0,.18)} .thumbnail-wrapper:active{transform:translateY(-3px) scale(1.01);box-shadow:0 14px 24px rgba(0,0,0,.22)}}
+    .thumbnail-wrapper:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 16px 28px rgba(0,0,0,.28)}
     .thumbnail{width:75%;height:auto;aspect-ratio:1/1;display:block;margin:0 auto;border-radius:50%;object-fit:cover;border:2px solid #E1100D22;box-shadow:0 0 0 3px #E1100D11;-webkit-user-drag:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;pointer-events:none}
     @media(min-width:768px){.thumbnail{width:50%}}
     .thumbnail-wrapper .username{display:flex;justify-content:center;align-items:center;gap:6px;margin-top:8px;font-size:13px;font-weight:bold}
@@ -57,11 +56,11 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .gradient-block{position:relative;background-image:linear-gradient(180deg,var(--color-C),var(--color-D));border:1px solid var(--color-B);border-radius:14px;padding:8px;box-shadow:0 8px 18px rgba(0,0,0,.12);background-clip:padding-box}
     .gradient-block.g-2{background-image:linear-gradient(180deg,var(--color-D),var(--color-C))}
     .gradient-block.g-3{background-image:linear-gradient(180deg,var(--color-D),var(--color-C));transition:transform .18s ease,box-shadow .18s ease}
-    @media(any-hover:hover){.gradient-block.g-3:hover{transform:translateY(-6px) scale(1.05);box-shadow:0 18px 32px rgba(0,0,0,.30)}}
-    @media(any-hover:none){.gradient-block.g-3:hover{transform:none;box-shadow:0 8px 18px rgba(0,0,0,.12)} .gradient-block.g-3:active{transform:translateY(-3px) scale(1.01);box-shadow:0 14px 24px rgba(0,0,0,.22)}}
+    .gradient-block.g-3:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 16px 28px rgba(0,0,0,.28)}
+    .gradient-block.g-3:active{transform:translateY(0);box-shadow:0 8px 18px rgba(0,0,0,.18)}
     .gradient-block.g-4{background-image:linear-gradient(135deg,var(--color-C),var(--color-D));display:inline-block;padding:8px 14px;border-radius:8px;max-width:100%;vertical-align:top;text-align:center;transition:transform .18s ease,box-shadow .18s ease}
-    @media(any-hover:hover){.gradient-block.g-4:hover{transform:translateY(-6px) scale(1.05);box-shadow:0 18px 32px rgba(0,0,0,.30)}}
-    @media(any-hover:none){.gradient-block.g-4:hover{transform:none;box-shadow:0 8px 18px rgba(0,0,0,.12)} .gradient-block.g-4:active{transform:translateY(-3px) scale(1.01);box-shadow:0 14px 24px rgba(0,0,0,.22)}}
+    .gradient-block.g-4:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 16px 28px rgba(0,0,0,.28)}
+    .gradient-block.g-4:active{transform:translateY(0);box-shadow:0 8px 18px rgba(0,0,0,.18)}
     .gradient-block.g-4 .content-link{display:block;font-size:clamp(12px,2.4vw + .3rem,18px);line-height:1.3}
     @media(max-width:768px){.gradient-block.g-4{display:block}}
 
@@ -80,9 +79,9 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
     /* ========== Podium (Top-3) ========== */
     .podium{display:flex;flex-wrap:nowrap;gap:12px;justify-content:center;align-items:flex-end;margin:6px 0 10px;width:100%;max-width:100%}
-    .podium-card{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:12px 14px 16px;border:1px solid var(--color-B);border-radius:14px;background-image:linear-gradient(180deg,var(--color-C),var(--color-D));box-shadow:0 6px 14px rgba(0,0,0,.12);min-width:0;max-width:none;flex:1 1 calc((100% - 24px)/3);min-height:128px;transition:transform .18s ease,box-shadow .18s ease;overflow:hidden;--lift:0px;transform:translateY(var(--lift))}
-    @media(any-hover:hover){.podium-card:hover{transform:translateY(calc(var(--lift) - 6px)) scale(1.05);box-shadow:0 18px 32px rgba(0,0,0,.30)}}
-    @media(any-hover:none){.podium-card:hover{transform:translateY(var(--lift));box-shadow:0 6px 14px rgba(0,0,0,.12)} .podium-card:active{transform:translateY(calc(var(--lift) - 3px)) scale(1.01);box-shadow:0 14px 24px rgba(0,0,0,.22)}}
+    .podium-card{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:12px 14px 16px;border:1px solid var(--color-B);border-radius:14px;background-image:linear-gradient(180deg,var(--color-C),var(--color-D));box-shadow:0 6px 14px rgba(0,0,0,.12);min-width:0;max-width:none;flex:1 1 calc((100% - 24px)/3);min-height:128px;transition:transform .18s ease,box-shadow .18s ease,filter .18s ease;overflow:hidden;--lift:0px;transform:translateY(var(--lift))}
+    .podium-card:hover{transform:translateY(calc(var(--lift) - 4px)) scale(1.03);box-shadow:0 16px 28px rgba(0,0,0,.28)}
+    .podium-card:active{transform:translateY(var(--lift));box-shadow:0 8px 18px rgba(0,0,0,.18)}
     .content-table.gradient-block{overflow:hidden}
     .podium-card .avatar{width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid rgba(0,0,0,.12);box-shadow:0 0 0 3px var(--ring,#999),0 0 0 6px rgba(0,0,0,.06);-webkit-user-drag:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;pointer-events:none}
     .podium-card.rank-1{--ring:#CDAB48;--lift:-12px;order:2} .podium-card.rank-2{--ring:#C0C0C0;--lift:0px;order:1} .podium-card.rank-3{--ring:#CD7F32;--lift:0px;order:3}
@@ -121,11 +120,10 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
     /* ========== Content Images (lazy fade) ========== */
     @keyframes imgsh{0%{background-position:200% 0}100%{background-position:-200% 0}}
-    .content-image{position:relative;display:flex;align-items:center;justify-content:center;min-height:140px;border-radius:12px;overflow:hidden;background:linear-gradient(90deg,rgba(255,255,255,.06),rgba(255,255,255,.12),rgba(255,255,255,.06));background-size:200% 100%;animation:imgsh 1.1s linear infinite;transition:transform .18s ease;will-change:transform}
+    .content-image{position:relative;display:flex;align-items:center;justify-content:center;min-height:140px;border-radius:12px;overflow:hidden;background:linear-gradient(90deg,rgba(255,255,255,.06),rgba(255,255,255,.12),rgba(255,255,255,.06));background-size:200% 100%;animation:imgsh 1.1s linear infinite;transition:transform .25s ease}
     .content-image img{display:block;max-width:100%;max-height:100%;height:auto;opacity:0;transform:scale(1.01);transition:opacity .35s ease,transform .35s ease}
     .content-image.ci-loaded{animation:none;background:none} .content-image.ci-loaded img{opacity:1;transform:none}
-    @media(any-hover:hover){.content-image:hover{transform:translateY(-6px) scale(1.05)}}
-    @media(any-hover:none){.content-image:hover{transform:none} .content-image:active{transform:translateY(-3px) scale(1.01)}}
+    .content-image:hover{transform:translateY(-4px) scale(1.03)} .content-image:active{transform:translateY(0) scale(1)}
 
     /* ========== Width / Links / Tables minor ========== */
     .content-link,.content-link a{max-width:100%;overflow-wrap:anywhere;word-break:break-word}
