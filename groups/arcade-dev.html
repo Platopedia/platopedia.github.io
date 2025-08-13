@@ -386,6 +386,13 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     /* ========== Enable :active on iOS (global) ========== */
     document.addEventListener('touchstart',()=>{}, {passive:true});
 
+    /* ========== Passive input listeners (global, noop for smooth scroll) ========== */
+    const onTouchStart=()=>{};const onTouchMove=()=>{};const onWheel=()=>{};const onScroll=()=>{};
+    window.addEventListener('touchstart',onTouchStart,{passive:true});
+    window.addEventListener('touchmove',onTouchMove,{passive:true});
+    window.addEventListener('wheel',onWheel,{passive:true});
+    window.addEventListener('scroll',onScroll,{passive:true});
+
     /* ========== Stats from tables ========== */
     (()=>{const num=t=>parseInt(String(t||'').replace(/[,\s]/g,''),10)||0;
     const sum=(id,col)=>{try{const t=document.getElementById(id);if(!(t&&t.tBodies&&t.tBodies[0]))return 0;return Array.from(t.tBodies[0].rows).reduce((a,r)=>{const c=r.cells[col];return a+(c?num(c.textContent):0)},0);}catch(e){console.error('[sum]',id,e);return 0;}};
