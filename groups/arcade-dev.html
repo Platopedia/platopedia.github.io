@@ -20,9 +20,10 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
     /* ========== Social ========== */
     .social-buttons{display:flex;gap:10px}
-    .social-buttons a{display:flex;align-items:center;justify-content:center;width:50px;height:50px;border-radius:50%;border:1px solid var(--color-B);background:linear-gradient(135deg,var(--color-C),var(--color-D));color:var(--color-text)!important;box-shadow:0 4px 10px rgba(0,0,0,.12);text-decoration:none;transition:transform .15s;will-change:transform;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
-    @media(any-hover:hover){.social-buttons a:hover{transform:translateY(-2px) scale(1.03)}}
-    .social-buttons a:active{transform:translateY(0) scale(.98)}
+    .social-buttons a{display:flex;align-items:center;justify-content:center;width:50px;height:50px;border-radius:50%;border:1px solid var(--color-B);background:linear-gradient(135deg,var(--color-C),var(--color-D));color:var(--color-text)!important;box-shadow:0 4px 10px rgba(0,0,0,.12);text-decoration:none;transition:transform .15s;will-change:transform;touch-action:manipulation;-webkit-tap-highlight-color:transparent;outline:0}
+    @media(any-hover:hover){.social-buttons a:hover{transform:translateY(-2px) scale(1.03);outline:2px solid #E1100D;outline-offset:2px}}
+    .social-buttons a:active{transform:translateY(0) scale(.98);outline:2px solid #E1100D;outline-offset:2px}
+    .social-buttons a:focus-visible{outline:2px solid #E1100D;outline-offset:2px}
     .fa-instagram,.fa-discord{font-size:24px;background:transparent}
     .social-box{display:flex;align-items:center;gap:15px;justify-content:center;flex-wrap:nowrap}
     .social-note{font-family:monospace;font-size:13px;color:var(--color-text);line-height:1;white-space:nowrap}
