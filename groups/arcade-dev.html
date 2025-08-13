@@ -106,11 +106,11 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .table-updated{text-align:center} @media(min-width:768px){.table-updated{text-align:right}}
     .nav.nav-pills.nav-content{flex-wrap:wrap;gap:8px} .nav.nav-pills.nav-content .nav-link{min-width:0}
     .nav.nav-pills.nav-content .nav-item{display:inline-flex}
-    .nav.nav-pills.nav-content .nav-link{display:inline-flex;align-items:center;justify-content:center;padding:5px 10px;margin:3px;border-radius:999px!important;background:linear-gradient(135deg,var(--color-C),var(--color-D))!important;color:var(--color-text)!important;border:1px solid var(--color-B)!important;box-shadow:0 2px 6px rgba(0,0,0,.1);opacity:.85;transition:all .18s ease}
+    .nav.nav-pills.nav-content .nav-link{display:inline-flex;align-items:center;justify-content:center;padding:5px 10px;margin:3px;border-radius:999px!important;background:linear-gradient(135deg,var(--color-C),var(--color-D))!important;color:var(--color-text)!important;border:1px solid var(--color-B)!important;box-shadow:0 2px 6px rgba(0,0,0,.1);opacity:.85;transition:all .18s ease;touch-action:manipulation;-webkit-tap-highlight-color:transparent;-webkit-user-drag:none;user-drag:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
     .nav.nav-pills.nav-content .nav-link:hover{opacity:1;filter:brightness(1.08)}
     .nav.nav-pills.nav-content .nav-link.active,[role=tab][aria-selected="true"]{color:var(--color-text)!important;opacity:1;transform:scale(1.05);box-shadow:0 0 6px rgba(225,16,13,.6),0 4px 12px rgba(0,0,0,.2)!important;border-color:#E1100D!important}
     .pagination{gap:6px}
-    .pagination .page-link{border:1px solid var(--color-B)!important;border-radius:999px!important;background:linear-gradient(135deg,var(--color-C),var(--color-D))!important;color:var(--color-text)!important;padding:6px 12px;line-height:1.2;box-shadow:0 2px 6px rgba(0,0,0,.1);opacity:.85;transition:filter .18s,box-shadow .18s,opacity .18s,border-color .18s}
+    .pagination .page-link{border:1px solid var(--color-B)!important;border-radius:999px!important;background:linear-gradient(135deg,var(--color-C),var(--color-D))!important;color:var(--color-text)!important;padding:6px 12px;line-height:1.2;box-shadow:0 2px 6px rgba(0,0,0,.1);opacity:.85;transition:filter .18s,box-shadow .18s,opacity .18s,border-color .18s;touch-action:manipulation;-webkit-tap-highlight-color:transparent;-webkit-user-drag:none;user-drag:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
     .pagination .page-link:hover{opacity:1;filter:brightness(1.08);border-color:#E1100D!important;box-shadow:0 0 6px rgba(225,16,13,.6),0 4px 12px rgba(0,0,0,.2)!important}
     .pagination .page-item.active .page-link{color:var(--color-text)!important;opacity:1;border-color:#E1100D!important;box-shadow:0 0 6px rgba(225,16,13,.6),0 4px 12px rgba(0,0,0,.2)!important}
     /* ========== Image reveal (avatars + thumbnails) ========== */
@@ -378,8 +378,6 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
 <!-- ========================= Scripts (organized + compact) ========================= -->
 <script>
-    document.addEventListener('touchstart',()=>{}, {passive:true});
-        
     /* Disable long-press/context menu + drag on nav pills & pagination (all devices, delegated) */
     (()=>{const S='.nav.nav-pills.nav-content .nav-link,.pagination .page-link,.social-buttons a',Q=e=>e.target.closest(S);let a=null,x=0,y=0,m=0;addEventListener('dragstart',e=>{if(Q(e))e.preventDefault()},{passive:false});addEventListener('contextmenu',e=>{if(Q(e))e.preventDefault()},{capture:true});addEventListener('pointerdown',e=>{a=Q(e);if(!a)return;if(e.pointerType==='touch'){x=e.clientX;y=e.clientY;m=0;e.preventDefault()}},{passive:false});
     addEventListener('pointermove',e=>{if(a&&(Math.abs(e.clientX-x)>8||Math.abs(e.clientY-y)>8))m=1},{passive:true});
