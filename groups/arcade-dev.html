@@ -378,6 +378,9 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
 <!-- ========================= Scripts (organized + compact) ========================= -->
 <script>
+    document.addEventListener('touchstart',()=>{}, {passive:true});
+    /* Crisp press for iOS/Android */(()=>{document.querySelectorAll('.social-buttons a').forEach(b=>{b.addEventListener('pointerdown',()=>b.classList.add('pressed'));['pointerup','pointercancel','touchcancel','contextmenu','blur','mouseleave'].forEach(ev=>b.addEventListener(ev,()=>b.classList.remove('pressed')));});})();
+    /* Disable iOS long-press drag on social links */(()=>{document.querySelectorAll('.social-buttons a').forEach(a=>{a.setAttribute('draggable','false');a.addEventListener('dragstart',e=>e.preventDefault(),{passive:false});});})();
     /* Disable long-press/context menu + drag on nav pills & pagination (all devices, delegated) */
     (()=>{const S='.nav.nav-pills.nav-content .nav-link,.pagination .page-link,.social-buttons a',Q=e=>e.target.closest(S);let a=null,x=0,y=0,m=0;addEventListener('dragstart',e=>{if(Q(e))e.preventDefault()},{passive:false});addEventListener('contextmenu',e=>{if(Q(e))e.preventDefault()},{capture:true});addEventListener('pointerdown',e=>{a=Q(e);if(!a)return;if(e.pointerType==='touch'){x=e.clientX;y=e.clientY;m=0;e.preventDefault()}},{passive:false});
     addEventListener('pointermove',e=>{if(a&&(Math.abs(e.clientX-x)>8||Math.abs(e.clientY-y)>8))m=1},{passive:true});
