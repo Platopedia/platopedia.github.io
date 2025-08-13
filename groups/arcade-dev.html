@@ -18,9 +18,6 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     @keyframes titleShimmer{to{background-position:200% 50%}}
     @media(prefers-reduced-motion:reduce){.title-chip .title-text{animation:none}}
 
-    /* Delay nav (social + content-link) */
-    (()=>{const D=250,S='.social-buttons a,.content-link',BLOCK='button,[role=button],input,textarea,select,label,[data-action="copy"],.copy,.btn-copy,[data-no-nav]';addEventListener('click',e=>{if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return; if(e.target.closest(BLOCK))return; const el=e.target.closest(S); if(!el)return; const href=el.matches('.content-link')?(el.dataset.url||''):el.getAttribute('href'); if(!href||href.startsWith('#'))return; e.preventDefault(); setTimeout(()=>{el.getAttribute('target')==='_blank'?window.open(href,'_blank','noopener'):location.assign(href)},D);},{capture:true});})();
-
     /* ========== Social ========== */
     .social-buttons{display:flex;gap:10px}
     .social-buttons a{display:flex;align-items:center;justify-content:center;width:50px;height:50px;border-radius:50%;border:1px solid var(--color-B);background:linear-gradient(135deg,var(--color-C),var(--color-D));color:var(--color-text)!important;box-shadow:0 4px 10px rgba(0,0,0,.12);text-decoration:none;transition:transform .15s;will-change:transform;touch-action:manipulation;-webkit-tap-highlight-color:transparent;outline:0;-webkit-user-drag:none;user-drag:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
@@ -385,9 +382,10 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     /* Disable long-press/context menu + drag on nav pills & pagination (all devices, delegated) */
     (()=>{const S='.nav.nav-pills.nav-content .nav-link, .pagination .page-link',Q=e=>e.target.closest(S);let a=null,x=0,y=0,m=0;addEventListener('dragstart',e=>{if(Q(e))e.preventDefault()},{passive:false});addEventListener('contextmenu',e=>{if(Q(e))e.preventDefault()},{capture:true});addEventListener('pointerdown',e=>{a=Q(e);if(!a)return;if(e.pointerType==='touch'){x=e.clientX;y=e.clientY;m=0;e.preventDefault()}},{passive:false});addEventListener('pointermove',e=>{if(a&&(Math.abs(e.clientX-x)>8||Math.abs(e.clientY-y)>8))m=1},{passive:true});
     addEventListener('pointerup',e=>{if(!a||Q(e)!==a||e.button!==0||m)return;const h=a.getAttribute('href')||'',t=a.getAttribute('data-bs-target')||a.getAttribute('data-target')||'';(t||h==='#'||h.startsWith('#'))?a.click():h&&location.assign(h);a=null},{passive:true});})();
-    
-    /* Delay navigation (social) */(()=>{const delay=500;document.querySelectorAll('.social-buttons a').forEach(a=>{a.addEventListener('click',e=>{if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;const href=a.getAttribute('href');if(!href||href.startsWith('#'))return;e.preventDefault();setTimeout(()=>{const t=a.getAttribute('target');t==='_blank'?window.open(href,'_blank','noopener'):location.assign(href);},delay);},{capture:true});});})();
-    
+
+    /* Delay nav (social + content-link) */
+    (()=>{const D=250,S='.social-buttons a,.content-link',BLOCK='button,[role=button],input,textarea,select,label,[data-action="copy"],.copy,.btn-copy,[data-no-nav]';addEventListener('click',e=>{if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return; if(e.target.closest(BLOCK))return; const el=e.target.closest(S); if(!el)return; const href=el.matches('.content-link')?(el.dataset.url||''):el.getAttribute('href'); if(!href||href.startsWith('#'))return; e.preventDefault(); setTimeout(()=>{el.getAttribute('target')==='_blank'?window.open(href,'_blank','noopener'):location.assign(href)},D);},{capture:true});})();
+
     /* ========== Badges ========== */
     (()=>{const BADGES={Rose:'Owner',Fear:'Owner',Hitman:'Owner',Fairy:'Owner',Inna:'Owner',Tear:'Owner',Risk:'Owner'};document.querySelectorAll('.thumbnail-wrapper .username').forEach(el=>{const name=el.textContent.trim();if(BADGES[name]){const b=document.createElement('span');b.className='badge';b.textContent=BADGES[name];el.appendChild(b);}});})();
 
