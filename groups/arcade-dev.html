@@ -410,7 +410,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     /* ========== Content image: lazy + fade-in ========== */
     (()=>{const nodes=document.querySelectorAll('.content-image');if(!nodes.length)return;
     const load=el=>{if(el.dataset.ciLoaded==='1')return;const url=el.getAttribute('data-url');if(!url)return;const w=el.getAttribute('data-width');if(w){el.style.maxWidth=w;el.style.margin='0 auto';}
-    const img=new Image();const t=performance.now();img.decoding='async';img.loading='lazy';img.alt=el.getAttribute('data-label')||'';img.src=url;img.onload=()=>{const d=performance.now()-t,m=200;const r=()=>el.classList.add('ci-loaded');d<m?setTimeout(r,m-d):r()};el.innerHTML='';el.appendChild(img);el.dataset.ciLoaded='1';};
+    const img=new Image();const t=performance.now();img.decoding='async';img.loading='lazy';img.alt=el.getAttribute('data-label')||'';img.src=url;img.onload=()=>{const d=performance.now()-t,m=500;const r=()=>el.classList.add('ci-loaded');d<m?setTimeout(r,m-d):r()};el.innerHTML='';el.appendChild(img);el.dataset.ciLoaded='1';};
     if('IntersectionObserver'in window){const io=new IntersectionObserver(ents=>{ents.forEach(e=>{if(e.isIntersecting){load(e.target);io.unobserve(e.target);}})},{rootMargin:'200px'});nodes.forEach(el=>{if(el.dataset.ciInit==='1')return;el.dataset.ciInit='1';io.observe(el);});}else{nodes.forEach(load);}})();
 
     /* ========== Block save/long-press on team thumbnails ========== */
