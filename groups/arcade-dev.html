@@ -17,6 +17,9 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .title-chip .title-text{background-image:linear-gradient(135deg,var(--color-text),var(--color-B),#E1100D);background-size:200% 100%;background-position:0% 50%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:titleShimmer 3s linear infinite;will-change:background-position}
     @keyframes titleShimmer{to{background-position:200% 50%}}
     @media(prefers-reduced-motion:reduce){.title-chip .title-text{animation:none}}
+    
+    /* Delay nav (social + content-link) */
+    (()=>{const D=250,S='.social-buttons a,.content-link',BLOCK='button,[role=button],input,textarea,select,label,[data-action="copy"],.copy,.btn-copy,[data-no-nav]';addEventListener('click',e=>{if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return; if(e.target.closest(BLOCK))return; const el=e.target.closest(S); if(!el)return; const href=el.matches('.content-link')?(el.dataset.url||''):el.getAttribute('href'); if(!href||href.startsWith('#'))return; e.preventDefault(); setTimeout(()=>{el.getAttribute('target')==='_blank'?window.open(href,'_blank','noopener'):location.assign(href)},D);},{capture:true});})();
 
     /* ========== Social ========== */
     .social-buttons{display:flex;gap:10px}
@@ -385,6 +388,8 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     (()=>{const S='.nav.nav-pills.nav-content .nav-link,.pagination .page-link,.social-buttons a',Q=e=>e.target.closest(S);let a=null,x=0,y=0,m=0;addEventListener('dragstart',e=>{if(Q(e))e.preventDefault()},{passive:false});addEventListener('contextmenu',e=>{if(Q(e))e.preventDefault()},{capture:true});addEventListener('pointerdown',e=>{a=Q(e);if(!a)return;if(e.pointerType==='touch'){x=e.clientX;y=e.clientY;m=0;e.preventDefault()}},{passive:false});
     addEventListener('pointermove',e=>{if(a&&(Math.abs(e.clientX-x)>8||Math.abs(e.clientY-y)>8))m=1},{passive:true});
     ('pointerup',e=>{if(!a||Q(e)!==a||e.button!==0||m)return;if(a.matches('.social-buttons a')){a=null;return}const h=a.getAttribute('href')||'',t=a.getAttribute('data-bs-target')||a.getAttribute('data-target')||'';t||h==='#'||h.startsWith('#')?a.click():h&&location.assign(h);a=null},{passive:true});})();
+
+    /* Delay nav (social + content-link) */(()=>{const D=250,S='.social-buttons a,.content-link';addEventListener('click',e=>{const el=e.target.closest(S);if(!el||e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;const href=el.matches('.content-link')?(el.dataset.url||''):el.getAttribute('href');if(!href||href.startsWith('#'))return;e.preventDefault();setTimeout(()=>{el.getAttribute('target')==='_blank'?window.open(href,'_blank','noopener'):location.assign(href)},D);},{capture:true});})();
 
     /* ========== Badges ========== */
     (()=>{const BADGES={Rose:'Owner',Fear:'Owner',Hitman:'Owner',Fairy:'Owner',Inna:'Owner',Tear:'Owner',Risk:'Owner'};document.querySelectorAll('.thumbnail-wrapper .username').forEach(el=>{const name=el.textContent.trim();if(BADGES[name]){const b=document.createElement('span');b.className='badge';b.textContent=BADGES[name];el.appendChild(b);}});})();
