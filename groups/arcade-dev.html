@@ -75,7 +75,6 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .table-upgraded tbody tr:nth-child(odd){background:rgba(255,255,255,.03)}
     .table-upgraded td,.table-upgraded th{vertical-align:middle;white-space:normal;word-break:break-word;overflow-wrap:anywhere}
     .table-upgraded thead th.w-50{width:50%} .table-upgraded tbody td:first-child{width:50%} .table-upgraded tbody td:last-child{width:50%}
-    .table-upgraded tbody tr:hover{background:rgba(205,171,72,.18)}
     @media(max-width:480px){.table-upgraded td,.table-upgraded th{padding:6px}}
 
     /* ========== Podium (Top-3) ========== */
@@ -379,7 +378,6 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
 <!-- ========================= Scripts (organized + compact) ========================= -->
 <script>
-    document.addEventListener('touchstart',()=>{}, {passive:true});
     /* Crisp press for iOS/Android */(()=>{document.querySelectorAll('.social-buttons a').forEach(b=>{b.addEventListener('pointerdown',()=>b.classList.add('pressed'));['pointerup','pointercancel','touchcancel','contextmenu','blur','mouseleave'].forEach(ev=>b.addEventListener(ev,()=>b.classList.remove('pressed')));});})();
     /* Disable iOS long-press drag on social links */(()=>{document.querySelectorAll('.social-buttons a').forEach(a=>{a.setAttribute('draggable','false');a.addEventListener('dragstart',e=>e.preventDefault(),{passive:false});});})();
     /* Delay navigation (social) */(()=>{const delay=500;document.querySelectorAll('.social-buttons a').forEach(a=>{a.addEventListener('click',e=>{if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;const href=a.getAttribute('href');if(!href||href.startsWith('#'))return;e.preventDefault();setTimeout(()=>{const t=a.getAttribute('target');t==='_blank'?window.open(href,'_blank','noopener'):location.assign(href);},delay);},{capture:true});});})();
@@ -433,3 +431,4 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     /* ========== Unified last-updated date ========== */
     (()=>{const LAST_UPDATED="08/08/25";document.querySelectorAll('[data-updated]').forEach(el=>el.textContent=LAST_UPDATED);})();
 </script>
+
