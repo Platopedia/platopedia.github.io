@@ -80,9 +80,9 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
     /* ========== Podium (Top-3) ========== */
     .podium{display:flex;flex-wrap:nowrap;gap:12px;justify-content:center;align-items:flex-end;margin:6px 0 10px;width:100%;max-width:100%}
-    .podium-card{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:12px 14px 16px;border:1px solid var(--color-B);border-radius:14px;background-image:linear-gradient(180deg,var(--color-C),var(--color-D));box-shadow:0 6px 14px rgba(0,0,0,.12);min-width:0;max-width:none;flex:1 1 calc((100% - 24px)/3);min-height:128px;transition:transform .18s ease,box-shadow .18s ease,filter .18s ease;overflow:hidden;--lift:0px;transform:translateY(var(--lift))}
-    .podium-card:hover{transform:translateY(calc(var(--lift) - 4px)) scale(1.03);box-shadow:0 16px 28px rgba(0,0,0,.28)}
-    .podium-card:active{transform:translateY(var(--lift));box-shadow:0 8px 18px rgba(0,0,0,.18)}
+    .podium-card{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:12px 14px 16px;border:1px solid var(--color-B);border-radius:14px;background-image:linear-gradient(180deg,var(--color-C),var(--color-D));box-shadow:0 6px 14px rgba(0,0,0,.12);min-width:0;max-width:none;flex:1 1 calc((100% - 24px)/3);min-height:128px;transition:transform .22s cubic-bezier(.34,1.56,.64,1),box-shadow .22s ease;will-change:transform;overflow:hidden;--lift:0px;transform:translateY(var(--lift));-webkit-tap-highlight-color:transparent}
+    @media(any-hover:hover){.podium-card:hover{transform:translateY(calc(var(--lift) - 8px)) scale(1.06);box-shadow:0 20px 36px rgba(0,0,0,.32)}}
+    @media(any-hover:none){.podium-card:hover{transform:translateY(var(--lift));box-shadow:0 6px 14px rgba(0,0,0,.12)} .podium-card:active{transform:translateY(calc(var(--lift) - 4px)) scale(1.02);box-shadow:0 16px 28px rgba(0,0,0,.26)}}
     .content-table.gradient-block{overflow:hidden}
     .podium-card .avatar{width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid rgba(0,0,0,.12);box-shadow:0 0 0 3px var(--ring,#999),0 0 0 6px rgba(0,0,0,.06);-webkit-user-drag:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;pointer-events:none}
     .podium-card.rank-1{--ring:#CDAB48;--lift:-12px;order:2} .podium-card.rank-2{--ring:#C0C0C0;--lift:0px;order:1} .podium-card.rank-3{--ring:#CD7F32;--lift:0px;order:3}
