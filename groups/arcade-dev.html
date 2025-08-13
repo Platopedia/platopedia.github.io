@@ -27,6 +27,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .fa-instagram,.fa-discord{font-size:24px;background:transparent}
     .social-box{display:flex;align-items:center;gap:15px;justify-content:center;flex-wrap:nowrap}
     .social-note{font-family:monospace;font-size:13px;color:var(--color-text);line-height:1;white-space:nowrap}
+    .social-buttons a.pressed{transform:translateY(0) scale(.98);outline:2px solid #E1100D;outline-offset:2px}
 
     /* ========== (Commented) Announcement / Timeline / Buttons ========== */
     /* Announcement
@@ -379,6 +380,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 <!-- ========================= Scripts (organized + compact) ========================= -->
 <script>
     document.addEventListener('touchstart',()=>{}, {passive:true});
+    /* Crisp press for iOS/Android */(()=>{document.querySelectorAll('.social-buttons a').forEach(b=>{b.addEventListener('pointerdown',()=>b.classList.add('pressed'));['pointerup','pointercancel','touchcancel','contextmenu','blur','mouseleave'].forEach(ev=>b.addEventListener(ev,()=>b.classList.remove('pressed')));});})();
     /* ========== Badges ========== */
     (()=>{const BADGES={Rose:'Owner',Fear:'Owner',Hitman:'Owner',Fairy:'Owner',Inna:'Owner',Tear:'Owner',Risk:'Owner'};document.querySelectorAll('.thumbnail-wrapper .username').forEach(el=>{const name=el.textContent.trim();if(BADGES[name]){const b=document.createElement('span');b.className='badge';b.textContent=BADGES[name];el.appendChild(b);}});})();
 
