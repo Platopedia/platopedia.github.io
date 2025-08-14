@@ -1281,10 +1281,8 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     function activate(a){const sel=a.getAttribute('data-bs-target')||a.getAttribute('data-target')||a.getAttribute('href');if(!sel)return;links.forEach(x=>{const on=(x===a);x.classList.toggle('active',on);x.setAttribute('aria-selected',on?'true':'false');});panes.forEach(p=>{const on=('#'+p.id)===sel;p.classList.toggle('show',on);p.classList.toggle('active',on);});}
     links.forEach(a=>a.addEventListener('click',e=>{e.preventDefault();activate(a);}));activate(links.find(a=>a.classList.contains('active'))||links[0]);})();
 
-/* ========== Pagination: edges-only (scoped, lightweight) ========== */
-(()=>{const show=p=>{const n=[...p.querySelectorAll('.page-item')].filter(li=>/^\d+$/.test(li.textContent.trim()));if(n.length<2)return;const L=+n.at(-1).textContent,C=+(p.querySelector('.page-item.active')||n[0]).textContent,K=new Set(C<=3?[1,2,3,L]:C>=L-2?[1,L-2,L-1,L]:[1,C,L]);n.forEach(li=>li.style.display=K.has(+li.textContent)?'':'none');};
-const bind=p=>{show(p);new MutationObserver(()=>show(p)).observe(p,{childList:true});p.addEventListener('click',()=>setTimeout(()=>show(p),0),{passive:true});};
-document.querySelectorAll('.pagination').forEach(bind);})();
+/* ========== Pagination: edges-only (robust, compact) ========== */
+(()=>{const seen=new WeakSet,show=p=>{const n=[...p.querySelectorAll('.page-item')].filter(li=>/^\d+$/.test(li.textContent.trim()));if(n.length<2)return;const L=+(n[n.length-1].textContent)||1,C=+((p.querySelector('.page-item.active')||n[0]).textContent)||1,K=new Set(C<=3?[1,2,3,L]:C>=L-2?[1,L-2,L-1,L]:[1,C,L]);n.forEach(li=>li.style.display=K.has(+li.textContent)?'':'none')},bind=p=>{if(seen.has(p))return;seen.add(p);show(p);p.addEventListener('click',()=>setTimeout(()=>show(p),0),{passive:true})};const scan=()=>document.querySelectorAll('.pagination').forEach(bind);new MutationObserver(scan).observe(document.body,{childList:true,subtree:true});scan()})();
 
     /* ========== Unified last-updated date ========== */
     (()=>{const LAST_UPDATED="08/08/25";document.querySelectorAll('[data-updated]').forEach(el=>el.textContent=LAST_UPDATED);})();
