@@ -385,6 +385,9 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
 <!-- ========================= Scripts (organized + compact) ========================= -->
 <script>
+    /* ========== i0S responsive ==========
+    document.addEventListener('touchstart',()=>{}, {passive:true}); */
+    
     /* ========== Disable long-press menu + drag (nav, pagination, social) ========== */
     (()=>{const S='.nav.nav-pills.nav-content .nav-link,.pagination .page-link,.social-buttons a';
     addEventListener('contextmenu',e=>{if(e.target.closest(S))e.preventDefault()},{capture:true});
@@ -451,4 +454,3 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     /* ========== Unified last-updated date ========== */
     (()=>{const LAST_UPDATED="08/08/25";document.querySelectorAll('[data-updated]').forEach(el=>el.textContent=LAST_UPDATED);})();
 </script>
-
