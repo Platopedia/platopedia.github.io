@@ -124,11 +124,13 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     img.avatar,img.thumbnail{opacity:0;transform:scale(1.01);transition:opacity .35s ease,transform .35s ease}
     img.avatar.is-visible,img.thumbnail.is-visible{opacity:1;transform:none}
 
-    /* ========== Content Images (lazy fade) ========== */
+    /* Dramatic image reveal + shimmer that fades out */
     @keyframes imgsh{0%{background-position:200% 0}100%{background-position:-200% 0}}
-    .content-image{position:relative;display:flex;align-items:center;justify-content:center;min-height:140px;border-radius:12px;overflow:hidden;background:linear-gradient(90deg,rgba(255,255,255,.06),rgba(255,255,255,.12),rgba(255,255,255,.06));background-size:200% 100%;animation:imgsh 1.1s linear infinite;transition:transform .25s ease}
-    .content-image img{display:block;max-width:100%;max-height:100%;height:auto;opacity:0;transform:scale(1.01);transition:opacity .35s ease,transform .35s ease;-webkit-user-drag:none;user-drag:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;pointer-events:none}
-    .content-image.ci-loaded{animation:none;background:none} .content-image.ci-loaded img{opacity:1;transform:none}
+    .content-image{position:relative;display:flex;align-items:center;justify-content:center;min-height:140px;border-radius:12px;overflow:hidden}
+    .content-image::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,255,255,.06),rgba(255,255,255,.12),rgba(255,255,255,.06));background-size:200% 100%;animation:imgsh 1.6s linear infinite;opacity:.9;transition:opacity .6s ease}
+    .content-image.ci-loaded::before{opacity:0}
+    .content-image img{display:block;max-width:100%;max-height:100%;height:auto;opacity:0;transform:scale(1.08);filter:blur(4px);transition:opacity 1.3s ease,transform 1.3s ease,filter 1.3s ease;will-change:opacity,transform,filter}
+    .content-image.ci-loaded img{opacity:1;transform:none;filter:none}
     .content-image:hover{transform:translateY(-4px) scale(1.03)} .content-image:active{transform:translateY(0) scale(1)}
 
     /* ========== Width / Links / Tables minor ========== */
@@ -387,7 +389,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 <script>
     /* ========== i0S responsive ==========
     document.addEventListener('touchstart',()=>{}, {passive:true}); */
-    
+
     /* ========== Disable long-press menu + drag (nav, pagination, social) ========== */
     (()=>{const S='.nav.nav-pills.nav-content .nav-link,.pagination .page-link,.social-buttons a';
     addEventListener('contextmenu',e=>{if(e.target.closest(S))e.preventDefault()},{capture:true});
@@ -399,7 +401,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
     /* ========== Make :active reliably fire on iOS for .social-buttons ========== */
     document.querySelector('.social-buttons')?.addEventListener('touchstart',()=>{}, {passive:true});
-    
+
     /* ========== Selection: clear on background click ========== */
     addEventListener('mousedown',e=>{if(!e.target.closest('.selectable,input,textarea,[contenteditable="true"]'))getSelection()?.removeAllRanges()},{capture:true});
     addEventListener('touchstart',e=>{if(!e.target.closest('.selectable,input,textarea,[contenteditable="true"]'))getSelection()?.removeAllRanges()},{passive:true,capture:true});
