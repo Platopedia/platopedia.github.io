@@ -118,10 +118,11 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 .nav.nav-pills.nav-content .nav-link{display:inline-flex;align-items:center;justify-content:center;min-height:36px;line-height:1;padding:5px 12px;margin:3px;border-radius:999px!important;background:linear-gradient(135deg,var(--color-C),var(--color-D))!important;color:var(--color-text)!important;border:1px solid var(--color-B)!important;box-shadow:0 2px 6px rgba(0,0,0,.1);opacity:.85;white-space:nowrap;transition:all .18s ease;touch-action:manipulation;-webkit-tap-highlight-color:transparent;-webkit-user-drag:none;user-drag:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 @media(any-hover:hover){.nav.nav-pills.nav-content .nav-link:hover{opacity:1;transform:translateY(-2px) scale(1.03);filter:none;box-shadow:0 8px 16px rgba(0,0,0,.18)}}
 .nav.nav-pills.nav-content .nav-link.active,[role=tab][aria-selected="true"]{color:var(--color-text)!important;opacity:1;transform:scale(1.03);background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,0)),linear-gradient(135deg,#111,#E1100D)!important;border-color:transparent!important;box-shadow:0 10px 18px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.06)!important}
-.pagination{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--color-B);border-radius:12px;overflow:hidden;align-items:stretch;justify-content:center;margin:4px 0}
+.pagination{display:flex;flex-wrap:wrap;gap:0;align-items:stretch;justify-content:center;margin:4px 0}
 .pagination .page-item{flex:0 1 auto}
-.pagination .page-link{display:grid;place-items:center;min-width:36px;height:36px;padding:0 10px;border:0;border-right:1px solid var(--color-B)!important;border-radius:0!important;background:linear-gradient(135deg,var(--color-C),var(--color-D))!important;color:var(--color-text)!important;box-shadow:none;opacity:1;white-space:nowrap;line-height:1;touch-action:manipulation;-webkit-tap-highlight-color:transparent;-webkit-user-drag:none;user-drag:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;transition:transform .15s}
-.pagination .page-item:last-child .page-link{border-right:0!important}
+.pagination .page-link{display:grid;place-items:center;min-width:36px;height:36px;padding:0 10px;border:1px solid var(--color-B)!important;border-radius:0!important;background:linear-gradient(135deg,var(--color-C),var(--color-D))!important;color:var(--color-text)!important;box-shadow:none;opacity:1;white-space:nowrap;line-height:1;touch-action:manipulation;-webkit-tap-highlight-color:transparent;-webkit-user-drag:none;user-drag:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;transition:transform .15s}
+.pagination .page-item:not(:first-child) .page-link{border-left:0!important}
+.pagination .page-item:last-child .page-link{border-right:1px solid var(--color-B)!important}
 @media(any-hover:hover){.pagination .page-link:hover{transform:translateY(-1px)}}
 .pagination .page-item.active .page-link{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,0)),linear-gradient(135deg,#111,#E1100D)!important;color:var(--color-text)!important;box-shadow:0 8px 16px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.06)}
 
@@ -1276,7 +1277,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     (()=>{const links=[...document.querySelectorAll('.nav-content .nav-link')],panes=[...document.querySelectorAll('.tab-content .tab-pane')];if(!links.length||!panes.length)return;
     function activate(a){const sel=a.getAttribute('data-bs-target')||a.getAttribute('data-target')||a.getAttribute('href');if(!sel)return;links.forEach(x=>{const on=(x===a);x.classList.toggle('active',on);x.setAttribute('aria-selected',on?'true':'false');});panes.forEach(p=>{const on=('#'+p.id)===sel;p.classList.toggle('show',on);p.classList.toggle('active',on);});}
     links.forEach(a=>a.addEventListener('click',e=>{e.preventDefault();activate(a);}));activate(links.find(a=>a.classList.contains('active'))||links[0]);})();
-    
+
     /* ========== Pagination: show 1–3 … last (when near start) ========== */
     (()=>{const run=root=>{root.querySelectorAll('.pagination').forEach(p=>{const a=p.querySelector('.page-item.active .page-link');const cur=parseInt(a?.textContent||'1',10);if(cur>3)return;const nums=[...p.querySelectorAll('.page-link')].filter(x=>/^\d+$/.test(x.textContent.trim()));if(nums.length>4)nums.slice(3,-1).forEach(x=>x.closest('.page-item')?.style.setProperty('display','none','important'));});};run(document);new MutationObserver(()=>run(document)).observe(document.body,{childList:true,subtree:true});})();
 
