@@ -385,9 +385,6 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
 <!-- ========================= Scripts (organized + compact) ========================= -->
 <script>
-    /* ========== i0S responsive ==========
-    document.addEventListener('touchstart',()=>{}, {passive:true}); */
-
     /* ========== Disable long-press menu + drag (nav, pagination, social) ========== */
     (()=>{const S='.nav.nav-pills.nav-content .nav-link,.pagination .page-link,.social-buttons a';
     addEventListener('contextmenu',e=>{if(e.target.closest(S))e.preventDefault()},{capture:true});
@@ -435,7 +432,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     imgs.forEach(img=>{const show=()=>img.classList.add('is-visible');if(img.complete&&img.naturalWidth>0){requestAnimationFrame(()=>requestAnimationFrame(show));}else{img.addEventListener('load',show,{once:true});img.addEventListener('error',show,{once:true});}});})();
 
     /* ========== Content image: lazy + fade-in (min shimmer, no timeout) ========== */
-    (()=>{const nodes=document.querySelectorAll('.content-image');if(!nodes.length)return;const MIN=900,MAX=0;
+    (()=>{const nodes=document.querySelectorAll('.content-image');if(!nodes.length)return;const MIN=500,MAX=1000;
     const load=el=>{if(el.dataset.ciLoaded==='1')return;const url=el.getAttribute('data-url');if(!url)return;const w=el.getAttribute('data-width');if(w){el.style.maxWidth=w;el.style.margin='0 auto';}
     const t0=performance.now(),img=new Image();let done=0;const finish=()=>{if(done++)return;const wait=Math.max(0,MIN-(performance.now()-t0));setTimeout(()=>{el.innerHTML='';el.appendChild(img);el.dataset.ciLoaded='1';requestAnimationFrame(()=>el.classList.add('ci-loaded'));},wait)};
     img.decoding='async';img.loading='lazy';img.alt=el.getAttribute('data-label')||'';img.src=url;img.setAttribute('draggable','false');img.addEventListener('dragstart',e=>e.preventDefault());img.addEventListener('contextmenu',e=>{e.preventDefault();return false;});el.addEventListener('contextmenu',e=>{e.preventDefault();return false;},{capture:true});img.onload=finish;img.onerror=finish;};
