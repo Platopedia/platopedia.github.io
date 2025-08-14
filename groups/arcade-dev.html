@@ -125,6 +125,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 .pagination .page-item:last-child .page-link{border-right:1px solid var(--color-B)!important}
 @media(any-hover:hover){.pagination .page-link:hover{transform:translateY(-1px)}}
 .pagination .page-item.active .page-link{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,0)),linear-gradient(135deg,#111,#E1100D)!important;color:var(--color-text)!important;box-shadow:0 8px 16px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.06)}
+.pagination .page-item.disabled .page-link,.pagination .page-link[aria-disabled="true"],.pagination .page-link:disabled,.pagination .page-link.is-ellipsis{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,0)),linear-gradient(135deg,var(--color-D),var(--color-C))!important;opacity:.55;color:var(--color-text)!important;cursor:not-allowed;box-shadow:none;transform:none}
 
     /* ========== Image reveal (avatars + thumbnails) ========== */
     img.avatar,img.thumbnail{opacity:0;transform:scale(1.01);transition:opacity .35s ease,transform .35s ease}
