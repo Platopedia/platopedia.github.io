@@ -402,7 +402,6 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
     /* ========== Selection: clear on background click ========== */
     addEventListener('mousedown',e=>{if(!e.target.closest('.selectable,input,textarea,[contenteditable="true"]'))getSelection()?.removeAllRanges()},{capture:true});
-    addEventListener('touchstart',e=>{if(!e.target.closest('.selectable,input,textarea,[contenteditable="true"]'))getSelection()?.removeAllRanges()},{passive:true,capture:true});
 
     /* ========== Badges (+wrap name) ========== */
     (()=>{const BADGES={Rose:'Owner',Fear:'Owner',Hitman:'Owner',Fairy:'Owner',Inna:'Owner',Tear:'Owner',Risk:'Owner'};document.querySelectorAll('.thumbnail-wrapper .username').forEach(el=>{let nameEl=el.querySelector('.uname');if(!nameEl){const text=(el.textContent||'').trim();nameEl=document.createElement('span');nameEl.className='uname';nameEl.textContent=text;el.textContent='';el.appendChild(nameEl);}const role=BADGES[nameEl.textContent.trim()];if(role&&!el.querySelector('.badge')){const b=document.createElement('span');b.className='badge';b.textContent=role;el.appendChild(b);}});})();
@@ -454,3 +453,4 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     /* ========== Unified last-updated date ========== */
     (()=>{const LAST_UPDATED="08/08/25";document.querySelectorAll('[data-updated]').forEach(el=>el.textContent=LAST_UPDATED);})();
 </script>
+
