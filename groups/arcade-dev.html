@@ -15,11 +15,15 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     /* Opt back in */
     a,button,[role=button],.nav-link,.page-link,.social-buttons a{cursor:pointer}
     input,textarea,[contenteditable="true"],.selectable,.selectable *,.content-link,.content-link *{-webkit-user-select:text!important;user-select:text!important;-webkit-touch-callout:default!important;cursor:text}
+    /* ========== Clamp viewport overflow ========== */
+    html,body{max-width:100%;overflow-x:hidden}
+    :where(.thumbnail-grid,.podium,.stats-grid,.nav.nav-pills.nav-content,.pagination,.content-table)>*{min-width:0}
+    :where(h1,h2,h3,h4,h5,h6,p,li,a,span,.content-link){overflow-wrap:anywhere;word-break:break-word}
 
     /* ========== Titles / Chips ========== */
-    h2,h3{margin:0 0 6px 0!important;line-height:1.15}
-    h2>.title-chip,h3>.title-chip{display:inline-block;max-width:100%;padding:8px 8px 8px 0;border-radius:8px;border:1px solid transparent;background:linear-gradient(135deg,var(--color-D),var(--color-C)) padding-box;font-weight:700;font-size:clamp(28px,8vw,40px);color:var(--color-text);white-space:normal;overflow-wrap:anywhere;word-break:break-word;hyphens:auto;-webkit-hyphens:auto}
-    .title-chip .title-text{display:inline;white-space:inherit;overflow-wrap:inherit;word-break:inherit;hyphens:inherit;-webkit-hyphens:inherit;background-image:linear-gradient(135deg,var(--color-text),var(--color-B),#E1100D);background-size:200% 100%;background-position:0% 50%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:titleShimmer 3s linear infinite;will-change:background-position}
+    h2,h3{margin:0 0 6px 0!important}
+    h2>.title-chip,h3>.title-chip{display:inline-block;padding:8px 8px 8px 0;border-radius:8px;border:1px solid transparent;background:linear-gradient(135deg,var(--color-D),var(--color-C)) padding-box;font-weight:700;font-size:clamp(28px,8vw,40px);color:var(--color-text)}
+    .title-chip .title-text{background-image:linear-gradient(135deg,var(--color-text),var(--color-B),#E1100D);background-size:200% 100%;background-position:0% 50%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:titleShimmer 3s linear infinite;will-change:background-position}
     @keyframes titleShimmer{to{background-position:200% 50%}}
     @media(prefers-reduced-motion:reduce){.title-chip .title-text{animation:none}}
 
@@ -115,9 +119,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .nav.nav-pills.nav-content .nav-link{display:inline-flex;align-items:center;justify-content:center;padding:5px 10px;margin:3px;border-radius:999px!important;background:linear-gradient(135deg,var(--color-C),var(--color-D))!important;color:var(--color-text)!important;border:1px solid var(--color-B)!important;box-shadow:0 2px 6px rgba(0,0,0,.1);opacity:.85;transition:all .18s ease;touch-action:manipulation;-webkit-tap-highlight-color:transparent;-webkit-user-drag:none;user-drag:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
     @media(any-hover:hover){.nav.nav-pills.nav-content .nav-link:hover{opacity:1;transform:translateY(-2px) scale(1.03);filter:none;box-shadow:0 8px 16px rgba(0,0,0,.18)}}
     .nav.nav-pills.nav-content .nav-link.active,[role=tab][aria-selected="true"]{color:var(--color-text)!important;opacity:1;transform:scale(1.05);box-shadow:0 0 6px rgba(225,16,13,.6),0 4px 12px rgba(0,0,0,.2)!important;border-color:#E1100D!important}
-    .pagination{gap:6px;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;-ms-overflow-style:none}
-    .pagination::-webkit-scrollbar{display:none}
-    .pagination .page-item{flex:0 0 auto}
+    .pagination{gap:6px}
     .pagination .page-link{border:1px solid var(--color-B)!important;border-radius:999px!important;background:linear-gradient(135deg,var(--color-C),var(--color-D))!important;color:var(--color-text)!important;padding:6px 12px;line-height:1.2;box-shadow:0 2px 6px rgba(0,0,0,.1);opacity:.85;transition:filter .18s,box-shadow .18s,opacity .18s,border-color .18s;touch-action:manipulation;-webkit-tap-highlight-color:transparent;-webkit-user-drag:none;user-drag:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
     @media(any-hover:hover){.pagination .page-link:hover{opacity:1;transform:translateY(-2px) scale(1.03);filter:none;border-color:var(--color-B)!important;box-shadow:0 8px 16px rgba(0,0,0,.18)}}
     .pagination .page-item.active .page-link{color:var(--color-text)!important;opacity:1;border-color:#E1100D!important;box-shadow:0 0 6px rgba(225,16,13,.6),0 4px 12px rgba(0,0,0,.2)!important}
@@ -151,7 +153,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 <div class="linebreak"></div>
 
 <!-- About -->
-<h3 id="about-arcade">About ArcadeArcadeArcadeArcadeArcadeArcadeArcadeArcadeArcadeArcadeArcadeArcadeArcade</h3>
+<h3 id="about-arcade">About ArcadeArcadeArcadeArcadeArcadeArcadeArcadeArcadeArcadeArcadeArcadeArcadeArcadeArcadeArcadeArcade</h3>
 <p class="selectable">Arcade is a welcoming English community group established on December 28, 2021. We've hosted some of Plato's biggest events and have plenty more exciting stuff in store.</p>
 <div class="linebreak"></div>
 
@@ -457,4 +459,3 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     /* ========== Unified last-updated date ========== */
     (()=>{const LAST_UPDATED="08/08/25";document.querySelectorAll('[data-updated]').forEach(el=>el.textContent=LAST_UPDATED);})();
 </script>
-
