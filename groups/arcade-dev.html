@@ -49,7 +49,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
     /* ========== Team Grid ========== */
     .thumbnail-grid{display:flex;flex-wrap:wrap;justify-content:center;width:100%;gap:16px}
-    .thumbnail-wrapper{font-family:monospace;width:45%;margin-bottom:15px;text-align:center;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(0,0,0,.06));border:1px solid var(--color-B);border-radius:16px;padding:14px 8px 18px;box-shadow:0 8px 18px rgba(0,0,0,.18);transition:transform .18s ease,box-shadow .18s ease}
+    .thumbnail-wrapper{font-family:monospace;width:45%;margin-bottom:15px;text-align:center;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(0,0,0,.06));border:1px solid var(--color-B);border-radius:16px;padding:14px 8px 18px;box-shadow:0 8px 18px rgba(0,0,0,.18);transition:transform .18s ease,box-shadow .18s ease;display:flex;flex-direction:column;align-items:center;overflow:hidden}
     .thumbnail-wrapper:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 16px 28px rgba(0,0,0,.28)}
     .thumbnail-wrapper:active{transform:translateY(0) scale(1);box-shadow:0 8px 18px rgba(0,0,0,.18)}
     .thumbnail-wrapper .username,.thumbnail-wrapper .description{pointer-events:none}
@@ -59,7 +59,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .thumbnail-wrapper .username .uname{min-width:0;max-width:100%;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;word-break:break-word;overflow-wrap:anywhere;text-align:center}
     .thumbnail-wrapper .username .badge{flex:0 0 auto}
     @media(min-width:768px){.thumbnail-wrapper .username{margin-top:10px;font-size:14px}}
-    .thumbnail-wrapper .description{margin-top:3px;font-size:10px;color:#777;text-wrap:balance}
+    .thumbnail-wrapper .description{margin-top:3px;font-size:10px;color:#777;text-wrap:balance;overflow-wrap:anywhere;word-break:break-word}
     .badge{display:inline-block;padding:2px 6px;border-radius:999px;font-size:10px;background:#E1100D;color:#fff}
     .shoutout{font-family:monospace;font-size:13px;color:#777;text-align:center;margin:8px 0;text-wrap:balance}
 
@@ -371,7 +371,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 <!-- Team -->
 <h2 id="our-team">Our Team</h2>
 <div class="thumbnail-grid">
-    <div class="thumbnail-wrapper"><img class="thumbnail" src="/docs/assets/images/groups/arcade/rose.png" alt="Rose"><div class="username">Roseeeeeeeeeeeeeeeeeeeeeeeeeeeellllllllllllllllllll</div><div class="description">Our boss and leader, truly one of a kind. Just don't push her buttonsbuttonsbuttonsbuttonsbuttonsbuttonsbuttonsbuttonsbuttonsbuttonsbuttonsbuttonsbuttonsbuttonsbuttonsbuttons</div></div>
+    <div class="thumbnail-wrapper"><img class="thumbnail" src="/docs/assets/images/groups/arcade/rose.png" alt="Rose"><div class="username">RoseeeeeeeeeeRoseeeeeeeeeeRoseeeeeeeeeeRoseeeeeeeeeeRoseeeeeeeeeeRoseeeeeeeeeeRoseeeeeeeeeeRoseeeeeeeeee</div><div class="description">Our boss and leader, truly one of a kind. Just don't push her buttonsbuttonsbuttonsbuttonsbuttonsbuttonsbuttonsbuttonsbuttonsbuttonsbuttonsbuttonsbuttonsbuttonsbuttonsbuttonsbuttonsbuttonsbuttonsbuttonsbuttonsbuttonsbuttonsbuttonsbuttonsbuttonsbuttonsbuttons</div></div>
     <div class="thumbnail-wrapper"><img class="thumbnail" src="/docs/assets/images/groups/arcade/fear.png" alt="Fear"><div class="username">Fear</div><div class="description">Strange specimen who tends to hide from his own group, incredibly generous though</div></div>
     <div class="thumbnail-wrapper"><img class="thumbnail" src="/docs/assets/images/groups/arcade/hitman.png" alt="Hitman"><div class="username">Hitman</div><div class="description">If you're looking for the definition of loyalty, you'll find his name in the dictionary</div></div>
     <div class="thumbnail-wrapper"><img class="thumbnail" src="/docs/assets/images/groups/arcade/fairy.png" alt="Fairy"><div class="username">Fairy</div><div class="description">Just like her username, she's sweet, helpful, and has supported us since day one</div></div>
@@ -427,6 +427,9 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     (()=>{const imgs=[...document.querySelectorAll('img.avatar, img.thumbnail')];if(!imgs.length)return;
     imgs.forEach(img=>{const show=()=>img.classList.add('is-visible');if(img.complete&&img.naturalWidth>0){requestAnimationFrame(()=>requestAnimationFrame(show));}else{img.addEventListener('load',show,{once:true});img.addEventListener('error',show,{once:true});}});})();
 
+    /* Equalize team card heights (responsive) */
+    (()=>{const SEL='.thumbnail-grid .thumbnail-wrapper',R=()=>{const C=[...document.querySelectorAll(SEL)];if(!C.length)return;C.forEach(e=>e.style.minHeight='');const H=Math.max(...C.map(e=>e.offsetHeight));C.forEach(e=>e.style.minHeight=H+'px');};addEventListener('load',R);addEventListener('resize',(()=>{let t;return()=>{clearTimeout(t);t=setTimeout(R,120)}})(),{passive:true});document.querySelectorAll('.thumbnail-grid img').forEach(i=>i.addEventListener('load',()=>setTimeout(R,50),{once:true}));})();
+
     /* ========== Content image: lazy + fade-in ========== */
     (()=>{const nodes=document.querySelectorAll('.content-image');if(!nodes.length)return;
     const load=el=>{if(el.dataset.ciLoaded==='1')return;const url=el.getAttribute('data-url');if(!url)return;const w=el.getAttribute('data-width');if(w){el.style.maxWidth=w;el.style.margin='0 auto';}
@@ -447,6 +450,3 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     /* ========== Unified last-updated date ========== */
     (()=>{const LAST_UPDATED="08/08/25";document.querySelectorAll('[data-updated]').forEach(el=>el.textContent=LAST_UPDATED);})();
 </script>
-
-
-
