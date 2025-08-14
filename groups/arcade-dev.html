@@ -20,7 +20,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
     /* ========== Social ========== */
     .social-buttons{display:flex;gap:10px}
-    .social-buttons a{display:flex;align-items:center;justify-content:center;width:50px;height:50px;border-radius:50%;border:1px solid var(--color-B);background:linear-gradient(135deg,var(--color-C),var(--color-D));color:var(--color-text)!important;box-shadow:0 4px 10px rgba(0,0,0,.12);text-decoration:none;transition:transform .15s,box-shadow .15s;touch-action:manipulation;-webkit-tap-highlight-color:transparent;-webkit-user-drag:none;user-drag:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+    .social-buttons a{display:grid;place-items:center;width:50px;height:50px;border-radius:50%;border:1px solid var(--color-B);background:linear-gradient(135deg,var(--color-C),var(--color-D));color:var(--color-text)!important;text-decoration:none;box-shadow:0 4px 10px rgba(0,0,0,.12);transition:transform .15s,box-shadow .15s}
     @media(any-hover:hover){.social-buttons a:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 0 0 2px #E1100D,0 8px 16px rgba(0,0,0,.18)}}
     .social-buttons a:active{transform:translateY(0) scale(.98);box-shadow:0 0 0 2px #E1100D,0 6px 14px rgba(0,0,0,.18)}
     .social-buttons a:focus-visible{box-shadow:0 0 0 2px #E1100D}
@@ -386,7 +386,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     /* Delay nav (social + content-link) */
     (()=>{const D=250,S='.social-buttons a,.content-link',BLOCK='button,[role=button],input,textarea,select,label,[data-action="copy"],.copy,.btn-copy,[data-no-nav]';
     addEventListener('click',e=>{if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;if(e.target.closest(BLOCK))return;const el=e.target.closest(S);if(!el)return;const href=el.matches('.content-link')?(el.dataset.url||''):el.getAttribute('href');if(!href||href.startsWith('#'))return;e.preventDefault();setTimeout(()=>{el.getAttribute('target')==='_blank'?window.open(href,'_blank','noopener'):location.assign(href)},D);},{capture:true});})();
-    
+
     /* Make :active reliably fire on iOS for .social-buttons */
     document.querySelector('.social-buttons')?.addEventListener('touchstart',()=>{}, {passive:true});
 
