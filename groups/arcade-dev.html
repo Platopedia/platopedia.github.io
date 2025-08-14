@@ -119,9 +119,9 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 @media(any-hover:hover){.nav.nav-pills.nav-content .nav-link:hover{opacity:1;transform:translateY(-2px) scale(1.03);filter:none;box-shadow:0 8px 16px rgba(0,0,0,.18)}}
 .nav.nav-pills.nav-content .nav-link.active,[role=tab][aria-selected="true"]{color:var(--color-text)!important;opacity:1;transform:scale(1.03);background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,0)),linear-gradient(135deg,#111,#E1100D)!important;border-color:var(--color-B)!important;box-shadow:0 10px 18px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.06)!important}
 
-.pagination{display:flex;flex-wrap:wrap;gap:0;align-items:stretch;justify-content:center;margin:4px 0}
-.pagination .page-item{flex:0 1 auto}
-.pagination .page-link{display:grid;place-items:center;min-width:36px;height:36px;padding:0 10px;border:1px solid var(--color-B)!important;border-radius:0!important;background:linear-gradient(135deg,var(--color-C),var(--color-D))!important;color:var(--color-text)!important;box-shadow:none;opacity:1;white-space:nowrap;line-height:1;transition:transform .15s,background .15s}
+.pagination{display:flex;flex-wrap:nowrap;gap:0;align-items:stretch;justify-content:center;margin:4px 0}
+.pagination .page-item{flex:0 0 auto}
+.pagination .page-link{display:grid;place-items:center;min-width:clamp(28px,8vw,36px);height:36px;padding:0 clamp(6px,2.4vw,10px);font-size:clamp(12px,3.6vw,16px);border:1px solid var(--color-B)!important;border-radius:0!important;background:linear-gradient(135deg,var(--color-C),var(--color-D))!important;color:var(--color-text)!important;box-shadow:none;opacity:1;white-space:nowrap;line-height:1;transition:transform .15s,background .15s}
 .pagination .page-item:not(:first-child) .page-link{border-left:0!important}
 .pagination .page-item:last-child .page-link{border-right:1px solid var(--color-B)!important}
 @media(any-hover:hover){.pagination .page-link:hover{transform:translateY(-1px);background:linear-gradient(135deg,var(--color-D),var(--color-C))!important}}
