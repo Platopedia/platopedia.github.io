@@ -397,7 +397,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     /* ========== Make :active reliably fire on iOS for .social-buttons ========== */
     document.querySelector('.social-buttons')?.addEventListener('touchstart',()=>{}, {passive:true});
     
-    /* ========== Selection: clear on background click ========== /*
+    /* ========== Selection: clear on background click ========== */
     addEventListener('mousedown',e=>{if(!e.target.closest('.selectable,input,textarea,[contenteditable="true"]'))getSelection()?.removeAllRanges()},{capture:true});
     addEventListener('touchstart',e=>{if(!e.target.closest('.selectable,input,textarea,[contenteditable="true"]'))getSelection()?.removeAllRanges()},{passive:true,capture:true});
 
@@ -451,3 +451,4 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     /* ========== Unified last-updated date ========== */
     (()=>{const LAST_UPDATED="08/08/25";document.querySelectorAll('[data-updated]').forEach(el=>el.textContent=LAST_UPDATED);})();
 </script>
+
