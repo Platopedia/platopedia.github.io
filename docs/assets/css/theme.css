@@ -69,10 +69,6 @@ body[data-theme="light"]
     --color-form-field-box      : var(--color-A);
     --color-form-field-hov      : var(--color-C);
     --color-form-field-text     : var(--color-A);
-
-    --ar-color-time-line        : #FFF;
-    --ar-color-time-circ        : #000;
-
 }
 
 /*body,*/
@@ -136,13 +132,7 @@ body[data-theme="dark"]
     --color-form-field-box      : var(--color-text);
     --color-form-field-hov      : var(--color-C);
     --color-form-field-text     : var(--color-text);
-    
-    --ar-color-time-line        : #555;
-    --ar-color-time-circ        : #000;
-
 }
 
 /* ////////////////////////////////////////////////// */
-
-
 
