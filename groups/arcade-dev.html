@@ -86,6 +86,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .table-upgraded td,.table-upgraded th{vertical-align:middle;white-space:normal;word-break:break-word;overflow-wrap:anywhere}
     .table-upgraded thead th.w-50{width:50%} .table-upgraded tbody td:first-child{width:50%} .table-upgraded tbody td:last-child{width:50%}
     @media(max-width:480px){.table-upgraded td,.table-upgraded th{padding:6px}}
+    .table-upgraded tbody tr.pad{visibility:hidden}
 
     /* ========== Podium (Top-3) ========== */
     .podium{display:flex;flex-wrap:nowrap;gap:12px;justify-content:center;align-items:flex-end;margin:6px 0 10px;width:100%;max-width:100%}
@@ -1326,6 +1327,14 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
     /* ========== Pagination: edges-only ========== */
     (()=>{const seen=new WeakSet,show=p=>{const n=[...p.querySelectorAll('.page-item')].filter(li=>/^\d+$/.test(li.textContent.trim()));if(n.length<2)return;const L=+(n[n.length-1].textContent)||1,C=+((p.querySelector('.page-item.active')||n[0]).textContent)||1,K=new Set(C<=3?[1,2,3,L]:C>=L-2?[1,L-2,L-1,L]:[1,C,L]);n.forEach(li=>li.style.display=K.has(+li.textContent)?'':'none')},bind=p=>{if(seen.has(p))return;seen.add(p);show(p);p.addEventListener('click',()=>setTimeout(()=>show(p),0),{passive:true})};const scan=()=>document.querySelectorAll('.pagination').forEach(bind);new MutationObserver(scan).observe(document.body,{childList:true,subtree:true});scan()})();
+
+    /* ========== Pad tables to 10 rows ========== */
+    (()=>{document.querySelectorAll('table.table-upgraded').forEach(t=>{const b=t.tBodies[0];if(!b)return;const size=10,cols=(t.tHead?.rows[0]?.cells.length)||(b.rows[0]?.cells.length)||1;let ticking=0;
+    const pad=()=>{ticking=0;let real=0,pads=[];for(const r of b.rows){if(r.classList.contains('pad'))pads.push(r);else real++;}const need=Math.max(0,size-real),have=pads.length;
+    if(have>need)pads.slice(0,have-need).forEach(r=>r.remove());
+    if(have<need){const f=document.createDocumentFragment();for(let i=have;i<need;i++){const tr=document.createElement('tr');tr.className='pad';tr.setAttribute('aria-hidden','true');tr.style.visibility='hidden';const td=document.createElement('td');td.colSpan=cols;td.innerHTML='&nbsp;';tr.appendChild(td);f.appendChild(tr);}b.appendChild(f);}};
+    const schedule=()=>{if(!ticking){ticking=1;requestAnimationFrame(pad)}};
+    new MutationObserver(schedule).observe(b,{childList:true,subtree:false});pad();});})();
 
     /* ========== Unified last-updated date ========== */
     (()=>{const LAST_UPDATED="08/08/25";document.querySelectorAll('[data-updated]').forEach(el=>el.textContent=LAST_UPDATED);})();
