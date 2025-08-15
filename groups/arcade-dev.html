@@ -37,20 +37,6 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .social-box{display:flex;align-items:center;gap:15px;justify-content:center;flex-wrap:nowrap}
     .social-note{font-family:monospace;font-size:12px;font-weight:700;color:var(--color-text);line-height:1;white-space:nowrap}
 
-    /* ========== (Commented) Announcement / Timeline / Buttons ========== */
-    /* Announcement
-    .announcement-strip{width:100%;background-image:linear-gradient(180deg,var(--color-C),var(--color-D),var(--color-C));overflow:hidden;white-space:nowrap;font-family:monospace;font-size:16px;display:flex;align-items:center;height:40px;box-shadow:0 4px 6px var(--color-B);border-top:2px solid var(--color-C);border-bottom:2px solid var(--color-C);border-radius:8px}
-    .scrolling-text{display:inline-block;padding-left:100%;animation:scroll 12s linear infinite}
-    @keyframes scroll{0%{transform:translateX(0%)}100%{transform:translateX(-100%)}} */
-    /* Timeline
-    .timeline{font-family:monospace;list-style:none;padding-left:35px;position:relative}
-    .timeline:before{content:' ';background:var(--color-time-line);display:inline-block;position:absolute;left:9px;width:2px;height:100%;z-index:400}
-    .timeline>li:before{content:' ';background:var(--color-time-circ);display:inline-block;position:absolute;border-radius:50%;border:3px solid #E1100D;left:0;width:20px;height:20px;z-index:400} */
-    /* Buttons
-    .button-gradient{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;background-image:linear-gradient(180deg,var(--color-C),var(--color-D));border:1px solid var(--color-B);box-shadow:0 6px 14px rgba(0,0,0,.12);color:#fff;text-decoration:none;font-family:monospace;font-size:14px;line-height:1;transition:transform .18s,box-shadow .18s,opacity .18s}
-    .button-gradient:hover{transform:translateY(-1px);box-shadow:0 10px 18px rgba(0,0,0,.18)}
-    .button-gradient:active{transform:translateY(0);box-shadow:0 6px 14px rgba(0,0,0,.12);opacity:.95} */
-
     /* ========== Team Grid ========== */
     .thumbnail-grid{display:flex;flex-wrap:wrap;justify-content:center;width:100%;gap:16px}
     .thumbnail-wrapper{font-family:monospace;width:45%;margin-bottom:15px;text-align:center;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(0,0,0,.06));border:1px solid var(--color-B);border-radius:16px;padding:14px 8px 18px;box-shadow:0 8px 18px rgba(0,0,0,.18);transition:transform .18s ease,box-shadow .18s ease}
@@ -139,10 +125,10 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     img.avatar,img.thumbnail{opacity:0;transform:scale(1.01);transition:opacity .35s ease,transform .35s ease}
     img.avatar.is-visible,img.thumbnail.is-visible{opacity:1;transform:none}
 
-    /* Content Images (no shimmer) */
+    /* ========== Content Images ========== */
     .content-image{position:relative;display:flex;align-items:center;justify-content:center;border-radius:12px;overflow:hidden;width:100%;max-width:var(--ci-w,100%);aspect-ratio:var(--ci-ar,auto);margin:0 auto;transition:transform .25s ease}
     .content-image img{display:block;max-width:100%;max-height:100%;height:auto;-webkit-user-drag:none;user-drag:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;pointer-events:none}
-    .content-image.ci-loaded{} .content-image:hover{transform:translateY(-4px) scale(1.03)} .content-image:active{transform:translateY(0) scale(1)}
+    .content-image:hover{transform:translateY(-4px) scale(1.03)} .content-image:active{transform:translateY(0) scale(1)}
 
     /* ========== Width / Links / Tables minor ========== */
     .content-link,.content-link a{max-width:100%;overflow-wrap:anywhere;word-break:break-word}
@@ -152,13 +138,8 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
 <!-- ========================= Content ========================= -->
 
-<!-- (Optional) Announcement
-<div class="announcement-strip">
-  <div class="scrolling-text"><strong>UPDATE:</strong> ArcadeBot will auto-create featured game tabs every hour and track wins throughout the week. Players with the most wins are rewarded weekly.</div>
-</div> -->
-
 <!-- Banner -->
-<div class="content-image" style="--ci-w:690px;--ci-ar:1920/768" data-url="/docs/assets/images/groups/arcade/game-on-banner.webp" data-label=""></div>
+<div class="content-image" style="--ci-w:690px;--ci-ar:1920/768"><img src="/docs/assets/images/groups/arcade/game-on-banner.webp" data-label="" /></div>
 <div class="linebreak"></div>
 
 <!-- About -->
@@ -655,7 +636,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 <tr><td>TJ1</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/587cd97f2ab7a74fa4ffd1f3b1a29a6dfd6e</td><td>1</td></tr>
 <tr><td>V_KTH</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/b03926f6d1a7ea1c6d301c9c0ddc18199f2e</td><td>1</td></tr>
 <tr><td>Wildernesss</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/873aadb5eafc49fa65ee4d2dbb37719e8106</td><td>1</td></tr>
-<tr><td>Yenniiigorg</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/f12d38afc8d195e54f9bb3fc61b60a95a236</td><td>1</td></tr>                
+<tr><td>Yenniiigorg</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/f12d38afc8d195e54f9bb3fc61b60a95a236</td><td>1</td></tr>
                 </tbody>
             </table>
         </div>
@@ -1311,14 +1292,10 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     (()=>{const imgs=[...document.querySelectorAll('img.avatar, img.thumbnail')];if(!imgs.length)return;
     imgs.forEach(img=>{const show=()=>img.classList.add('is-visible');if(img.complete&&img.naturalWidth>0){requestAnimationFrame(()=>requestAnimationFrame(show));}else{img.addEventListener('load',show,{once:true});img.addEventListener('error',show,{once:true});}});})();
 
-    /* ========== Content image: lazy + fade-in (min shimmer, no timeout) ========== */
-    (()=>{const nodes=document.querySelectorAll('.content-image');if(!nodes.length)return;const MIN=500;
-    const load=el=>{if(el.dataset.ciLoaded==='1')return;const url=el.getAttribute('data-url');if(!url)return;const w=el.getAttribute('data-width');if(w){el.style.maxWidth=w;el.style.margin='0 auto';}
-    const t0=performance.now(),img=new Image();let done=0;const finish=()=>{if(done++)return;const wait=Math.max(0,MIN-(performance.now()-t0));setTimeout(()=>{el.innerHTML='';el.appendChild(img);el.dataset.ciLoaded='1';requestAnimationFrame(()=>{void img.offsetWidth;requestAnimationFrame(()=>el.classList.add('ci-loaded'));});},wait)};
-    img.onload=finish;img.onerror=finish;img.decoding='async';img.alt=el.getAttribute('data-label')||'';img.setAttribute('draggable','false');img.addEventListener('dragstart',e=>e.preventDefault());img.addEventListener('contextmenu',e=>{e.preventDefault();return false;});el.addEventListener('contextmenu',e=>{e.preventDefault();return false;},{capture:true});img.src=url;};
-    if('IntersectionObserver'in window){const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){load(e.target);io.unobserve(e.target);}})},{rootMargin:'400px'});nodes.forEach(el=>{if(el.dataset.ciInit==='1')return;el.dataset.ciInit='1';io.observe(el);});}else{nodes.forEach(load);}})();
+    /* ========== Content image: anti-download ========== */
+    (()=>{document.querySelectorAll('.content-image img').forEach(img=>{img.setAttribute('draggable','false');img.addEventListener('dragstart',e=>e.preventDefault());img.addEventListener('contextmenu',e=>{e.preventDefault();return false;});img.parentElement?.addEventListener('contextmenu',e=>{e.preventDefault();return false;},{capture:true});});})();
 
-    /* ========== Block save/long-press on team thumbnails ========== */
+    /* ========== Team thumbnails: anti-download ========== */
     (()=>{const grid=document.querySelector('.thumbnail-grid');if(!grid)return;grid.addEventListener('contextmenu',e=>{e.preventDefault();return false;});grid.querySelectorAll('img.thumbnail').forEach(img=>{img.setAttribute('draggable','false');img.addEventListener('dragstart',e=>e.preventDefault());});})();
 
     /* ========== Title chips wrapper ========== */
