@@ -1326,8 +1326,16 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     function activate(a){const sel=a.getAttribute('data-bs-target')||a.getAttribute('data-target')||a.getAttribute('href');if(!sel)return;links.forEach(x=>{const on=(x===a);x.classList.toggle('active',on);x.setAttribute('aria-selected',on?'true':'false');});panes.forEach(p=>{const on=('#'+p.id)===sel;p.classList.toggle('show',on);p.classList.toggle('active',on);});}
     links.forEach(a=>a.addEventListener('click',e=>{e.preventDefault();activate(a);}));activate(links.find(a=>a.classList.contains('active'))||links[0]);})();
 
-/* ========== Pagination: edges-only (scoped, Safari-safe) ========== */
-(()=>{document.querySelectorAll('.pagination').forEach(p=>{const show=()=>{const items=[...p.querySelectorAll('.page-item')], nums=items.map(li=>({li,t:(li.querySelector('.page-link')||li).textContent.trim()})).filter(o=>/^\d+$/.test(o.t)).map(o=>({li:o.li,n:+o.t})).sort((a,b)=>a.n-b.n); if(nums.length<2)return; const L=nums[nums.length-1].n, act=p.querySelector('.page-item.active .page-link'), C=act?+act.textContent.trim():nums[0].n; const keep=new Set(C<=3?[1,2,3,L]:C>=L-2?[1,L-2,L-1,L]:[1,C,L]); items.forEach(li=>{const t=(li.querySelector('.page-link')||li).textContent.trim(); const isNum=/^\d+$/.test(t), n=+t; li.style.display=(!isNum||keep.has(n))?'':'none';});}; p.addEventListener('click',e=>{if(e.target.closest('.page-item'))requestAnimationFrame(show)},{passive:true}); show();});})();
+/* ========== Pagination: edges-only (scoped, timing+attr safe) ========== */
+(()=>{document.querySelectorAll('.pagination').forEach(p=>{
+  const show=()=>{const n=[...p.querySelectorAll('.page-item')].filter(li=>/^\d+$/.test(li.textContent.trim()));if(n.length<2)return;
+    const L=+(n[n.length-1].textContent)||1,C=+((p.querySelector('.page-item.active')||n[0]).textContent)||1,
+          K=new Set(C<=3?[1,2,3,L]:C>=L-2?[1,L-2,L-1,L]:[1,C,L]);
+    n.forEach(li=>li.style.display=K.has(+li.textContent)?'':'none');};
+  new MutationObserver(show).observe(p,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
+  p.addEventListener('click',e=>{if(e.target.closest('.page-item'))setTimeout(show,0)},{passive:true});
+  show();
+})();})();
 
     /* ========== Pad tables to 10 rows ========== */
     (()=>{document.querySelectorAll('table.table-upgraded').forEach(t=>{const b=t.tBodies[0];if(!b)return;const size=10,cols=(t.tHead?.rows[0]?.cells.length)||(b.rows[0]?.cells.length)||1;let ticking=0;
