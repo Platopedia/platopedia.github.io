@@ -144,12 +144,17 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .content-image img{display:block;max-width:100%;max-height:100%;height:auto;opacity:0;transition:opacity .18s ease-out;-webkit-user-drag:none;user-drag:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;pointer-events:none}
     .content-image.ci-loaded img{opacity:1}
     .content-image:hover{transform:translateY(-4px) scale(1.03)} .content-image:active{transform:translateY(0) scale(1)}
+    
+    /* ========== Perf: skip offscreen rendering ========== */
+    .tab-content>.tab-pane{content-visibility:auto;contain-intrinsic-size:800px}
+    .podium,.stats-grid,.content-table.gradient-block{content-visibility:auto;contain-intrinsic-size:600px}
 
     /* ========== Width / Links / Tables minor ========== */
     .content-link,.content-link a{max-width:100%;overflow-wrap:anywhere;word-break:break-word}
     .content-table{overflow-x:visible}
     .gradient-block.g-4,.gradient-block.g-4 :where(p,span,div,strong,em,b,small,a){white-space:normal;overflow-wrap:anywhere;word-break:break-word;hyphens:auto;-webkit-hyphens:auto}
 </style>
+<link rel="preload" as="image" href="/docs/assets/images/groups/arcade/game-on-banner.webp">
 
 <!-- ========================= Content ========================= -->
 
