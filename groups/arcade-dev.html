@@ -131,10 +131,14 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .pagination .page-item.disabled .page-link,.pagination .page-link[aria-disabled="true"],.pagination .page-link:disabled,.pagination .page-link.is-ellipsis{opacity:.45;cursor:not-allowed;pointer-events:none;transform:none;box-shadow:none}
 
 .pagination{flex-wrap:wrap}
-.pagination .page-item:not(.previous):not(.next){order:1}                /* numbers on top row */
-.pagination .page-item.previous,.pagination .page-item.next{order:2;flex:1 0 50%;display:flex}
-.pagination .page-item.previous{justify-content:flex-start}              /* < bottom-left  */
-.pagination .page-item.next{justify-content:flex-end}                    /* > bottom-right */
+.pagination::after{content:'';order:1;flex-basis:100%}
+.pagination .page-item{order:1}
+.pagination .page-item.previous,.pagination .page-item.next{order:2;flex:0 0 auto;margin-top:6px}
+.pagination .page-item.previous{margin-right:auto}
+.pagination .page-item.next{margin-left:auto}
+/* Fallback if classes are missing (DataTables) */
+.pagination .page-item:has(.page-link[aria-label="Previous"]){order:2;flex:0 0 auto;margin-top:6px;margin-right:auto}
+.pagination .page-item:has(.page-link[aria-label="Next"]){order:2;flex:0 0 auto;margin-top:6px;margin-left:auto}
 
     /* ========== Image reveal (avatars + thumbnails) ========== */
     img.avatar,img.thumbnail{opacity:0;transform:scale(1.01);transition:opacity .35s ease,transform .35s ease}
