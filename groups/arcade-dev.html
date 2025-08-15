@@ -134,11 +134,8 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 .pagination::after{content:'';order:1;flex-basis:100%}
 .pagination .page-item{order:1}
 .pagination .page-item.previous,.pagination .page-item.next{order:2;flex:0 0 auto;margin-top:6px}
-.pagination .page-item.previous{margin-right:auto}
-.pagination .page-item.next{margin-left:auto}
 /* Fallback if classes are missing (DataTables) */
-.pagination .page-item:has(.page-link[aria-label="Previous"]){order:2;flex:0 0 auto;margin-top:6px;margin-right:auto}
-.pagination .page-item:has(.page-link[aria-label="Next"]){order:2;flex:0 0 auto;margin-top:6px;margin-left:auto}
+.pagination .page-item:has(.page-link[aria-label="Previous"]),.pagination .page-item:has(.page-link[aria-label="Next"]){order:2;flex:0 0 auto;margin-top:6px}
 
     /* ========== Image reveal (avatars + thumbnails) ========== */
     img.avatar,img.thumbnail{opacity:0;transform:scale(1.01);transition:opacity .35s ease,transform .35s ease}
