@@ -1330,17 +1330,19 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     (()=>{document.querySelectorAll('.pagination').forEach(p=>{const show=()=>{const n=[...p.querySelectorAll('.page-item')].filter(li=>/^\d+$/.test(li.textContent.trim()));if(n.length<2)return;const L=+n.at(-1).textContent||1,C=+((p.querySelector('.page-item.active')||n[0]).textContent)||1,K=new Set(C<=3?[1,2,3,L]:C>=L-2?[1,L-2,L-1,L]:[1,C,L]);n.forEach(li=>li.style.display=K.has(+li.textContent)?'':'none');};new MutationObserver(()=>show()).observe(p,{childList:true});p.addEventListener('click',e=>{if(e.target.closest('.page-item'))requestAnimationFrame(show)},{passive:true});show();});})();
 
     /* ========== Pad tables to 10 rows ========== */
-(()=>{const seen=new WeakSet,bind=p=>{if(seen.has(p))return;seen.add(p);
-const nums=()=>[...p.querySelectorAll('.page-item')].filter(li=>/^\d+$/.test(li.textContent.trim()));
-const makeEll=()=>{const li=document.createElement('li');li.className='page-item disabled';li.innerHTML='<span class="page-link is-ellipsis">…</span>';return li;};
-const liFor=n=>nums().find(li=>+li.textContent.trim()===n);
-const show=()=>{const n=nums();if(n.length<2)return;const L=+n.at(-1).textContent||1,C=+((p.querySelector('.page-item.active')||n[0]).textContent)||1;const keep=new Set(C<=3?[1,2,3,L]:C>=L-2?[1,L-2,L-1,L]:[1,C,L]);p.querySelectorAll('.page-link.is-ellipsis').forEach(e=>e.parentElement.remove());n.forEach(li=>li.style.display=keep.has(+li.textContent)?'':'none');const k=[...keep].sort((a,b)=>a-b);if(k.length>1&&k[1]-k[0]>1){const a=liFor(k[0]);a&&a.after(makeEll());}if(k.length>1&&k.at(-1)-k.at(-2)>1){const b=liFor(k.at(-1));b&&b.before(makeEll());}};
-new MutationObserver(()=>show()).observe(p,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
-p.addEventListener('click',e=>{if(e.target.closest('.page-item'))requestAnimationFrame(show)},{passive:true});
-show();};
-document.querySelectorAll('.pagination').forEach(bind);})();
+(()=>{document.querySelectorAll('.pagination').forEach(p=>{
+ const nums=()=>Array.from(p.querySelectorAll('.page-item')).map(li=>({li,t:(li.querySelector('.page-link')||li).textContent.trim()})).filter(o=>/^\d+$/.test(o.t)).map(o=>({li:o.li,n:+o.t})).sort((a,b)=>a.n-b.n);
+ const cur=(arr)=>{const a=p.querySelector('.page-item.active .page-link');const t=(a&&a.textContent.trim())||(arr[0]&&arr[0].n)||1;return +t||1};
+ const makeEll=()=>{const li=document.createElement('li');li.className='page-item disabled';li.innerHTML='<span class="page-link is-ellipsis">…</span>';return li};
+ const clean=()=>p.querySelectorAll('.page-link.is-ellipsis').forEach(e=>e.parentElement.remove());
+ const show=()=>{const a=nums();if(a.length<2)return;const L=a[a.length-1].n,C=cur(a),keep=new Set(C<=3?[1,2,3,L]:C>=L-2?[1,L-2,L-1,L]:[1,C,L]);clean();a.forEach(x=>x.li.style.display=keep.has(x.n)?'':'none');const k=[...keep].sort((x,y)=>x-y);if(k[1]-k[0]>1){const f=a.find(x=>x.n===k[0]);f&&f.li.after(makeEll())}if(k[k.length-1]-k[k.length-2]>1){const l=a.find(x=>x.n===k[k.length-1]);l&&l.li.before(makeEll())}};
+ new MutationObserver(()=>requestAnimationFrame(show)).observe(p,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
+ p.addEventListener('click',e=>{if(e.target.closest('.page-item'))requestAnimationFrame(show)},{passive:true});
+ show();
+});})();
 
     /* ========== Unified last-updated date ========== */
     (()=>{const LAST_UPDATED="08/08/25";document.querySelectorAll('[data-updated]').forEach(el=>el.textContent=LAST_UPDATED);})();
 </script>
+
 
