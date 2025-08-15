@@ -129,11 +129,12 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .pagination .page-link:focus-visible{outline:2px solid #E1100D;outline-offset:2px}
     .pagination .page-item.active .page-link{color:var(--color-text)!important;border-color:#E1100D!important;box-shadow:0 0 6px rgba(225,16,13,.6),0 4px 12px rgba(0,0,0,.2)!important}
     .pagination .page-item.disabled .page-link,.pagination .page-link[aria-disabled="true"],.pagination .page-link:disabled,.pagination .page-link.is-ellipsis{opacity:.45;cursor:not-allowed;pointer-events:none;transform:none;box-shadow:none}
-    .pagination{flex-wrap:wrap}
-    .pagination .page-item:not(:first-child):not(:last-child){order:1}
-    .pagination .page-item:first-child,.pagination .page-item:last-child{order:2;flex:1 0 50%;display:flex}
-    .pagination .page-item:first-child{justify-content:flex-start}
-    .pagination .page-item:last-child{justify-content:flex-end}
+
+.pagination{flex-wrap:wrap}
+.pagination .page-item:not(.previous):not(.next){order:1}                /* numbers on top row */
+.pagination .page-item.previous,.pagination .page-item.next{order:2;flex:1 0 50%;display:flex}
+.pagination .page-item.previous{justify-content:flex-start}              /* < bottom-left  */
+.pagination .page-item.next{justify-content:flex-end}                    /* > bottom-right */
 
     /* ========== Image reveal (avatars + thumbnails) ========== */
     img.avatar,img.thumbnail{opacity:0;transform:scale(1.01);transition:opacity .35s ease,transform .35s ease}
