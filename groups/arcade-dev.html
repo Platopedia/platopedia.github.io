@@ -1330,13 +1330,17 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     (()=>{document.querySelectorAll('.pagination').forEach(p=>{const show=()=>{const n=[...p.querySelectorAll('.page-item')].filter(li=>/^\d+$/.test(li.textContent.trim()));if(n.length<2)return;const L=+n.at(-1).textContent||1,C=+((p.querySelector('.page-item.active')||n[0]).textContent)||1,K=new Set(C<=3?[1,2,3,L]:C>=L-2?[1,L-2,L-1,L]:[1,C,L]);n.forEach(li=>li.style.display=K.has(+li.textContent)?'':'none');};new MutationObserver(()=>show()).observe(p,{childList:true});p.addEventListener('click',e=>{if(e.target.closest('.page-item'))requestAnimationFrame(show)},{passive:true});show();});})();
 
     /* ========== Pad tables to 10 rows ========== */
-    (()=>{document.querySelectorAll('table.table-upgraded').forEach(t=>{const b=t.tBodies[0];if(!b)return;const size=10,cols=(t.tHead?.rows[0]?.cells.length)||(b.rows[0]?.cells.length)||1;let ticking=0;
-    const pad=()=>{ticking=0;let real=0,pads=[];for(const r of b.rows){if(r.classList.contains('pad'))pads.push(r);else real++;}const need=Math.max(0,size-real),have=pads.length;
-    if(have>need)pads.slice(0,have-need).forEach(r=>r.remove());
-    if(have<need){const f=document.createDocumentFragment();for(let i=have;i<need;i++){const tr=document.createElement('tr');tr.className='pad';tr.setAttribute('aria-hidden','true');tr.style.visibility='hidden';const td=document.createElement('td');td.colSpan=cols;td.innerHTML='&nbsp;';tr.appendChild(td);f.appendChild(tr);}b.appendChild(f);}};
-    const schedule=()=>{if(!ticking){ticking=1;requestAnimationFrame(pad)}};
-    new MutationObserver(schedule).observe(b,{childList:true,subtree:false});pad();});})();
+(()=>{const seen=new WeakSet,bind=p=>{if(seen.has(p))return;seen.add(p);
+const nums=()=>[...p.querySelectorAll('.page-item')].filter(li=>/^\d+$/.test(li.textContent.trim()));
+const makeEll=()=>{const li=document.createElement('li');li.className='page-item disabled';li.innerHTML='<span class="page-link is-ellipsis">…</span>';return li;};
+const liFor=n=>nums().find(li=>+li.textContent.trim()===n);
+const show=()=>{const n=nums();if(n.length<2)return;const L=+n.at(-1).textContent||1,C=+((p.querySelector('.page-item.active')||n[0]).textContent)||1;const keep=new Set(C<=3?[1,2,3,L]:C>=L-2?[1,L-2,L-1,L]:[1,C,L]);p.querySelectorAll('.page-link.is-ellipsis').forEach(e=>e.parentElement.remove());n.forEach(li=>li.style.display=keep.has(+li.textContent)?'':'none');const k=[...keep].sort((a,b)=>a-b);if(k.length>1&&k[1]-k[0]>1){const a=liFor(k[0]);a&&a.after(makeEll());}if(k.length>1&&k.at(-1)-k.at(-2)>1){const b=liFor(k.at(-1));b&&b.before(makeEll());}};
+new MutationObserver(()=>show()).observe(p,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
+p.addEventListener('click',e=>{if(e.target.closest('.page-item'))requestAnimationFrame(show)},{passive:true});
+show();};
+document.querySelectorAll('.pagination').forEach(bind);})();
 
     /* ========== Unified last-updated date ========== */
     (()=>{const LAST_UPDATED="08/08/25";document.querySelectorAll('[data-updated]').forEach(el=>el.textContent=LAST_UPDATED);})();
 </script>
+
