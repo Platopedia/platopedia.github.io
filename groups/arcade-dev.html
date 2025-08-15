@@ -87,6 +87,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .table-upgraded thead th.w-50{width:50%} .table-upgraded tbody td:first-child{width:50%} .table-upgraded tbody td:last-child{width:50%}
     @media(max-width:480px){.table-upgraded td,.table-upgraded th{padding:6px}}
     .table-upgraded tbody tr.pad{visibility:hidden}
+    .table-upgraded tbody tr:not(.pad):has(+ tr.pad)>*{box-shadow:inset 0 -1px 0 var(--color-C);border-bottom:0}
 
     /* ========== Podium (Top-3) ========== */
     .podium{display:flex;flex-wrap:nowrap;gap:12px;justify-content:center;align-items:flex-end;margin:6px 0 10px;width:100%;max-width:100%}
@@ -1339,4 +1340,3 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     /* ========== Unified last-updated date ========== */
     (()=>{const LAST_UPDATED="08/08/25";document.querySelectorAll('[data-updated]').forEach(el=>el.textContent=LAST_UPDATED);})();
 </script>
-
