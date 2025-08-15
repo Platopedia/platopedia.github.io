@@ -130,13 +130,13 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .pagination .page-item.active .page-link{color:var(--color-text)!important;border-color:#E1100D!important;box-shadow:0 0 6px rgba(225,16,13,.6),0 4px 12px rgba(0,0,0,.2)!important}
     .pagination .page-item.disabled .page-link,.pagination .page-link[aria-disabled="true"],.pagination .page-link:disabled,.pagination .page-link.is-ellipsis{opacity:.45;cursor:not-allowed;pointer-events:none;transform:none;box-shadow:none}
 
-.pagination{flex-wrap:wrap}
+.pagination{flex-wrap:wrap;gap:6px 8px}
 .pagination::after{content:'';order:1;flex-basis:100%}
 .pagination .page-item{order:1}
-.pagination .page-item.previous,.pagination .page-item.next{order:2;flex:0 0 auto;margin-top:6px}
-/* Fallback if classes are missing (DataTables) */
-.pagination .page-item:has(.page-link[aria-label="Previous"]),.pagination .page-item:has(.page-link[aria-label="Next"]){order:2;flex:0 0 auto;margin-top:6px}
-
+.pagination .page-item.previous,.pagination .page-item.next,
+.pagination .page-item:has(.page-link[aria-label="Previous"]),
+.pagination .page-item:has(.page-link[aria-label="Next"]){order:2;flex:0 0 auto;margin-top:0}
+    
     /* ========== Image reveal (avatars + thumbnails) ========== */
     img.avatar,img.thumbnail{opacity:0;transform:scale(1.01);transition:opacity .35s ease,transform .35s ease}
     img.avatar.is-visible,img.thumbnail.is-visible{opacity:1;transform:none}
@@ -1347,3 +1347,4 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     /* ========== Unified last-updated date ========== */
     (()=>{const LAST_UPDATED="08/08/25";document.querySelectorAll('[data-updated]').forEach(el=>el.textContent=LAST_UPDATED);})();
 </script>
+
