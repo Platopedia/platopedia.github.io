@@ -1345,6 +1345,13 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     i.classList.add('is-missing');i.src=BLANK;};
     document.querySelectorAll('img.thumbnail,.podium-card .avatar,.content-image img').forEach(i=>{if(!i.getAttribute('src')){mark(i);return}if(i.complete){if(i.naturalWidth===0)mark(i)}else{i.addEventListener('error',()=>mark(i),{once:true})}})})();
 
+      /* Shimmer for missing podium avatars */
+      const addSkel=img=>{const card=img.closest('.podium-card');if(!card)return;if(getComputedStyle(card).position==='static')card.style.position='relative';const s=document.createElement('span');s.className='img-skel';const r=img.getBoundingClientRect(),cr=card.getBoundingClientRect();Object.assign(s.style,{left:(r.left-cr.left)+'px',top:(r.top-cr.top)+'px',width:r.width+'px',height:r.height+'px'});card.appendChild(s);img.style.opacity='0';};
+      host.querySelectorAll('.podium-card .avatar').forEach(img=>{if(!img.getAttribute('src')){addSkel(img);return}if(img.complete){if(img.naturalWidth===0)addSkel(img);}else{img.addEventListener('error',()=>addSkel(img),{once:true});}});
+      /* Anti-download on podiums */host.addEventListener('contextmenu',e=>{e.preventDefault();return false;});host.querySelectorAll('.podium-card .avatar').forEach(img=>{img.setAttribute('draggable','false');img.addEventListener('dragstart',e=>e.preventDefault());});}
+      document.querySelectorAll('.podium[data-table]').forEach(host=>{const tableId=host.getAttribute('data-table');const table=document.getElementById(tableId);renderFromTable(table,host);});})();
+    }catch(e){console.error('[stats]',e);}})();
+
     /* ========== Title chips wrapper ========== */
     (()=>{document.querySelectorAll('h2,h3').forEach(h=>{if(h.querySelector('.title-chip'))return;const chip=document.createElement('span');chip.className='title-chip';const text=document.createElement('span');text.className='title-text';while(h.firstChild)text.appendChild(h.firstChild);chip.appendChild(text);h.appendChild(chip);});})();
 
