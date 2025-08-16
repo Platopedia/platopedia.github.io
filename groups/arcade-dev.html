@@ -135,9 +135,11 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 .content-image.is-missing{background:linear-gradient(90deg,var(--ci-sh1),var(--ci-sh2),var(--ci-sh1));background-size:200% 100%;animation:missSh 1.1s linear infinite}
 .content-image.is-missing img{opacity:0!important}
 /* Thumbs & podium avatars: shimmer on the element itself */
+
 .thumbnail.is-missing,
 .podium-card .avatar.is-missing,
 .podium-card img.is-missing{display:block;position:relative;background:linear-gradient(90deg,var(--ci-sh1),var(--ci-sh2),var(--ci-sh1));background-size:200% 100%;background-repeat:no-repeat;animation:missSh 1.1s linear infinite;opacity:1!important}
+/* Podium avatar wrapper using content-image */.podium-card .ci-avatar{width:64px;height:64px;border-radius:50%;overflow:hidden;border:2px solid rgba(0,0,0,.12);box-shadow:0 0 0 3px var(--ring,#999),0 0 0 6px rgba(0,0,0,.06)}.podium-card .ci-avatar,.podium-card .ci-avatar:hover{transform:none}.podium-card .ci-avatar.is-missing{background:linear-gradient(90deg,var(--ci-sh1),var(--ci-sh2),var(--ci-sh1));background-size:200% 100%;animation:missSh 1.1s linear infinite}.podium-card .ci-avatar .avatar{width:100%!important;height:100%!important;border:0!important;box-shadow:none!important;border-radius:50%;object-fit:cover}@media(min-width:768px){.podium-card .ci-avatar{width:90px;height:90px}}/* Team thumbnails: shimmer on wrapper via pseudo; hide broken img */.thumbnail-wrapper.is-missing{position:relative;overflow:hidden}.thumbnail-wrapper.is-missing .thumbnail{opacity:0!important}.thumbnail-wrapper.is-missing::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,var(--ci-sh1),var(--ci-sh2),var(--ci-sh1));background-size:200% 100%;animation:missSh 1.1s linear infinite;border-radius:inherit}
 
     /* ========== Width / Links / Tables minor ========== */
     .content-link,.content-link a{max-width:100%;overflow-wrap:anywhere;word-break:break-word}
@@ -702,7 +704,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       /* Generic podium renderer — any .podium[data-table] */
       (()=>{const isHttpUrl=s=>/^https?:\/\//.test(String(s||''));function renderFromTable(table,host){if(!(table&&table.tBodies&&table.tBodies[0]&&host))return;const provided=(host.getAttribute('data-images')||'').split(',').map(s=>s.trim()).filter(Boolean);const rows=Array.from(table.tBodies[0].rows).slice(0,3);
       const items=rows.map((r,i)=>{const name=(r.cells[0]?.textContent||'').trim();let pic=provided[i]||(r.cells[1]?.textContent||'').trim();if(!isHttpUrl(pic)){for(let c=0;c<r.cells.length;c++){const t=(r.cells[c]?.textContent||'').trim();if(isHttpUrl(t)){pic=t;break;}}}const countCell=r.cells[r.cells.length-1];const count=num(countCell?countCell.textContent:0);return{rank:i+1,name,pic,count};}).filter(x=>isHttpUrl(x.pic));
-      host.innerHTML=items.map(({rank,name,pic,count})=>`<div class="podium-card rank-${rank}"><img class="avatar" src="${pic}" alt="${name}'s avatar"/><div class="name">${name}</div><div class="score">${count.toLocaleString()}</div></div>`).join('');
+      host.innerHTML=items.map(({rank,name,pic,count})=>`<div class="podium-card rank-${rank}"><div class="content-image ci-avatar"><img class="avatar" src="${pic}" alt="${name}'s avatar"></div><div class="name">${name}</div><div class="score">${count.toLocaleString()}</div></div>`).join('');
       /* Anti-download on podiums */host.addEventListener('contextmenu',e=>{e.preventDefault();return false;});host.querySelectorAll('.podium-card .avatar').forEach(img=>{img.setAttribute('draggable','false');img.addEventListener('dragstart',e=>e.preventDefault());});}
       document.querySelectorAll('.podium[data-table]').forEach(host=>{const tableId=host.getAttribute('data-table');const table=document.getElementById(tableId);renderFromTable(table,host);});})();
     }catch(e){console.error('[stats]',e);}})();
