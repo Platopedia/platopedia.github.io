@@ -1470,20 +1470,11 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     /* ========== Team thumbnails: anti-download ========== */
     (()=>{const grid=document.querySelector('.thumbnail-grid');if(!grid)return;grid.addEventListener('contextmenu',e=>{e.preventDefault();return false;});grid.querySelectorAll('img.thumbnail').forEach(img=>{img.setAttribute('draggable','false');img.addEventListener('dragstart',e=>e.preventDefault());});})();
 
-/* ========== Missing-image shimmer (thumbs + podium + content-image) ========== */
-(()=>{const BLANK='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==',
-host=i=>i.closest('.content-image')||i.closest('.thumbnail-wrapper')||i.closest('.podium-card')||i,
-mark=i=>{const box=host(i);box.classList.add('is-missing');i.classList.add('is-missing');
-         if(box.classList.contains('content-image')){i.style.opacity='0'}else{i.dataset._blank='1';i.src=BLANK}},
-unmark=i=>{if(i.src===BLANK||i.dataset._blank==='1'){i.dataset._blank='';return}
-           const box=host(i);box.classList.remove('is-missing');i.classList.remove('is-missing');i.style.opacity=''},
-SEL='img.thumbnail,.podium-card .avatar,.content-image img';
-document.querySelectorAll(SEL).forEach(i=>{
-  i.addEventListener('load',()=>unmark(i)); // not once: we want it again after src changes
-  if(!i.getAttribute('src')){mark(i);return}
-  if(i.complete){if(i.naturalWidth===0)mark(i)}
-  else{i.addEventListener('error',()=>mark(i),{once:true})}
-});})();
+    /* ========== Missing-image shimmer (thumbs + podium + content-image) ========== */
+    (()=>{const BLANK='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==',host=i=>i.closest('.content-image')||i.closest('.thumbnail-wrapper')||i.closest('.podium-card')||i,
+    mark=i=>{const b=host(i);b.classList.add('is-missing');i.classList.add('is-missing');if(b.classList.contains('content-image')){i.style.opacity='0'}else{i.dataset._blank='1';i.src=BLANK}},
+    unmark=i=>{if(i.src===BLANK||i.dataset._blank==='1'){i.dataset._blank='';return}const b=host(i);b.classList.remove('is-missing');i.classList.remove('is-missing');i.style.opacity=''},
+    SEL='img.thumbnail,.podium-card .avatar,.content-image img';document.querySelectorAll(SEL).forEach(i=>{i.addEventListener('load',()=>unmark(i));if(!i.getAttribute('src')){mark(i);return}if(i.complete){if(i.naturalWidth===0)mark(i)}else{i.addEventListener('error',()=>mark(i),{once:true})}});})();
 
     /* ========== Title chips wrapper ========== */
     (()=>{document.querySelectorAll('h2,h3').forEach(h=>{if(h.querySelector('.title-chip'))return;const chip=document.createElement('span');chip.className='title-chip';const text=document.createElement('span');text.className='title-text';while(h.firstChild)text.appendChild(h.firstChild);chip.appendChild(text);h.appendChild(chip);});})();
