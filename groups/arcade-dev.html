@@ -132,16 +132,27 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
     /* ========== Missing-image ========== */
     @keyframes missSh{from{background-position:200% 0}to{background-position:-200% 0}}
-    .content-image.is-missing{background:linear-gradient(90deg,var(--ci-sh1),var(--ci-sh2),var(--ci-sh1));background-size:200% 100%;animation:missSh 1.1s linear infinite}
-    .content-image.is-missing img{opacity:0!important}
-.thumbnail.is-missing,.podium-card img.is-missing{display:block;position:relative;background:linear-gradient(90deg,var(--ci-sh1),var(--ci-sh2),var(--ci-sh1));background-size:200% 100%;animation:missSh 1.1s linear infinite;opacity:1!important}
+.content-image.is-missing{background:linear-gradient(90deg,var(--ci-sh1),var(--ci-sh2),var(--ci-sh1));background-size:200% 100%;animation:missSh 1.1s linear infinite}
+.content-image.is-missing img{opacity:0!important}
+/* Thumbs & podium avatars: shimmer on the element itself */
+.thumbnail.is-missing,
+.podium-card .avatar.is-missing,
+.podium-card img.is-missing{display:block;position:relative;background:linear-gradient(90deg,var(--ci-sh1),var(--ci-sh2),var(--ci-sh1));background-size:200% 100%;background-repeat:no-repeat;animation:missSh 1.1s linear infinite;opacity:1!important}
 
     /* ========== Width / Links / Tables minor ========== */
     .content-link,.content-link a{max-width:100%;overflow-wrap:anywhere;word-break:break-word}
     .content-table{overflow-x:visible}
     .gradient-block.g-4,.gradient-block.g-4 :where(p,span,div,strong,em,b,small,a){white-space:normal;overflow-wrap:anywhere;word-break:break-word;hyphens:auto;-webkit-hyphens:auto}
 </style>
-<script>(()=>{const Q='img.thumbnail,.podium-card img,.content-image img',BLANK='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==',mark=i=>{const box=i.closest('.content-image');if(box){box.classList.add('is-missing');i.style.opacity='0';return}i.classList.add('is-missing');if(!i.getAttribute('src')||/^\s*$/.test(i.getAttribute('src')))i.src=BLANK;},check=i=>{if(!(i instanceof HTMLImageElement))return;if(!i.getAttribute('src')){mark(i);return}if(i.complete){if(i.naturalWidth===0)mark(i)}else{i.addEventListener('error',()=>mark(i),{once:true})}};document.querySelectorAll(Q).forEach(check);new MutationObserver(ms=>{for(const m of ms){if(m.type==='attributes'&&m.attributeName==='src')check(m.target);m.addedNodes&&m.addedNodes.forEach(n=>{if(n.nodeType!==1)return;if(n.matches&&n.matches(Q))check(n);n.querySelectorAll&&n.querySelectorAll(Q).forEach(check);});}}).observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['src']});})();</script>
+<script>(()=>{const Q="img.thumbnail,.podium-card .avatar,.podium-card img,.content-image img",BLANK="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+const mark=el=>{const box=el.closest&&el.closest('.content-image');if(box){box.classList.add('is-missing');if(el instanceof HTMLImageElement)el.style.opacity='0';return}el.classList.add('is-missing');if(el instanceof HTMLImageElement){el.removeAttribute('srcset');el.removeAttribute('sizes');const s=el.getAttribute('src');if(!s||/^\s*$/.test(s))el.src=BLANK}};
+const check=el=>{if(!(el instanceof Element))return; if(el instanceof HTMLImageElement){const s=el.getAttribute('src');if(!s||/^\s*$/.test(s)){mark(el);return}if(el.complete){if(el.naturalWidth===0)mark(el)}else{el.addEventListener('error',()=>mark(el),{once:true})}}
+else{ // non-IMG avatar nodes (defensive)
+  const bg=getComputedStyle(el).backgroundImage; if(!bg||bg==='none')mark(el);
+}};
+const scan=root=>{root.querySelectorAll?root.querySelectorAll(Q).forEach(check):null};
+scan(document);
+new MutationObserver(ms=>{for(const m of ms){if(m.type==='attributes'&&m.attributeName==='src'&&m.target.matches&&m.target.matches(Q))check(m.target);m.addedNodes&&m.addedNodes.forEach(n=>{if(n.nodeType!==1)return; if(n.matches&&n.matches(Q))check(n); n.querySelectorAll&&n.querySelectorAll(Q).forEach(check);});}}).observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['src']});})();</script>
 
 <!-- ========================= Content ========================= -->
 
