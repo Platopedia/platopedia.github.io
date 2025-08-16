@@ -122,8 +122,8 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .pagination .page-item:has(.page-link[aria-label="Next"]){order:2;flex:0 0 auto;margin-top:0}
 
     /* ========== Image reveal (avatars + thumbnails) ========== */
-    img.avatar,img.thumbnail{opacity:0;transform:scale(1.01);transition:opacity .35s ease,transform .35s ease}
-    img.avatar.is-visible,img.thumbnail.is-visible{opacity:1;transform:none}
+    /* Disabled so it doesn't hide or fight the missing-image shimmer */
+    img.avatar,img.thumbnail{opacity:1;transform:none;transition:none}
 
     /* ========== Content Images ========== */
     .content-image{position:relative;display:flex;align-items:center;justify-content:center;border-radius:12px;overflow:hidden;width:100%;max-width:var(--ci-w,100%);aspect-ratio:var(--ci-ar,auto);margin:0 auto;transition:transform .25s ease}
