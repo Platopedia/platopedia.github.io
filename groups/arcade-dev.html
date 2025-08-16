@@ -4,7 +4,7 @@ title: Arcade - Platopedia
 heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 ---
 
-<!-- ========================= Styles ========================= -->
+<!-- ========================= Styles (organized + compact) ========================= -->
 <style>
     /* ========== Base & Theme ========== */
     body[data-theme="light"]{--color-time-line:#555;--color-time-circ:#FFF;--ci-sh1:rgba(0,0,0,.08);--ci-sh2:rgba(0,0,0,.16)}
@@ -15,7 +15,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     /* Opt back in */
     a,button,[role=button],.nav-link,.page-link,.social-buttons a{cursor:pointer}
     input,textarea,[contenteditable="true"],.selectable,.selectable *,.content-link,.content-link *{-webkit-user-select:text!important;user-select:text!important;-webkit-touch-callout:default!important;cursor:text}
-    /* Clamp viewport overflow */
+    /* ========== Clamp viewport overflow ========== */
     html,body{max-width:100%;overflow-x:hidden}
     :where(.thumbnail-grid,.podium,.stats-grid,.nav.nav-pills.nav-content,.pagination,.content-table)>*{min-width:0}
     :where(h1,h2,h3,h4,h5,h6,p,li,a,span,.content-link){overflow-wrap:anywhere;word-break:break-word}
@@ -23,7 +23,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     /* ========== Titles / Chips ========== */
     h2,h3{margin:0 0 6px 0!important;line-height:1.15}
     h2>.title-chip,h3>.title-chip{display:inline-block;max-width:100%;padding:8px 8px 8px 0;border-radius:8px;border:1px solid transparent;background:linear-gradient(135deg,var(--color-D),var(--color-C)) padding-box;font-weight:700;font-size:clamp(28px,8vw,40px);color:var(--color-text);white-space:normal;overflow-wrap:anywhere;word-break:break-word;hyphens:auto;-webkit-hyphens:auto}
-    .title-chip .title-text{display:inline;white-space:inherit;overflow-wrap:inherit;word-break:inherit;hyphens:inherit;-webkit-hyphens:inherit;background-image:linear-gradient(135deg,#E1100D,var(--color-A),var(--color-text));background-size:200% 100%;background-position:0% 50%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:titleShimmer 3s linear infinite;will-change:background-position}
+    .title-chip .title-text{display:inline;white-space:inherit;overflow-wrap:inherit;word-break:inherit;hyphens:inherit;-webkit-hyphens:inherit;background-image:linear-gradient(135deg,var(--color-text),var(--color-B),#E1100D);background-size:200% 100%;background-position:0% 50%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:titleShimmer 3s linear infinite;will-change:background-position}
     @keyframes titleShimmer{to{background-position:200% 50%}}
     @media(prefers-reduced-motion:reduce){.title-chip .title-text{animation:none}}
 
@@ -36,6 +36,20 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .fa-instagram,.fa-discord{font-size:24px;background:transparent}
     .social-box{display:flex;align-items:center;gap:15px;justify-content:center;flex-wrap:nowrap}
     .social-note{font-family:monospace;font-size:12px;font-weight:700;color:var(--color-text);line-height:1;white-space:nowrap}
+
+    /* ========== (Commented) Announcement / Timeline / Buttons ========== */
+    /* Announcement
+    .announcement-strip{width:100%;background-image:linear-gradient(180deg,var(--color-C),var(--color-D),var(--color-C));overflow:hidden;white-space:nowrap;font-family:monospace;font-size:16px;display:flex;align-items:center;height:40px;box-shadow:0 4px 6px var(--color-B);border-top:2px solid var(--color-C);border-bottom:2px solid var(--color-C);border-radius:8px}
+    .scrolling-text{display:inline-block;padding-left:100%;animation:scroll 12s linear infinite}
+    @keyframes scroll{0%{transform:translateX(0%)}100%{transform:translateX(-100%)}} */
+    /* Timeline
+    .timeline{font-family:monospace;list-style:none;padding-left:35px;position:relative}
+    .timeline:before{content:' ';background:var(--color-time-line);display:inline-block;position:absolute;left:9px;width:2px;height:100%;z-index:400}
+    .timeline>li:before{content:' ';background:var(--color-time-circ);display:inline-block;position:absolute;border-radius:50%;border:3px solid #E1100D;left:0;width:20px;height:20px;z-index:400} */
+    /* Buttons
+    .button-gradient{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;background-image:linear-gradient(180deg,var(--color-C),var(--color-D));border:1px solid var(--color-B);box-shadow:0 6px 14px rgba(0,0,0,.12);color:#fff;text-decoration:none;font-family:monospace;font-size:14px;line-height:1;transition:transform .18s,box-shadow .18s,opacity .18s}
+    .button-gradient:hover{transform:translateY(-1px);box-shadow:0 10px 18px rgba(0,0,0,.18)}
+    .button-gradient:active{transform:translateY(0);box-shadow:0 6px 14px rgba(0,0,0,.12);opacity:.95} */
 
     /* ========== Team Grid ========== */
     .thumbnail-grid{display:flex;flex-wrap:wrap;justify-content:center;width:100%;gap:16px}
@@ -72,8 +86,6 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .table-upgraded td,.table-upgraded th{vertical-align:middle;white-space:normal;word-break:break-word;overflow-wrap:anywhere}
     .table-upgraded thead th.w-50{width:50%} .table-upgraded tbody td:first-child{width:50%} .table-upgraded tbody td:last-child{width:50%}
     @media(max-width:480px){.table-upgraded td,.table-upgraded th{padding:6px}}
-    .table-upgraded tbody tr.pad{visibility:hidden}
-    .table-upgraded tbody tr:not(.pad):has(+ tr.pad)>*{box-shadow:inset 0 -1px 0 var(--color-C);border-bottom:0}
 
     /* ========== Podium (Top-3) ========== */
     .podium{display:flex;flex-wrap:nowrap;gap:12px;justify-content:center;align-items:flex-end;margin:6px 0 10px;width:100%;max-width:100%}
@@ -108,56 +120,40 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     @media(any-hover:hover){.nav.nav-pills.nav-content .nav-link:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 8px 16px rgba(0,0,0,.18)}}
     .nav.nav-pills.nav-content .nav-link:focus-visible{outline:2px solid #E1100D;outline-offset:2px}
     .nav.nav-pills.nav-content .nav-link.active,[role=tab][aria-selected="true"]{color:var(--color-text)!important;border-color:#E1100D!important;box-shadow:0 0 6px rgba(225,16,13,.6),0 4px 12px rgba(0,0,0,.2)!important;transform:none}
-    .pagination{display:flex;flex-wrap:wrap;gap:3px 12px;padding:3px 0 0;align-items:center;justify-content:center;overflow:visible}
+    .pagination{display:flex;flex-wrap:wrap;gap:5px;align-items:center;justify-content:center;overflow:visible}
     .pagination .page-item{flex:0 0 auto}
-    .pagination .page-link{--pg:clamp(36px,8vw,48px);display:grid;place-items:center;min-width:var(--pg);height:var(--pg);padding:0 clamp(7px,2.8vw,12px);font-size:clamp(13px,3.8vw,17px);border:1px solid var(--color-B)!important;border-radius:999px!important;background:linear-gradient(135deg,var(--color-C),var(--color-D))!important;color:var(--color-text)!important;line-height:1;box-shadow:0 2px 6px rgba(0,0,0,.1);transition:transform .15s,box-shadow .15s}
+    .pagination .page-link{--pg:clamp(32px,7.5vw,40px);display:grid;place-items:center;min-width:var(--pg);height:var(--pg);padding:0 clamp(6px,2.4vw,10px);font-size:clamp(12px,3.6vw,16px);border:1px solid var(--color-B)!important;border-radius:999px!important;background:linear-gradient(135deg,var(--color-C),var(--color-D))!important;color:var(--color-text)!important;line-height:1;box-shadow:0 2px 6px rgba(0,0,0,.1);transition:transform .15s,box-shadow .15s}
     @media(any-hover:hover){.pagination .page-link:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 8px 16px rgba(0,0,0,.18)}}
     .pagination .page-link:focus-visible{outline:2px solid #E1100D;outline-offset:2px}
     .pagination .page-item.active .page-link{color:var(--color-text)!important;border-color:#E1100D!important;box-shadow:0 0 6px rgba(225,16,13,.6),0 4px 12px rgba(0,0,0,.2)!important}
     .pagination .page-item.disabled .page-link,.pagination .page-link[aria-disabled="true"],.pagination .page-link:disabled,.pagination .page-link.is-ellipsis{opacity:.45;cursor:not-allowed;pointer-events:none;transform:none;box-shadow:none}
-    .pagination::after{content:'';order:1;flex:0 0 100%;height:0}
-    .pagination .page-item{order:1}
-    .pagination .page-item.previous,.pagination .page-item.next,
-    .pagination .page-item:has(.page-link[aria-label="Previous"]),
-    .pagination .page-item:has(.page-link[aria-label="Next"]){order:2;flex:0 0 auto;margin-top:0}
 
     /* ========== Image reveal (avatars + thumbnails) ========== */
-    /* Disabled so it doesn't hide or fight the missing-image shimmer */
-    img.avatar,img.thumbnail{opacity:1;transform:none;transition:none}
+    img.avatar,img.thumbnail{opacity:0;transform:scale(1.01);transition:opacity .35s ease,transform .35s ease}
+    img.avatar.is-visible,img.thumbnail.is-visible{opacity:1;transform:none}
 
-    /* ========== Content Images ========== */
-    .content-image{position:relative;display:flex;align-items:center;justify-content:center;border-radius:12px;overflow:hidden;width:100%;max-width:var(--ci-w,100%);aspect-ratio:var(--ci-ar,auto);margin:0 auto;transition:transform .25s ease}
-    .content-image img{display:block;max-width:100%;max-height:100%;height:auto;-webkit-user-drag:none;user-drag:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;pointer-events:none}
+    /* Content Images (lazy fade) */
+    @keyframes imgsh{0%{background-position:200% 0}100%{background-position:-200% 0}}
+    .content-image{position:relative;display:flex;align-items:center;justify-content:center;border-radius:12px;overflow:hidden;width:100%;max-width:var(--ci-w,100%);aspect-ratio:var(--ci-ar,auto);margin:0 auto;background:linear-gradient(90deg,var(--ci-sh1),var(--ci-sh2),var(--ci-sh1));background-size:200% 100%;animation:imgsh 1.1s linear infinite;transition:transform .25s ease}
+    .content-image img{display:block;max-width:100%;max-height:100%;height:auto;opacity:0;transform:scale(1.01);transition:opacity .35s ease,transform .35s ease;-webkit-user-drag:none;user-drag:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;pointer-events:none}
+    .content-image.ci-loaded{animation:none;background:none} .content-image.ci-loaded img{opacity:1;transform:none}
     .content-image:hover{transform:translateY(-4px) scale(1.03)} .content-image:active{transform:translateY(0) scale(1)}
-
-    /* ========== Missing-image ========== */
-    @keyframes missSh{from{background-position:200% 0}to{background-position:-200% 0}}
-.content-image.is-missing{background:linear-gradient(90deg,var(--ci-sh1),var(--ci-sh2),var(--ci-sh1));background-size:200% 100%;animation:missSh 1.1s linear infinite}
-.content-image.is-missing img{opacity:0!important}
-/* Thumbs & podium avatars: shimmer on the element itself */
-.thumbnail.is-missing,
-.podium-card .avatar.is-missing,
-.podium-card img.is-missing{display:block;position:relative;background:linear-gradient(90deg,var(--ci-sh1),var(--ci-sh2),var(--ci-sh1));background-size:200% 100%;background-repeat:no-repeat;animation:missSh 1.1s linear infinite;opacity:1!important}
 
     /* ========== Width / Links / Tables minor ========== */
     .content-link,.content-link a{max-width:100%;overflow-wrap:anywhere;word-break:break-word}
     .content-table{overflow-x:visible}
     .gradient-block.g-4,.gradient-block.g-4 :where(p,span,div,strong,em,b,small,a){white-space:normal;overflow-wrap:anywhere;word-break:break-word;hyphens:auto;-webkit-hyphens:auto}
 </style>
-<script>(()=>{const Q="img.thumbnail,.podium-card .avatar,.podium-card img,.content-image img",BLANK="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
-const mark=el=>{const box=el.closest&&el.closest('.content-image');if(box){box.classList.add('is-missing');if(el instanceof HTMLImageElement)el.style.opacity='0';return}el.classList.add('is-missing');if(el instanceof HTMLImageElement){el.removeAttribute('srcset');el.removeAttribute('sizes');const s=el.getAttribute('src');if(!s||/^\s*$/.test(s))el.src=BLANK}};
-const check=el=>{if(!(el instanceof Element))return; if(el instanceof HTMLImageElement){const s=el.getAttribute('src');if(!s||/^\s*$/.test(s)){mark(el);return}if(el.complete){if(el.naturalWidth===0)mark(el)}else{el.addEventListener('error',()=>mark(el),{once:true})}}
-else{ // non-IMG avatar nodes (defensive)
-  const bg=getComputedStyle(el).backgroundImage; if(!bg||bg==='none')mark(el);
-}};
-const scan=root=>{root.querySelectorAll?root.querySelectorAll(Q).forEach(check):null};
-scan(document);
-new MutationObserver(ms=>{for(const m of ms){if(m.type==='attributes'&&m.attributeName==='src'&&m.target.matches&&m.target.matches(Q))check(m.target);m.addedNodes&&m.addedNodes.forEach(n=>{if(n.nodeType!==1)return; if(n.matches&&n.matches(Q))check(n); n.querySelectorAll&&n.querySelectorAll(Q).forEach(check);});}}).observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['src']});})();</script>
 
 <!-- ========================= Content ========================= -->
 
+<!-- (Optional) Announcement
+<div class="announcement-strip">
+  <div class="scrolling-text"><strong>UPDATE:</strong> ArcadeBot will auto-create featured game tabs every hour and track wins throughout the week. Players with the most wins are rewarded weekly.</div>
+</div> -->
+
 <!-- Banner -->
-<div class="content-image" style="--ci-w:690px;--ci-ar:1920/768"><img src="/docs/assets/images/groups/arcade/game-on-banner.webp" data-label="" /></div>
+<div class="content-image" style="--ci-w:690px;--ci-ar:1920/768" data-url="/docs/assets/images/groups/arcade/game-on-banner.webp" data-label=""></div>
 <div class="linebreak"></div>
 
 <!-- About -->
@@ -186,7 +182,7 @@ new MutationObserver(ms=>{for(const m of ms){if(m.type==='attributes'&&m.attribu
 
 <!-- Join -->
 <h2 id="join-arcade">Join Arcade Group</h2>
-<p class="selectable">We're making it easier for you to join our group. All you need to do is add our invite account linked below - we send out invites to new members every Friday at 3PM GMT.</p>
+<p class="selectable">We're making it easier for you to join our group. Say goodbye to the waiting room - now, all you need to do is add one of our invite accounts linked below. Every Friday, we'll send out invites to new members (we promise).</p>
 <p class="selectable">Add <strong>@Arcade:</strong></p>
 <div class="gradient-block g-4"><p class="selectable"><span class="content-link" data-url="https://platoapp.com/link/3gpmf8vsry32p" data-text="" data-copy="true"></span></p></div>
 <div class="linebreak"></div>
@@ -260,7 +256,7 @@ new MutationObserver(ms=>{for(const m of ms){if(m.type==='attributes'&&m.attribu
 
 <!-- Message/Wins Tabs -->
 <h2 id="arcade-stats">Arcade Stats 🔥</h2>
-<p class="selectable">See our <strong>TOP 20</strong> most active members this week and of all time, plus our <strong>TOP 20</strong> with the most weekly wins from ArcadeBot tabs. Updated every Friday.</p>
+<p class="selectable">See our <strong>TOP 20</strong> most active this week and of all time, plus our <strong>TOP 20</strong> with the most weekly wins from ArcadeBot tabs. Updated every Friday.</p>
 
 <ul class="nav nav-pills x-nav-justified justify-content-center nav-content" role="tablist">
     <li class="nav-item"><a class="nav-link active" href="#" role="tab" data-toggle="tab" data-target="#tab-message-counter-weekly">Weekly Messages</a></li>
@@ -280,117 +276,26 @@ new MutationObserver(ms=>{for(const m of ms){if(m.type==='attributes'&&m.attribu
             <table id="message-counter-weekly" class="table table-bordered table-upgraded">
                 <thead><tr><th class="w-50">Plato ID</th><th style="display:none">Pic URL</th><th class="w-50">Weekly Count</th></tr></thead>
                 <tbody>
-                <tr><td>Darth_Deigo</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/e9484e14f0ea6833f71ecb8b630e61df08de</td><td>58</td></tr>
-                <tr><td>2bzzy4you</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/a897ae20fdf76a52a6091e53ca4ac513bb54</td><td>56</td></tr>
-                <tr><td>TREX</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/14a603f2d7e88a8201ae1bd97c86de953293</td><td>52</td></tr>
-                <tr><td>Eos3</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/f8b7823672b4b7687742f89f4b967594f5d7</td><td>47</td></tr>
-                <tr><td>azee77r</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/f31979e6e128ac1ad013f650464194c11711</td><td>36</td></tr>
-                <tr><td>zkzu</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/748b973d68a902ab57c24e00be246d322aaf</td><td>30</td></tr>
-                <tr><td>Reizuka</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/62c93eba20c8f55fbb0bedc3c7eabe65c56f</td><td>30</td></tr>
-                <tr><td>IINiaII</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/948d7c4c1affcf807b46abde2252ef95d25b</td><td>28</td></tr>
-                <tr><td>QQB</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/d26fbf72650404cb8a052c9dbd1851a6d323</td><td>25</td></tr>
-                <tr><td>terminatT800</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/d323707b802a36e098b79ed3ad4036befb82</td><td>22</td></tr>
-                <tr><td>lure</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/faf3dab79e3e9dc6ca308c0cb4b2d83bac0f</td><td>17</td></tr>
-                <tr><td>smary</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/6082ea41642eeeeb874c80be4afa7b430603</td><td>17</td></tr>
-                <tr><td>calisha</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/f9244b3c1c31f478ba5a39684c21c78bf8f8</td><td>15</td></tr>
-                <tr><td>Rd__Cr7</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/cd733e724a8d91b825fa1a7c8dd7a485ef68</td><td>13</td></tr>
-                <tr><td>Marwan0010</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/925205857d52ae08dfcfd83be74ac62bce55</td><td>12</td></tr>
-                <tr><td>Aura69</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/5a1cf5544c674dc0ed796a4441ea4f14f8ea</td><td>10</td></tr>
-                <tr><td>DramaQueen_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/4b1ab24455698b37b344135b7c61cca7e83b</td><td>9</td></tr>
-                <tr><td>AlXAM</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/1e0cf6bd5bd6321ee037f8eb474136d2725f</td><td>9</td></tr>
-                <tr><td>OP_MANGAL</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/500da580807271882286b18d3862062cabaa</td><td>7</td></tr>
-                <tr><td>Bladexe</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/f6d4c77666e565cd97953a40f0d53f9f8a33</td><td>7</td></tr>
-                <tr><td>Wytie</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/c7faf246f7d6f40476e3fe27480037dc06fb</td><td>6</td></tr>
-                <tr><td>kyIIu</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/40982380e05fe3d3f0f95deb9f5dcff62914</td><td>6</td></tr>
-                <tr><td>_israa_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/62cacde262bc6e0a77c2cf44bbf5b48ceff9</td><td>6</td></tr>
-                <tr><td>drew_house</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/ed93b3c8caa187b3578093321e072bb090fa</td><td>6</td></tr>
-                <tr><td>Acquae</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/b06175e4fbde3551b845ba29a1fe20575aec</td><td>5</td></tr>
-                <tr><td>voux</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/33a2f76bcc23f309c21744f8df7f86071e94</td><td>5</td></tr>
-                <tr><td>_HEW_hanim</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/ba3acac2496867c8c95907ee26cf765a225a</td><td>5</td></tr>
-                <tr><td>UnaMaracucha</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/e370493dfbd40399321a54e61871a8c82872</td><td>5</td></tr>
-                <tr><td>abdullahshah</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/a47d0b79daa86219e19cca8174e6b39f7a20</td><td>5</td></tr>
-                <tr><td>___Don</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/3829ddc226fd6f1e83b0867e926e0d1a0d38</td><td>5</td></tr>
-                <tr><td>Mari_Dee</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/7634860f7f1ef00b45b232a58cce06818cda</td><td>5</td></tr>
-                <tr><td>Kikutie</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/9709ea4a79a621e7afe3db6bdde65fd26b64</td><td>4</td></tr>
-                <tr><td>zenin_ghost</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/1c5fa4593b1899a45c8c18d8f84ab0c5bf0f</td><td>4</td></tr>
-                <tr><td>kingpinnnnnn</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/b3f526dbc1bf940762348041d675f6b9df25</td><td>4</td></tr>
-                <tr><td>_Alex_01_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/08fccc8616228ba716c39525510083a0adbd</td><td>4</td></tr>
-                <tr><td>DontTouchMe</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/ace4232ee2149d6fbe29eefb77a87f3ce306</td><td>4</td></tr>
-                <tr><td>Erimasero</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/45010e6c0bbc17bedd692771e85afe87fbe5</td><td>4</td></tr>
-                <tr><td>R_O_S_E_03</td><td style="display:none">https://plato-image-assets-prod.platocdn.com/user_avatars/user0.webp</td><td>3</td></tr>
-                <tr><td>BIades</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/104836a4358a7bea8b6ce1ba43cc32281407</td><td>3</td></tr>
-                <tr><td>_has</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/4ebceac0d529883d83e8689e931e6b3fc704</td><td>3</td></tr>
-                <tr><td>Icey</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/4ebcfe9e41ea215e638a907c83b1431d2379</td><td>3</td></tr>
-                <tr><td>reformnew64</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/a4c0325e768d81e8e177ce0cbc49707e99c9</td><td>3</td></tr>
-                <tr><td>IceQuinn</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/c69fa1494c6fddbc16670230634c4a4ca7db</td><td>3</td></tr>
-                <tr><td>mergecroak64</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/5cca5cd0d31c645effe5f2f768690f3d972e</td><td>3</td></tr>
-                <tr><td>niua</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/4da727c808d3f60f6ef79293aa101774fe0b</td><td>3</td></tr>
-                <tr><td>vow</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/e7e3c4bc6ba4fc108cd649c6c0fdcbfdd672</td><td>3</td></tr>
-                <tr><td>Ice_King_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/6d9ade5bc4eee981716930f537391b9fd131</td><td>3</td></tr>
-                <tr><td>RoseMarie_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/52c679109538ee14d3789d8954f0d8b070dc</td><td>3</td></tr>
-                <tr><td>HAGGAM</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/fdca3eb5291b68875a749f4a9193351a96b0</td><td>3</td></tr>
-                <tr><td>1HN0</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/0a4d88a968aff0c26c6282e3ab700b8b4ed3</td><td>2</td></tr>
-                <tr><td>Natsuko_90</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/c01022c84de1ed87914e7e7093c94f77d2ab</td><td>2</td></tr>
-                <tr><td>F4BZ</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/eb4319743e0a7ca08bf47d81a2aac3e6c660</td><td>2</td></tr>
-                <tr><td>FatherPIato</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/09f69d2515d5655c9c129a9199c281ca6c5c</td><td>2</td></tr>
-                <tr><td>janaqty</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/00025f050aa66931c4221005669c38c0224f</td><td>2</td></tr>
-                <tr><td>Toksyck</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/2a8828e64c9e734083c70f2ecd28272f9c6b</td><td>2</td></tr>
-                <tr><td>MasterSnide</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/e2182eb3d906b77de4da4530345a80ae6f8b</td><td>2</td></tr>
-                <tr><td>Rose786</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/7918b5b51a9a4115636675edc9cc134f84da</td><td>2</td></tr>
-                <tr><td>zrit</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/17afe40d0b726da99fc84899be6ff0a3a84e</td><td>2</td></tr>
-                <tr><td>EvikaEve</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/1441577aaae0c0113e19211fbc5f86ca18f8</td><td>2</td></tr>
-                <tr><td>_CALIX</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/1c58edc18b2886143e1deeb3c80494542926</td><td>2</td></tr>
-                <tr><td>Aksha_666</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/6726729ad076935665c03efc2ea9fe308710</td><td>2</td></tr>
-                <tr><td>OmidOne8</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/fe669e059b6f1b4368f99a30a29a47556758</td><td>2</td></tr>
-                <tr><td>Vaella</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/eacbed279f3b69e72b57760c3471bba669f4</td><td>2</td></tr>
-                <tr><td>veIkoz</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/fc82d5b760c33b058ad38c1796260fbc0108</td><td>2</td></tr>
-                <tr><td>459</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/693098d7774c4b63c25521212ed1b7b531a3</td><td>1</td></tr>
-                <tr><td>_caelum</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/5c2d68d5531f554c06a473e3d68474d80174</td><td>1</td></tr>
-                <tr><td>_Melz</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/0a6dae741f79d3e3b196ea3c738921076baa</td><td>1</td></tr>
-                <tr><td>_Nemy_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/9ed7a9cc25688d140834bcd23fcf4f013cda</td><td>1</td></tr>
-                <tr><td>_SHUCHI_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/b6dd8f969f42c50bf5c280b575d8025e64b1</td><td>1</td></tr>
-                <tr><td>Aladdin01</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/479c5f8dc4e4f0ade1ab43bdc797f5d18063</td><td>1</td></tr>
-                <tr><td>Ascender</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/ae7e0ac0531b7912499a20d42c2829a028f0</td><td>1</td></tr>
-                <tr><td>Celiiiinee</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/0ece99171527786b2794ea03a3b98dd05688</td><td>1</td></tr>
-                <tr><td>Frequency</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/6fdad24e3d9171ce3a94dd52814b3d8e7374</td><td>1</td></tr>
-                <tr><td>Goblin</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/33cc488ded54caddf287b878dac4e87acef5</td><td>1</td></tr>
-                <tr><td>Velnox</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/77056c8980869342402a2aea8733665c00d8</td><td>1</td></tr>
-                <tr><td>91s_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/49fe7e7957f1ec62183d937668cdf73fe55f</td><td>1</td></tr>
-                <tr><td>hewi</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/924bd62b951d042cd63eebc4407c51375542</td><td>1</td></tr>
-                <tr><td>iman81_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/d682910fce67cf23bd7f0f2bebea4cd3a5c4</td><td>1</td></tr>
-                <tr><td>inserver</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/22dacd15646adc6ad0feb8ef1daea7654cb2</td><td>1</td></tr>
-                <tr><td>laleia</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/a69d2d79691de22fe120ab8890ec80ceb6ae</td><td>1</td></tr>
-                <tr><td>mahdiyar30</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/dcb750bd9ef4facdafef174e56da60d80830</td><td>1</td></tr>
-                <tr><td>QueenyMeany</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/e7688558840ad68f67654ab018a18709df1a</td><td>1</td></tr>
-                <tr><td>Remynaytor</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/7635877d9add7a3722bb1ee1e490dc191d3a</td><td>1</td></tr>
-                <tr><td>shabnamma</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/f7c64d210fffa4f3f849685e588798fbd630</td><td>1</td></tr>
-                <tr><td>vezu</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/a47332218161d27037032c6da0940c84e7f1</td><td>1</td></tr>
-                <tr><td>4rju9</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/2d97046d3de5a88cd9bd7c4457728e75c35d</td><td>1</td></tr>
-                <tr><td>copethor</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/b59c8b3ad8c9ed2901ba7323de584839d4dc</td><td>1</td></tr>
-                <tr><td>Hitman</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/5b413ead61bc6963e90653e43b0e9f8103ac</td><td>1</td></tr>
-                <tr><td>IbN_eL_aRaBi</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/d77d0b91aa70fb1fc9e0874f62017e1a28b0</td><td>1</td></tr>
-                <tr><td>lale</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/4cd656833f1a244ea3662d63ac117b92b2d9</td><td>1</td></tr>
-                <tr><td>Leela__14</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/f4414cf396d58e050420154ee29822fb0d03</td><td>1</td></tr>
-                <tr><td>M2M</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/0f1eed65f846e573ed2957d80bbddf482e5a</td><td>1</td></tr>
-                <tr><td>otakkish</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/ab5774ba69657a3d73fe75e03f4215033bb1</td><td>1</td></tr>
-                <tr><td>Zahra83</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/226adfb117738e5455c369edd2dd8f5e5696</td><td>1</td></tr>
-                <tr><td>Ameer_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/97259caf52b983e2f9de688d119e08cfe9d2</td><td>1</td></tr>
-                <tr><td>hiffuu</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/09ecacddd0c72c66bd258fb566e38d93c995</td><td>1</td></tr>
-                <tr><td>hnisssss</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/cf8777efa21b925685af7ce322dc552201f5</td><td>1</td></tr>
-                <tr><td>liuve</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/9985004b14f2456d0232c9e8f14d34450d3f</td><td>1</td></tr>
-                <tr><td>NeVenZo</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/d6eeab07b9454c973d7cd403716c403cb4e5</td><td>1</td></tr>
-                <tr><td>Tabasom25</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/abc944be670ce7936aece8d05fa956cb5252</td><td>1</td></tr>
-                <tr><td>yutortuga</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/87eaf6d509ab4d57e89d1ee346a787fc684a</td><td>1</td></tr>
-                <tr><td>Endity</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/5c315cb494569efea7fd807a1b52e9e1150e</td><td>1</td></tr>
-                <tr><td>rowwoon</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/b1a9bced06d9791532ba2cd5e04e1f0f81c8</td><td>1</td></tr>
-                <tr><td>DRAXUN</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/d4340fa67e292d93f866c0a1c943fb3c25ff</td><td>1</td></tr>
-                <tr><td>Kashu__</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/a21bbe510ce2d4a754f723e9fcde3bd0b499</td><td>1</td></tr>
-                <tr><td>klovn</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/1c826f93b5fe19679cc931e6154d46f4f81a</td><td>1</td></tr>
-                <tr><td>capmear44</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/8eae1a76fdd70cc7a5213caa16b8ecde2b51</td><td>1</td></tr>
-                <tr><td>smilezzzz</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/d8d9229844baf13d9715aa6b0b993221c09c</td><td>1</td></tr>
-                <tr><td>JojoZen</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/73fbf660caf10bd31a310d2ed100680804d9</td><td>1</td></tr>
-                <tr><td>_LAC_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/2677ccd92b7d5ec43c769debbb7c942ae11b</td><td>1</td></tr>
-                <tr><td>Galaxy</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/335ad9b8f6ca6e669346248f6fd9a06ed55f</td><td>1</td></tr>
+                <tr><td>_EVe__</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/7e755a44901b17368873337c10594cb54583</td><td>5960</td></tr>
+                <tr><td>_CALIX</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/d416ed61ae076d744b55ddedf4eecb8605fa</td><td>5338</td></tr>
+                <tr><td>Keistaa</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/5d70b4b7700d87c25b11717ecc3e8cedd9cc</td><td>5001</td></tr>
+                <tr><td>Vaella</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/a52d7eef3fe430db8cc52745ccd16ad1c518</td><td>2198</td></tr>
+                <tr><td>R_O_S_E_03</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/2bc9978f2e6647f24e740d6271f9c9c93af3</td><td>1152</td></tr>
+                <tr><td>calisha</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/bc48e6a77efd0f00e4b2b917597f86de54ce</td><td>1054</td></tr>
+                <tr><td>4DA</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/89d9879c9f4eff0ea4784cf37b08da2212de</td><td>894</td></tr>
+                <tr><td>DontTouchMe</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/de78eae212cb2c3fd4366c5585ba38d71552</td><td>891</td></tr>
+                <tr><td>abdullahshah</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/ad6b29ac3e79521d60d17cffc6b24ef2e086</td><td>881</td></tr>
+                <tr><td>INNA</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/f16f2b5e066aa934e8dfc51f1fbd04df42c0</td><td>849</td></tr>
+                <tr><td>drew_house</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/e03e68e107e83cc4928442198a616458b5df</td><td>711</td></tr>
+                <tr><td>Endity</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/031176e427192ca993fc3043982ed6cba0d8</td><td>685</td></tr>
+                <tr><td>sowft</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/c10ee4bdc12fe499985dac606dcba851a38d</td><td>627</td></tr>
+                <tr><td>vow</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/c1e341ac79b15c895950d14b09bc0118b00a</td><td>556</td></tr>
+                <tr><td>Akamehhh</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/c44643fbebb1a2cd02ac3175088600a08ba3</td><td>549</td></tr>
+                <tr><td>QQB</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/a6e999e06fe2203bf287b62df39cca7f76dd</td><td>485</td></tr>
+                <tr><td>EvikaEve</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/ade4af8aa111a11e1bfd019cb69c17832451</td><td>456</td></tr>
+                <tr><td>books</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/c54207d4af0c613c1d682aba3474afcedac5</td><td>447</td></tr>
+                <tr><td>hiffuu</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/711c8eec6c5c0aa467ee8405428847428796</td><td>416</td></tr>
+                <tr><td>Erimasero</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/96644c33baca2369bc6c6d76fca66cc47b0c</td><td>393</td></tr>
                 </tbody>
             </table>
         </div>
@@ -407,117 +312,26 @@ new MutationObserver(ms=>{for(const m of ms){if(m.type==='attributes'&&m.attribu
             <table id="message-counter-alltime" class="table table-bordered table-upgraded">
                 <thead><tr><th class="w-50">Plato ID</th><th style="display:none">Pic URL</th><th class="w-50">All Time Count</th></tr></thead>
                 <tbody>
-                <tr><td>Darth_Deigo</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/e9484e14f0ea6833f71ecb8b630e61df08de</td><td>58</td></tr>
-                <tr><td>2bzzy4you</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/a897ae20fdf76a52a6091e53ca4ac513bb54</td><td>56</td></tr>
-                <tr><td>TREX</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/14a603f2d7e88a8201ae1bd97c86de953293</td><td>52</td></tr>
-                <tr><td>Eos3</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/f8b7823672b4b7687742f89f4b967594f5d7</td><td>47</td></tr>
-                <tr><td>azee77r</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/f31979e6e128ac1ad013f650464194c11711</td><td>36</td></tr>
-                <tr><td>zkzu</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/748b973d68a902ab57c24e00be246d322aaf</td><td>30</td></tr>
-                <tr><td>Reizuka</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/62c93eba20c8f55fbb0bedc3c7eabe65c56f</td><td>30</td></tr>
-                <tr><td>IINiaII</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/948d7c4c1affcf807b46abde2252ef95d25b</td><td>28</td></tr>
-                <tr><td>QQB</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/d26fbf72650404cb8a052c9dbd1851a6d323</td><td>25</td></tr>
-                <tr><td>terminatT800</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/d323707b802a36e098b79ed3ad4036befb82</td><td>22</td></tr>
-                <tr><td>lure</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/faf3dab79e3e9dc6ca308c0cb4b2d83bac0f</td><td>17</td></tr>
-                <tr><td>smary</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/6082ea41642eeeeb874c80be4afa7b430603</td><td>17</td></tr>
-                <tr><td>calisha</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/f9244b3c1c31f478ba5a39684c21c78bf8f8</td><td>15</td></tr>
-                <tr><td>Rd__Cr7</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/cd733e724a8d91b825fa1a7c8dd7a485ef68</td><td>13</td></tr>
-                <tr><td>Marwan0010</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/925205857d52ae08dfcfd83be74ac62bce55</td><td>12</td></tr>
-                <tr><td>Aura69</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/5a1cf5544c674dc0ed796a4441ea4f14f8ea</td><td>10</td></tr>
-                <tr><td>DramaQueen_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/4b1ab24455698b37b344135b7c61cca7e83b</td><td>9</td></tr>
-                <tr><td>AlXAM</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/1e0cf6bd5bd6321ee037f8eb474136d2725f</td><td>9</td></tr>
-                <tr><td>OP_MANGAL</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/500da580807271882286b18d3862062cabaa</td><td>7</td></tr>
-                <tr><td>Bladexe</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/f6d4c77666e565cd97953a40f0d53f9f8a33</td><td>7</td></tr>
-                <tr><td>Wytie</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/c7faf246f7d6f40476e3fe27480037dc06fb</td><td>6</td></tr>
-                <tr><td>kyIIu</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/40982380e05fe3d3f0f95deb9f5dcff62914</td><td>6</td></tr>
-                <tr><td>_israa_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/62cacde262bc6e0a77c2cf44bbf5b48ceff9</td><td>6</td></tr>
-                <tr><td>drew_house</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/ed93b3c8caa187b3578093321e072bb090fa</td><td>6</td></tr>
-                <tr><td>Acquae</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/b06175e4fbde3551b845ba29a1fe20575aec</td><td>5</td></tr>
-                <tr><td>voux</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/33a2f76bcc23f309c21744f8df7f86071e94</td><td>5</td></tr>
-                <tr><td>_HEW_hanim</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/ba3acac2496867c8c95907ee26cf765a225a</td><td>5</td></tr>
-                <tr><td>UnaMaracucha</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/e370493dfbd40399321a54e61871a8c82872</td><td>5</td></tr>
-                <tr><td>abdullahshah</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/a47d0b79daa86219e19cca8174e6b39f7a20</td><td>5</td></tr>
-                <tr><td>___Don</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/3829ddc226fd6f1e83b0867e926e0d1a0d38</td><td>5</td></tr>
-                <tr><td>Mari_Dee</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/7634860f7f1ef00b45b232a58cce06818cda</td><td>5</td></tr>
-                <tr><td>Kikutie</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/9709ea4a79a621e7afe3db6bdde65fd26b64</td><td>4</td></tr>
-                <tr><td>zenin_ghost</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/1c5fa4593b1899a45c8c18d8f84ab0c5bf0f</td><td>4</td></tr>
-                <tr><td>kingpinnnnnn</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/b3f526dbc1bf940762348041d675f6b9df25</td><td>4</td></tr>
-                <tr><td>_Alex_01_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/08fccc8616228ba716c39525510083a0adbd</td><td>4</td></tr>
-                <tr><td>DontTouchMe</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/ace4232ee2149d6fbe29eefb77a87f3ce306</td><td>4</td></tr>
-                <tr><td>Erimasero</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/45010e6c0bbc17bedd692771e85afe87fbe5</td><td>4</td></tr>
-                <tr><td>R_O_S_E_03</td><td style="display:none">https://plato-image-assets-prod.platocdn.com/user_avatars/user0.webp</td><td>3</td></tr>
-                <tr><td>BIades</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/104836a4358a7bea8b6ce1ba43cc32281407</td><td>3</td></tr>
-                <tr><td>_has</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/4ebceac0d529883d83e8689e931e6b3fc704</td><td>3</td></tr>
-                <tr><td>Icey</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/4ebcfe9e41ea215e638a907c83b1431d2379</td><td>3</td></tr>
-                <tr><td>reformnew64</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/a4c0325e768d81e8e177ce0cbc49707e99c9</td><td>3</td></tr>
-                <tr><td>IceQuinn</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/c69fa1494c6fddbc16670230634c4a4ca7db</td><td>3</td></tr>
-                <tr><td>mergecroak64</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/5cca5cd0d31c645effe5f2f768690f3d972e</td><td>3</td></tr>
-                <tr><td>niua</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/4da727c808d3f60f6ef79293aa101774fe0b</td><td>3</td></tr>
-                <tr><td>vow</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/e7e3c4bc6ba4fc108cd649c6c0fdcbfdd672</td><td>3</td></tr>
-                <tr><td>Ice_King_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/6d9ade5bc4eee981716930f537391b9fd131</td><td>3</td></tr>
-                <tr><td>RoseMarie_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/52c679109538ee14d3789d8954f0d8b070dc</td><td>3</td></tr>
-                <tr><td>HAGGAM</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/fdca3eb5291b68875a749f4a9193351a96b0</td><td>3</td></tr>
-                <tr><td>1HN0</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/0a4d88a968aff0c26c6282e3ab700b8b4ed3</td><td>2</td></tr>
-                <tr><td>Natsuko_90</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/c01022c84de1ed87914e7e7093c94f77d2ab</td><td>2</td></tr>
-                <tr><td>F4BZ</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/eb4319743e0a7ca08bf47d81a2aac3e6c660</td><td>2</td></tr>
-                <tr><td>FatherPIato</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/09f69d2515d5655c9c129a9199c281ca6c5c</td><td>2</td></tr>
-                <tr><td>janaqty</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/00025f050aa66931c4221005669c38c0224f</td><td>2</td></tr>
-                <tr><td>Toksyck</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/2a8828e64c9e734083c70f2ecd28272f9c6b</td><td>2</td></tr>
-                <tr><td>MasterSnide</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/e2182eb3d906b77de4da4530345a80ae6f8b</td><td>2</td></tr>
-                <tr><td>Rose786</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/7918b5b51a9a4115636675edc9cc134f84da</td><td>2</td></tr>
-                <tr><td>zrit</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/17afe40d0b726da99fc84899be6ff0a3a84e</td><td>2</td></tr>
-                <tr><td>EvikaEve</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/1441577aaae0c0113e19211fbc5f86ca18f8</td><td>2</td></tr>
-                <tr><td>_CALIX</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/1c58edc18b2886143e1deeb3c80494542926</td><td>2</td></tr>
-                <tr><td>Aksha_666</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/6726729ad076935665c03efc2ea9fe308710</td><td>2</td></tr>
-                <tr><td>OmidOne8</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/fe669e059b6f1b4368f99a30a29a47556758</td><td>2</td></tr>
-                <tr><td>Vaella</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/eacbed279f3b69e72b57760c3471bba669f4</td><td>2</td></tr>
-                <tr><td>veIkoz</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/fc82d5b760c33b058ad38c1796260fbc0108</td><td>2</td></tr>
-                <tr><td>459</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/693098d7774c4b63c25521212ed1b7b531a3</td><td>1</td></tr>
-                <tr><td>_caelum</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/5c2d68d5531f554c06a473e3d68474d80174</td><td>1</td></tr>
-                <tr><td>_Melz</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/0a6dae741f79d3e3b196ea3c738921076baa</td><td>1</td></tr>
-                <tr><td>_Nemy_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/9ed7a9cc25688d140834bcd23fcf4f013cda</td><td>1</td></tr>
-                <tr><td>_SHUCHI_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/b6dd8f969f42c50bf5c280b575d8025e64b1</td><td>1</td></tr>
-                <tr><td>Aladdin01</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/479c5f8dc4e4f0ade1ab43bdc797f5d18063</td><td>1</td></tr>
-                <tr><td>Ascender</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/ae7e0ac0531b7912499a20d42c2829a028f0</td><td>1</td></tr>
-                <tr><td>Celiiiinee</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/0ece99171527786b2794ea03a3b98dd05688</td><td>1</td></tr>
-                <tr><td>Frequency</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/6fdad24e3d9171ce3a94dd52814b3d8e7374</td><td>1</td></tr>
-                <tr><td>Goblin</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/33cc488ded54caddf287b878dac4e87acef5</td><td>1</td></tr>
-                <tr><td>Velnox</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/77056c8980869342402a2aea8733665c00d8</td><td>1</td></tr>
-                <tr><td>91s_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/49fe7e7957f1ec62183d937668cdf73fe55f</td><td>1</td></tr>
-                <tr><td>hewi</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/924bd62b951d042cd63eebc4407c51375542</td><td>1</td></tr>
-                <tr><td>iman81_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/d682910fce67cf23bd7f0f2bebea4cd3a5c4</td><td>1</td></tr>
-                <tr><td>inserver</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/22dacd15646adc6ad0feb8ef1daea7654cb2</td><td>1</td></tr>
-                <tr><td>laleia</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/a69d2d79691de22fe120ab8890ec80ceb6ae</td><td>1</td></tr>
-                <tr><td>mahdiyar30</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/dcb750bd9ef4facdafef174e56da60d80830</td><td>1</td></tr>
-                <tr><td>QueenyMeany</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/e7688558840ad68f67654ab018a18709df1a</td><td>1</td></tr>
-                <tr><td>Remynaytor</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/7635877d9add7a3722bb1ee1e490dc191d3a</td><td>1</td></tr>
-                <tr><td>shabnamma</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/f7c64d210fffa4f3f849685e588798fbd630</td><td>1</td></tr>
-                <tr><td>vezu</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/a47332218161d27037032c6da0940c84e7f1</td><td>1</td></tr>
-                <tr><td>4rju9</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/2d97046d3de5a88cd9bd7c4457728e75c35d</td><td>1</td></tr>
-                <tr><td>copethor</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/b59c8b3ad8c9ed2901ba7323de584839d4dc</td><td>1</td></tr>
-                <tr><td>Hitman</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/5b413ead61bc6963e90653e43b0e9f8103ac</td><td>1</td></tr>
-                <tr><td>IbN_eL_aRaBi</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/d77d0b91aa70fb1fc9e0874f62017e1a28b0</td><td>1</td></tr>
-                <tr><td>lale</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/4cd656833f1a244ea3662d63ac117b92b2d9</td><td>1</td></tr>
-                <tr><td>Leela__14</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/f4414cf396d58e050420154ee29822fb0d03</td><td>1</td></tr>
-                <tr><td>M2M</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/0f1eed65f846e573ed2957d80bbddf482e5a</td><td>1</td></tr>
-                <tr><td>otakkish</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/ab5774ba69657a3d73fe75e03f4215033bb1</td><td>1</td></tr>
-                <tr><td>Zahra83</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/226adfb117738e5455c369edd2dd8f5e5696</td><td>1</td></tr>
-                <tr><td>Ameer_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/97259caf52b983e2f9de688d119e08cfe9d2</td><td>1</td></tr>
-                <tr><td>hiffuu</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/09ecacddd0c72c66bd258fb566e38d93c995</td><td>1</td></tr>
-                <tr><td>hnisssss</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/cf8777efa21b925685af7ce322dc552201f5</td><td>1</td></tr>
-                <tr><td>liuve</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/9985004b14f2456d0232c9e8f14d34450d3f</td><td>1</td></tr>
-                <tr><td>NeVenZo</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/d6eeab07b9454c973d7cd403716c403cb4e5</td><td>1</td></tr>
-                <tr><td>Tabasom25</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/abc944be670ce7936aece8d05fa956cb5252</td><td>1</td></tr>
-                <tr><td>yutortuga</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/87eaf6d509ab4d57e89d1ee346a787fc684a</td><td>1</td></tr>
-                <tr><td>Endity</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/5c315cb494569efea7fd807a1b52e9e1150e</td><td>1</td></tr>
-                <tr><td>rowwoon</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/b1a9bced06d9791532ba2cd5e04e1f0f81c8</td><td>1</td></tr>
-                <tr><td>DRAXUN</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/d4340fa67e292d93f866c0a1c943fb3c25ff</td><td>1</td></tr>
-                <tr><td>Kashu__</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/a21bbe510ce2d4a754f723e9fcde3bd0b499</td><td>1</td></tr>
-                <tr><td>klovn</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/1c826f93b5fe19679cc931e6154d46f4f81a</td><td>1</td></tr>
-                <tr><td>capmear44</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/8eae1a76fdd70cc7a5213caa16b8ecde2b51</td><td>1</td></tr>
-                <tr><td>smilezzzz</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/d8d9229844baf13d9715aa6b0b993221c09c</td><td>1</td></tr>
-                <tr><td>JojoZen</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/73fbf660caf10bd31a310d2ed100680804d9</td><td>1</td></tr>
-                <tr><td>_LAC_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/2677ccd92b7d5ec43c769debbb7c942ae11b</td><td>1</td></tr>
-                <tr><td>Galaxy</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/335ad9b8f6ca6e669346248f6fd9a06ed55f</td><td>1</td></tr>
+                <tr><td>calisha</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/</td><td>68686</td></tr>
+                <tr><td>Xulann_Pro</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/9b3cba0bb2a391848cc538e6b430c125f23a</td><td>55450</td></tr>
+                <tr><td>Keistaa</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/5d70b4b7700d87c25b11717ecc3e8cedd9cc</td><td>51809</td></tr>
+                <tr><td>QQB</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/a6e999e06fe2203bf287b62df39cca7f76dd</td><td>44483</td></tr>
+                <tr><td>NeVenZo</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/d6eeab07b9454c973d7cd403716c403cb4e5</td><td>42856</td></tr>
+                <tr><td>INNA</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/f16f2b5e066aa934e8dfc51f1fbd04df42c0</td><td>38586</td></tr>
+                <tr><td>DontTouchMe</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/de78eae212cb2c3fd4366c5585ba38d71552</td><td>38542</td></tr>
+                <tr><td>Kikutie</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/ad856809ccfabc8865830a8f45b4f8da89a8</td><td>35248</td></tr>
+                <tr><td>Akamehhh</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/c44643fbebb1a2cd02ac3175088600a08ba3</td><td>32648</td></tr>
+                <tr><td>books</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/c54207d4af0c613c1d682aba3474afcedac5</td><td>29278</td></tr>
+                <tr><td>EvikaEve</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/ade4af8aa111a11e1bfd019cb69c17832451</td><td>29273</td></tr>
+                <tr><td>sowft</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/c10ee4bdc12fe499985dac606dcba851a38d</td><td>27940</td></tr>
+                <tr><td>abdullahshah</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/ad6b29ac3e79521d60d17cffc6b24ef2e086</td><td>26138</td></tr>
+                <tr><td>4DA</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/89d9879c9f4eff0ea4784cf37b08da2212de</td><td>24382</td></tr>
+                <tr><td>Min</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/ec6a3dbfcac1f913f846c8901f5ed76ebc46</td><td>23931</td></tr>
+                <tr><td>Hitman</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/5b413ead61bc6963e90653e43b0e9f8103ac</td><td>22589</td></tr>
+                <tr><td>9u9</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/93fe23a056e38eba0d254211e3b481481d59</td><td>20359</td></tr>
+                <tr><td>Ivyara</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/b3151a30d32f47e1e0f42c1f2a6abee1e1d0</td><td>19835</td></tr>
+                <tr><td>Puru_12</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/75e28341f5c7c8dcf47ab0e02a0a604cfbf2</td><td>19542</td></tr>
+                <tr><td>Darktored</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/1285ec70add90e7b3f0e8f397046ca33b30b</td><td>19165</td></tr>
                 </tbody>
             </table>
         </div>
@@ -534,117 +348,26 @@ new MutationObserver(ms=>{for(const m of ms){if(m.type==='attributes'&&m.attribu
             <table id="wins-counter-weekly" class="table table-bordered table-upgraded">
                 <thead><tr><th class="w-50">Plato ID</th><th style="display:none">Pic URL</th><th class="w-50">Weekly Wins</th></tr></thead>
                 <tbody>
-                <tr><td>Darth_Deigo</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/</td><td>58</td></tr>
-                <tr><td>2bzzy4you</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/a897ae20fdf76a52a6091e53ca4ac513bb54</td><td>56</td></tr>
-                <tr><td>TREX</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/14a603f2d7e88a8201ae1bd97c86de953293</td><td>52</td></tr>
-                <tr><td>Eos3</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/f8b7823672b4b7687742f89f4b967594f5d7</td><td>47</td></tr>
-                <tr><td>azee77r</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/f31979e6e128ac1ad013f650464194c11711</td><td>36</td></tr>
-                <tr><td>zkzu</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/748b973d68a902ab57c24e00be246d322aaf</td><td>30</td></tr>
-                <tr><td>Reizuka</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/62c93eba20c8f55fbb0bedc3c7eabe65c56f</td><td>30</td></tr>
-                <tr><td>IINiaII</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/948d7c4c1affcf807b46abde2252ef95d25b</td><td>28</td></tr>
-                <tr><td>QQB</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/d26fbf72650404cb8a052c9dbd1851a6d323</td><td>25</td></tr>
-                <tr><td>terminatT800</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/d323707b802a36e098b79ed3ad4036befb82</td><td>22</td></tr>
-                <tr><td>lure</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/faf3dab79e3e9dc6ca308c0cb4b2d83bac0f</td><td>17</td></tr>
-                <tr><td>smary</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/6082ea41642eeeeb874c80be4afa7b430603</td><td>17</td></tr>
-                <tr><td>calisha</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/f9244b3c1c31f478ba5a39684c21c78bf8f8</td><td>15</td></tr>
-                <tr><td>Rd__Cr7</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/cd733e724a8d91b825fa1a7c8dd7a485ef68</td><td>13</td></tr>
-                <tr><td>Marwan0010</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/925205857d52ae08dfcfd83be74ac62bce55</td><td>12</td></tr>
-                <tr><td>Aura69</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/5a1cf5544c674dc0ed796a4441ea4f14f8ea</td><td>10</td></tr>
-                <tr><td>DramaQueen_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/4b1ab24455698b37b344135b7c61cca7e83b</td><td>9</td></tr>
-                <tr><td>AlXAM</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/1e0cf6bd5bd6321ee037f8eb474136d2725f</td><td>9</td></tr>
-                <tr><td>OP_MANGAL</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/500da580807271882286b18d3862062cabaa</td><td>7</td></tr>
-                <tr><td>Bladexe</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/f6d4c77666e565cd97953a40f0d53f9f8a33</td><td>7</td></tr>
-                <tr><td>Wytie</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/c7faf246f7d6f40476e3fe27480037dc06fb</td><td>6</td></tr>
-                <tr><td>kyIIu</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/40982380e05fe3d3f0f95deb9f5dcff62914</td><td>6</td></tr>
-                <tr><td>_israa_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/62cacde262bc6e0a77c2cf44bbf5b48ceff9</td><td>6</td></tr>
-                <tr><td>drew_house</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/ed93b3c8caa187b3578093321e072bb090fa</td><td>6</td></tr>
-                <tr><td>Acquae</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/b06175e4fbde3551b845ba29a1fe20575aec</td><td>5</td></tr>
-                <tr><td>voux</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/33a2f76bcc23f309c21744f8df7f86071e94</td><td>5</td></tr>
-                <tr><td>_HEW_hanim</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/ba3acac2496867c8c95907ee26cf765a225a</td><td>5</td></tr>
-                <tr><td>UnaMaracucha</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/e370493dfbd40399321a54e61871a8c82872</td><td>5</td></tr>
-                <tr><td>abdullahshah</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/a47d0b79daa86219e19cca8174e6b39f7a20</td><td>5</td></tr>
-                <tr><td>___Don</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/3829ddc226fd6f1e83b0867e926e0d1a0d38</td><td>5</td></tr>
-                <tr><td>Mari_Dee</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/7634860f7f1ef00b45b232a58cce06818cda</td><td>5</td></tr>
-                <tr><td>Kikutie</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/9709ea4a79a621e7afe3db6bdde65fd26b64</td><td>4</td></tr>
-                <tr><td>zenin_ghost</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/1c5fa4593b1899a45c8c18d8f84ab0c5bf0f</td><td>4</td></tr>
-                <tr><td>kingpinnnnnn</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/b3f526dbc1bf940762348041d675f6b9df25</td><td>4</td></tr>
-                <tr><td>_Alex_01_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/08fccc8616228ba716c39525510083a0adbd</td><td>4</td></tr>
-                <tr><td>DontTouchMe</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/ace4232ee2149d6fbe29eefb77a87f3ce306</td><td>4</td></tr>
-                <tr><td>Erimasero</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/45010e6c0bbc17bedd692771e85afe87fbe5</td><td>4</td></tr>
-                <tr><td>R_O_S_E_03</td><td style="display:none">https://plato-image-assets-prod.platocdn.com/user_avatars/user0.webp</td><td>3</td></tr>
-                <tr><td>BIades</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/104836a4358a7bea8b6ce1ba43cc32281407</td><td>3</td></tr>
-                <tr><td>_has</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/4ebceac0d529883d83e8689e931e6b3fc704</td><td>3</td></tr>
-                <tr><td>Icey</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/4ebcfe9e41ea215e638a907c83b1431d2379</td><td>3</td></tr>
-                <tr><td>reformnew64</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/a4c0325e768d81e8e177ce0cbc49707e99c9</td><td>3</td></tr>
-                <tr><td>IceQuinn</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/c69fa1494c6fddbc16670230634c4a4ca7db</td><td>3</td></tr>
-                <tr><td>mergecroak64</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/5cca5cd0d31c645effe5f2f768690f3d972e</td><td>3</td></tr>
-                <tr><td>niua</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/4da727c808d3f60f6ef79293aa101774fe0b</td><td>3</td></tr>
-                <tr><td>vow</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/e7e3c4bc6ba4fc108cd649c6c0fdcbfdd672</td><td>3</td></tr>
-                <tr><td>Ice_King_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/6d9ade5bc4eee981716930f537391b9fd131</td><td>3</td></tr>
-                <tr><td>RoseMarie_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/52c679109538ee14d3789d8954f0d8b070dc</td><td>3</td></tr>
-                <tr><td>HAGGAM</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/fdca3eb5291b68875a749f4a9193351a96b0</td><td>3</td></tr>
-                <tr><td>1HN0</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/0a4d88a968aff0c26c6282e3ab700b8b4ed3</td><td>2</td></tr>
-                <tr><td>Natsuko_90</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/c01022c84de1ed87914e7e7093c94f77d2ab</td><td>2</td></tr>
-                <tr><td>F4BZ</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/eb4319743e0a7ca08bf47d81a2aac3e6c660</td><td>2</td></tr>
-                <tr><td>FatherPIato</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/09f69d2515d5655c9c129a9199c281ca6c5c</td><td>2</td></tr>
-                <tr><td>janaqty</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/00025f050aa66931c4221005669c38c0224f</td><td>2</td></tr>
-                <tr><td>Toksyck</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/2a8828e64c9e734083c70f2ecd28272f9c6b</td><td>2</td></tr>
-                <tr><td>MasterSnide</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/e2182eb3d906b77de4da4530345a80ae6f8b</td><td>2</td></tr>
-                <tr><td>Rose786</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/7918b5b51a9a4115636675edc9cc134f84da</td><td>2</td></tr>
-                <tr><td>zrit</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/17afe40d0b726da99fc84899be6ff0a3a84e</td><td>2</td></tr>
-                <tr><td>EvikaEve</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/1441577aaae0c0113e19211fbc5f86ca18f8</td><td>2</td></tr>
-                <tr><td>_CALIX</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/1c58edc18b2886143e1deeb3c80494542926</td><td>2</td></tr>
-                <tr><td>Aksha_666</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/6726729ad076935665c03efc2ea9fe308710</td><td>2</td></tr>
-                <tr><td>OmidOne8</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/fe669e059b6f1b4368f99a30a29a47556758</td><td>2</td></tr>
-                <tr><td>Vaella</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/eacbed279f3b69e72b57760c3471bba669f4</td><td>2</td></tr>
-                <tr><td>veIkoz</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/fc82d5b760c33b058ad38c1796260fbc0108</td><td>2</td></tr>
-                <tr><td>459</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/693098d7774c4b63c25521212ed1b7b531a3</td><td>1</td></tr>
-                <tr><td>_caelum</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/5c2d68d5531f554c06a473e3d68474d80174</td><td>1</td></tr>
-                <tr><td>_Melz</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/0a6dae741f79d3e3b196ea3c738921076baa</td><td>1</td></tr>
-                <tr><td>_Nemy_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/9ed7a9cc25688d140834bcd23fcf4f013cda</td><td>1</td></tr>
-                <tr><td>_SHUCHI_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/b6dd8f969f42c50bf5c280b575d8025e64b1</td><td>1</td></tr>
-                <tr><td>Aladdin01</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/479c5f8dc4e4f0ade1ab43bdc797f5d18063</td><td>1</td></tr>
-                <tr><td>Ascender</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/ae7e0ac0531b7912499a20d42c2829a028f0</td><td>1</td></tr>
-                <tr><td>Celiiiinee</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/0ece99171527786b2794ea03a3b98dd05688</td><td>1</td></tr>
-                <tr><td>Frequency</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/6fdad24e3d9171ce3a94dd52814b3d8e7374</td><td>1</td></tr>
-                <tr><td>Goblin</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/33cc488ded54caddf287b878dac4e87acef5</td><td>1</td></tr>
-                <tr><td>Velnox</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/77056c8980869342402a2aea8733665c00d8</td><td>1</td></tr>
-                <tr><td>91s_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/49fe7e7957f1ec62183d937668cdf73fe55f</td><td>1</td></tr>
-                <tr><td>hewi</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/924bd62b951d042cd63eebc4407c51375542</td><td>1</td></tr>
-                <tr><td>iman81_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/d682910fce67cf23bd7f0f2bebea4cd3a5c4</td><td>1</td></tr>
-                <tr><td>inserver</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/22dacd15646adc6ad0feb8ef1daea7654cb2</td><td>1</td></tr>
-                <tr><td>laleia</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/a69d2d79691de22fe120ab8890ec80ceb6ae</td><td>1</td></tr>
-                <tr><td>mahdiyar30</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/dcb750bd9ef4facdafef174e56da60d80830</td><td>1</td></tr>
-                <tr><td>QueenyMeany</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/e7688558840ad68f67654ab018a18709df1a</td><td>1</td></tr>
-                <tr><td>Remynaytor</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/7635877d9add7a3722bb1ee1e490dc191d3a</td><td>1</td></tr>
-                <tr><td>shabnamma</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/f7c64d210fffa4f3f849685e588798fbd630</td><td>1</td></tr>
-                <tr><td>vezu</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/a47332218161d27037032c6da0940c84e7f1</td><td>1</td></tr>
-                <tr><td>4rju9</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/2d97046d3de5a88cd9bd7c4457728e75c35d</td><td>1</td></tr>
-                <tr><td>copethor</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/b59c8b3ad8c9ed2901ba7323de584839d4dc</td><td>1</td></tr>
-                <tr><td>Hitman</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/5b413ead61bc6963e90653e43b0e9f8103ac</td><td>1</td></tr>
-                <tr><td>IbN_eL_aRaBi</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/d77d0b91aa70fb1fc9e0874f62017e1a28b0</td><td>1</td></tr>
-                <tr><td>lale</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/4cd656833f1a244ea3662d63ac117b92b2d9</td><td>1</td></tr>
-                <tr><td>Leela__14</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/f4414cf396d58e050420154ee29822fb0d03</td><td>1</td></tr>
-                <tr><td>M2M</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/0f1eed65f846e573ed2957d80bbddf482e5a</td><td>1</td></tr>
-                <tr><td>otakkish</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/ab5774ba69657a3d73fe75e03f4215033bb1</td><td>1</td></tr>
-                <tr><td>Zahra83</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/226adfb117738e5455c369edd2dd8f5e5696</td><td>1</td></tr>
-                <tr><td>Ameer_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/97259caf52b983e2f9de688d119e08cfe9d2</td><td>1</td></tr>
-                <tr><td>hiffuu</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/09ecacddd0c72c66bd258fb566e38d93c995</td><td>1</td></tr>
-                <tr><td>hnisssss</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/cf8777efa21b925685af7ce322dc552201f5</td><td>1</td></tr>
-                <tr><td>liuve</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/9985004b14f2456d0232c9e8f14d34450d3f</td><td>1</td></tr>
-                <tr><td>NeVenZo</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/d6eeab07b9454c973d7cd403716c403cb4e5</td><td>1</td></tr>
-                <tr><td>Tabasom25</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/abc944be670ce7936aece8d05fa956cb5252</td><td>1</td></tr>
-                <tr><td>yutortuga</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/87eaf6d509ab4d57e89d1ee346a787fc684a</td><td>1</td></tr>
-                <tr><td>Endity</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/5c315cb494569efea7fd807a1b52e9e1150e</td><td>1</td></tr>
-                <tr><td>rowwoon</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/b1a9bced06d9791532ba2cd5e04e1f0f81c8</td><td>1</td></tr>
-                <tr><td>DRAXUN</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/d4340fa67e292d93f866c0a1c943fb3c25ff</td><td>1</td></tr>
-                <tr><td>Kashu__</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/a21bbe510ce2d4a754f723e9fcde3bd0b499</td><td>1</td></tr>
-                <tr><td>klovn</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/1c826f93b5fe19679cc931e6154d46f4f81a</td><td>1</td></tr>
-                <tr><td>capmear44</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/8eae1a76fdd70cc7a5213caa16b8ecde2b51</td><td>1</td></tr>
-                <tr><td>smilezzzz</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/d8d9229844baf13d9715aa6b0b993221c09c</td><td>1</td></tr>
-                <tr><td>JojoZen</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/73fbf660caf10bd31a310d2ed100680804d9</td><td>1</td></tr>
-                <tr><td>_LAC_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/2677ccd92b7d5ec43c769debbb7c942ae11b</td><td>1</td></tr>
-                <tr><td>Galaxy</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/335ad9b8f6ca6e669346248f6fd9a06ed55f</td><td>1</td></tr>
+                <tr><td>Mari_Dee</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/6d6925a8d1e103594003751a023ec95abf0f</td><td>56</td></tr>
+                <tr><td>vmyi</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/c773ebdc09349704cf0ffaaefeae669b5191</td><td>29</td></tr>
+                <tr><td>_kyraa_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/18daefc470f4d8af953e180036bccd86bd33</td><td>29</td></tr>
+                <tr><td>___Don</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/3829ddc226fd6f1e83b0867e926e0d1a0d38</td><td>21</td></tr>
+                <tr><td>Eunoir</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/f02e277fdebfd1a8df59ea60026c62807664</td><td>20</td></tr>
+                <tr><td>ius</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/3cbad584828bc47722ab1762b1ef6dd5e393</td><td>19</td></tr>
+                <tr><td>labeeba</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/f42f1dbcbf6644f528ca9390ae8134ca51a5</td><td>17</td></tr>
+                <tr><td>Darth_Deigo</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/e9484e14f0ea6833f71ecb8b630e61df08de</td><td>15</td></tr>
+                <tr><td>Andrheaa</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/b42f6a0f27a46a0a49b922dfbeea7af9a6c6</td><td>13</td></tr>
+                <tr><td>calisha</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/bc48e6a77efd0f00e4b2b917597f86de54ce</td><td>12</td></tr>
+                <tr><td>CUBEN0T7</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/52113fa51886ad32a11088da16193cd288e3</td><td>10</td></tr>
+                <tr><td>olar</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/fcb50feb5a216b61c8eda51d7692ce1c1181</td><td>10</td></tr>
+                <tr><td>azee77r</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/8ee83d94f08b9b563d63b6c209dc91d0a208</td><td>10</td></tr>
+                <tr><td>zriele</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/9e3b569fe51573649648be67178b574976c8</td><td>9</td></tr>
+                <tr><td>IAMR</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/ca70ab0a7aafaa3ba21d7c04d4e77a7c3be3</td><td>9</td></tr>
+                <tr><td>Rose786</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/7918b5b51a9a4115636675edc9cc134f84da</td><td>8</td></tr>
+                <tr><td>syIle</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/552f7b723caad7d93b91616dee8cebffcad6</td><td>8</td></tr>
+                <tr><td>ArcadeBot</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/653210002b84fc4f9a83eff6d75b26d17c54</td><td>8</td></tr>
+                <tr><td>Ever13</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/2ff7d94811828327a39596c944d12aaaf80b</td><td>7</td></tr>
+                <tr><td>hnisssss</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/cf8777efa21b925685af7ce322dc552201f5</td><td>7</td></tr>
                 </tbody>
             </table>
         </div>
@@ -665,7 +388,7 @@ new MutationObserver(ms=>{for(const m of ms){if(m.type==='attributes'&&m.attribu
     <div class="thumbnail-wrapper"><img class="thumbnail" src="/docs/assets/images/groups/arcade/risk.png" alt="Risk"><div class="username">Risk</div><div class="description">Lives up to the name. Bold and unpredictable, the wild card every team needs</div></div>
 </div>
 
-<div class="gradient-block g-3" role="note"><p class="shoutout">A big shout-out to the rest of our Team: <strong>4DA, abc, Akamehhh, alqubaisi, Arts, Aura, DarkEstrela, Diem17, esthell, Frequency, Galaxy, Kikutie, Mdame, Mellisssaaa, Nefya, pink1tty, Qear, Spring, Trolledyou, YR_</strong></p></div>
+<div class="gradient-block g-3" role="note"><p class="shoutout">A big shout-out to the rest of our Team: <strong>4DA, abc, Akamehhh, alqubaisi, Arts, Aura, DarkEstrela, Diem17, esthell, Frequency, Galaxy, Kikutie, Mdame, Mellisssaaa, Nefya, pink1tty, Qear, Spring, Trolledyou, YR_, Test</strong></p></div>
 <div class="linebreak"></div>
 
 <!-- ========================= Scripts ========================= -->
@@ -719,16 +442,15 @@ new MutationObserver(ms=>{for(const m of ms){if(m.type==='attributes'&&m.attribu
     (()=>{const imgs=[...document.querySelectorAll('img.avatar, img.thumbnail')];if(!imgs.length)return;
     imgs.forEach(img=>{const show=()=>img.classList.add('is-visible');if(img.complete&&img.naturalWidth>0){requestAnimationFrame(()=>requestAnimationFrame(show));}else{img.addEventListener('load',show,{once:true});img.addEventListener('error',show,{once:true});}});})();
 
-    /* ========== Content image: anti-download ========== */
-    (()=>{document.querySelectorAll('.content-image img').forEach(img=>{img.setAttribute('draggable','false');img.addEventListener('dragstart',e=>e.preventDefault());img.addEventListener('contextmenu',e=>{e.preventDefault();return false;});img.parentElement?.addEventListener('contextmenu',e=>{e.preventDefault();return false;},{capture:true});});})();
+    /* ========== Content image: lazy + fade-in (min shimmer, no timeout) ========== */
+    (()=>{const nodes=document.querySelectorAll('.content-image');if(!nodes.length)return;const MIN=500;
+    const load=el=>{if(el.dataset.ciLoaded==='1')return;const url=el.getAttribute('data-url');if(!url)return;const w=el.getAttribute('data-width');if(w){el.style.maxWidth=w;el.style.margin='0 auto';}
+    const t0=performance.now(),img=new Image();let done=0;const finish=()=>{if(done++)return;const wait=Math.max(0,MIN-(performance.now()-t0));setTimeout(()=>{el.innerHTML='';el.appendChild(img);el.dataset.ciLoaded='1';requestAnimationFrame(()=>{void img.offsetWidth;requestAnimationFrame(()=>el.classList.add('ci-loaded'));});},wait)};
+    img.onload=finish;img.onerror=finish;img.decoding='async';img.alt=el.getAttribute('data-label')||'';img.setAttribute('draggable','false');img.addEventListener('dragstart',e=>e.preventDefault());img.addEventListener('contextmenu',e=>{e.preventDefault();return false;});el.addEventListener('contextmenu',e=>{e.preventDefault();return false;},{capture:true});img.src=url;};
+    if('IntersectionObserver'in window){const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){load(e.target);io.unobserve(e.target);}})},{rootMargin:'400px'});nodes.forEach(el=>{if(el.dataset.ciInit==='1')return;el.dataset.ciInit='1';io.observe(el);});}else{nodes.forEach(load);}})();
 
-    /* ========== Team thumbnails: anti-download ========== */
+    /* ========== Block save/long-press on team thumbnails ========== */
     (()=>{const grid=document.querySelector('.thumbnail-grid');if(!grid)return;grid.addEventListener('contextmenu',e=>{e.preventDefault();return false;});grid.querySelectorAll('img.thumbnail').forEach(img=>{img.setAttribute('draggable','false');img.addEventListener('dragstart',e=>e.preventDefault());});})();
-
-    /* ========== Missing-image (thumbs + podium + content-image) ========== */
-    (()=>{const BLANK='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
-    const mark=i=>{const isContent=!!i.closest('.content-image');const host=i.closest('.content-image')||i.closest('.thumbnail-wrapper')||i.closest('.podium-card')||i;host.classList.add('is-missing');i.classList.add('is-missing');if(isContent){i.style.opacity='0';}else{i.src=BLANK;}};
-    document.querySelectorAll('img.thumbnail,.podium-card .avatar,.content-image img').forEach(i=>{if(!i.getAttribute('src')){mark(i);return}if(i.complete){if(i.naturalWidth===0)mark(i)}else{i.addEventListener('error',()=>mark(i),{once:true})}})})();
 
     /* ========== Title chips wrapper ========== */
     (()=>{document.querySelectorAll('h2,h3').forEach(h=>{if(h.querySelector('.title-chip'))return;const chip=document.createElement('span');chip.className='title-chip';const text=document.createElement('span');text.className='title-text';while(h.firstChild)text.appendChild(h.firstChild);chip.appendChild(text);h.appendChild(chip);});})();
@@ -741,14 +463,6 @@ new MutationObserver(ms=>{for(const m of ms){if(m.type==='attributes'&&m.attribu
     /* ========== Pagination: edges-only ========== */
     (()=>{const seen=new WeakSet,show=p=>{const n=[...p.querySelectorAll('.page-item')].filter(li=>/^\d+$/.test(li.textContent.trim()));if(n.length<2)return;const L=+(n[n.length-1].textContent)||1,C=+((p.querySelector('.page-item.active')||n[0]).textContent)||1,K=new Set(C<=3?[1,2,3,L]:C>=L-2?[1,L-2,L-1,L]:[1,C,L]);n.forEach(li=>li.style.display=K.has(+li.textContent)?'':'none')},bind=p=>{if(seen.has(p))return;seen.add(p);show(p);p.addEventListener('click',()=>setTimeout(()=>show(p),0),{passive:true})};const scan=()=>document.querySelectorAll('.pagination').forEach(bind);new MutationObserver(scan).observe(document.body,{childList:true,subtree:true});scan()})();
 
-    /* ========== Pad tables to 10 rows ========== */
-    (()=>{document.querySelectorAll('table.table-upgraded').forEach(t=>{const b=t.tBodies[0];if(!b)return;const size=10,cols=(t.tHead?.rows[0]?.cells.length)||(b.rows[0]?.cells.length)||1;let ticking=0;
-    const pad=()=>{ticking=0;let real=0,pads=[];for(const r of b.rows){if(r.classList.contains('pad'))pads.push(r);else real++;}const need=Math.max(0,size-real),have=pads.length;
-    if(have>need)pads.slice(0,have-need).forEach(r=>r.remove());
-    if(have<need){const f=document.createDocumentFragment();for(let i=have;i<need;i++){const tr=document.createElement('tr');tr.className='pad';tr.setAttribute('aria-hidden','true');tr.style.visibility='hidden';const td=document.createElement('td');td.colSpan=cols;td.innerHTML='&nbsp;';tr.appendChild(td);f.appendChild(tr);}b.appendChild(f);}};
-    const schedule=()=>{if(!ticking){ticking=1;requestAnimationFrame(pad)}};
-    new MutationObserver(schedule).observe(b,{childList:true,subtree:false});pad();});})();
-
     /* ========== Unified last-updated date ========== */
-    (()=>{const LAST_UPDATED="15/08/25";document.querySelectorAll('[data-updated]').forEach(el=>el.textContent=LAST_UPDATED);})();
+    (()=>{const LAST_UPDATED="08/08/25";document.querySelectorAll('[data-updated]').forEach(el=>el.textContent=LAST_UPDATED);})();
 </script>
