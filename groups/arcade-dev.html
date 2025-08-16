@@ -121,10 +121,6 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .pagination .page-item:has(.page-link[aria-label="Previous"]),
     .pagination .page-item:has(.page-link[aria-label="Next"]){order:2;flex:0 0 auto;margin-top:0}
 
-    /* Gate images so broken icon never flashes */
-    img.avatar, img.thumbnail, .content-image img { visibility:hidden; }
-    img.is-visible { visibility:visible; }
-
     /* ========== Fade-in (avatars + thumbnails) ========== */
     img.avatar,img.thumbnail{opacity:0;transform:scale(1.01);transition:opacity .35s ease,transform .35s ease}
     img.avatar.is-visible,img.thumbnail.is-visible{opacity:1;transform:none}
@@ -1501,3 +1497,4 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     /* ========== Unified last-updated date ========== */
     (()=>{const LAST_UPDATED="15/08/25";document.querySelectorAll('[data-updated]').forEach(el=>el.textContent=LAST_UPDATED);})();
 </script>
+
