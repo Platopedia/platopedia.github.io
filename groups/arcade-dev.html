@@ -144,15 +144,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .content-table{overflow-x:visible}
     .gradient-block.g-4,.gradient-block.g-4 :where(p,span,div,strong,em,b,small,a){white-space:normal;overflow-wrap:anywhere;word-break:break-word;hyphens:auto;-webkit-hyphens:auto}
 </style>
-<script>(()=>{const Q="img.thumbnail,.podium-card .avatar,.podium-card img,.content-image img",BLANK="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
-const mark=el=>{const box=el.closest&&el.closest('.content-image');if(box){box.classList.add('is-missing');if(el instanceof HTMLImageElement)el.style.opacity='0';return}el.classList.add('is-missing');if(el instanceof HTMLImageElement){el.removeAttribute('srcset');el.removeAttribute('sizes');el.src=BLANK}};
-const check=el=>{if(!(el instanceof Element))return; if(el instanceof HTMLImageElement){const s=el.getAttribute('src');if(!s||/^\s*$/.test(s)){mark(el);return}if(el.complete){if(el.naturalWidth===0)mark(el)}else{el.addEventListener('error',()=>mark(el),{once:true})}}
-else{ // non-IMG avatar nodes (defensive)
-  const bg=getComputedStyle(el).backgroundImage; if(!bg||bg==='none')mark(el);
-}};
-const scan=root=>{root.querySelectorAll?root.querySelectorAll(Q).forEach(check):null};
-scan(document);
-new MutationObserver(ms=>{for(const m of ms){if(m.type==='attributes'&&m.attributeName==='src'&&m.target.matches&&m.target.matches(Q))check(m.target);m.addedNodes&&m.addedNodes.forEach(n=>{if(n.nodeType!==1)return; if(n.matches&&n.matches(Q))check(n); n.querySelectorAll&&n.querySelectorAll(Q).forEach(check);});}}).observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['src']});})();</script>
+<script>(()=>{const Q="img.thumbnail,.podium-card img.avatar,.podium-card .avatar,img.podium, .content-image img",BLANK="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";const shimmerOn=i=>{const box=i.closest&&i.closest('.content-image');if(box){box.classList.add('is-missing');if(i instanceof HTMLImageElement)i.style.opacity='0';return}i.classList.add('is-missing');if(i instanceof HTMLImageElement){i.removeAttribute('srcset');i.removeAttribute('sizes');if(!i.getAttribute('src'))i.src=BLANK}};const assess=i=>{if(!(i instanceof HTMLImageElement))return;const s=i.getAttribute('src')||'';if(!s.trim()){shimmerOn(i);return}if(i.complete){if((i.naturalWidth|0)<=1||(i.naturalHeight|0)<=1)shimmerOn(i)}else{i.addEventListener('error',()=>shimmerOn(i),{once:true});i.addEventListener('load',()=>{if((i.naturalWidth|0)<=1||(i.naturalHeight|0)<=1)shimmerOn(i)},{once:true})}};document.querySelectorAll(Q).forEach(assess);new MutationObserver(ms=>{for(const m of ms){if(m.type==='attributes'&&m.attributeName==='src'&&m.target.matches&&m.target.matches(Q))assess(m.target);m.addedNodes&&m.addedNodes.forEach(n=>{if(n.nodeType!==1)return;if(n.matches&&n.matches(Q))assess(n);n.querySelectorAll&&n.querySelectorAll(Q).forEach(assess);});}}).observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['src']});})()</script>
 
 <!-- ========================= Content ========================= -->
 
