@@ -19,12 +19,6 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     html,body{max-width:100%;overflow-x:hidden}
     :where(.thumbnail-grid,.podium,.stats-grid,.nav.nav-pills.nav-content,.pagination,.content-table)>*{min-width:0}
     :where(h1,h2,h3,h4,h5,h6,p,li,a,span,.content-link){overflow-wrap:anywhere;word-break:break-word}
-    /* Put this high in the <head> so it applies before first paint */
-img.avatar, img.thumbnail, .content-image img { opacity:0 }         /* hidden by default */
-img.is-visible { opacity:1 }                                       /* reveal only on load */
-.podium-card.is-missing .avatar,
-.thumbnail-wrapper.is-missing .thumbnail,
-.content-image.is-missing img { opacity:0 !important }             /* stay hidden on error */
 
     /* ========== Titles / Chips ========== */
     h2,h3{margin:0 0 6px 0!important;line-height:1.15}
@@ -133,7 +127,8 @@ img.is-visible { opacity:1 }                                       /* reveal onl
 
     /* ========== Content Images ========== */
     .content-image{position:relative;display:flex;align-items:center;justify-content:center;border-radius:12px;overflow:hidden;width:100%;max-width:var(--ci-w,100%);aspect-ratio:var(--ci-ar,auto);margin:0 auto;transition:transform .25s ease}
-    .content-image img{display:block;max-width:100%;max-height:100%;height:auto;-webkit-user-drag:none;user-drag:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;pointer-events:none}
+    .content-image img{display:block;max-width:100%;max-height:100%;height:auto;opacity:0;transition:none;-webkit-user-drag:none;user-drag:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;pointer-events:none}
+    .content-image img.is-visible{opacity:1}    
     .content-image:hover{transform:translateY(-4px) scale(1.03)} .content-image:active{transform:translateY(0) scale(1)}
 
     /* ========== Missing Images ========== */
@@ -1476,24 +1471,10 @@ img.is-visible { opacity:1 }                                       /* reveal onl
     /* ========== Team thumbnails: anti-download ========== */
     (()=>{const grid=document.querySelector('.thumbnail-grid');if(!grid)return;grid.addEventListener('contextmenu',e=>{e.preventDefault();return false;});grid.querySelectorAll('img.thumbnail').forEach(img=>{img.setAttribute('draggable','false');img.addEventListener('dragstart',e=>e.preventDefault());});})();
 
-
-
-/* Hide icon + shimmer wrapper on error, reveal on load */
-(()=>{const SEL='img.thumbnail,.podium-card .avatar,.content-image img',
-H=i=>i.closest('.content-image,.thumbnail-wrapper,.podium-card'),
-BLANK='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
-document.querySelectorAll(SEL).forEach(i=>{
-  i.setAttribute('decoding','async');
-  const show=()=>{ i.classList.add('is-visible'); H(i)?.classList.remove('is-missing'); };
-  const miss=()=>{ const h=H(i); if(!h) return; h.classList.add('is-missing'); i.classList.remove('is-visible');
-                   if(!i.closest('.content-image')) i.src=BLANK; /* thumbnails/podium: swap pixel to suppress icon */ };
-  if(!(i.getAttribute('src')||i.getAttribute('srcset'))) { miss(); return; }
-  i.addEventListener('load',  show, {once:true});
-  i.addEventListener('error', miss, {once:true});
-  if (i.complete) (i.naturalWidth>0?show:miss)();
-});})();
-
-
+    /* ========== Missing-image shimmer (thumbs + podium + content-image) ========== */
+    (()=>{const BLANK='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
+    const mark=i=>{const isContent=!!i.closest('.content-image');const host=i.closest('.content-image')||i.closest('.thumbnail-wrapper')||i.closest('.podium-card')||i;host.classList.add('is-missing');i.classList.add('is-missing');if(isContent){i.style.opacity='0';}else{i.src=BLANK;}};
+    document.querySelectorAll('img.thumbnail,.podium-card .avatar,.content-image img').forEach(i=>{if(!i.getAttribute('src')){mark(i);return}if(i.complete){if(i.naturalWidth===0)mark(i)}else{i.addEventListener('error',()=>mark(i),{once:true})}})})();
 
     /* ========== Title chips wrapper ========== */
     (()=>{document.querySelectorAll('h2,h3').forEach(h=>{if(h.querySelector('.title-chip'))return;const chip=document.createElement('span');chip.className='title-chip';const text=document.createElement('span');text.className='title-text';while(h.firstChild)text.appendChild(h.firstChild);chip.appendChild(text);h.appendChild(chip);});})();
