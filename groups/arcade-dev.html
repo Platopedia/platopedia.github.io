@@ -39,7 +39,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
     /* ========== Team Grid ========== */
     .thumbnail-grid{display:flex;flex-wrap:wrap;justify-content:center;width:100%;gap:16px}
-    .thumbnail-wrapper{font-family:monospace;width:45%;margin-bottom:15px;text-align:center;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(0,0,0,.06));border:1px solid var(--color-B);border-radius:16px;padding:14px 8px 18px;box-shadow:0 8px 18px rgba(0,0,0,.18);transition:transform .18s ease,box-shadow .18s ease}
+    .thumbnail-wrapper{position:relative;font-family:monospace;width:45%;margin-bottom:15px;text-align:center;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(0,0,0,.06));border:1px solid var(--color-B);border-radius:16px;padding:14px 8px 18px;box-shadow:0 8px 18px rgba(0,0,0,.18);transition:transform .18s ease,box-shadow .18s ease}
     .thumbnail-wrapper:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 16px 28px rgba(0,0,0,.28)}
     .thumbnail-wrapper:active{transform:translateY(0) scale(1);box-shadow:0 8px 18px rgba(0,0,0,.18)}
     .thumbnail-wrapper .username,.thumbnail-wrapper .description{pointer-events:none}
@@ -122,8 +122,8 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .pagination .page-item:has(.page-link[aria-label="Next"]){order:2;flex:0 0 auto;margin-top:0}
 
     /* ========== Image reveal (avatars + thumbnails) ========== */
-    /* Disabled so it doesn't hide or fight the missing-image shimmer */
-    img.avatar,img.thumbnail{opacity:1;transform:none;transition:none}
+    img.avatar,img.thumbnail{opacity:0;transform:scale(1.01);transition:opacity .35s ease,transform .35s ease}
+    img.avatar.is-visible,img.thumbnail.is-visible{opacity:1;transform:none}
 
     /* ========== Content Images ========== */
     .content-image{position:relative;display:flex;align-items:center;justify-content:center;border-radius:12px;overflow:hidden;width:100%;max-width:var(--ci-w,100%);aspect-ratio:var(--ci-ar,auto);margin:0 auto;transition:transform .25s ease}
@@ -132,21 +132,16 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
     /* ========== Missing-image ========== */
     @keyframes missSh{from{background-position:200% 0}to{background-position:-200% 0}}
-.content-image.is-missing{background:linear-gradient(90deg,var(--ci-sh1),var(--ci-sh2),var(--ci-sh1));background-size:200% 100%;animation:missSh 1.1s linear infinite}
-.content-image.is-missing img{opacity:0!important}
-/* Thumbs & podium avatars: shimmer on the element itself */
-
-.thumbnail.is-missing,
-.podium-card .avatar.is-missing,
-.podium-card img.is-missing{display:block;position:relative;background:linear-gradient(90deg,var(--ci-sh1),var(--ci-sh2),var(--ci-sh1));background-size:200% 100%;background-repeat:no-repeat;animation:missSh 1.1s linear infinite;opacity:1!important}
-/* Podium avatar wrapper using content-image */.podium-card .ci-avatar{width:64px;height:64px;border-radius:50%;overflow:hidden;border:2px solid rgba(0,0,0,.12);box-shadow:0 0 0 3px var(--ring,#999),0 0 0 6px rgba(0,0,0,.06)}.podium-card .ci-avatar,.podium-card .ci-avatar:hover{transform:none}.podium-card .ci-avatar.is-missing{background:linear-gradient(90deg,var(--ci-sh1),var(--ci-sh2),var(--ci-sh1));background-size:200% 100%;animation:missSh 1.1s linear infinite}.podium-card .ci-avatar .avatar{width:100%!important;height:100%!important;border:0!important;box-shadow:none!important;border-radius:50%;object-fit:cover}@media(min-width:768px){.podium-card .ci-avatar{width:90px;height:90px}}/* Team thumbnails: shimmer on wrapper via pseudo; hide broken img */.thumbnail-wrapper.is-missing{position:relative;overflow:hidden}.thumbnail-wrapper.is-missing .thumbnail{opacity:0!important}.thumbnail-wrapper.is-missing::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,var(--ci-sh1),var(--ci-sh2),var(--ci-sh1));background-size:200% 100%;animation:missSh 1.1s linear infinite;border-radius:inherit}
+    .content-image.is-missing{background:linear-gradient(90deg,var(--ci-sh1),var(--ci-sh2),var(--ci-sh1));background-size:200% 100%;animation:missSh 1.1s linear infinite}
+    .content-image.is-missing img{opacity:0!important}
+    .thumbnail-wrapper.is-missing,.podium-card.is-missing{background:linear-gradient(90deg,var(--ci-sh1),var(--ci-sh2),var(--ci-sh1));background-size:200% 100%;animation:missSh 1.1s linear infinite}
+    .thumbnail-wrapper.is-missing .thumbnail,.podium-card.is-missing .avatar{opacity:0!important}
 
     /* ========== Width / Links / Tables minor ========== */
     .content-link,.content-link a{max-width:100%;overflow-wrap:anywhere;word-break:break-word}
     .content-table{overflow-x:visible}
     .gradient-block.g-4,.gradient-block.g-4 :where(p,span,div,strong,em,b,small,a){white-space:normal;overflow-wrap:anywhere;word-break:break-word;hyphens:auto;-webkit-hyphens:auto}
 </style>
-<script>(()=>{const Q="img.thumbnail,.podium-card img.avatar,.podium-card .avatar,img.podium, .content-image img",BLANK="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";const shimmerOn=i=>{const box=i.closest&&i.closest('.content-image');if(box){box.classList.add('is-missing');if(i instanceof HTMLImageElement)i.style.opacity='0';return}i.classList.add('is-missing');if(i instanceof HTMLImageElement){i.removeAttribute('srcset');i.removeAttribute('sizes');if(!i.getAttribute('src'))i.src=BLANK}};const assess=i=>{if(!(i instanceof HTMLImageElement))return;const s=i.getAttribute('src')||'';if(!s.trim()){shimmerOn(i);return}if(i.complete){if((i.naturalWidth|0)<=1||(i.naturalHeight|0)<=1)shimmerOn(i)}else{i.addEventListener('error',()=>shimmerOn(i),{once:true});i.addEventListener('load',()=>{if((i.naturalWidth|0)<=1||(i.naturalHeight|0)<=1)shimmerOn(i)},{once:true})}};document.querySelectorAll(Q).forEach(assess);new MutationObserver(ms=>{for(const m of ms){if(m.type==='attributes'&&m.attributeName==='src'&&m.target.matches&&m.target.matches(Q))assess(m.target);m.addedNodes&&m.addedNodes.forEach(n=>{if(n.nodeType!==1)return;if(n.matches&&n.matches(Q))assess(n);n.querySelectorAll&&n.querySelectorAll(Q).forEach(assess);});}}).observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['src']});})()</script>
 
 <!-- ========================= Content ========================= -->
 
@@ -528,7 +523,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
             <table id="wins-counter-weekly" class="table table-bordered table-upgraded">
                 <thead><tr><th class="w-50">Plato ID</th><th style="display:none">Pic URL</th><th class="w-50">Weekly Wins</th></tr></thead>
                 <tbody>
-                <tr><td>Darth_Deigo</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/</td><td>58</td></tr>
+                <tr><td>Darth_Deigo</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/e9484e14f0ea6833f71ecb8b630e61df08de</td><td>58</td></tr>
                 <tr><td>2bzzy4you</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/a897ae20fdf76a52a6091e53ca4ac513bb54</td><td>56</td></tr>
                 <tr><td>TREX</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/14a603f2d7e88a8201ae1bd97c86de953293</td><td>52</td></tr>
                 <tr><td>Eos3</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/f8b7823672b4b7687742f89f4b967594f5d7</td><td>47</td></tr>
@@ -650,7 +645,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 <!-- Team -->
 <h2 id="our-team">Our Team</h2>
 <div class="thumbnail-grid">
-    <div class="thumbnail-wrapper"><img class="thumbnail" src="/docs/assets/images/groups/arcade/roses.png" alt="Rose"><div class="username">Rose</div><div class="description">Our boss and leader, truly one of a kind. Just don't push her buttons</div></div>
+    <div class="thumbnail-wrapper"><img class="thumbnail" src="/docs/assets/images/groups/arcade/rose.png" alt="Rose"><div class="username">Rose</div><div class="description">Our boss and leader, truly one of a kind. Just don't push her buttons</div></div>
     <div class="thumbnail-wrapper"><img class="thumbnail" src="/docs/assets/images/groups/arcade/fear.png" alt="Fear"><div class="username">Fear</div><div class="description">Strange specimen who tends to hide from his own group, incredibly generous though</div></div>
     <div class="thumbnail-wrapper"><img class="thumbnail" src="/docs/assets/images/groups/arcade/hitman.png" alt="Hitman"><div class="username">Hitman</div><div class="description">If you're looking for the definition of loyalty, you'll find his name in the dictionary</div></div>
     <div class="thumbnail-wrapper"><img class="thumbnail" src="/docs/assets/images/groups/arcade/fairy.png" alt="Fairy"><div class="username">Fairy</div><div class="description">Just like her username, she's sweet, helpful, and has supported us since day one</div></div>
@@ -704,7 +699,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       /* Generic podium renderer — any .podium[data-table] */
       (()=>{const isHttpUrl=s=>/^https?:\/\//.test(String(s||''));function renderFromTable(table,host){if(!(table&&table.tBodies&&table.tBodies[0]&&host))return;const provided=(host.getAttribute('data-images')||'').split(',').map(s=>s.trim()).filter(Boolean);const rows=Array.from(table.tBodies[0].rows).slice(0,3);
       const items=rows.map((r,i)=>{const name=(r.cells[0]?.textContent||'').trim();let pic=provided[i]||(r.cells[1]?.textContent||'').trim();if(!isHttpUrl(pic)){for(let c=0;c<r.cells.length;c++){const t=(r.cells[c]?.textContent||'').trim();if(isHttpUrl(t)){pic=t;break;}}}const countCell=r.cells[r.cells.length-1];const count=num(countCell?countCell.textContent:0);return{rank:i+1,name,pic,count};}).filter(x=>isHttpUrl(x.pic));
-      host.innerHTML=items.map(({rank,name,pic,count})=>`<div class="podium-card rank-${rank}"><div class="content-image ci-avatar"><img class="avatar" src="${pic}" alt="${name}'s avatar"></div><div class="name">${name}</div><div class="score">${count.toLocaleString()}</div></div>`).join('');
+      host.innerHTML=items.map(({rank,name,pic,count})=>`<div class="podium-card rank-${rank}"><img class="avatar" src="${pic}" alt="${name}'s avatar"/><div class="name">${name}</div><div class="score">${count.toLocaleString()}</div></div>`).join('');
       /* Anti-download on podiums */host.addEventListener('contextmenu',e=>{e.preventDefault();return false;});host.querySelectorAll('.podium-card .avatar').forEach(img=>{img.setAttribute('draggable','false');img.addEventListener('dragstart',e=>e.preventDefault());});}
       document.querySelectorAll('.podium[data-table]').forEach(host=>{const tableId=host.getAttribute('data-table');const table=document.getElementById(tableId);renderFromTable(table,host);});})();
     }catch(e){console.error('[stats]',e);}})();
