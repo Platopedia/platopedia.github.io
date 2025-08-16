@@ -403,7 +403,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
             <table id="message-counter-weekly" class="table table-bordered table-upgraded">
                 <thead><tr><th class="w-50">Plato ID</th><th style="display:none">Pic URL</th><th class="w-50">Weekly Count</th></tr></thead>
                 <tbody>
-<tr><td>Keistaa</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/</td><td>5274</td></tr>
+<tr><td>Keistaa</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/b14973f4ac78f8d747a881e2f6113b1057d0</td><td>5274</td></tr>
 <tr><td>QQB</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/d26fbf72650404cb8a052c9dbd1851a6d323</td><td>3865</td></tr>
 <tr><td>abdullahshah</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/a47d0b79daa86219e19cca8174e6b39f7a20</td><td>3410</td></tr>
 <tr><td>Aura69</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/5a1cf5544c674dc0ed796a4441ea4f14f8ea</td><td>2772</td></tr>
@@ -1470,10 +1470,10 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     /* ========== Team thumbnails: anti-download ========== */
     (()=>{const grid=document.querySelector('.thumbnail-grid');if(!grid)return;grid.addEventListener('contextmenu',e=>{e.preventDefault();return false;});grid.querySelectorAll('img.thumbnail').forEach(img=>{img.setAttribute('draggable','false');img.addEventListener('dragstart',e=>e.preventDefault());});})();
 
-    /* ========== Missing-image shimmer (thumbs + podium + content-image) ========== */
-    (()=>{const BLANK='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
-    const mark=i=>{const isContent=!!i.closest('.content-image');const host=i.closest('.content-image')||i.closest('.thumbnail-wrapper')||i.closest('.podium-card')||i;host.classList.add('is-missing');i.classList.add('is-missing');if(isContent){i.style.opacity='0';}else{i.src=BLANK;}};
-    document.querySelectorAll('img.thumbnail,.podium-card .avatar,.content-image img').forEach(i=>{if(!i.getAttribute('src')){mark(i);return}if(i.complete){if(i.naturalWidth===0)mark(i)}else{i.addEventListener('error',()=>mark(i),{once:true})}})})();
+(()=>{const BLANK='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==',SEL='img.thumbnail,.podium-card .avatar,.content-image img',host=i=>i.closest('.content-image,.thumbnail-wrapper,.podium-card')||i,isBlank=s=>String(s||'').startsWith('data:image/gif;base64,R0lGODlhAQABA'),mark=i=>{const c=i.closest('.content-image');host(i).classList.add('is-missing');i.classList.add('is-missing');c?i.style.opacity='0':(i.src=BLANK)},unmark=i=>{host(i).classList.remove('is-missing');i.classList.remove('is-missing');i.style.opacity='';};
+document.querySelectorAll(SEL).forEach(i=>{if(i.dataset.mi)return;i.dataset.mi=1;i.addEventListener('load',()=>{const s=i.currentSrc||i.getAttribute('src');if(!isBlank(s))unmark(i)});i.addEventListener('error',()=>mark(i));if(!i.getAttribute('src')){mark(i);return}if(i.complete){i.naturalWidth===0?mark(i):unmark(i)}});
+new MutationObserver(ms=>ms.forEach(m=>m.addedNodes&&m.addedNodes.forEach(n=>{if(n.nodeType!==1)return;(n.matches?.(SEL)?[n]:n.querySelectorAll?.(SEL)||[]).forEach(img=>{if(img.dataset.mi)return;img.dataset.mi=1;img.addEventListener('load',()=>{const s=img.currentSrc||img.getAttribute('src');if(!isBlank(s))unmark(img)});img.addEventListener('error',()=>mark(img));if(!img.getAttribute('src')){mark(img);return}if(img.complete){img.naturalWidth===0?mark(img):unmark(img)}})}))).observe(document.body,{childList:true,subtree:true});
+})();
 
     /* ========== Title chips wrapper ========== */
     (()=>{document.querySelectorAll('h2,h3').forEach(h=>{if(h.querySelector('.title-chip'))return;const chip=document.createElement('span');chip.className='title-chip';const text=document.createElement('span');text.className='title-text';while(h.firstChild)text.appendChild(h.firstChild);chip.appendChild(text);h.appendChild(chip);});})();
@@ -1497,4 +1497,3 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     /* ========== Unified last-updated date ========== */
     (()=>{const LAST_UPDATED="15/08/25";document.querySelectorAll('[data-updated]').forEach(el=>el.textContent=LAST_UPDATED);})();
 </script>
-
