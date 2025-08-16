@@ -1470,10 +1470,10 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     /* ========== Team thumbnails: anti-download ========== */
     (()=>{const grid=document.querySelector('.thumbnail-grid');if(!grid)return;grid.addEventListener('contextmenu',e=>{e.preventDefault();return false;});grid.querySelectorAll('img.thumbnail').forEach(img=>{img.setAttribute('draggable','false');img.addEventListener('dragstart',e=>e.preventDefault());});})();
 
-/* Missing-image shimmer + race-safe reveal */
-(()=>{const SEL='img.thumbnail,.podium-card .avatar,.content-image img',H=i=>i.closest('.content-image,.thumbnail-wrapper,.podium-card'),show=i=>{i.classList.add('is-visible');H(i)?.classList.remove('is-missing')},miss=i=>{H(i)?.classList.add('is-missing');i.classList.remove('is-visible')},key=i=>(i.getAttribute('src')||'')+'|'+(i.getAttribute('srcset')||'');const settle=i=>{if(!i.complete)return;i.naturalWidth>0?show(i):requestAnimationFrame(()=>i.naturalWidth>0?show(i):miss(i))},wire=i=>{if(!i)return;const k=key(i);if(i.dataset._mk===k)return;i.dataset._mk=k;if(!(i.getAttribute('src')||i.getAttribute('srcset'))){miss(i);return}i.setAttribute('decoding','async');i.addEventListener('load',()=>show(i),{once:true});i.addEventListener('error',()=>miss(i),{once:true});settle(i)}; 
-document.querySelectorAll(SEL).forEach(wire); 
-new MutationObserver(ms=>{for(const m of ms){if(m.type==='childList')m.addedNodes.forEach(n=>{if(n.nodeType===1){n.matches?.(SEL)&&wire(n);n.querySelectorAll?.(SEL).forEach(wire)}});else if(m.type==='attributes'&&m.target.matches?.(SEL))setTimeout(()=>wire(m.target),0)}}).observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['src','srcset']});})();
+    /* ========== Missing-image shimmer (thumbs + podium + content-image) ========== */
+    (()=>{const BLANK='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
+    const mark=i=>{const isContent=!!i.closest('.content-image');const host=i.closest('.content-image')||i.closest('.thumbnail-wrapper')||i.closest('.podium-card')||i;host.classList.add('is-missing');i.classList.add('is-missing');if(isContent){i.style.opacity='0';}else{i.src=BLANK;}};
+    document.querySelectorAll('img.thumbnail,.podium-card .avatar,.content-image img').forEach(i=>{if(!i.getAttribute('src')){mark(i);return}if(i.complete){if(i.naturalWidth===0)mark(i)}else{i.addEventListener('error',()=>mark(i),{once:true})}})})();
 
     /* ========== Title chips wrapper ========== */
     (()=>{document.querySelectorAll('h2,h3').forEach(h=>{if(h.querySelector('.title-chip'))return;const chip=document.createElement('span');chip.className='title-chip';const text=document.createElement('span');text.className='title-text';while(h.firstChild)text.appendChild(h.firstChild);chip.appendChild(text);h.appendChild(chip);});})();
