@@ -403,7 +403,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
             <table id="message-counter-weekly" class="table table-bordered table-upgraded">
                 <thead><tr><th class="w-50">Plato ID</th><th style="display:none">Pic URL</th><th class="w-50">Weekly Count</th></tr></thead>
                 <tbody>
-<tr><td>Keistaa</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/</td><td>5274</td></tr>
+<tr><td>Keistaa</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/b14973f4ac78f8d747a881e2f6113b1057d0</td><td>5274</td></tr>
 <tr><td>QQB</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/d26fbf72650404cb8a052c9dbd1851a6d323</td><td>3865</td></tr>
 <tr><td>abdullahshah</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/a47d0b79daa86219e19cca8174e6b39f7a20</td><td>3410</td></tr>
 <tr><td>Aura69</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/5a1cf5544c674dc0ed796a4441ea4f14f8ea</td><td>2772</td></tr>
@@ -1279,7 +1279,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
             <table id="wins-counter-weekly" class="table table-bordered table-upgraded">
                 <thead><tr><th class="w-50">Plato ID</th><th style="display:none">Pic URL</th><th class="w-50">Weekly Wins</th></tr></thead>
                 <tbody>
-<tr><td>Darth_Deigo</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/e9484e14f0ea6833f71ecb8b630e61df08de</td><td>58</td></tr>
+<tr><td>Darth_Deigo</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/</td><td>58</td></tr>
 <tr><td>2bzzy4you</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/a897ae20fdf76a52a6091e53ca4ac513bb54</td><td>56</td></tr>
 <tr><td>TREX</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/14a603f2d7e88a8201ae1bd97c86de953293</td><td>52</td></tr>
 <tr><td>Eos3</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/f8b7823672b4b7687742f89f4b967594f5d7</td><td>47</td></tr>
@@ -1471,10 +1471,8 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     (()=>{const grid=document.querySelector('.thumbnail-grid');if(!grid)return;grid.addEventListener('contextmenu',e=>{e.preventDefault();return false;});grid.querySelectorAll('img.thumbnail').forEach(img=>{img.setAttribute('draggable','false');img.addEventListener('dragstart',e=>e.preventDefault());});})();
 
     /* ========== Missing-image shimmer ========== */
-    (()=>{const BLANK='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
-    const mark=i=>{const isContent=!!i.closest('.content-image');const host=i.closest('.content-image')||i.closest('.thumbnail-wrapper')||i.closest('.podium-card')||i;host.classList.add('is-missing');i.classList.add('is-missing');if(isContent){i.style.opacity='0';}else{i.src=BLANK;}};
-    document.querySelectorAll('img.thumbnail,.podium-card .avatar,.content-image img').forEach(i=>{if(!i.getAttribute('src')){mark(i);return}if(i.complete){if(i.naturalWidth===0)mark(i)}else{i.addEventListener('error',()=>mark(i),{once:true})}})})();
-
+    (()=>{const BLANK='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==',mark=i=>{const box=i.closest('.content-image');if(box){box.classList.add('is-missing');i.src=BLANK;return}i.classList.add('is-missing');i.src=BLANK};document.querySelectorAll('img.thumbnail,.podium-card .avatar,.content-image img').forEach(i=>{if(!i.getAttribute('src')){mark(i);return}if(i.complete){if(i.naturalWidth===0)mark(i)}else{i.addEventListener('error',()=>mark(i),{once:true})}})})();
+    
     /* ========== Title chips wrapper ========== */
     (()=>{document.querySelectorAll('h2,h3').forEach(h=>{if(h.querySelector('.title-chip'))return;const chip=document.createElement('span');chip.className='title-chip';const text=document.createElement('span');text.className='title-text';while(h.firstChild)text.appendChild(h.firstChild);chip.appendChild(text);h.appendChild(chip);});})();
 
