@@ -141,17 +141,10 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .content-table{overflow-x:visible}
     .gradient-block.g-4,.gradient-block.g-4 :where(p,span,div,strong,em,b,small,a){white-space:normal;overflow-wrap:anywhere;word-break:break-word;hyphens:auto;-webkit-hyphens:auto}
 
-    .copy-block {
-display: flex;
-align-items: center;
-justify-content: space-between;
-gap: 0.5em;
-}
-
-.copy-text {
-font-size: 1.1em;
-font-weight: 600;
-color: var(--color-text);
+.no-link {
+  pointer-events: none; /* disables click */
+  cursor: default;
+  text-decoration: none;
 }
 </style>
 
@@ -192,12 +185,7 @@ color: var(--color-text);
 <div class="gradient-block g-4"><p class="selectable"><span class="content-link" data-url="https://platoapp.com/link/12pljta70h3oe" data-text="" data-copy="true"></span></p></div>
 <div class="linebreak"></div>
 
-<div class="gradient-block g-4">
-    <p class="selectable">
-        <span class="copy-text">Arcade</span>
-        <button class="btn-copy" data-text="Arcade">Copy</button>
-    </p>
-</div>
+<div class="gradient-block g-4"><p class="selectable"><span class="content-link" data-url="Arcade" data-text="Arcade" data-copy="true"></span></p></div>
 
 <!-- Sponsors -->
 <h2 id="sponsors">Sponsors 👑</h2>
