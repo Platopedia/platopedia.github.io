@@ -140,24 +140,13 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 0.5em;
 }
 
 .copy-text {
   font-size: 1.1em;
   font-weight: 600;
   color: var(--color-text);
-}
-
-.copy-btn {
-  padding: 4px 10px;
-  border: 1px solid var(--color-B);
-  background: var(--color-C);
-  color: var(--color-text);
-  border-radius: 4px;
-  cursor: pointer;
-}
-.copy-btn:hover {
-  background: var(--color-B);
 }
 
     /* ========== Width / Links / Tables minor ========== */
@@ -178,10 +167,18 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 <div class="linebreak"></div>
 
 <!-- Social -->
-<div class="gradient-block g-4"><div class="social-box"><div class="social-buttons">
-    <a class="fab fa-instagram" href="https://instagram.com/arcade.og/"></a>
-    <a class="fab fa-discord" href="https://discord.com/invite/mq7QMY88KU"></a>
-</div><span class="social-note">Join our Discord server!</span></div></div>
+<div class="gradient-block g-4">
+    <div class="social-box">
+        <div class="social-buttons">
+            <a class="fab fa-instagram" href="https://instagram.com/arcade.og/"></a>
+            <a class="fab fa-discord" href="https://discord.com/invite/mq7QMY88KU"></a>
+        </div>
+        <span class="social-note">
+      <span class="copy-text">✰🅰︎🆁︎🄲🄰🄳🄴✰</span>
+      <button class="btn-copy" data-text="✰🅰︎🆁︎🄲🄰🄳🄴✰">Copy Bio</button>
+    </span>
+    </div>
+</div>
 
 <!-- Stats -->
 <div class="stats-grid" aria-label="Arcade live statistics">
@@ -200,18 +197,8 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 <h2 id="join-arcade">Join Arcade Group</h2>
 <p class="selectable">We're making it easier for you to join our group. All you need to do is add our invite account linked below - we send out invites to new members every Friday at 3PM GMT.</p>
 <p class="selectable">Add <strong>@Arcade:</strong></p>
-<div class="gradient-block g-4"><p class="selectable"><span class="content-link"
-      data-url=""
-      data-text="✰🅰︎🆁︎🄲🄰🄳🄴✰"
-</span></p></div>
+<div class="gradient-block g-4"><p class="selectable"><span class="content-link" data-url="https://platoapp.com/link/yn60ru5mwvpl" data-text="" data-copy="true"></span></p></div>
 <div class="linebreak"></div>
-
-<div class="gradient-block g-4">
-    <div class="copy-block">
-        <span class="copy-text">Arcade</span>
-        <button class="copy-btn" data-text="Arcade">Copy</button>
-    </div>
-</div>
 
 <!-- Sponsors -->
 <h2 id="sponsors">Sponsors 👑</h2>
@@ -1543,37 +1530,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     if(have<need){const f=document.createDocumentFragment();for(let i=have;i<need;i++){const tr=document.createElement('tr');tr.className='pad';tr.setAttribute('aria-hidden','true');tr.style.visibility='hidden';const td=document.createElement('td');td.colSpan=cols;td.innerHTML='&nbsp;';tr.appendChild(td);f.appendChild(tr);}b.appendChild(f);}};
     const schedule=()=>{if(!ticking){ticking=1;requestAnimationFrame(pad)}};
     new MutationObserver(schedule).observe(b,{childList:true,subtree:false});pad();});})();
-    
-    document.querySelectorAll(".copy-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    navigator.clipboard.writeText(btn.dataset.text);
-  });
-});
-
-    document.querySelectorAll('.content-link').forEach(el => {
-  el.addEventListener('click', e => {
-    if (el.dataset.copy === "true") {
-      e.preventDefault();
-      // Prefer data-text if it exists, otherwise fall back to data-url
-      const text = el.dataset.text && el.dataset.text.trim() !== ""
-        ? el.dataset.text
-        : el.dataset.url;
-
-      if (text) {
-        navigator.clipboard.writeText(text);
-      }
-    } else if (el.dataset.url) {
-      // Normal link behavior
-      window.open(el.dataset.url, '_blank');
-    }
-  });
-});
 
     /* ========== Unified last-updated date ========== */
     (()=>{const LAST_UPDATED="29/08/25";document.querySelectorAll('[data-updated]').forEach(el=>el.textContent=LAST_UPDATED);})();
 </script>
-
-
-
-
-
