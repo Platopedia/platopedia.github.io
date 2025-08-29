@@ -175,7 +175,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         </div>
         <span class="social-note">
       <span class="copy-text">✰🅰︎🆁︎🄲🄰🄳🄴✰</span>
-      <button class="btn-copy" data-text="✰🅰︎🆁︎🄲🄰🄳🄴✰">Copy Bio</button>
+      <button class="copy-bio-btn" data-text="✰🅰︎🆁︎🄲🄰🄳🄴✰">Copy Bio</button>
     </span>
     </div>
 </div>
@@ -1530,6 +1530,21 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     if(have<need){const f=document.createDocumentFragment();for(let i=have;i<need;i++){const tr=document.createElement('tr');tr.className='pad';tr.setAttribute('aria-hidden','true');tr.style.visibility='hidden';const td=document.createElement('td');td.colSpan=cols;td.innerHTML='&nbsp;';tr.appendChild(td);f.appendChild(tr);}b.appendChild(f);}};
     const schedule=()=>{if(!ticking){ticking=1;requestAnimationFrame(pad)}};
     new MutationObserver(schedule).observe(b,{childList:true,subtree:false});pad();});})();
+
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest('.copy-bio-btn');
+  if (!btn) return;
+
+  e.preventDefault();
+  const text = btn.dataset.text || '';
+  if (!text) return;
+
+  navigator.clipboard.writeText(text).then(() => {
+    const original = btn.textContent;
+    btn.textContent = 'Copied!';
+    setTimeout(() => { btn.textContent = original; }, 1200);
+  });
+});
 
     /* ========== Unified last-updated date ========== */
     (()=>{const LAST_UPDATED="29/08/25";document.querySelectorAll('[data-updated]').forEach(el=>el.textContent=LAST_UPDATED);})();
