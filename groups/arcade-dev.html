@@ -1527,12 +1527,8 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     /* ========== Copy Bio button ========== */
     document.addEventListener('click',e=>{const b=e.target.closest('.copy-bio-btn');if(!b)return;e.preventDefault();const t=b.dataset.text||'';if(!t)return;navigator.clipboard.writeText(t).then(()=>{const o=b.textContent;b.textContent='Copied!';setTimeout(()=>b.textContent=o,1200)})});
 
-document.querySelectorAll('.content-image img').forEach(i=>{
-  const w=i.closest('.content-image'), show=()=>w&&w.classList.remove('is-missing');
-  if(i.complete&&i.naturalWidth){show();return}
-  i.addEventListener('load',show,{once:true});
-  i.addEventListener('error',()=>{i.addEventListener('load',show,{once:true});i.src='/docs/assets/images/groups/arcade/game-on-banner.jpg';},{once:true});
-});
+    /* ========== Banner patch ========== */
+    document.querySelectorAll('.content-image img').forEach(i=>{const w=i.closest('.content-image'),show=()=>{w&&(w.classList.remove('is-missing'),i.style.opacity='',i.classList.remove('is-missing'))};if(i.complete&&i.naturalWidth){show();return}i.addEventListener('load',show,{once:!0});i.addEventListener('error',()=>{i.addEventListener('load',show,{once:!0});w&&w.classList.add('is-missing');i.style.opacity='0';i.src=i.src.replace(/\.(?:webp|avif)(?:\?.*)?$/i,'.jpg')},{once:!0})});
 
     /* ========== Unified last-updated date ========== */
     (()=>{const LAST_UPDATED="29/08/25";document.querySelectorAll('[data-updated]').forEach(el=>el.textContent=LAST_UPDATED);})();
