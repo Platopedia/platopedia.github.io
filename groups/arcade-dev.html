@@ -27,15 +27,21 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     @keyframes titleShimmer{to{background-position:200% 50%}}
     @media(prefers-reduced-motion:reduce){.title-chip .title-text{animation:none}}
 
-    /* ========== Social ========== */
-    .social-buttons{display:flex;gap:10px}
-    .social-buttons a{display:grid;place-items:center;width:50px;height:50px;border-radius:50%;border:1px solid var(--color-B);background:linear-gradient(135deg,var(--color-C),var(--color-D));color:var(--color-text)!important;text-decoration:none;box-shadow:0 4px 10px rgba(0,0,0,.12);transition:transform .15s,box-shadow .15s}
-    @media(any-hover:hover){.social-buttons a:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 0 0 2px #E1100D,0 8px 16px rgba(0,0,0,.18)}}
-    .social-buttons a:active{transform:translateY(0) scale(.98);box-shadow:0 0 0 2px #E1100D,0 6px 14px rgba(0,0,0,.18)}
-    .social-buttons a:focus-visible{box-shadow:0 0 0 2px #E1100D}
-    .fa-instagram,.fa-discord{font-size:24px;background:transparent}
-    .social-box{display:flex;align-items:center;gap:100px;justify-content:center;flex-wrap:nowrap}
-    .social-note{font-family:monospace;font-size:12px;font-weight:700;color:var(--color-text);line-height:1;white-space:nowrap}
+/* Social Container */
+.social-box{display:flex;align-items:center;justify-content:center;gap:15px;flex-wrap:wrap}
+
+/* Icons */
+.social-buttons{display:flex;gap:10px}
+.social-buttons a{display:grid;place-items:center;width:50px;height:50px;border-radius:50%;border:1px solid var(--color-B);background:linear-gradient(135deg,var(--color-C),var(--color-D));color:var(--color-text)!important;text-decoration:none;box-shadow:0 4px 10px rgba(0,0,0,.12);transition:transform .15s,box-shadow .15s}
+@media(any-hover:hover){.social-buttons a:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 0 0 2px #E1100D,0 8px 16px rgba(0,0,0,.18)}}
+.social-buttons a:active{transform:translateY(0) scale(.98);box-shadow:0 0 0 2px #E1100D,0 6px 14px rgba(0,0,0,.18)}
+.social-buttons a:focus-visible{box-shadow:0 0 0 2px #E1100D}
+.fa-instagram,.fa-discord{font-size:24px;background:transparent}
+
+/* Copy Block */
+.copy-block{display:flex;flex-direction:column;align-items:center;gap:.2em}
+.copy-text{font-size:1.1em;font-weight:600;color:var(--color-text);line-height:1.2;text-align:center}
+.copy-bio-btn{font-size:.9em;padding:.2em .5em;background:var(--color-D);color:var(--color-text);border:1px solid var(--color-B);border-radius:.3em;cursor:pointer}
 
     /* ========== Team Grid ========== */
     .thumbnail-grid{display:flex;flex-wrap:wrap;justify-content:center;width:100%;gap:16px}
@@ -136,10 +142,6 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .content-image.is-missing img,.thumbnail-wrapper.is-missing .thumbnail,.podium-card.is-missing .avatar{opacity:0!important}
     @media(prefers-reduced-motion:reduce){.content-image.is-missing,.thumbnail-wrapper.is-missing,.podium-card.is-missing{animation:none}}
 
-.copy-block{display:flex;flex-direction:column;gap:.2em;align-items:center}.copy-text{font-size:1.1em;font-weight:600;color:var(--color-text);line-height:1.2}.copy-bio-btn{font-size:.9em;padding:.2em .5em;background:var(--color-text);color:var(--color-D);border:1px solid var(--color-B);border-radius:.3em;cursor:pointer}
-.copy-text{font-size:1.1em;font-weight:600;color:var(--color-text);line-height:1.2}
-.copy-bio-btn{font-size:.9em;padding:.2em .5em;background:var(--color-text);color:var(--color-D)!important;border:1px solid var(--color-B);border-radius:.3em;cursor:pointer}
-
     /* ========== Width / Links / Tables minor ========== */
     .content-link,.content-link a{max-width:100%;overflow-wrap:anywhere;word-break:break-word}
     .content-table{overflow-x:visible}
@@ -157,14 +159,14 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 <p class="selectable">Arcade is a welcoming English community group established on December 28, 2021. We've hosted some of Plato's biggest events and have plenty more exciting stuff in store.</p>
 <div class="linebreak"></div>
 
-<!-- Social -->
+<!-- Social + Copy Bio -->
 <div class="gradient-block g-4">
     <div class="social-box">
         <div class="social-buttons">
             <a class="fab fa-instagram" href="https://instagram.com/arcade.og/"></a>
             <a class="fab fa-discord" href="https://discord.com/invite/mq7QMY88KU"></a>
         </div>
-        <div class="social-note copy-block">
+        <div class="copy-block">
             <span class="copy-text">✰🅰︎🆁︎🄲🄰🄳🄴✰</span>
             <button class="copy-bio-btn" data-text="✰🅰︎🆁︎🄲🄰🄳🄴✰">Copy Bio</button>
         </div>
