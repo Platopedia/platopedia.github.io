@@ -163,8 +163,8 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     <!-- Social Links -->
     <div class="stat-card social-card" aria-label="Social Links">
         <div class="social-buttons">
-            <a class="fab fa-instagram" href="https://instagram.com/arcade.og/" target="_blank" rel="noopener"></a>
-            <a class="fab fa-discord" href="https://discord.com/invite/mq7QMY88KU" target="_blank" rel="noopener"></a>
+            <a class="fab fa-instagram" href="https://instagram.com/arcade.og/"></a>
+            <a class="fab fa-discord" href="https://discord.com/invite/mq7QMY88KU"></a>
         </div>
     </div>
 
@@ -1456,7 +1456,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     addEventListener('dragstart',e=>{if(e.target.closest(S))e.preventDefault()},{passive:false});})();
 
     /* ========== Delay nav (social + content-link) ========== */
-    (()=>{const D=500,S='.social-buttons a,.content-link',BLOCK='button,[role=button],input,textarea,select,label,[data-action="copy"],.copy,.btn-copy,[data-no-nav]';
+    (()=>{const D=250,S='.social-buttons a,.content-link',BLOCK='button,[role=button],input,textarea,select,label,[data-action="copy"],.copy,.btn-copy,[data-no-nav]';
     addEventListener('click',e=>{if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;if(e.target.closest(BLOCK))return;const el=e.target.closest(S);if(!el)return;const href=el.matches('.content-link')?(el.dataset.url||''):el.getAttribute('href');if(!href||href.startsWith('#'))return;e.preventDefault();setTimeout(()=>{el.getAttribute('target')==='_blank'?window.open(href,'_blank','noopener'):location.assign(href)},D);},{capture:true});})();
 
     /* ========== Make :active reliably fire on iOS for .social-buttons ========== */
