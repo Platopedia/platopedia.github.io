@@ -146,7 +146,10 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 <!-- ========================= Content ========================= -->
 
 <!-- Banner -->
-<picture class="content-image"><source srcset="/docs/assets/images/groups/arcade/game-on-banner.webp" type="image/webp"><img src="/docs/assets/images/groups/arcade/game-on-banner.jpg" alt="Arcade banner" width="1920" height="768" fetchpriority="high" decoding="async" loading="eager"></picture>
+<picture class="content-image is-missing" style="--ci-ar:1920/768">
+  <img src="/docs/assets/images/groups/arcade/game-on-banner.webp" alt="Arcade banner" width="1920" height="768" fetchpriority="high" decoding="async" loading="eager">
+</picture>
+
 <div class="linebreak"></div>
 
 <!-- About -->
@@ -157,7 +160,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
 <!-- Stats -->
 <div class="stats-grid" aria-label="Arcade live statistics">
-    <!-- Social Links (as a stat card) -->
+    <!-- Social Links -->
     <div class="stat-card social-card" aria-label="Social Links">
         <div class="social-buttons">
             <a class="fab fa-instagram" href="https://instagram.com/arcade.og/" target="_blank" rel="noopener"></a>
@@ -165,7 +168,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         </div>
     </div>
 
-    <!-- Social Note (as a stat card) -->
+    <!-- Social Note -->
     <div class="stat-card social-card" aria-label="Social Note">
         <div class="copy-block" style="display:flex;flex-direction:column;align-items:center;gap:.2em">
             <span class="copy-text" style="font-size:.9em;font-weight:600;line-height:1.2;text-align:center">✰🅰︎🆁︎🄲🄰🄳🄴✰</span>
@@ -1523,6 +1526,13 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
     /* ========== Copy Bio button ========== */
     document.addEventListener('click',e=>{const b=e.target.closest('.copy-bio-btn');if(!b)return;e.preventDefault();const t=b.dataset.text||'';if(!t)return;navigator.clipboard.writeText(t).then(()=>{const o=b.textContent;b.textContent='Copied!';setTimeout(()=>b.textContent=o,1200)})});
+
+document.querySelectorAll('.content-image img').forEach(i=>{
+  const w=i.closest('.content-image'), show=()=>w&&w.classList.remove('is-missing');
+  if(i.complete&&i.naturalWidth){show();return}
+  i.addEventListener('load',show,{once:true});
+  i.addEventListener('error',()=>{i.addEventListener('load',show,{once:true});i.src='/docs/assets/images/groups/arcade/game-on-banner.jpg';},{once:true});
+});
 
     /* ========== Unified last-updated date ========== */
     (()=>{const LAST_UPDATED="29/08/25";document.querySelectorAll('[data-updated]').forEach(el=>el.textContent=LAST_UPDATED);})();
