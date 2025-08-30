@@ -136,18 +136,9 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .content-image.is-missing img,.thumbnail-wrapper.is-missing .thumbnail,.podium-card.is-missing .avatar{opacity:0!important}
     @media(prefers-reduced-motion:reduce){.content-image.is-missing,.thumbnail-wrapper.is-missing,.podium-card.is-missing{animation:none}}
 
-    .copy-block {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5em;
-}
-
-.copy-text {
-  font-size: 1.1em;
-  font-weight: 600;
-  color: var(--color-text);
-}
+    .copy-block{display:flex;flex-direction:column;gap:.2em;align-items:flex-start}
+    .copy-text{font-size:1.1em;font-weight:600;color:var(--color-text);line-height:1.2}
+    .copy-bio-btn{font-size:.9em;padding:.2em .5em;color:var(--color-text)}
 
     /* ========== Width / Links / Tables minor ========== */
     .content-link,.content-link a{max-width:100%;overflow-wrap:anywhere;word-break:break-word}
@@ -1531,20 +1522,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     const schedule=()=>{if(!ticking){ticking=1;requestAnimationFrame(pad)}};
     new MutationObserver(schedule).observe(b,{childList:true,subtree:false});pad();});})();
 
-document.addEventListener('click', function(e) {
-  const btn = e.target.closest('.copy-bio-btn');
-  if (!btn) return;
-
-  e.preventDefault();
-  const text = btn.dataset.text || '';
-  if (!text) return;
-
-  navigator.clipboard.writeText(text).then(() => {
-    const original = btn.textContent;
-    btn.textContent = 'Copied!';
-    setTimeout(() => { btn.textContent = original; }, 1200);
-  });
-});
+    document.addEventListener('click',e=>{const b=e.target.closest('.copy-bio-btn');if(!b)return;e.preventDefault();const t=b.dataset.text||'';if(!t)return;navigator.clipboard.writeText(t).then(()=>{const o=b.textContent;b.textContent='Copied!';setTimeout(()=>b.textContent=o,3000)})});
 
     /* ========== Unified last-updated date ========== */
     (()=>{const LAST_UPDATED="29/08/25";document.querySelectorAll('[data-updated]').forEach(el=>el.textContent=LAST_UPDATED);})();
