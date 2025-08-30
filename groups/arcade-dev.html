@@ -27,21 +27,15 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     @keyframes titleShimmer{to{background-position:200% 50%}}
     @media(prefers-reduced-motion:reduce){.title-chip .title-text{animation:none}}
 
-/* Social Container */
-.social-box{display:flex;align-items:center;justify-content:center;gap:15px;flex-wrap:wrap}
-
-/* Icons */
-.social-buttons{display:flex;gap:10px}
-.social-buttons a{display:grid;place-items:center;width:50px;height:50px;border-radius:50%;border:1px solid var(--color-B);background:linear-gradient(135deg,var(--color-C),var(--color-D));color:var(--color-text)!important;text-decoration:none;box-shadow:0 4px 10px rgba(0,0,0,.12);transition:transform .15s,box-shadow .15s}
-@media(any-hover:hover){.social-buttons a:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 0 0 2px #E1100D,0 8px 16px rgba(0,0,0,.18)}}
-.social-buttons a:active{transform:translateY(0) scale(.98);box-shadow:0 0 0 2px #E1100D,0 6px 14px rgba(0,0,0,.18)}
-.social-buttons a:focus-visible{box-shadow:0 0 0 2px #E1100D}
-.fa-instagram,.fa-discord{font-size:24px;background:transparent}
-
-/* Copy Block */
-.copy-block{display:flex;flex-direction:column;align-items:center;gap:.2em}
-.copy-text{font-size:.8em;font-weight:600;color:var(--color-text);line-height:1.2;text-align:center}
-.copy-bio-btn{font-size:.8em;padding:.2em .5em;background:var(--color-D);color:var(--color-text);border:1px solid var(--color-B);border-radius:.3em;cursor:pointer}
+    /* ========== Social ========== */
+    .social-buttons{display:flex;gap:10px}
+    .social-buttons a{display:grid;place-items:center;width:50px;height:50px;border-radius:50%;border:1px solid var(--color-B);background:linear-gradient(135deg,var(--color-C),var(--color-D));color:var(--color-text)!important;text-decoration:none;box-shadow:0 4px 10px rgba(0,0,0,.12);transition:transform .15s,box-shadow .15s}
+    @media(any-hover:hover){.social-buttons a:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 0 0 2px #E1100D,0 8px 16px rgba(0,0,0,.18)}}
+    .social-buttons a:active{transform:translateY(0) scale(.98);box-shadow:0 0 0 2px #E1100D,0 6px 14px rgba(0,0,0,.18)}
+    .social-buttons a:focus-visible{box-shadow:0 0 0 2px #E1100D}
+    .fa-instagram,.fa-discord{font-size:24px;background:transparent}
+    .social-box{display:flex;align-items:center;gap:15px;justify-content:center;flex-wrap:nowrap}
+    .social-note{font-family:monospace;font-size:12px;font-weight:700;color:var(--color-text);line-height:1;white-space:nowrap}
 
     /* ========== Team Grid ========== */
     .thumbnail-grid{display:flex;flex-wrap:wrap;justify-content:center;width:100%;gap:16px}
@@ -159,17 +153,19 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 <p class="selectable">Arcade is a welcoming English community group established on December 28, 2021. We've hosted some of Plato's biggest events and have plenty more exciting stuff in store.</p>
 <div class="linebreak"></div>
 
-<!-- Social + Copy Bio -->
-<div class="gradient-block g-4">
-    <div class="social-box">
-        <div class="social-buttons">
-            <a class="fab fa-instagram" href="https://instagram.com/arcade.og/"></a>
-            <a class="fab fa-discord" href="https://discord.com/invite/mq7QMY88KU"></a>
-        </div>
-        <div class="copy-block">
-            <span class="copy-text">✰🅰︎🆁︎🄲🄰🄳🄴✰</span>
-            <button class="copy-bio-btn" data-text="✰🅰︎🆁︎🄲🄰🄳🄴✰">Copy Bio</button>
-        </div>
+<!-- Social Links (as a stat card) -->
+<div class="stat-card social-card" aria-label="Social Links">
+    <div class="social-buttons">
+        <a class="fab fa-instagram" href="https://instagram.com/arcade.og/" target="_blank" rel="noopener"></a>
+        <a class="fab fa-discord" href="https://discord.com/invite/mq7QMY88KU" target="_blank" rel="noopener"></a>
+    </div>
+</div>
+
+<!-- Social Note (as a stat card) -->
+<div class="stat-card social-card" aria-label="Social Note">
+    <div class="copy-block" style="display:flex;flex-direction:column;align-items:center;gap:.2em">
+        <span class="copy-text" style="font-weight:600;line-height:1.2;text-align:center">✰🅰︎🆁︎🄲🄰🄳🄴✰</span>
+        <button class="copy-bio-btn" data-text="✰🅰︎🆁︎🄲🄰🄳🄴✰" style="font-size:.9em;padding:.2em .5em;background:var(--color-D);color:var(--color-text);border:1px solid var(--color-B);border-radius:.3em;cursor:pointer">Copy Bio</button>
     </div>
 </div>
 
@@ -1524,9 +1520,9 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     const schedule=()=>{if(!ticking){ticking=1;requestAnimationFrame(pad)}};
     new MutationObserver(schedule).observe(b,{childList:true,subtree:false});pad();});})();
 
-    document.addEventListener('click',e=>{const b=e.target.closest('.copy-bio-btn');if(!b)return;e.preventDefault();const t=b.dataset.text||'';if(!t)return;navigator.clipboard.writeText(t).then(()=>{const o=b.textContent;b.textContent='Copied!';setTimeout(()=>b.textContent=o,3000)})});
+    /* ========== Copy Bio button ========== */
+    document.addEventListener('click',e=>{const b=e.target.closest('.copy-bio-btn');if(!b)return;e.preventDefault();const t=b.dataset.text||'';if(!t)return;navigator.clipboard.writeText(t).then(()=>{const o=b.textContent;b.textContent='Copied!';setTimeout(()=>b.textContent=o,1200)})});
 
     /* ========== Unified last-updated date ========== */
     (()=>{const LAST_UPDATED="29/08/25";document.querySelectorAll('[data-updated]').forEach(el=>el.textContent=LAST_UPDATED);})();
 </script>
-
