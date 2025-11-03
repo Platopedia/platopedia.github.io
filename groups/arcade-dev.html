@@ -458,16 +458,4 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
     /* ========== Unified last-updated date ========== */
     (()=>{const LAST_UPDATED="XX/XX/XX";document.querySelectorAll('[data-updated]').forEach(el=>el.textContent=LAST_UPDATED);})();
-
-    /* Arcade Guide: scoped tabs using existing pills; block global handler */
-(()=>{const nav=document.querySelector('ul.nav.nav-pills.nav-content.guide-nav[aria-label="Arcade Guide"]');
-const container=nav?nav.nextElementSibling:null; if(!nav||!container) return;
-nav.querySelectorAll('.nav-link').forEach(link=>{
-  link.addEventListener('click',function(e){
-    e.preventDefault(); e.stopPropagation(); if(e.stopImmediatePropagation) e.stopImmediatePropagation();
-    const target=this.getAttribute('data-target'); if(!target) return;
-    nav.querySelectorAll('.nav-link').forEach(a=>{const on=a===link; a.classList.toggle('active',on); a.setAttribute('aria-selected',on?'true':'false');});
-    container.querySelectorAll('.tab-pane').forEach(p=>{const on=('#'+p.id)===target; p.classList.toggle('show',on); p.classList.toggle('active',on);});
-  }, true); // capture to pre-empt global tab handler
-});})();
 </script>
