@@ -437,24 +437,21 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
     /* ========== Tabs (Bootstrap-agnostic) ========== */
     (()=>{
-      document.querySelectorAll('.nav-content').forEach(nav=>{
-        const links=[...nav.querySelectorAll('.nav-link')];
-        if(!links.length) return;
-        // find the closest following .tab-content for this nav
-        let content=nav.nextElementSibling;
-        while(content && !(content.classList && content.classList.contains('tab-content'))){
-          content=content.nextElementSibling;
+      // Pair ONLY navs that are immediately followed by their tab-content
+      const groups = document.querySelectorAll('.nav-content + .tab-content');
+      groups.forEach(content => {
+        const nav = content.previousElementSibling; // the matching nav for this content
+        const links = Array.prototype.slice.call(nav.querySelectorAll('.nav-link'));
+        const panes = Array.prototype.slice.call(content.querySelectorAll('.tab-pane'));
+        if (!links.length || !panes.length) return;
+        function activate(a){
+          var sel = a.getAttribute('data-bs-target') || a.getAttribute('data-target') || a.getAttribute('href');
+          if (!sel) return;
+          links.forEach(function(x){ var on = (x===a); x.classList.toggle('active', on); x.setAttribute('aria-selected', on ? 'true' : 'false'); });
+          panes.forEach(function(p){ var on = ('#'+p.id) === sel; p.classList.toggle('show', on); p.classList.toggle('active', on); });
         }
-        if(!content) return;
-        const panes=[...content.querySelectorAll('.tab-pane')];
-        const activate=a=>{
-          const sel=a.getAttribute('data-bs-target')||a.getAttribute('data-target')||a.getAttribute('href');
-          if(!sel) return;
-          links.forEach(x=>{const on=x===a; x.classList.toggle('active',on); x.setAttribute('aria-selected',on?'true':'false');});
-          panes.forEach(p=>{const on=('#'+p.id)===sel; p.classList.toggle('show',on); p.classList.toggle('active',on);});
-        };
-        links.forEach(a=>a.addEventListener('click',e=>{e.preventDefault(); activate(a);}));
-        activate(links.find(a=>a.classList.contains('active'))||links[0]);
+        links.forEach(function(a){ a.addEventListener('click', function(e){ e.preventDefault(); activate(a); }); });
+        activate(links.filter(function(a){return a.classList.contains('active');})[0] || links[0]);
       });
     })();
 
