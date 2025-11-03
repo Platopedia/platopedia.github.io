@@ -141,6 +141,9 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .content-link,.content-link a{max-width:100%;overflow-wrap:anywhere;word-break:break-word}
     .content-table{overflow-x:visible}
     .gradient-block.g-4,.gradient-block.g-4 :where(p,span,div,strong,em,b,small,a){white-space:normal;overflow-wrap:anywhere;word-break:break-word;hyphens:auto;-webkit-hyphens:auto}
+
+    /* ========== Opt-out of global 10-row padding for these prize tables ========== */
+    #arcadebot-prize tr.pad, #arcadebot-prize-2 tr.pad { display: none !important; }
 </style>
 
 <!-- ========================= Content ========================= -->
@@ -190,7 +193,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 <h2 id="join-arcade">Join Arcade Group</h2>
 <p class="selectable">We're making it easier for you to join our group. All you need to do is add our invite account linked below - we send out invites to new members every Friday at 3PM GMT.</p>
 <p class="selectable">Add <strong>@Arcade:</strong></p>
-<div class="gradient-block g-4"><p class="selectable"><span class="content-link" data-url="https://platoapp.com/link/1nok9jlpamw50" data-text="" data-copy="true"></span></p></div>
+<div class="gradient-block g-4"><p class="selectable"><span class="content-link" data-url="https://platoapp.com/link/1gme1s863q03s" data-text="" data-copy="true"></span></p></div>
 <div class="linebreak"></div>
 
 <!-- Sponsors -->
@@ -394,6 +397,10 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         <tr>
             <td>H22</td>
             <td>68000</td>
+        </tr>
+        <tr>
+            <td>TREX</td>
+            <td>52000</td>
         </tr>
         <tr>
             <td>0HZL</td>
@@ -1497,6 +1504,70 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
 <div class="linebreak"></div>
 
+<!-- Arcade Guide -->
+<h2 id="arcade-guide">Arcade Guide</h2>
+<ul class="nav nav-pills x-nav-justified justify-content-center nav-content" role="tablist" aria-label="Arcade Guide">
+    <li class="nav-item"><a class="nav-link active" href="#tab-guide-arcadebot" role="tab" data-target="#tab-guide-arcadebot" aria-selected="true">ArcadeBot Notes</a></li>
+    <li class="nav-item"><a class="nav-link" href="#tab-guide-prize" role="tab" data-target="#tab-guide-prize" aria-selected="false">ArcadeBot Rewards</a></li>
+</ul>
+
+<div class="tab-content">
+    <div id="tab-guide-arcadebot" class="tab-pane fade show active" role="tabpanel">
+        <div class="gradient-block g-3">
+            <p class="selectable shoutout">
+                <strong>Weekly Rewards:</strong> Every Friday, TOP 5 members with the most <em>weekly messages</em> or <em>wins</em> in Arcade are rewarded.
+            </p>
+        </div>
+        <div class="linebreak"></div>
+        <div class="gradient-block g-3">
+            <p class="selectable shoutout">
+                <strong>Cooldown:</strong> Winners from both <em>Weekly Messages</em> and <em>Weekly Wins</em> are placed on a 1-week cooldown.
+            </p>
+        </div>
+        <div class="linebreak"></div>
+        <div class="gradient-block g-3">
+            <p class="selectable shoutout">
+                <strong>Monthly Cap:</strong> Each member's monthly winnings from ArcadeBot are capped at 30,000 coins - totals reset back to zero at the start of each month.
+            </p>
+        </div>
+    </div>
+
+    <div id="tab-guide-prize" class="tab-pane fade" role="tabpanel">
+        <div class="gradient-block g-2">
+            <div class="linebreak"></div>
+            <table id="arcadebot-prize" class="table table-bordered table-upgraded" aria-label="ArcadeBot Prize Distribution — Weekly Messages">
+                <thead>
+                <tr><th colspan="2">Weekly Messages</th></tr>
+                </thead>
+                <colgroup><col style="width:50%"><col style="width:50%"></colgroup>
+                <tbody>
+                <tr><td>1st Place</td><td>20,000 coins</td></tr>
+                <tr><td>2nd Place</td><td>10,000 coins</td></tr>
+                <tr><td>3rd place</td><td>10,000 coins</td></tr>
+                <tr><td>4th Place</td><td>5,000 coins</td></tr>
+                <tr><td>5th Place</td><td>5,000 coins</td></tr>
+                </tbody>
+            </table>
+
+            <table id="arcadebot-prize-2" class="table table-bordered table-upgraded" aria-label="ArcadeBot Prize Distribution — Weekly Wins">
+                <thead>
+                <tr><th colspan="2">Weekly Wins</th></tr>
+                </thead>
+                <colgroup><col style="width:50%"><col style="width:50%"></colgroup>
+                <tbody>
+                <tr><td>1st Place</td><td>20,000 coins</td></tr>
+                <tr><td>2nd Place</td><td>10,000 coins</td></tr>
+                <tr><td>3rd place</td><td>10,000 coins</td></tr>
+                <tr><td>4th Place</td><td>5,000 coins</td></tr>
+                <tr><td>5th Place</td><td>5,000 coins</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="linebreak"></div>
+
 <!-- Team -->
 <h2 id="our-team">Our Team</h2>
 <div class="thumbnail-grid">
@@ -1550,7 +1621,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       /* Weekly wins */
       const wwTotal=sum('wins-counter-weekly',2);const wwEl=document.getElementById('stat-weekly-wins');if(wwEl)wwEl.textContent=wwTotal.toLocaleString();const frW=first('wins-counter-weekly');if(frW){const n=frW.cells[0].textContent.trim();const v=num(frW.cells[2].textContent);const w=document.getElementById('stat-weekly-winner');if(w)w.textContent=`${n} (${v})`;}
       /* Team count */
-      const teamCards=document.querySelectorAll('.thumbnail-grid .thumbnail-wrapper').length;const shout=document.querySelector('.shoutout strong');const shoutCount=shout?shout.textContent.split(',').length:0;const tc=document.getElementById('stat-team-count');if(tc)tc.textContent=String(teamCards+shoutCount);
+      const teamCards=document.querySelectorAll('.thumbnail-grid .thumbnail-wrapper').length;const shout=document.querySelector('h2#our-team ~ .gradient-block[role="note"] .shoutout strong');const shoutCount=shout?shout.textContent.split(',').length:0;const tc=document.getElementById('stat-team-count');if(tc)tc.textContent=String(teamCards+shoutCount);
       /* Generic podium renderer — any .podium[data-table] */
       (()=>{const isHttpUrl=s=>/^https?:\/\//.test(String(s||''));function renderFromTable(table,host){if(!(table&&table.tBodies&&table.tBodies[0]&&host))return;const provided=(host.getAttribute('data-images')||'').split(',').map(s=>s.trim()).filter(Boolean);const rows=Array.from(table.tBodies[0].rows).slice(0,3);
       const items=rows.map((r,i)=>{const name=(r.cells[0]?.textContent||'').trim();let pic=provided[i]||(r.cells[1]?.textContent||'').trim();if(!isHttpUrl(pic)){for(let c=0;c<r.cells.length;c++){const t=(r.cells[c]?.textContent||'').trim();if(isHttpUrl(t)){pic=t;break;}}}const countCell=r.cells[r.cells.length-1];const count=num(countCell?countCell.textContent:0);return{rank:i+1,name,pic,count};}).filter(x=>isHttpUrl(x.pic));
@@ -1576,9 +1647,9 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     (()=>{document.querySelectorAll('h2,h3').forEach(h=>{if(h.querySelector('.title-chip'))return;const chip=document.createElement('span');chip.className='title-chip';const text=document.createElement('span');text.className='title-text';while(h.firstChild)text.appendChild(h.firstChild);chip.appendChild(text);h.appendChild(chip);});})();
 
     /* ========== Tabs (Bootstrap-agnostic) ========== */
-    (()=>{const links=[...document.querySelectorAll('.nav-content .nav-link')],panes=[...document.querySelectorAll('.tab-content .tab-pane')];if(!links.length||!panes.length)return;
-    function activate(a){const sel=a.getAttribute('data-bs-target')||a.getAttribute('data-target')||a.getAttribute('href');if(!sel)return;links.forEach(x=>{const on=(x===a);x.classList.toggle('active',on);x.setAttribute('aria-selected',on?'true':'false');});panes.forEach(p=>{const on=('#'+p.id)===sel;p.classList.toggle('show',on);p.classList.toggle('active',on);});}
-    links.forEach(a=>a.addEventListener('click',e=>{e.preventDefault();activate(a);}));activate(links.find(a=>a.classList.contains('active'))||links[0]);})();
+    (()=>{document.querySelectorAll('.nav-content + .tab-content').forEach(c=>{const n=c.previousElementSibling,ls=[...n.querySelectorAll('.nav-link')],ps=[...c.querySelectorAll('.tab-pane')];if(!ls.length||!ps.length)return;
+    const act=a=>{const s=a.getAttribute('data-bs-target')||a.getAttribute('data-target')||a.getAttribute('href');if(!s)return;ls.forEach(x=>{const on=x===a;x.classList.toggle('active',on);x.setAttribute('aria-selected',on?'true':'false')});ps.forEach(p=>{const on='#'+p.id===s;p.classList.toggle('show',on);p.classList.toggle('active',on)})};
+    ls.forEach(a=>a.addEventListener('click',e=>{e.preventDefault();act(a)}));act(ls.find(a=>a.classList.contains('active'))||ls[0]);});})();
 
     /* ========== Pagination: edges-only ========== */
     (()=>{const seen=new WeakSet,show=p=>{const n=[...p.querySelectorAll('.page-item')].filter(li=>/^\d+$/.test(li.textContent.trim()));if(n.length<2)return;const L=+(n[n.length-1].textContent)||1,C=+((p.querySelector('.page-item.active')||n[0]).textContent)||1,K=new Set(C<=3?[1,2,3,L]:C>=L-2?[1,L-2,L-1,L]:[1,C,L]);n.forEach(li=>li.style.display=K.has(+li.textContent)?'':'none')},bind=p=>{if(seen.has(p))return;seen.add(p);show(p);p.addEventListener('click',()=>setTimeout(()=>show(p),0),{passive:true})};const scan=()=>document.querySelectorAll('.pagination').forEach(bind);new MutationObserver(scan).observe(document.body,{childList:true,subtree:true});scan()})();
