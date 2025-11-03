@@ -1627,7 +1627,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       r=t?.tBodies?.[0]?.rows?Array.from(t.tBodies[0].rows):[];
       const names=r.sort((a,b)=>(+(b.cells[1]?.textContent||'0').replace(/\D/g,''))-(+(a.cells[1]?.textContent||'0').replace(/\D/g,'')))
         .slice(0,3).map(tr=>(tr.cells[0]?.textContent||'').trim());
-      const map={"Risk":"https://plato-mediaservice-prod.platocdn.com/a401028992b97ea5c36ea44962cca041445e","Tear":"https://plato-mediaservice-prod.platocdn.com/26bc511e9b7716bd32b55e3649b2753eb319","Mear":"https://plato-mediaservice-prod.platocdn.com/00980220a337aa4b2c65115e56eeb0b1a821"},
+      const map={"Risk":"https://plato-mediaservice-prod.platocdn.com/a401028992b97ea5c36ea44962cca041445e","Tear":"https://plato-mediaservice-prod.platocdn.com/26bc511e9b7716bd32b55e3649b2753eb319","Fear":"https://plato-mediaservice-prod.platocdn.com/00980220a337aa4b2c65115e56eeb0b1a821"},
             imgs=names.map(n=>map[n]||'');
       if(imgs.length===3&&imgs.every(Boolean)) p.setAttribute('data-images', imgs.join(', '));})();
 
