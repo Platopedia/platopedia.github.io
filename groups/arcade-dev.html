@@ -1511,7 +1511,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     <div id="tab-guide-arcadebot" class="tab-pane fade show active" role="tabpanel">
         <div class="gradient-block g-3">
             <p class="selectable shoutout">
-                <strong>Rewards:</strong> Every Friday, members with the most <em>weekly messages</em> or <em>wins</em> in Arcade are rewarded.
+                <strong>Weekly Rewards:</strong> Every Friday, members with the most <em>weekly messages</em> or <em>wins</em> in Arcade are rewarded.
             </p>
         </div>
         <div class="linebreak"></div>
@@ -1617,7 +1617,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       /* Weekly wins */
       const wwTotal=sum('wins-counter-weekly',2);const wwEl=document.getElementById('stat-weekly-wins');if(wwEl)wwEl.textContent=wwTotal.toLocaleString();const frW=first('wins-counter-weekly');if(frW){const n=frW.cells[0].textContent.trim();const v=num(frW.cells[2].textContent);const w=document.getElementById('stat-weekly-winner');if(w)w.textContent=`${n} (${v})`;}
       /* Team count */
-      const teamCards=document.querySelectorAll('.thumbnail-grid .thumbnail-wrapper').length;const shout=document.querySelector('.shoutout strong');const shoutCount=shout?shout.textContent.split(',').length:0;const tc=document.getElementById('stat-team-count');if(tc)tc.textContent=String(teamCards+shoutCount);
+      const teamCards=document.querySelectorAll('.thumbnail-grid .thumbnail-wrapper').length;const shout=document.querySelector('h2#our-team ~ .gradient-block[role="note"] .shoutout strong');const shoutCount=shout?shout.textContent.split(',').length:0;const tc=document.getElementById('stat-team-count');if(tc)tc.textContent=String(teamCards+shoutCount);
       /* Generic podium renderer — any .podium[data-table] */
       (()=>{const isHttpUrl=s=>/^https?:\/\//.test(String(s||''));function renderFromTable(table,host){if(!(table&&table.tBodies&&table.tBodies[0]&&host))return;const provided=(host.getAttribute('data-images')||'').split(',').map(s=>s.trim()).filter(Boolean);const rows=Array.from(table.tBodies[0].rows).slice(0,3);
       const items=rows.map((r,i)=>{const name=(r.cells[0]?.textContent||'').trim();let pic=provided[i]||(r.cells[1]?.textContent||'').trim();if(!isHttpUrl(pic)){for(let c=0;c<r.cells.length;c++){const t=(r.cells[c]?.textContent||'').trim();if(isHttpUrl(t)){pic=t;break;}}}const countCell=r.cells[r.cells.length-1];const count=num(countCell?countCell.textContent:0);return{rank:i+1,name,pic,count};}).filter(x=>isHttpUrl(x.pic));
