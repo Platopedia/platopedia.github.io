@@ -1508,18 +1508,12 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
   <div id="tab-guide-arcadebot" class="tab-pane fade show active" role="tabpanel">
     <div class="gradient-block g-4">
       <p class="selectable"><strong>Every Friday</strong>, rewards are given to the <strong>TOP 5</strong> members with the most <em>weekly messages</em> or <em>wins</em> from ArcadeBot games. Prize distribution (for both categories):</p>
-      <p class="selectable">1️⃣ – 20,000 coins</p>
-      <p class="selectable">2️⃣ – 10,000 coins</p>
-      <p class="selectable">3️⃣ – 10,000 coins</p>
-      <p class="selectable">4️⃣ – 5,000 coins</p>
-      <p class="selectable">5️⃣ – 5,000 coins</p>
     </div>
     <div class="linebreak"></div>
     <div class="gradient-block g-4"><p class="selectable"><strong>Cooldown:</strong> Winners from both <em>Weekly Messages</em> and <em>Weekly Wins</em> are placed on a <strong>1‑week cooldown</strong>.</p></div>
     <div class="linebreak"></div>
     <div class="gradient-block g-4">
       <p class="selectable"><strong>Monthly Cap:</strong> Each member's monthly winnings from ArcadeBot are capped at <strong>30,000 coins</strong>, with totals resetting at the start of each month.</p>
-      <p class="selectable" style="margin-top:.3em"><small><em>Example:</em> If you win 20k one week and another 20k the next, you'll only get 10k in the second week (bringing your total to 30k); the extra 10k will be passed on to the next winner.</small></p>
     </div>
   </div>
 
@@ -1609,24 +1603,9 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     (()=>{document.querySelectorAll('h2,h3').forEach(h=>{if(h.querySelector('.title-chip'))return;const chip=document.createElement('span');chip.className='title-chip';const text=document.createElement('span');text.className='title-text';while(h.firstChild)text.appendChild(h.firstChild);chip.appendChild(text);h.appendChild(chip);});})();
 
     /* ========== Tabs (Bootstrap-agnostic) ========== */
-    (()=>{
-      // Pair ONLY navs that are immediately followed by their tab-content
-      const groups = document.querySelectorAll('.nav-content + .tab-content');
-      groups.forEach(function(content){
-        const nav = content.previousElementSibling; // the matching nav for this content
-        const links = Array.prototype.slice.call(nav.querySelectorAll('.nav-link'));
-        const panes = Array.prototype.slice.call(content.querySelectorAll('.tab-pane'));
-        if (!links.length || !panes.length) return;
-        function activate(a){
-          var sel = a.getAttribute('data-bs-target') || a.getAttribute('data-target') || a.getAttribute('href');
-          if (!sel) return;
-          links.forEach(function(x){ var on = (x===a); x.classList.toggle('active', on); x.setAttribute('aria-selected', on ? 'true' : 'false'); });
-          panes.forEach(function(p){ var on = ('#'+p.id) === sel; p.classList.toggle('show', on); p.classList.toggle('active', on); });
-        }
-        links.forEach(function(a){ a.addEventListener('click', function(e){ e.preventDefault(); activate(a); }); });
-        activate(links.filter(function(a){return a.classList.contains('active');})[0] || links[0]);
-      });
-    })();
+    (()=>{document.querySelectorAll('.nav-content + .tab-content').forEach(c=>{const n=c.previousElementSibling,ls=[...n.querySelectorAll('.nav-link')],ps=[...c.querySelectorAll('.tab-pane')];if(!ls.length||!ps.length)return;
+    const act=a=>{const s=a.getAttribute('data-bs-target')||a.getAttribute('data-target')||a.getAttribute('href');if(!s)return;ls.forEach(x=>{const on=x===a;x.classList.toggle('active',on);x.setAttribute('aria-selected',on?'true':'false')});ps.forEach(p=>{const on='#'+p.id===s;p.classList.toggle('show',on);p.classList.toggle('active',on)})};
+    ls.forEach(a=>a.addEventListener('click',e=>{e.preventDefault();act(a)}));act(ls.find(a=>a.classList.contains('active'))||ls[0]);});})();
 
     /* ========== Pagination: edges-only ========== */
     (()=>{const seen=new WeakSet,show=p=>{const n=[...p.querySelectorAll('.page-item')].filter(li=>/^\d+$/.test(li.textContent.trim()));if(n.length<2)return;const L=+(n[n.length-1].textContent)||1,C=+((p.querySelector('.page-item.active')||n[0]).textContent)||1,K=new Set(C<=3?[1,2,3,L]:C>=L-2?[1,L-2,L-1,L]:[1,C,L]);n.forEach(li=>li.style.display=K.has(+li.textContent)?'':'none')},bind=p=>{if(seen.has(p))return;seen.add(p);show(p);p.addEventListener('click',()=>setTimeout(()=>show(p),0),{passive:true})};const scan=()=>document.querySelectorAll('.pagination').forEach(bind);new MutationObserver(scan).observe(document.body,{childList:true,subtree:true});scan()})();
