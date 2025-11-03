@@ -1627,10 +1627,9 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       r=t?.tBodies?.[0]?.rows?Array.from(t.tBodies[0].rows):[];
       const names=r.sort((a,b)=>(+(b.cells[1]?.textContent||'0').replace(/\D/g,''))-(+(a.cells[1]?.textContent||'0').replace(/\D/g,'')))
         .slice(0,3).map(tr=>(tr.cells[0]?.textContent||'').trim());
-      const map={"Risk":"https://plato-mediaservice-prod.platocdn.com/a401028992b97ea5c36ea44962cca041445e","Tear":"https://plato-mediaservice-prod.platocdn.com/26bc511e9b7716bd32b55e3649b2753eb319","Fear":"https://plato-mediaservice-prod.platocdn.com/00980220a337aa4b2c65115e56eeb0b1a821x"},
+      const map={"Risk":"https://plato-mediaservice-prod.platocdn.com/a401028992b97ea5c36ea44962cca041445e","Tear":"https://plato-mediaservice-prod.platocdn.com/26bc511e9b7716bd32b55e3649b2753eb319","mear":"https://plato-mediaservice-prod.platocdn.com/00980220a337aa4b2c65115e56eeb0b1a821x"},
             imgs=names.map(n=>map[n]||'');
       if(imgs.length===3&&imgs.every(Boolean)) p.setAttribute('data-images', imgs.join(', '));})();
-
       /* Generic podium renderer — any .podium[data-table] */
       (()=>{const isHttpUrl=s=>/^https?:\/\//.test(String(s||''));function renderFromTable(table,host){if(!(table&&table.tBodies&&table.tBodies[0]&&host))return;const provided=(host.getAttribute('data-images')||'').split(',').map(s=>s.trim()).filter(Boolean);const rows=Array.from(table.tBodies[0].rows).slice(0,3);
       const items=rows.map((r,i)=>{const name=(r.cells[0]?.textContent||'').trim();let pic=provided[i]||(r.cells[1]?.textContent||'').trim();if(!isHttpUrl(pic)){for(let c=0;c<r.cells.length;c++){const t=(r.cells[c]?.textContent||'').trim();if(isHttpUrl(t)){pic=t;break;}}}const countCell=r.cells[r.cells.length-1];const count=num(countCell?countCell.textContent:0);return{rank:i+1,name,pic,count};}).filter(x=>isHttpUrl(x.pic));
