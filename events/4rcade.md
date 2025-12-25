@@ -1,25 +1,25 @@
 ---
 layout: tool-content
-title: PlatoBot Party - Platopedia
-heading: <img src="/docs/assets/images/events/platobotparty/platobot-thumbnail.png" />&nbsp;PlatoBot Party
+title: 4rcade Anniversary - Platopedia
+heading: <img src="/docs/assets/images/events/4rcade/ar-thumbnail.webp" />&nbsp;4rcade Anniversary
 ---
 
 <style>
-h2                    { color:#0176D6 !important }
+h2                    { color:#F1BA40 !important }
 h4                    { color:#008080 !important;font-size:var(--unit-text-B) !important }
-.syotimer-cell__value { border-color:#0176D6 !important }
-.syotimer-cell__unit  { color:#0176D6 }
+.syotimer-cell__value { border-color:#F1BA40 !important }
+.syotimer-cell__unit  { color:#F1BA40 }
 </style>
 
 <div class="linebreak"></div>
 
-<div class="content-image" data-url="/docs/assets/images/events/platobotparty/platobot-banner.png" data-width="690px" data-label=""></div>
+<div class="content-image" data-url="/docs/assets/images/events/4rcade/ar-banner.webp" data-width="690px" data-label=""></div>
 
-Arcade is celebrating 4 years on Plato with a huge 1.7m Bingo giveaway for the community that built it. Join us on December 28 at 3 PM GMT — details on how to join the group are below.
+Arcade is celebrating 4 years on Plato with a huge 1.7m Bingo giveaway for the community that built it. Join us on December 28 at 3 PM GMT — details on how to join the party group are below.
 
 <div class="linebreak"></div>
 
-<div class="content-countdown text-center" data-datetime="2025-07-08T15:30:00+00:00"><b>PARTTTYYYYY!!!</b></div>
+<div class="content-countdown text-center" data-datetime="2025-12-28T15:00:00+00:00"><b>HAPPY 4 YEARS ARCADE!!!</b></div>
 
 <div class="linebreak"></div>
 
@@ -29,7 +29,7 @@ Book your spot by adding one of these accounts linked below. An invite will be s
 
 <div class="linebreak"></div>
 
-**PartyBot1:**
+**PartyBot:**
 <span class="content-link" data-url="https://plato.app/ya142t87azkt" data-text="" data-copy="true"></span>
 
 **PartyBot2:**
