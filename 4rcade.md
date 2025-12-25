@@ -1,4 +1,5 @@
 ---
 layout: redirect
-path: events/platobotparty
+path: events/4rcade
 ---
+
