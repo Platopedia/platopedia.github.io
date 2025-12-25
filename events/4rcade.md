@@ -15,7 +15,7 @@ h4                    { color:#008080 !important;font-size:var(--unit-text-B) !i
 
 <div class="content-image" data-url="/docs/assets/images/events/platobotparty/platobot-banner.png" data-width="690px" data-label=""></div>
 
-It's that time of the year — **PlatoBot Giveaway 2.0** is here! PlatoBot is feeling generous once again, and this time it's giving away more than ever before: **180 Coin Bundles** worth 5.5k coins, with chances to win up to 12.5k coins. You can't miss this special event. Save the date: **July 8 • 4PM GMT**!
+Arcade is celebrating 4 years on Plato with a huge 1.7m Bingo giveaway for the community that built it. Join us on December 28 at 3 PM GMT — details on how to join the group are below.
 
 <div class="linebreak"></div>
 
@@ -29,8 +29,14 @@ Book your spot by adding one of these accounts linked below. An invite will be s
 
 <div class="linebreak"></div>
 
-**Invites are closed.**
+**PartyBot1:**
+<span class="content-link" data-url="https://plato.app/ya142t87azkt" data-text="" data-copy="true"></span>
 
+**PartyBot2:**
+<span class="content-link" data-url="https://plato.app/ya142t87azkt" data-text="" data-copy="true"></span>
+
+**PartyBot3:**
+<span class="content-link" data-url="https://plato.app/ya142t87azkt" data-text="" data-copy="true"></span>
 
 <div class="linebreak"></div>
 
@@ -45,8 +51,56 @@ Book your spot by adding one of these accounts linked below. An invite will be s
     </thead>
     <tbody>
         <tr>
-            <td>PlatoBot</td>
-            <td>1,000,000</td>
+            <td>Risk</td>
+            <td>600,000</td>
+        </tr>
+        <tr>
+            <td>Fear</td>
+            <td>200,000</td>
+        </tr>
+        <tr>
+            <td>TrolledYou</td>
+            <td>200,000</td>
+        </tr>
+        <tr>
+            <td>Rose</td>
+            <td>150,000</td>
+        </tr>
+        <tr>
+            <td>Fairy</td>
+            <td>100,000</td>
+        </tr>
+        <tr>
+            <td>Frequency</td>
+            <td>100,000</td>
+        </tr>
+        <tr>
+            <td>Mellisssaaa</td>
+            <td>100,000</td>
+        </tr>
+        <tr>
+            <td>Nefya</td>
+            <td>50,000</td>
+        </tr>
+        <tr>
+            <td>esthell</td>
+            <td>50,000</td>
+        </tr>
+        <tr>
+            <td>888k</td>
+            <td>35,000</td>
+        </tr>
+        <tr>
+            <td>Aura</td>
+            <td>25,000</td>
+        </tr>
+        <tr>
+            <td>4DA</td>
+            <td>25,000</td>
+        </tr>
+        <tr>
+            <td>Galaxy</td>
+            <td>25,000</td>
         </tr>
     </tbody>
 </table>
