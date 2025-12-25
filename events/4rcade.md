@@ -9,6 +9,8 @@ h2                    { color:#F1BA40 !important }
 h4                    { color:#008080 !important;font-size:var(--unit-text-B) !important }
 .syotimer-cell__value { border-color:#F1BA40 !important }
 .syotimer-cell__unit  { color:#F1BA40 }
+#frame img            { border:2px solid #F1BA40;border-radius:15px }
+#frame a              { color:#FFFFFF !important;background-color:#F1BA40 !important }
 </style>
 
 <div class="linebreak"></div>
@@ -37,6 +39,12 @@ Book your spot by adding one of these accounts linked below. An invite will be s
 
 **PartyBot3:**
 <span class="content-link" data-url="https://plato.app/ya142t87azkt" data-text="" data-copy="true"></span>
+
+<div class="linebreak"></div>
+
+## Birthday Frame
+
+<div id="frame" class="content-image" data-url="/docs/assets/images/events/rosebday/rosebday-frame.png" data-width="300px" data-download="true"></div>
 
 <div class="linebreak"></div>
 
@@ -110,3 +118,4 @@ Book your spot by adding one of these accounts linked below. An invite will be s
 <p class="text-center"><b>Total:</b> <span class="content-custom" data-code="$('#sponsors tbody tr td:nth-child(2)').total()"></span> coins</p>
 
 <div class="linebreak"></div>
+
