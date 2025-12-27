@@ -68,6 +68,10 @@ Book your spot by adding one of these accounts linked below. An invite will be s
             <td>200,000</td>
         </tr>
         <tr>
+            <td>Arts</td>
+            <td>200,000</td>
+        </tr>
+        <tr>
             <td>Rose</td>
             <td>150,000</td>
         </tr>
@@ -111,6 +115,10 @@ Book your spot by adding one of these accounts linked below. An invite will be s
             <td>Galaxy</td>
             <td>25,000</td>
         </tr>
+        <tr>
+            <td>Anonymous</td>
+            <td>25,000</td>
+        </tr>
     </tbody>
 </table>
 
@@ -119,5 +127,6 @@ Book your spot by adding one of these accounts linked below. An invite will be s
 <p class="text-center"><b>Total:</b> <span class="content-custom" data-code="$('#sponsors tbody tr td:nth-child(2)').total()"></span> coins</p>
 
 <div class="linebreak"></div>
+
 
 
