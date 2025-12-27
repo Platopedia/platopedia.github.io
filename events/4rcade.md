@@ -57,7 +57,7 @@ Book your spot by adding one of these accounts linked below. An invite will be s
     <tbody>
         <tr>
             <td>Risk</td>
-            <td>600,000</td>
+            <td>700,000</td>
         </tr>
         <tr>
             <td>Fear</td>
@@ -127,6 +127,7 @@ Book your spot by adding one of these accounts linked below. An invite will be s
 <p class="text-center"><b>Total:</b> <span class="content-custom" data-code="$('#sponsors tbody tr td:nth-child(2)').total()"></span> coins</p>
 
 <div class="linebreak"></div>
+
 
 
 
