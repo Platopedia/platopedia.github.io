@@ -31,9 +31,6 @@ Book your spot by adding one of these accounts linked below. An invite will be s
 
 <div class="linebreak"></div>
 
-**PartyBot2:**
-<span class="content-link" data-url="https://platoapp.com/link/3adkeo6v9tjqg" data-text="Platoapp.com/link/3adkeo6v9tjqg" data-copy="true"></span>
-
 **PartyBot3:**
 <span class="content-link" data-url="https://platoapp.com/link/3v67mgxpy2d6u" data-text="Platoapp.com/link/3v67mgxpy2d6u" data-copy="true"></span>
 
@@ -131,6 +128,7 @@ Book your spot by adding one of these accounts linked below. An invite will be s
 <p class="text-center"><b>Total:</b> <span class="content-custom" data-code="$('#sponsors tbody tr td:nth-child(2)').total()"></span> coins</p>
 
 <div class="linebreak"></div>
+
 
 
 
