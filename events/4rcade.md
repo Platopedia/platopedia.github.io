@@ -21,7 +21,7 @@ Arcade is celebrating 4 years on Plato with a huge 1.7m Bingo giveaway for the c
 
 <div class="linebreak"></div>
 
-<div class="content-countdown text-center" data-datetime="2025-12-28T15:00:00+00:00"><b>HAPPY 4 YEARS ARCADE!!!</b></div>
+<div class="content-countdown text-center" data-datetime="2025-12-28T14:30:00+00:00"><b>HAPPY 4 YEARS ARCADE!!!</b></div>
 
 <div class="linebreak"></div>
 
@@ -127,3 +127,4 @@ Book your spot by adding one of these accounts linked below. An invite will be s
 <p class="text-center"><b>Total:</b> <span class="content-custom" data-code="$('#sponsors tbody tr td:nth-child(2)').total()"></span> coins</p>
 
 <div class="linebreak"></div>
+
