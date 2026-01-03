@@ -96,6 +96,8 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .stat-card{font-family:monospace;background-image:linear-gradient(to bottom,var(--color-C),var(--color-D));border:1px solid var(--color-B);border-radius:12px;padding:14px 16px;box-shadow:0 4px 10px rgba(0,0,0,.15);overflow:hidden;transition:transform .18s ease,box-shadow .18s ease}
     .stat-card:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 16px 28px rgba(0,0,0,.28)}
     .stat-card:active{transform:translateY(0);box-shadow:0 8px 18px rgba(0,0,0,.18)}
+    /* Disable hover + press animation for Frame Studio only */
+    .stat-card.frame-card:hover,.stat-card.frame-card:active{transform:none!important;box-shadow:0 4px 10px rgba(0,0,0,.15)!important;}
     .stat-card .label,.stat-card .delta{font-size:12px;letter-spacing:.04em;text-transform:uppercase;word-break:break-word}
     .stat-card .value{display:block;font:700 clamp(10px,5vw,20px)/1.1 monospace;overflow-wrap:anywhere;word-break:break-word;color:#E1100D}
     @media(max-width:480px){.stat-card .value{font-size:clamp(12px,5vw,24px)}}
