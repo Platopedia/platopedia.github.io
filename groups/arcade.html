@@ -181,13 +181,18 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     <!-- Arcade Frame Studio -->
     <div class="stat-card social-card frame-card" aria-label="Arcade Frame Studio" style="grid-column:span 2;background-image:url('/docs/assets/images/groups/arcade/ar-frame-studio.png');background-size:cover;background-position:center;background-repeat:no-repeat;border-color:#E1100D">
         <div class="social-buttons">
-            <a class="fa fa-paint-brush" href="https://arcadeplatoapp.com" target="_blank"></a>
+            <a class="fa fa-paint-brush" href="https://arcade-frame.vercel.app/" target="_blank"></a>
         </div>
-        <div class="copy-block" style="display:flex;flex-direction:column;align-items:center;gap:.1em;margin-top:6px">
+        <div class="copy-block" style="display:flex;flex-direction:column;align-items:center;gap:.2em;margin-top:6px">
             <span class="selectable" style="font-size:1em;font-weight:700;line-height:1.2;text-align:center;color:#E1100D">Arcade Frame Studio</span>
             <span class="selectable" style="font-size:.8em;opacity:.85;text-align:center">Designed by Risk</span>
         </div>
     </div>
+    <div class="stat-card"><div class="label">Coins Sponsored</div><div class="value"><span id="stat-total-coins">—</span></div><div class="delta">Top Sponsor: <span id="stat-top-sponsor">—</span></div></div>
+    <div class="stat-card"><div class="label">Weekly Messages</div><div class="value"><span id="stat-weekly-msgs">—</span></div><div class="delta">Most Messages: <span id="stat-weekly-topuser">—</span></div></div>
+    <div class="stat-card"><div class="label">Weekly Wins</div><div class="value"><span id="stat-weekly-wins">—</span></div><div class="delta">Most Wins: <span id="stat-weekly-winner">—</span></div></div>
+    <div class="stat-card"><div class="label">Team Members</div><div class="value"><span id="stat-team-count">—</span></div></div>
+</div>
     <div class="stat-card"><div class="label">Coins Sponsored</div><div class="value"><span id="stat-total-coins">—</span></div><div class="delta">Top Sponsor: <span id="stat-top-sponsor">—</span></div></div>
     <div class="stat-card"><div class="label">Weekly Messages</div><div class="value"><span id="stat-weekly-msgs">—</span></div><div class="delta">Most Messages: <span id="stat-weekly-topuser">—</span></div></div>
     <div class="stat-card"><div class="label">Weekly Wins</div><div class="value"><span id="stat-weekly-wins">—</span></div><div class="delta">Most Wins: <span id="stat-weekly-winner">—</span></div></div>
@@ -1630,7 +1635,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     addEventListener('dragstart',e=>{if(e.target.closest(S))e.preventDefault()},{passive:false});})();
 
     /* ========== Delay nav (social + content-link) ========== */
-    (()=>{const D=1000,S='.social-buttons a,.content-link',BLOCK='button,[role=button],input,textarea,select,label,[data-action="copy"],.copy,.btn-copy,[data-no-nav]';
+    (()=>{const D=800,S='.social-buttons a,.content-link',BLOCK='button,[role=button],input,textarea,select,label,[data-action="copy"],.copy,.btn-copy,[data-no-nav]';
     addEventListener('click',e=>{if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;if(e.target.closest(BLOCK))return;const el=e.target.closest(S);if(!el)return;const href=el.matches('.content-link')?(el.dataset.url||''):el.getAttribute('href');if(!href||href.startsWith('#'))return;e.preventDefault();setTimeout(()=>{el.getAttribute('target')==='_blank'?window.open(href,'_blank','noopener'):location.assign(href)},D);},{capture:true});})();
 
     /* ========== Make :active reliably fire on iOS for .social-buttons ========== */
