@@ -43,11 +43,6 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         box-shadow:0 4px 10px rgba(0,0,0,.15)!important;
     }
 
-    /* Lock Frame Studio card layout to prevent grid reflow / scroll jump */
-    .stat-card.frame-card{
-        contain:layout paint size style;
-    }
-
         /* Prevent full-page repaint on Frame Studio link */
     .stat-card.frame-card .social-buttons a:active{
         transform:none!important;
@@ -204,7 +199,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     <!-- Arcade Frame Studio -->
     <div class="stat-card social-card frame-card" aria-label="Arcade Frame Studio" style="grid-column:span 2;background-image:url('/docs/assets/images/groups/arcade/ar-frame-studio.png');background-size:cover;background-position:center;background-repeat:no-repeat;border-color:#E1100D">
         <div class="social-buttons">
-            <a class="fa fa-paint-brush" href="https://arcade-frame.vercel.app/" target="_blank"></a>
+            <a class="fa fa-paint-brush" href="https://arcade-frame.vercel.app/" target="_blank" data-no-nav></a>
         </div>
         <div class="copy-block" style="display:flex;flex-direction:column;align-items:center;gap:.2em;margin-top:6px">
             <span class="selectable" style="font-size:1em;font-weight:700;line-height:1.2;text-align:center;color:#E1100D">Arcade Frame Studio</span>
