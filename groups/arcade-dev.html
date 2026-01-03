@@ -32,6 +32,12 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .social-buttons a{display:grid;place-items:center;width:50px;height:50px;border-radius:50%;border:1px solid var(--color-B);background:linear-gradient(135deg,var(--color-C),var(--color-D));color:var(--color-text)!important;text-decoration:none;box-shadow:0 4px 10px rgba(0,0,0,.12);transition:transform .15s,box-shadow .15s}
     @media(any-hover:hover){.social-buttons a:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 0 0 2px #E1100D,0 8px 16px rgba(0,0,0,.18)}}
     .social-buttons a:active{transform:translateY(0) scale(.98);box-shadow:0 0 0 2px #E1100D,0 6px 14px rgba(0,0,0,.18)}
+
+    /* Prevent full-page repaint on Frame Studio link */
+    .stat-card.frame-card .social-buttons a:active{
+        transform:none!important;
+        box-shadow:inherit!important;
+    }
     .social-buttons a:focus-visible{box-shadow:0 0 0 2px #E1100D}
     .fa-instagram,.fa-discord{font-size:24px;background:transparent}
     .social-box{display:flex;align-items:center;gap:15px;justify-content:center;flex-wrap:nowrap}
@@ -150,12 +156,8 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
 <!-- Banner -->
 <picture class="content-image is-missing" style="--ci-ar:1920/768">
-    <img src="/docs/assets/images/events/4rcade/ar-banner.webp" alt="Arcade banner" width="1920" height="768" fetchpriority="high" decoding="async" loading="eager">
+    <img src="/docs/assets/images/groups/arcade/game-on-banner.webp" alt="Arcade banner" width="1920" height="768" fetchpriority="high" decoding="async" loading="eager">
 </picture>
-
-<div class="linebreak"></div>
-
-<p class="selectable">Arcade is celebrating 4 years on Plato with a huge 1.7m Bingo giveaway for the community that built it. Join us on December 28 at 3 PM GMT. <a href="https://platopedia.com/events/4rcade">More info...</a></p>
 
 <div class="linebreak"></div>
 
@@ -182,7 +184,6 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
             <button class="copy-bio-btn" data-text="✰🅰︎🆁︎🄲🄰🄳🄴✰" style="font-size:.9em;padding:.2em .5em;background:var(--color-D);color:var(--color-text);border:1px solid var(--color-B);border-radius:.3em;cursor:pointer">Copy Bio</button>
         </div>
     </div>
-
     <!-- Arcade Frame Studio -->
     <div class="stat-card social-card frame-card" aria-label="Arcade Frame Studio" style="grid-column:span 2;background-image:url('/docs/assets/images/groups/arcade/ar-frame-studio.png');background-size:cover;background-position:center;background-repeat:no-repeat;border-color:#E1100D">
         <div class="social-buttons">
@@ -208,7 +209,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 <h2 id="join-arcade">Join Arcade Group</h2>
 <p class="selectable">We're making it easier for you to join our group. All you need to do is add our invite account linked below - we send out invites to new members every Friday at 3PM GMT.</p>
 <p class="selectable">Add <strong>@Arcade:</strong></p>
-<div class="gradient-block g-4"><p class="selectable"><span class="content-link" data-url="https://platoapp.com/link/1zxv2sa8apw88" data-text="" data-copy="true"></span></p></div>
+<div class="gradient-block g-4"><p class="selectable"><span class="content-link" data-url="https://platoapp.com/link/3mxwfsauhkl55" data-text="" data-copy="true"></span></p></div>
 <div class="linebreak"></div>
 
 <!-- Sponsors -->
@@ -227,7 +228,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         <tbody>
         <tr>
             <td>Risk</td>
-            <td>10601600</td>
+            <td>11354600</td>
         </tr>
         <tr>
             <td>Tear</td>
@@ -235,199 +236,27 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         </tr>
         <tr>
             <td>Fear</td>
-            <td>7596000</td>
+            <td>8116000</td>
         </tr>
         <tr>
             <td>TrolledYou</td>
-            <td>3982000</td>
+            <td>4182000</td>
         </tr>
         <tr>
             <td>LA_GIRL07</td>
             <td>2660000</td>
         </tr>
         <tr>
-            <td>Fairy</td>
-            <td>1270500</td>
-        </tr>
-        <tr>
             <td>Rose</td>
-            <td>1253500</td>
+            <td>1403500</td>
         </tr>
         <tr>
-            <td>Mdame</td>
-            <td>1250000</td>
+            <td>Fairy</td>
+            <td>1370500</td>
         </tr>
         <tr>
             <td>Nefya</td>
-            <td>1245000</td>
-        </tr>
-        <tr>
-            <td>Alqubaisi</td>
-            <td>800000</td>
-        </tr>
-        <tr>
-            <td>Mellisssaaa</td>
-            <td>617500</td>
-        </tr>
-        <tr>
-            <td>Pink1tty</td>
-            <td>593500</td>
-        </tr>
-        <tr>
-            <td>Rivings</td>
-            <td>579500</td>
-        </tr>
-        <tr>
-            <td>Arts</td>
-            <td>573000</td>
-        </tr>
-        <tr>
-            <td>Enes</td>
-            <td>504500</td>
-        </tr>
-        <tr>
-            <td>YR_</td>
-            <td>475000</td>
-        </tr>
-        <tr>
-            <td>Focus</td>
-            <td>435200</td>
-        </tr>
-        <tr>
-            <td>Bao</td>
-            <td>327500</td>
-        </tr>
-        <tr>
-            <td>Aura</td>
-            <td>306500</td>
-        </tr>
-        <tr>
-            <td>abc</td>
-            <td>290000</td>
-        </tr>
-        <tr>
-            <td>esthell</td>
-            <td>290000</td>
-        </tr>
-        <tr>
-            <td>Frequency</td>
-            <td>274500</td>
-        </tr>
-        <tr>
-            <td>Galaxy</td>
-            <td>265000</td>
-        </tr>
-        <tr>
-            <td>4DA</td>
-            <td>246000</td>
-        </tr>
-        <tr>
-            <td>Diem17</td>
-            <td>230000</td>
-        </tr>
-        <tr>
-            <td>Casper</td>
-            <td>224800</td>
-        </tr>
-        <tr>
-            <td>Spring</td>
-            <td>222000</td>
-        </tr>
-        <tr>
-            <td>amor</td>
-            <td>220000</td>
-        </tr>
-        <tr>
-            <td>Hades</td>
-            <td>207500</td>
-        </tr>
-        <tr>
-            <td>7777777</td>
-            <td>200000</td>
-        </tr>
-        <tr>
-            <td>Gebrakin</td>
-            <td>200000</td>
-        </tr>
-        <tr>
-            <td>Dracula</td>
-            <td>200000</td>
-        </tr>
-        <tr>
-            <td>MangoNado</td>
-            <td>188000</td>
-        </tr>
-        <tr>
-            <td>1Mei</td>
-            <td>174000</td>
-        </tr>
-        <tr>
-            <td>Kikutie</td>
-            <td>166000</td>
-        </tr>
-        <tr>
-            <td>Lawyer</td>
-            <td>135000</td>
-        </tr>
-        <tr>
-            <td>Akamehhh</td>
-            <td>125500</td>
-        </tr>
-        <tr>
-            <td>1l1</td>
-            <td>120000</td>
-        </tr>
-        <tr>
-            <td>888k</td>
-            <td>110000</td>
-        </tr>
-        <tr>
-            <td>badfacewanda</td>
-            <td>105000</td>
-        </tr>
-        <tr>
-            <td>AmirberlinK</td>
-            <td>100000</td>
-        </tr>
-        <tr>
-            <td>Reza</td>
-            <td>100000</td>
-        </tr>
-        <tr>
-            <td>SOL</td>
-            <td>100000</td>
-        </tr>
-        <tr>
-            <td>Hamid</td>
-            <td>100000</td>
-        </tr>
-        <tr>
-            <td>SiaShah</td>
-            <td>97000</td>
-        </tr>
-        <tr>
-            <td>DRAXUN</td>
-            <td>75000</td>
-        </tr>
-        <tr>
-            <td>H22</td>
-            <td>68000</td>
-        </tr>
-        <tr>
-            <td>TREX</td>
-            <td>52000</td>
-        </tr>
-        <tr>
-            <td>0HZL</td>
-            <td>50000</td>
-        </tr>
-        <tr>
-            <td>Darth_Diego</td>
-            <td>50000</td>
-        </tr>
-        <tr>
-            <td>MermaidSiren</td>
-            <td>50000</td>
+            <td>1295000</td>
         </tr>
         </tbody>
     </table>
@@ -459,21 +288,17 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
             <table id="message-counter-weekly" class="table table-bordered table-upgraded">
                 <thead><tr><th class="w-50">Plato ID</th><th style="display:none">Pic URL</th><th class="w-50">Weekly Count</th></tr></thead>
                 <tbody>
-                <tr><td>arjunnnb</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/7e7df31deb396c5e7a4c09457183a34b939b</td><td>10658</td></tr>
-                <tr><td>who_dah</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/e7dbaf052b1d2fc835e4aae0c17bdc72e145</td><td>2430</td></tr>
-                <tr><td>Meowde</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/88d1e96ba044ee0f890c73b681f87d193808</td><td>1879</td></tr>
-                <tr><td>INVISIBLE01</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/51c5b3ca3722e4b2745e2039346b2a4509da</td><td>1548</td></tr>
-                <tr><td>MermaidSiren</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/9b82c48da2e23bc97dd9a4294359a738e98e</td><td>1456</td></tr>
-                <tr><td>_Sarita___</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/b3280e68ca42e5984bada345add7127ec45a</td><td>1356</td></tr>
-                <tr><td>Mimiiii_0x</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/6492a76d45d81ba85182e58a172f7da77f02</td><td>1275</td></tr>
-                <tr><td>yashtachi</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/35ddfd10517d60444b5dc334f78da0d731f9</td><td>1250</td></tr>
-                <tr><td>OG4R</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/18b70fed59c8286f8683f44b999075efbcf2</td><td>1189</td></tr>
-                <tr><td>badfacewanda</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/0a32e9c76790024eaef88f0e92c18cdf8101</td><td>1149</td></tr>
-                <tr><td>Rose</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/c78ae00cc3c797522c9b214eaa0090f0eed1</td><td>1072</td></tr>
-                <tr><td>Acquae</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/0ac3c83e8af3136fb1f72f0487d71022148c</td><td>969</td></tr>
-                <tr><td>Kikutie</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/140edc1d1ec0e986afd37b88816fc5e3360b</td><td>900</td></tr>
-                <tr><td>Crazysane_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/acf9da413a0efd67570f90b251bc1d8c88cf</td><td>887</td></tr>
-                <tr><td>snugcat</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/a15dbdac9e58eaacebea3dc4770234ed9545</td><td>808</td></tr>
+                <tr><td>zyei</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/ef01f0175677e27d239ac40dd8a9fa6ef521</td><td>2778</td></tr>
+                <tr><td>Mimiiii_0x</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/5b8fe94681e6a90c761f8477d1e7d48f8515</td><td>2393</td></tr>
+                <tr><td>arjunnnb</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/192b963883770761a79b97b7cbd58ae64e87</td><td>2127</td></tr>
+                <tr><td>Meowde</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/f6dffd72eb76af0c4bf5625ff8a0e8092d11</td><td>1488</td></tr>
+                <tr><td>yashtachi</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/425b43a8b88715ac395532c4ed4fe932ae48</td><td>1488</td></tr>
+                <tr><td>MermaidSiren</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/1b3b92648c0bf1f3c3b3b089815e974adaae</td><td>1462</td></tr>
+                <tr><td>QQB</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/152887379440e8a56df596797149b71cc392</td><td>1433</td></tr>
+                <tr><td>NeffuriouZ</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/2e5af17724772dbf786a094128b3e7016f79</td><td>1336</td></tr>
+                <tr><td>A5ma_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/9097a8dbbaf5a9798c063891c522e4f94978</td><td>1152</td></tr>
+                <tr><td>calisha</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/78d58bc7422022db22f3ce2b505d865c435d</td><td>1051</td></tr>
+                <tr><td>Su__</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/b79fbe11962f0c3c572740a8d2c1b2ee13fe</td><td>974</td></tr>
                 </tbody>
             </table>
         </div>
@@ -490,18 +315,18 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
             <table id="message-counter-alltime" class="table table-bordered table-upgraded">
                 <thead><tr><th class="w-50">Plato ID</th><th style="display:none">Pic URL</th><th class="w-50">All Time Count</th></tr></thead>
                 <tbody>
-                <tr><td>QQB</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/e9cfbda5dbab70ad0b97dccfd76d772bb731</td><td>80901</td></tr>
-                <tr><td>Mimiiii_0x</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/6492a76d45d81ba85182e58a172f7da77f02</td><td>63427</td></tr>
-                <tr><td>Xulann_Pro</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/1cc8344ae4c35b9d0bbc87d2da84d4c98a66</td><td>61665</td></tr>
-                <tr><td>abdullahshah</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/55f49b4ec336a2afa35c24eba64ba7e9e084</td><td>57387</td></tr>
-                <tr><td>_MORDECAI_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/8663f12b85d30b1f51d1a72e950f8bdd6af9</td><td>45549</td></tr>
-                <tr><td>Kikutie</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/140edc1d1ec0e986afd37b88816fc5e3360b</td><td>45062</td></tr>
-                <tr><td>INNA</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/5687cc4c9448c9cfe365262aacea32fe22f0</td><td>45019</td></tr>
-                <tr><td>muskii43</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/cdc2632df3588794fe9a0bdb8534478d3dc2</td><td>41989</td></tr>
-                <tr><td>Akamehhh</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/2e086e63d047ddf09c5c117fa8d8c514b545</td><td>41307</td></tr>
-                <tr><td>EvikaEve</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/1781cf46ebbc177bb0ef16380f3495554b30</td><td>36184</td></tr>
-                <tr><td>4DA</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/ebf537a1e3825a93f9fa40e9b24b0e86718e</td><td>35519</td></tr>
-                <tr><td>books</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/f66862413d010b8e102f5072066f74d3f42e</td><td>34525</td></tr>
+                <tr><td>calisha</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/78d58bc7422022db22f3ce2b505d865c435d</td><td>94492</td></tr>
+                <tr><td>QQB</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/152887379440e8a56df596797149b71cc392</td><td>82286</td></tr>
+                <tr><td>Mimiiii_0x</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/5b8fe94681e6a90c761f8477d1e7d48f8515</td><td>65689</td></tr>
+                <tr><td>Xulann_Pro</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/7d15f9cbb363edc50b4c635afd8296e138fc</td><td>61971</td></tr>
+                <tr><td>abdullahshah</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/22ad1652f12c41491f9c942ddcdf46a56612</td><td>57882</td></tr>
+                <tr><td>_MORDECAI_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/4eacb8fb4357b503d5694902f21b8128303d</td><td>45796</td></tr>
+                <tr><td>Kikutie</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/5f3afea9cec0c5e8c36441aeac6f2d4a02bc</td><td>45435</td></tr>
+                <tr><td>INNA</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/5687cc4c9448c9cfe365262aacea32fe22f0</td><td>45138</td></tr>
+                <tr><td>muskii43</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/cdc2632df3588794fe9a0bdb8534478d3dc2</td><td>42082</td></tr>
+                <tr><td>Akamehhh</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/2e086e63d047ddf09c5c117fa8d8c514b545</td><td>41891</td></tr>
+                <tr><td>sowft</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/b2b25ac65944244d156e2fa5da2a9d752bea</td><td>39896</td></tr>
+                <tr><td>4DA</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/c5820e6f830503d469a288998df14b6e617c</td><td>36271</td></tr>
                 </tbody>
             </table>
         </div>
@@ -518,17 +343,19 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
             <table id="wins-counter-weekly" class="table table-bordered table-upgraded">
                 <thead><tr><th class="w-50">Plato ID</th><th style="display:none">Pic URL</th><th class="w-50">Weekly Wins</th></tr></thead>
                 <tbody>
-                <tr><td>Su__</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/f4e5d2288bb71d479c26a88c64f66d3a9d72</td><td>48</td></tr>
-                <tr><td>dru</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/e92f16c74393caebe6ab3252c744121d821c</td><td>30</td></tr>
-                <tr><td>wingter</td><td style="display:none">https://plato-image-assets-prod.platocdn.com/user_avatars/user75.webp</td><td>27</td></tr>
-                <tr><td>nailkurt74</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/0fa1844097a381c4bb83ee20b728b4823926</td><td>25</td></tr>
-                <tr><td>badfacewanda</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/0a32e9c76790024eaef88f0e92c18cdf8101</td><td>22</td></tr>
-                <tr><td>Risk</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/028f5ef66534f545311e718581a6d0a19e99</td><td>15</td></tr>
-                <tr><td>Niveditah</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/3e231c962006e62d0ce5f03a86ad4a9155e0</td><td>15</td></tr>
-                <tr><td>Rohit_264</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/ba7571ffddf1e4ebfbffd100721f00841eec</td><td>13</td></tr>
-                <tr><td>MermaidSiren</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/9b82c48da2e23bc97dd9a4294359a738e98e</td><td>13</td></tr>
-                <tr><td>Kale</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/c49225653df742401a29e0528d6d6d5e8976</td><td>12</td></tr>
-                <tr><td>yashtachi</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/35ddfd10517d60444b5dc334f78da0d731f9</td><td>12</td></tr>
+                <tr><td>4574</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/3a13612524bebba107fa9aecf85ae3a52165</td><td>129</td></tr>
+                <tr><td>_Ariessa</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/f000fb9710a08426a0b013f2903f0ca7325c</td><td>124</td></tr>
+                <tr><td>_Avni</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/afa72d1bb65ecfb95138e55d289fe8a86824</td><td>119</td></tr>
+                <tr><td>Mari_Dee</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/f54d394be543f8bf96f6d2958c46b94188c6</td><td>115</td></tr>
+                <tr><td>A5ma_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/9097a8dbbaf5a9798c063891c522e4f94978</td><td>108</td></tr>
+                <tr><td>maaiidaa</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/0b94b548d447b3928e947c003981284100c0</td><td>62</td></tr>
+                <tr><td>nawel212_</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/c63627a9bb21939fc8c66b4d441503483980</td><td>59</td></tr>
+                <tr><td>P4Nl</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/28eef165d221885b0fa4f3af2c7ffd357e34</td><td>52</td></tr>
+                <tr><td>Meowde</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/f6dffd72eb76af0c4bf5625ff8a0e8092d11</td><td>48</td></tr>
+                <tr><td>badfacewanda</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/c93ea1dcf0026eb170360ba8525870eae9ac</td><td>46</td></tr>
+                <tr><td>Rohit_264</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/04d6c0741e6cc8ada42b05af84f857a01788</td><td>44</td></tr>
+                <tr><td>MermaidSiren</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/1b3b92648c0bf1f3c3b3b089815e974adaae</td><td>41</td></tr>
+                <tr><td>yashtachi</td><td style="display:none">https://plato-mediaservice-prod.platocdn.com/425b43a8b88715ac395532c4ed4fe932ae48</td><td>34</td></tr>
                 </tbody>
             </table>
         </div>
@@ -627,7 +454,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     addEventListener('dragstart',e=>{if(e.target.closest(S))e.preventDefault()},{passive:false});})();
 
     /* ========== Delay nav (social + content-link) ========== */
-    (()=>{const D=800,S='.social-buttons a,.content-link',BLOCK='button,[role=button],input,textarea,select,label,[data-action="copy"],.copy,.btn-copy,[data-no-nav]';
+    (()=>{const D=0,S='.social-buttons a,.content-link',BLOCK='button,[role=button],input,textarea,select,label,[data-action="copy"],.copy,.btn-copy,[data-no-nav]';
     addEventListener('click',e=>{if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;if(e.target.closest(BLOCK))return;const el=e.target.closest(S);if(!el)return;const href=el.matches('.content-link')?(el.dataset.url||''):el.getAttribute('href');if(!href||href.startsWith('#'))return;e.preventDefault();setTimeout(()=>{el.getAttribute('target')==='_blank'?window.open(href,'_blank','noopener'):location.assign(href)},D);},{capture:true});})();
 
     /* ========== Make :active reliably fire on iOS for .social-buttons ========== */
@@ -706,5 +533,5 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     document.querySelectorAll('.content-image img').forEach(i=>{const w=i.closest('.content-image'),show=()=>{w&&(w.classList.remove('is-missing'),i.style.opacity='',i.classList.remove('is-missing'))};if(i.complete&&i.naturalWidth){show();return}i.addEventListener('load',show,{once:!0});i.addEventListener('error',()=>{i.addEventListener('load',show,{once:!0});w&&w.classList.add('is-missing');i.style.opacity='0';i.src=i.src.replace(/\.(?:webp|avif)(?:\?.*)?$/i,'.jpg')},{once:!0})});
 
     /* ========== Unified last-updated date ========== */
-    (()=>{const LAST_UPDATED="26/12/2025";document.querySelectorAll('[data-updated]').forEach(el=>el.textContent=LAST_UPDATED);})();
+    (()=>{const LAST_UPDATED="02/01/2026";document.querySelectorAll('[data-updated]').forEach(el=>el.textContent=LAST_UPDATED);})();
 </script>
