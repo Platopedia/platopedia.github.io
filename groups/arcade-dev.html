@@ -198,6 +198,22 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 </div>
 <div class="linebreak"></div>
 
+<!-- Arcade Frame Studio (dropdown) -->
+<h3 id="arcade-frame-studio">Arcade Frame Studio</h3>
+<div class="gradient-block g-3" id="afs-toggle" role="button" tabindex="0" aria-expanded="false" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px">
+    <span class="selectable" style="font-weight:700">Open / Close Frame Studio</span>
+    <span class="fa fa-chevron-down" aria-hidden="true"></span>
+</div>
+<div id="afs-panel" class="gradient-block g-2" style="margin-top:8px;padding:0;overflow:hidden;max-height:0;transition:max-height .35s ease">
+    <iframe
+        src="https://arcade-frame.vercel.app/"
+        title="Arcade Frame Studio"
+        loading="lazy"
+        style="border:0;width:100%;height:720px;display:block"
+    ></iframe>
+</div>
+<div class="linebreak"></div>
+
 <!-- Contents toggle -->
 <div class="content-contents text-left" data-open="false" data-icon="&#xf068;,&#xf067;">Contents <embed/></div>
 <div class="linebreak"></div>
@@ -705,4 +721,23 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
     /* ========== Unified last-updated date ========== */
     (()=>{const LAST_UPDATED="26/12/2025";document.querySelectorAll('[data-updated]').forEach(el=>el.textContent=LAST_UPDATED);})();
+
+    /* ========== Arcade Frame Studio dropdown ========== */
+    (() => {
+      const toggle = document.getElementById('afs-toggle');
+      const panel = document.getElementById('afs-panel');
+      if (!toggle || !panel) return;
+      const icon = toggle.querySelector('.fa');
+      const set = open => {
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        panel.style.maxHeight = open ? panel.scrollHeight + 'px' : '0px';
+        if (icon) icon.classList.toggle('fa-chevron-up', open),
+                  icon.classList.toggle('fa-chevron-down', !open);
+        if (open) setTimeout(() => panel.scrollIntoView({behavior:'smooth',block:'start'}), 120);
+      };
+      let open = false;
+      const act = () => { open = !open; set(open); };
+      toggle.addEventListener('click', act);
+      toggle.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); act(); } });
+    })();
 </script>
