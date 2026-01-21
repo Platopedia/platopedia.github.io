@@ -6,36 +6,36 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
     <style>
         /* --- GLOBAL SETTINGS & THEMES --- */
-      html {
-          scroll-behavior: smooth;
-          overflow-y: auto;
+      html { 
+          scroll-behavior: smooth; 
+          overflow-y: auto; 
           background-color: #0a0a0c; /* <--- SAFETY NET: Prevents white bar glitches */
           height: 100%;
       }
-
+      
       /* DEFAULT (ORIGINAL) THEME */
       body {
         background: #0a0a0c; color: white; font-family: sans-serif;
         display: flex; flex-direction: column; align-items: center;
-        min-height: 100vh; margin: 0; padding-bottom: 150px;
-        -webkit-overflow-scrolling: touch;
+        min-height: 100vh; margin: 0; padding-bottom: 150px; 
+        -webkit-overflow-scrolling: touch; 
         background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
-        background-size: 100% 4px; touch-action: pan-y;
+        background-size: 100% 4px; touch-action: pan-y; 
         transition: background 0.3s ease, color 0.3s ease;
       }
       /* --- 🎨 NEW THEME: PRO TECH (Modern/Dark) --- */
       body.theme-pro {
           background-color: #000000;
-          background-image:
+          background-image: 
               radial-gradient(circle at 50% 30%, rgba(20, 40, 60, 0.4) 0%, transparent 60%),
-              linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+              linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px), 
               linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
           background-size: 100% 100%, 50px 50px, 50px 50px;
       }
       body.theme-pro .btn { border-color: #00f3ff; color: #00f3ff; box-shadow: 0 0 8px rgba(0, 243, 255, 0.15); background: rgba(0,0,0,0.6); }
       body.theme-pro .menu-toggle { border-color: #00f3ff; color: #fff; background: rgba(0, 50, 60, 0.8); }
       body.theme-pro h1 { text-shadow: 0 0 15px rgba(0, 243, 255, 0.6); color: #fff; }
-
+    
       /* --- 🕹️ NEW THEME: CLASSIC ARCADE (Retro/Green) --- */
       body.theme-arcade {
           background-color: #111;
@@ -55,7 +55,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         background-size: cover;
         min-height: 100vh;
       }
-
+      
       /* Retro Grid Floor Effect */
       body.theme-retro::before {
           content: ""; position: fixed; bottom: 0; left: 0; width: 100%; height: 40vh;
@@ -66,7 +66,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
           pointer-events: none; z-index: -1; opacity: 0.5;
       }
       body.theme-retro .btn { border-color: #ff00ff; color: #00ffff; background: rgba(20,0,20,0.6); }
-      body.theme-retro h1 {
+      body.theme-retro h1 { 
           background: -webkit-linear-gradient(#00ffff, #ff00ff);
           -webkit-background-clip: text; -webkit-text-fill-color: transparent;
           text-shadow: 0 0 10px rgba(255,0,255,0.5);
@@ -74,137 +74,137 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         /* FIX: Forces the "Root" to be Purple ONLY when Retro theme is active */
       html:has(body.theme-retro) {
         background-color: #1a0022 !important;
-      }
+      } 
       /* --- ⚠️ BROWSER DETECTION OVERLAY (NEW) --- */
       /* This hides by default and only shows if Plato/WebView is detected */
-      #plato-overlay {
-          position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-          background: rgba(10, 10, 12, 0.98); z-index: 999999;
-          display: none; flex-direction: column; align-items: center; justify-content: center;
-          text-align: center; padding: 30px; box-sizing: border-box;
+      #plato-overlay { 
+          position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+          background: rgba(10, 10, 12, 0.98); z-index: 999999; 
+          display: none; flex-direction: column; align-items: center; justify-content: center; 
+          text-align: center; padding: 30px; box-sizing: border-box; 
           backdrop-filter: blur(8px);
       }
       .plato-icon { font-size: 50px; margin-bottom: 20px; animation: bounce 1s infinite; }
       .plato-msg { color: #ff0000; font-family: "Arial Black", sans-serif; font-size: 22px; text-transform: uppercase; margin-bottom: 15px; text-shadow: 0 0 15px rgba(255,0,0,0.6); }
       .plato-desc { color: #eee; font-size: 13px; max-width: 320px; margin-bottom: 30px; line-height: 1.6; font-weight: bold; background: #222; padding: 15px; border-radius: 8px; border: 1px solid #444; }
-
+      
       /* FIXED BUTTON STYLE: Blue/Teal (Initial State) */
-      .plato-btn {
+      .plato-btn { 
           background: #004d4d; /* Deep Teal */
-          color: #ffffff;
-          padding: 15px 25px;
-          border-radius: 8px;
-          font-weight: 900;
+          color: #ffffff; 
+          padding: 15px 25px; 
+          border-radius: 8px; 
+          font-weight: 900; 
           border: 2px solid #00ffff; /* Neon Cyan Border */
-          font-size: 12px;
-          cursor: pointer;
-          text-transform: uppercase;
+          font-size: 12px; 
+          cursor: pointer; 
+          text-transform: uppercase; 
           box-shadow: 0 0 15px rgba(0, 255, 255, 0.15); /* Blue Glow */
-          text-decoration: none;
-          display: inline-block;
+          text-decoration: none; 
+          display: inline-block; 
           transition: background 0.2s, transform 0.1s;
       }
       .plato-btn:hover { background: #006666; }
       .plato-btn:active { background: #006666; transform: scale(0.95); }
-
+    
       @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-
+    
       /* --- CUSTOM SCROLLBAR --- */
       ::-webkit-scrollbar { width: 12px; }
       ::-webkit-scrollbar-track { background: #0a0a0c; border-left: 1px solid #333; }
       ::-webkit-scrollbar-thumb { background: #333; border-radius: 6px; border: 2px solid #0a0a0c; }
       ::-webkit-scrollbar-thumb:hover { background: #00ffff; }
-
+    
       /* --- ✨ NEW FEATURE: MAGIC FILTERS MENU CSS --- */
       #filter-wrapper { display: none; flex-direction: column; width: 100%; margin-top: 5px; background: #111; border: 1px solid #333; border-radius: 8px; padding: 10px; box-sizing: border-box; }
       #filter-wrapper.active { display: flex; animation: slideDown 0.3s ease; }
-
+      
       .filter-scroll { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
       .filter-scroll::-webkit-scrollbar { display: none; }
-      .filter-btn {
+      .filter-btn { 
         flex: 0 0 70px; display: flex; flex-direction: column; align-items: center; gap: 5px;
         background: transparent; border: none; cursor: pointer; opacity: 0.7; transition: 0.2s;
       }
       .filter-btn:hover, .filter-btn.active-filter { opacity: 1; transform: scale(1.05); }
       .filter-btn.active-filter .filter-preview { border-color: #00ffff; box-shadow: 0 0 8px #00ffff; }
-
+      
       .filter-preview { width: 60px; height: 60px; border-radius: 6px; border: 2px solid #444; object-fit: cover; background: #000; }
       .filter-name { color: #fff; font-size: 9px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
-
+      
       @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
       /* --- NAVIGATION BUTTONS --- */
-      .menu-toggle {
-        position: absolute;
+      .menu-toggle { 
+        position: absolute; 
         top: 15px; left: 15px;
         height: 38px; box-sizing: border-box;
         display: flex; align-items: center; justify-content: center;
-        background: rgba(20, 20, 20, 0.6);
-        color: rgba(255, 255, 255, 0.9);
-        border: 1px solid rgba(255, 255, 255, 0.15);
+        background: rgba(20, 20, 20, 0.6); 
+        color: rgba(255, 255, 255, 0.9); 
+        border: 1px solid rgba(255, 255, 255, 0.15); 
         backdrop-filter: blur(4px);
-        padding: 0 12px; border-radius: 4px; font-weight: bold; cursor: pointer;
-        z-index: 100000; font-size: 12px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        padding: 0 12px; border-radius: 4px; font-weight: bold; cursor: pointer; 
+        z-index: 100000; font-size: 12px; 
+        box-shadow: 0 4px 6px rgba(0,0,0,0.3); 
         transition: transform 0.1s ease, background 0.2s;
         text-shadow: 0 0 5px rgba(255,255,255,0.2);
       }
       .menu-toggle:active { transform: scale(0.90); background: rgba(255, 255, 255, 0.1); border-color: #fff; }
       /* --- SIDEBAR MENU --- */
-      #menu-panel {
-        position: fixed; top: 0; left: -260px; width: 240px; height: 100%;
-        background: #1a1a1c; padding-top: 60px;
-        transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        z-index: 99999; display: flex; flex-direction: column; gap: 15px;
-        padding-left: 15px; padding-right: 15px;
-        box-shadow: 2px 0 15px rgba(0,0,0,0.5);
-        box-sizing: border-box; padding-bottom: 80px;
+      #menu-panel { 
+        position: fixed; top: 0; left: -260px; width: 240px; height: 100%; 
+        background: #1a1a1c; padding-top: 60px; 
+        transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+        z-index: 99999; display: flex; flex-direction: column; gap: 15px; 
+        padding-left: 15px; padding-right: 15px; 
+        box-shadow: 2px 0 15px rgba(0,0,0,0.5); 
+        box-sizing: border-box; padding-bottom: 80px; 
       }
       #menu-panel.open { left: 0; }
-
+      
       .switch-container { position: relative; width: 100%; }
-
+      
       /* Shared style for Switch To and Theme buttons */
-      #switch-btn, #theme-btn {
-        background: rgba(255,255,255,0.05); color: white; border: 2px solid #ff0000;
-        padding: 10px; border-radius: 4px; font-weight: bold; cursor: pointer;
+      #switch-btn, #theme-btn { 
+        background: rgba(255,255,255,0.05); color: white; border: 2px solid #ff0000; 
+        padding: 10px; border-radius: 4px; font-weight: bold; cursor: pointer; 
         font-size: 11px; text-transform: uppercase; width: 100%; text-align: center;
-        box-shadow: 0 0 10px rgba(255,0,0,0.5);
+        box-shadow: 0 0 10px rgba(255,0,0,0.5); 
         transition: transform 0.1s ease;
       }
       #switch-btn:active, #theme-btn:active { transform: scale(0.95); background: rgba(255,0,0,0.2); }
-
+    
       /* Submenus (Switch To & Theme) */
-      #switch-menu, #theme-menu {
-        position: absolute; top: 45px; right: 0; background: #1a1a1c;
-        border: 1px solid #ff0000; border-radius: 8px; width: 210px;
-        display: none; flex-direction: column; overflow: hidden;
+      #switch-menu, #theme-menu { 
+        position: absolute; top: 45px; right: 0; background: #1a1a1c; 
+        border: 1px solid #ff0000; border-radius: 8px; width: 210px; 
+        display: none; flex-direction: column; overflow: hidden; 
         box-shadow: 0 10px 20px rgba(0,0,0,0.8); z-index: 100001;
       }
-      #switch-menu button, #theme-menu button {
-        background: transparent; color: #aaa; border: none; padding: 14px;
-        text-align: left; font-weight: bold; font-size: 11px; cursor: pointer;
+      #switch-menu button, #theme-menu button { 
+        background: transparent; color: #aaa; border: none; padding: 14px; 
+        text-align: left; font-weight: bold; font-size: 11px; cursor: pointer; 
         border-bottom: 1px solid rgba(255,255,255,0.05); text-transform: uppercase;
         transition: background 0.2s;
       }
       #switch-menu button:active, #theme-menu button:active { background: rgba(255,255,255,0.1); }
       /* Active Link Styles */
-      #switch-menu button.active-link, #theme-menu button.active-link {
-          color: #00ffff; background: rgba(0,255,255,0.1); border-left: 3px solid #00ffff;
+      #switch-menu button.active-link, #theme-menu button.active-link { 
+          color: #00ffff; background: rgba(0,255,255,0.1); border-left: 3px solid #00ffff; 
       }
-
+    
       .designed-by { position: absolute; bottom: 0; left: 0; width: 100%; padding: 20px 0; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; font-size: 11px; font-weight: 900; color: #888; background: #1a1a1c; }
       .designed-by b { color: #ff0000; text-shadow: 0 0 8px rgba(255,0,0,0.6); }
       .music-section { border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); border-radius: 6px; padding: 10px; display: flex; flex-direction: column; gap: 8px; }
-      .lnk {
-        display: flex; align-items: center; gap: 10px; padding: 12px;
-        text-decoration: none; color: white; font-size: 13px; font-weight: bold;
-        border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);
-        background: rgba(255,255,255,0.05);
+      .lnk { 
+        display: flex; align-items: center; gap: 10px; padding: 12px; 
+        text-decoration: none; color: white; font-size: 13px; font-weight: bold; 
+        border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); 
+        background: rgba(255,255,255,0.05); 
         transition: transform 0.1s ease;
       }
       .lnk:active { transform: scale(0.96); background: rgba(255,255,255,0.1); }
       .lnk svg { width: 18px; height: 18px; fill: white; }
-
+      
       /* HEADERS */
       h1 { color: #fff; margin: 60px 0 0 0; font-family: "Arial Black", sans-serif; font-style: italic; font-size: 36px; text-transform: uppercase; letter-spacing: -1px; text-shadow: 2px 2px 0px #ff0000, -1px -1px 10px rgba(255, 0, 0, 0.8); animation: arcadeBounce 1.8s infinite ease-in-out; }
       @keyframes arcadeBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
@@ -212,7 +212,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       /* --- LAYOUT LOGIC --- */
       .studio-sec { display: none; width: 320px; flex-direction: column; align-items: center; }
       .active-sec { display: flex; }
-
+    
       @media (min-width: 1024px) {
         body { justify-content: flex-start; padding-top: 40px; }
         .studio-sec { width: 90%; max-width: 1100px; flex-direction: row; align-items: flex-start; justify-content: center; gap: 60px; }
@@ -228,20 +228,20 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       }
       /* --- 🖼️ FRAME STUDIO CSS --- */
       #box { position: relative; width: 310px; height: 310px; border-radius: 50%; overflow: hidden; border: 3px solid #ff0000; box-sizing: border-box; background: transparent; z-index: 10; flex-shrink: 0; }
-
+      
       /* 🛠️ TOUCH FIX: 'touch-action: none' enables 1-finger dragging on the canvas */
       canvas#c { position: absolute; top: 50%; left: 50%; width: 310px; height: 310px; transform: translate(-50%, -50%); z-index: 15; touch-action: none; }
-
+      
       #frame-btn-group { display: flex; flex-direction: column; gap: 6px; width: 100%; }
       #ui-toggle-btn { margin-bottom: 6px; }
-
+    
       .ui { margin-top: 20px; width: 310px; display: flex; flex-direction: column; gap: 6px; background: transparent; }
-
-      .btn {
-        background: #000; border: 2px solid #fff; color: white; padding: 12px;
-        text-align: center; border-radius: 8px; font-weight: 900;
-        display: block; font-size: 12px; cursor: pointer;
-        text-transform: uppercase; width: 100%; box-sizing: border-box;
+      
+      .btn { 
+        background: #000; border: 2px solid #fff; color: white; padding: 12px; 
+        text-align: center; border-radius: 8px; font-weight: 900; 
+        display: block; font-size: 12px; cursor: pointer; 
+        text-transform: uppercase; width: 100%; box-sizing: border-box; 
         transition: transform 0.1s ease, border-color 0.2s, background 0.2s, box-shadow 0.2s;
       }
       .btn:active { transform: scale(0.95); opacity: 0.8; }
@@ -249,54 +249,54 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       .btn-r { border-color: #ff0000; }
       .lbl { font-size: 9px; color: #888; text-transform: uppercase; margin-top: 2px; display: flex; justify-content: space-between; align-items: center; width: 100%; }
       .val-tag { color: #ff0000; font-weight: bold; font-family: monospace; font-size: 10px; }
-
+      
       /* --- 🛑 SLIDER FIX (NO JUMP + SCROLL SAFETY) --- */
-      input[type=range] {
-          -webkit-appearance: none;
-          width: 100%;
-          background: transparent;
-          margin: 10px 0;
-          cursor: pointer;
+      input[type=range] { 
+          -webkit-appearance: none; 
+          width: 100%; 
+          background: transparent; 
+          margin: 10px 0; 
+          cursor: pointer; 
           touch-action: pan-y; /* Allows scrolling over the slider */
           pointer-events: none; /* Disables clicking the track to jump */
       }
       input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 8px; background: linear-gradient(to right, #ff0000 var(--v, 0%), #00ffff var(--v, 0%)); border-radius: 4px; }
-      input[type=range]::-webkit-slider-thumb {
-          -webkit-appearance: none;
-          height: 20px;
-          width: 20px;
-          border-radius: 50%;
-          background: #ff0000;
-          margin-top: -6px;
-          border: 2px solid #ffffff;
-          box-shadow: 0 0 10px #ff0000;
+      input[type=range]::-webkit-slider-thumb { 
+          -webkit-appearance: none; 
+          height: 20px; 
+          width: 20px; 
+          border-radius: 50%; 
+          background: #ff0000; 
+          margin-top: -6px; 
+          border: 2px solid #ffffff; 
+          box-shadow: 0 0 10px #ff0000; 
           pointer-events: auto; /* Re-enables dragging ONLY the circle */
       }
       /* --- 🎨 PALETTE CSS --- */
       #palette-wrapper { display: none; flex-direction: column; width: 100%; margin-top: 5px; background: #000; border: 1px solid #333; border-radius: 8px; padding: 8px; box-sizing: border-box; }
       #palette-wrapper.active { display: flex; }
-
+      
       .cat-scroll { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 5px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
       .cat-scroll::-webkit-scrollbar { display: none; }
-
-      .cat-btn {
-        flex: 0 0 auto; padding: 8px 12px; background: #1a1a1c;
-        border: 1px solid #444; border-radius: 20px;
-        font-size: 10px; font-weight: bold; cursor: pointer; color: #aaa;
+      
+      .cat-btn { 
+        flex: 0 0 auto; padding: 8px 12px; background: #1a1a1c; 
+        border: 1px solid #444; border-radius: 20px; 
+        font-size: 10px; font-weight: bold; cursor: pointer; color: #aaa; 
         transition: 0.2s ease; display: flex; align-items: center; gap: 5px;
       }
       .cat-btn:hover { background: #333; }
       .cat-btn.active-cat { background: #fff; color: #000; border-color: #fff; box-shadow: 0 0 10px rgba(255,255,255,0.3); }
-
+    
       .color-grid-container { display: none; grid-template-columns: repeat(auto-fill, minmax(32px, 1fr)); gap: 6px; max-height: 220px; overflow-y: auto; padding-top: 5px; }
       .color-grid-container.show { display: grid; animation: fadeIn 0.2s ease; }
-
+      
       .c-sq { height: 32px; border-radius: 6px; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); position: relative; box-sizing: border-box; }
       .c-sq:active { transform: scale(0.9); border-color: #fff; }
       .c-sq.is-metal { border: 1px solid #fff; }
-
+    
       @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
-
+    
       /* --- ✍️ FONT STUDIO CSS --- */
       .font-input { width: 100%; background: #111; border: 2px solid #00ffff; color: #fff; padding: 15px; border-radius: 8px; font-weight: bold; text-align: center; margin-bottom: 15px; font-size: 16px; outline: none; box-sizing: border-box; }
       .font-scroll { width: 100%; max-height: 500px; overflow-y: auto; display: flex; flex-direction: column; border-radius: 8px; overflow-x: hidden; border: 1px solid rgba(255,255,255,0.1); box-sizing: border-box; touch-action: pan-y; }
@@ -310,42 +310,42 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       .sym-grid { display: flex; flex-wrap: wrap; gap: 5px; width: 100%; padding: 5px; box-sizing: border-box; }
       .sym-btn { background: #1a1a1c; border: 1px solid #333; color: white; padding: 15px 0; font-size: 20px; border-radius: 6px; cursor: pointer; text-align: center; flex: 1 0 18%; min-width: 50px; transition: transform 0.05s ease; }
       .sym-btn:active { transform: scale(0.90); background: #ff0000; color: #000; }
-
+      
       /* --- ⚡ GIF STUDIO CSS --- */
       @keyframes rotate { 100% { transform: rotate(360deg); } }
-
+      
       /* 🛠️ TOUCH FIX: 'touch-action: none' enables dragging for the GIF studio */
       .stage { position: relative; width: 320px; height: 320px; display: flex; align-items: center; justify-content: center; margin-bottom: 30px; touch-action: none; flex-shrink: 0; }
-
+      
       .led-ring { position: absolute; inset: -15px; border-radius: 50%; background: conic-gradient(from 0deg, #00f3ff, #bc13fe, #ff0055, #00f3ff); animation: rotate 1.0s linear infinite; filter: blur(20px); z-index: 1; pointer-events: none; }
-
+      
       /* 🛠️ TOUCH FIX applied here too */
       .viewport { position: relative; z-index: 5; width: 100%; height: 100%; border-radius: 50%; overflow: hidden; background-color: #000; display: flex; justify-content: center; align-items: center; box-shadow: inset 0 0 20px #000; touch-action: none; }
-
+      
       #v { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; will-change: transform; }
       #o { width: 100%; height: 100%; object-fit: contain; display: none; }
-
+      
       .ui-gif { z-index: 10; background: transparent; padding: 25px; border-radius: 30px; width: 340px; border: none; margin-bottom: 20px; max-width: 90%; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; }
       .label-row { display: flex; justify-content: space-between; font-size: 11px; color: #888; margin-bottom: 8px; font-weight: 600; width: 100%; }
-
+      
       .ui-gif input[type="range"] { margin-bottom: 25px; -webkit-appearance: none; width: 100%; background: transparent; cursor: pointer; }
       .ui-gif input[type="range"]::-webkit-slider-runnable-track { background: #333; height: 6px; border-radius: 3px; }
       .ui-gif input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; height: 20px; width: 20px; border-radius: 50%; background: #00f3ff; box-shadow: 0 0 10px #00f3ff; border: 2px solid #fff; margin-top: -7px; }
       .ui-gif input[type="range"]:disabled { opacity: 0.3; cursor: not-allowed; }
-
+    
       .status { margin-top: 20px; font-size: 14px; text-align: center; color: #00f3ff; font-weight: 600; opacity: 0; transition: 0.3s; height: 20px; }
       .status.active { opacity: 1; }
-
+      
       .neon-wrap { position: relative; width: 100%; margin-top: 15px; padding: 3px; border-radius: 50px; overflow: hidden; box-sizing: border-box; display: inline-block; box-shadow: 0 0 15px rgba(0,0,0,0.5); }
       .neon-wrap::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; z-index: 0; animation: rotate 3s linear infinite; pointer-events: none; }
       .neon-wrap.blue::before { background: conic-gradient(transparent, transparent, #00f3ff, #bc13fe, #ff0055, #00f3ff, transparent, transparent); }
       .neon-wrap.red { margin-top: 20px; }
       .neon-wrap.red::before { background: conic-gradient(transparent, transparent, #ff0000, #ff5500, transparent, transparent); }
-
+      
       .btn-inner { position: relative; z-index: 10; display: block; width: 100%; background: #000; color: white; padding: 15px 0; border-radius: 46px; font-weight: 900; font-size: 14px; text-align: center; text-decoration: none; border: none; cursor: pointer; box-sizing: border-box; pointer-events: auto; text-transform: uppercase; transition: transform 0.1s ease, background 0.1s; }
       .btn-inner:active { transform: scale(0.95); background: #111; }
       .btn-inner:disabled { opacity: 0.5; color: #555; cursor: not-allowed; transform: none; }
-
+    
       input[type=file], #yt-player { display: none; }
     </style>
 </head>
@@ -524,31 +524,31 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     const sName=document.getElementById('studio-name'), sSub=document.getElementById('studio-sub');
     const swMenu=document.getElementById('switch-menu'), thMenu=document.getElementById('theme-menu');
     const zVal=document.getElementById('z-val'), rVal=document.getElementById('r-val'), mVal=document.getElementById('m-val');
-    const mLbl=document.getElementById('m-lbl');
-
+    const mLbl=document.getElementById('m-lbl'); 
+    
     let i=new Image(), f=new Image();
-    let cfg={s:1, m:375, x:400, y:400, r:0, lx:0, ly:0, pColor: null, pType: null, filter: 'none', adj: { b: 100, c: 100, s: 100 }};
+    let cfg={s:1, m:375, x:400, y:400, r:0, lx:0, ly:0, pColor: null, pType: null, filter: 'none', adj: { b: 100, c: 100, s: 100 }}; 
     let player, musicOn=true, audioStarted=false;
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
+    
     // --- ⚠️ BROWSER DETECTION LOGIC ---
     function detectPlato() {
         const ua = navigator.userAgent || navigator.vendor || window.opera;
-        if (ua.indexOf("Plato") > -1 || ua.indexOf("wv") > -1 || (/iPhone|iPad|iPod/.test(ua) && !window.MSStream && !/Safari/.test(ua))) {
+        if (ua.indexOf("Plato") > -1 || ua.indexOf("wv") > -1 || (/iPhone|iPad|iPod/.test(ua) && !window.MSStream && !/Safari/.test(ua))) { 
             document.getElementById('plato-overlay').style.display = 'flex';
-            document.body.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden'; 
         }
     }
     function copyCurrentUrl(e) {
         e.preventDefault();
         navigator.clipboard.writeText(window.location.href).then(() => {
             e.target.innerText = "COPIED! OPEN CHROME/SAFARI";
-            e.target.style.background = "#4a0000";
-            e.target.style.borderColor = "#ff0000";
+            e.target.style.background = "#4a0000";       
+            e.target.style.borderColor = "#ff0000";      
         });
     }
-    detectPlato();
-
+    detectPlato(); 
+    
     // --- SIDEBAR MENU & THEME LOGIC ---
     function toggleMenu(e) { e.stopPropagation(); initAudio(); panel.classList.toggle('open'); playClick(); }
     function toggleSwitchMenu(e) { e.stopPropagation(); swMenu.style.display = swMenu.style.display === 'flex' ? 'none' : 'flex'; thMenu.style.display = 'none'; playClick(); }
@@ -561,7 +561,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     function toggleMusic(){ initAudio(); playClick(); musicOn=!musicOn; if(musicOn){ player.playVideo(); mStat.innerText="ON"; mStat.style.color="#ff0000"; }else{ player.pauseVideo(); mStat.innerText="OFF"; mStat.style.color="#888"; }}
     function playClick(){ if(audioCtx.state!=='running')audioCtx.resume(); const o=audioCtx.createOscillator(), g=audioCtx.createGain(); o.frequency.setValueAtTime(800, audioCtx.currentTime); g.gain.setValueAtTime(0.03, audioCtx.currentTime); o.connect(g); g.connect(audioCtx.destination); o.start(); o.stop(audioCtx.currentTime+0.1); }
     function playShutter(){ if(audioCtx.state!=='running')audioCtx.resume(); const o=audioCtx.createOscillator(), g=audioCtx.createGain(); o.type='square'; o.frequency.setValueAtTime(150, audioCtx.currentTime); g.gain.setValueAtTime(0.03, audioCtx.currentTime); o.connect(g); g.connect(audioCtx.destination); o.start(); o.stop(audioCtx.currentTime+0.1); }
-
+    
     // --- 🎨 THEME ENGINE ---
     function setTheme(theme) {
         document.body.classList.remove('theme-pro', 'theme-arcade', 'theme-retro');
@@ -573,20 +573,20 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         localStorage.setItem('arcadeTheme', theme); playClick();
     }
     const savedTheme = localStorage.getItem('arcadeTheme'); if (savedTheme) { setTheme(savedTheme); }
-
+    
     function changeStudio(mode) {
-      playClick();
-      document.querySelectorAll('.studio-sec').forEach(s => s.classList.remove('active-sec'));
-      swMenu.style.display = 'none'; thMenu.style.display = 'none'; panel.classList.remove('open');
+      playClick(); 
+      document.querySelectorAll('.studio-sec').forEach(s => s.classList.remove('active-sec')); 
+      swMenu.style.display = 'none'; thMenu.style.display = 'none'; panel.classList.remove('open'); 
       if(mode === 'frame') { document.getElementById('frame-studio').classList.add('active-sec'); sName.innerText = "ARCADE"; sSub.innerText = "FRAME STUDIO"; }
       else if(mode === 'font') { document.getElementById('font-studio').classList.add('active-sec'); sName.innerText = "FONTS"; sSub.innerText = "GENERATOR STUDIO"; }
       else if(mode === 'gif') { document.getElementById('gif-studio').classList.add('active-sec'); sName.innerText = "NEON"; sSub.innerText = "GIF STUDIO"; }
       else if(mode === 'sym') { document.getElementById('sym-studio').classList.add('active-sec'); sName.innerText = "SYMBOLS"; sSub.innerText = "STUDIO"; }
     }
-
+    
     function toggleFrameUI() {
         const grp = document.getElementById('frame-btn-group'), btn = document.getElementById('ui-toggle-btn');
-        if (window.getComputedStyle(grp).display === 'none') { grp.style.display = 'flex'; btn.innerHTML = "👁️ HIDE MENU BUTTONS"; btn.style.color = "#ffcc00"; btn.style.borderColor = "#ffcc00"; }
+        if (window.getComputedStyle(grp).display === 'none') { grp.style.display = 'flex'; btn.innerHTML = "👁️ HIDE MENU BUTTONS"; btn.style.color = "#ffcc00"; btn.style.borderColor = "#ffcc00"; } 
         else { grp.style.display = 'none'; btn.innerHTML = "👁️ SHOW MENU BUTTONS"; btn.style.color = "#555"; btn.style.borderColor = "#555"; }
         playClick();
     }
@@ -629,12 +629,12 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       {m:"ΛBCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"},
       {m:"ȺƁƇƊɆƑƓĦɪʝҠŁⱮȠØⱣꝖɌŞŦɄVŴӾɎƵabcdefghijklmnopqrstuvwxyz0123456789"},
       {m:"𝙰𝙱𝙲𝙳𝙴𝙵𝙶𝙷𝙸𝙹𝙺𝙻𝙼𝙽𝙾𝙿𝚀𝚁𝚂𝚃𝚄𝚅𝚆𝚇𝚈𝚉𝚊𝚋𝚌𝚍𝚎𝚏𝚐𝚑𝚒𝚓𝚔𝚕𝚖𝚗𝚘𝚙𝚚𝚛𝚜𝘵𝚞𝑣𝚠𝚡𝚢𝚣𝟶𝟷𝟸𝟹𝟺𝟻𝟼𝟽𝟾𝟿"},
-      {m:"𝐀𝐁𝐂𝐃𝐄𝐅𝐆𝐇𝐈𝐉𝐊𝐋𝐌𝐍𝐎𝐏𝐐𝐑𝐒𝐓𝐔𝐕𝐖𝐗𝐘𝐙𝐚𝐛𝐜𝐝𝐞𝐟𝐠𝐡𝐢𝐣𝐤𝐥𝐦𝐧𝐨𝐩𝐪𝐫𝐬𝐭𝐮𝐯𝐰𝐱𝐲𝐳𝟎𝟏𝟐𝟑𝟒𝟓𝟔𝟕𝟖𝟗"},
-      {m:"𝑨𝑩𝑪𝑫𝑬𝑭𝑮𝑯𝑰𝑱𝑲𝑳𝑴𝑵𝑶𝑷𝑸𝑹𝑺𝑻𝑼𝑽𝑾𝑿𝒀𝒁𝒂𝒃𝒄𝒅𝒆𝒇𝒈𝒉𝒊𝒋𝒌𝒍𝒎𝒏𝒐𝒑𝒒𝒓𝒔𝒕𝒖𝒗𝒘𝒙𝒚𝒛𝟎𝟏𝟐𝟑𝟒𝟓𝟔𝟕𝟖𝟗"},
-     {m:"𝘼𝘽𝘾𝘿𝙀𝙁𝙂𝙃𝙄𝙅开𝙇𝙈𝙉𝙊𝙋𝙌𝙍𝙎𝙏𝙐𝙑𝙒𝙓𝙔𝙕𝙖𝙗𝙘𝙙𝙚𝙛𝙜𝙝𝙞𝙟𝙠𝙡𝙢𝙣𝙤𝙥𝙦𝙧𝙨𝙩𝙪𝙫𝙬𝙭𝙮𝙯𝟬𝟭𝟮𝟯𝟰𝟱𝟲𝟳𝟴9"},
+      {m:"𝐀𝐁𝐂𝐃𝐄𝐅𝐆𝐇𝐈𝐉𝐊𝐋𝐌𝐍𝐎𝐏𝐐𝐑𝐒𝐓𝐔𝐕𝐖𝐗𝐘𝐙𝐚𝐛𝐜𝐝𝐞𝐟𝐠𝐡𝐢𝐣𝐤𝐥𝐦𝐧𝐨𝐩𝐪𝐫𝐬𝐭𝐮𝐯𝐰𝐱𝐲𝐳𝟎𝟏𝟐𝟑𝟒𝟓𝟔𝟕𝟖𝟗"}, 
+      {m:"𝑨𝑩𝑪𝑫𝑬𝑭𝑮𝑯𝑰𝑱𝑲𝑳𝑴𝑵𝑶𝑷𝑸𝑹𝑺𝑻𝑼𝑽𝑾𝑿𝒀𝒁𝒂𝒃𝒄𝒅𝒆𝒇𝒈𝒉𝒊𝒋𝒌𝒍𝒎𝒏𝒐𝒑𝒒𝒓𝒔𝒕𝒖𝒗𝒘𝒙𝒚𝒛𝟎𝟏𝟐𝟑𝟒𝟓𝟔𝟕𝟖𝟗"}, 
+     {m:"𝘼𝘽𝘾𝘿𝙀𝙁𝙂𝙃𝙄𝙅开𝙇𝙈𝙉𝙊𝙋𝙌𝙍𝙎𝙏𝙐𝙑𝙒𝙓𝙔𝙕𝙖𝙗𝙘𝙙𝙚𝙛𝙜𝙝𝙞𝙟𝙠𝙡𝙢𝙣𝙤𝙥𝙦𝙧𝙨𝙩𝙪𝙫𝙬𝙭𝙮𝙯𝟬𝟭𝟮𝟯𝟰𝟱𝟲𝟳𝟴9"},  
      {m:"ᴬʙᴄᴅᴇғɢʜɪᴊᴋʟᴍɴᴏᴘqʀsᴛᴜᴠᴡxʏᴢabcdefghijklmnopqrstuvwxyz0123456789"}
     ];
-
+    
     function genFonts(){
       const val=document.getElementById('font-input').value, resBox=document.getElementById('font-results'); resBox.innerHTML=""; if(!val)return;
       let count=0; alphas.forEach(alph=>{ let txt=""; const mapArr=Array.from(alph.m); for(let char of val){ let idx=chars.indexOf(char); txt+=(idx!==-1&&mapArr[idx])?mapArr[idx]:char; }
@@ -684,17 +684,17 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         'grad-sunset': ['#FF512F', '#F09819'], 'grad-brown': ['#D7CCC8', '#5D4037'], 'grad-silver': ['#E0E0E0', '#606060'],
         'grad-slate': ['#90A4AE', '#37474F'], 'grad-charcoal': ['#616161', '#212121'], 'grad-black': ['#434343', '#000000']
     };
-
+    
     // --- 🎨 COLOR PALETTE DATA ---
     const colorData = {
         'Neon': [
             {c:'#FFFFFF', t:'neon'}, {c:'#FEFEFE', t:'neon'}, {c:'#808080', t:'neon'}, {c:'#000000', t:'neon'},
-            {c:'#FF0000', t:'neon'}, {c:'#dc143c', t:'neon'}, {c:'#ff4d4d', t:'neon'}, {c:'#ff6666', t:'neon'},
+            {c:'#FF0000', t:'neon'}, {c:'#dc143c', t:'neon'}, {c:'#ff4d4d', t:'neon'}, {c:'#ff6666', t:'neon'}, 
             {c:'#b22222', t:'neon'}, {c:'#800000', t:'neon'}, {c:'#5b0000', t:'neon'}, {c:'#fa8072', t:'neon'},
             {c:'#FFA500', t:'neon'}, {c:'#FF4500', t:'neon'}, {c:'#FF8C00', t:'neon'}, {c:'#f4a460', t:'neon'},
             {c:'#d2691e', t:'neon'}, {c:'#a0522d', t:'neon'}, {c:'#8b4500', t:'neon'},
             {c:'#FFD700', t:'neon'}, {c:'#ffff33', t:'neon'}, {c:'#f0e68c', t:'neon'}, {c:'#b8860b', t:'neon'}, {c:'#daa520', t:'neon'},
-            {c:'#00FF00', t:'neon'}, {c:'#32cd32', t:'neon'}, {c:'#00FA9A', t:'neon'}, {c:'#7FFF00', t:'neon'},
+            {c:'#00FF00', t:'neon'}, {c:'#32cd32', t:'neon'}, {c:'#00FA9A', t:'neon'}, {c:'#7FFF00', t:'neon'}, 
             {c:'#ADFF2F', t:'neon'}, {c:'#90ee90', t:'neon'}, {c:'#2e8b57', t:'neon'}, {c:'#008000', t:'neon'},
             {c:'#006400', t:'neon'}, {c:'#228b22', t:'neon'},
             {c:'#00FFFF', t:'neon'}, {c:'#00CED1', t:'neon'}, {c:'#40e0d0', t:'neon'}, {c:'#7fffd4', t:'neon'},
@@ -730,7 +730,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         'Purples': [ {c:'#4b0082'}, {c:'#483d8b'}, {c:'#6a5acd'}, {c:'#7b68ee'}, {c:'#800080'}, {c:'#8b008b'}, {c:'#9400d3'}, {c:'#9932cc'}, {c:'#ba55d3'}, {c:'#dda0dd'}, {c:'#e6e6fa'} ],
         'Pinks': [ {c:'#8b0000'}, {c:'#c71585'}, {c:'#db7093'}, {c:'#ff1493'}, {c:'#ff69b4'}, {c:'#ffb6c1'}, {c:'#ffc0cb'}, {c:'#fff0f5'} ]
     };
-
+    
     function togglePaletteUI() {
         const el = document.getElementById('palette-wrapper');
         const btn = document.querySelector("button[onclick='togglePaletteUI()']");
@@ -743,28 +743,28 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
             el.classList.add('active');
             btn.innerHTML = "CLOSE PALETTE ✖";
             btn.style.color = "#ffcc00"; btn.style.borderColor = "#ffcc00";
-            renderCat('Neon');
+            renderCat('Neon'); 
         }
         playClick();
     }
-
+    
     function renderCat(cat) {
         playClick();
         document.querySelectorAll('.cat-btn').forEach(b => {
             b.classList.remove('active-cat');
             if(b.innerText === cat.toUpperCase()) b.classList.add('active-cat');
         });
-
+    
         const grid = document.getElementById('color-grid');
         grid.innerHTML = '';
         grid.classList.remove('show');
-
+    
         setTimeout(() => {
             const list = colorData[cat];
             list.forEach(item => {
                 const d = document.createElement('div');
                 d.className = 'c-sq';
-
+    
                 // 1. Visual Styles (Neon vs Metal vs Basic)
                 if(item.t === 'neon') {
                     d.style.backgroundColor = item.c;
@@ -782,7 +782,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
                 } else {
                     d.style.backgroundColor = item.c;
                 }
-
+    
                 // 2. Click Handler (The Fix is Here)
                 d.onclick = () => {
                     // Apply Color
@@ -792,37 +792,37 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
                         cfg.pColor = item.c;
                         cfg.pType = item.t || null;
                         document.getElementById('u2').value = '';
-                        f = new Image();
+                        f = new Image(); 
                     }
-
+    
                     // 🔥 FORCE SIZE TO 375px (Fixes the bug)
                     cfg.m = 375;
                     mSl.value = 375;
                     mVal.innerText = "375px";
                     if(typeof updS === 'function') updS(mSl);
-
+    
                     d(); // Redraw
                     playClick();
                 };
-
+                
                 grid.appendChild(d);
             });
             grid.classList.add('show');
         }, 10);
     }
     function setPlainFrame(color, type=null) {
-        f = new Image();
-        document.getElementById('u2').value = '';
-        cfg.pColor = color;
-        cfg.pType = type;
-        mLbl.innerText = "FRAME OPENING SIZE";
-        d();
+        f = new Image(); 
+        document.getElementById('u2').value = ''; 
+        cfg.pColor = color; 
+        cfg.pType = type; 
+        mLbl.innerText = "FRAME OPENING SIZE"; 
+        d(); 
         playClick();
     }
     // --- 🏆 THE ULTIMATE MASTER COLLECTION (330+ PRO LOOKS) ---
     // Updated: January 17, 2026 - Added "Avant-Garde" & "Rare Optical" Series
     // Protection: No sharpen() logic used; Hardware Accelerated
-
+    
     const magicFilters = [
         // --- ROW 1: AI ELITE QUALITY BOOSTERS ---
         { name: 'ORIGINAL', f: 'none' },
@@ -830,45 +830,45 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         { name: 'AI-4K-ULTRA-ENHANCE 💎', f: 'contrast(1.4) saturate(1.1) brightness(1.05) contrast(1.1)' },
         { name: 'AI-HDR-MAX-CLARITY', f: 'contrast(1.6) saturate(1.2) brightness(1.1) contrast(1.1)' },
         { name: 'AUTO-ENHANCE ✨', f: 'contrast(1.15) saturate(1.25) brightness(1.05) sepia(0.05)' },
-
+        
         // --- 📱 UNIVERSAL DEVICE COMPATIBILITY ---
         { name: 'UNI-CLEAN-VIEW', f: 'brightness(1.1) contrast(1.05) saturate(1.05)' },
         { name: 'UNI-WARM-MOBILE', f: 'sepia(0.15) saturate(1.2) contrast(1.1)' },
-
+    
         // --- 💿 NEW SLVR (SILVER) SERIES ---
     // Extracted from screenshots: High-contrast, metallic monochrome looks.
         { name: 'SLVR1', f: 'grayscale(1) contrast(1.5) brightness(1.2)' },
         { name: 'SLVR2', f: 'grayscale(1) contrast(1.8) brightness(1.1)' },
         { name: 'SLVR3', f: 'grayscale(1) contrast(2) brightness(0.9)' },
-
+    
     // --- 🎞️ NEW MNCH (MONOCHROME) SERIES ---
     // Extracted from screenshots: Varied black and white depths.
         { name: 'MNCH1', f: 'grayscale(1) brightness(1.1) contrast(1.1)' },
         { name: 'MNCH2', f: 'grayscale(1) contrast(1.5) brightness(0.8)' },
         { name: 'MNCH3', f: 'grayscale(1) contrast(1.3) sepia(0.1)' },
         { name: 'B&W LowCon', f: 'grayscale(1) contrast(0.8) brightness(1.2)' },
-
+    
         // --- 📸 PRO CAMERA COLOR SCIENCE (Official Looks) ---
         { name: 'CAM-CANON-L', f: 'contrast(1.1) saturate(1.15) brightness(1.05) hue-rotate(-5deg)' },
         { name: 'CAM-SONY-ALPHA', f: 'contrast(1.25) saturate(1.1) brightness(1.1) hue-rotate(2deg)' },
         { name: 'CAM-NIKON-Z', f: 'contrast(1.15) saturate(1.2) brightness(1.0) sepia(0.05)' },
         { name: 'CAM-LEICA-M', f: 'contrast(1.4) saturate(1.1) brightness(1.1) sepia(0.02)' },
         { name: 'CAM-FUJI-X', f: 'saturate(1.3) contrast(1.1) brightness(1.05) hue-rotate(-5deg)' },
-
+    
     // --- 🎞️ CLEAR & SHARP FILM STOCKS (High Fidelity) ---
         { name: 'FILM-EKTAR-100', f: 'contrast(1.3) saturate(1.4) brightness(1.05)' },
         { name: 'FILM-PORTRA-160', f: 'contrast(1.05) saturate(1.1) brightness(1.1) sepia(0.05)' },
         { name: 'FILM-CINESTILL-50', f: 'contrast(1.1) brightness(1.1) saturate(1.2) hue-rotate(-5deg)' },
         { name: 'FILM-PRO-400H', f: 'brightness(1.15) contrast(1.1) saturate(1.05) hue-rotate(5deg)' },
         { name: 'FILM-GOLD-200', f: 'sepia(0.1) saturate(1.3) contrast(1.1) brightness(1.1)' },
-
+    
     // --- 💎 ULTRA-CLARITY & STUDIO SERIES ---
         { name: 'STUDIO-LIGHTING', f: 'brightness(1.2) contrast(1.1) saturate(1.05)' },
         { name: 'CRYSTAL-CLEAR', f: 'contrast(1.3) brightness(1.1) saturate(1.1)' },
         { name: 'HD-REALISM', f: 'contrast(1.2) saturate(1.25) brightness(1.05)' },
         { name: 'PURE-WHITE-BAL', f: 'brightness(1.1) contrast(1.05) saturate(0.95)' },
         { name: 'DEEP-DEFINITION', f: 'contrast(1.5) saturate(1.0) brightness(1.0)' },
-
+    
     // --- 🕰️ VINTAGE YEARS EXPANSION ---
     // Extracted from screenshots: Faded, year-specific film simulations.
         { name: '1991', f: 'sepia(0.3) saturate(1.3) hue-rotate(-15deg) contrast(1.1)' },
@@ -876,20 +876,20 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         { name: '1993', f: 'saturate(1.5) contrast(1.2) hue-rotate(5deg) sepia(0.1)' },
         { name: '1995', f: 'sepia(0.2) contrast(1.1) brightness(0.9) saturate(0.8)' },
         { name: '1996', f: 'grayscale(0.5) contrast(1.1) brightness(1.1) sepia(0.2)' },
-
+    
     // --- ✨ SPECIAL FX & REQUESTED FILTERS ---
     // Includes requested Photobooth, Fx-1993, and extracted Holga 2.
         { name: 'Holga 2', f: 'contrast(1.4) saturate(1.5) hue-rotate(-20deg) sepia(0.2)' },
         { name: 'Photobooth', f: 'brightness(1.2) contrast(1.1) saturate(0.9) sepia(0.05)' },
         { name: 'Fx-1993', f: 'contrast(1.2) saturate(1.6) sepia(0.3) hue-rotate(-10deg) brightness(1.05)' },
-
+    
         // --- 🔥 2026 HOT & TRENDING ---
         { name: 'THROWBACK-2016', f: 'saturate(2.5) contrast(1.4) brightness(1.1) sepia(0.1)' },
         { name: 'LO-FI-VIBES', f: 'contrast(1.6) saturate(1.8) brightness(0.95) hue-rotate(-5deg)' },
         { name: 'CLEAN-AESTHETIC', f: 'brightness(1.2) contrast(0.85) saturate(1.1) sepia(0.02)' },
         { name: 'DARK-ACADEMIA-PRO', f: 'sepia(0.4) contrast(1.2) brightness(0.8) saturate(0.6)' },
         { name: 'EARTHY-BOHO', f: 'sepia(0.3) saturate(0.8) contrast(1.1) brightness(0.95)' },
-
+    
         // --- 💰 RICH & ELITE COLOR GRADES ---
         { name: 'ROYAL-GOLD-LUXURY', f: 'sepia(0.2) saturate(1.6) contrast(1.3) brightness(1.05) hue-rotate(-5deg)' },
         { name: 'DEEP-VELVET-COLOR', f: 'saturate(1.4) contrast(1.5) brightness(0.95) sepia(0.1)' },
@@ -898,7 +898,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         { name: 'CINEMATIC-TEAL-RICH', f: 'hue-rotate(185deg) saturate(1.2) contrast(1.4) brightness(0.9) sepia(0.1)' },
         { name: 'VIVID-OPULENCE', f: 'saturate(2.5) contrast(1.3) brightness(1.05) hue-rotate(-5deg)' },
         { name: 'MOODY-OAK-FILM', f: 'sepia(0.4) contrast(1.2) brightness(0.85) saturate(1.1)' },
-
+    
         // --- ROW 3: ORIGINAL SCREENSHOT FILM COLLECTION ---
         { name: 'FILM-1', f: 'contrast(1.1) saturate(1.5) brightness(0.9)' },
         { name: 'FILM-2', f: 'sepia(0.2) contrast(1.2) brightness(1.1)' },
@@ -911,38 +911,38 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         { name: 'VINTAGE-IVORY', f: 'sepia(0.4) contrast(0.9) brightness(1.1)' },
         { name: 'VINTAGE-1970', f: 'sepia(0.5) hue-rotate(-10deg) saturate(1.2)' },
         { name: 'VINTAGE-1990', f: 'contrast(1.1) saturate(0.8) brightness(0.9)' },
-
+    
         // --- 🎨 PIXIR PRO SERIES (Artistic & Sharp) ---
         { name: 'PIXIR-VIBRANCE-MAX', f: 'saturate(2.2) contrast(1.3) brightness(1.1)' },
         { name: 'PIXIR-URBAN-COOL', f: 'hue-rotate(185deg) saturate(1.1) contrast(1.2) brightness(1.05)' },
         { name: 'PIXIR-DEEP-BOLD', f: 'contrast(1.7) saturate(1.4) brightness(0.95)' },
-
+    
         // --- 🖼️ BACKGROUND SHIFT SIMULATIONS ---
         { name: 'BG-STUDIO-WHITE', f: 'brightness(1.4) contrast(0.8) saturate(1.1)' },
         { name: 'BG-MIDNIGHT-VOID', f: 'brightness(0.6) contrast(1.5) saturate(0.8) hue-rotate(200deg)' },
         { name: 'BG-GOLDEN-FIELD', f: 'sepia(0.4) saturate(1.8) contrast(1.1) brightness(1.05)' },
         { name: 'BG-NEON-DISTRICT', f: 'hue-rotate(280deg) saturate(2.5) contrast(1.3) brightness(0.8)' },
-
+    
         // --- 🤖 SHARP AI REMASTERING & "REMINI" RECOVERY ---
         { name: 'AI-8K-SUPER-RESOLUTION', f: 'contrast(1.5) saturate(1.1) brightness(1.05) contrast(1.2)' },
         { name: 'AI-REMINI-PRO-v3', f: 'contrast(1.35) saturate(1.2) brightness(1.1) contrast(1.1)' },
         { name: 'AI-DEEP-TEXTURE-FIX', f: 'contrast(1.8) brightness(1.0) saturate(1.1) contrast(1.2)' },
         { name: 'AI-LOW-LIGHT-RESCUE', f: 'brightness(1.4) contrast(1.2) saturate(1.1) sepia(0.05) contrast(1.05)' },
-
+    
         // --- 💎 UNIQUE & RARE SIMULATIONS ---
         { name: 'AI-LIQUID-SILVER', f: 'grayscale(1) contrast(2.2) brightness(1.1) invert(0.05)' },
         { name: 'AI-INFRARED-LUMINA', f: 'invert(0.1) hue-rotate(120deg) saturate(2.1) contrast(1.2)' },
         { name: 'AI-GLASS-DISTORTION', f: 'contrast(1.6) brightness(1.1) saturate(0.8) hue-rotate(5deg)' },
         { name: 'AI-TECH-NOIR', f: 'grayscale(0.5) hue-rotate(180deg) contrast(1.5) brightness(0.85)' },
         { name: 'AI-CRISP-CARTOON', f: 'saturate(2.5) contrast(1.6) brightness(1.1) sepia(0.05)' },
-
+    
         // --- 🛠️ PHOTOSHOP PRO TOOLS ---
         { name: 'PS-HIGH-PASS-SHARP', f: 'contrast(1.8) brightness(1.05) saturate(1.1)' },
         { name: 'PS-AUTO-TONE-v2', f: 'contrast(1.2) saturate(1.2) brightness(1.1)' },
         { name: 'PS-DEEP-MATTE', f: 'contrast(0.7) brightness(1.2) saturate(1.1) sepia(0.05)' },
         { name: 'PS-VIBRANCE-BOOST', f: 'saturate(1.8) brightness(1.05) contrast(1.1)' },
         { name: 'PS-COLOR-BALANCE', f: 'hue-rotate(-10deg) saturate(1.3) contrast(1.1) brightness(1.05)' },
-
+    
         // --- 💎 RARE OPTICAL & AVANT-GARDE (New Unique Additions) ---
         { name: 'MYSTIC-FOREST', f: 'hue-rotate(80deg) contrast(1.2) saturate(1.4) brightness(0.9)' },
         { name: 'PRISM-REFRACTION', f: 'hue-rotate(220deg) saturate(1.8) contrast(1.1) brightness(1.1)' },
@@ -952,28 +952,28 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         { name: 'SUNSET-BOULEVARD', f: 'sepia(0.4) saturate(1.8) contrast(1.1) brightness(1.1) hue-rotate(-10deg)' },
         { name: 'CYBER-GLITCH-SIM', f: 'saturate(3.0) contrast(1.5) brightness(0.9) hue-rotate(10deg)' },
         { name: 'ETHEREAL-ANGEL', f: 'brightness(1.25) contrast(0.9) saturate(1.1) hue-rotate(-5deg)' },
-
+    
         // --- 📸 INSTAGRAM & VSCO CLASSICS ---
         { name: 'CLARENDON', f: 'contrast(1.2) brightness(1.1) saturate(1.1) hue-rotate(5deg)' },
         { name: 'GINGHAM', f: 'brightness(1.05) sepia(0.2) contrast(0.9) saturate(0.9)' },
         { name: 'VSCO-A6 (Clean)', f: 'saturate(1.1) brightness(1.05) contrast(1.05) sepia(0.05)' },
         { name: 'VSCO-M5 (Moody)', f: 'contrast(0.9) saturate(0.8) sepia(0.25) brightness(0.95)' },
         { name: 'VSCO-C1 (Vibrant)', f: 'saturate(1.4) contrast(1.1) brightness(1.05) hue-rotate(-2deg)' },
-
+    
         // --- 🎞️ RARE & COLLECTOR FILM STOCKS ---
         { name: 'KODAK-PORTRA-400', f: 'saturate(1.15) brightness(1.1) contrast(0.95) sepia(0.12)' },
         { name: 'FUJI-VELVIA-50', f: 'saturate(1.6) contrast(1.2) brightness(1.05)' },
         { name: 'CINESTILL-800T', f: 'contrast(1.2) saturate(1.1) brightness(1.1) hue-rotate(-5deg) sepia(0.1)' },
         { name: 'POLAROID-600', f: 'contrast(1.1) brightness(1.1) sepia(0.25) saturate(0.8)' },
-
+    
         // --- 🏁 PRO MONOCHROME & BW FILM ---
         { name: 'BW-SILVER-HALIDE', f: 'grayscale(1) brightness(1.2) contrast(1.5) sepia(0.1)' },
         { name: 'BW-NOIR-PRO-V2', f: 'grayscale(1) contrast(2.5) brightness(0.6)' },
         { name: 'BW-STREET-STYLE', f: 'grayscale(1) contrast(1.4) brightness(1.0)' },
-
+    
     ];
     cfg.adj = { b: 100, c: 100, s: 100 };
-
+    
     function toggleFilterUI() {
         const el = document.getElementById('filter-wrapper');
         const btn = document.querySelector("button[onclick='toggleFilterUI()']");
@@ -986,14 +986,14 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
             el.classList.add('active');
             btn.innerHTML = "CLOSE FILTERS ✖";
             btn.style.color = "#ff00ff"; btn.style.borderColor = "#ff00ff";
-
+            
             if(document.getElementById('filter-list').children.length === 0) renderFilters();
             if(!document.getElementById('adj-panel')) createAdjustUI();
             if(!document.getElementById('open-adj-btn')) createSmartEditBtn();
-
+            
             document.getElementById('filter-list').style.display = 'flex';
             document.getElementById('adj-panel').style.display = 'none';
-
+            
             // 🔥 FORCE ADJUST BUTTON VISIBLE (The Fix)
             // This ensures the button is always there, even for the original image
             const adjBtn = document.getElementById('open-adj-btn');
@@ -1005,7 +1005,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         }
         playClick();
     }
-
+    
     function createSmartEditBtn() {
         const wrapper = document.getElementById('filter-wrapper');
         const b = document.createElement('button');
@@ -1015,7 +1015,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         b.onclick = openAdjust;
         wrapper.insertBefore(b, document.getElementById('filter-list').nextSibling);
     }
-
+    
     function createAdjustUI() {
         const wrapper = document.getElementById('filter-wrapper');
         const p = document.createElement('div');
@@ -1039,24 +1039,24 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         wrapper.appendChild(p);
         setTimeout(() => { ['b','c','s'].forEach(k => { const el = document.getElementById('sl-'+k); if(el) updateSliderColor(el, 100, 200); }); }, 50);
     }
-
+    
     function updateSliderColor(el, val, max) {
         const percent = (val / max) * 100;
         const col = el.getAttribute('data-col') || '#00ffff';
         el.style.background = `linear-gradient(to right, ${col} 0%, ${col} ${percent}%, #444 ${percent}%, #444 100%)`;
     }
-
+    
     function renderFilters() {
         const list = document.getElementById('filter-list');
         list.innerHTML = '';
-        const previewSrc = i.src || 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+        const previewSrc = i.src || 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; 
         magicFilters.forEach(mf => {
             const btn = document.createElement('button');
             btn.className = 'filter-btn';
             const img = document.createElement('img');
             img.className = 'filter-preview';
             img.src = previewSrc;
-            img.style.filter = mf.f;
+            img.style.filter = mf.f; 
             const span = document.createElement('span');
             span.className = 'filter-name';
             span.innerText = mf.name;
@@ -1066,58 +1066,58 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
             list.appendChild(btn);
         });
     }
-
+    
     function openAdjust() {
         document.getElementById('filter-list').style.display = 'none';
         document.getElementById('open-adj-btn').style.display = 'none';
         document.getElementById('adj-panel').style.display = 'flex';
         playClick();
     }
-
+    
     function closeAdjust() {
         document.getElementById('adj-panel').style.display = 'none';
         document.getElementById('filter-list').style.display = 'flex';
         document.getElementById('open-adj-btn').style.display = 'block';
         playClick();
     }
-
+    
     function adjChange(type, val, el) {
         cfg.adj[type] = parseInt(val);
         document.getElementById(`val-${type}`).innerText = val + "%";
         if(el) updateSliderColor(el, val, 200);
         // REMOVED c.style.filter here to prevent global filter application
-        d();
+        d(); 
     }
     function applyFilter(filterVal, btn) {
         // 1. Check if we are actually changing the filter
         if (cfg.filter !== filterVal) {
-
+            
             // 2. Reset adjustment sliders to standard (100%)
             cfg.adj = { b: 100, c: 100, s: 100 };
-
+            
             // Reset the slider UI elements
             ['b', 'c', 's'].forEach(k => {
                 const el = document.getElementById('sl-' + k);
-                if (el) {
-                    el.value = 100;
+                if (el) { 
+                    el.value = 100; 
                     const valDisplay = document.getElementById('val-' + k);
-                    if (valDisplay) valDisplay.innerText = "100%";
-
+                    if (valDisplay) valDisplay.innerText = "100%"; 
+                    
                     // Keep the slider gradient logic if you use it
                     if(typeof updateSliderColor === 'function') {
                         updateSliderColor(el, 100, 200);
                     }
                 }
             });
-
+            
             // 3. Update the Data Configuration
             cfg.filter = filterVal;
-
+            
             // 🛡️ THE OLD ANDROID PROTECTION:
             // We do absolutely NOTHING to c.style.filter here.
-            // We do not touch the canvas CSS.
+            // We do not touch the canvas CSS. 
             // We only save the data to 'cfg' and let 'd()' handle the rest.
-
+            
             // 4. Update UI Button Highlights
             document.querySelectorAll('.filter-btn').forEach(b => {
                 b.classList.remove('active-filter');
@@ -1125,17 +1125,17 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
             if (btn) {
                 btn.classList.add('active-filter');
             }
-
+            
             // 5. Trigger the Drawing Engine (The one we did surgery on)
-            d();
-
+            d(); 
+            
             // 6. Sound Effect
             if (typeof playClick === 'function') {
                 playClick();
             }
         }
     }
-
+    
     // --- 🔒 2. BOUNDARY LOCK LOGIC ---
     let isBoundaryLocked = true;
     function toggleBoundaryLock() {
@@ -1158,20 +1158,20 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         if(typeof playClick === 'function') playClick();
     }
     // --- 🛠️ CORE DRAWING ENGINE (JAN 16th FIX: IPHONE HARD BAKE + ANDROID SHIELD) ---
-    function d(){
+    function d(){ 
       if(!x) return;
-      x.clearRect(0,0,800,800);
-
+      x.clearRect(0,0,800,800); 
+    
       // 1. CALCULATE FILTER STRING
       let cssFilter = '';
       if(cfg.filter && cfg.filter !== 'none') cssFilter += cfg.filter;
       if(cfg.adj.b !== 100) cssFilter += ` brightness(${cfg.adj.b}%)`;
       if(cfg.adj.c !== 100) cssFilter += ` contrast(${cfg.adj.c}%)`;
       if(cfg.adj.s !== 100) cssFilter += ` saturate(${cfg.adj.s}%)`;
-
+    
       // 🧠 SMART DEVICE DETECTION
       const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-
+    
       // 2. SCREEN PREVIEW (VISUALS)
       if (isIOS) {
           // 🍎 IPHONE: Apply CSS so the user sees changes instantly on screen
@@ -1187,15 +1187,15 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
               c.style.webkitFilter = 'none';
           }
       }
-
+    
       // 3. SIZE & BOUNDARY LOGIC
       let drawM = cfg.m;
       if (cfg.pColor && cfg.m > 360) { drawM = 360; }
-
+    
       if(i.src && isBoundaryLocked){
           const rad = cfg.r * Math.PI / 180;
           const cos = Math.abs(Math.cos(rad)), sin = Math.abs(Math.sin(rad));
-          const mathM = drawM + 15;
+          const mathM = drawM + 15; 
           const reqW = (mathM*2*cos + mathM*2*sin), reqH = (mathM*2*sin + mathM*2*cos);
           const minS = Math.max(reqW/i.width, reqH/i.height);
           if(cfg.s < minS) { cfg.s = minS; if(window.zSl) zSl.value = minS; if(window.zVal) zVal.innerText = Math.round((minS/zSl.min)*100)+"%"; }
@@ -1204,16 +1204,16 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
           cfg.x = Math.max(400 - rangeX, Math.min(400 + rangeX, cfg.x));
           cfg.y = Math.max(400 - rangeY, Math.min(400 + rangeY, cfg.y));
       }
-
+    
       // 4. IMAGE DRAWING (THE SAVE FIX)
       if(i.src){
-          x.save();
-          x.beginPath(); x.arc(400, 400, drawM + 2, 0, Math.PI * 2); x.clip();
-
+          x.save(); 
+          x.beginPath(); x.arc(400, 400, drawM + 2, 0, Math.PI * 2); x.clip(); 
+          
           let w = i.width * cfg.s, h = i.height * cfg.s;
-          x.translate(cfg.x, cfg.y);
+          x.translate(cfg.x, cfg.y); 
           x.rotate(cfg.r * Math.PI / 180);
-
+          
           // 🔥 THE IPHONE FIX (Hard Bake)
           // This is the Jan 16th Logic:
           if (isIOS) {
@@ -1222,24 +1222,24 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
           } else {
               // 🛡️ ANDROID PROTECTION
               // Force none to prevent double-filtering/tinting
-              x.filter = 'none';
+              x.filter = 'none'; 
           }
-
+          
           x.drawImage(i, -w/2, -h/2, w, h);
-          x.restore();
+          x.restore(); 
       }
-
+      
       // 5. RESET FILTER (Crucial: Protects Frames from being colored on Android)
-      x.filter = 'none';
-
+      x.filter = 'none'; 
+    
       // 6. FRAME DRAWING
       if (cfg.pColor) {
-          x.save(); x.beginPath(); x.arc(400, 400, drawM, 0, Math.PI * 2);
+          x.save(); x.beginPath(); x.arc(400, 400, drawM, 0, Math.PI * 2); 
           x.lineWidth = 6; x.strokeStyle = cfg.pColor; x.stroke(); x.restore();
-
-          x.save();
+          
+          x.save(); 
           if ((cfg.pColor === '#000000' || cfg.pColor === '#808080') && cfg.pType === 'neon') {
-              const sC = cfg.pColor;
+              const sC = cfg.pColor; 
               x.beginPath(); x.arc(400, 400, drawM, 0, Math.PI * 2); x.lineWidth = 25; x.strokeStyle = sC; x.shadowBlur = 60; x.shadowColor = sC; x.stroke();
               x.beginPath(); x.arc(400, 400, drawM, 0, Math.PI * 2); x.lineWidth = 18; x.strokeStyle = sC; x.shadowBlur = 10; x.shadowColor = sC; x.stroke();
               x.beginPath(); x.arc(400, 400, drawM, 0, Math.PI * 2); x.lineWidth = 6; x.strokeStyle = '#FFFFFF'; x.stroke();
@@ -1250,19 +1250,19 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
               x.beginPath(); x.arc(400, 400, drawM, 0, Math.PI * 2); x.lineWidth = 25; x.strokeStyle = cfg.pColor; x.shadowBlur = 30; x.shadowColor = cfg.pColor; x.stroke();
               x.beginPath(); x.arc(400, 400, drawM, 0, Math.PI * 2); x.lineWidth = 8; x.strokeStyle = '#FFFFFF'; x.stroke();
           } else {
-              x.beginPath(); x.arc(400, 400, drawM, 0, Math.PI * 2); x.lineWidth = 25;
+              x.beginPath(); x.arc(400, 400, drawM, 0, Math.PI * 2); x.lineWidth = 25; 
               if (cfg.pType === 'gold') {
                   let g = x.createLinearGradient(0, 0, 800, 800); g.addColorStop(0, '#FFD700'); g.addColorStop(0.5, '#FDB931'); g.addColorStop(1, '#FFD700'); x.strokeStyle = g;
-              } else if (cfg.pType === 'silver') {
+              } else if (cfg.pType === 'silver') { 
                   let g = x.createLinearGradient(0, 0, 800, 800); g.addColorStop(0, '#E0E0E0'); g.addColorStop(0.5, '#B0B0B0'); g.addColorStop(1, '#E0E0E0'); x.strokeStyle = g;
               } else { x.strokeStyle = cfg.pColor; }
-              x.stroke();
+              x.stroke(); 
           }
           x.restore();
       }
-      if(f.src) x.drawImage(f,0,0,800,800);
+      if(f.src) x.drawImage(f,0,0,800,800); 
     }
-
+    
     // --- 📂 FILE HANDLERS (SMART AUTO-SIZING: 400px vs 375px) ---
     function handleFile(e){
         const files = e.target ? e.target.files : e.files; if(!files || !files[0]) return;
@@ -1272,28 +1272,28 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
             n.onload = async () => {
                 if ('decode' in n) { try { await n.decode(); } catch(err) { } }
                 i = n; cfg.x = 400; cfg.y = 400; cfg.r = 0;
-
+                
                 // 🔥 LOGIC: If NO frame is active, go to 400px (Full Size).
                 // If a frame IS active, this line is skipped, so it stays at 375px.
                 if(!f.src && !cfg.pColor) { cfg.m = 400; mSl.value = 400; mVal.innerText = "400px"; }
-
+                
                 const fillSize = Math.max(800/i.width, 800/i.height);
                 if(isBoundaryLocked) {
                     const rad = cfg.r * Math.PI / 180;
                     const cos = Math.abs(Math.cos(rad)), sin = Math.abs(Math.sin(rad));
                     const reqW = (cfg.m*2*cos + cfg.m*2*sin), reqH = (cfg.m*2*sin + cfg.m*2*cos);
                     const minS = Math.max(reqW/i.width, reqH/i.height);
-                    zSl.min = minS;
-                    cfg.s = Math.max(minS, fillSize);
-                    zSl.value = cfg.s;
+                    zSl.min = minS; 
+                    cfg.s = Math.max(minS, fillSize); 
+                    zSl.value = cfg.s; 
                     zVal.innerText = Math.round((cfg.s/zSl.min)*100)+"%";
-                } else {
-                    cfg.s = fillSize; zSl.min = 0.01; zSl.value = cfg.s; zVal.innerText = "100%";
+                } else { 
+                    cfg.s = fillSize; zSl.min = 0.01; zSl.value = cfg.s; zVal.innerText = "100%"; 
                 }
                 updS(zSl); updS(mSl);
-                if(typeof renderFilters === 'function') renderFilters();
-                d();
-                const uiPanel = document.querySelector('.ui'); uiPanel.style.paddingBottom = "200px";
+                if(typeof renderFilters === 'function') renderFilters(); 
+                d(); 
+                const uiPanel = document.querySelector('.ui'); uiPanel.style.paddingBottom = "200px"; 
                 document.getElementById('save').disabled = false;
             }; n.src = v.target.result;
         }; r.readAsDataURL(files[0]);
@@ -1303,85 +1303,85 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         const r = new FileReader();
         r.onload = v => {
             const n = new Image();
-            n.onload = () => {
-                f.src = n.src;
+            n.onload = () => { 
+                f.src = n.src; 
                 cfg.m = 375; mSl.value = 375; mVal.innerText = "375px";
-                cfg.pColor = null; cfg.pType = null; mLbl.innerText = "FRAME OPENING SIZE";
-                updS(mSl); d();
+                cfg.pColor = null; cfg.pType = null; mLbl.innerText = "FRAME OPENING SIZE"; 
+                updS(mSl); d(); 
             };
             n.src = v.target.result;
         }; r.readAsDataURL(files[0]);
     }
-
+    
     function updateZ(v){ cfg.s=parseFloat(v); zVal.innerText=Math.round((v/zSl.min)*100)+"%"; d(); }
     function updateR(v){ cfg.r=parseInt(v); rVal.innerText=v+"°"; d(); }
     function updateM(v){ cfg.m=parseInt(v); mVal.innerText=v+"px"; d(); }
     function centerSubject(){ cfg.x=400; cfg.y=400; cfg.r=0; rSl.value=0; d(); playShutter(); }
-
-    function resetProject(){
-        i=new Image(); f=new Image();
-
+    
+    function resetProject(){ 
+        i=new Image(); f=new Image(); 
+        
         // 🔥 RESET TO 400px (Normal Mode)
         cfg={s:1, m:400, x:400, y:400, r:0, pColor:null, pType:null, filter:'none', adj:{b:100,c:100,s:100}};
         zSl.value=1; rSl.value=0; mSl.value=400; mVal.innerText="400px"; mLbl.innerText = "CIRCLE SIZE";
-
+        
         document.getElementById('u1').value = ''; document.getElementById('u2').value = '';
         c.style.filter = 'none'; document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active-filter'));
         if(document.getElementById('filter-list')) document.getElementById('filter-list').innerHTML = '';
-
+        
         // Close Adjustment Panel
-        if(document.getElementById('adj-panel')) {
-            document.getElementById('filter-list').style.display = 'flex';
-            document.getElementById('adj-panel').style.display = 'none';
-            closeAdjust();
+        if(document.getElementById('adj-panel')) { 
+            document.getElementById('filter-list').style.display = 'flex'; 
+            document.getElementById('adj-panel').style.display = 'none'; 
+            closeAdjust(); 
         }
         if(document.getElementById('open-adj-btn')) document.getElementById('open-adj-btn').style.display = 'none';
-
-        d(); playShutter(); updS(zSl); updS(rSl); updS(mSl);
-        document.getElementById('save').disabled = true; document.querySelector('.ui').style.paddingBottom = "0px";
+        
+        d(); playShutter(); updS(zSl); updS(rSl); updS(mSl); 
+        document.getElementById('save').disabled = true; document.querySelector('.ui').style.paddingBottom = "0px"; 
     }
-
+    
     function downloadPic() {
         if (!i.src) return;
-
+    
         // 1. Internal Backup
         if (typeof saveToGallery === 'function') {
             saveToGallery();
         }
-
+    
         // 2. ENABLE SAVE MODE (Triggers iPhone Hard Bake)
         // Android ignores this flag completely.
         window.isSaving = true;
-        d();
-
+        d(); 
+    
         // 3. Generate Unique Name
         const uniqueName = `Arcade_${Date.now()}_${Math.floor(Math.random() * 99999)}.png`;
-
+    
         // 4. Create Blob & Download
         c.toBlob(function(blob) {
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = uniqueName;
+            a.download = uniqueName; 
             document.body.appendChild(a);
             a.click();
-
+            
             // 5. CLEANUP & RESTORE
             // We wait 100ms, then turn off Save Mode so the screen goes back to normal.
             setTimeout(() => {
                 document.body.removeChild(a);
                 window.URL.revokeObjectURL(url);
-
+                
                 window.isSaving = false;
-                d();
+                d(); 
             }, 100);
         }, 'image/png');
-
+        
         // 6. Sound Effect
         playShutter();
     }
-
-
+    
+    
     function updS(el){ if(el.parentElement.classList.contains('ui-gif')) return; const val = (el.value-el.min)/(el.max-el.min)*100; el.style.setProperty('--v', val + '%'); }
     document.querySelectorAll('input[type=range]').forEach(el => { el.addEventListener('input', () => updS(el)); updS(el); });
     // --- ⚙️ ADJUSTMENT UI LOGIC (AGGRESSIVE FOCUS MODE) ---
@@ -1389,24 +1389,24 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         document.getElementById('filter-list').style.display = 'none';
         document.getElementById('open-adj-btn').style.display = 'none';
         document.getElementById('adj-panel').style.display = 'flex';
-
+        
         // 🔥 AGGRESSIVE HIDE: Hunt down buttons everywhere
         const uiElements = document.querySelectorAll('.ui button, .ui label, #lock-btn');
         uiElements.forEach(el => {
             if(el.closest('#filter-wrapper')) return; // Don't hide the sliders!
             if(el.closest('#adj-panel')) return;     // Don't hide the "Done" button!
             if(el.innerText && el.innerText.includes('HIDE MENU')) return; // Keep top toggle
-
+            
             el.style.display = 'none';
         });
         playClick();
     }
-
+    
     function closeAdjust() {
         document.getElementById('adj-panel').style.display = 'none';
         document.getElementById('filter-list').style.display = 'flex';
         document.getElementById('open-adj-btn').style.display = 'block';
-
+        
         // 🔥 AGGRESSIVE RESTORE: Bring them back
         const uiElements = document.querySelectorAll('.ui button, .ui label, #lock-btn');
         uiElements.forEach(el => {
@@ -1416,62 +1416,62 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         });
         playClick();
     }
-
+    
     // --- 🖱️ INTERACTION ENGINE (REPAIRED FOR IPHONE & REALME) ---
     let isP=false, tStart={x:0,y:0}, initialDist=0, initialScale=1, initialAngle=0, initialRot=0;
-
-    c.addEventListener('touchstart', e => {
-        if(!i.src) return; e.preventDefault();
+    
+    c.addEventListener('touchstart', e => { 
+        if(!i.src) return; e.preventDefault(); 
         const t = e.touches[0];
-        if(e.touches.length===1){ isP=true; tStart={x:t.pageX, y:t.pageY}; }
-        else if(e.touches.length===2){
-            isP=false; const dx = e.touches[0].pageX - e.touches[1].pageX; const dy = e.touches[0].pageY - e.touches[1].pageY;
-            initialDist = Math.sqrt(dx*dx + dy*dy); initialScale = cfg.s; initialAngle = Math.atan2(dy, dx); initialRot = cfg.r;
-        }
+        if(e.touches.length===1){ isP=true; tStart={x:t.pageX, y:t.pageY}; } 
+        else if(e.touches.length===2){ 
+            isP=false; const dx = e.touches[0].pageX - e.touches[1].pageX; const dy = e.touches[0].pageY - e.touches[1].pageY; 
+            initialDist = Math.sqrt(dx*dx + dy*dy); initialScale = cfg.s; initialAngle = Math.atan2(dy, dx); initialRot = cfg.r; 
+        } 
     }, { passive: false });
-
-    c.addEventListener('touchmove', e => {
-        if(!i.src) return; e.preventDefault();
-        if(e.touches.length===1 && isP){
-            const t = e.touches[0]; let scale = 800 / c.offsetWidth;
-            cfg.x += (t.pageX - tStart.x) * scale; cfg.y += (t.pageY - tStart.y) * scale;
-            tStart={x:t.pageX, y:t.pageY}; d();
-        } else if(e.touches.length===2){
-            const dx = e.touches[0].pageX - e.touches[1].pageX; const dy = e.touches[0].pageY - e.touches[1].pageY;
-            const dist = Math.sqrt(dx*dx + dy*dy); const scaleFactor = dist / initialDist;
-            let newScale = initialScale * scaleFactor; cfg.s = Math.max(zSl.min, Math.min(zSl.max, newScale));
-            zSl.value = cfg.s; zVal.innerText=Math.round((cfg.s/zSl.min)*100)+"%";
-            const angle = Math.atan2(dy, dx); let rotationDiff = (angle - initialAngle) * (180/Math.PI);
-            cfg.r = (initialRot + rotationDiff) % 360; rSl.value = (cfg.r % 360 + 360) % 360;
-            rVal.innerText = Math.round(cfg.r) + "°"; updS(zSl); updS(rSl); d();
-        }
+    
+    c.addEventListener('touchmove', e => { 
+        if(!i.src) return; e.preventDefault(); 
+        if(e.touches.length===1 && isP){ 
+            const t = e.touches[0]; let scale = 800 / c.offsetWidth; 
+            cfg.x += (t.pageX - tStart.x) * scale; cfg.y += (t.pageY - tStart.y) * scale; 
+            tStart={x:t.pageX, y:t.pageY}; d(); 
+        } else if(e.touches.length===2){ 
+            const dx = e.touches[0].pageX - e.touches[1].pageX; const dy = e.touches[0].pageY - e.touches[1].pageY; 
+            const dist = Math.sqrt(dx*dx + dy*dy); const scaleFactor = dist / initialDist; 
+            let newScale = initialScale * scaleFactor; cfg.s = Math.max(zSl.min, Math.min(zSl.max, newScale)); 
+            zSl.value = cfg.s; zVal.innerText=Math.round((cfg.s/zSl.min)*100)+"%"; 
+            const angle = Math.atan2(dy, dx); let rotationDiff = (angle - initialAngle) * (180/Math.PI); 
+            cfg.r = (initialRot + rotationDiff) % 360; rSl.value = (cfg.r % 360 + 360) % 360; 
+            rVal.innerText = Math.round(cfg.r) + "°"; updS(zSl); updS(rSl); d(); 
+        } 
     }, { passive: false });
-
+    
     // --- ⚡ NEON GIF ENGINE (OPTIMIZED: 12 WORKERS FOR STABILITY) ---
     const workerBlob = new Blob(['importScripts(\'https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.worker.js\');'], { type: 'application/javascript' });
     const workerUrl = URL.createObjectURL(workerBlob);
-
+    
     const gfInput = document.getElementById('gfInput'); const upBtn = document.getElementById('upBtn'); const v = document.getElementById('v'); const o = document.getElementById('o'); const vp = document.getElementById('vp'); const speed = document.getElementById('speed'); const sv = document.getElementById('sv'); const zoom = document.getElementById('zoom'); const zv = document.getElementById('zv'); const go = document.getElementById('go'); const msg = document.getElementById('msg'); const dlBox = document.getElementById('dlBox'); const dl = document.getElementById('dl'); const resetBox = document.getElementById('resetBox');
     let gifX = 0, gifY = 0, vidW = 0, vidH = 0, renderW, renderH, isProcessingGif = false;
-
-    function resetGifProject() {
-        v.pause(); v.src = ""; v.load(); v.style.display = 'none'; o.src = ''; o.style.display = 'none'; dlBox.style.display = 'none';
-        dl.href = "#"; dl.removeAttribute('download'); dl.style.pointerEvents = 'none'; dl.style.opacity = '0.5'; dl.onclick = (e) => { e.preventDefault(); return false; };
-        resetBox.style.display = 'none'; document.getElementById('goBox').style.display = 'inline-block'; go.disabled = false; upBtn.disabled = false; zoom.disabled = false; zoom.value = 100; speed.disabled = false; msg.classList.remove('active'); zv.innerText = "100%"; gfInput.value = ''; gifX = 0; gifY = 0; isProcessingGif = false; vp.style.pointerEvents = 'auto';
+    
+    function resetGifProject() { 
+        v.pause(); v.src = ""; v.load(); v.style.display = 'none'; o.src = ''; o.style.display = 'none'; dlBox.style.display = 'none'; 
+        dl.href = "#"; dl.removeAttribute('download'); dl.style.pointerEvents = 'none'; dl.style.opacity = '0.5'; dl.onclick = (e) => { e.preventDefault(); return false; }; 
+        resetBox.style.display = 'none'; document.getElementById('goBox').style.display = 'inline-block'; go.disabled = false; upBtn.disabled = false; zoom.disabled = false; zoom.value = 100; speed.disabled = false; msg.classList.remove('active'); zv.innerText = "100%"; gfInput.value = ''; gifX = 0; gifY = 0; isProcessingGif = false; vp.style.pointerEvents = 'auto'; 
     }
     gfInput.onchange = (e) => { const file = e.target.files[0]; if (!file) return; v.style.display = 'block'; o.style.display = 'none'; dlBox.style.display = 'none'; v.src = URL.createObjectURL(file); v.playbackRate = parseFloat(speed.value); go.disabled = false; v.onloadedmetadata = () => { vidW = v.videoWidth; vidH = v.videoHeight; setCoverSize(); v.play(); }; };
     function setCoverSize() { const boxSize = 320; const aspect = vidW / vidH; if (aspect > 1) { renderH = boxSize; renderW = boxSize * aspect; } else { renderW = boxSize; renderH = boxSize / aspect; } v.style.width = renderW + 'px'; v.style.height = renderH + 'px'; zoom.min = 100; updateGifTransform(); gifX = 0; gifY = 0; }
     function updateGifTransform() { if (!v.src) return; const z = parseInt(zoom.value) / 100; const currentW = renderW * z; const currentH = renderH * z; const boxSize = 320; const maxX = Math.max(0, (currentW - boxSize) / 2); const maxY = Math.max(0, (currentH - boxSize) / 2); gifX = Math.max(-maxX, Math.min(maxX, gifX)); gifY = Math.max(-maxY, Math.min(maxY, gifY)); v.style.transform = `translate(calc(-50% + ${gifX}px), calc(-50% + ${gifY}px)) scale(${z})`; }
     zoom.oninput = function () { zv.innerText = this.value + '%'; updateGifTransform(); };
     speed.oninput = () => { sv.innerText = speed.value + 'x'; if (v.src) v.playbackRate = parseFloat(speed.value); };
-
+    
     let isGifDrag = false;
-    let startX = 0, startY = 0, initX = 0, initY = 0;
+    let startX = 0, startY = 0, initX = 0, initY = 0; 
     vp.addEventListener('touchstart', e => { if (isProcessingGif) return; if (!v.src || v.style.display === 'none') return; isGifDrag = true; startX = e.touches[0].clientX; startY = e.touches[0].clientY; initX = gifX; initY = gifY; }, { passive: false });
     vp.addEventListener('touchmove', e => { if (isProcessingGif) return; if (!v.src || v.style.display === 'none') return; if (!isGifDrag) return; e.preventDefault(); const dx = e.touches[0].clientX - startX; const dy = e.touches[0].clientY - startY; gifX = initX + dx; gifY = initY + dy; requestAnimationFrame(updateGifTransform); }, { passive: false });
-
+    
     go.onclick = () => {
-        if (!v.src) return; go.disabled = true; upBtn.disabled = true; zoom.disabled = true; speed.disabled = true; msg.innerText = "Processing..."; msg.classList.add('active'); isProcessingGif = true; vp.style.pointerEvents = 'none';
+        if (!v.src) return; go.disabled = true; upBtn.disabled = true; zoom.disabled = true; speed.disabled = true; msg.innerText = "Processing..."; msg.classList.add('active'); isProcessingGif = true; vp.style.pointerEvents = 'none'; 
         const OUT_SIZE = 480; const gif = new GIF({ workers: 12, quality: 20, width: OUT_SIZE, height: OUT_SIZE, workerScript: workerUrl, dither: false });
         const canvas = document.createElement('canvas'); canvas.width = OUT_SIZE; canvas.height = OUT_SIZE; const ctx = canvas.getContext('2d');
         const fps = 15, duration = v.duration, playbackSpeed = parseFloat(speed.value), capVid = document.createElement('video'); capVid.src = v.src; capVid.muted = true; capVid.playsInline = true;
@@ -1484,21 +1484,21 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
             capVid.onseeked = () => { ctx.fillStyle = '#000000'; ctx.fillRect(0, 0, OUT_SIZE, OUT_SIZE); ctx.drawImage(capVid, dx, dy, drawW, drawH); gif.addFrame(ctx, { copy: true, delay: (1000 / fps) / playbackSpeed }); cTime += (1 / fps); setTimeout(captureFrame, 10); };
             captureFrame();
         };
-        gif.on('finished', blob => {
+        gif.on('finished', blob => { 
             const reader = new FileReader();
             reader.onloadend = () => {
-                const finalData = reader.result; v.style.display = 'none'; o.src = finalData; o.style.display = 'block';
-                dl.href = finalData; dl.download = `Arcade_GIF_${Date.now()}.gif`;
-                dl.style.pointerEvents = 'auto'; dl.style.opacity = '1'; dl.onclick = null;
-                dlBox.style.display = 'block'; resetBox.style.display = 'block';
-                msg.classList.remove('active'); document.getElementById('goBox').style.display = 'none'; isProcessingGif = false; vp.style.pointerEvents = 'auto';
+                const finalData = reader.result; v.style.display = 'none'; o.src = finalData; o.style.display = 'block'; 
+                dl.href = finalData; dl.download = `Arcade_GIF_${Date.now()}.gif`; 
+                dl.style.pointerEvents = 'auto'; dl.style.opacity = '1'; dl.onclick = null; 
+                dlBox.style.display = 'block'; resetBox.style.display = 'block'; 
+                msg.classList.remove('active'); document.getElementById('goBox').style.display = 'none'; isProcessingGif = false; vp.style.pointerEvents = 'auto'; 
             }; reader.readAsDataURL(blob);
         });
     };
-
+    
     // --- 🌐 GLOBAL MENU HANDLER ---
-    window.onclick = e => {
-        initAudio();
+    window.onclick = e => { 
+        initAudio(); 
         if (panel.classList.contains('open') && !panel.contains(e.target) && !e.target.classList.contains('menu-toggle')) { panel.classList.remove('open'); playClick(); }
         if (typeof swMenu !== 'undefined' && swMenu.style.display === 'flex' && !document.querySelector('.switch-container').contains(e.target)) { swMenu.style.display = 'none'; playClick(); }
         if (typeof thMenu !== 'undefined' && thMenu.style.display === 'flex' && !document.querySelector('.switch-container').contains(e.target)) { thMenu.style.display = 'none'; playClick(); }
@@ -1510,23 +1510,23 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         }
     };
     // --- 💎 DESIGNER EDITION GALLERY (MASTER FIX: UNLIMITED SAVES & INSTANT DELETE) ---
-
+    
     // 1. Data Structure
     let myGallery = JSON.parse(localStorage.getItem('arcadeGallery')) || [];
-
+    
     // 2. Save Logic (Images) - ALLOWS DUPLICATES
     function saveToGallery() {
-        if(!c) return;
+        if(!c) return; 
         const data = c.toDataURL();
         // 🔥 RANDOM ID: Ensures every save is unique
-        const id = Date.now() + Math.floor(Math.random() * 100000);
+        const id = Date.now() + Math.floor(Math.random() * 100000); 
         const item = { id: id, type: 'img', data: data, fav: false, date: new Date().toLocaleDateString() };
-        myGallery.unshift(item);
+        myGallery.unshift(item); 
         localStorage.setItem('arcadeGallery', JSON.stringify(myGallery));
         refreshGalleryIfOpen();
         showToast("💾 BACKUP SAVED", "#00ff00");
     }
-
+    
     // 3. Save Logic (Text)
     function saveTextToGallery(text) {
         if(!text || text.trim() === "") return showToast("⚠️ TYPE SOMETHING FIRST!", "#ff0055");
@@ -1537,36 +1537,36 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         refreshGalleryIfOpen();
         showToast("💾 TEXT SAVED", "#00ff00");
     }
-
+    
     function refreshGalleryIfOpen() {
         if(document.getElementById('gallery-wrapper') && document.getElementById('gallery-wrapper').style.display === 'flex') {
             renderGallery();
         }
     }
-
+    
     // 4. UI Logic
     function toggleGalleryUI() {
         let el = document.getElementById('gallery-wrapper');
         if(!el) { createGalleryUI(); el = document.getElementById('gallery-wrapper'); }
-
+        
         if(el.style.display === 'flex') {
             el.style.display = 'none';
-            document.body.style.overflow = 'auto';
+            document.body.style.overflow = 'auto'; 
         } else {
             el.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden'; 
             renderGallery();
         }
         if(typeof playClick === 'function') playClick();
     }
-
+    
     function createGalleryUI() {
         if(document.getElementById('gallery-wrapper')) return;
-
+        
         const div = document.createElement('div');
         div.id = 'gallery-wrapper';
         div.style.cssText = "display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(10, 10, 16, 0.95); backdrop-filter:blur(15px); -webkit-backdrop-filter:blur(15px); z-index:9999; flex-direction:column; padding:20px; box-sizing:border-box; overflow-y:auto; transition: opacity 0.3s ease;";
-
+        
         div.innerHTML = `
             <div style="display:flex; justify-content:center; align-items:center; margin-bottom:25px; position:sticky; top:0; z-index:10;">
                 <div style="background:rgba(0,0,0,0.6); padding:10px 20px; border-radius:30px; border:1px solid #333; backdrop-filter:blur(5px); display:flex; align-items:center; gap:15px; box-shadow:0 10px 30px rgba(0,0,0,0.5);">
@@ -1582,7 +1582,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         `;
         document.body.appendChild(div);
     }
-
+    
     function toggleFav(index) {
         if (myGallery[index]) {
             myGallery[index].fav = !myGallery[index].fav;
@@ -1595,14 +1595,14 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
             if (typeof playClick === 'function') playClick();
         }
     }
-
+    
     function renderGallery() {
         const grid = document.getElementById('gallery-grid');
         const empty = document.getElementById('empty-msg');
-        grid.innerHTML = '';
+        grid.innerHTML = ''; 
         if(myGallery.length === 0) { empty.style.display = 'block'; return; }
         empty.style.display = 'none';
-
+    
         myGallery.forEach((item, index) => {
             const card = document.createElement('div');
             card.style.cssText = "position:relative; border-radius:16px; overflow:hidden; background:linear-gradient(145deg, #1a1a1a, #0d0d0d); display:flex; flex-direction:column; box-shadow: 0 4px 15px rgba(0,0,0,0.6); border:1px solid #333; transition: transform 0.2s;";
@@ -1614,23 +1614,23 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
                 card.style.border = "1px solid #00ffcc44";
             } else {
                 const img = document.createElement('img');
-                img.src = item.data || item.img;
+                img.src = item.data || item.img; 
                 img.style.cssText = "width:100%; height:auto; display:block; aspect-ratio:1/1; object-fit:cover;";
                 card.appendChild(img);
             }
             const bar = document.createElement('div');
             bar.style.cssText = "width:100%; background:#000; display:flex; justify-content:space-between; align-items:center; padding:10px 15px; box-sizing:border-box; border-top:1px solid #222;";
             const leftGrp = document.createElement('div');
-            leftGrp.style.display = 'flex'; leftGrp.style.alignItems = 'center'; leftGrp.style.gap = '20px';
+            leftGrp.style.display = 'flex'; leftGrp.style.alignItems = 'center'; leftGrp.style.gap = '20px'; 
             const favBtn = document.createElement('span');
-            favBtn.innerHTML = item.fav ? "★" : "☆";
+            favBtn.innerHTML = item.fav ? "★" : "☆"; 
             favBtn.style.cssText = item.fav ? "color:#ffff00; font-size:22px; cursor:pointer; text-shadow:0 0 8px #ffff00;" : "color:#555; font-size:22px; cursor:pointer;";
             favBtn.onclick = (e) => { e.stopPropagation(); toggleFav(index); };
             leftGrp.appendChild(favBtn);
             if(item.type !== 'text') {
                 const dlBtn = document.createElement('span');
                 dlBtn.innerHTML = "⬇️";
-                dlBtn.style.cssText = "font-size:18px; cursor:pointer; opacity:0.8; color:#00ffff; margin-top:2px;";
+                dlBtn.style.cssText = "font-size:18px; cursor:pointer; opacity:0.8; color:#00ffff; margin-top:2px;"; 
                 dlBtn.onclick = (e) => { e.stopPropagation(); downloadFromGallery(item.data); };
                 leftGrp.appendChild(dlBtn);
             }
@@ -1650,7 +1650,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
             grid.appendChild(card);
         });
     }
-
+    
     function showToast(text, color) {
         const existingToast = document.getElementById('my-toast');
         if(existingToast) existingToast.remove();
@@ -1661,7 +1661,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         requestAnimationFrame(() => { t.style.opacity = "1"; t.style.transform = "translateX(-50%) translateY(0)"; });
         setTimeout(() => { t.style.opacity = "0"; t.style.transform = "translateX(-50%) translateY(20px)"; setTimeout(() => t.remove(), 300); }, 2000);
     }
-
+        
     function downloadFromGallery(base64Data) {
         fetch(base64Data).then(res => res.blob()).then(blob => {
             const uniqueName = `Arcade_Backup_${Date.now()}_${Math.floor(Math.random() * 9999)}.png`;
@@ -1673,7 +1673,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         });
         if(typeof playClick === 'function') playClick();
     }
-
+    
     let deleteTargetId = null;
     function deleteItem(id) { deleteTargetId = id; createDeleteModal(); toggleDeleteModal(true); }
     function toggleDeleteModal(show) {
@@ -1709,7 +1709,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         `;
         document.body.appendChild(d);
     }
-
+    
     setInterval(() => {
         const symBox = document.getElementById('sym-box');
         if(symBox && !document.getElementById('save-sym-btn')) {
@@ -1719,7 +1719,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
             btn.onclick = () => saveTextToGallery(symBox.value);
             symBox.parentNode.insertBefore(btn, symBox.nextSibling);
         }
-        const fontInput = document.getElementById('font-input');
+        const fontInput = document.getElementById('font-input'); 
         if(fontInput && !document.getElementById('save-font-btn')) {
             const btn = document.createElement('button');
             btn.id = 'save-font-btn'; btn.innerHTML = "💾 SAVE TO STUDIO";
@@ -1737,3 +1737,5 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         }
     }, 1000);
 </script>
+</body>
+</html>
