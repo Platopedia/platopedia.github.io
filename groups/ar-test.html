@@ -1227,7 +1227,11 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       if (i.src) {
 
           // --- 1. DRAW FILTERED IMAGE OFFSCREEN (NO CLIP!)
+          // 🔥 SAFARI FIX: clearRect is affected by transforms unless reset
+          ox.setTransform(1, 0, 0, 1, 0, 0);
+          ox.filter = 'none';
           ox.clearRect(0, 0, 800, 800);
+
           ox.save();
           ox.translate(cfg.x, cfg.y);
           ox.rotate(cfg.r * Math.PI / 180);
