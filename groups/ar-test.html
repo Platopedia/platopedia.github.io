@@ -1294,7 +1294,7 @@ function d(){
           // 1️⃣ Draw RAW image to temp canvas (NO filters)
           tx.setTransform(1,0,0,1,0,0);
           tx.clearRect(0,0,800,800);
-          tx.translate(cfg.x, cfg.y);
+          tx.translate(400, 400); // center of TEMP canvas
           tx.rotate(cfg.r * Math.PI / 180);
           tx.drawImage(i, -w/2, -h/2, w, h);
 
