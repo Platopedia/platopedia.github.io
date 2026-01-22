@@ -794,7 +794,8 @@ function renderCat(cat) {
                     cfg.pColor = item.c;
                     cfg.pType = item.t || null;
                     document.getElementById('u2').value = '';
-                    f = new Image(); 
+                    f = new Image();
+                    f.crossOrigin = 'anonymous';
                 }
 
                 // 🔥 FORCE SIZE TO 375px (Fixes the bug)
@@ -813,7 +814,8 @@ function renderCat(cat) {
     }, 10);
 }
 function setPlainFrame(color, type=null) {
-    f = new Image(); 
+    f = new Image();
+    f.crossOrigin = 'anonymous';
     document.getElementById('u2').value = ''; 
     cfg.pColor = color; 
     cfg.pType = type; 
@@ -1056,6 +1058,7 @@ function renderFilters() {
         const btn = document.createElement('button');
         btn.className = 'filter-btn';
         const img = document.createElement('img');
+        img.crossOrigin = 'anonymous';
         img.className = 'filter-preview';
         img.src = previewSrc;
         img.style.filter = mf.f; 
@@ -1382,6 +1385,7 @@ function centerSubject(){ cfg.x=400; cfg.y=400; cfg.r=0; rSl.value=0; d(); playS
 
 function resetProject(){
     i=new Image(); f=new Image();
+    i.crossOrigin = 'anonymous';
 
     // 🔥 RESET TO 400px (Normal Mode)
     cfg={s:1, m:400, x:400, y:400, r:0, pColor:null, pType:null, filter:'none', adj:{b:100,c:100,s:100}};
@@ -1687,6 +1691,7 @@ function renderGallery() {
             card.style.border = "1px solid #00ffcc44";
         } else {
             const img = document.createElement('img');
+            img.crossOrigin = 'anonymous';
             img.src = item.data || item.img; 
             img.style.cssText = "width:100%; height:auto; display:block; aspect-ratio:1/1; object-fit:cover;";
             card.appendChild(img);
