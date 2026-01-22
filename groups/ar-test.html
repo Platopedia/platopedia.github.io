@@ -1164,63 +1164,17 @@ function toggleBoundaryLock() {
 }
 // --- 🛠️ CORE DRAWING ENGINE (JAN 16th FIX: IPHONE HARD BAKE + ANDROID SHIELD) ---
 function exportWithIOSBake() {
-    if (!i || !i.src) return;
+    if (!c) return;
 
-    const bake = document.createElement('canvas');
-    bake.width = 800;
-    bake.height = 800;
+    const name = `Arcade_${Date.now()}.png`;
 
-    const bx = bake.getContext('2d');
-
-    // Build filter string
-    let cssFilter = '';
-    if (cfg.filter && cfg.filter !== 'none') cssFilter += cfg.filter;
-if (cfg.adj.b !== 100) cssFilter += ` brightness(${cfg.adj.b / 100})`;
-if (cfg.adj.c !== 100) cssFilter += ` contrast(${cfg.adj.c / 100})`;
-if (cfg.adj.s !== 100) cssFilter += ` saturate(${cfg.adj.s / 100})`;
-
-    // Clear
-    bx.clearRect(0, 0, 800, 800);
-
-    // Clip circle (match draw engine)
-    let drawM = cfg.m;
-    if (cfg.pColor && cfg.m > 360) drawM = 360;
-
-    bx.save();
-    bx.beginPath();
-    bx.arc(400, 400, drawM + 2, 0, Math.PI * 2);
-    bx.clip();
-
-    // Apply transform
-    bx.translate(cfg.x, cfg.y);
-    bx.rotate(cfg.r * Math.PI / 180);
-
-    // 🔥 REAL iOS FIX: filter + original image
-    bx.filter = (cssFilter !== '') ? cssFilter : 'none';
-
-    const w = i.width * cfg.s;
-    const h = i.height * cfg.s;
-    // 🔒 Use the SAME image element as the preview (Safari fix)
-    const previewImg =
-        document.querySelector('img.preview') ||
-        document.querySelector('img') ||
-        i;
-    console.log('EXPORT SRC:', previewImg && previewImg.src);
-    bx.drawImage(previewImg, -w / 2, -h / 2, w, h);
-
-    bx.restore();
-    bx.filter = 'none';
-
-    // Frame (reuse existing canvas frame by drawing it on top)
-   // bx.drawImage(c, 0, 0);
-
-    const uniqueName = `Arcade_${Date.now()}_${Math.floor(Math.random() * 99999)}.png`;
-
-    bake.toBlob(blob => {
+    // 🔥 EXPORT EXACT CANVAS PIXELS (filters, frame, clip included)
+    c.toBlob(blob => {
+        if (!blob) return;
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = uniqueName;
+        a.download = name;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
