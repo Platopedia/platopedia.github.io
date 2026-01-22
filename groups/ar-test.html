@@ -419,9 +419,15 @@
   <div class="ui">
     <button id="ui-toggle-btn" class="btn" style="border-color:#ffcc00; color:#ffcc00; margin-bottom:10px;" onclick="toggleFrameUI()">👁️ HIDE MENU BUTTONS</button>
     <div id="frame-btn-group">
-        <label class="btn" onclick="playClick()">CHOOSE IMAGE<input type="file" id="u1" accept="image/*" onchange="handleFile(event)" style="display:none"></label>
-        <label class="btn btn-r" onclick="playClick()">APPLY FRAME<input type="file" id="u2" accept="image/*" onchange="handleFrame(event)" style="display:none"></label>
-        
+        <label class="btn" onclick="playClick()">
+            CHOOSE IMAGE
+            <input type="file" id="u1" accept="image/*" style="display:none">
+        </label>
+
+        <label class="btn btn-r" onclick="playClick()">
+            APPLY FRAME
+            <input type="file" id="u2" accept="image/*" style="display:none">
+        </label>
         <button class="btn" style="border-color:#00ffff; color:#00ffff;" onclick="toggleFilterUI()">MAGIC FILTERS ✨</button>
         
         <div id="filter-wrapper">
@@ -1432,6 +1438,14 @@ function handleFrame(e){
         n.src = v.target.result;
     }; r.readAsDataURL(files[0]);
 }
+
+    document.addEventListener('DOMContentLoaded', () => {
+    const u1 = document.getElementById('u1');
+    const u2 = document.getElementById('u2');
+
+    if (u1) u1.addEventListener('change', handleFile);
+    if (u2) u2.addEventListener('change', handleFrame);
+});
 
 function updateZ(v){ cfg.s=parseFloat(v); zVal.innerText=Math.round((v/zSl.min)*100)+"%"; d(); }
 function updateR(v){ cfg.r=parseInt(v); rVal.innerText=v+"°"; d(); }
