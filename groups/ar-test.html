@@ -1368,7 +1368,13 @@ function resetProject(){
 }
 
 function downloadPic() {
-    if (!i.src) return;
+    if (!c) return;
+
+    console.log('[DOWNLOAD] canvas export start');
+
+    exportWithIOSBake();
+    playShutter();
+}
 
     // 🍎 iOS SAFARI FIX: bake filters into pixels before export
     const isIOS =
