@@ -1412,10 +1412,6 @@ function updateM(v){ cfg.m=parseInt(v); mVal.innerText=v+"px"; d(); }
 function centerSubject(){ cfg.x=400; cfg.y=400; cfg.r=0; rSl.value=0; d(); playShutter(); }
 
 function resetProject(){
-    i = new Image();
-i.crossOrigin = 'anonymous';   // ✅ MUST be before src
-i.src = imageUrl;
-
     // 🔥 RESET TO 400px (Normal Mode)
     cfg={s:1, m:400, x:400, y:400, r:0, pColor:null, pType:null, filter:'none', adj:{b:100,c:100,s:100}};
     zSl.value=1; rSl.value=0; mSl.value=400; mVal.innerText="400px"; mLbl.innerText = "CIRCLE SIZE";
