@@ -1164,13 +1164,21 @@ function toggleBoundaryLock() {
 }
 // --- 🛠️ CORE DRAWING ENGINE (JAN 16th FIX: IPHONE HARD BAKE + ANDROID SHIELD) ---
 function exportWithIOSBake() {
-    if (!c) return;
+    const canvas = document.getElementById('c');
+    if (!canvas) {
+        console.warn('[EXPORT] canvas not found');
+        return;
+    }
+
+    console.log('[EXPORT] canvas OK', canvas.width, canvas.height);
 
     const name = `Arcade_${Date.now()}.png`;
 
-    // 🔥 EXPORT EXACT CANVAS PIXELS (filters, frame, clip included)
-    c.toBlob(blob => {
-        if (!blob) return;
+    canvas.toBlob(blob => {
+        if (!blob) {
+            console.warn('[EXPORT] blob failed');
+            return;
+        }
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
@@ -1381,7 +1389,8 @@ function resetProject(){
 }
 
 function downloadPic() {
-    if (!c) return;
+const canvas = document.getElementById('c');
+if (!canvas) return;
 
     console.log('[DOWNLOAD] canvas export start');
 
