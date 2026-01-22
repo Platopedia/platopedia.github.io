@@ -526,6 +526,12 @@ const exportCanvas = document.createElement('canvas');
 exportCanvas.width = 800;
 exportCanvas.height = 800;
 const exportCtx = exportCanvas.getContext('2d');
+// 🔒 HARD LOCK export canvas (Safari safety)
+exportCanvas.style.filter = 'none';
+exportCanvas.style.webkitFilter = 'none';
+exportCanvas.style.display = 'none';
+exportCanvas.style.position = 'absolute';
+exportCanvas.style.left = '-99999px';
 const zSl=document.getElementById('z'), rSl=document.getElementById('r'), mSl=document.getElementById('m');
 const panel=document.getElementById('menu-panel'), mStat=document.getElementById('m-status');
 const sName=document.getElementById('studio-name'), sSub=document.getElementById('studio-sub');
