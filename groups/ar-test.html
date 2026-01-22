@@ -583,7 +583,7 @@ function applyPixelFilters(ctx, w, h, filterStr) {
 
     ctx.putImageData(img, 0, 0);
 }
-let cfg={s:1, m:375, x:400, y:400, r:0, lx:0, ly:0, pColor: null, pType: null, filter: 'none', adj: { b: 100, c: 100, s: 100 }}; 
+let cfg={s:1, m:375, x:400, y:400, r:0, lx:0, ly:0, pColor: null, pType: null, filter: 'none', adj: { b: 100, c: 100, s: 100 }};
 let player, musicOn=true, audioStarted=false;
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
@@ -1255,17 +1255,23 @@ function d(){
       x.translate(cfg.x, cfg.y); 
       x.rotate(cfg.r * Math.PI / 180);
       
-      // 🚫 Disable ctx.filter everywhere (Safari-safe)
-      x.filter = 'none';
+      if (isIOS) {
+          // 🍎 iOS SAFARI: draw normally, then bake pixels
+          x.filter = 'none';
+          x.drawImage(i, -w/2, -h/2, w, h);
 
-      x.drawImage(i, -w/2, -h/2, w, h);
-
-      // 🍎 iOS: HARD-BAKE FILTERS INTO PIXELS (REAL FIX)
-      if (isIOS && cssFilter) {
-          applyPixelFilters(x, 800, 800, cssFilter);
+          if (cssFilter) {
+              // IMPORTANT: bake AFTER draw, BEFORE restore
+              applyPixelFilters(x, 800, 800, cssFilter);
+          }
+      } else {
+          // 🤖 ANDROID / DESKTOP: native canvas filters (WORKING)
+          x.filter = (cssFilter !== '') ? cssFilter : 'none';
+          x.drawImage(i, -w/2, -h/2, w, h);
       }
 
       x.restore();
+      x.filter = 'none'; // protect frames
   }
   
   // 5. RESET FILTER (Crucial: Protects Frames from being colored on Android)
