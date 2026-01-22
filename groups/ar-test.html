@@ -529,7 +529,10 @@ const swMenu=document.getElementById('switch-menu'), thMenu=document.getElementB
 const zVal=document.getElementById('z-val'), rVal=document.getElementById('r-val'), mVal=document.getElementById('m-val');
 const mLbl=document.getElementById('m-lbl'); 
 
-let i=new Image(), f=new Image();
+let i = new Image();
+i.crossOrigin = 'anonymous';   // ✅ MUST be set before src
+
+let f = new Image();           // frame image (ok if local)
 let cfg={s:1, m:375, x:400, y:400, r:0, lx:0, ly:0, pColor: null, pType: null, filter: 'none', adj: { b: 100, c: 100, s: 100 }}; 
 let player, musicOn=true, audioStarted=false;
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -1183,9 +1186,9 @@ function pixelHash() {
     }
 }
 // --- 🛠️ CORE DRAWING ENGINE (JAN 16th FIX: IPHONE HARD BAKE + ANDROID SHIELD) ---
-function d(){ 
+function d(){
   if(!x) return;
-  x.clearRect(0,0,800,800); 
+  x.clearRect(0,0,800,800);
 
   // 1. CALCULATE FILTER STRING
   let cssFilter = '';
@@ -1230,7 +1233,7 @@ function d(){
   if(i.src && isBoundaryLocked){
       const rad = cfg.r * Math.PI / 180;
       const cos = Math.abs(Math.cos(rad)), sin = Math.abs(Math.sin(rad));
-      const mathM = drawM + 15; 
+      const mathM = drawM + 15;
       const reqW = (mathM*2*cos + mathM*2*sin), reqH = (mathM*2*sin + mathM*2*cos);
       const minS = Math.max(reqW/i.width, reqH/i.height);
       if(cfg.s < minS) { cfg.s = minS; if(window.zSl) zSl.value = minS; if(window.zVal) zVal.innerText = Math.round((minS/zSl.min)*100)+"%"; }
@@ -1318,12 +1321,12 @@ if (i.src) {
 
   // 6. FRAME DRAWING
   if (cfg.pColor) {
-      x.save(); x.beginPath(); x.arc(400, 400, drawM, 0, Math.PI * 2); 
+      x.save(); x.beginPath(); x.arc(400, 400, drawM, 0, Math.PI * 2);
       x.lineWidth = 6; x.strokeStyle = cfg.pColor; x.stroke(); x.restore();
-      
-      x.save(); 
+
+      x.save();
       if ((cfg.pColor === '#000000' || cfg.pColor === '#808080') && cfg.pType === 'neon') {
-          const sC = cfg.pColor; 
+          const sC = cfg.pColor;
           x.beginPath(); x.arc(400, 400, drawM, 0, Math.PI * 2); x.lineWidth = 25; x.strokeStyle = sC; x.shadowBlur = 60; x.shadowColor = sC; x.stroke();
           x.beginPath(); x.arc(400, 400, drawM, 0, Math.PI * 2); x.lineWidth = 18; x.strokeStyle = sC; x.shadowBlur = 10; x.shadowColor = sC; x.stroke();
           x.beginPath(); x.arc(400, 400, drawM, 0, Math.PI * 2); x.lineWidth = 6; x.strokeStyle = '#FFFFFF'; x.stroke();
@@ -1334,17 +1337,17 @@ if (i.src) {
           x.beginPath(); x.arc(400, 400, drawM, 0, Math.PI * 2); x.lineWidth = 25; x.strokeStyle = cfg.pColor; x.shadowBlur = 30; x.shadowColor = cfg.pColor; x.stroke();
           x.beginPath(); x.arc(400, 400, drawM, 0, Math.PI * 2); x.lineWidth = 8; x.strokeStyle = '#FFFFFF'; x.stroke();
       } else {
-          x.beginPath(); x.arc(400, 400, drawM, 0, Math.PI * 2); x.lineWidth = 25; 
+          x.beginPath(); x.arc(400, 400, drawM, 0, Math.PI * 2); x.lineWidth = 25;
           if (cfg.pType === 'gold') {
               let g = x.createLinearGradient(0, 0, 800, 800); g.addColorStop(0, '#FFD700'); g.addColorStop(0.5, '#FDB931'); g.addColorStop(1, '#FFD700'); x.strokeStyle = g;
-          } else if (cfg.pType === 'silver') { 
+          } else if (cfg.pType === 'silver') {
               let g = x.createLinearGradient(0, 0, 800, 800); g.addColorStop(0, '#E0E0E0'); g.addColorStop(0.5, '#B0B0B0'); g.addColorStop(1, '#E0E0E0'); x.strokeStyle = g;
           } else { x.strokeStyle = cfg.pColor; }
-          x.stroke(); 
+          x.stroke();
       }
       x.restore();
   }
-  if(f.src) x.drawImage(f,0,0,800,800); 
+  if(f.src) x.drawImage(f,0,0,800,800);
 }
 
 // --- 📂 FILE HANDLERS (SMART AUTO-SIZING: 400px vs 375px) ---
@@ -1356,28 +1359,28 @@ function handleFile(e){
         n.onload = async () => {
             if ('decode' in n) { try { await n.decode(); } catch(err) { } }
             i = n; cfg.x = 400; cfg.y = 400; cfg.r = 0;
-            
+
             // 🔥 LOGIC: If NO frame is active, go to 400px (Full Size).
             // If a frame IS active, this line is skipped, so it stays at 375px.
             if(!f.src && !cfg.pColor) { cfg.m = 400; mSl.value = 400; mVal.innerText = "400px"; }
-            
+
             const fillSize = Math.max(800/i.width, 800/i.height);
             if(isBoundaryLocked) {
                 const rad = cfg.r * Math.PI / 180;
                 const cos = Math.abs(Math.cos(rad)), sin = Math.abs(Math.sin(rad));
                 const reqW = (cfg.m*2*cos + cfg.m*2*sin), reqH = (cfg.m*2*sin + cfg.m*2*cos);
                 const minS = Math.max(reqW/i.width, reqH/i.height);
-                zSl.min = minS; 
-                cfg.s = Math.max(minS, fillSize); 
-                zSl.value = cfg.s; 
+                zSl.min = minS;
+                cfg.s = Math.max(minS, fillSize);
+                zSl.value = cfg.s;
                 zVal.innerText = Math.round((cfg.s/zSl.min)*100)+"%";
-            } else { 
-                cfg.s = fillSize; zSl.min = 0.01; zSl.value = cfg.s; zVal.innerText = "100%"; 
+            } else {
+                cfg.s = fillSize; zSl.min = 0.01; zSl.value = cfg.s; zVal.innerText = "100%";
             }
             updS(zSl); updS(mSl);
-            if(typeof renderFilters === 'function') renderFilters(); 
-            d(); 
-            const uiPanel = document.querySelector('.ui'); uiPanel.style.paddingBottom = "200px"; 
+            if(typeof renderFilters === 'function') renderFilters();
+            d();
+            const uiPanel = document.querySelector('.ui'); uiPanel.style.paddingBottom = "200px";
             document.getElementById('save').disabled = false;
         }; n.src = v.target.result;
     }; r.readAsDataURL(files[0]);
@@ -1387,11 +1390,11 @@ function handleFrame(e){
     const r = new FileReader();
     r.onload = v => {
         const n = new Image();
-        n.onload = () => { 
-            f.src = n.src; 
+        n.onload = () => {
+            f.src = n.src;
             cfg.m = 375; mSl.value = 375; mVal.innerText = "375px";
-            cfg.pColor = null; cfg.pType = null; mLbl.innerText = "FRAME OPENING SIZE"; 
-            updS(mSl); d(); 
+            cfg.pColor = null; cfg.pType = null; mLbl.innerText = "FRAME OPENING SIZE";
+            updS(mSl); d();
         };
         n.src = v.target.result;
     }; r.readAsDataURL(files[0]);
@@ -1402,27 +1405,29 @@ function updateR(v){ cfg.r=parseInt(v); rVal.innerText=v+"°"; d(); }
 function updateM(v){ cfg.m=parseInt(v); mVal.innerText=v+"px"; d(); }
 function centerSubject(){ cfg.x=400; cfg.y=400; cfg.r=0; rSl.value=0; d(); playShutter(); }
 
-function resetProject(){ 
-    i=new Image(); f=new Image(); 
-    
+function resetProject(){
+    i = new Image();
+i.crossOrigin = 'anonymous';   // ✅ MUST be before src
+i.src = imageUrl;
+
     // 🔥 RESET TO 400px (Normal Mode)
     cfg={s:1, m:400, x:400, y:400, r:0, pColor:null, pType:null, filter:'none', adj:{b:100,c:100,s:100}};
     zSl.value=1; rSl.value=0; mSl.value=400; mVal.innerText="400px"; mLbl.innerText = "CIRCLE SIZE";
-    
+
     document.getElementById('u1').value = ''; document.getElementById('u2').value = '';
     c.style.filter = 'none'; document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active-filter'));
     if(document.getElementById('filter-list')) document.getElementById('filter-list').innerHTML = '';
-    
+
     // Close Adjustment Panel
-    if(document.getElementById('adj-panel')) { 
-        document.getElementById('filter-list').style.display = 'flex'; 
-        document.getElementById('adj-panel').style.display = 'none'; 
-        closeAdjust(); 
+    if(document.getElementById('adj-panel')) {
+        document.getElementById('filter-list').style.display = 'flex';
+        document.getElementById('adj-panel').style.display = 'none';
+        closeAdjust();
     }
     if(document.getElementById('open-adj-btn')) document.getElementById('open-adj-btn').style.display = 'none';
-    
-    d(); playShutter(); updS(zSl); updS(rSl); updS(mSl); 
-    document.getElementById('save').disabled = true; document.querySelector('.ui').style.paddingBottom = "0px"; 
+
+    d(); playShutter(); updS(zSl); updS(rSl); updS(mSl);
+    document.getElementById('save').disabled = true; document.querySelector('.ui').style.paddingBottom = "0px";
 }
 
 function downloadPic() {
