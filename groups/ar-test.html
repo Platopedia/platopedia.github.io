@@ -1207,30 +1207,38 @@ function d(){
       cfg.y = Math.max(400 - rangeY, Math.min(400 + rangeY, cfg.y));
   }
 
-  // 4. IMAGE DRAWING (THE SAVE FIX)
-  if(i.src){
-      x.save(); 
-      x.beginPath(); x.arc(400, 400, drawM + 2, 0, Math.PI * 2); x.clip(); 
-      
-      let w = i.width * cfg.s, h = i.height * cfg.s;
-      x.translate(cfg.x, cfg.y); 
-      x.rotate(cfg.r * Math.PI / 180);
-      
-      // 🔥 THE IPHONE FIX (Hard Bake)
-      // This is the Jan 16th Logic:
-      if (isIOS) {
-          // Force filter into pixels for iPhone download
-          x.filter = (cssFilter !== '') ? cssFilter : 'none';
-      } else {
-          // 🛡️ ANDROID PROTECTION
-          // Force none to prevent double-filtering/tinting
-          x.filter = 'none'; 
-      }
-      
-      x.drawImage(i, -w/2, -h/2, w, h);
-      x.restore(); 
-  }
-  
+// 4. IMAGE DRAWING (FINAL iOS FIX)
+if (i.src) {
+
+    x.beginPath();
+    x.arc(400, 400, drawM + 2, 0, Math.PI * 2);
+    x.clip();
+
+    let w = i.width * cfg.s, h = i.height * cfg.s;
+
+    if (isIOS) {
+        // 🍎 iOS — NO save/restore
+        x.filter = (cssFilter !== '') ? cssFilter : 'none';
+
+        x.translate(cfg.x, cfg.y);
+        x.rotate(cfg.r * Math.PI / 180);
+        x.drawImage(i, -w/2, -h/2, w, h);
+
+        // Manual cleanup (SAFE)
+        x.setTransform(1, 0, 0, 1, 0, 0);
+        x.filter = 'none';
+
+    } else {
+        // 🤖 Android — normal safe path
+        x.save();
+        x.translate(cfg.x, cfg.y);
+        x.rotate(cfg.r * Math.PI / 180);
+        x.filter = 'none';
+        x.drawImage(i, -w/2, -h/2, w, h);
+        x.restore();
+    }
+}
+
   // 5. RESET FILTER (Android only – keep iOS filter alive until rasterization)
   if (!isIOS) {
       x.filter = 'none';
