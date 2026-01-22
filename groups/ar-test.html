@@ -821,10 +821,10 @@ function renderCat(cat) {
 }
 function setPlainFrame(color, type=null) {
     f = null; // 🔥 ensure NO image-based frame exists
-    document.getElementById('u2').value = ''; 
-    cfg.pColor = color; 
-    cfg.pType = type; 
-    mLbl.innerText = "FRAME OPENING SIZE"; 
+    document.getElementById('u2').value = '';
+    cfg.pColor = color;
+    cfg.pType = type;
+    mLbl.innerText = "FRAME OPENING SIZE";
     d();
     playClick();
 }
@@ -839,7 +839,7 @@ const magicFilters = [
     { name: 'AI-4K-ULTRA-ENHANCE 💎', f: 'contrast(1.4) saturate(1.1) brightness(1.05) contrast(1.1)' },
     { name: 'AI-HDR-MAX-CLARITY', f: 'contrast(1.6) saturate(1.2) brightness(1.1) contrast(1.1)' },
     { name: 'AUTO-ENHANCE ✨', f: 'contrast(1.15) saturate(1.25) brightness(1.05) sepia(0.05)' },
-    
+
     // --- 📱 UNIVERSAL DEVICE COMPATIBILITY ---
     { name: 'UNI-CLEAN-VIEW', f: 'brightness(1.1) contrast(1.05) saturate(1.05)' },
     { name: 'UNI-WARM-MOBILE', f: 'sepia(0.15) saturate(1.2) contrast(1.1)' },
@@ -995,14 +995,14 @@ function toggleFilterUI() {
         el.classList.add('active');
         btn.innerHTML = "CLOSE FILTERS ✖";
         btn.style.color = "#ff00ff"; btn.style.borderColor = "#ff00ff";
-        
+
         if(document.getElementById('filter-list').children.length === 0) renderFilters();
         if(!document.getElementById('adj-panel')) createAdjustUI();
         if(!document.getElementById('open-adj-btn')) createSmartEditBtn();
-        
+
         document.getElementById('filter-list').style.display = 'flex';
         document.getElementById('adj-panel').style.display = 'none';
-        
+
         // 🔥 FORCE ADJUST BUTTON VISIBLE (The Fix)
         // This ensures the button is always there, even for the original image
         const adjBtn = document.getElementById('open-adj-btn');
@@ -1058,14 +1058,14 @@ function updateSliderColor(el, val, max) {
 function renderFilters() {
     const list = document.getElementById('filter-list');
     list.innerHTML = '';
-    const previewSrc = i.src || 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; 
+    const previewSrc = i.src || 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
     magicFilters.forEach(mf => {
         const btn = document.createElement('button');
         btn.className = 'filter-btn';
         const img = document.createElement('img');
         img.className = 'filter-preview';
         img.src = previewSrc;
-        img.style.filter = mf.f; 
+        img.style.filter = mf.f;
         const span = document.createElement('span');
         span.className = 'filter-name';
         span.innerText = mf.name;
@@ -1095,30 +1095,30 @@ function adjChange(type, val, el) {
     document.getElementById(`val-${type}`).innerText = val + "%";
     if(el) updateSliderColor(el, val, 200);
     // REMOVED c.style.filter here to prevent global filter application
-    d(); 
+    d();
 }
 function applyFilter(filterVal, btn) {
     // 1. Check if we are actually changing the filter
     if (cfg.filter !== filterVal) {
-        
+
         // 2. Reset adjustment sliders to standard (100%)
         cfg.adj = { b: 100, c: 100, s: 100 };
-        
+
         // Reset the slider UI elements
         ['b', 'c', 's'].forEach(k => {
             const el = document.getElementById('sl-' + k);
-            if (el) { 
-                el.value = 100; 
+            if (el) {
+                el.value = 100;
                 const valDisplay = document.getElementById('val-' + k);
-                if (valDisplay) valDisplay.innerText = "100%"; 
-                
+                if (valDisplay) valDisplay.innerText = "100%";
+
                 // Keep the slider gradient logic if you use it
                 if(typeof updateSliderColor === 'function') {
                     updateSliderColor(el, 100, 200);
                 }
             }
         });
-        
+
         // 3. Update the Data Configuration
         cfg.filter = filterVal;
         dbg('[FILTER SELECT]', {
@@ -1128,9 +1128,9 @@ function applyFilter(filterVal, btn) {
 
         // 🛡️ THE OLD ANDROID PROTECTION:
         // We do absolutely NOTHING to c.style.filter here.
-        // We do not touch the canvas CSS. 
+        // We do not touch the canvas CSS.
         // We only save the data to 'cfg' and let 'd()' handle the rest.
-        
+
         // 4. Update UI Button Highlights
         document.querySelectorAll('.filter-btn').forEach(b => {
             b.classList.remove('active-filter');
@@ -1138,10 +1138,10 @@ function applyFilter(filterVal, btn) {
         if (btn) {
             btn.classList.add('active-filter');
         }
-        
+
         // 5. Trigger the Drawing Engine (The one we did surgery on)
-        d(); 
-        
+        d();
+
         // 6. Sound Effect
         if (typeof playClick === 'function') {
             playClick();
@@ -1207,19 +1207,10 @@ function d(){
   !/Chrome|Chromium|Android/.test(navigator.userAgent);
   dbg('[DRAW] platform', isIOS ? 'iOS' : 'Android/Other');
 
-  // 2. SCREEN PREVIEW (VISUALS)
-  if (isIOS) {
-      if (c) {
-          // During normal preview → CSS filter (fast, live)
-          // During save → NO CSS filter (we hard-bake via ctx.filter)
-          if (!window.isSaving) {
-              c.style.filter = (cssFilter !== '') ? cssFilter : 'none';
-              c.style.webkitFilter = (cssFilter !== '') ? cssFilter : 'none';
-          } else {
-              c.style.filter = 'none';
-              c.style.webkitFilter = 'none';
-          }
-      }
+  // 🚫 Safari: NEVER apply CSS filters to <canvas>
+  if (isIOS && c) {
+      c.style.filter = 'none';
+      c.style.webkitFilter = 'none';
   } else {
       // 🤖 ANDROID SHIELD: Force CSS to 'none'.
       // This protects Android from the "Double Filter" and "Tinted Frame" glitches.
