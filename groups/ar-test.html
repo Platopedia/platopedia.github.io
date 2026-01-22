@@ -1323,6 +1323,11 @@ function handleFile(e){
         }; n.src = v.target.result;
     }; r.readAsDataURL(files[0]);
 }
+// --- SAFARI FIX: bind upload handler after definition
+const u1 = document.getElementById('u1');
+if (u1) {
+    u1.addEventListener('change', handleFile);
+}
 function handleFrame(e){
     const files = e.target ? e.target.files : e.files; if(!files || !files[0]) return;
     const r = new FileReader();
@@ -1336,6 +1341,11 @@ function handleFrame(e){
         };
         n.src = v.target.result;
     }; r.readAsDataURL(files[0]);
+}
+// --- SAFARI FIX: bind frame upload handler after definition
+const u2 = document.getElementById('u2');
+if (u2) {
+    u2.addEventListener('change', handleFrame);
 }
 
 function updateZ(v){ cfg.s=parseFloat(v); zVal.innerText=Math.round((v/zSl.min)*100)+"%"; d(); }
