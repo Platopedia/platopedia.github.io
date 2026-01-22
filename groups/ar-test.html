@@ -528,100 +528,8 @@ const swMenu=document.getElementById('switch-menu'), thMenu=document.getElementB
 const zVal=document.getElementById('z-val'), rVal=document.getElementById('r-val'), mVal=document.getElementById('m-val');
 const mLbl=document.getElementById('m-lbl'); 
 
-i = new Image(), f = new Image();
-i.crossOrigin = 'anonymous';
-// 🧪 TEMP CANVAS FOR iOS PIXEL FILTERING (NEVER CLIPPED)
-const tmp = document.createElement('canvas');
-tmp.width = 800;
-tmp.height = 800;
-const tx = tmp.getContext('2d');
-i.crossOrigin = 'anonymous';
-// 🍎 iOS SAFE PIXEL FILTER ENGINE (ADD ONCE)
-function applyPixelFilters(ctx, w, h, filterStr) {
-    if (!filterStr) return;
-
-    const img = ctx.getImageData(0, 0, w, h);
-    const d = img.data;
-
-    // iOS parity: get() supports %, deg, and defaults
-    const get = (name, def=0) => {
-        const m = new RegExp(name + '\\(([^)]+)\\)').exec(filterStr);
-        if (!m) return def;
-        const v = m[1].trim();
-        if (v.endsWith('%')) return parseFloat(v) / 100;
-        if (v.endsWith('deg')) return parseFloat(v);
-        return parseFloat(v);
-    };
-
-    // Extract all supported filters
-    const br = get('brightness', 1);
-    const ct = get('contrast', 1);
-    const st = get('saturate', 1);
-    const gs = get('grayscale', 0);
-    const sp = get('sepia', 0);
-    const inv = get('invert', 0);
-    const hue = get('hue-rotate', 0) * Math.PI / 180;
-
-    for (let i = 0; i < d.length; i += 4) {
-        let r = d[i], g = d[i+1], b = d[i+2];
-
-        r *= br; g *= br; b *= br;
-        r = (r - 128) * ct + 128;
-        g = (g - 128) * ct + 128;
-        b = (b - 128) * ct + 128;
-
-        const avg = (r + g + b) / 3;
-        r = avg + (r - avg) * st;
-        g = avg + (g - avg) * st;
-        b = avg + (b - avg) * st;
-
-        // Insert hue-rotate logic here, after saturation, before grayscale
-        if (hue !== 0) {
-            const cos = Math.cos(hue);
-            const sin = Math.sin(hue);
-            const nr = (0.213 + cos * 0.787 - sin * 0.213) * r +
-                       (0.715 - cos * 0.715 - sin * 0.715) * g +
-                       (0.072 - cos * 0.072 + sin * 0.928) * b;
-            const ng = (0.213 - cos * 0.213 + sin * 0.143) * r +
-                       (0.715 + cos * 0.285 + sin * 0.140) * g +
-                       (0.072 - cos * 0.072 - sin * 0.283) * b;
-            const nb = (0.213 - cos * 0.213 - sin * 0.787) * r +
-                       (0.715 - cos * 0.715 + sin * 0.715) * g +
-                       (0.072 + cos * 0.928 + sin * 0.072) * b;
-            r = nr; g = ng; b = nb;
-        }
-
-        if (gs > 0) {
-            const gray = (r + g + b) / 3;
-            r = r*(1-gs) + gray*gs;
-            g = g*(1-gs) + gray*gs;
-            b = b*(1-gs) + gray*gs;
-        }
-
-        if (sp > 0) {
-            const tr = 0.393*r + 0.769*g + 0.189*b;
-            const tg = 0.349*r + 0.686*g + 0.168*b;
-            const tb = 0.272*r + 0.534*g + 0.131*b;
-            r = r*(1-sp) + tr*sp;
-            g = g*(1-sp) + tg*sp;
-            b = b*(1-sp) + tb*sp;
-        }
-
-        // Invert support, after sepia and before clamping
-        if (inv > 0) {
-            r = r * (1 - inv) + (255 - r) * inv;
-            g = g * (1 - inv) + (255 - g) * inv;
-            b = b * (1 - inv) + (255 - b) * inv;
-        }
-
-        d[i] = Math.max(0, Math.min(255, r));
-        d[i+1] = Math.max(0, Math.min(255, g));
-        d[i+2] = Math.max(0, Math.min(255, b));
-    }
-
-    ctx.putImageData(img, 0, 0);
-}
-let cfg={s:1, m:375, x:400, y:400, r:0, lx:0, ly:0, pColor: null, pType: null, filter: 'none', adj: { b: 100, c: 100, s: 100 }};
+let i=new Image(), f=new Image();
+let cfg={s:1, m:375, x:400, y:400, r:0, lx:0, ly:0, pColor: null, pType: null, filter: 'none', adj: { b: 100, c: 100, s: 100 }}; 
 let player, musicOn=true, audioStarted=false;
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
@@ -1252,10 +1160,7 @@ function toggleBoundaryLock() {
     if(typeof playClick === 'function') playClick();
 }
 // --- 🛠️ CORE DRAWING ENGINE (JAN 16th FIX: IPHONE HARD BAKE + ANDROID SHIELD) ---
-function d(){
-if (isIOS) {
-    console.log('DEBUG 1: d() entered on iOS');
-}
+function d(){ 
   if(!x) return;
   x.clearRect(0,0,800,800); 
 
@@ -1269,6 +1174,21 @@ if (isIOS) {
   // 🧠 SMART DEVICE DETECTION
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
+  // 2. SCREEN PREVIEW (VISUALS)
+  if (isIOS) {
+      // 🍎 IPHONE: Apply CSS so the user sees changes instantly on screen
+      if(c) {
+          c.style.filter = (cssFilter !== '') ? cssFilter : 'none';
+          c.style.webkitFilter = (cssFilter !== '') ? cssFilter : 'none';
+      }
+  } else {
+      // 🤖 ANDROID SHIELD: Force CSS to 'none'.
+      // This protects Android from the "Double Filter" and "Tinted Frame" glitches.
+      if(c) {
+          c.style.filter = 'none';
+          c.style.webkitFilter = 'none';
+      }
+  }
 
   // 3. SIZE & BOUNDARY LOGIC
   let drawM = cfg.m;
@@ -1288,49 +1208,33 @@ if (isIOS) {
   }
 
   // 4. IMAGE DRAWING (THE SAVE FIX)
-  if (i.src) {
-      const w = i.width * cfg.s;
-      const h = i.height * cfg.s;
-
-      // ---- iOS SAFE PATH (PIXEL-BAKED) ----
+  if(i.src){
+      x.save(); 
+      x.beginPath(); x.arc(400, 400, drawM + 2, 0, Math.PI * 2); x.clip(); 
+      
+      let w = i.width * cfg.s, h = i.height * cfg.s;
+      x.translate(cfg.x, cfg.y); 
+      x.rotate(cfg.r * Math.PI / 180);
+      
+      // 🔥 THE IPHONE FIX (Hard Bake)
+      // This is the Jan 16th Logic:
       if (isIOS) {
-          // 1️⃣ Draw RAW image to temp canvas (NO filters)
-          tx.setTransform(1,0,0,1,0,0);
-          tx.clearRect(0,0,800,800);
-          tx.translate(400, 400); // center of TEMP canvas
-          tx.rotate(cfg.r * Math.PI / 180);
-          tx.drawImage(i, -w/2, -h/2, w, h);
-
-          // 2️⃣ Bake filters into pixels
-          applyPixelFilters(tx, 800, 800, cssFilter);
-
-          // 3️⃣ Draw baked result to main canvas WITH CLIP
-          x.save();
-          x.beginPath();
-          x.arc(400, 400, drawM + 2, 0, Math.PI * 2);
-          x.clip();
-          x.drawImage(tmp, 0, 0);
-          x.restore();
-
-      // ---- ANDROID / DESKTOP PATH (GPU FILTERS) ----
+          // Force filter into pixels for iPhone download
+          x.filter = (cssFilter !== '') ? cssFilter : 'none';
       } else {
-          x.save();
-          x.beginPath();
-          x.arc(400, 400, drawM + 2, 0, Math.PI * 2);
-          x.clip();
-
-          x.translate(cfg.x, cfg.y);
-          x.rotate(cfg.r * Math.PI / 180);
-          x.filter = cssFilter || 'none';
-          x.drawImage(i, -w/2, -h/2, w, h);
-
-          x.restore();
-          x.filter = 'none';
+          // 🛡️ ANDROID PROTECTION
+          // Force none to prevent double-filtering/tinting
+          x.filter = 'none'; 
       }
+      
+      x.drawImage(i, -w/2, -h/2, w, h);
+      x.restore(); 
   }
   
-  // 5. RESET FILTER (Crucial: Protects Frames from being colored on Android)
-  x.filter = 'none'; 
+  // 5. RESET FILTER (Android only – keep iOS filter alive until rasterization)
+  if (!isIOS) {
+      x.filter = 'none';
+  }
 
   // 6. FRAME DRAWING
   if (cfg.pColor) {
