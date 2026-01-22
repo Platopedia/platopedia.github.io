@@ -1196,26 +1196,23 @@ if (c) {
           cfg.y = Math.max(400 - rangeY, Math.min(400 + rangeY, cfg.y));
       }
 
-      // 4. IMAGE DRAWING (THE SAVE FIX)
-      if(i.src){
-          x.save();
-          x.beginPath(); x.arc(400, 400, drawM + 2, 0, Math.PI * 2); x.clip();
+// 4. IMAGE DRAWING (THE SAVE FIX)
+if(i.src){
+    x.save();
+    x.beginPath();
+    x.arc(400, 400, drawM + 2, 0, Math.PI * 2);
+    x.clip();
 
-          let w = i.width * cfg.s, h = i.height * cfg.s;
-          x.translate(cfg.x, cfg.y);
-          x.rotate(cfg.r * Math.PI / 180);
+    let w = i.width * cfg.s, h = i.height * cfg.s;
+    x.translate(cfg.x, cfg.y);
+    x.rotate(cfg.r * Math.PI / 180);
 
-          // 🔥 THE IPHONE FIX (Hard Bake)
-          // This is the Jan 16th Logic:
-          if (isIOS) {
+    // ✅ HARD-BAKE FILTER FOR ALL DEVICES (THIS IS THE ONLY PLACE)
     x.filter = (cssFilter !== '') ? cssFilter : 'none';
-} else {
-    x.filter = 'none';
-}
 
-          x.drawImage(i, -w/2, -h/2, w, h);
-          x.restore();
-      }
+    x.drawImage(i, -w/2, -h/2, w, h);
+    x.restore();
+}
 
       // 5. RESET FILTER (Crucial: Protects Frames from being colored on Android)
       x.filter = 'none';
