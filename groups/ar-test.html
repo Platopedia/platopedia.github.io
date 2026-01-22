@@ -520,6 +520,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.js"></script>
 <script>
 // --- CORE VARIABLES ---
+window.DEBUG_FILTERS = true;
 const c=document.getElementById('c'), x=c.getContext('2d');
 const zSl=document.getElementById('z'), rSl=document.getElementById('r'), mSl=document.getElementById('m');
 const panel=document.getElementById('menu-panel'), mStat=document.getElementById('m-status');
@@ -1114,7 +1115,11 @@ function applyFilter(filterVal, btn) {
         
         // 3. Update the Data Configuration
         cfg.filter = filterVal;
-        
+        dbg('[FILTER SELECT]', {
+            filter: cfg.filter,
+            adj: cfg.adj
+        });
+
         // 🛡️ THE OLD ANDROID PROTECTION:
         // We do absolutely NOTHING to c.style.filter here.
         // We do not touch the canvas CSS. 
@@ -1159,6 +1164,14 @@ function toggleBoundaryLock() {
     d();
     if(typeof playClick === 'function') playClick();
 }
+function dbg(tag, data) {
+    if (!window.DEBUG_FILTERS) return;
+    try {
+        console.log(tag, data);
+    } catch (e) {
+        console.log(tag);
+    }
+}
 // --- 🛠️ CORE DRAWING ENGINE (JAN 16th FIX: IPHONE HARD BAKE + ANDROID SHIELD) ---
 function d(){ 
   if(!x) return;
@@ -1170,9 +1183,11 @@ function d(){
   if(cfg.adj.b !== 100) cssFilter += ` brightness(${cfg.adj.b}%)`;
   if(cfg.adj.c !== 100) cssFilter += ` contrast(${cfg.adj.c}%)`;
   if(cfg.adj.s !== 100) cssFilter += ` saturate(${cfg.adj.s}%)`;
+  dbg('[DRAW] cssFilter built', cssFilter || '(empty)');
 
   // 🧠 SMART DEVICE DETECTION
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  dbg('[DRAW] platform', isIOS ? 'iOS' : 'Android/Other');
 
   // 2. SCREEN PREVIEW (VISUALS)
   if (isIOS) {
@@ -1220,9 +1235,20 @@ if (i.src) {
         // 🍎 iOS — NO save/restore
         x.filter = (cssFilter !== '') ? cssFilter : 'none';
 
+        // --- [DRAW IMAGE] LOGGING BLOCK ---
+        dbg('[DRAW IMAGE]', {
+            ctxFilter: x.filter,
+            hasImage: !!i.src
+        });
+        // --- END LOGGING BLOCK ---
+
         x.translate(cfg.x, cfg.y);
         x.rotate(cfg.r * Math.PI / 180);
         x.drawImage(i, -w/2, -h/2, w, h);
+        // [POST DRAW] LOGGING BLOCK
+        dbg('[POST DRAW]', {
+            ctxFilterAfter: x.filter
+        });
 
         // Manual cleanup (SAFE)
         x.setTransform(1, 0, 0, 1, 0, 0);
@@ -1234,7 +1260,17 @@ if (i.src) {
         x.translate(cfg.x, cfg.y);
         x.rotate(cfg.r * Math.PI / 180);
         x.filter = 'none';
+        // --- [DRAW IMAGE] LOGGING BLOCK ---
+        dbg('[DRAW IMAGE]', {
+            ctxFilter: x.filter,
+            hasImage: !!i.src
+        });
+        // --- END LOGGING BLOCK ---
         x.drawImage(i, -w/2, -h/2, w, h);
+        // [POST DRAW] LOGGING BLOCK
+        dbg('[POST DRAW]', {
+            ctxFilterAfter: x.filter
+        });
         x.restore();
     }
 }
@@ -1242,6 +1278,19 @@ if (i.src) {
   // 5. RESET FILTER (Android only – keep iOS filter alive until rasterization)
   if (!isIOS) {
       x.filter = 'none';
+  }
+
+  // --- DEBUG OVERLAY: Show current filter string on iOS if debug enabled ---
+  if (window.DEBUG_FILTERS && isIOS) {
+      x.save();
+      x.font = '18px monospace';
+      x.fillStyle = 'red';
+      x.fillText(
+          (cssFilter || 'NO FILTER').slice(0, 40),
+          10,
+          26
+      );
+      x.restore();
   }
 
   // 6. FRAME DRAWING
