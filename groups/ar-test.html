@@ -1348,48 +1348,78 @@ const cssFilter = getFilterString();
     // 🔒 Reset filter so frame is never tinted
     exportCtx.filter = 'none';
 
-    // --- FRAME (copied logic, unchanged) ---
+    // --- FRAME RING (FINAL, SINGLE SOURCE OF TRUTH) ---
     if (cfg.pColor) {
         exportCtx.save();
-        exportCtx.beginPath();
-        exportCtx.arc(400, 400, drawM, 0, Math.PI * 2);
-        exportCtx.lineWidth = 6;
-        exportCtx.strokeStyle = cfg.pColor;
-        exportCtx.stroke();
-        exportCtx.restore();
 
-        exportCtx.save();
         if ((cfg.pColor === '#000000' || cfg.pColor === '#808080') && cfg.pType === 'neon') {
             const sC = cfg.pColor;
-            exportCtx.beginPath(); exportCtx.arc(400, 400, drawM, 0, Math.PI * 2);
-            exportCtx.lineWidth = 25; exportCtx.strokeStyle = sC;
-            exportCtx.shadowBlur = 60; exportCtx.shadowColor = sC; exportCtx.stroke();
-            exportCtx.beginPath(); exportCtx.arc(400, 400, drawM, 0, Math.PI * 2);
-            exportCtx.lineWidth = 18; exportCtx.shadowBlur = 10; exportCtx.stroke();
-            exportCtx.beginPath(); exportCtx.arc(400, 400, drawM, 0, Math.PI * 2);
-            exportCtx.lineWidth = 6; exportCtx.shadowBlur = 0; exportCtx.strokeStyle = '#FFFFFF'; exportCtx.stroke();
-        } else if (cfg.pType === 'neon') {
-            exportCtx.beginPath(); exportCtx.arc(400, 400, drawM, 0, Math.PI * 2);
-            exportCtx.lineWidth = 25; exportCtx.strokeStyle = cfg.pColor;
-            exportCtx.shadowBlur = 30; exportCtx.shadowColor = cfg.pColor; exportCtx.stroke();
-            exportCtx.beginPath(); exportCtx.arc(400, 400, drawM, 0, Math.PI * 2);
-            exportCtx.lineWidth = 8; exportCtx.shadowBlur = 0; exportCtx.strokeStyle = '#FFFFFF'; exportCtx.stroke();
-        } else {
-            exportCtx.beginPath(); exportCtx.arc(400, 400, drawM, 0, Math.PI * 2);
+
+            exportCtx.beginPath();
+            exportCtx.arc(400, 400, drawM, 0, Math.PI * 2);
             exportCtx.lineWidth = 25;
+            exportCtx.strokeStyle = sC;
+            exportCtx.shadowBlur = 60;
+            exportCtx.shadowColor = sC;
+            exportCtx.stroke();
+
+            exportCtx.beginPath();
+            exportCtx.arc(400, 400, drawM, 0, Math.PI * 2);
+            exportCtx.lineWidth = 18;
+            exportCtx.shadowBlur = 10;
+            exportCtx.stroke();
+
+            exportCtx.beginPath();
+            exportCtx.arc(400, 400, drawM, 0, Math.PI * 2);
+            exportCtx.lineWidth = 6;
+            exportCtx.shadowBlur = 0;
+            exportCtx.strokeStyle = '#FFFFFF';
+            exportCtx.stroke();
+
+        } else if (cfg.pType === 'neon') {
+
+            exportCtx.beginPath();
+            exportCtx.arc(400, 400, drawM, 0, Math.PI * 2);
+            exportCtx.lineWidth = 25;
+            exportCtx.strokeStyle = cfg.pColor;
+            exportCtx.shadowBlur = 30;
+            exportCtx.shadowColor = cfg.pColor;
+            exportCtx.stroke();
+
+            exportCtx.beginPath();
+            exportCtx.arc(400, 400, drawM, 0, Math.PI * 2);
+            exportCtx.lineWidth = 8;
+            exportCtx.shadowBlur = 0;
+            exportCtx.strokeStyle = '#FFFFFF';
+            exportCtx.stroke();
+
+        } else {
+
+            exportCtx.beginPath();
+            exportCtx.arc(400, 400, drawM, 0, Math.PI * 2);
+            exportCtx.lineWidth = 25;
+
             if (cfg.pType === 'gold') {
-                let g = exportCtx.createLinearGradient(0, 0, 800, 800);
-                g.addColorStop(0, '#FFD700'); g.addColorStop(0.5, '#FDB931'); g.addColorStop(1, '#FFD700');
+                const g = exportCtx.createLinearGradient(0, 0, 800, 800);
+                g.addColorStop(0, '#FFD700');
+                g.addColorStop(0.5, '#FDB931');
+                g.addColorStop(1, '#FFD700');
                 exportCtx.strokeStyle = g;
+
             } else if (cfg.pType === 'silver') {
-                let g = exportCtx.createLinearGradient(0, 0, 800, 800);
-                g.addColorStop(0, '#E0E0E0'); g.addColorStop(0.5, '#B0B0B0'); g.addColorStop(1, '#E0E0E0');
+                const g = exportCtx.createLinearGradient(0, 0, 800, 800);
+                g.addColorStop(0, '#E0E0E0');
+                g.addColorStop(0.5, '#B0B0B0');
+                g.addColorStop(1, '#E0E0E0');
                 exportCtx.strokeStyle = g;
+
             } else {
                 exportCtx.strokeStyle = cfg.pColor;
             }
+
             exportCtx.stroke();
         }
+
         exportCtx.restore();
     }
 
