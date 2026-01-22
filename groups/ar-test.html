@@ -419,9 +419,9 @@
   <div class="ui">
     <button id="ui-toggle-btn" class="btn" style="border-color:#ffcc00; color:#ffcc00; margin-bottom:10px;" onclick="toggleFrameUI()">👁️ HIDE MENU BUTTONS</button>
     <div id="frame-btn-group">
-        <label class="btn" onclick="playClick()">CHOOSE IMAGE<input type="file" id="u1" accept="image/*" style="display:none"></label>
-        <label class="btn btn-r" onclick="playClick()">APPLY FRAME<input type="file" id="u2" accept="image/*" style="display:none"></label>
-        
+        <label class="btn" onclick="playClick()">CHOOSE IMAGE<input type="file" id="u1" accept="image/*" onchange="handleFile(event)" style="display:none"></label>
+        <label class="btn btn-r" onclick="playClick()">APPLY FRAME<input type="file" id="u2" accept="image/*" onchange="handleFrame(event)" style="display:none"></label>
+
         <button class="btn" style="border-color:#00ffff; color:#00ffff;" onclick="toggleFilterUI()">MAGIC FILTERS ✨</button>
         
         <div id="filter-wrapper">
@@ -795,7 +795,6 @@ function renderCat(cat) {
                     cfg.pType = item.t || null;
                     document.getElementById('u2').value = '';
                     f = new Image();
-                    f.crossOrigin = 'anonymous';
                 }
 
                 // 🔥 FORCE SIZE TO 375px (Fixes the bug)
@@ -815,7 +814,6 @@ function renderCat(cat) {
 }
 function setPlainFrame(color, type=null) {
     f = new Image();
-    f.crossOrigin = 'anonymous';
     document.getElementById('u2').value = ''; 
     cfg.pColor = color; 
     cfg.pType = type; 
@@ -1058,7 +1056,6 @@ function renderFilters() {
         const btn = document.createElement('button');
         btn.className = 'filter-btn';
         const img = document.createElement('img');
-        img.crossOrigin = 'anonymous';
         img.className = 'filter-preview';
         img.src = previewSrc;
         img.style.filter = mf.f; 
@@ -1163,32 +1160,6 @@ function toggleBoundaryLock() {
     if(typeof playClick === 'function') playClick();
 }
 // --- 🛠️ CORE DRAWING ENGINE (JAN 16th FIX: IPHONE HARD BAKE + ANDROID SHIELD) ---
-function exportWithIOSBake() {
-    const canvas = document.getElementById('c');
-    if (!canvas) {
-        console.warn('[EXPORT] canvas not found');
-        return;
-    }
-
-    console.log('[EXPORT] canvas OK', canvas.width, canvas.height);
-
-    const name = `Arcade_${Date.now()}.png`;
-
-    canvas.toBlob(blob => {
-        if (!blob) {
-            console.warn('[EXPORT] blob failed');
-            return;
-        }
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = name;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-    }, 'image/png');
-}
 function d(){
   if(!x) return;
   x.clearRect(0,0,800,800);
@@ -1204,6 +1175,7 @@ function d(){
   const isIOS =
   /AppleWebKit/.test(navigator.userAgent) &&
   !/Chrome|Chromium|Android/.test(navigator.userAgent);
+  dbg('[DRAW] platform', isIOS ? 'iOS' : 'Android/Other');
 
   // 2. SCREEN PREVIEW (VISUALS)
   if (isIOS) {
@@ -1240,30 +1212,28 @@ function d(){
 
   // 4. IMAGE DRAWING (THE SAVE FIX)
   if(i.src){
+      // 🔥 iOS SAFARI FIX: filter MUST be set BEFORE save/clip/transform
+      if (isIOS) {
+          x.filter = (cssFilter !== '') ? cssFilter : 'none';
+      } else {
+          x.filter = 'none';
+      }
+
       x.save();
-      x.beginPath(); x.arc(400, 400, drawM + 2, 0, Math.PI * 2); x.clip();
+      x.beginPath();
+      x.arc(400, 400, drawM + 2, 0, Math.PI * 2);
+      x.clip();
 
       let w = i.width * cfg.s, h = i.height * cfg.s;
       x.translate(cfg.x, cfg.y);
       x.rotate(cfg.r * Math.PI / 180);
 
-      // 🔥 THE IPHONE FIX (Hard Bake)
-      // This is the Jan 16th Logic:
-      if (isIOS) {
-          // Force filter into pixels for iPhone download
-          x.filter = (cssFilter !== '') ? cssFilter : 'none';
-      } else {
-          // 🛡️ ANDROID PROTECTION
-          // Force none to prevent double-filtering/tinting
-          x.filter = 'none';
-      }
-
       x.drawImage(i, -w/2, -h/2, w, h);
       x.restore();
-  }
 
-  // 5. RESET FILTER (Crucial: Protects Frames from being colored on Android)
-  x.filter = 'none';
+      // 🔒 RESET FILTER AFTER DRAW
+      x.filter = 'none';
+  }
 
   // 6. FRAME DRAWING
   if (cfg.pColor) {
@@ -1331,13 +1301,6 @@ function handleFile(e){
         }; n.src = v.target.result;
     }; r.readAsDataURL(files[0]);
 }
-// 🔧 SAFARI GLOBAL EXPOSURE FIX
-window.handleFile = handleFile;
-// --- SAFARI FIX: bind upload handler after definition
-const u1 = document.getElementById('u1');
-if (u1) {
-    u1.addEventListener('change', handleFile);
-}
 function handleFrame(e){
     const files = e.target ? e.target.files : e.files; if(!files || !files[0]) return;
     const r = new FileReader();
@@ -1352,12 +1315,6 @@ function handleFrame(e){
         n.src = v.target.result;
     }; r.readAsDataURL(files[0]);
 }
-window.handleFrame = handleFrame;
-// --- SAFARI FIX: bind frame upload handler after definition
-const u2 = document.getElementById('u2');
-if (u2) {
-    u2.addEventListener('change', handleFrame);
-}
 
 function updateZ(v){ cfg.s=parseFloat(v); zVal.innerText=Math.round((v/zSl.min)*100)+"%"; d(); }
 function updateR(v){ cfg.r=parseInt(v); rVal.innerText=v+"°"; d(); }
@@ -1366,7 +1323,6 @@ function centerSubject(){ cfg.x=400; cfg.y=400; cfg.r=0; rSl.value=0; d(); playS
 
 function resetProject(){
     i=new Image(); f=new Image();
-    i.crossOrigin = 'anonymous';
 
     // 🔥 RESET TO 400px (Normal Mode)
     cfg={s:1, m:400, x:400, y:400, r:0, pColor:null, pType:null, filter:'none', adj:{b:100,c:100,s:100}};
@@ -1389,25 +1345,7 @@ function resetProject(){
 }
 
 function downloadPic() {
-const canvas = document.getElementById('c');
-if (!canvas) return;
-
-    console.log('[DOWNLOAD] canvas export start');
-
-    exportWithIOSBake();
-    playShutter();
-}
-
-    // 🍎 iOS SAFARI FIX: bake filters into pixels before export
-    const isIOS =
-        /AppleWebKit/.test(navigator.userAgent) &&
-        !/Chrome|Chromium|Android/.test(navigator.userAgent);
-
-    if (isIOS) {
-        exportWithIOSBake();
-        playShutter();
-        return;
-    }
+    if (!i.src) return;
 
     // 1. Internal Backup
     if (typeof saveToGallery === 'function') {
@@ -1679,7 +1617,6 @@ function renderGallery() {
             card.style.border = "1px solid #00ffcc44";
         } else {
             const img = document.createElement('img');
-            img.crossOrigin = 'anonymous';
             img.src = item.data || item.img; 
             img.style.cssText = "width:100%; height:auto; display:block; aspect-ratio:1/1; object-fit:cover;";
             card.appendChild(img);
