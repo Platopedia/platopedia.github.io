@@ -533,6 +533,8 @@ let i = new Image();
 i.crossOrigin = 'anonymous';   // ✅ MUST be set before src
 
 let f = new Image();           // frame image (ok if local)
+f.crossOrigin = 'anonymous';
+
 let cfg={s:1, m:375, x:400, y:400, r:0, lx:0, ly:0, pColor: null, pType: null, filter: 'none', adj: { b: 100, c: 100, s: 100 }}; 
 let player, musicOn=true, audioStarted=false;
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -799,6 +801,7 @@ function renderCat(cat) {
                     cfg.pType = item.t || null;
                     document.getElementById('u2').value = '';
                     f = new Image(); 
+                    f.crossOrigin = 'anonymous';
                 }
 
                 // 🔥 FORCE SIZE TO 375px (Fixes the bug)
@@ -818,6 +821,7 @@ function renderCat(cat) {
 }
 function setPlainFrame(color, type=null) {
     f = new Image(); 
+    f.crossOrigin = 'anonymous';
     document.getElementById('u2').value = ''; 
     cfg.pColor = color; 
     cfg.pType = type; 
