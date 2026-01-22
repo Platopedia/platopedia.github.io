@@ -528,25 +528,39 @@ const swMenu=document.getElementById('switch-menu'), thMenu=document.getElementB
 const zVal=document.getElementById('z-val'), rVal=document.getElementById('r-val'), mVal=document.getElementById('m-val');
 const mLbl=document.getElementById('m-lbl'); 
 
-let i = new Image(), f = new Image();
+i = new Image(), f = new Image();
+i.crossOrigin = 'anonymous';
+// 🧪 TEMP CANVAS FOR iOS PIXEL FILTERING (NEVER CLIPPED)
+const tmp = document.createElement('canvas');
+tmp.width = 800;
+tmp.height = 800;
+const tx = tmp.getContext('2d');
 i.crossOrigin = 'anonymous';
 // 🍎 iOS SAFE PIXEL FILTER ENGINE (ADD ONCE)
 function applyPixelFilters(ctx, w, h, filterStr) {
-    if (!filterStr || filterStr === 'none') return;
+    if (!filterStr) return;
 
     const img = ctx.getImageData(0, 0, w, h);
     const d = img.data;
 
-    const get = (name, def=1) => {
+    // iOS parity: get() supports %, deg, and defaults
+    const get = (name, def=0) => {
         const m = new RegExp(name + '\\(([^)]+)\\)').exec(filterStr);
-        return m ? parseFloat(m[1]) : def;
+        if (!m) return def;
+        const v = m[1].trim();
+        if (v.endsWith('%')) return parseFloat(v) / 100;
+        if (v.endsWith('deg')) return parseFloat(v);
+        return parseFloat(v);
     };
 
+    // Extract all supported filters
     const br = get('brightness', 1);
     const ct = get('contrast', 1);
     const st = get('saturate', 1);
     const gs = get('grayscale', 0);
     const sp = get('sepia', 0);
+    const inv = get('invert', 0);
+    const hue = get('hue-rotate', 0) * Math.PI / 180;
 
     for (let i = 0; i < d.length; i += 4) {
         let r = d[i], g = d[i+1], b = d[i+2];
@@ -560,6 +574,22 @@ function applyPixelFilters(ctx, w, h, filterStr) {
         r = avg + (r - avg) * st;
         g = avg + (g - avg) * st;
         b = avg + (b - avg) * st;
+
+        // Insert hue-rotate logic here, after saturation, before grayscale
+        if (hue !== 0) {
+            const cos = Math.cos(hue);
+            const sin = Math.sin(hue);
+            const nr = (0.213 + cos * 0.787 - sin * 0.213) * r +
+                       (0.715 - cos * 0.715 - sin * 0.715) * g +
+                       (0.072 - cos * 0.072 + sin * 0.928) * b;
+            const ng = (0.213 - cos * 0.213 + sin * 0.143) * r +
+                       (0.715 + cos * 0.285 + sin * 0.140) * g +
+                       (0.072 - cos * 0.072 - sin * 0.283) * b;
+            const nb = (0.213 - cos * 0.213 - sin * 0.787) * r +
+                       (0.715 - cos * 0.715 + sin * 0.715) * g +
+                       (0.072 + cos * 0.928 + sin * 0.072) * b;
+            r = nr; g = ng; b = nb;
+        }
 
         if (gs > 0) {
             const gray = (r + g + b) / 3;
@@ -575,6 +605,13 @@ function applyPixelFilters(ctx, w, h, filterStr) {
             r = r*(1-sp) + tr*sp;
             g = g*(1-sp) + tg*sp;
             b = b*(1-sp) + tb*sp;
+        }
+
+        // Invert support, after sepia and before clamping
+        if (inv > 0) {
+            r = r * (1 - inv) + (255 - r) * inv;
+            g = g * (1 - inv) + (255 - g) * inv;
+            b = b * (1 - inv) + (255 - b) * inv;
         }
 
         d[i] = Math.max(0, Math.min(255, r));
@@ -1248,31 +1285,45 @@ function d(){
   }
 
   // 4. IMAGE DRAWING (THE SAVE FIX)
-  if(i.src){
-      x.save(); 
-      x.beginPath(); x.arc(400, 400, drawM + 2, 0, Math.PI * 2); x.clip(); 
-      
-      let w = i.width * cfg.s, h = i.height * cfg.s;
-      x.translate(cfg.x, cfg.y); 
-      x.rotate(cfg.r * Math.PI / 180);
-      
+  if (i.src) {
+      const w = i.width * cfg.s;
+      const h = i.height * cfg.s;
+
+      // ---- iOS SAFE PATH (PIXEL-BAKED) ----
       if (isIOS) {
-          // 🍎 iOS SAFARI: draw normally, then bake pixels
-          x.filter = 'none';
-          x.drawImage(i, -w/2, -h/2, w, h);
+          // 1️⃣ Draw RAW image to temp canvas (NO filters)
+          tx.setTransform(1,0,0,1,0,0);
+          tx.clearRect(0,0,800,800);
+          tx.translate(cfg.x, cfg.y);
+          tx.rotate(cfg.r * Math.PI / 180);
+          tx.drawImage(i, -w/2, -h/2, w, h);
 
-          if (cssFilter) {
-              // IMPORTANT: bake AFTER draw, BEFORE restore
-              applyPixelFilters(x, 800, 800, cssFilter);
-          }
+          // 2️⃣ Bake filters into pixels
+          applyPixelFilters(tx, 800, 800, cssFilter);
+
+          // 3️⃣ Draw baked result to main canvas WITH CLIP
+          x.save();
+          x.beginPath();
+          x.arc(400, 400, drawM + 2, 0, Math.PI * 2);
+          x.clip();
+          x.drawImage(tmp, 0, 0);
+          x.restore();
+
+      // ---- ANDROID / DESKTOP PATH (GPU FILTERS) ----
       } else {
-          // 🤖 ANDROID / DESKTOP: native canvas filters (WORKING)
-          x.filter = (cssFilter !== '') ? cssFilter : 'none';
-          x.drawImage(i, -w/2, -h/2, w, h);
-      }
+          x.save();
+          x.beginPath();
+          x.arc(400, 400, drawM + 2, 0, Math.PI * 2);
+          x.clip();
 
-      x.restore();
-      x.filter = 'none'; // protect frames
+          x.translate(cfg.x, cfg.y);
+          x.rotate(cfg.r * Math.PI / 180);
+          x.filter = cssFilter || 'none';
+          x.drawImage(i, -w/2, -h/2, w, h);
+
+          x.restore();
+          x.filter = 'none';
+      }
   }
   
   // 5. RESET FILTER (Crucial: Protects Frames from being colored on Android)
