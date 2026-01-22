@@ -1175,9 +1175,9 @@ function exportWithIOSBake() {
     // Build filter string
     let cssFilter = '';
     if (cfg.filter && cfg.filter !== 'none') cssFilter += cfg.filter;
-    if (cfg.adj.b !== 100) cssFilter += ` brightness(${cfg.adj.b}%)`;
-    if (cfg.adj.c !== 100) cssFilter += ` contrast(${cfg.adj.c}%)`;
-    if (cfg.adj.s !== 100) cssFilter += ` saturate(${cfg.adj.s}%)`;
+if (cfg.adj.b !== 100) cssFilter += ` brightness(${cfg.adj.b / 100})`;
+if (cfg.adj.c !== 100) cssFilter += ` contrast(${cfg.adj.c / 100})`;
+if (cfg.adj.s !== 100) cssFilter += ` saturate(${cfg.adj.s / 100})`;
 
     // Clear
     bx.clearRect(0, 0, 800, 800);
