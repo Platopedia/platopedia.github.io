@@ -1193,10 +1193,16 @@ function d(){
 
   // 2. SCREEN PREVIEW (VISUALS)
   if (isIOS) {
-      // 🍎 IPHONE: Apply CSS so the user sees changes instantly on screen
-      if(c) {
-          c.style.filter = (cssFilter !== '') ? cssFilter : 'none';
-          c.style.webkitFilter = (cssFilter !== '') ? cssFilter : 'none';
+      if (c) {
+          // During normal preview → CSS filter (fast, live)
+          // During save → NO CSS filter (we hard-bake via ctx.filter)
+          if (!window.isSaving) {
+              c.style.filter = (cssFilter !== '') ? cssFilter : 'none';
+              c.style.webkitFilter = (cssFilter !== '') ? cssFilter : 'none';
+          } else {
+              c.style.filter = 'none';
+              c.style.webkitFilter = 'none';
+          }
       }
   } else {
       // 🤖 ANDROID SHIELD: Force CSS to 'none'.
