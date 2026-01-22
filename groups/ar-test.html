@@ -1157,6 +1157,18 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         d();
         if(typeof playClick === 'function') playClick();
     }
+    // --- 🍎 SAFARI FILTER FIX (DOM-ATTACHED OFFSCREEN CANVAS) ---
+    const off = document.createElement('canvas');
+    off.width = 800;
+    off.height = 800;
+    off.style.position = 'fixed';
+    off.style.left = '-9999px';
+    off.style.top = '-9999px';
+    off.style.opacity = '0.01'; // must NOT be display:none
+    document.body.appendChild(off);
+
+    const ox = off.getContext('2d', { willReadFrequently: true });
+
     // --- 🛠️ CORE DRAWING ENGINE (JAN 16th FIX: IPHONE HARD BAKE + ANDROID SHIELD) ---
     function d(){
       if(!x) return;
@@ -1179,11 +1191,7 @@ if (c) {
     c.style.webkitFilter = 'none';
 }
 
-      // --- 🧩 OFFSCREEN CANVAS (iOS SAFARI FILTER FIX) ---
-      const off = document.createElement('canvas');
-      off.width = 800;
-      off.height = 800;
-      const ox = off.getContext('2d');
+
 
       // 3. SIZE & BOUNDARY LOGIC
       let drawM = cfg.m;
