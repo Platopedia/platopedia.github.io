@@ -1353,6 +1353,20 @@ function handleFrame(e){
     }; r.readAsDataURL(files[0]);
 }
 
+function openImage() {
+    const u1 = document.getElementById('u1');
+    if (!u1) return;
+    u1.value = '';   // important for iOS re-select
+    u1.click();
+}
+
+function openFrame() {
+    const u2 = document.getElementById('u2');
+    if (!u2) return;
+    u2.value = '';
+    u2.click();
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const u1 = document.getElementById('u1');
     const u2 = document.getElementById('u2');
