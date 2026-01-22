@@ -528,7 +528,8 @@ const swMenu=document.getElementById('switch-menu'), thMenu=document.getElementB
 const zVal=document.getElementById('z-val'), rVal=document.getElementById('r-val'), mVal=document.getElementById('m-val');
 const mLbl=document.getElementById('m-lbl'); 
 
-let i=new Image(), f=new Image();
+let i = new Image(), f = new Image();
+i.crossOrigin = 'anonymous';
 // 🍎 iOS SAFE PIXEL FILTER ENGINE (ADD ONCE)
 function applyPixelFilters(ctx, w, h, filterStr) {
     if (!filterStr || filterStr === 'none') return;
