@@ -521,6 +521,12 @@
 <script>
 // --- CORE VARIABLES ---
 const c=document.getElementById('c'), x=c.getContext('2d');
+
+// --- OFFSCREEN BAKE CANVAS (iOS EXPORT FIX) ---
+const bakeCanvas = document.createElement('canvas');
+bakeCanvas.width = 800;
+bakeCanvas.height = 800;
+const bx = bakeCanvas.getContext('2d');
 const zSl=document.getElementById('z'), rSl=document.getElementById('r'), mSl=document.getElementById('m');
 const panel=document.getElementById('menu-panel'), mStat=document.getElementById('m-status');
 const sName=document.getElementById('studio-name'), sSub=document.getElementById('studio-sub');
@@ -1160,37 +1166,69 @@ function toggleBoundaryLock() {
     if(typeof playClick === 'function') playClick();
 }
 // --- 🛠️ CORE DRAWING ENGINE (JAN 16th FIX: IPHONE HARD BAKE + ANDROID SHIELD) ---
-function d(){
-  if(!x) return;
-  x.clearRect(0,0,800,800);
+function d() {
+    const isIOS =
+        /AppleWebKit/.test(navigator.userAgent) &&
+        !/Chrome|Chromium|Android/.test(navigator.userAgent);
 
-  // 1. CALCULATE FILTER STRING
-  let cssFilter = '';
-  if(cfg.filter && cfg.filter !== 'none') cssFilter += cfg.filter;
-  if(cfg.adj.b !== 100) cssFilter += ` brightness(${cfg.adj.b}%)`;
-  if(cfg.adj.c !== 100) cssFilter += ` contrast(${cfg.adj.c}%)`;
-  if(cfg.adj.s !== 100) cssFilter += ` saturate(${cfg.adj.s}%)`;
+    // iOS preview uses CSS filters (fast, GPU)
+    if (isIOS) {
+        let css = cfg.filter || 'none';
+        c.style.filter = css;
+        c.style.webkitFilter = css;
+        drawScene(x, false); // NO ctx.filter
+    } else {
+        c.style.filter = 'none';
+        c.style.webkitFilter = 'none';
+        drawScene(x, true); // Android/Desktop bake directly
+    }
+}
 
-  // 🧠 SMART DEVICE DETECTION
-  const isIOS =
-  /AppleWebKit/.test(navigator.userAgent) &&
-  !/Chrome|Chromium|Android/.test(navigator.userAgent);
+// --- 🎨 SHARED DRAW ROUTINE (PREVIEW / BAKE) ---
+function drawScene(ctx, applyFilter) {
+    if (!ctx) return;
+    ctx.clearRect(0, 0, 800, 800);
 
-  // 2. SCREEN PREVIEW (VISUALS)
-  if (isIOS) {
-      // 🍎 IPHONE: Apply CSS so the user sees changes instantly on screen
-      if(c) {
-          c.style.filter = (cssFilter !== '') ? cssFilter : 'none';
-          c.style.webkitFilter = (cssFilter !== '') ? cssFilter : 'none';
-      }
-  } else {
-      // 🤖 ANDROID SHIELD: Force CSS to 'none'.
-      // This protects Android from the "Double Filter" and "Tinted Frame" glitches.
-      if(c) {
-          c.style.filter = 'none';
-          c.style.webkitFilter = 'none';
-      }
-  }
+    // 1. BUILD FILTER STRING
+    let cssFilter = '';
+    if (cfg.filter && cfg.filter !== 'none') cssFilter += cfg.filter;
+    if (cfg.adj.b !== 100) cssFilter += ` brightness(${cfg.adj.b}%)`;
+    if (cfg.adj.c !== 100) cssFilter += ` contrast(${cfg.adj.c}%)`;
+    if (cfg.adj.s !== 100) cssFilter += ` saturate(${cfg.adj.s}%)`;
+
+    // 2. SIZE LOGIC
+    let drawM = cfg.m;
+    if (cfg.pColor && cfg.m > 360) drawM = 360;
+
+    // 3. IMAGE DRAW
+    if (i.src) {
+        ctx.filter = applyFilter ? (cssFilter || 'none') : 'none';
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(400, 400, drawM + 2, 0, Math.PI * 2);
+        ctx.clip();
+
+        let w = i.width * cfg.s, h = i.height * cfg.s;
+        ctx.translate(cfg.x, cfg.y);
+        ctx.rotate(cfg.r * Math.PI / 180);
+        ctx.drawImage(i, -w / 2, -h / 2, w, h);
+        ctx.restore();
+
+        ctx.filter = 'none';
+    }
+
+    // 4. FRAME DRAW (never filtered)
+    if (cfg.pColor) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(400, 400, drawM, 0, Math.PI * 2);
+        ctx.lineWidth = 6;
+        ctx.strokeStyle = cfg.pColor;
+        ctx.stroke();
+        ctx.restore();
+    }
+}
 
   // 3. SIZE & BOUNDARY LOGIC
   let drawM = cfg.m;
@@ -1346,39 +1384,35 @@ function resetProject(){
 function downloadPic() {
     if (!i.src) return;
 
-    // 1. Internal Backup
+    // 1. Internal Backup (unchanged)
     if (typeof saveToGallery === 'function') {
         saveToGallery();
     }
 
-    // 2. ENABLE SAVE MODE (Triggers iPhone Hard Bake)
-    // Android ignores this flag completely.
-    window.isSaving = true;
-    d(); 
+    // 2. HARD BAKE INTO OFFSCREEN CANVAS
+    drawScene(bx, true);
 
     // 3. Generate Unique Name
     const uniqueName = `Arcade_${Date.now()}_${Math.floor(Math.random() * 99999)}.png`;
 
-    // 4. Create Blob & Download
-    c.toBlob(function(blob) {
+    // 4. Export FROM BAKE CANVAS (not preview)
+    bakeCanvas.toBlob(function(blob) {
+        if (!blob) return;
+
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = uniqueName; 
+        a.download = uniqueName;
         document.body.appendChild(a);
         a.click();
-        
-        // 5. CLEANUP & RESTORE
-        // We wait 100ms, then turn off Save Mode so the screen goes back to normal.
+
+        // 5. Cleanup
         setTimeout(() => {
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
-            
-            window.isSaving = false;
-            d(); 
         }, 100);
     }, 'image/png');
-    
+
     // 6. Sound Effect
     playShutter();
 }
