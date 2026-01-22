@@ -1323,6 +1323,8 @@ function handleFile(e){
         }; n.src = v.target.result;
     }; r.readAsDataURL(files[0]);
 }
+// 🔧 SAFARI GLOBAL EXPOSURE FIX
+window.handleFile = handleFile;
 // --- SAFARI FIX: bind upload handler after definition
 const u1 = document.getElementById('u1');
 if (u1) {
@@ -1342,6 +1344,7 @@ function handleFrame(e){
         n.src = v.target.result;
     }; r.readAsDataURL(files[0]);
 }
+window.handleFrame = handleFrame;
 // --- SAFARI FIX: bind frame upload handler after definition
 const u2 = document.getElementById('u2');
 if (u2) {
