@@ -820,13 +820,12 @@ function renderCat(cat) {
     }, 10);
 }
 function setPlainFrame(color, type=null) {
-    f = new Image();
-    f.crossOrigin = 'anonymous';
+    f = null; // 🔥 ensure NO image-based frame exists
     document.getElementById('u2').value = ''; 
     cfg.pColor = color; 
     cfg.pType = type; 
     mLbl.innerText = "FRAME OPENING SIZE"; 
-    d(); 
+    d();
     playClick();
 }
 // --- 🏆 THE ULTIMATE MASTER COLLECTION (330+ PRO LOOKS) ---
@@ -1396,11 +1395,22 @@ function handleFrame(e){
     r.onload = v => {
         const n = new Image();
         n.crossOrigin = 'anonymous';
-        n.onload = () => {
-            f.src = n.src;
-            cfg.m = 375; mSl.value = 375; mVal.innerText = "375px";
-            cfg.pColor = null; cfg.pType = null; mLbl.innerText = "FRAME OPENING SIZE";
-            updS(mSl); d();
+        n.onload = async () => {
+            if ('decode' in n) {
+                try { await n.decode(); } catch(e){}
+            }
+
+            f = n; // 🔥 reuse SAME decoded Image instance
+
+            cfg.m = 375;
+            mSl.value = 375;
+            mVal.innerText = "375px";
+            cfg.pColor = null;
+            cfg.pType = null;
+            mLbl.innerText = "FRAME OPENING SIZE";
+
+            updS(mSl);
+            d();
         };
         n.src = v.target.result;
     }; r.readAsDataURL(files[0]);
@@ -1412,6 +1422,7 @@ function updateM(v){ cfg.m=parseInt(v); mVal.innerText=v+"px"; d(); }
 function centerSubject(){ cfg.x=400; cfg.y=400; cfg.r=0; rSl.value=0; d(); playShutter(); }
 
 function resetProject(){
+    f = null;
     // 🔥 RESET TO 400px (Normal Mode)
     cfg={s:1, m:400, x:400, y:400, r:0, pColor:null, pType:null, filter:'none', adj:{b:100,c:100,s:100}};
     zSl.value=1; rSl.value=0; mSl.value=400; mVal.innerText="400px"; mLbl.innerText = "CIRCLE SIZE";
