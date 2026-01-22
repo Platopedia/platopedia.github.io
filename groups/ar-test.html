@@ -1186,7 +1186,9 @@ function d(){
   dbg('[DRAW] cssFilter built', cssFilter || '(empty)');
 
   // 🧠 SMART DEVICE DETECTION
-  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  const isIOS =
+  /AppleWebKit/.test(navigator.userAgent) &&
+  !/Chrome|Chromium|Android/.test(navigator.userAgent);
   dbg('[DRAW] platform', isIOS ? 'iOS' : 'Android/Other');
 
   // 2. SCREEN PREVIEW (VISUALS)
