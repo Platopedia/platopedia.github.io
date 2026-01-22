@@ -800,7 +800,7 @@ function renderCat(cat) {
                     cfg.pColor = item.c;
                     cfg.pType = item.t || null;
                     document.getElementById('u2').value = '';
-                    f = new Image(); 
+                    f = new Image();
                     f.crossOrigin = 'anonymous';
                 }
 
@@ -820,7 +820,7 @@ function renderCat(cat) {
     }, 10);
 }
 function setPlainFrame(color, type=null) {
-    f = new Image(); 
+    f = new Image();
     f.crossOrigin = 'anonymous';
     document.getElementById('u2').value = ''; 
     cfg.pColor = color; 
@@ -1360,6 +1360,7 @@ function handleFile(e){
     const r = new FileReader();
     r.onload = v => {
         const n = new Image();
+        n.crossOrigin = 'anonymous';
         n.onload = async () => {
             if ('decode' in n) { try { await n.decode(); } catch(err) { } }
             i = n; cfg.x = 400; cfg.y = 400; cfg.r = 0;
@@ -1394,6 +1395,7 @@ function handleFrame(e){
     const r = new FileReader();
     r.onload = v => {
         const n = new Image();
+        n.crossOrigin = 'anonymous';
         n.onload = () => {
             f.src = n.src;
             cfg.m = 375; mSl.value = 375; mVal.innerText = "375px";
