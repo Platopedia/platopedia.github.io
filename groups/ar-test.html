@@ -419,9 +419,9 @@
   <div class="ui">
     <button id="ui-toggle-btn" class="btn" style="border-color:#ffcc00; color:#ffcc00; margin-bottom:10px;" onclick="toggleFrameUI()">👁️ HIDE MENU BUTTONS</button>
     <div id="frame-btn-group">
-        <label class="btn" onclick="playClick()">CHOOSE IMAGE<input type="file" id="u1" accept="image/*" style="display:none"></label>
-        <label class="btn btn-r" onclick="playClick()">APPLY FRAME<input type="file" id="u2" accept="image/*" style="display:none"></label>
-
+        <label class="btn" onclick="playClick()">CHOOSE IMAGE<input type="file" id="u1" accept="image/*" onchange="handleFile(event)" style="display:none"></label>
+        <label class="btn btn-r" onclick="playClick()">APPLY FRAME<input type="file" id="u2" accept="image/*" onchange="handleFrame(event)" style="display:none"></label>
+        
         <button class="btn" style="border-color:#00ffff; color:#00ffff;" onclick="toggleFilterUI()">MAGIC FILTERS ✨</button>
         
         <div id="filter-wrapper">
@@ -521,12 +521,11 @@
 <script>
 // --- CORE VARIABLES ---
 const c=document.getElementById('c'), x=c.getContext('2d');
-
-// --- OFFSCREEN BAKE CANVAS (iOS EXPORT FIX) ---
-const bakeCanvas = document.createElement('canvas');
-bakeCanvas.width = 800;
-bakeCanvas.height = 800;
-const bx = bakeCanvas.getContext('2d');
+// --- 🖨️ EXPORT CANVAS (Safari-safe, offscreen) ---
+const exportCanvas = document.createElement('canvas');
+exportCanvas.width = 800;
+exportCanvas.height = 800;
+const exportCtx = exportCanvas.getContext('2d');
 const zSl=document.getElementById('z'), rSl=document.getElementById('r'), mSl=document.getElementById('m');
 const panel=document.getElementById('menu-panel'), mStat=document.getElementById('m-status');
 const sName=document.getElementById('studio-name'), sSub=document.getElementById('studio-sub');
@@ -535,7 +534,26 @@ const zVal=document.getElementById('z-val'), rVal=document.getElementById('r-val
 const mLbl=document.getElementById('m-lbl'); 
 
 let i=new Image(), f=new Image();
-let cfg={s:1, m:375, x:400, y:400, r:0, lx:0, ly:0, pColor: null, pType: null, filter: 'none', adj: { b: 100, c: 100, s: 100 }}; 
+let cfg={s:1, m:375, x:400, y:400, r:0, lx:0, ly:0, pColor: null, pType: null, filter: 'none', adj: { b: 100, c: 100, s: 100 }};
+// --- 🎛️ FILTER STRING BUILDER (Single Source of Truth) ---
+function getFilterString() {
+    let f = '';
+
+    if (cfg.filter && cfg.filter !== 'none') {
+        f += cfg.filter;
+    }
+    if (cfg.adj.b !== 100) {
+        f += ` brightness(${cfg.adj.b}%)`;
+    }
+    if (cfg.adj.c !== 100) {
+        f += ` contrast(${cfg.adj.c}%)`;
+    }
+    if (cfg.adj.s !== 100) {
+        f += ` saturate(${cfg.adj.s}%)`;
+    }
+
+    return f || 'none';
+}
 let player, musicOn=true, audioStarted=false;
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
@@ -800,7 +818,7 @@ function renderCat(cat) {
                     cfg.pColor = item.c;
                     cfg.pType = item.t || null;
                     document.getElementById('u2').value = '';
-                    f = new Image();
+                    f = new Image(); 
                 }
 
                 // 🔥 FORCE SIZE TO 375px (Fixes the bug)
@@ -819,7 +837,7 @@ function renderCat(cat) {
     }, 10);
 }
 function setPlainFrame(color, type=null) {
-    f = new Image();
+    f = new Image(); 
     document.getElementById('u2').value = ''; 
     cfg.pColor = color; 
     cfg.pType = type; 
@@ -1166,69 +1184,33 @@ function toggleBoundaryLock() {
     if(typeof playClick === 'function') playClick();
 }
 // --- 🛠️ CORE DRAWING ENGINE (JAN 16th FIX: IPHONE HARD BAKE + ANDROID SHIELD) ---
-function d() {
-    const isIOS =
-        /AppleWebKit/.test(navigator.userAgent) &&
-        !/Chrome|Chromium|Android/.test(navigator.userAgent);
+function d(){ 
+  if(!x) return;
+  x.clearRect(0,0,800,800); 
 
-    // iOS preview uses CSS filters (fast, GPU)
-    if (isIOS) {
-        let css = cfg.filter || 'none';
-        c.style.filter = css;
-        c.style.webkitFilter = css;
-        drawScene(x, false); // NO ctx.filter
-    } else {
-        c.style.filter = 'none';
-        c.style.webkitFilter = 'none';
-        drawScene(x, true); // Android/Desktop bake directly
-    }
-}
+  // 1. CALCULATE FILTER STRING
+const cssFilter = getFilterString();
 
-// --- 🎨 SHARED DRAW ROUTINE (PREVIEW / BAKE) ---
-function drawScene(ctx, applyFilter) {
-    if (!ctx) return;
-    ctx.clearRect(0, 0, 800, 800);
+  // 🧠 SMART DEVICE DETECTION
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
-    // 1. BUILD FILTER STRING
-    let cssFilter = '';
-    if (cfg.filter && cfg.filter !== 'none') cssFilter += cfg.filter;
-    if (cfg.adj.b !== 100) cssFilter += ` brightness(${cfg.adj.b}%)`;
-    if (cfg.adj.c !== 100) cssFilter += ` contrast(${cfg.adj.c}%)`;
-    if (cfg.adj.s !== 100) cssFilter += ` saturate(${cfg.adj.s}%)`;
+  // 2. SCREEN PREVIEW (VISUALS)
+  if (isIOS) {
+      // 🍎 IPHONE: Apply CSS so the user sees changes instantly on screen
+      if(c) {
+          c.style.filter = (cssFilter !== '') ? cssFilter : 'none';
+          c.style.webkitFilter = (cssFilter !== '') ? cssFilter : 'none';
+      }
+  } else {
+      // 🤖 ANDROID SHIELD: Force CSS to 'none'.
+      // This protects Android from the "Double Filter" and "Tinted Frame" glitches.
+      if(c) {
+          c.style.filter = 'none';
+          c.style.webkitFilter = 'none';
+      }
+  }
 
-    // 2. SIZE LOGIC
-    let drawM = cfg.m;
-    if (cfg.pColor && cfg.m > 360) drawM = 360;
-
-    // 3. IMAGE DRAW
-    if (i.src) {
-        ctx.filter = applyFilter ? (cssFilter || 'none') : 'none';
-
-        ctx.save();
-        ctx.beginPath();
-        ctx.arc(400, 400, drawM + 2, 0, Math.PI * 2);
-        ctx.clip();
-
-        let w = i.width * cfg.s, h = i.height * cfg.s;
-        ctx.translate(cfg.x, cfg.y);
-        ctx.rotate(cfg.r * Math.PI / 180);
-        ctx.drawImage(i, -w / 2, -h / 2, w, h);
-        ctx.restore();
-
-        ctx.filter = 'none';
-    }
-
-    // 4. FRAME DRAW (never filtered)
-    if (cfg.pColor) {
-        ctx.save();
-        ctx.beginPath();
-        ctx.arc(400, 400, drawM, 0, Math.PI * 2);
-        ctx.lineWidth = 6;
-        ctx.strokeStyle = cfg.pColor;
-        ctx.stroke();
-        ctx.restore();
-    }
-}
+  // 3. SIZE & BOUNDARY LOGIC
 
   // 3. SIZE & BOUNDARY LOGIC
   let drawM = cfg.m;
@@ -1237,7 +1219,7 @@ function drawScene(ctx, applyFilter) {
   if(i.src && isBoundaryLocked){
       const rad = cfg.r * Math.PI / 180;
       const cos = Math.abs(Math.cos(rad)), sin = Math.abs(Math.sin(rad));
-      const mathM = drawM + 15;
+      const mathM = drawM + 15; 
       const reqW = (mathM*2*cos + mathM*2*sin), reqH = (mathM*2*sin + mathM*2*cos);
       const minS = Math.max(reqW/i.width, reqH/i.height);
       if(cfg.s < minS) { cfg.s = minS; if(window.zSl) zSl.value = minS; if(window.zVal) zVal.innerText = Math.round((minS/zSl.min)*100)+"%"; }
@@ -1249,37 +1231,39 @@ function drawScene(ctx, applyFilter) {
 
   // 4. IMAGE DRAWING (THE SAVE FIX)
   if(i.src){
-      // 🔥 iOS SAFARI FIX: filter MUST be set BEFORE save/clip/transform
+      x.save(); 
+      x.beginPath(); x.arc(400, 400, drawM + 2, 0, Math.PI * 2); x.clip(); 
+      
+      let w = i.width * cfg.s, h = i.height * cfg.s;
+      x.translate(cfg.x, cfg.y); 
+      x.rotate(cfg.r * Math.PI / 180);
+      
+      // 🔥 THE IPHONE FIX (Hard Bake)
+      // This is the Jan 16th Logic:
       if (isIOS) {
+          // Force filter into pixels for iPhone download
           x.filter = (cssFilter !== '') ? cssFilter : 'none';
       } else {
-          x.filter = 'none';
+          // 🛡️ ANDROID PROTECTION
+          // Force none to prevent double-filtering/tinting
+          x.filter = 'none'; 
       }
-
-      x.save();
-      x.beginPath();
-      x.arc(400, 400, drawM + 2, 0, Math.PI * 2);
-      x.clip();
-
-      let w = i.width * cfg.s, h = i.height * cfg.s;
-      x.translate(cfg.x, cfg.y);
-      x.rotate(cfg.r * Math.PI / 180);
-
+      
       x.drawImage(i, -w/2, -h/2, w, h);
-      x.restore();
-
-      // 🔒 RESET FILTER AFTER DRAW
-      x.filter = 'none';
+      x.restore(); 
   }
+  
+  // 5. RESET FILTER (Crucial: Protects Frames from being colored on Android)
+  x.filter = 'none'; 
 
   // 6. FRAME DRAWING
   if (cfg.pColor) {
-      x.save(); x.beginPath(); x.arc(400, 400, drawM, 0, Math.PI * 2);
+      x.save(); x.beginPath(); x.arc(400, 400, drawM, 0, Math.PI * 2); 
       x.lineWidth = 6; x.strokeStyle = cfg.pColor; x.stroke(); x.restore();
-
-      x.save();
+      
+      x.save(); 
       if ((cfg.pColor === '#000000' || cfg.pColor === '#808080') && cfg.pType === 'neon') {
-          const sC = cfg.pColor;
+          const sC = cfg.pColor; 
           x.beginPath(); x.arc(400, 400, drawM, 0, Math.PI * 2); x.lineWidth = 25; x.strokeStyle = sC; x.shadowBlur = 60; x.shadowColor = sC; x.stroke();
           x.beginPath(); x.arc(400, 400, drawM, 0, Math.PI * 2); x.lineWidth = 18; x.strokeStyle = sC; x.shadowBlur = 10; x.shadowColor = sC; x.stroke();
           x.beginPath(); x.arc(400, 400, drawM, 0, Math.PI * 2); x.lineWidth = 6; x.strokeStyle = '#FFFFFF'; x.stroke();
@@ -1290,17 +1274,102 @@ function drawScene(ctx, applyFilter) {
           x.beginPath(); x.arc(400, 400, drawM, 0, Math.PI * 2); x.lineWidth = 25; x.strokeStyle = cfg.pColor; x.shadowBlur = 30; x.shadowColor = cfg.pColor; x.stroke();
           x.beginPath(); x.arc(400, 400, drawM, 0, Math.PI * 2); x.lineWidth = 8; x.strokeStyle = '#FFFFFF'; x.stroke();
       } else {
-          x.beginPath(); x.arc(400, 400, drawM, 0, Math.PI * 2); x.lineWidth = 25;
+          x.beginPath(); x.arc(400, 400, drawM, 0, Math.PI * 2); x.lineWidth = 25; 
           if (cfg.pType === 'gold') {
               let g = x.createLinearGradient(0, 0, 800, 800); g.addColorStop(0, '#FFD700'); g.addColorStop(0.5, '#FDB931'); g.addColorStop(1, '#FFD700'); x.strokeStyle = g;
-          } else if (cfg.pType === 'silver') {
+          } else if (cfg.pType === 'silver') { 
               let g = x.createLinearGradient(0, 0, 800, 800); g.addColorStop(0, '#E0E0E0'); g.addColorStop(0.5, '#B0B0B0'); g.addColorStop(1, '#E0E0E0'); x.strokeStyle = g;
           } else { x.strokeStyle = cfg.pColor; }
-          x.stroke();
+          x.stroke(); 
       }
       x.restore();
   }
-  if(f.src) x.drawImage(f,0,0,800,800);
+  if(f.src) x.drawImage(f,0,0,800,800); 
+}
+
+// --- 🖨️ EXPORT RENDERER (Pixel-perfect, Safari-safe) ---
+function renderExportCanvas() {
+    if (!exportCtx) return;
+
+    exportCtx.clearRect(0, 0, 800, 800);
+
+    const cssFilter = getFilterString();
+
+    // Apply canvas filter if supported
+    exportCtx.filter = cssFilter;
+
+    // Size logic (same as d())
+    let drawM = cfg.m;
+    if (cfg.pColor && cfg.m > 360) drawM = 360;
+
+    // --- IMAGE ---
+    if (i.src) {
+        exportCtx.save();
+        exportCtx.beginPath();
+        exportCtx.arc(400, 400, drawM + 2, 0, Math.PI * 2);
+        exportCtx.clip();
+
+        let w = i.width * cfg.s;
+        let h = i.height * cfg.s;
+
+        exportCtx.translate(cfg.x, cfg.y);
+        exportCtx.rotate(cfg.r * Math.PI / 180);
+
+        exportCtx.drawImage(i, -w / 2, -h / 2, w, h);
+        exportCtx.restore();
+    }
+
+    // 🔒 Reset filter so frame is never tinted
+    exportCtx.filter = 'none';
+
+    // --- FRAME (copied logic, unchanged) ---
+    if (cfg.pColor) {
+        exportCtx.save();
+        exportCtx.beginPath();
+        exportCtx.arc(400, 400, drawM, 0, Math.PI * 2);
+        exportCtx.lineWidth = 6;
+        exportCtx.strokeStyle = cfg.pColor;
+        exportCtx.stroke();
+        exportCtx.restore();
+
+        exportCtx.save();
+        if ((cfg.pColor === '#000000' || cfg.pColor === '#808080') && cfg.pType === 'neon') {
+            const sC = cfg.pColor;
+            exportCtx.beginPath(); exportCtx.arc(400, 400, drawM, 0, Math.PI * 2);
+            exportCtx.lineWidth = 25; exportCtx.strokeStyle = sC;
+            exportCtx.shadowBlur = 60; exportCtx.shadowColor = sC; exportCtx.stroke();
+            exportCtx.beginPath(); exportCtx.arc(400, 400, drawM, 0, Math.PI * 2);
+            exportCtx.lineWidth = 18; exportCtx.shadowBlur = 10; exportCtx.stroke();
+            exportCtx.beginPath(); exportCtx.arc(400, 400, drawM, 0, Math.PI * 2);
+            exportCtx.lineWidth = 6; exportCtx.shadowBlur = 0; exportCtx.strokeStyle = '#FFFFFF'; exportCtx.stroke();
+        } else if (cfg.pType === 'neon') {
+            exportCtx.beginPath(); exportCtx.arc(400, 400, drawM, 0, Math.PI * 2);
+            exportCtx.lineWidth = 25; exportCtx.strokeStyle = cfg.pColor;
+            exportCtx.shadowBlur = 30; exportCtx.shadowColor = cfg.pColor; exportCtx.stroke();
+            exportCtx.beginPath(); exportCtx.arc(400, 400, drawM, 0, Math.PI * 2);
+            exportCtx.lineWidth = 8; exportCtx.shadowBlur = 0; exportCtx.strokeStyle = '#FFFFFF'; exportCtx.stroke();
+        } else {
+            exportCtx.beginPath(); exportCtx.arc(400, 400, drawM, 0, Math.PI * 2);
+            exportCtx.lineWidth = 25;
+            if (cfg.pType === 'gold') {
+                let g = exportCtx.createLinearGradient(0, 0, 800, 800);
+                g.addColorStop(0, '#FFD700'); g.addColorStop(0.5, '#FDB931'); g.addColorStop(1, '#FFD700');
+                exportCtx.strokeStyle = g;
+            } else if (cfg.pType === 'silver') {
+                let g = exportCtx.createLinearGradient(0, 0, 800, 800);
+                g.addColorStop(0, '#E0E0E0'); g.addColorStop(0.5, '#B0B0B0'); g.addColorStop(1, '#E0E0E0');
+                exportCtx.strokeStyle = g;
+            } else {
+                exportCtx.strokeStyle = cfg.pColor;
+            }
+            exportCtx.stroke();
+        }
+        exportCtx.restore();
+    }
+
+    if (f.src) {
+        exportCtx.drawImage(f, 0, 0, 800, 800);
+    }
 }
 
 // --- 📂 FILE HANDLERS (SMART AUTO-SIZING: 400px vs 375px) ---
@@ -1312,28 +1381,28 @@ function handleFile(e){
         n.onload = async () => {
             if ('decode' in n) { try { await n.decode(); } catch(err) { } }
             i = n; cfg.x = 400; cfg.y = 400; cfg.r = 0;
-
+            
             // 🔥 LOGIC: If NO frame is active, go to 400px (Full Size).
             // If a frame IS active, this line is skipped, so it stays at 375px.
             if(!f.src && !cfg.pColor) { cfg.m = 400; mSl.value = 400; mVal.innerText = "400px"; }
-
+            
             const fillSize = Math.max(800/i.width, 800/i.height);
             if(isBoundaryLocked) {
                 const rad = cfg.r * Math.PI / 180;
                 const cos = Math.abs(Math.cos(rad)), sin = Math.abs(Math.sin(rad));
                 const reqW = (cfg.m*2*cos + cfg.m*2*sin), reqH = (cfg.m*2*sin + cfg.m*2*cos);
                 const minS = Math.max(reqW/i.width, reqH/i.height);
-                zSl.min = minS;
-                cfg.s = Math.max(minS, fillSize);
-                zSl.value = cfg.s;
+                zSl.min = minS; 
+                cfg.s = Math.max(minS, fillSize); 
+                zSl.value = cfg.s; 
                 zVal.innerText = Math.round((cfg.s/zSl.min)*100)+"%";
-            } else {
-                cfg.s = fillSize; zSl.min = 0.01; zSl.value = cfg.s; zVal.innerText = "100%";
+            } else { 
+                cfg.s = fillSize; zSl.min = 0.01; zSl.value = cfg.s; zVal.innerText = "100%"; 
             }
             updS(zSl); updS(mSl);
-            if(typeof renderFilters === 'function') renderFilters();
-            d();
-            const uiPanel = document.querySelector('.ui'); uiPanel.style.paddingBottom = "200px";
+            if(typeof renderFilters === 'function') renderFilters(); 
+            d(); 
+            const uiPanel = document.querySelector('.ui'); uiPanel.style.paddingBottom = "200px"; 
             document.getElementById('save').disabled = false;
         }; n.src = v.target.result;
     }; r.readAsDataURL(files[0]);
@@ -1343,84 +1412,60 @@ function handleFrame(e){
     const r = new FileReader();
     r.onload = v => {
         const n = new Image();
-        n.onload = () => {
-            f.src = n.src;
+        n.onload = () => { 
+            f.src = n.src; 
             cfg.m = 375; mSl.value = 375; mVal.innerText = "375px";
-            cfg.pColor = null; cfg.pType = null; mLbl.innerText = "FRAME OPENING SIZE";
-            updS(mSl); d();
+            cfg.pColor = null; cfg.pType = null; mLbl.innerText = "FRAME OPENING SIZE"; 
+            updS(mSl); d(); 
         };
         n.src = v.target.result;
     }; r.readAsDataURL(files[0]);
 }
-
-function openImage() {
-    const u1 = document.getElementById('u1');
-    if (!u1) return;
-    u1.value = '';   // important for iOS re-select
-    u1.click();
-}
-
-function openFrame() {
-    const u2 = document.getElementById('u2');
-    if (!u2) return;
-    u2.value = '';
-    u2.click();
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    const u1 = document.getElementById('u1');
-    const u2 = document.getElementById('u2');
-
-    if (u1) u1.addEventListener('change', handleFile);
-    if (u2) u2.addEventListener('change', handleFrame);
-});
 
 function updateZ(v){ cfg.s=parseFloat(v); zVal.innerText=Math.round((v/zSl.min)*100)+"%"; d(); }
 function updateR(v){ cfg.r=parseInt(v); rVal.innerText=v+"°"; d(); }
 function updateM(v){ cfg.m=parseInt(v); mVal.innerText=v+"px"; d(); }
 function centerSubject(){ cfg.x=400; cfg.y=400; cfg.r=0; rSl.value=0; d(); playShutter(); }
 
-function resetProject(){
-    i=new Image(); f=new Image();
-
+function resetProject(){ 
+    i=new Image(); f=new Image(); 
+    
     // 🔥 RESET TO 400px (Normal Mode)
     cfg={s:1, m:400, x:400, y:400, r:0, pColor:null, pType:null, filter:'none', adj:{b:100,c:100,s:100}};
     zSl.value=1; rSl.value=0; mSl.value=400; mVal.innerText="400px"; mLbl.innerText = "CIRCLE SIZE";
-
+    
     document.getElementById('u1').value = ''; document.getElementById('u2').value = '';
     c.style.filter = 'none'; document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active-filter'));
     if(document.getElementById('filter-list')) document.getElementById('filter-list').innerHTML = '';
-
+    
     // Close Adjustment Panel
-    if(document.getElementById('adj-panel')) {
-        document.getElementById('filter-list').style.display = 'flex';
-        document.getElementById('adj-panel').style.display = 'none';
-        closeAdjust();
+    if(document.getElementById('adj-panel')) { 
+        document.getElementById('filter-list').style.display = 'flex'; 
+        document.getElementById('adj-panel').style.display = 'none'; 
+        closeAdjust(); 
     }
     if(document.getElementById('open-adj-btn')) document.getElementById('open-adj-btn').style.display = 'none';
-
-    d(); playShutter(); updS(zSl); updS(rSl); updS(mSl);
-    document.getElementById('save').disabled = true; document.querySelector('.ui').style.paddingBottom = "0px";
+    
+    d(); playShutter(); updS(zSl); updS(rSl); updS(mSl); 
+    document.getElementById('save').disabled = true; document.querySelector('.ui').style.paddingBottom = "0px"; 
 }
 
 function downloadPic() {
     if (!i.src) return;
 
-    // 1. Internal Backup (unchanged)
+    // Optional gallery backup (unchanged behavior)
     if (typeof saveToGallery === 'function') {
         saveToGallery();
     }
 
-    // 2. HARD BAKE INTO OFFSCREEN CANVAS
-    drawScene(bx, true);
+    // Render pixel-perfect export (Safari-safe)
+    renderExportCanvas();
 
-    // 3. Generate Unique Name
+    // Generate unique filename
     const uniqueName = `Arcade_${Date.now()}_${Math.floor(Math.random() * 99999)}.png`;
 
-    // 4. Export FROM BAKE CANVAS (not preview)
-    bakeCanvas.toBlob(function(blob) {
-        if (!blob) return;
-
+    // Export from exportCanvas (NOT the preview canvas)
+    exportCanvas.toBlob(function(blob) {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
@@ -1428,14 +1473,12 @@ function downloadPic() {
         document.body.appendChild(a);
         a.click();
 
-        // 5. Cleanup
         setTimeout(() => {
             document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
+            URL.revokeObjectURL(url);
         }, 100);
     }, 'image/png');
 
-    // 6. Sound Effect
     playShutter();
 }
 
