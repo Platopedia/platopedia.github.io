@@ -520,7 +520,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.js"></script>
 <script>
 // --- CORE VARIABLES ---
-window.DEBUG_FILTERS = true;
 const c=document.getElementById('c'), x=c.getContext('2d');
 const zSl=document.getElementById('z'), rSl=document.getElementById('r'), mSl=document.getElementById('m');
 const panel=document.getElementById('menu-panel'), mStat=document.getElementById('m-status');
@@ -529,12 +528,7 @@ const swMenu=document.getElementById('switch-menu'), thMenu=document.getElementB
 const zVal=document.getElementById('z-val'), rVal=document.getElementById('r-val'), mVal=document.getElementById('m-val');
 const mLbl=document.getElementById('m-lbl'); 
 
-let i = new Image();
-i.crossOrigin = 'anonymous';   // ✅ MUST be set before src
-
-let f = new Image();           // frame image (ok if local)
-f.crossOrigin = 'anonymous';
-
+let i=new Image(), f=new Image();
 let cfg={s:1, m:375, x:400, y:400, r:0, lx:0, ly:0, pColor: null, pType: null, filter: 'none', adj: { b: 100, c: 100, s: 100 }}; 
 let player, musicOn=true, audioStarted=false;
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -800,8 +794,7 @@ function renderCat(cat) {
                     cfg.pColor = item.c;
                     cfg.pType = item.t || null;
                     document.getElementById('u2').value = '';
-                    f = new Image();
-                    f.crossOrigin = 'anonymous';
+                    f = new Image(); 
                 }
 
                 // 🔥 FORCE SIZE TO 375px (Fixes the bug)
@@ -820,12 +813,12 @@ function renderCat(cat) {
     }, 10);
 }
 function setPlainFrame(color, type=null) {
-    f = null; // 🔥 ensure NO image-based frame exists
-    document.getElementById('u2').value = '';
-    cfg.pColor = color;
-    cfg.pType = type;
-    mLbl.innerText = "FRAME OPENING SIZE";
-    d();
+    f = new Image(); 
+    document.getElementById('u2').value = ''; 
+    cfg.pColor = color; 
+    cfg.pType = type; 
+    mLbl.innerText = "FRAME OPENING SIZE"; 
+    d(); 
     playClick();
 }
 // --- 🏆 THE ULTIMATE MASTER COLLECTION (330+ PRO LOOKS) ---
@@ -839,7 +832,7 @@ const magicFilters = [
     { name: 'AI-4K-ULTRA-ENHANCE 💎', f: 'contrast(1.4) saturate(1.1) brightness(1.05) contrast(1.1)' },
     { name: 'AI-HDR-MAX-CLARITY', f: 'contrast(1.6) saturate(1.2) brightness(1.1) contrast(1.1)' },
     { name: 'AUTO-ENHANCE ✨', f: 'contrast(1.15) saturate(1.25) brightness(1.05) sepia(0.05)' },
-
+    
     // --- 📱 UNIVERSAL DEVICE COMPATIBILITY ---
     { name: 'UNI-CLEAN-VIEW', f: 'brightness(1.1) contrast(1.05) saturate(1.05)' },
     { name: 'UNI-WARM-MOBILE', f: 'sepia(0.15) saturate(1.2) contrast(1.1)' },
@@ -995,14 +988,14 @@ function toggleFilterUI() {
         el.classList.add('active');
         btn.innerHTML = "CLOSE FILTERS ✖";
         btn.style.color = "#ff00ff"; btn.style.borderColor = "#ff00ff";
-
+        
         if(document.getElementById('filter-list').children.length === 0) renderFilters();
         if(!document.getElementById('adj-panel')) createAdjustUI();
         if(!document.getElementById('open-adj-btn')) createSmartEditBtn();
-
+        
         document.getElementById('filter-list').style.display = 'flex';
         document.getElementById('adj-panel').style.display = 'none';
-
+        
         // 🔥 FORCE ADJUST BUTTON VISIBLE (The Fix)
         // This ensures the button is always there, even for the original image
         const adjBtn = document.getElementById('open-adj-btn');
@@ -1058,14 +1051,14 @@ function updateSliderColor(el, val, max) {
 function renderFilters() {
     const list = document.getElementById('filter-list');
     list.innerHTML = '';
-    const previewSrc = i.src || 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+    const previewSrc = i.src || 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; 
     magicFilters.forEach(mf => {
         const btn = document.createElement('button');
         btn.className = 'filter-btn';
         const img = document.createElement('img');
         img.className = 'filter-preview';
         img.src = previewSrc;
-        img.style.filter = mf.f;
+        img.style.filter = mf.f; 
         const span = document.createElement('span');
         span.className = 'filter-name';
         span.innerText = mf.name;
@@ -1095,42 +1088,38 @@ function adjChange(type, val, el) {
     document.getElementById(`val-${type}`).innerText = val + "%";
     if(el) updateSliderColor(el, val, 200);
     // REMOVED c.style.filter here to prevent global filter application
-    d();
+    d(); 
 }
 function applyFilter(filterVal, btn) {
     // 1. Check if we are actually changing the filter
     if (cfg.filter !== filterVal) {
-
+        
         // 2. Reset adjustment sliders to standard (100%)
         cfg.adj = { b: 100, c: 100, s: 100 };
-
+        
         // Reset the slider UI elements
         ['b', 'c', 's'].forEach(k => {
             const el = document.getElementById('sl-' + k);
-            if (el) {
-                el.value = 100;
+            if (el) { 
+                el.value = 100; 
                 const valDisplay = document.getElementById('val-' + k);
-                if (valDisplay) valDisplay.innerText = "100%";
-
+                if (valDisplay) valDisplay.innerText = "100%"; 
+                
                 // Keep the slider gradient logic if you use it
                 if(typeof updateSliderColor === 'function') {
                     updateSliderColor(el, 100, 200);
                 }
             }
         });
-
+        
         // 3. Update the Data Configuration
         cfg.filter = filterVal;
-        dbg('[FILTER SELECT]', {
-            filter: cfg.filter,
-            adj: cfg.adj
-        });
-
+        
         // 🛡️ THE OLD ANDROID PROTECTION:
         // We do absolutely NOTHING to c.style.filter here.
-        // We do not touch the canvas CSS.
+        // We do not touch the canvas CSS. 
         // We only save the data to 'cfg' and let 'd()' handle the rest.
-
+        
         // 4. Update UI Button Highlights
         document.querySelectorAll('.filter-btn').forEach(b => {
             b.classList.remove('active-filter');
@@ -1138,10 +1127,10 @@ function applyFilter(filterVal, btn) {
         if (btn) {
             btn.classList.add('active-filter');
         }
-
+        
         // 5. Trigger the Drawing Engine (The one we did surgery on)
-        d();
-
+        d(); 
+        
         // 6. Sound Effect
         if (typeof playClick === 'function') {
             playClick();
@@ -1170,28 +1159,44 @@ function toggleBoundaryLock() {
     d();
     if(typeof playClick === 'function') playClick();
 }
-function dbg(tag, data) {
-    if (!window.DEBUG_FILTERS) return;
-    try {
-        console.log(tag, data);
-    } catch (e) {
-        console.log(tag);
-    }
-}
-function pixelHash() {
-    try {
-        const data = x.getImageData(0, 0, 10, 10).data;
-        let h = 0;
-        for (let i = 0; i < data.length; i++) h += data[i];
-        return h;
-    } catch (e) {
-        return 'blocked';
-    }
-}
 // --- 🛠️ CORE DRAWING ENGINE (JAN 16th FIX: IPHONE HARD BAKE + ANDROID SHIELD) ---
-function d(){
+function exportWithIOSBake() {
+    if (!c) return;
+
+    const bake = document.createElement('canvas');
+    bake.width = c.width;
+    bake.height = c.height;
+
+    const bx = bake.getContext('2d');
+
+    // Rebuild the exact same filter string
+    let cssFilter = '';
+    if (cfg.filter && cfg.filter !== 'none') cssFilter += cfg.filter;
+    if (cfg.adj.b !== 100) cssFilter += ` brightness(${cfg.adj.b}%)`;
+    if (cfg.adj.c !== 100) cssFilter += ` contrast(${cfg.adj.c}%)`;
+    if (cfg.adj.s !== 100) cssFilter += ` saturate(${cfg.adj.s}%)`;
+
+    // Force rasterization on iOS
+    bx.filter = cssFilter;
+    bx.drawImage(c, 0, 0);
+    bx.filter = 'none';
+
+    const uniqueName = `Arcade_${Date.now()}_${Math.floor(Math.random() * 99999)}.png`;
+
+    bake.toBlob(blob => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = uniqueName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }, 'image/png');
+}
+function d(){ 
   if(!x) return;
-  x.clearRect(0,0,800,800);
+  x.clearRect(0,0,800,800); 
 
   // 1. CALCULATE FILTER STRING
   let cssFilter = '';
@@ -1199,7 +1204,6 @@ function d(){
   if(cfg.adj.b !== 100) cssFilter += ` brightness(${cfg.adj.b}%)`;
   if(cfg.adj.c !== 100) cssFilter += ` contrast(${cfg.adj.c}%)`;
   if(cfg.adj.s !== 100) cssFilter += ` saturate(${cfg.adj.s}%)`;
-  dbg('[DRAW] cssFilter built', cssFilter || '(empty)');
 
   // 🧠 SMART DEVICE DETECTION
   const isIOS =
@@ -1207,10 +1211,13 @@ function d(){
   !/Chrome|Chromium|Android/.test(navigator.userAgent);
   dbg('[DRAW] platform', isIOS ? 'iOS' : 'Android/Other');
 
-  // 🚫 Safari: NEVER apply CSS filters to <canvas>
-  if (isIOS && c) {
-      c.style.filter = 'none';
-      c.style.webkitFilter = 'none';
+  // 2. SCREEN PREVIEW (VISUALS)
+  if (isIOS) {
+      // 🍎 IPHONE: Apply CSS so the user sees changes instantly on screen
+      if(c) {
+          c.style.filter = (cssFilter !== '') ? cssFilter : 'none';
+          c.style.webkitFilter = (cssFilter !== '') ? cssFilter : 'none';
+      }
   } else {
       // 🤖 ANDROID SHIELD: Force CSS to 'none'.
       // This protects Android from the "Double Filter" and "Tinted Frame" glitches.
@@ -1227,7 +1234,7 @@ function d(){
   if(i.src && isBoundaryLocked){
       const rad = cfg.r * Math.PI / 180;
       const cos = Math.abs(Math.cos(rad)), sin = Math.abs(Math.sin(rad));
-      const mathM = drawM + 15;
+      const mathM = drawM + 15; 
       const reqW = (mathM*2*cos + mathM*2*sin), reqH = (mathM*2*sin + mathM*2*cos);
       const minS = Math.max(reqW/i.width, reqH/i.height);
       if(cfg.s < minS) { cfg.s = minS; if(window.zSl) zSl.value = minS; if(window.zVal) zVal.innerText = Math.round((minS/zSl.min)*100)+"%"; }
@@ -1237,90 +1244,41 @@ function d(){
       cfg.y = Math.max(400 - rangeY, Math.min(400 + rangeY, cfg.y));
   }
 
-// 4. IMAGE DRAWING (FINAL iOS FIX)
-if (i.src) {
-
-    x.beginPath();
-    x.arc(400, 400, drawM + 2, 0, Math.PI * 2);
-    x.clip();
-
-    let w = i.width * cfg.s, h = i.height * cfg.s;
-
-    if (isIOS) {
-        // 🍎 iOS — NO save/restore
-        x.filter = (cssFilter !== '') ? cssFilter : 'none';
-
-        // --- [DRAW IMAGE] LOGGING BLOCK ---
-        dbg('[DRAW IMAGE]', {
-            ctxFilter: x.filter,
-            hasImage: !!i.src
-        });
-        // --- END LOGGING BLOCK ---
-
-        x.translate(cfg.x, cfg.y);
-        x.rotate(cfg.r * Math.PI / 180);
-        x.drawImage(i, -w/2, -h/2, w, h);
-        dbg('[AFTER DRAW]', {
-            ctxFilter: x.filter,
-            time: performance.now()
-        });
-        dbg('[PIXELS AFTER DRAW]', pixelHash());
-        // [POST DRAW] LOGGING BLOCK
-        dbg('[POST DRAW]', {
-            ctxFilterAfter: x.filter
-        });
-
-        // Manual cleanup (SAFE)
-        x.setTransform(1, 0, 0, 1, 0, 0);
-        x.filter = 'none';
-
-    } else {
-        // 🤖 Android — normal safe path
-        x.save();
-        x.translate(cfg.x, cfg.y);
-        x.rotate(cfg.r * Math.PI / 180);
-        x.filter = 'none';
-        // --- [DRAW IMAGE] LOGGING BLOCK ---
-        dbg('[DRAW IMAGE]', {
-            ctxFilter: x.filter,
-            hasImage: !!i.src
-        });
-        // --- END LOGGING BLOCK ---
-        x.drawImage(i, -w/2, -h/2, w, h);
-        // [POST DRAW] LOGGING BLOCK
-        dbg('[POST DRAW]', {
-            ctxFilterAfter: x.filter
-        });
-        x.restore();
-    }
-}
-
-  // 5. RESET FILTER (Android only – keep iOS filter alive until rasterization)
-  if (!isIOS) {
-      x.filter = 'none';
+  // 4. IMAGE DRAWING (THE SAVE FIX)
+  if(i.src){
+      x.save(); 
+      x.beginPath(); x.arc(400, 400, drawM + 2, 0, Math.PI * 2); x.clip(); 
+      
+      let w = i.width * cfg.s, h = i.height * cfg.s;
+      x.translate(cfg.x, cfg.y); 
+      x.rotate(cfg.r * Math.PI / 180);
+      
+      // 🔥 THE IPHONE FIX (Hard Bake)
+      // This is the Jan 16th Logic:
+      if (isIOS) {
+          // Force filter into pixels for iPhone download
+          x.filter = (cssFilter !== '') ? cssFilter : 'none';
+      } else {
+          // 🛡️ ANDROID PROTECTION
+          // Force none to prevent double-filtering/tinting
+          x.filter = 'none'; 
+      }
+      
+      x.drawImage(i, -w/2, -h/2, w, h);
+      x.restore(); 
   }
-
-  // --- DEBUG OVERLAY: Show current filter string on iOS if debug enabled ---
-  if (window.DEBUG_FILTERS && isIOS) {
-      x.save();
-      x.font = '18px monospace';
-      x.fillStyle = 'red';
-      x.fillText(
-          (cssFilter || 'NO FILTER').slice(0, 40),
-          10,
-          26
-      );
-      x.restore();
-  }
+  
+  // 5. RESET FILTER (Crucial: Protects Frames from being colored on Android)
+  x.filter = 'none'; 
 
   // 6. FRAME DRAWING
   if (cfg.pColor) {
-      x.save(); x.beginPath(); x.arc(400, 400, drawM, 0, Math.PI * 2);
+      x.save(); x.beginPath(); x.arc(400, 400, drawM, 0, Math.PI * 2); 
       x.lineWidth = 6; x.strokeStyle = cfg.pColor; x.stroke(); x.restore();
-
-      x.save();
+      
+      x.save(); 
       if ((cfg.pColor === '#000000' || cfg.pColor === '#808080') && cfg.pType === 'neon') {
-          const sC = cfg.pColor;
+          const sC = cfg.pColor; 
           x.beginPath(); x.arc(400, 400, drawM, 0, Math.PI * 2); x.lineWidth = 25; x.strokeStyle = sC; x.shadowBlur = 60; x.shadowColor = sC; x.stroke();
           x.beginPath(); x.arc(400, 400, drawM, 0, Math.PI * 2); x.lineWidth = 18; x.strokeStyle = sC; x.shadowBlur = 10; x.shadowColor = sC; x.stroke();
           x.beginPath(); x.arc(400, 400, drawM, 0, Math.PI * 2); x.lineWidth = 6; x.strokeStyle = '#FFFFFF'; x.stroke();
@@ -1331,17 +1289,17 @@ if (i.src) {
           x.beginPath(); x.arc(400, 400, drawM, 0, Math.PI * 2); x.lineWidth = 25; x.strokeStyle = cfg.pColor; x.shadowBlur = 30; x.shadowColor = cfg.pColor; x.stroke();
           x.beginPath(); x.arc(400, 400, drawM, 0, Math.PI * 2); x.lineWidth = 8; x.strokeStyle = '#FFFFFF'; x.stroke();
       } else {
-          x.beginPath(); x.arc(400, 400, drawM, 0, Math.PI * 2); x.lineWidth = 25;
+          x.beginPath(); x.arc(400, 400, drawM, 0, Math.PI * 2); x.lineWidth = 25; 
           if (cfg.pType === 'gold') {
               let g = x.createLinearGradient(0, 0, 800, 800); g.addColorStop(0, '#FFD700'); g.addColorStop(0.5, '#FDB931'); g.addColorStop(1, '#FFD700'); x.strokeStyle = g;
-          } else if (cfg.pType === 'silver') {
+          } else if (cfg.pType === 'silver') { 
               let g = x.createLinearGradient(0, 0, 800, 800); g.addColorStop(0, '#E0E0E0'); g.addColorStop(0.5, '#B0B0B0'); g.addColorStop(1, '#E0E0E0'); x.strokeStyle = g;
           } else { x.strokeStyle = cfg.pColor; }
-          x.stroke();
+          x.stroke(); 
       }
       x.restore();
   }
-  if(f.src) x.drawImage(f,0,0,800,800);
+  if(f.src) x.drawImage(f,0,0,800,800); 
 }
 
 // --- 📂 FILE HANDLERS (SMART AUTO-SIZING: 400px vs 375px) ---
@@ -1350,32 +1308,31 @@ function handleFile(e){
     const r = new FileReader();
     r.onload = v => {
         const n = new Image();
-        n.crossOrigin = 'anonymous';
         n.onload = async () => {
             if ('decode' in n) { try { await n.decode(); } catch(err) { } }
             i = n; cfg.x = 400; cfg.y = 400; cfg.r = 0;
-
+            
             // 🔥 LOGIC: If NO frame is active, go to 400px (Full Size).
             // If a frame IS active, this line is skipped, so it stays at 375px.
             if(!f.src && !cfg.pColor) { cfg.m = 400; mSl.value = 400; mVal.innerText = "400px"; }
-
+            
             const fillSize = Math.max(800/i.width, 800/i.height);
             if(isBoundaryLocked) {
                 const rad = cfg.r * Math.PI / 180;
                 const cos = Math.abs(Math.cos(rad)), sin = Math.abs(Math.sin(rad));
                 const reqW = (cfg.m*2*cos + cfg.m*2*sin), reqH = (cfg.m*2*sin + cfg.m*2*cos);
                 const minS = Math.max(reqW/i.width, reqH/i.height);
-                zSl.min = minS;
-                cfg.s = Math.max(minS, fillSize);
-                zSl.value = cfg.s;
+                zSl.min = minS; 
+                cfg.s = Math.max(minS, fillSize); 
+                zSl.value = cfg.s; 
                 zVal.innerText = Math.round((cfg.s/zSl.min)*100)+"%";
-            } else {
-                cfg.s = fillSize; zSl.min = 0.01; zSl.value = cfg.s; zVal.innerText = "100%";
+            } else { 
+                cfg.s = fillSize; zSl.min = 0.01; zSl.value = cfg.s; zVal.innerText = "100%"; 
             }
             updS(zSl); updS(mSl);
-            if(typeof renderFilters === 'function') renderFilters();
-            d();
-            const uiPanel = document.querySelector('.ui'); uiPanel.style.paddingBottom = "200px";
+            if(typeof renderFilters === 'function') renderFilters(); 
+            d(); 
+            const uiPanel = document.querySelector('.ui'); uiPanel.style.paddingBottom = "200px"; 
             document.getElementById('save').disabled = false;
         }; n.src = v.target.result;
     }; r.readAsDataURL(files[0]);
@@ -1385,23 +1342,11 @@ function handleFrame(e){
     const r = new FileReader();
     r.onload = v => {
         const n = new Image();
-        n.crossOrigin = 'anonymous';
-        n.onload = async () => {
-            if ('decode' in n) {
-                try { await n.decode(); } catch(e){}
-            }
-
-            f = n; // 🔥 reuse SAME decoded Image instance
-
-            cfg.m = 375;
-            mSl.value = 375;
-            mVal.innerText = "375px";
-            cfg.pColor = null;
-            cfg.pType = null;
-            mLbl.innerText = "FRAME OPENING SIZE";
-
-            updS(mSl);
-            d();
+        n.onload = () => { 
+            f.src = n.src; 
+            cfg.m = 375; mSl.value = 375; mVal.innerText = "375px";
+            cfg.pColor = null; cfg.pType = null; mLbl.innerText = "FRAME OPENING SIZE"; 
+            updS(mSl); d(); 
         };
         n.src = v.target.result;
     }; r.readAsDataURL(files[0]);
@@ -1412,76 +1357,78 @@ function updateR(v){ cfg.r=parseInt(v); rVal.innerText=v+"°"; d(); }
 function updateM(v){ cfg.m=parseInt(v); mVal.innerText=v+"px"; d(); }
 function centerSubject(){ cfg.x=400; cfg.y=400; cfg.r=0; rSl.value=0; d(); playShutter(); }
 
-function resetProject(){
-    f = null;
+function resetProject(){ 
+    i=new Image(); f=new Image(); 
+    
     // 🔥 RESET TO 400px (Normal Mode)
     cfg={s:1, m:400, x:400, y:400, r:0, pColor:null, pType:null, filter:'none', adj:{b:100,c:100,s:100}};
     zSl.value=1; rSl.value=0; mSl.value=400; mVal.innerText="400px"; mLbl.innerText = "CIRCLE SIZE";
-
+    
     document.getElementById('u1').value = ''; document.getElementById('u2').value = '';
     c.style.filter = 'none'; document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active-filter'));
     if(document.getElementById('filter-list')) document.getElementById('filter-list').innerHTML = '';
-
+    
     // Close Adjustment Panel
-    if(document.getElementById('adj-panel')) {
-        document.getElementById('filter-list').style.display = 'flex';
-        document.getElementById('adj-panel').style.display = 'none';
-        closeAdjust();
+    if(document.getElementById('adj-panel')) { 
+        document.getElementById('filter-list').style.display = 'flex'; 
+        document.getElementById('adj-panel').style.display = 'none'; 
+        closeAdjust(); 
     }
     if(document.getElementById('open-adj-btn')) document.getElementById('open-adj-btn').style.display = 'none';
-
-    d(); playShutter(); updS(zSl); updS(rSl); updS(mSl);
-    document.getElementById('save').disabled = true; document.querySelector('.ui').style.paddingBottom = "0px";
+    
+    d(); playShutter(); updS(zSl); updS(rSl); updS(mSl); 
+    document.getElementById('save').disabled = true; document.querySelector('.ui').style.paddingBottom = "0px"; 
 }
 
 function downloadPic() {
     if (!i.src) return;
 
-    // 1. Optional gallery backup (unchanged)
+    // 🍎 iOS SAFARI FIX: bake filters into pixels before export
+    const isIOS =
+        /AppleWebKit/.test(navigator.userAgent) &&
+        !/Chrome|Chromium|Android/.test(navigator.userAgent);
+
+    if (isIOS) {
+        exportWithIOSBake();
+        playShutter();
+        return;
+    }
+
+    // 1. Internal Backup
     if (typeof saveToGallery === 'function') {
         saveToGallery();
     }
 
-    // 2. Enable SAVE MODE (forces ctx.filter path, disables CSS filter)
+    // 2. ENABLE SAVE MODE (Triggers iPhone Hard Bake)
+    // Android ignores this flag completely.
     window.isSaving = true;
+    d(); 
 
-    // 3. FORCE a full redraw
-    d();
+    // 3. Generate Unique Name
+    const uniqueName = `Arcade_${Date.now()}_${Math.floor(Math.random() * 99999)}.png`;
 
-    // 4. IMPORTANT: wait TWO frames so WebKit rasterizes ctx.filter
-    requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-
-            const uniqueName = `Arcade_${Date.now()}_${Math.floor(Math.random() * 99999)}.png`;
-
-            dbg('[EXPORT CHECK]', {
-                isSaving: window.isSaving,
-                cssFilter: c.style.filter,
-                webkitFilter: c.style.webkitFilter,
-                ctxFilter: x.filter,
-                time: performance.now()
-            });
-            dbg('[PIXELS AT EXPORT]', pixelHash());
-            c.toBlob(function(blob) {
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = uniqueName;
-                document.body.appendChild(a);
-                a.click();
-
-                // 5. Cleanup + restore preview mode
-                setTimeout(() => {
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
-                    window.isSaving = false;
-                    d();
-                }, 100);
-            }, 'image/png');
-
-            playShutter();
-        });
-    });
+    // 4. Create Blob & Download
+    c.toBlob(function(blob) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = uniqueName; 
+        document.body.appendChild(a);
+        a.click();
+        
+        // 5. CLEANUP & RESTORE
+        // We wait 100ms, then turn off Save Mode so the screen goes back to normal.
+        setTimeout(() => {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            
+            window.isSaving = false;
+            d(); 
+        }, 100);
+    }, 'image/png');
+    
+    // 6. Sound Effect
+    playShutter();
 }
 
 
