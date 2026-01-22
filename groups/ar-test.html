@@ -1413,41 +1413,43 @@ function resetProject(){
 function downloadPic() {
     if (!i.src) return;
 
-    // 1. Internal Backup
+    // 1. Optional gallery backup (unchanged)
     if (typeof saveToGallery === 'function') {
         saveToGallery();
     }
 
-    // 2. ENABLE SAVE MODE (Triggers iPhone Hard Bake)
-    // Android ignores this flag completely.
+    // 2. Enable SAVE MODE (forces ctx.filter path, disables CSS filter)
     window.isSaving = true;
-    d(); 
 
-    // 3. Generate Unique Name
-    const uniqueName = `Arcade_${Date.now()}_${Math.floor(Math.random() * 99999)}.png`;
+    // 3. FORCE a full redraw
+    d();
 
-    // 4. Create Blob & Download
-    c.toBlob(function(blob) {
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = uniqueName; 
-        document.body.appendChild(a);
-        a.click();
-        
-        // 5. CLEANUP & RESTORE
-        // We wait 100ms, then turn off Save Mode so the screen goes back to normal.
-        setTimeout(() => {
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-            
-            window.isSaving = false;
-            d(); 
-        }, 100);
-    }, 'image/png');
-    
-    // 6. Sound Effect
-    playShutter();
+    // 4. IMPORTANT: wait TWO frames so WebKit rasterizes ctx.filter
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+
+            const uniqueName = `Arcade_${Date.now()}_${Math.floor(Math.random() * 99999)}.png`;
+
+            c.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = uniqueName;
+                document.body.appendChild(a);
+                a.click();
+
+                // 5. Cleanup + restore preview mode
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    window.isSaving = false;
+                    d();
+                }, 100);
+            }, 'image/png');
+
+            playShutter();
+        });
+    });
 }
 
 
