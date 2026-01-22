@@ -1172,6 +1172,16 @@ function dbg(tag, data) {
         console.log(tag);
     }
 }
+function pixelHash() {
+    try {
+        const data = x.getImageData(0, 0, 10, 10).data;
+        let h = 0;
+        for (let i = 0; i < data.length; i++) h += data[i];
+        return h;
+    } catch (e) {
+        return 'blocked';
+    }
+}
 // --- 🛠️ CORE DRAWING ENGINE (JAN 16th FIX: IPHONE HARD BAKE + ANDROID SHIELD) ---
 function d(){ 
   if(!x) return;
@@ -1253,6 +1263,11 @@ if (i.src) {
         x.translate(cfg.x, cfg.y);
         x.rotate(cfg.r * Math.PI / 180);
         x.drawImage(i, -w/2, -h/2, w, h);
+        dbg('[AFTER DRAW]', {
+            ctxFilter: x.filter,
+            time: performance.now()
+        });
+        dbg('[PIXELS AFTER DRAW]', pixelHash());
         // [POST DRAW] LOGGING BLOCK
         dbg('[POST DRAW]', {
             ctxFilterAfter: x.filter
@@ -1430,6 +1445,14 @@ function downloadPic() {
 
             const uniqueName = `Arcade_${Date.now()}_${Math.floor(Math.random() * 99999)}.png`;
 
+            dbg('[EXPORT CHECK]', {
+                isSaving: window.isSaving,
+                cssFilter: c.style.filter,
+                webkitFilter: c.style.webkitFilter,
+                ctxFilter: x.filter,
+                time: performance.now()
+            });
+            dbg('[PIXELS AT EXPORT]', pixelHash());
             c.toBlob(function(blob) {
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
