@@ -1179,6 +1179,12 @@ if (c) {
     c.style.webkitFilter = 'none';
 }
 
+      // --- 🧩 OFFSCREEN CANVAS (iOS SAFARI FILTER FIX) ---
+      const off = document.createElement('canvas');
+      off.width = 800;
+      off.height = 800;
+      const ox = off.getContext('2d');
+
       // 3. SIZE & BOUNDARY LOGIC
       let drawM = cfg.m;
       if (cfg.pColor && cfg.m > 360) { drawM = 360; }
@@ -1196,21 +1202,28 @@ if (c) {
           cfg.y = Math.max(400 - rangeY, Math.min(400 + rangeY, cfg.y));
       }
 
-// 4. IMAGE DRAWING (THE SAVE FIX)
-if(i.src){
+// 4. IMAGE DRAWING (iOS SAFARI SAFE PIPELINE)
+if (i.src) {
+
+    // --- 1. DRAW FILTERED IMAGE OFFSCREEN (NO CLIP!)
+    ox.clearRect(0, 0, 800, 800);
+    ox.save();
+    ox.translate(cfg.x, cfg.y);
+    ox.rotate(cfg.r * Math.PI / 180);
+    ox.filter = cssFilter !== '' ? cssFilter : 'none';
+
+    let w = i.width * cfg.s;
+    let h = i.height * cfg.s;
+    ox.drawImage(i, -w / 2, -h / 2, w, h);
+    ox.restore();
+    ox.filter = 'none';
+
+    // --- 2. CLIP & COMPOSITE TO MAIN CANVAS
     x.save();
     x.beginPath();
     x.arc(400, 400, drawM + 2, 0, Math.PI * 2);
     x.clip();
-
-    let w = i.width * cfg.s, h = i.height * cfg.s;
-    x.translate(cfg.x, cfg.y);
-    x.rotate(cfg.r * Math.PI / 180);
-
-    // ✅ HARD-BAKE FILTER FOR ALL DEVICES (THIS IS THE ONLY PLACE)
-    x.filter = (cssFilter !== '') ? cssFilter : 'none';
-
-    x.drawImage(i, -w/2, -h/2, w, h);
+    x.drawImage(off, 0, 0);
     x.restore();
 }
 
