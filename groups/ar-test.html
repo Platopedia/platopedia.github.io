@@ -1200,7 +1200,13 @@ if (cfg.adj.s !== 100) cssFilter += ` saturate(${cfg.adj.s / 100})`;
 
     const w = i.width * cfg.s;
     const h = i.height * cfg.s;
-    bx.drawImage(i, -w / 2, -h / 2, w, h);
+    // 🔒 Use the SAME image element as the preview (Safari fix)
+    const previewImg =
+        document.querySelector('img.preview') ||
+        document.querySelector('img') ||
+        i;
+    console.log('EXPORT SRC:', previewImg && previewImg.src);
+    bx.drawImage(previewImg, -w / 2, -h / 2, w, h);
 
     bx.restore();
     bx.filter = 'none';
