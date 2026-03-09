@@ -7,6 +7,36 @@ heading: <img src="/docs/assets/images/groups/artrade/art-logo.png" />&nbsp;Artr
 <style>
 h2 { color:#E44026 !important }
 h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
+
+/* calculator layout */
+.trade-calculators{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+gap:20px;
+width:100%;
+max-width:100%;
+box-sizing:border-box;
+}
+
+.trade-card{
+padding:20px;
+border:1px solid var(--color-B);
+background:linear-gradient(var(--color-C),var(--color-D));
+width:100%;
+max-width:100%;
+box-sizing:border-box;
+}
+
+.trade-input{
+width:100%;
+max-width:100%;
+box-sizing:border-box;
+}
+
+.trade-result{
+margin-top:10px;
+font-weight:bold;
+}
 </style>
 
 <div class="linebreak"></div>
@@ -43,31 +73,28 @@ Merchants receive an incentive bonus from the requester's end. Some important po
 - If a merchant requests for items, they should also pay the incentive. For merchant-merchant trade, the requester sends first. For merchant-member trade, the member sends first, even if the merchant is the requester. The member will receive incentive.
 - Use the calculators below to determine the trade price.
 
-<div style="display:flex;gap:20px;flex-wrap:wrap">
+<div class="trade-calculators">
 
-<div class="card" style="padding:20px;border:1px solid var(--color-B);background:linear-gradient(var(--color-C),var(--color-D));max-width:420px">
+<div class="trade-card">
 
 <h4>Coin Trade Calculator</h4>
 
 <label>Item Price (Coins)</label>
-<input id="coinInput" type="number" class="form-control" placeholder="Enter item price in coins" />
+<input id="coinInput" class="form-control trade-input" type="number" placeholder="Enter item price in coins">
 
-<div class="linebreak"></div>
-
-<div id="coinResult" style="font-weight:bold"></div>
+<div id="coinResult" class="trade-result"></div>
 
 </div>
 
-<div class="card" style="padding:20px;border:1px solid var(--color-B);background:linear-gradient(var(--color-C),var(--color-D));max-width:420px">
+
+<div class="trade-card">
 
 <h4>Pip Trade Calculator</h4>
 
 <label>Item Price (Pips)</label>
-<input id="pipInput" type="number" class="form-control" placeholder="Enter item price in pips" />
+<input id="pipInput" class="form-control trade-input" type="number" placeholder="Enter item price in pips">
 
-<div class="linebreak"></div>
-
-<div id="pipResult" style="font-weight:bold"></div>
+<div id="pipResult" class="trade-result"></div>
 
 </div>
 
@@ -76,51 +103,49 @@ Merchants receive an incentive bonus from the requester's end. Some important po
 <script>
 
 function calculateTradeCoins(coins){
-  const increased = coins * 1.25;
-  return Math.ceil(increased / 50) * 50;
+const increased = coins * 1.25;
+return Math.ceil(increased / 50) * 50;
 }
 
-const coinInput = document.getElementById("coinInput");
-const pipInput = document.getElementById("pipInput");
+/* coin calculator */
 
-const coinResult = document.getElementById("coinResult");
-const pipResult = document.getElementById("pipResult");
+document.getElementById("coinInput").addEventListener("input",function(){
 
-coinInput.addEventListener("input", function(){
+const coins = parseInt(this.value);
+const result = document.getElementById("coinResult");
 
-  const coins = parseInt(this.value);
+if(!coins){
+result.innerHTML="";
+return;
+}
 
-  if(!coins){
-    coinResult.innerHTML = "";
-    return;
-  }
+const tradePrice = calculateTradeCoins(coins);
 
-  const tradePrice = calculateTradeCoins(coins);
-
-  coinResult.innerHTML = `
-  Item Value: <b>${coins.toLocaleString()} Coins</b><br>
-  Trade Price: <span style="color:#E44026"><b>${tradePrice.toLocaleString()} Coins</b></span>
-  `;
+result.innerHTML=`
+Item Value: <b>${coins.toLocaleString()} Coins</b><br>
+Trade Price: <span style="color:#E44026"><b>${tradePrice.toLocaleString()} Coins</b></span>
+`;
 
 });
 
-pipInput.addEventListener("input", function(){
+/* pip calculator */
 
-  const pips = parseFloat(this.value);
+document.getElementById("pipInput").addEventListener("input",function(){
 
-  if(!pips){
-    pipResult.innerHTML = "";
-    return;
-  }
+const pips = parseFloat(this.value);
+const result = document.getElementById("pipResult");
 
-  const coins = Math.round(pips * 250);
-  const tradePrice = calculateTradeCoins(coins);
+if(!pips){
+result.innerHTML="";
+return;
+}
 
-  pipResult.innerHTML = `
-  Pip Value: <b>${pips} Pips</b><br>
-  Coin Value: <b>${coins.toLocaleString()} Coins</b><br>
-  Trade Price: <span style="color:#E44026"><b>${tradePrice.toLocaleString()} Coins</b></span>
-  `;
+const tradePrice = Math.round(pips*250);
+
+result.innerHTML=`
+Pip Value: <b>${pips} Pips</b><br>
+Trade Price: <span style="color:#E44026"><b>${tradePrice.toLocaleString()} Coins</b></span>
+`;
 
 });
 
@@ -167,14 +192,14 @@ All of our merchants and their stats are listed below. If you wish to become a m
 <table class="table table-bordered">
 <thead>
 <tr>
-<th class="">Plato ID</th>
+<th>Plato ID</th>
 </tr>
 </thead>
 <tbody>
 <tr><td>Fear</td></tr>
 <tr><td>Focus</td></tr>
 <tr><td>Rose</td></tr>
-<tr><td>Spring </td></tr>
+<tr><td>Spring</td></tr>
 <tr><td>zos</td></tr>
 <tr><td>Acer</td></tr>
 <tr><td>arlovp</td></tr>
@@ -195,7 +220,7 @@ All of our merchants and their stats are listed below. If you wish to become a m
 <tr><td>Gift</td></tr>
 <tr><td>Hades</td></tr>
 <tr><td>Hera</td></tr>
-<tr><td>Lagirl </td></tr>
+<tr><td>Lagirl</td></tr>
 <tr><td>mishii</td></tr>
 <tr><td>RBT</td></tr>
 <tr><td>Ritme</td></tr>
