@@ -121,7 +121,9 @@ Currently Unavailable
 
 To take part in item trading, request for your desired item/s in the group, and wait for a merchant to accept your trade.
 
-Alternatively, you can join the [Artrade (Discord Server)](https://discord.com/invite/ardc) to use the *Items Request Panel* in the *#artrade-panel* channel for safer and more efficient trading.
+<div class="trade-card" style="margin-top:10px">
+Alternatively, you can join the [Artrade (Discord Server)](https://discord.com/invite/ardc) to use our <b>Items Request Panel</b> in the <b>#artrade-panel</b> channel for safer and more efficient trading.
+</div>
 
 <div class="linebreak"></div>
 
