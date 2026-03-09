@@ -105,10 +105,10 @@ Artrade helps you connect with trusted item traders and merchants from our commu
 
 ## 1. Artrade Invite
 
-Artrade (Plato Group):
-<p><strong>Currently Unavailable</strong></p>
+**Artrade (Plato Group):**
+Currently Unavailable
 
-Artrade (Discord Server):
+**Artrade (Discord Server):**
 <span class="content-link" data-url="https://discord.com/invite/ardc" data-text="" data-copy="true"></span>
 
 <div class="linebreak"></div>
