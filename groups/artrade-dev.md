@@ -105,7 +105,7 @@ Artrade helps you connect with trusted item traders and merchants from our commu
 
 ## 1. Artrade Invite
 
-**Artrade (Plato Group):**
+**Artrade (Plato Group):**  
 Currently Unavailable
 
 **Artrade (Discord Server):**
@@ -121,7 +121,7 @@ Currently Unavailable
 
 To take part in item trading, request for your desired item/s in the group, and wait for a merchant to accept your trade.
 
-Alternatively, you can join the [Artrade (Discord Server)](https://discord.com/invite/ardc) to use the **Items Request Panel** in the `#artrade-panel` channel for safer and more efficient trading.
+Alternatively, you can join the [Artrade (Discord Server)](https://discord.com/invite/ardc) to use the *Items Request Panel* in the *#artrade-panel* channel for safer and more efficient trading.
 
 <div class="linebreak"></div>
 
