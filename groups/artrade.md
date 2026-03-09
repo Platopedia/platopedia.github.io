@@ -208,7 +208,7 @@ Artrade provides insurance for any scam related incidents during a trade. You mu
 
 Apply to become an Artrade Merchant and join our trusted network of traders. Fill out the form below to submit your application.
 
-<span class="content-link" data-url="https://forms.gle/TaB5PGsjS7LhyPoq5" data-text="Forms.gle/TaB5PGsjS7LhyPoq5" data-copy="true"></span>
+<span class="content-link" data-url="https://forms.gle/TaB5PGsjS7LhyPoq5" data-text="" data-copy="true"></span>
 
 <div class="linebreak"></div>
 
