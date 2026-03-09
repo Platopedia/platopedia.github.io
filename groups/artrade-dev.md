@@ -145,7 +145,7 @@ During a trade, merchants and requesters must follow the trading rules listed be
 
 <div class="linebreak"></div>
 
-## Artrade Calculator {#artrade-calculator}
+## 3. Artrade Calculator {#artrade-calculator}
 
 <div class="trade-calculators">
 
@@ -185,7 +185,7 @@ During a trade, merchants and requesters must follow the trading rules listed be
 
 <div class="linebreak"></div>
 
-## 3. Scam Insurance
+## 4. Scam Insurance
 
 Artrade provides insurance for any scam related incidents during a trade. You must share screenshots or screen recordings of the incident with one of our group owners. Once the evidence is verified, our insurance account will send you the full amount in items. The conditions are listed below.
 
@@ -195,7 +195,7 @@ Artrade provides insurance for any scam related incidents during a trade. You mu
 
 <div class="linebreak"></div>
 
-## 4. Plato Items Website
+## 5. Plato Items Website
 
 The following website contains the entire list of Plato Items (including images & audios).
 
@@ -203,7 +203,7 @@ The following website contains the entire list of Plato Items (including images 
 
 <div class="linebreak"></div>
 
-## 5. Trusted Merchants
+## 6. Trusted Merchants
 
 All of our merchants and their stats are listed below. If you wish to become a merchant, contact our group owners.
 
