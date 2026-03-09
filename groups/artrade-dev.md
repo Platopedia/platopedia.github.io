@@ -50,7 +50,10 @@ font-size:18px;
 cursor:pointer;
 color:#E44026;
 opacity:0.6;
-padding:2px 6px;
+padding:6px 10px;
+min-width:24px;
+min-height:24px;
+line-height:1;
 display:none;
 }
 
