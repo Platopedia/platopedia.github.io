@@ -31,7 +31,7 @@ box-sizing:border-box;
 width:100%;
 max-width:100%;
 box-sizing:border-box;
-padding-right:28px;
+padding-right:40px;
 }
 
 .trade-input-wrap{
@@ -41,7 +41,7 @@ width:100%;
 
 .trade-clear{
 position:absolute;
-right:10px;
+right:12px;
 top:50%;
 transform:translateY(-50%);
 border:none;
@@ -49,7 +49,7 @@ background:none;
 font-size:14px;
 cursor:pointer;
 color:#E44026;
-opacity:0.6;
+opacity:1;
 padding:2px 6px;
 display:none;
 }
@@ -68,6 +68,18 @@ opacity:0.7;
 margin-top:-4px;
 margin-bottom:8px;
 line-height:1.4;
+}
+
+/* remove browser number input arrows */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button{
+-webkit-appearance:none;
+margin:0;
+}
+
+input[type=number]{
+-moz-appearance:textfield;
+appearance:textfield;
 }
 </style>
 
