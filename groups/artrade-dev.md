@@ -41,23 +41,35 @@ Merchants receive an incentive bonus from the requester's end. Some important po
 
 - Incentive bonus is determined by the total value of the items you're trading for. It's not counted separately for each item.
 - If a merchant requests for items, they should also pay the incentive. For merchant-merchant trade, the requester sends first. For merchant-member trade, the member sends first, even if the merchant is the requester. The member will receive incentive.
-- Use the calculator below to determine the trade price for an item.
+- Use the calculators below to determine the trade price.
 
-<div class="card" style="padding:20px;border:1px solid var(--color-B);background:linear-gradient(var(--color-C),var(--color-D));max-width:520px">
+<div style="display:flex;gap:20px;flex-wrap:wrap">
 
-<h4>Trade Price Calculator</h4>
+<div class="card" style="padding:20px;border:1px solid var(--color-B);background:linear-gradient(var(--color-C),var(--color-D));max-width:420px">
+
+<h4>Coin Trade Calculator</h4>
 
 <label>Item Price (Coins)</label>
 <input id="coinInput" type="number" class="form-control" placeholder="Enter item price in coins" />
 
-<div style="text-align:center;margin:10px 0;font-size:var(--unit-text-B)">or</div>
+<div class="linebreak"></div>
+
+<div id="coinResult" style="font-weight:bold"></div>
+
+</div>
+
+<div class="card" style="padding:20px;border:1px solid var(--color-B);background:linear-gradient(var(--color-C),var(--color-D));max-width:420px">
+
+<h4>Pip Trade Calculator</h4>
 
 <label>Item Price (Pips)</label>
 <input id="pipInput" type="number" class="form-control" placeholder="Enter item price in pips" />
 
 <div class="linebreak"></div>
 
-<div id="calcResult" style="font-weight:bold"></div>
+<div id="pipResult" style="font-weight:bold"></div>
+
+</div>
 
 </div>
 
@@ -68,38 +80,49 @@ function calculateTradeCoins(coins){
   return Math.ceil(increased / 50) * 50;
 }
 
-function updateCalc(){
-  const coinInput = document.getElementById("coinInput");
-  const pipInput = document.getElementById("pipInput");
-  const result = document.getElementById("calcResult");
+const coinInput = document.getElementById("coinInput");
+const pipInput = document.getElementById("pipInput");
 
-  let coins = 0;
+const coinResult = document.getElementById("coinResult");
+const pipResult = document.getElementById("pipResult");
 
-  if (coinInput.value) {
-    coins = parseInt(coinInput.value);
-    pipInput.value = (coins / 250).toFixed(2);
-  }
-  else if (pipInput.value) {
-    const pips = parseFloat(pipInput.value);
-    coins = Math.round(pips * 250);
-    coinInput.value = coins;
+coinInput.addEventListener("input", function(){
+
+  const coins = parseInt(this.value);
+
+  if(!coins){
+    coinResult.innerHTML = "";
+    return;
   }
 
-  if (coins > 0) {
-    const tradePrice = calculateTradeCoins(coins);
+  const tradePrice = calculateTradeCoins(coins);
 
-    result.innerHTML = `
-      Item Value: <b>${coins.toLocaleString()} Coins</b><br>
-      Trade Price: <span style="color:#E44026"><b>${tradePrice.toLocaleString()} Coins</b></span>
-    `;
-  }
-  else{
-    result.innerHTML = "";
-  }
-}
+  coinResult.innerHTML = `
+  Item Value: <b>${coins.toLocaleString()} Coins</b><br>
+  Trade Price: <span style="color:#E44026"><b>${tradePrice.toLocaleString()} Coins</b></span>
+  `;
 
-document.getElementById("coinInput").addEventListener("input", updateCalc);
-document.getElementById("pipInput").addEventListener("input", updateCalc);
+});
+
+pipInput.addEventListener("input", function(){
+
+  const pips = parseFloat(this.value);
+
+  if(!pips){
+    pipResult.innerHTML = "";
+    return;
+  }
+
+  const coins = Math.round(pips * 250);
+  const tradePrice = calculateTradeCoins(coins);
+
+  pipResult.innerHTML = `
+  Pip Value: <b>${pips} Pips</b><br>
+  Coin Value: <b>${coins.toLocaleString()} Coins</b><br>
+  Trade Price: <span style="color:#E44026"><b>${tradePrice.toLocaleString()} Coins</b></span>
+  `;
+
+});
 
 </script>
 
@@ -151,7 +174,7 @@ All of our merchants and their stats are listed below. If you wish to become a m
 <tr><td>Fear</td></tr>
 <tr><td>Focus</td></tr>
 <tr><td>Rose</td></tr>
-<tr><td>Spring</td></tr>
+<tr><td>Spring </td></tr>
 <tr><td>zos</td></tr>
 <tr><td>Acer</td></tr>
 <tr><td>arlovp</td></tr>
@@ -172,7 +195,7 @@ All of our merchants and their stats are listed below. If you wish to become a m
 <tr><td>Gift</td></tr>
 <tr><td>Hades</td></tr>
 <tr><td>Hera</td></tr>
-<tr><td>Lagirl</td></tr>
+<tr><td>Lagirl </td></tr>
 <tr><td>mishii</td></tr>
 <tr><td>RBT</td></tr>
 <tr><td>Ritme</td></tr>
