@@ -99,15 +99,17 @@ appearance:textfield;
 
 Artrade helps you connect with trusted item traders and merchants from our community.
 
-<div class="content-contents text-left" data-open="true" data-icon="&#xf068;,&#xf067;">We provide <embed/></div>
+<div class="content-contents text-left" data-open="true" data-icon="&#xf068;,&#xf067;">Contents <embed/></div>
 
 <div class="linebreak"></div>
 
-## 1. Group Invite
+## 1. Artrade Invite
 
-Become a member of Artrade. Join our group by clicking the link below!
-
+Artrade (Plato Group):
 <p><strong>Currently Unavailable</strong></p>
+
+Artrade (Discord Server):
+<span class="content-link" data-url="https://discord.com/invite/ardc" data-text="" data-copy="true"></span>
 
 <div class="linebreak"></div>
 
@@ -118,6 +120,8 @@ Become a member of Artrade. Join our group by clicking the link below!
 **Requesters -** Group members or traders not endorsed by Artrade.
 
 To take part in item trading, request for your desired item/s in the group, and wait for a merchant to accept your trade.
+
+Alternatively, you can join the [Artrade (Discord Server)](https://discord.com/invite/ardc) to use the **Items Request Panel** in the `#artrade-panel` channel for safer and more efficient trading.
 
 <div class="linebreak"></div>
 
@@ -136,7 +140,7 @@ During a trade, merchants and requesters must follow the trading rules listed be
 
 - Both parties are only allowed to exchange items, and must not involve any other types of exchanges.
 - Requesters need to send the full amount in items (trade price) before merchants can proceed with their part.
-- Not following Artrade's trading rules can get you permanently removed from the group.
+- Not following Artrade's trading rules can get you removed from the group.
 
 <div class="linebreak"></div>
 
@@ -178,7 +182,7 @@ During a trade, merchants and requesters must follow the trading rules listed be
 
 </div>
 
-The following website contains the entire list of Plato Items (including images & audios).
+The page below contains the entire list of Plato Items with their base prices (including images & audios).
 
 <span class="content-link" data-url="https://platopedia.com/items" data-text="" data-copy="true"></span>
 
