@@ -18,6 +18,7 @@ max-width:100%;
 box-sizing:border-box;
 }
 
+
 .trade-card{
 padding:20px;
 border:1px solid var(--color-B);
@@ -25,6 +26,14 @@ background:linear-gradient(var(--color-C),var(--color-D));
 width:100%;
 max-width:100%;
 box-sizing:border-box;
+}
+
+.trade-card label{
+ display:block;
+ font-size:0.9em;
+ font-weight:600;
+ margin-bottom:6px;
+ color:var(--color-text);
 }
 
  .trade-input{
@@ -37,6 +46,7 @@ padding-right:12px;
 .trade-input-wrap{
 position:relative;
 width:100%;
+margin-top:4px;
 }
 
 .trade-clear{
