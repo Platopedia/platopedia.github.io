@@ -146,13 +146,13 @@ During a trade, merchants and requesters must follow the trading rules listed be
 
 <div class="trade-card">
 
-<h4>Coin Trade Calculator</h4>
+<h4>Trade Calculator (Coins)</h4>
 <p class="trade-desc">Formula: +25% value, then rounded up to the nearest 50 coins.</p>
 
-<label>Item Price (Coins)</label>
+<label>Item/s Price (Coins)</label>
 
 <div class="trade-input-wrap">
-<input id="coinInput" class="form-control trade-input" type="number" placeholder="Enter item price in Coins">
+<input id="coinInput" class="form-control trade-input" type="number" placeholder="Enter item/s price in Coins">
 <button class="trade-clear" onclick="clearCoin()">×</button>
 </div>
 
@@ -162,13 +162,13 @@ During a trade, merchants and requesters must follow the trading rules listed be
 
 <div class="trade-card">
 
-<h4>Pip Trade Calculator</h4>
+<h4>Trade Calculator (Pips)</h4>
 <p class="trade-desc">Formula: 1 Pip = 250 Coins.</p>
 
-<label>Item Price (Pips)</label>
+<label>Item/s Price (Pips)</label>
 
 <div class="trade-input-wrap">
-<input id="pipInput" class="form-control trade-input" type="number" placeholder="Enter item price in Pips">
+<input id="pipInput" class="form-control trade-input" type="number" placeholder="Enter item/s price in Pips">
 <button class="trade-clear" onclick="clearPip()">×</button>
 </div>
 
@@ -177,6 +177,10 @@ During a trade, merchants and requesters must follow the trading rules listed be
 </div>
 
 </div>
+
+The following website contains the entire list of Plato Items (including images & audios).
+
+<span class="content-link" data-url="https://platopedia.com/items" data-text="" data-copy="true"></span>
 
 <div class="linebreak"></div>
 
@@ -187,14 +191,6 @@ Artrade provides insurance for any scam related incidents during a trade. You mu
 - You must be a member of the group to claim the insurance.
 - The insurance only applies when trading with one of our merchants.
 - The insurance does not cover trade value exceeding 10,000 coins.
-
-<div class="linebreak"></div>
-
-## 5. Plato Items Website
-
-The following website contains the entire list of Plato Items (including images & audios).
-
-<span class="content-link" data-url="https://platopedia.com/items" data-text="" data-copy="true"></span>
 
 <div class="linebreak"></div>
 
@@ -243,7 +239,7 @@ return;
 const tradePrice=calculateTradeCoins(coins);
 
 result.innerHTML=`
-Item Value: <b>${coins.toLocaleString()} Coins</b><br>
+Item/s Value: <b>${coins.toLocaleString()} Coins</b><br>
 Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coins</b></span>
 `;
 
@@ -267,7 +263,7 @@ return;
 const tradePrice=Math.round(pips*250);
 
 result.innerHTML=`
-Pip Value: <b>${pips} Pips</b><br>
+Item/s Value: <b>${pips} Pips</b><br>
 Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coins</b></span>
 `;
 
