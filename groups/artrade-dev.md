@@ -127,7 +127,11 @@ Merchants receive an incentive bonus from the requester's end. Some important po
 
 - Incentive bonus is determined by the total value of the items you're trading for. It's not counted separately for each item.
 - If a merchant requests for items, they should also pay the incentive. For merchant-merchant trade, the requester sends first. For merchant-member trade, the member sends first, even if the merchant is the requester. The member will receive incentive.
-- Use the calculators below to determine the trade price.
+- Use the **Artrade Calculator** below to determine the trade price.
+
+<div class="linebreak"></div>
+
+#### Artrade Calculator
 
 <div class="trade-calculators">
 
