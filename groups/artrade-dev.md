@@ -31,7 +31,7 @@ box-sizing:border-box;
 width:100%;
 max-width:100%;
 box-sizing:border-box;
-padding-right:40px;
+padding-right:28px;
 }
 
 .trade-input-wrap{
@@ -41,7 +41,7 @@ width:100%;
 
 .trade-clear{
 position:absolute;
-right:12px;
+right:10px;
 top:50%;
 transform:translateY(-50%);
 border:none;
@@ -49,7 +49,7 @@ background:none;
 font-size:18px;
 cursor:pointer;
 color:#E44026;
-opacity:1;
+opacity:0.6;
 padding:2px 6px;
 display:none;
 }
