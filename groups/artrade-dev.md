@@ -123,7 +123,7 @@ To take part in item trading, request for your desired item/s in the group, and 
 
 #### Trade Price
 
-Merchants receive an incentive bonus from the requester's end. Some important points are listed below.
+The trade price is the final amount required for a trade. Some important points about how trade pricing works are listed below.
 
 - The trade price is determined by the total value of items you're trading for. It's not counted separately for each item.
 - Use the [**Artrade Calculator**](#artrade-calculator) below to determine the trade price.
@@ -136,7 +136,6 @@ During a trade, merchants and requesters must follow the trading rules listed be
 
 - Both parties are only allowed to exchange items, and must not involve any other types of exchanges.
 - Requesters need to send the full amount in items (trade price) before merchants can proceed with their part.
-- Both parties are advised to take screenshots or screen recordings during a trade.
 - Not following Artrade's trading rules can get you permanently removed from the group.
 
 <div class="linebreak"></div>
