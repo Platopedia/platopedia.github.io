@@ -51,6 +51,7 @@ cursor:pointer;
 color:#E44026;
 opacity:0.6;
 padding:2px 6px;
+display:none;
 }
 
 .trade-clear:hover{
@@ -144,6 +145,7 @@ const input=document.getElementById("coinInput");
 const result=document.getElementById("coinResult");
 input.value="";
 result.innerHTML="";
+input.parentElement.querySelector('.trade-clear').style.display='none';
 input.focus();
 }
 
@@ -152,6 +154,7 @@ const input=document.getElementById("pipInput");
 const result=document.getElementById("pipResult");
 input.value="";
 result.innerHTML="";
+input.parentElement.querySelector('.trade-clear').style.display='none';
 input.focus();
 }
 
@@ -165,6 +168,8 @@ return Math.ceil(increased / 50) * 50;
 document.getElementById("coinInput").addEventListener("input",function(){
 
 const coins = parseInt(this.value);
+const clearBtn=this.parentElement.querySelector('.trade-clear');
+clearBtn.style.display=this.value? 'block':'none';
 const result = document.getElementById("coinResult");
 
 if(!coins){
@@ -186,6 +191,8 @@ Trade Price: <span style="color:#E44026"><b>${tradePrice.toLocaleString()} Coins
 document.getElementById("pipInput").addEventListener("input",function(){
 
 const pips = parseFloat(this.value);
+const clearBtn=this.parentElement.querySelector('.trade-clear');
+clearBtn.style.display=this.value? 'block':'none';
 const result = document.getElementById("pipResult");
 
 if(!pips){
