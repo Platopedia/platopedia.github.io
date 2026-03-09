@@ -46,7 +46,7 @@ top:50%;
 transform:translateY(-50%);
 border:none;
 background:none;
-font-size:14px;
+font-size:18px;
 cursor:pointer;
 color:#E44026;
 opacity:1;
