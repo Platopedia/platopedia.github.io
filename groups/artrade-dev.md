@@ -48,6 +48,7 @@ border:none;
 background:none;
 font-size:14px;
 cursor:pointer;
+color:#E44026;
 opacity:0.6;
 padding:2px 6px;
 }
