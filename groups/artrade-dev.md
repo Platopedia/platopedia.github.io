@@ -78,7 +78,7 @@ Merchants receive an incentive bonus from the requester's end. Some important po
 <div class="trade-card">
 
 <h4>Coin Trade Calculator</h4>
-
+<p style="font-size:var(--unit-text-A);opacity:0.8">Formula: +25% value, then rounded up to the nearest 50 coins.</p>
 <label>Item Price (Coins)</label>
 <input id="coinInput" class="form-control trade-input" type="number" placeholder="Enter item price in coins">
 
@@ -90,7 +90,7 @@ Merchants receive an incentive bonus from the requester's end. Some important po
 <div class="trade-card">
 
 <h4>Pip Trade Calculator</h4>
-
+<p style="font-size:var(--unit-text-A);opacity:0.8">Formula: 1 Pip = 250 Coins.</p>
 <label>Item Price (Pips)</label>
 <input id="pipInput" class="form-control trade-input" type="number" placeholder="Enter item price in pips">
 
