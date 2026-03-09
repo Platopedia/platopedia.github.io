@@ -12,9 +12,10 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 
 .trade-calculators{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
 gap:20px;
 width:100%;
+max-width:100%;
 box-sizing:border-box;
 }
 
@@ -23,6 +24,7 @@ padding:20px;
 border:1px solid var(--color-B);
 background:linear-gradient(var(--color-C),var(--color-D));
 box-sizing:border-box;
+min-width:0;
 }
 
 .trade-card label{
