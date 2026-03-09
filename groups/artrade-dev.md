@@ -147,6 +147,8 @@ During a trade, merchants and requesters must follow the trading rules listed be
 
 ## 3. Artrade Calculator {#artrade-calculator}
 
+Test
+
 <div class="trade-calculators">
 
 <div class="trade-card">
@@ -182,6 +184,8 @@ During a trade, merchants and requesters must follow the trading rules listed be
 </div>
 
 </div>
+
+Test
 
 <div class="linebreak"></div>
 
@@ -324,3 +328,4 @@ Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coi
 });
 
 </script>
+
