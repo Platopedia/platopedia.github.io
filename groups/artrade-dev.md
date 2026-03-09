@@ -103,7 +103,7 @@ Artrade helps you connect with trusted item traders and merchants from our commu
 
 <div class="linebreak"></div>
 
-## 1. Free Membership
+## 1. Group Invite
 
 Become a member of Artrade. Join our group by clicking the link below!
 
@@ -113,7 +113,7 @@ Become a member of Artrade. Join our group by clicking the link below!
 
 ## 2. Item Trading
 
-**Merchants -** Group moderators or traders endorsed by Artrade.
+**Merchants -** Group admins or traders endorsed by Artrade.
 
 **Requesters -** Group members or traders not endorsed by Artrade.
 
@@ -121,12 +121,11 @@ To take part in item trading, request for your desired item/s in the group, and 
 
 <div class="linebreak"></div>
 
-#### Incentive Bonus
+#### Trade Price
 
 Merchants receive an incentive bonus from the requester's end. Some important points are listed below.
 
-- Incentive bonus is determined by the total value of the items you're trading for. It's not counted separately for each item.
-- If a merchant requests for items, they should also pay the incentive. For merchant-merchant trade, the requester sends first. For merchant-member trade, the member sends first, even if the merchant is the requester. The member will receive incentive.
+- The trade price is determined by the total value of items you're trading for. It's not counted separately for each item.
 - Use the [**Artrade Calculator**](#artrade-calculator) below to determine the trade price.
 
 <div class="linebreak"></div>
@@ -135,19 +134,14 @@ Merchants receive an incentive bonus from the requester's end. Some important po
 
 During a trade, merchants and requesters must follow the trading rules listed below.
 
-- We highly recommend that requesters only trade with our merchants, and not the members.
-- Requesters need to send the full amount (including bonus) before merchants can proceed with their part.
 - Both parties are only allowed to exchange items, and must not involve any other types of exchanges.
+- Requesters need to send the full amount in items (trade price) before merchants can proceed with their part.
 - Both parties are advised to take screenshots or screen recordings during a trade.
-- If there's an issue, you must report to the group owners.
-- Members can only request items for their main account. Requesting items for other accounts, even your own, is prohibited.
 - Not following Artrade's trading rules can get you permanently removed from the group.
 
 <div class="linebreak"></div>
 
 ## 3. Artrade Calculator {#artrade-calculator}
-
-Test
 
 <div class="trade-calculators">
 
@@ -185,8 +179,6 @@ Test
 
 </div>
 
-Test
-
 <div class="linebreak"></div>
 
 ## 4. Scam Insurance
@@ -204,51 +196,6 @@ Artrade provides insurance for any scam related incidents during a trade. You mu
 The following website contains the entire list of Plato Items (including images & audios).
 
 <span class="content-link" data-url="https://platopedia.com/items" data-text="" data-copy="true"></span>
-
-<div class="linebreak"></div>
-
-## 6. Trusted Merchants
-
-All of our merchants and their stats are listed below. If you wish to become a merchant, contact our group owners.
-
-<table class="table table-bordered">
-<thead>
-<tr>
-<th>Plato ID</th>
-</tr>
-</thead>
-<tbody>
-<tr><td>Fear</td></tr>
-<tr><td>Focus</td></tr>
-<tr><td>Rose</td></tr>
-<tr><td>Spring</td></tr>
-<tr><td>zos</td></tr>
-<tr><td>Acer</td></tr>
-<tr><td>arlovp</td></tr>
-<tr><td>Aura</td></tr>
-<tr><td>badfacewanda</td></tr>
-<tr><td>ChicaaG</td></tr>
-<tr><td>DPN</td></tr>
-<tr><td>Fairy</td></tr>
-<tr><td>Nefya</td></tr>
-<tr><td>QueenyMeany</td></tr>
-<tr><td>sohee</td></tr>
-<tr><td>Trolledyou</td></tr>
-<tr><td>userstrange</td></tr>
-<tr><td>_ilsx</td></tr>
-<tr><td>Arts</td></tr>
-<tr><td>Darktored</td></tr>
-<tr><td>EmpressT</td></tr>
-<tr><td>Gift</td></tr>
-<tr><td>Hades</td></tr>
-<tr><td>Hera</td></tr>
-<tr><td>Lagirl</td></tr>
-<tr><td>mishii</td></tr>
-<tr><td>RBT</td></tr>
-<tr><td>Ritme</td></tr>
-<tr><td>UniqueM_</td></tr>
-</tbody>
-</table>
 
 <div class="linebreak"></div>
 
@@ -328,4 +275,3 @@ Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coi
 });
 
 </script>
-
