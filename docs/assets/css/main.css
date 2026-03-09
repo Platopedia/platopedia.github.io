@@ -1,960 +1,281 @@
-/* ////////////////////////////////////////////////// */
-
-/*
-*
-{
-    margin  : 0;
-    padding : 0;
-}
-*/
-
-::selection
-{
-    color      : var(--color-high-text);
-    background : var(--color-high-back);
-}
-
-::-moz-selection
-{
-    color      : var(--color-high-text);
-    background : var(--color-high-back);
-}
-
-::-webkit-selection
-{
-    color      : var(--color-high-text);
-    background : var(--color-high-back);
-}
-
-html
-{
-    margin  : 0;
-    padding : 0;
-  /*height  : 100%;*/
-}
-
-body
-{
-    margin           : 0;
-    padding          : 0;
-  /*height           : 100%;*/
-    font-size        : var(--unit-text-B);
-    color            : var(--color-text) !important;
-    background-color : var(--color-D);    
-  /*background-image : linear-gradient( to bottom, var(--color-D), var(--color-C), var(--color-D) );*/
-}
-
-header
-{
-    margin           : 0;
-    padding          : 0;
-    background-color : var(--color-C) !important;
-    background-image : linear-gradient( to bottom, var(--color-C), var(--color-D), var(--color-C) );
-}
-
-footer
-{
-    margin           : 0;
-    padding          : 0;
-    height           : 60px;
-    background-color : var(--color-C) !important;
-    background-image : linear-gradient( to bottom, var(--color-C), var(--color-D), var(--color-C) );
-}
-
-h1
-{
-  /*display         : flex;*/
-    align-items     : center;
-    justify-content : center;
-    margin          : 0;
-    margin-top      : 0;
-    margin-bottom   : 15px;
-    padding         : 0;
-    padding-top     : 15px;
-    padding-bottom  : 15px;
-    line-height     : 1.5rem;
-    font-size       : 1.5rem;
-    text-align      : center;
-    font-weight     : bold;
-    text-decoration : none;
-    border-bottom   : 2px solid var(--color-C);
-}
-
-h1 a:link,
-h1 a:visited,
-h1 a:hover,
-h1 a:active
-{
-    color           : var(--color-text) !important;
-    text-decoration : none;
-    outline         : none;
-}
-
-h1 > img
-{
-    margin-top : -5px;
-    height     : 24px;
-}
-
-h1 .icon
-{
-    font-size : 1.75rem;
-}
-
-h2,
-h3
-{
-    margin          : 0;
-    padding         : 0;
-    padding-top     : 30px;
-    padding-bottom  : 15px;
-    line-height     : 1.25rem;
-    font-size       : 1.25rem;
-    text-align      : left;
-    font-weight     : bold;
-    text-decoration : none;
-    border-top      : 2px solid var(--color-C);
-}
-
-h4,
-h5,
-h4 button,
-h5 button
-{
-    line-height : 1.25rem;
-    font-size   : 1.25rem !important;
-    font-weight : bold !important;
-    color       : var(--color-text) !important;
-}
-
-h2 a:link,
-h2 a:visited,
-h2 a:hover,
-h2 a:active,
-h3 a:link,
-h3 a:visited,
-h3 a:hover,
-h3 a:active,
-h4 a:link,
-h4 a:visited,
-h4 a:hover,
-h4 a:active,
-h5 a:link,
-h5 a:visited,
-h5 a:hover,
-h5 a:active
-{
-    color   : var(--color-text) !important;
-    outline : none;
-}
-
-p
-{
-    margin : 0;
-}
-
-a:link,
-a:visited,
-a:hover,
-a:active
-{
-    color : var(--color-link);
-}
-
-br
-{
-    display       : block;
-    margin-bottom : 15px;
-    content       : "";
-}
-
-hr
-{
-    margin     : 0;
-    border-top : 2px solid var(--color-C);
-}
-
-ul
-{
-    margin-bottom : 0;
-}
-
-table
-{
-    width     : 100% !important;
-    font-size : var(--unit-text-C);
-    color     : var(--color-text) !important;
-}
-
-table caption
-{
-    padding   : 15px 0 0 0;
-    font-size : var(--unit-text-C);
-    color     : var(--color-text);
-}
-
-table tr
-{
-    padding : 0;
-}
-
-table th,
-table td
-{
-    padding        : 3px !important;
-    text-align     : center;
-    vertical-align : middle !important;
-}
-
-label
-{
-    margin : 0;
-}
-
-input,
-select
-{
-    -webkit-appearance : none;
-    font-size          : var(--unit-text-B) !important;
-    color              : var(--color-form-field-text) !important;
-    background-color   : var(--color-form-field-back) !important;
-    background-clip    : border-box !important;
-    border             : 1px solid var(--color-form-field-bord) !important;
-    transition         : none !important;
-}
-
-input:focus,
-input:hover,
-select:focus,
-select:hover
-{
-    border-color       : transparent !important;
-    box-shadow         : 0 0 8px var(--color-form-field-box) !important;
-    -webkit-box-shadow : 0 0 8px var(--color-form-field-box) !important;
-    -moz-box-shadow    : 0 0 8px var(--color-form-field-box) !important;
-}
-
-input::-webkit-search-cancel-button
-{
-    
-}
-
-/*
-select,
-select option
-{
-    cursor : pointer;
-}
-*/
-
-/*
-select option,
-select option:hover,
-select option:checked,
-select:focus option,
-select:focus option:hover,
-select:focus option:checked
-{
-    
-}
-*/
-
-img,
-svg,
-canvas,
-audio
-{
-    filter : brightness( var(--filter-bright) );
-}
-
-img
-{
-    
-}
-
-svg
-{
-    
-}
-
-canvas
-{
-    
-}
-
-audio
-{
-    display   : block;
-    margin    : 0 auto;
-    width     : 100%;
-    max-width : 300px;
-}
-
-/*
-audio::-webkit-media-controls-panel
-audio::-webkit-media-controls-mute-button,
-audio::-webkit-media-controls-play-button,
-audio::-webkit-media-controls-timeline-container,
-audio::-webkit-media-controls-current-time-display,
-audio::-webkit-media-controls-time-remaining-display,
-audio::-webkit-media-controls-timeline,
-audio::-webkit-media-controls-volume-slider-container,
-audio::-webkit-media-controls-volume-slider,
-audio::-webkit-media-controls-seek-back-button,
-audio::-webkit-media-controls-seek-forward-button,
-audio::-webkit-media-controls-fullscreen-button,
-audio::-webkit-media-controls-rewind-button,
-audio::-webkit-media-controls-return-to-realtime-button,
-audio::-webkit-media-controls-toggle-closed-captions-button
-{
-    
-}
-*/
-
-.container
-{
-    padding-left     : 0 !important;
-    padding-right    : 0 !important;
-    min-height       : 0;
-    background-color : var(--color-D);
-    border-left      : 2px solid var(--color-C);
-    border-right     : 2px solid var(--color-C);
-}
-
-@media ( max-width : 575.98px )
-{
-    .container
-    {
-        border : none;
-    }
-}
-
-.content
-{
-    padding-left  : 15px !important;
-    padding-right : 15px !important;
-    min-height    : 0;
-}
-
-.alert
-{
-    
-}
-
-.alert .close
-{
-    top       : 0;
-    bottom    : 0;
-    padding   : 0 4px 0 0 !important;
-    font-size : 21pt;
-}
-
-.figure
-{
-    margin : 0;
-    width  : 100%;
-}
-
-.figure-caption
-{
-
-}
+---
+layout: tool-content
+title: Artrade - Platopedia
+heading: <img src="/docs/assets/images/groups/artrade/art-logo.png" />&nbsp;Artrade
+---
 
-.form-group
-{
-    
-}
-
-.form-group > label
-{
-    font-weight : bold;
-}
-
-.form-control
-{
-    
-}
+<style>
+h2 { color:#E44026 !important }
+h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 
-.form-control.is-valid,
-.form-control.is-invalid
-{
-    background-image : none;
-}
+/* calculator layout */
 
-.custom-switch
-{
-    
+.trade-calculators{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+gap:20px;
+width:100%;
+box-sizing:border-box;
 }
 
-.custom-switch .custom-control-label::before
-{
-    cursor           : pointer;
-    box-shadow       : none !important;
-    background-color : var(--color-A) !important;
-    border           : none !important;
+.trade-card{
+padding:20px;
+border:1px solid var(--color-B);
+background:linear-gradient(var(--color-C),var(--color-D));
+box-sizing:border-box;
 }
 
-.custom-switch .custom-control-label::after
-{
-    cursor           : pointer;
-    background-color : var(--color-D) !important;
+.trade-card label{
+display:block;
+font-size:0.9em;
+font-weight:600;
+margin-bottom:8px;
+color:var(--color-text);
 }
 
-.btn
-{
-    transition : none !important;
+.trade-input{
+width:100%;
+box-sizing:border-box;
+padding-right:14px;
 }
 
-.btn:focus
-{
-    box-shadow : none;
+.trade-input-wrap{
+position:relative;
 }
 
-.btn:disabled
-{
-    opacity        : 0.4;
-    pointer-events : none;
+.trade-clear{
+position:absolute;
+right:4px;
+top:50%;
+transform:translateY(-50%);
+border:none;
+background:none;
+font-size:18px;
+cursor:pointer;
+color:#E44026;
+opacity:0.6;
+width:28px;
+height:28px;
+display:none;
+align-items:center;
+justify-content:center;
 }
 
-.btn.btn-form
-{
-    color            : var(--color-form-btn-text-A) !important;
-    background-color : var(--color-form-btn-back-A) !important;
+.trade-clear:hover{
+opacity:1;
 }
 
-.btn.btn-form:hover
-{
-    color            : var(--color-form-btn-text-B) !important;
-    background-color : var(--color-form-btn-back-B) !important;
-  /*outline          : 2px solid var(--color-form-btn-text-B) !important;*/
-    transform        : scale( 0.98 );
+.trade-result{
+margin-top:10px;
+font-weight:bold;
+line-height:1.5;
 }
 
-.btn.btn-field
-{
-    color            : var(--color-form-field-text) !important;
-    background-color : var(--color-form-field-back) !important;
-    border           : 1px solid var(--color-form-field-bord) !important;
+.trade-desc{
+font-size:0.85em;
+opacity:0.7;
+margin-bottom:6px;
 }
 
-.btn.btn-field:focus,
-.btn.btn-field:hover,
-.btn.btn-field:active
-{
-    border-color : transparent !important;
-    box-shadow   : 0 0 8px var(--color-form-field-box) !important;
-    z-index      : 20 !important;
+.trade-highlight{
+color:#E44026;
 }
 
-.navbar
-{
-    padding : 15px;
-}
+/* remove browser number arrows */
 
-.navbar .navbar-brand
-{
-    margin-right  : 0;
-    padding       : 0;
-    padding-right : 15px;
-    line-height   : 60px;
-    font-family   : 'Kaushan Script', sans-serif;
-    font-size     : 24pt; /*2.5rem*/
-    font-weight   : bold;
-    color         : var(--color-brand-text);
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button{
+-webkit-appearance:none;
+margin:0;
 }
 
-.navbar .navbar-brand:link,
-.navbar .navbar-brand:visited,
-.navbar .navbar-brand:hover,
-.navbar .navbar-brand:active
-{
-    color : var(--color-brand-text); /* inherit */
+input[type=number]{
+-moz-appearance:textfield;
+appearance:textfield;
 }
+</style>
 
-.navbar .navbar-brand img
-{
-  /*float        : left;*/
-    margin-right : 0;
-}
+<div class="linebreak"></div>
 
-.navbar .navbar-text
-{
-    color : var(--color-brand-text);
-}
+Artrade helps you connect with trusted item traders and merchants from our community.
 
-.navbar .navbar-toggler
-{
-    width   : auto;
-    padding : 10px 0 10px 0;
-    border  : none;
-}
+<div class="content-contents text-left" data-open="true" data-icon="&#xf068;,&#xf067;">Contents <embed/></div>
 
-.navbar .navbar-toggler > *
-{
-    float     : right;
-    font-size : 28px;
-    color     : var(--color-brand-text);
-}
+<div class="linebreak"></div>
 
-.navbar .nav-item
-{
-    font-weight : bold;
-}
+## 1. Artrade Invite
 
-.navbar .nav-link
-{
-    color : var(--color-brand-text) !important;
-}
+**Artrade (Plato Group):**  
+Currently Unavailable
 
-/*
-.navbar .dropdown:hover > .dropdown-menu
-{
-    display : block;
-}
-*/
-
-.navbar .dropdown-menu
-{
-    padding-top    : 0;
-    padding-bottom : 0;
-}
+**Artrade (Discord Server):**
+<span class="content-link" data-url="https://discord.com/invite/ardc" data-text="" data-copy="true"></span>
 
-.navbar .dropdown-item
-{
-    padding        : 0;
-    padding-top    : 5px;
-    padding-bottom : 5px;
-    padding-left   : 15px;
-    color          : var(--color-text) !important;
-}
+<div class="linebreak"></div>
 
-.navbar .dropdown-item.active,
-.navbar .dropdown-item:active,
-.navbar .dropdown-item:focus,
-.navbar .dropdown-item:hover
-{
-    background-color : var(--color-C) !important;
-}
+## 2. Item Trading
 
-/*
-.navbar .dropdown-item.highlight::before
-{
-    content : "> ";
-}
+**Merchants -** Group admins or traders endorsed by Artrade.
 
-.navbar .dropdown-item.highlight::after
-{
-    content : " <";
-}
-*/
-
-.navbar .dropdown-divider
-{
-    margin : 0;
-}
+**Requesters -** Group members or traders not endorsed by Artrade.
 
-.nav
-{
-    
-}
+To take part in item trading, request for your desired item/s in the group, and wait for a merchant to accept your trade.
 
-.nav .nav-link:not(.active)
-{
-    color            : var(--color-nav-text-A) !important;
-    background-color : var(--color-nav-back-A) !important;
-}
+<div class="linebreak"></div>
+<div class="trade-card">
+Alternatively, you can join the <a href="https://discord.com/invite/ardc">Artrade (Discord Server)</a> to use our <strong>Items Request Panel</strong> in the <strong>#artrade-panel</strong> channel for safer and more efficient trading.
+</div>
 
-.nav .nav-link.active
-{
-    color            : var(--color-nav-text-B) !important;
-    background-color : var(--color-nav-back-B) !important;
-}
+<div class="linebreak"></div>
 
-.nav.nav-heading
-{
-    margin    : auto;
-    max-width : 600px;
-}
+#### Trade Price
 
-.nav.nav-heading .nav-link
-{
-    padding-top    : 4px;
-    padding-bottom : 0px;
-    height         : 29px;
-    font-size      : var(--unit-text-C);
-    font-weight    : bold;
-  /*border-bottom  : 2px solid var(--color-C);*/
-    border-radius  : 0 !important;
-}
+The trade price is the final amount required for a trade. Some important points about how trade pricing works are listed below.
 
-.nav.nav-content
-{
-    
-}
+- The trade price is determined by the total value of items you're trading for. It's not counted separately for each item.
+- Use the [**Artrade Calculator**](#artrade-calculator) below to determine the trade price.
 
-/*
-.nav.nav-content .nav-item:not(:last-child)
-{
-    padding-right : 15px !important;
-}
-*/
-
-.nav.nav-content .nav-link
-{
-    padding-top    : 4px;
-    padding-bottom : 0px;
-    height         : 29px;
-    font-size      : var(--unit-text-C);
-    font-weight    : bold;
-  /*border-bottom  : 2px solid var(--color-C);*/
-    border-radius  : 0 !important;
-}
+<div class="linebreak"></div>
 
-.table
-{
-    
-}
+#### Artrade's Trading Rules
 
-.table th
-{
-    color            : var(--color-table-text) !important;
-    background-color : var(--color-table-back) !important;
-}
+During a trade, merchants and requesters must follow the trading rules listed below.
 
-.table.table-bordered
-{
-    border-width : 2px !important;
-}
+- Both parties are only allowed to exchange items, and must not involve any other types of exchanges.
+- Requesters need to send the full amount in items (trade price) before merchants can proceed with their part.
+- Not following Artrade's trading rules can get you removed from the group.
 
-.table.table-bordered,
-.table.table-bordered th,
-.table.table-bordered td
-{
-    border-color : var(--color-C) !important;
-}
+<div class="linebreak"></div>
 
-.table.table-bordered th
-{
-    border-top-width    : 0px;
-  /*border-bottom-width : 0px;*/
-    border-left-width   : 0px;
-    border-right-width  : 0px;
-}
+## 3. Artrade Calculator {#artrade-calculator}
 
-/*
-.table.table-bordered th:not(:last-child)
-{
-    border-right-width : 1px;
-}
-*/
-
-.pagination
-{
-    margin : 0 !important;
-}
+<div class="linebreak"></div>
 
-.pagination > li > a
-{
-  /*padding-left     : 8px !important;*/
-  /*padding-right    : 8px !important;*/
-    color            : var(--color-pagi-text-A) !important;
-    background-color : var(--color-pagi-back-A) !important;
-    border           : 1px solid var(--color-form-field-bord) !important;
-}
+<div class="trade-calculators">
 
-.pagination > li.active > a
-{
-    color            : var(--color-pagi-text-B) !important;
-    background-color : var(--color-pagi-back-B) !important;
-    border           : 1px solid var(--color-form-field-bord) !important;
-}
+<div class="trade-card">
 
-.pagination > li > a:focus,
-.pagination > li > span:focus,
-.pagination > li > a:hover,
-.pagination > li > span:hover
-{
-    box-shadow       : none !important;
-    background-color : var(--color-D);
-}
+<h4>Trade Calculator (Coins)</h4>
+<p class="trade-desc">Formula: +25% value, then rounded up to the nearest 50 coins.</p>
 
-.modal-open,
-.modal
-{
-    padding-left  : 0 !important;
-    padding-right : 0 !important;
-}
+<label>Item/s Price (Coins)</label>
 
-.modal .modal-content
-{
-    background-color : var(--color-D);
-    border           : 1px solid var(--color-modal-bord);
-}
+<div class="trade-input-wrap">
+<input id="coinInput" class="form-control trade-input" type="number" placeholder="Enter item/s price in Coins">
+<button class="trade-clear" onclick="clearCoin()">×</button>
+</div>
 
-.modal .modal-header,
-.modal .modal-footer
-{
-    padding : 0;
-    border  : none;
-}
+<div id="coinResult" class="trade-result"></div>
 
-.modal .modal-title
-{
-    padding : 4px 0 0 0 !important;
-}
+</div>
 
-.modal .modal-button-left,
-.modal .modal-button-right
-{
-    width            : 60px;
-    height           : 55px;
-    font-size        : 21pt;
-    font-weight      : 700;
-    line-height      : 0;
-  /*text-shadow      : 0 1px 0 #FFFFFF;*/
-    background-color : transparent;
-    border           : 0;
-}
+<div class="trade-card">
 
-.modal .modal-button-left
-{
-    float   : left;
-    margin  : -20px 0 0 -20px;
-    padding : 18px 0 0 20px;
-    color   : var(--color-modal-btn-left);
-    filter  : brightness( var(--filter-bright) );
-}
+<h4>Trade Calculator (Pips)</h4>
+<p class="trade-desc">Formula: 1 Pip = 250 Coins.</p>
 
-.modal .modal-button-right
-{
-    float   : right;
-    margin  : -20px -20px 0 0;
-    padding : 12px 14px 0 0;
-    color   : var(--color-modal-btn-right);
-  /*filter  : brightness( var(--filter-bright) );*/
-}
+<label>Item/s Price (Pips)</label>
 
-.modal .modal-body .table
-{
-    font-size : var(--unit-text-B);
-}
+<div class="trade-input-wrap">
+<input id="pipInput" class="form-control trade-input" type="number" placeholder="Enter item/s price in Pips">
+<button class="trade-clear" onclick="clearPip()">×</button>
+</div>
 
-.modal .modal-body .figure
-{
-    margin-bottom : 10px;
-}
+<div id="pipResult" class="trade-result"></div>
 
-.modal .modal-body .figure-caption
-{
-    font-size   : var(--unit-text-B);
-    font-weight : bold;
-    font-style  : none;
-    color       : var(--color-text) !important;
-}
+</div>
 
-/*
-.modal .modal-body .row
-{
-    border-bottom : 2px solid var(--color-C);
-}
-*/
-
-/*
-.modal .modal-body .row:first-child
-{
-    border-top : 2px solid var(--color-C);
-}
-*/
-
-.bootbox-modal-backdrop
-{
-    z-index : 1060 !important;
-}
+</div>
 
-.bootbox.modal
-{
-    overflow : hidden;
-    z-index  : 1070 !important;
-}
+The page below contains the entire list of Plato Items with their base prices (including images & audios).
 
-.bootbox.modal .modal-content
-{
-    margin-left  : 15px !important;
-    margin-right : 15px !important;
-}
+<span class="content-link" data-url="https://platopedia.com/items" data-text="" data-copy="true"></span>
 
-.bootbox.modal .modal-header
-{
-    display : none;
-}
+<div class="linebreak"></div>
 
-.fa-thumbtack
-{
-    position : relative;
-    top      : 3px;
-}
+## 4. Scam Insurance
 
-[data-toggle="collapse"] .fa:before
-{
-    content : attr(data-icon-o);
-}
+Artrade provides insurance for any scam related incidents during a trade. You must share screenshots or screen recordings of the incident with one of our group owners. Once the evidence is verified, our insurance account will send you the full amount in items. The conditions are listed below.
 
-[data-toggle="collapse"].collapsed .fa:before
-{
-    content : attr(data-icon-c);
-}
+- You must be a member of the group to claim the insurance.
+- The insurance only applies when trading with one of our merchants.
+- The insurance does not cover trade value exceeding 10,000 coins.
 
-.linebreak
-{
-    margin  : 0 !important;
-    padding : 0 !important;
-    height  : 15px;
-}
+<div class="linebreak"></div>
 
-.icon
-{
-    font-family : 'Font Awesome\ 5 Free';
-    font-weight : 900;
-}
+<script>
 
-.badge
-{
-    transition : none !important;
-}
+function clearCoin(){
+const input=document.getElementById("coinInput");
+const result=document.getElementById("coinResult");
 
-.badge-cat
-{
-  /*margin-right     : 4px;*/
-    color            : var(--color-badge-cat-text);
-    background-color : var(--color-badge-cat-back);
+input.value="";
+result.innerHTML="";
+input.parentElement.querySelector('.trade-clear').style.display='none';
+input.focus();
 }
 
-.badge-cat-top
-{
-  /*margin-right     : 4px;*/
-    color            : var(--color-badge-cat-top-text);
-    background-color : var(--color-badge-cat-top-back);
-}
+function clearPip(){
+const input=document.getElementById("pipInput");
+const result=document.getElementById("pipResult");
 
-.badge-cat-new
-{
-  /*margin-right     : 4px;*/
-    color            : var(--color-badge-cat-new-text);
-    background-color : var(--color-badge-cat-new-back);
+input.value="";
+result.innerHTML="";
+input.parentElement.querySelector('.trade-clear').style.display='none';
+input.focus();
 }
 
-.badge-cat-plan
-{
-  /*margin-right     : 4px;*/
-    color            : var(--color-badge-cat-plan-text);
-    background-color : var(--color-badge-cat-plan-back);
+function calculateTradeCoins(coins){
+const increased=coins*1.25;
+return Math.ceil(increased/50)*50;
 }
 
-.badge-cat-rele
-{
-  /*margin-right     : 4px;*/
-    color            : var(--color-badge-cat-rele-text);
-    background-color : var(--color-badge-cat-rele-back);
-}
+/* coin calculator */
 
-.badge-type
-{
-  /*margin-right     : 4px;*/
-    color            : var(--color-badge-type-text);
-    background-color : var(--color-badge-type-back);
-}
+document.getElementById("coinInput").addEventListener("input",function(){
 
-.menu-theme .form-check,
-.check-theme .form-check,
-.radio-theme .form-check
-{
-    margin : 0 0 0 15px !important;
-}
+const coins=parseInt(this.value,10);
+const clearBtn=this.parentElement.querySelector('.trade-clear');
+clearBtn.style.display=this.value ? 'flex' : 'none';
 
-.check-theme label,
-.radio-theme label
-{
-    margin  : 0 !important;
-    padding : 0 !important;
-    cursor  : pointer;
-}
+const result=document.getElementById("coinResult");
 
-.check-theme .custom-switch
-{
-    margin-left  : 15px;
-    margin-right : 7px;
+if(!coins){
+result.innerHTML="";
+return;
 }
 
-.radio-theme label ~ label
-{
-    margin-left : 15px !important;
-}
+const tradePrice=calculateTradeCoins(coins);
 
-.radio-theme input[type="radio"]
-{
-    display : none;
-}
+result.innerHTML=`
+Item/s Value: <b>${coins.toLocaleString()} Coins</b><br>
+Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coins</b></span>
+`;
 
-/*
-.radio-theme input[type="radio"]:checked + label
-{
-    padding       : 0 4px 0 4px !important;
-    color         : var(--color-form-field-text);
-    border-radius : 4px;
-    box-shadow    : 0 0 10px var(--color-form-field-box) !important;
-}
-*/
-
-.radio-theme input[type="radio"]:checked + label
-{
-    font-weight               : bold;
-    text-decoration           : overline;
-    text-decoration-thickness : 2px;
-}
+});
 
-.radiocheck-rating
-{
-    display         : flex;
-    flex-direction  : row-reverse;
-    align-items     : flex-start;
-    justify-content : flex-end;
-}
+/* pip calculator */
 
-.radiocheck-rating > input
-{
-    display : none;
-}
+document.getElementById("pipInput").addEventListener("input",function(){
 
-.radiocheck-rating > label
-{
-    position    : relative;
-    width       : 30px;
-    cursor      : pointer;
-    font-size   : 30px;
-    line-height : 30px;
-    color       : #FFD600;
-    filter      : brightness( var(--filter-bright) );
-}
+const pips=parseFloat(this.value);
+const clearBtn=this.parentElement.querySelector('.trade-clear');
+clearBtn.style.display=this.value ? 'flex' : 'none';
 
-.radiocheck-rating > label::after
-{
-    content  : "\2606";
-    position : relative;
-    opacity  : 1;
-}
+const result=document.getElementById("pipResult");
 
-.radiocheck-rating > label::before
-{
-    content  : "\2605";
-    position : absolute;
-    opacity  : 0;
+if(!pips){
+result.innerHTML="";
+return;
 }
 
-.radiocheck-rating > input:checked ~ label:before
-{
-    opacity : 1;
-}
+const tradePrice=Math.round(pips*250);
 
-/* ////////////////////////////////////////////////// */
+result.innerHTML=`
+Item/s Value: <b>${pips} Pips</b><br>
+Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coins</b></span>
+`;
 
+});
 
+</script>
