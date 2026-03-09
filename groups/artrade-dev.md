@@ -121,8 +121,7 @@ Currently Unavailable
 
 To take part in item trading, request for your desired item/s in the group, and wait for a merchant to accept your trade.
 
-<div class="linebreak"></div>
-<div class="trade-card">
+<div class="trade-card" style="margin-top:10px">
 Alternatively, you can join the <a href="https://discord.com/invite/ardc">Artrade (Discord Server)</a> to use our <strong>Items Request Panel</strong> in the <strong>#artrade-panel</strong> channel for safer and more efficient trading.
 </div>
 
@@ -148,8 +147,6 @@ During a trade, merchants and requesters must follow the trading rules listed be
 <div class="linebreak"></div>
 
 ## 3. Artrade Calculator {#artrade-calculator}
-
-<div class="linebreak"></div>
 
 <div class="trade-calculators">
 
