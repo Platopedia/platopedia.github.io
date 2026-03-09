@@ -148,6 +148,8 @@ During a trade, merchants and requesters must follow the trading rules listed be
 
 ## 3. Artrade Calculator {#artrade-calculator}
 
+Use the calculator to check the total trade price of one or more items.
+
 <div class="trade-calculators">
 
 <div class="trade-card">
