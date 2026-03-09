@@ -27,15 +27,45 @@ max-width:100%;
 box-sizing:border-box;
 }
 
-.trade-input{
+ .trade-input{
 width:100%;
 max-width:100%;
 box-sizing:border-box;
+padding-right:28px;
+}
+
+.trade-input-wrap{
+position:relative;
+width:100%;
+}
+
+.trade-clear{
+position:absolute;
+right:10px;
+top:50%;
+transform:translateY(-50%);
+border:none;
+background:none;
+font-size:14px;
+cursor:pointer;
+opacity:0.6;
+padding:2px 6px;
+}
+
+.trade-clear:hover{
+opacity:1;
 }
 
 .trade-result{
 margin-top:10px;
 font-weight:bold;
+}
+.trade-desc{
+font-size:0.85em;
+opacity:0.7;
+margin-top:-4px;
+margin-bottom:8px;
+line-height:1.4;
 }
 </style>
 
@@ -78,9 +108,12 @@ Merchants receive an incentive bonus from the requester's end. Some important po
 <div class="trade-card">
 
 <h4>Coin Trade Calculator</h4>
-<p style="font-size:var(--unit-text-A);opacity:0.8">Formula: +25% value, then rounded up to the nearest 50 coins.</p>
+<p class="trade-desc">Formula: +25% value, then rounded up to the nearest 50 coins.</p>
 <label>Item Price (Coins)</label>
+<div class="trade-input-wrap">
 <input id="coinInput" class="form-control trade-input" type="number" placeholder="Enter item price in coins">
+<button class="trade-clear" onclick="clearCoin()">×</button>
+</div>
 
 <div id="coinResult" class="trade-result"></div>
 
@@ -90,9 +123,12 @@ Merchants receive an incentive bonus from the requester's end. Some important po
 <div class="trade-card">
 
 <h4>Pip Trade Calculator</h4>
-<p style="font-size:var(--unit-text-A);opacity:0.8">Formula: 1 Pip = 250 Coins.</p>
+<p class="trade-desc">Formula: 1 Pip = 250 Coins.</p>
 <label>Item Price (Pips)</label>
+<div class="trade-input-wrap">
 <input id="pipInput" class="form-control trade-input" type="number" placeholder="Enter item price in pips">
+<button class="trade-clear" onclick="clearPip()">×</button>
+</div>
 
 <div id="pipResult" class="trade-result"></div>
 
@@ -101,6 +137,22 @@ Merchants receive an incentive bonus from the requester's end. Some important po
 </div>
 
 <script>
+
+function clearCoin(){
+const input=document.getElementById("coinInput");
+const result=document.getElementById("coinResult");
+input.value="";
+result.innerHTML="";
+input.focus();
+}
+
+function clearPip(){
+const input=document.getElementById("pipInput");
+const result=document.getElementById("pipResult");
+input.value="";
+result.innerHTML="";
+input.focus();
+}
 
 function calculateTradeCoins(coins){
 const increased = coins * 1.25;
