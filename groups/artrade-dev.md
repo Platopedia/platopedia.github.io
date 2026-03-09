@@ -127,11 +127,25 @@ Merchants receive an incentive bonus from the requester's end. Some important po
 
 - Incentive bonus is determined by the total value of the items you're trading for. It's not counted separately for each item.
 - If a merchant requests for items, they should also pay the incentive. For merchant-merchant trade, the requester sends first. For merchant-member trade, the member sends first, even if the merchant is the requester. The member will receive incentive.
-- Use the **Artrade Calculator** below to determine the trade price.
+- Use the [**Artrade Calculator**](#artrade-calculator) below to determine the trade price.
 
 <div class="linebreak"></div>
 
-#### Artrade Calculator
+#### Artrade's Trading Rules
+
+During a trade, merchants and requesters must follow the trading rules listed below.
+
+- We highly recommend that requesters only trade with our merchants, and not the members.
+- Requesters need to send the full amount (including bonus) before merchants can proceed with their part.
+- Both parties are only allowed to exchange items, and must not involve any other types of exchanges.
+- Both parties are advised to take screenshots or screen recordings during a trade.
+- If there's an issue, you must report to the group owners.
+- Members can only request items for their main account. Requesting items for other accounts, even your own, is prohibited.
+- Not following Artrade's trading rules can get you permanently removed from the group.
+
+<div class="linebreak"></div>
+
+## Artrade Calculator {#artrade-calculator}
 
 <div class="trade-calculators">
 
@@ -168,20 +182,6 @@ Merchants receive an incentive bonus from the requester's end. Some important po
 </div>
 
 </div>
-
-<div class="linebreak"></div>
-
-#### Artrade's Trading Rules
-
-During a trade, merchants and requesters must follow the trading rules listed below.
-
-- We highly recommend that requesters only trade with our merchants, and not the members.
-- Requesters need to send the full amount (including bonus) before merchants can proceed with their part.
-- Both parties are only allowed to exchange items, and must not involve any other types of exchanges.
-- Both parties are advised to take screenshots or screen recordings during a trade.
-- If there's an issue, you must report to the group owners.
-- Members can only request items for their main account. Requesting items for other accounts, even your own, is prohibited.
-- Not following Artrade's trading rules can get you permanently removed from the group.
 
 <div class="linebreak"></div>
 
