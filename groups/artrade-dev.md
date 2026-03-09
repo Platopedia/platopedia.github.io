@@ -37,13 +37,6 @@ color:var(--color-text);
 width:100%;
 box-sizing:border-box;
 padding-right:14px;
-transition:border-color .15s ease, box-shadow .15s ease;
-}
-
-.trade-input:focus{
-border-color:#E44026;
-box-shadow:0 0 0 2px rgba(228,64,38,0.15);
-outline:none;
 }
 
 .trade-input-wrap{
@@ -146,7 +139,7 @@ Merchants receive an incentive bonus from the requester's end. Some important po
 <label>Item Price (Coins)</label>
 
 <div class="trade-input-wrap">
-<input id="coinInput" class="form-control trade-input" type="number" placeholder="Enter item price in coins">
+<input id="coinInput" class="form-control trade-input" type="number" placeholder="Enter item price in Coins">
 <button class="trade-clear" onclick="clearCoin()">×</button>
 </div>
 
@@ -162,7 +155,7 @@ Merchants receive an incentive bonus from the requester's end. Some important po
 <label>Item Price (Pips)</label>
 
 <div class="trade-input-wrap">
-<input id="pipInput" class="form-control trade-input" type="number" placeholder="Enter item price in pips">
+<input id="pipInput" class="form-control trade-input" type="number" placeholder="Enter item price in Pips">
 <button class="trade-clear" onclick="clearPip()">×</button>
 </div>
 
@@ -171,83 +164,6 @@ Merchants receive an incentive bonus from the requester's end. Some important po
 </div>
 
 </div>
-
-<script>
-
-function clearCoin(){
-const input=document.getElementById("coinInput");
-const result=document.getElementById("coinResult");
-
-input.value="";
-result.innerHTML="";
-input.parentElement.querySelector('.trade-clear').style.display='none';
-input.focus();
-}
-
-function clearPip(){
-const input=document.getElementById("pipInput");
-const result=document.getElementById("pipResult");
-
-input.value="";
-result.innerHTML="";
-input.parentElement.querySelector('.trade-clear').style.display='none';
-input.focus();
-}
-
-function calculateTradeCoins(coins){
-const increased=coins*1.25;
-return Math.ceil(increased/50)*50;
-}
-
-/* coin calculator */
-
-document.getElementById("coinInput").addEventListener("input",function(){
-
-const coins=parseInt(this.value,10);
-const clearBtn=this.parentElement.querySelector('.trade-clear');
-clearBtn.style.display=this.value ? 'flex' : 'none';
-
-const result=document.getElementById("coinResult");
-
-if(!coins){
-result.innerHTML="";
-return;
-}
-
-const tradePrice=calculateTradeCoins(coins);
-
-result.innerHTML=`
-Item Value: <b>${coins.toLocaleString()} Coins</b><br>
-Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coins</b></span>
-`;
-
-});
-
-/* pip calculator */
-
-document.getElementById("pipInput").addEventListener("input",function(){
-
-const pips=parseFloat(this.value);
-const clearBtn=this.parentElement.querySelector('.trade-clear');
-clearBtn.style.display=this.value ? 'flex' : 'none';
-
-const result=document.getElementById("pipResult");
-
-if(!pips){
-result.innerHTML="";
-return;
-}
-
-const tradePrice=Math.round(pips*250);
-
-result.innerHTML=`
-Pip Value: <b>${pips} Pips</b><br>
-Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coins</b></span>
-`;
-
-});
-
-</script>
 
 <div class="linebreak"></div>
 
@@ -327,3 +243,80 @@ All of our merchants and their stats are listed below. If you wish to become a m
 </table>
 
 <div class="linebreak"></div>
+
+<script>
+
+function clearCoin(){
+const input=document.getElementById("coinInput");
+const result=document.getElementById("coinResult");
+
+input.value="";
+result.innerHTML="";
+input.parentElement.querySelector('.trade-clear').style.display='none';
+input.focus();
+}
+
+function clearPip(){
+const input=document.getElementById("pipInput");
+const result=document.getElementById("pipResult");
+
+input.value="";
+result.innerHTML="";
+input.parentElement.querySelector('.trade-clear').style.display='none';
+input.focus();
+}
+
+function calculateTradeCoins(coins){
+const increased=coins*1.25;
+return Math.ceil(increased/50)*50;
+}
+
+/* coin calculator */
+
+document.getElementById("coinInput").addEventListener("input",function(){
+
+const coins=parseInt(this.value,10);
+const clearBtn=this.parentElement.querySelector('.trade-clear');
+clearBtn.style.display=this.value ? 'flex' : 'none';
+
+const result=document.getElementById("coinResult");
+
+if(!coins){
+result.innerHTML="";
+return;
+}
+
+const tradePrice=calculateTradeCoins(coins);
+
+result.innerHTML=`
+Item Value: <b>${coins.toLocaleString()} Coins</b><br>
+Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coins</b></span>
+`;
+
+});
+
+/* pip calculator */
+
+document.getElementById("pipInput").addEventListener("input",function(){
+
+const pips=parseFloat(this.value);
+const clearBtn=this.parentElement.querySelector('.trade-clear');
+clearBtn.style.display=this.value ? 'flex' : 'none';
+
+const result=document.getElementById("pipResult");
+
+if(!pips){
+result.innerHTML="";
+return;
+}
+
+const tradePrice=Math.round(pips*250);
+
+result.innerHTML=`
+Pip Value: <b>${pips} Pips</b><br>
+Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coins</b></span>
+`;
+
+});
+
+</script>
