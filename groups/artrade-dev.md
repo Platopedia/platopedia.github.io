@@ -200,7 +200,7 @@ Artrade provides insurance for any scam related incidents during a trade. You mu
 - The insurance only applies when trading with one of our merchants.
 - The insurance does not cover trade value exceeding 10,000 coins.
 
-We wish you all safe and happy trading!
+**We wish you all safe and happy trading!**
 
 <div class="linebreak"></div>
 
@@ -280,3 +280,4 @@ Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coi
 });
 
 </script>
+
