@@ -162,7 +162,7 @@ Use the calculator to check the total trade price of one or more items.
 <label>Item/s Price (Coins)</label>
 
 <div class="trade-input-wrap">
-<input id="coinInput" class="form-control trade-input" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="Enter item/s price in Coins">
+<input id="coinInput" class="form-control trade-input" type="tel" inputmode="numeric" autocomplete="off" placeholder="Enter item/s price in Coins">
 <button class="trade-clear" onclick="clearCoin()">×</button>
 </div>
 
@@ -178,7 +178,7 @@ Use the calculator to check the total trade price of one or more items.
 <label>Item/s Price (Pips)</label>
 
 <div class="trade-input-wrap">
-<input id="pipInput" class="form-control trade-input" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="Enter item/s price in Pips">
+<input id="pipInput" class="form-control trade-input" type="tel" inputmode="numeric" autocomplete="off" placeholder="Enter item/s price in Pips">
 <button class="trade-clear" onclick="clearPip()">×</button>
 </div>
 
