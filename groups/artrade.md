@@ -5,7 +5,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 ---
 
 <style>
-h2 { color:#AF923C !important }
+h2 { color:#A7882C !important }
 h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 
 /* calculator layout */
@@ -54,7 +54,7 @@ border:none;
 background:none;
 font-size:18px;
 cursor:pointer;
-color:#AF923C;
+color:#A7882C;
 opacity:0.6;
 width:28px;
 height:28px;
@@ -80,7 +80,7 @@ margin-bottom:6px;
 }
 
 .trade-highlight{
-color:#AF923C;
+color:#A7882C;
 }
 
 /* remove browser number arrows */
@@ -107,7 +107,7 @@ Artrade helps you connect with trusted item traders and merchants from our commu
 
 ## 1. Artrade Invite
 
-**Artrade (Plato Group):**
+**Artrade (Plato Group):**<br>
 Currently Unavailable
 
 **Artrade (Discord Server):**
