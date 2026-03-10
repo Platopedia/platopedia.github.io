@@ -5,7 +5,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 ---
 
 <style>
-h2 { color:#A7882C !important }
+h2 { color:#AF923C !important }
 h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 
 /* calculator layout */
@@ -54,7 +54,7 @@ border:none;
 background:none;
 font-size:18px;
 cursor:pointer;
-color:#A7882C;
+color:#AF923C;
 opacity:0.6;
 width:28px;
 height:28px;
@@ -80,7 +80,7 @@ margin-bottom:6px;
 }
 
 .trade-highlight{
-color:#A7882C;
+color:#AF923C;
 }
 
 /* remove browser number arrows */
