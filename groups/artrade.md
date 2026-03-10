@@ -6,7 +6,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 
 <style>
 h2 { color:#AE8940 !important }
-h4 { color:#97835B !important;font-size:var(--unit-text-B) !important }
+h4 { color:#DBA12D !important;font-size:var(--unit-text-B) !important }
 
 /* calculator layout */
 
@@ -288,6 +288,7 @@ Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coi
 });
 
 </script>
+
 
 
 
