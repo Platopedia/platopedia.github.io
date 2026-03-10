@@ -6,7 +6,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 
 <style>
 h2 { color:#AE8940 !important }
-h4 { color:#A91205 !important;font-size:var(--unit-text-B) !important }
+h4 { color:#C11A07 !important;font-size:var(--unit-text-B) !important }
 
 /* calculator layout */
 
