@@ -1,7 +1,7 @@
 ---
 layout: tool-content
 title: Artrade - Platopedia
-heading: <img src="/docs/assets/images/groups/artrade/artrade.webp" />&nbsp;Artrade
+heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />&nbsp;Artrade
 ---
 
 <style>
@@ -288,3 +288,4 @@ Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coi
 });
 
 </script>
+
