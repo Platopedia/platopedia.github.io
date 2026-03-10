@@ -1,11 +1,11 @@
 ---
 layout: tool-content
 title: Artrade - Platopedia
-heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />&nbsp;Artrade
+heading: <img src="/docs/assets/images/groups/artrade/artrade.webp" />&nbsp;Artrade
 ---
 
 <style>
-h2 { color:#E44026 !important }
+h2 { color:#CBA135 !important }
 h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 
 /* calculator layout */
@@ -54,7 +54,7 @@ border:none;
 background:none;
 font-size:18px;
 cursor:pointer;
-color:#E44026;
+color:#CBA135;
 opacity:0.6;
 width:28px;
 height:28px;
@@ -80,7 +80,7 @@ margin-bottom:6px;
 }
 
 .trade-highlight{
-color:#E44026;
+color:#CBA135;
 }
 
 /* remove browser number arrows */
@@ -288,4 +288,3 @@ Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coi
 });
 
 </script>
-
