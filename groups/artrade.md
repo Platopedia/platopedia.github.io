@@ -1,7 +1,7 @@
 ---
 layout: tool-content
 title: Artrade - Platopedia
-heading: <img src="/docs/assets/images/groups/artrade/art-logo.png" />&nbsp;Artrade
+heading: <img src="/docs/assets/images/groups/artrade/artrade.webp" />&nbsp;Artrade
 ---
 
 <style>
