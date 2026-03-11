@@ -1,5 +1,7 @@
 /* ////////////////////////////////////////////////// */
 
+$.fn.dataTable.ext.pager.numbers_length = 5;
+
 /*
 $.fn.dataTable.Api.register
 (
@@ -139,7 +141,7 @@ function Util_Datatable ( param )
                 stateSave    : that.param.cache,
                 lengthMenu   : [ 10, 100 ],
                 pageLength   : 100,
-                order        : [ ],              
+                order        : [ ],
                 infoCallback : that.param.callbackinfo,
                 
                 language :
