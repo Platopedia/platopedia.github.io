@@ -5,8 +5,8 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 ---
 
 <style>
-h2 { color:#AE8940 !important }
-h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
+h2 { color:#CD9B1E !important }
+h4 { color:#C11A07 !important;font-size:var(--unit-text-B) !important }
 
 /* calculator layout */
 
@@ -54,7 +54,7 @@ border:none;
 background:none;
 font-size:18px;
 cursor:pointer;
-color:#AE8940;
+color:#CD9B1E;
 opacity:0.6;
 width:28px;
 height:28px;
@@ -80,7 +80,7 @@ margin-bottom:6px;
 }
 
 .trade-highlight{
-color:#AE8940;
+color:#CD9B1E;
 }
 
 /* remove browser number arrows */
@@ -288,11 +288,3 @@ Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coi
 });
 
 </script>
-
-
-
-
-
-
-
-
