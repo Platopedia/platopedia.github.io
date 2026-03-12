@@ -168,7 +168,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     <div class="stat-card social-card" aria-label="Social Links">
         <div class="social-buttons">
             <a class="fab fa-instagram" href="https://instagram.com/arcade.og/"></a>
-            <a class="fab fa-discord" href="https://discord.com/invite/ardc"></a>
+            <a class="fab fa-discord" href="https://discord.com/invite/mq7QMY88KU"></a>
         </div>
     </div>
 
@@ -1693,46 +1693,8 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     const act=a=>{const s=a.getAttribute('data-bs-target')||a.getAttribute('data-target')||a.getAttribute('href');if(!s)return;ls.forEach(x=>{const on=x===a;x.classList.toggle('active',on);x.setAttribute('aria-selected',on?'true':'false')});ps.forEach(p=>{const on='#'+p.id===s;p.classList.toggle('show',on);p.classList.toggle('active',on)})};
     ls.forEach(a=>a.addEventListener('click',e=>{e.preventDefault();act(a)}));act(ls.find(a=>a.classList.contains('active'))||ls[0]);});})();
 
-    /* ========== Pagination: smart edges ========== */
-    (() => {
-      const seen = new WeakSet();
-
-      const update = (p) => {
-        const items = [...p.querySelectorAll('.page-item')].filter(li => /^\d+$/.test(li.textContent.trim()));
-        if (items.length < 2) return;
-
-        const last = +items[items.length - 1].textContent;
-        const current = +(p.querySelector('.page-item.active')?.textContent || items[0].textContent);
-
-        const keep = new Set([1, last, current]);
-
-        if (current <= 3) {
-          keep.add(2);
-          keep.add(3);
-        } else if (current >= last - 2) {
-          keep.add(last - 1);
-          keep.add(last - 2);
-        }
-
-        items.forEach(li => {
-          const n = +li.textContent;
-          li.style.display = keep.has(n) ? '' : 'none';
-        });
-      };
-
-      const bind = (p) => {
-        if (seen.has(p)) return;
-        seen.add(p);
-
-        update(p);
-        p.addEventListener('click', () => setTimeout(() => update(p), 0), { passive: true });
-      };
-
-      const scan = () => document.querySelectorAll('.pagination').forEach(bind);
-
-      new MutationObserver(scan).observe(document.body, { childList: true, subtree: true });
-      scan();
-    })();
+    /* ========== Pagination: edges-only ========== */
+    (()=>{const seen=new WeakSet,show=p=>{const n=[...p.querySelectorAll('.page-item')].filter(li=>/^\d+$/.test(li.textContent.trim()));if(n.length<2)return;const L=+(n[n.length-1].textContent)||1,C=+((p.querySelector('.page-item.active')||n[0]).textContent)||1,K=new Set(C<=3?[1,2,3,L]:C>=L-2?[1,L-2,L-1,L]:[1,C,L]);n.forEach(li=>li.style.display=K.has(+li.textContent)?'':'none')},bind=p=>{if(seen.has(p))return;seen.add(p);show(p);p.addEventListener('click',()=>setTimeout(()=>show(p),0),{passive:true})};const scan=()=>document.querySelectorAll('.pagination').forEach(bind);new MutationObserver(scan).observe(document.body,{childList:true,subtree:true});scan()})();
 
     /* ========== Pad tables to 10 rows ========== */
     (()=>{document.querySelectorAll('table.table-upgraded').forEach(t=>{const b=t.tBodies[0];if(!b)return;const size=10,cols=(t.tHead?.rows[0]?.cells.length)||(b.rows[0]?.cells.length)||1;let ticking=0;
