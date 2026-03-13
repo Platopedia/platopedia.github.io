@@ -25,6 +25,9 @@ width:100%;
 padding:8px;
 margin-top:4px;
 box-sizing:border-box;
+background:var(--color-D);
+color:var(--color-text);
+border:1px solid var(--color-B);
 }
 
 .ticket-panel button{
@@ -54,12 +57,22 @@ placeholder="Paste Platopedia item links here (one per line)"></textarea>
 const params = new URLSearchParams(location.search);
 const ticket = params.get("t");
 
+// Prevent reuse of the same ticket in the browser
+if(ticket && localStorage.getItem("artrade_ticket_" + ticket)){
+ document.querySelector(".ticket-panel").innerHTML =
+ "This ticket has already been used.";
+}
+
 if(!ticket){
  document.querySelector(".ticket-panel").innerHTML =
  "Invalid or missing ticket.";
 }
 
 async function submitTrade(){
+
+ // disable button to prevent double submit
+ const btn = document.querySelector(".ticket-panel button");
+ if(btn) btn.disabled = true;
 
  const platoId = document.getElementById("plato").value;
  const items = document.getElementById("items").value;
@@ -76,8 +89,22 @@ async function submitTrade(){
   })
  });
 
- const data = await res.json();
- alert(data.message);
+ // Discord webhooks don't return a JSON body we can use reliably
+ // so just check the HTTP status
+ if(!res.ok){
+   alert("Failed to submit request. Please try again.");
+   if(btn) btn.disabled = false;
+   return;
+ }
+
+ // mark ticket as used in this browser
+ localStorage.setItem("artrade_ticket_" + ticket, "used");
+
+ alert("Trade request submitted successfully.");
+
+ // replace panel with confirmation message
+ document.querySelector(".ticket-panel").innerHTML =
+ "Your trade request has been submitted.";
 
 }
 
