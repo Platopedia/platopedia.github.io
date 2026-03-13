@@ -64,13 +64,15 @@ async function submitTrade(){
  const platoId = document.getElementById("plato").value;
  const items = document.getElementById("items").value;
 
- const res = await fetch("https://YOUR_BOT_API/artrade-request",{
+ const res = await fetch("https://discord.com/api/webhooks/1482087912295104614/ro6kzQvLhc5vCJq6vMSA66jdiEm8WnNECdZN9jHk1KhQETik74XyvMJusIv3k_A4mzd3",{
   method:"POST",
   headers:{ "Content-Type":"application/json" },
-  body:JSON.stringify({
-   ticket,
-   platoId,
-   items
+  body: JSON.stringify({
+    content:
+      "🌐 **Website Trade Request**\n\n" +
+      "**Ticket:** " + ticket + "\n" +
+      "**Plato ID:** " + platoId + "\n\n" +
+      "**Items:**\n" + items
   })
  });
 
