@@ -80,9 +80,12 @@ if(!ticket){
 
 async function submitTrade(){
 
- // disable button to prevent double submit
+ // disable button and show loading feedback
  const btn = document.querySelector(".ticket-panel button");
- if(btn) btn.disabled = true;
+ if(btn){
+   btn.disabled = true;
+   btn.textContent = "Submitting...";
+ }
 
  const platoId = document.getElementById("plato").value;
  const items = document.getElementById("items").value;
@@ -102,15 +105,18 @@ async function submitTrade(){
  // Discord webhooks don't return a JSON body we can use reliably
  // so just check the HTTP status
  if(!res.ok){
-   alert("Failed to submit request. Please try again.");
-   if(btn) btn.disabled = false;
+   if(btn){
+     btn.disabled = false;
+     btn.textContent = "Submit Request";
+   }
+   document.querySelector(".ticket-panel").innerHTML =
+   "Failed to submit request. Please try again.";
    return;
  }
 
  // mark ticket as used in this browser
  localStorage.setItem("artrade_ticket_" + ticket, "used");
 
- alert("Trade request submitted successfully.");
 
  // replace panel with confirmation message
  document.querySelector(".ticket-panel").innerHTML =
