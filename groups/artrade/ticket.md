@@ -57,6 +57,16 @@ placeholder="Paste Platopedia item links here (one per line)"></textarea>
 const params = new URLSearchParams(location.search);
 const ticket = params.get("t");
 
+// Client-side expiry check (tickets older than 10 minutes)
+if(ticket && ticket.includes("-")){
+ const parts = ticket.split("-");
+ const created = parseInt(parts[1]);
+ if(created && Date.now() - created > 600000){
+   document.querySelector(".ticket-panel").innerHTML =
+   "This ticket has expired.";
+ }
+}
+
 // Prevent reuse of the same ticket in the browser
 if(ticket && localStorage.getItem("artrade_ticket_" + ticket)){
  document.querySelector(".ticket-panel").innerHTML =
