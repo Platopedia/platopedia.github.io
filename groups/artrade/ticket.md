@@ -67,12 +67,6 @@ if(ticket && ticket.includes("-")){
  }
 }
 
-// Prevent reuse of the same ticket in the browser
-if(ticket && localStorage.getItem("artrade_ticket_" + ticket)){
- document.querySelector(".ticket-panel").innerHTML =
- "This ticket has already been used.";
-}
-
 if(!ticket){
  document.querySelector(".ticket-panel").innerHTML =
  "Invalid or missing ticket.";
