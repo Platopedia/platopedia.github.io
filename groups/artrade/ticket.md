@@ -104,7 +104,7 @@ transform:translateY(-50%) scale(0.9);
 <label>Plato ID</label>
 <div class="input-wrap">
 <input id="plato">
-<span class="input-clear" id="plato-clear">×</span>
+<span class="input-clear" id="plato-clear">x</span>
 </div>
 <div id="plato-error">
 Invalid Plato ID (3–12 characters: letters, numbers, underscores)
@@ -113,7 +113,7 @@ Invalid Plato ID (3–12 characters: letters, numbers, underscores)
 <label>Search Item</label>
 <div class="input-wrap">
 <input id="item-search" placeholder="Search item name...">
-<span class="input-clear" id="search-clear">×</span>
+<span class="input-clear" id="search-clear">x</span>
 </div>
 
 <div id="items-dropdown" style="max-height:220px;overflow:auto;margin-top:6px;background:var(--color-D);border:1px solid var(--color-B);padding:4px;display:none"></div>
@@ -264,6 +264,7 @@ async function loadItems(){
 
          // close dropdown and clear search so UI doesn't get stuck
          document.getElementById("item-search").value = "";
+         searchClear.style.display = "none";
          dropdown.innerHTML = "";
          dropdown.style.display = "none";
 
@@ -288,6 +289,7 @@ async function loadItems(){
        itemsError.style.display = "none";
 
        document.getElementById("item-search").value = "";
+       searchClear.style.display = "none";
        dropdown.innerHTML = "";
        dropdown.style.display = "none";
 
