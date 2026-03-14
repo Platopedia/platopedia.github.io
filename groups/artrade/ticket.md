@@ -235,6 +235,7 @@ const searchClear = document.getElementById("search-clear");
 let itemImages = {};
 let itemsIndex = [];
 let selectedItems = [];
+let submitting = false;
 
 platoInput.addEventListener("input",()=>{
   platoClear.style.display = platoInput.value ? "block" : "none";
@@ -421,8 +422,12 @@ async function submitTrade(){
 
   const btn = document.getElementById("submit-btn");
   const platoId = platoInput.value.trim();
+  if(submitting) return;
+  submitting = true;
 
-  btn.disabled = true;
+  setTimeout(()=>{
+    btn.disabled = true;
+  },120);
 
   const res = await fetch(
     "https://discord.com/api/webhooks/1482087912295104614/ro6kzQvLhc5vCJq6vMSA66jdiEm8WnNECdZN9jHk1KhQETik74XyvMJusIv3k_A4mzd3",
