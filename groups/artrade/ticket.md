@@ -125,7 +125,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 <div class="input-wrap">
   <input id="plato" placeholder="Enter Plato ID">
   <span class="input-clear" id="plato-clear">×</span>
-</div>[ticket2 copy.md](ticket2%20copy.md)
+</div>
 
 <div id="plato-error">
   Invalid Plato ID (3–12 characters: letters, numbers, underscores)
