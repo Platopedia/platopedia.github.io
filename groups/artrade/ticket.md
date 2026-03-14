@@ -11,6 +11,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
   border:1px solid var(--color-B);
   background:linear-gradient(var(--color-C),var(--color-D));
   max-width:600px;
+  margin:0 auto;
   box-sizing:border-box;
 }
 
@@ -82,10 +83,10 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
   right:6px;
   top:50%;
   transform:translateY(-50%);
-  font-size:16px;
+  font-size:20px;
   color:#CD9B1E;
   display:none;
-  padding:4px 6px;
+  padding:6px 8px;
   cursor:pointer;
 }
 
