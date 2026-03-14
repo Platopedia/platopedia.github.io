@@ -134,6 +134,10 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 
 <div class="linebreak"></div>
 
+<div id="discord-invite" style="display:none;text-align:center;margin-top:12px;">
+  <span class="content-link" data-url="https://discord.com/invite/ardc" data-text="" data-copy="true"></span>
+</div>
+
 <script>
 
 const params = new URLSearchParams(location.search);
@@ -368,10 +372,7 @@ async function submitTrade(){
   panel.innerHTML =
     "Your trade request has been submitted. Join the group linked below to stay informed; we'll notify you there once a merchant accepts your trade.";
 
-  panel.insertAdjacentHTML(
-    "afterend",
-    '<div style="margin-top:12px;text-align:center;"><span class="content-link" data-url="https://discord.com/invite/ardc" data-text="" data-copy="true"></span></div>'
-  );
+  document.getElementById("discord-invite").style.display = "block";
 
 }
 
