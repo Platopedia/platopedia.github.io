@@ -38,12 +38,15 @@ border:1px solid #CD9B1E;
 #items:focus{
 outline:none;
 border:1px solid #CD9B1E !important;
-box-shadow:0 0 8px rgba(205,155,30,0.7);
+box-shadow:none;
 }
 
 .ticket-panel #plato-error,
 .ticket-panel #items-error{
 margin-top:4px;
+margin-bottom:0;
+line-height:1.2;
+display:block;
 }
 
 .ticket-panel button{
@@ -191,6 +194,11 @@ async function loadItems(){
           if(selectedItems.length >= 5){
             itemsError.textContent = "Maximum 5 items allowed";
             itemsError.style.display = "block";
+
+            // close dropdown and clear search so UI doesn't get stuck
+            document.getElementById("item-search").value = "";
+            dropdown.innerHTML = "";
+
             return;
           }
 
@@ -261,7 +269,10 @@ async function submitTrade(){
   .join("\n");
 
  if(selectedItems.length === 0){
+   // restore default message if user tries submitting with no items
+   itemsError.textContent = "Please add at least one item (Max 5 items)";
    itemsError.style.display = "block";
+
    if(btn){
      btn.disabled = false;
      btn.textContent = "Submit Request";
