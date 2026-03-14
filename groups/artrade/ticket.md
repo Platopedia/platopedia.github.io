@@ -134,7 +134,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 
 <div class="linebreak"></div>
 
-<div id="discord-invite" style="display:none;text-align:center;margin-top:12px;">
+<div id="discord-invite" class="ticket-panel" style="display:none;text-align:center;margin-top:12px;">
   <span class="content-link" data-url="https://discord.com/invite/ardc" data-text="" data-copy="true"></span>
 </div>
 
