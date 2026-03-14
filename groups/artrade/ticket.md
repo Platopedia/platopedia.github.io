@@ -222,6 +222,24 @@ const dropdown = document.getElementById("items-dropdown");
 
 const itemsBox = document.getElementById("items");
 
+// Prevent mobile browsers from auto-scrolling the page to the top when inputs focus
+let lastScrollY = 0;
+
+function lockScrollOnFocus(el){
+  el.addEventListener("pointerdown", ()=>{
+    lastScrollY = window.scrollY;
+  });
+
+  el.addEventListener("focus", ()=>{
+    requestAnimationFrame(()=>{
+      window.scrollTo(0, lastScrollY);
+    });
+  });
+}
+
+lockScrollOnFocus(platoInput);
+lockScrollOnFocus(searchInput);
+
 // Haptic feedback when tapping the Selected Items box (supported mobile browsers)
 itemsBox.addEventListener("click", ()=>{
   if(navigator.vibrate){
