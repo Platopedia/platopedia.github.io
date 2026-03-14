@@ -373,6 +373,10 @@ async function submitTrade(){
     '<span class="content-link" data-url="https://discord.com/invite/ardc" data-text="" data-copy="true"></span>'
   );
 
+  if (window.initContentLinks) {
+    window.initContentLinks();
+  }
+
 }
 
 </script>
