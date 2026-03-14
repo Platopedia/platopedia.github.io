@@ -101,7 +101,7 @@ cursor:pointer;
 }
 
 .dropdown-item:hover{
-background:#CD9B1E;
+color:#CD9B1E;
 }
 
 </style>
