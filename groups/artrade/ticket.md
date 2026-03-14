@@ -44,9 +44,10 @@ cursor:pointer;
 <label>Plato ID</label>
 <input id="plato">
 
-<label>Select Item</label>
-<input id="item-search" list="items-list" placeholder="Search items">
-<datalist id="items-list"></datalist>
+<label>Search Item</label>
+<input id="item-search" placeholder="Search item name...">
+
+<div id="items-dropdown" style="max-height:220px;overflow:auto;border:1px solid var(--color-B);margin-top:6px"></div>
 
 <button type="button" onclick="addItem()">Add Item</button>
 
@@ -78,47 +79,85 @@ if(!ticket){
  "Invalid or missing ticket.";
 }
 
-let itemsData = {};
+let itemImages = {};
+let selectedItem = null;
 
 async function loadItems(){
 
   const res = await fetch("/items.html");
   const html = await res.text();
 
-  const match = html.match(/var items = (\{[\s\S]*?\});/);
+  const doc = new DOMParser().parseFromString(html,"text/html");
 
-  if(!match){
-    console.error("Items dataset not found");
-    return;
+  const rows = doc.querySelectorAll("#tool_items_table_default tbody tr");
+
+  const imgMatch = html.match(/var items = (\{[\s\S]*?\});/);
+
+  if(imgMatch){
+    itemImages = JSON.parse(imgMatch[1]);
   }
 
-  itemsData = JSON.parse(match[1]);
+  const dropdown = document.getElementById("items-dropdown");
 
-  const list = document.getElementById("items-list");
+  rows.forEach(row => {
 
-  for(const id in itemsData){
-    const opt = document.createElement("option");
-    opt.value = id;
-    list.appendChild(opt);
-  }
+    const id = row.children[0].textContent.trim();
+    const name = row.children[2].textContent.trim();
+
+    let img = "";
+
+    if(itemImages[id]?.med?.images?.[0]?.uri){
+      img = "/docs/assets/images/" + itemImages[id].med.images[0].uri;
+    }
+
+    const item = document.createElement("div");
+
+    item.style.display = "flex";
+    item.style.alignItems = "center";
+    item.style.gap = "8px";
+    item.style.padding = "4px";
+    item.style.cursor = "pointer";
+
+    item.innerHTML = `
+      <img src="${img}" width="26" height="26">
+      <span>${id} — ${name}</span>
+    `;
+
+    item.onclick = () => {
+      selectedItem = id;
+      document.getElementById("item-search").value = `${id} — ${name}`;
+    };
+
+    dropdown.appendChild(item);
+
+  });
+
+  document.getElementById("item-search").addEventListener("input", e => {
+
+    const q = e.target.value.toLowerCase();
+
+    dropdown.childNodes.forEach(n => {
+      n.style.display =
+        n.textContent.toLowerCase().includes(q) ? "flex" : "none";
+    });
+
+  });
 
 }
 
 function addItem(){
 
-  const id = document.getElementById("item-search").value.trim();
-  if(!id) return;
+  if(!selectedItem) return;
 
   const textarea = document.getElementById("items");
 
-  const link = "https://platopedia.com/items?id=" + id;
+  const link = "https://platopedia.com/items?id=" + selectedItem;
 
   if(!textarea.value.includes(link)){
     textarea.value += (textarea.value ? "\n" : "") + link;
   }
 
-  document.getElementById("item-search").value = "";
-
+  selectedItem = null;
 }
 
 loadItems();
