@@ -370,12 +370,8 @@ async function submitTrade(){
 
   panel.insertAdjacentHTML(
     "afterend",
-    '<span class="content-link" data-url="https://discord.com/invite/ardc" data-text="" data-copy="true"></span>'
+    '<div style="margin-top:12px;text-align:center;"><span class="content-link" data-url="https://discord.com/invite/ardc" data-text="" data-copy="true"></span></div>'
   );
-
-  if (window.initContentLinks) {
-    window.initContentLinks();
-  }
 
 }
 
