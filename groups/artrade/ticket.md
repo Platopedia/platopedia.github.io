@@ -45,7 +45,9 @@ box-shadow:none;
 .ticket-panel #items-error{
 margin-top:4px;
 font-size:13px;
-line-height:1.2;
+min-height:2.4em;
+color:#e74c3c;
+display:none;
 }
 
 .ticket-panel button{
@@ -61,7 +63,7 @@ cursor:pointer;
 
 <label>Plato ID</label>
 <input id="plato">
-<div id="plato-error" style="color:#e74c3c;font-size:13px;display:none;">
+<div id="plato-error">
 Invalid Plato ID (3–12 characters: letters, numbers, underscores)
 </div>
 
@@ -74,7 +76,7 @@ Invalid Plato ID (3–12 characters: letters, numbers, underscores)
 <label>Selected Items</label>
 <textarea id="items" rows="6" readonly
 placeholder="Selected items will appear here (Max 5 items)"></textarea>
-<div id="items-error" style="color:#e74c3c;font-size:13px;display:none;">
+<div id="items-error">
 Please add at least one item (Max 5 items)
 </div>
 
@@ -258,27 +260,21 @@ async function submitTrade(){
 
  const platoId = document.getElementById("plato").value.trim();
 
+ let hasError = false;
+
  if(!platoRegex.test(platoId)){
    platoError.style.display = "block";
-   return;
+   hasError = true;
  }
 
- const items = selectedItems
-  .map(i => "https://platopedia.com/items?id=" + i.id)
-  .join("\n");
-
  if(selectedItems.length === 0){
-   // restore default message if user tries submitting with no items
    itemsError.textContent = "Please add at least one item (Max 5 items)";
    itemsError.style.display = "block";
+   hasError = true;
+ }
 
-   if(btn){
-     btn.disabled = false;
-     btn.textContent = "Submit Request";
-   }
+ if(hasError){
    return;
- }else{
-   itemsError.style.display = "none";
  }
 
  // disable button only AFTER validation passes
@@ -295,7 +291,9 @@ async function submitTrade(){
       "🌐 **Website Trade Request**\n\n" +
       "**Ticket:** " + ticket + "\n" +
       "**Plato ID:** " + platoId + "\n\n" +
-      "**Items:**\n" + items
+      "**Items:**\n" + selectedItems
+      .map(i => "https://platopedia.com/items?id=" + i.id)
+      .join("\n")
   })
  });
 
