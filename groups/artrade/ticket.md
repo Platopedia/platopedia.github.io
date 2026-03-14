@@ -32,6 +32,10 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
   border:1px solid var(--color-B);
 }
 
+.ticket-panel input:focus{
+  outline:none;
+}
+
 #items{
   border:1px solid #CD9B1E;
   outline:none;
@@ -144,17 +148,30 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 
 const params = new URLSearchParams(location.search);
 const ticket = params.get("t");
+const submitted = params.get("submitted");
 
-if(ticket && ticket.includes("-")){
-  const created = parseInt(ticket.split("-")[1]);
+if(ticket && submitted === "1"){
+  localStorage.setItem("artrade_submitted_"+ticket,"1");
+}
 
-  if(created && Date.now() - created > 600000){
-    document.querySelector(".ticket-panel").innerHTML = "This ticket has expired.";
-  }
+if(ticket && !submitted && localStorage.getItem("artrade_submitted_"+ticket) === "1"){
+  const url = new URL(window.location.href);
+  url.searchParams.set("submitted","1");
+  window.location.replace(url.toString());
 }
 
 if(!ticket){
   document.querySelector(".ticket-panel").innerHTML = "Invalid or missing ticket.";
+}
+
+if(submitted === "1"){
+  const panel = document.querySelector(".ticket-panel");
+  panel.innerHTML =
+    "Your trade request has been submitted. Join the group linked below to stay informed; we'll notify you there once a merchant accepts your trade.";
+  document.addEventListener("DOMContentLoaded", ()=>{
+    const invite = document.getElementById("discord-invite");
+    if(invite) invite.style.display = "block";
+  });
 }
 
 const platoRegex = /^[A-Za-z0-9_]{3,12}$/;
@@ -252,8 +269,8 @@ async function loadItems(){
       item.style.cursor = "pointer";
 
       item.innerHTML = `
-        <img src="${i.img}" width="26" height="26">
-        <span class="item-name">${i.id} — ${i.name}</span>
+        <img src="${i.img}" style="height:26px;max-width:40px;object-fit:contain;">
+        <span class="item-name">${i.name}</span>
       `;
 
       item.onclick = ()=>{
@@ -367,14 +384,9 @@ async function submitTrade(){
     return;
   }
 
-  localStorage.setItem("artrade_ticket_"+ticket,"used");
-
-  const panel = document.querySelector(".ticket-panel");
-
-  panel.innerHTML =
-    "Your trade request has been submitted. Join the group linked below to stay informed; we'll notify you there once a merchant accepts your trade.";
-
-  document.getElementById("discord-invite").style.display = "block";
+  const url = new URL(window.location.href);
+  url.searchParams.set("submitted","1");
+  window.location.href = url.toString();
 
 }
 
