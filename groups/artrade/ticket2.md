@@ -1,0 +1,359 @@
+---
+layout: tool-content
+title: Artrade Ticket - Platopedia
+heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />&nbsp;Artrade
+---
+
+<style>
+
+.ticket-panel{
+padding:20px;
+border:1px solid var(--color-B);
+background:linear-gradient(var(--color-C),var(--color-D));
+max-width:600px;
+box-sizing:border-box;
+}
+
+.ticket-panel label{
+display:block;
+margin-top:12px;
+font-weight:600;
+}
+
+.ticket-panel input,
+.ticket-panel textarea{
+width:100%;
+padding:8px;
+margin-top:4px;
+box-sizing:border-box;
+background:var(--color-D);
+color:var(--color-text);
+border:1px solid var(--color-B);
+}
+
+#items{
+border:1px solid #CD9B1E;
+}
+
+.ticket-panel #plato-error,
+.ticket-panel #items-error{
+margin-top:4px;
+font-size:13px;
+color:#e74c3c;
+display:none;
+}
+
+.ticket-panel button{
+margin-top:16px;
+padding:10px 16px;
+background:#CD9B1E;
+border:none;
+cursor:pointer;
+transition:transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.ticket-panel button:hover{
+box-shadow:0 2px 6px rgba(0,0,0,0.25);
+}
+
+.ticket-panel button:active{
+transform:scale(0.95);
+box-shadow:0 1px 2px rgba(0,0,0,0.25);
+}
+
+.input-wrap{
+position:relative;
+}
+
+.input-wrap input{
+padding-right:26px;
+}
+
+.input-clear{
+position:absolute;
+right:8px;
+top:50%;
+transform:translateY(-50%);
+cursor:pointer;
+font-size:14px;
+color:#CD9B1E;
+display:none;
+user-select:none;
+}
+
+</style>
+
+<div class="ticket-panel">
+
+<label>Plato ID</label>
+<div class="input-wrap">
+<input id="plato">
+<span class="input-clear" id="plato-clear">×</span>
+</div>
+<div id="plato-error">
+Invalid Plato ID (3–12 characters: letters, numbers, underscores)
+</div>
+
+<label>Search Item</label>
+<div class="input-wrap">
+<input id="item-search" placeholder="Search item name...">
+<span class="input-clear" id="search-clear">×</span>
+</div>
+
+<div id="items-dropdown" style="max-height:220px;overflow:auto;margin-top:6px;background:var(--color-D);border:1px solid var(--color-B);padding:4px"></div>
+
+<label>Selected Items</label>
+<textarea id="items" rows="6" readonly
+placeholder="Selected items will appear here (Max 5 items)"></textarea>
+
+<div id="items-error">
+Please add at least one item (Max 5 items)
+</div>
+
+<button onclick="submitTrade()">Submit Request</button>
+<button type="button" onclick="clearItems()" style="margin-left:8px;background:#555;">Clear All</button>
+
+</div>
+
+<script>
+
+const params = new URLSearchParams(location.search);
+const ticket = params.get("t");
+
+// Expiry check (10 minutes)
+if(ticket && ticket.includes("-")){
+ const parts = ticket.split("-");
+ const created = parseInt(parts[1]);
+ if(created && Date.now() - created > 600000){
+   document.querySelector(".ticket-panel").innerHTML =
+   "This ticket has expired.";
+ }
+}
+
+if(!ticket){
+ document.querySelector(".ticket-panel").innerHTML =
+ "Invalid or missing ticket.";
+}
+
+const platoRegex = /^[A-Za-z0-9_]{3,12}$/;
+
+const platoInput = document.getElementById("plato");
+const platoError = document.getElementById("plato-error");
+const itemsError = document.getElementById("items-error");
+const platoClear = document.getElementById("plato-clear");
+const searchClear = document.getElementById("search-clear");
+const searchInput = document.getElementById("item-search");
+
+platoInput.addEventListener("input",()=>{
+  platoClear.style.display = platoInput.value ? "block" : "none";
+});
+
+searchInput.addEventListener("input",()=>{
+  searchClear.style.display = searchInput.value ? "block" : "none";
+});
+
+platoClear.onclick = ()=>{
+  platoInput.value = "";
+  platoClear.style.display = "none";
+  platoError.style.display = "none";
+};
+
+searchClear.onclick = ()=>{
+  searchInput.value = "";
+  searchClear.style.display = "none";
+  document.getElementById("items-dropdown").innerHTML = "";
+};
+
+let itemImages = {};
+let itemsIndex = [];
+let selectedItems = [];
+
+platoInput.addEventListener("input", () => {
+ const val = platoInput.value.trim();
+ platoError.style.display =
+   (val === "" || platoRegex.test(val)) ? "none" : "block";
+});
+
+async function loadItems(){
+
+ const res = await fetch("/items.html");
+ const html = await res.text();
+
+ const doc = new DOMParser().parseFromString(html,"text/html");
+
+ const rows = doc.querySelectorAll("#tool_items_table_default tbody tr");
+
+ const imgMatch = html.match(/var items = (\{[\s\S]*?\});/);
+
+ if(imgMatch){
+   itemImages = JSON.parse(imgMatch[1]);
+ }
+
+ rows.forEach(row => {
+
+   const id = row.children[0].textContent.trim();
+   const name = row.children[2].textContent.trim();
+
+   const imgUri = itemImages[id]?.med?.images?.find(i => i.uri)?.uri;
+
+   itemsIndex.push({
+     id,
+     name,
+     img: imgUri ? "https://profile.platocdn.com/" + imgUri : ""
+   });
+
+ });
+
+ const dropdown = document.getElementById("items-dropdown");
+
+ document.getElementById("item-search").addEventListener("input", e => {
+
+   const q = e.target.value.toLowerCase().trim();
+
+   dropdown.innerHTML = "";
+
+   if(q.length < 2) return;
+
+   const matches = itemsIndex
+     .filter(i =>
+       i.name.toLowerCase().includes(q) ||
+       i.id.includes(q)
+     )
+     .slice(0,50);
+
+   matches.forEach(i => {
+
+     const item = document.createElement("div");
+
+     item.style.display = "flex";
+     item.style.alignItems = "center";
+     item.style.gap = "8px";
+     item.style.padding = "4px";
+     item.style.cursor = "pointer";
+
+     item.innerHTML = `
+       <img src="${i.img}" width="26" height="26">
+       <span>${i.id} — ${i.name}</span>
+     `;
+
+     item.onclick = () => {
+
+       if(selectedItems.length >= 5){
+         itemsError.textContent = "Maximum 5 items allowed";
+         itemsError.style.display = "block";
+
+         // close dropdown and clear search so UI doesn't get stuck
+         document.getElementById("item-search").value = "";
+         dropdown.innerHTML = "";
+
+         return;
+       }
+
+       if(selectedItems.find(x => x.id === i.id)){
+         return;
+       }
+
+       selectedItems.push({
+         id:i.id,
+         name:i.name
+       });
+
+       const textarea = document.getElementById("items");
+
+       textarea.value = selectedItems
+         .map((x,i)=>`${i+1}. ${x.name}`)
+         .join("\n");
+
+       itemsError.style.display = "none";
+
+       document.getElementById("item-search").value = "";
+       dropdown.innerHTML = "";
+
+     };
+
+     dropdown.appendChild(item);
+
+   });
+
+ });
+
+}
+
+loadItems();
+
+function clearItems(){
+
+ const textarea = document.getElementById("items");
+
+ textarea.value = "";
+ selectedItems = [];
+
+ document.getElementById("plato").value = "";
+
+ platoError.style.display = "none";
+
+ itemsError.style.display = "none";
+ itemsError.textContent = "Please add at least one item (Max 5 items)";
+
+}
+
+async function submitTrade(){
+
+ const btn = document.querySelector(".ticket-panel button");
+
+ const platoId = document.getElementById("plato").value.trim();
+
+ let hasError = false;
+
+ if(!platoRegex.test(platoId)){
+   platoError.style.display = "block";
+   hasError = true;
+ }
+
+ if(selectedItems.length === 0){
+   itemsError.textContent =
+   "Please add at least one item (Max 5 items)";
+   itemsError.style.display = "block";
+   hasError = true;
+ }
+
+ if(hasError) return;
+
+ btn.disabled = true;
+ btn.textContent = "Submitting...";
+
+ const res = await fetch(
+ "https://discord.com/api/webhooks/1482087912295104614/ro6kzQvLhc5vCJq6vMSA66jdiEm8WnNECdZN9jHk1KhQETik74XyvMJusIv3k_A4mzd3",
+ {
+  method:"POST",
+  headers:{ "Content-Type":"application/json" },
+  body:JSON.stringify({
+   content:
+   "🌐 **Website Trade Request**\n\n" +
+   "**Ticket:** " + ticket + "\n" +
+   "**Plato ID:** " + platoId + "\n\n" +
+   "**Items:**\n" +
+   selectedItems
+   .map(i=>"https://platopedia.com/items?id="+i.id)
+   .join("\n")
+  })
+ });
+
+ if(!res.ok){
+
+   btn.disabled=false;
+   btn.textContent="Submit Request";
+
+   document.querySelector(".ticket-panel").innerHTML =
+   "Failed to submit request. Please try again.";
+
+   return;
+ }
+ localStorage.setItem("artrade_ticket_"+ticket,"used");
+
+ document.querySelector(".ticket-panel").innerHTML =
+ "Your trade request has been submitted.";
+
+}
+
+</script>
