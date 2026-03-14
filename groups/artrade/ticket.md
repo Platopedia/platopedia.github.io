@@ -49,36 +49,6 @@ padding:10px 16px;
 background:#CD9B1E;
 border:none;
 cursor:pointer;
-transition:transform 0.12s ease, box-shadow 0.12s ease;
-}
-
-.ticket-panel button:hover{
-box-shadow:0 2px 6px rgba(0,0,0,0.25);
-}
-
-.ticket-panel button:active{
-transform:scale(0.95);
-box-shadow:0 1px 2px rgba(0,0,0,0.25);
-}
-
-.input-wrap{
-position:relative;
-}
-
-.input-wrap input{
-padding-right:26px;
-}
-
-.input-clear{
-position:absolute;
-right:8px;
-top:50%;
-transform:translateY(-50%);
-cursor:pointer;
-font-size:14px;
-color:#CD9B1E;
-display:none;
-user-select:none;
 }
 
 </style>
@@ -86,21 +56,15 @@ user-select:none;
 <div class="ticket-panel">
 
 <label>Plato ID</label>
-<div class="input-wrap">
 <input id="plato">
-<span class="input-clear" id="plato-clear">×</span>
-</div>
 <div id="plato-error">
 Invalid Plato ID (3–12 characters: letters, numbers, underscores)
 </div>
 
 <label>Search Item</label>
-<div class="input-wrap">
 <input id="item-search" placeholder="Search item name...">
-<span class="input-clear" id="search-clear">×</span>
-</div>
 
-<div id="items-dropdown" style="max-height:220px;overflow:auto;margin-top:6px;background:var(--color-D);border:1px solid var(--color-B);padding:4px"></div>
+<div id="items-dropdown" style="max-height:220px;overflow:auto;margin-top:6px"></div>
 
 <label>Selected Items</label>
 <textarea id="items" rows="6" readonly
@@ -140,29 +104,6 @@ const platoRegex = /^[A-Za-z0-9_]{3,12}$/;
 const platoInput = document.getElementById("plato");
 const platoError = document.getElementById("plato-error");
 const itemsError = document.getElementById("items-error");
-const platoClear = document.getElementById("plato-clear");
-const searchClear = document.getElementById("search-clear");
-const searchInput = document.getElementById("item-search");
-
-platoInput.addEventListener("input",()=>{
-  platoClear.style.display = platoInput.value ? "block" : "none";
-});
-
-searchInput.addEventListener("input",()=>{
-  searchClear.style.display = searchInput.value ? "block" : "none";
-});
-
-platoClear.onclick = ()=>{
-  platoInput.value = "";
-  platoClear.style.display = "none";
-  platoError.style.display = "none";
-};
-
-searchClear.onclick = ()=>{
-  searchInput.value = "";
-  searchClear.style.display = "none";
-  document.getElementById("items-dropdown").innerHTML = "";
-};
 
 let itemImages = {};
 let itemsIndex = [];
@@ -241,11 +182,6 @@ async function loadItems(){
        if(selectedItems.length >= 5){
          itemsError.textContent = "Maximum 5 items allowed";
          itemsError.style.display = "block";
-
-         // close dropdown and clear search so UI doesn't get stuck
-         document.getElementById("item-search").value = "";
-         dropdown.innerHTML = "";
-
          return;
        }
 
@@ -349,6 +285,7 @@ async function submitTrade(){
 
    return;
  }
+
  localStorage.setItem("artrade_ticket_"+ticket,"used");
 
  document.querySelector(".ticket-panel").innerHTML =
