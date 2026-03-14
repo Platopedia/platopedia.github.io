@@ -44,9 +44,8 @@ box-shadow:none;
 .ticket-panel #plato-error,
 .ticket-panel #items-error{
 margin-top:4px;
-margin-bottom:0;
+font-size:13px;
 line-height:1.2;
-display:block;
 }
 
 .ticket-panel button{
