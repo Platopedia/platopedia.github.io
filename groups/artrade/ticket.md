@@ -60,6 +60,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
   margin-top:16px;
   padding:10px 16px;
   background:#CD9B1E;
+  color:#1A1A1A;
   border:none;
   border-radius:6px;
   cursor:pointer;
@@ -78,7 +79,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 
 .ticket-panel button:disabled{
   opacity:1;
-  color:inherit;
+  color:#1A1A1A;
   cursor:not-allowed;
 }
 
@@ -209,7 +210,7 @@ const itemsBox = document.getElementById("items");
 // Haptic feedback when tapping the Selected Items box (supported mobile browsers)
 itemsBox.addEventListener("click", ()=>{
   if(navigator.vibrate){
-    navigator.vibrate(10);
+    navigator.vibrate(25);
   }
 
   // small shake so users know it is not editable
@@ -222,7 +223,7 @@ itemsBox.addEventListener("click", ()=>{
 document.querySelectorAll(".ticket-panel button").forEach(btn=>{
   btn.addEventListener("click", ()=>{
     if(navigator.vibrate){
-      navigator.vibrate(10);
+      navigator.vibrate(25);
     }
   });
 });
