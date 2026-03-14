@@ -195,11 +195,17 @@ if(!ticket){
 if(submitted === "1"){
   const panel = document.querySelector(".ticket-panel");
   panel.innerHTML =
-    "Your trade request has been submitted. Join the group linked below to stay informed; we'll notify you there once a merchant accepts your trade.";
+    '<div style="text-align:center;">Your trade request has been submitted. Join the group linked below to stay informed; we\\'ll notify you there once a merchant accepts your trade.</div>';
   document.addEventListener("DOMContentLoaded", ()=>{
     const invite = document.getElementById("discord-invite");
     if(invite) invite.style.display = "block";
   });
+}
+
+// Hide the ticket note on the success page
+if(submitted === "1"){
+  const note = document.getElementById("ticket-note");
+  if(note) note.style.display = "none";
 }
 
 const platoRegex = /^[A-Za-z0-9_]{3,12}$/;
