@@ -79,25 +79,18 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 
 .input-clear{
   position:absolute;
-  right:8px;
+  right:6px;
   top:50%;
   transform:translateY(-50%);
-  cursor:pointer;
-  font-size:14px;
+  font-size:16px;
   color:#CD9B1E;
   display:none;
-  user-select:none;
-  opacity:.8;
-  line-height:1;
-  transition:opacity .15s ease, transform .1s ease;
+  padding:4px 6px;
+  cursor:pointer;
 }
 
 .input-clear:hover{
-  opacity:1;
-}
-
-.input-clear:active{
-  transform:translateY(-50%) scale(.9);
+  color:#b8860b;
 }
 
 .item-name:hover{
