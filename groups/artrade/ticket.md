@@ -43,11 +43,14 @@ cursor:pointer;
 
 <label>Plato ID</label>
 <input id="plato">
+<div id="plato-error" style="color:#e74c3c;font-size:13px;margin-top:4px;display:none;">
+Invalid Plato ID (3–12 characters: letters, numbers, underscores)
+</div>
 
 <label>Search Item</label>
 <input id="item-search" placeholder="Search item name...">
 
-<div id="items-dropdown" style="max-height:220px;overflow:auto;border:1px solid var(--color-B);margin-top:6px"></div>
+<div id="items-dropdown" style="max-height:220px;overflow:auto;margin-top:6px"></div>
 
 
 <label>Selected Items</label>
@@ -55,6 +58,7 @@ cursor:pointer;
 placeholder="Selected item links will appear here (one per line)"></textarea>
 
 <button onclick="submitTrade()">Submit Request</button>
+<button type="button" onclick="clearItems()" style="margin-left:8px;background:#555;">Clear All</button>
 
 </div>
 
@@ -81,6 +85,19 @@ if(!ticket){
 let itemImages = {};
 let selectedItem = null;
 let itemsIndex = [];
+
+const platoInput = document.getElementById("plato");
+const platoError = document.getElementById("plato-error");
+const platoRegex = /^[A-Za-z0-9_]{3,12}$/;
+
+platoInput.addEventListener("input", () => {
+  const val = platoInput.value.trim();
+  if(val === "" || platoRegex.test(val)){
+    platoError.style.display = "none";
+  }else{
+    platoError.style.display = "block";
+  }
+});
 
 async function loadItems(){
 
@@ -170,6 +187,13 @@ async function loadItems(){
 
 loadItems();
 
+function clearItems(){
+  const textarea = document.getElementById("items");
+  if(textarea){
+    textarea.value = "";
+  }
+}
+
 async function submitTrade(){
 
  // disable button and show loading feedback
@@ -179,7 +203,13 @@ async function submitTrade(){
    btn.textContent = "Submitting...";
  }
 
- const platoId = document.getElementById("plato").value;
+ const platoId = document.getElementById("plato").value.trim();
+
+ if(!platoRegex.test(platoId)){
+   platoError.style.display = "block";
+   return;
+ }
+
  const items = document.getElementById("items").value;
 
  const res = await fetch("https://discord.com/api/webhooks/1482087912295104614/ro6kzQvLhc5vCJq6vMSA66jdiEm8WnNECdZN9jHk1KhQETik74XyvMJusIv3k_A4mzd3",{
