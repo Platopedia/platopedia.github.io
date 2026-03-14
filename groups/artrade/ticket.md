@@ -219,24 +219,18 @@ const searchInput = document.getElementById("item-search");
 const dropdown = document.getElementById("items-dropdown");
 
 const itemsBox = document.getElementById("items");
-// Smoothly scroll to top when focusing inputs without the browser's auto-scroll jump
-function scrollFocusTop(el){
-  window.scrollTo({ top: 0, behavior: "smooth" });
-  // delay focus slightly so the browser doesn't fight the scroll
-  setTimeout(()=>{
-    el.focus({ preventScroll: true });
-  },50);
+// Smoothly scroll to top
+function scrollFocusTop(){
+  window.scrollTo(0,0);
 }
 
 // Intercept pointer press so we control the focus behavior
-platoInput.addEventListener("pointerdown", (e)=>{
-  e.preventDefault();
-  scrollFocusTop(platoInput);
+platoInput.addEventListener("pointerdown", ()=>{
+  scrollFocusTop();
 });
 
-searchInput.addEventListener("pointerdown", (e)=>{
-  e.preventDefault();
-  scrollFocusTop(searchInput);
+searchInput.addEventListener("pointerdown", ()=>{
+  scrollFocusTop();
 });
 
 // Haptic feedback when tapping the Selected Items box (supported mobile browsers)
