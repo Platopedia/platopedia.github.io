@@ -13,8 +13,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
   max-width:600px;
   margin:0 auto;
   box-sizing:border-box;
-  transform: translateZ(0);
-  contain: layout paint;
+  overflow-anchor:none;
 }
 
 .ticket-panel label{
@@ -221,24 +220,6 @@ const searchInput = document.getElementById("item-search");
 const dropdown = document.getElementById("items-dropdown");
 
 const itemsBox = document.getElementById("items");
-
-// Prevent mobile browsers from auto-scrolling the page to the top when inputs focus
-let lastScrollY = 0;
-
-function lockScrollOnFocus(el){
-  el.addEventListener("pointerdown", ()=>{
-    lastScrollY = window.scrollY;
-  });
-
-  el.addEventListener("focus", ()=>{
-    requestAnimationFrame(()=>{
-      window.scrollTo(0, lastScrollY);
-    });
-  });
-}
-
-lockScrollOnFocus(platoInput);
-lockScrollOnFocus(searchInput);
 
 // Haptic feedback when tapping the Selected Items box (supported mobile browsers)
 itemsBox.addEventListener("click", ()=>{
@@ -484,7 +465,7 @@ async function submitTrade(){
     document.querySelector(".ticket-panel").innerHTML =
       "Failed to submit request. Please try again.";
 
-    return;[ticket.md](untitled%20folder%2015/ticket.md)
+    return;
   }
 
   const url = new URL(window.location.href);
