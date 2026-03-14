@@ -30,6 +30,15 @@ color:var(--color-text);
 border:1px solid var(--color-B);
 }
 
+#items{
+border:1px solid #CD9B1E;
+}
+
+.ticket-panel input + #plato-error,
+.ticket-panel textarea + #items-error{
+margin-top:4px;
+}
+
 .ticket-panel button{
 margin-top:16px;
 padding:10px 16px;
@@ -43,7 +52,7 @@ cursor:pointer;
 
 <label>Plato ID</label>
 <input id="plato">
-<div id="plato-error" style="color:#e74c3c;font-size:13px;margin-top:4px;display:none;">
+<div id="plato-error" style="color:#e74c3c;font-size:13px;display:none;">
 Invalid Plato ID (3–12 characters: letters, numbers, underscores)
 </div>
 
@@ -55,9 +64,9 @@ Invalid Plato ID (3–12 characters: letters, numbers, underscores)
 
 <label>Selected Items</label>
 <textarea id="items" rows="6" readonly
-placeholder="Selected items will appear here"></textarea>
-<div id="items-error" style="color:#e74c3c;font-size:13px;margin-top:4px;display:none;">
-Please add at least one item
+placeholder="Selected items will appear here (Max 5 items)"></textarea>
+<div id="items-error" style="color:#e74c3c;font-size:13px;display:none;">
+Please add at least one item (Max 5 items)
 </div>
 
 <button onclick="submitTrade()">Submit Request</button>
@@ -171,6 +180,12 @@ async function loadItems(){
         const textarea = document.getElementById("items");
 
         if(!selectedItems.find(x => x.id === i.id)){
+
+          if(selectedItems.length >= 5){
+            itemsError.textContent = "Maximum 5 items allowed";
+            itemsError.style.display = "block";
+            return;
+          }
 
           selectedItems.push({
             id: i.id,
