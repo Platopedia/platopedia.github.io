@@ -49,6 +49,7 @@ padding:10px 16px;
 background:#CD9B1E;
 border:none;
 cursor:pointer;
+color:var(--color-text);
 transition:transform 0.12s ease, box-shadow 0.12s ease;
 }
 
@@ -103,7 +104,7 @@ transform:translateY(-50%) scale(0.9);
 
 <label>Plato ID</label>
 <div class="input-wrap">
-<input id="plato">
+<input id="plato" placeholder="Enter Plato ID">
 <span class="input-clear" id="plato-clear">x</span>
 </div>
 <div id="plato-error">
