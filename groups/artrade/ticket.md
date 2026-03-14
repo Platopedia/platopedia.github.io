@@ -107,7 +107,7 @@ async function loadItems(){
     let img = "";
 
     if(itemImages[id]?.med?.images?.[0]?.uri){
-      img = "/docs/assets/images/" + itemImages[id].med.images[0].uri;
+      img = "https://profile.platocdn.com/" + itemImages[id].med.images[0].uri;
     }
 
     const item = document.createElement("div");
