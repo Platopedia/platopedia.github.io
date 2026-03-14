@@ -24,6 +24,7 @@ font-weight:600;
 width:100%;
 padding:8px;
 margin-top:4px;
+margin-bottom:0;
 box-sizing:border-box;
 background:var(--color-D);
 color:var(--color-text);
@@ -34,8 +35,14 @@ border:1px solid var(--color-B);
 border:1px solid #CD9B1E;
 }
 
-.ticket-panel input + #plato-error,
-.ticket-panel textarea + #items-error{
+#items:focus{
+outline:none;
+border:1px solid #CD9B1E !important;
+box-shadow:0 0 8px rgba(205,155,30,0.7);
+}
+
+.ticket-panel #plato-error,
+.ticket-panel #items-error{
 margin-top:4px;
 }
 
