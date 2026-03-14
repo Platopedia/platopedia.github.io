@@ -64,7 +64,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
   border-radius:6px;
   cursor:pointer;
   transition:transform .12s ease, box-shadow .12s ease;
-  font-weight:600;
+  font-weight:500;
 }
 
 .ticket-panel button:hover{
@@ -74,6 +74,12 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 .ticket-panel button:active{
   transform:scale(.95);
   box-shadow:0 1px 2px rgba(0,0,0,.25);
+}
+
+.ticket-panel button:disabled{
+  opacity:1;
+  color:inherit;
+  cursor:not-allowed;
 }
 
 .input-wrap{
@@ -385,15 +391,8 @@ function clearItems(){
 }
 
 function prepareSubmit(){
+
   const submitBtn = document.getElementById("submit-btn");
-  submitBtn.textContent = "Confirm";
-  submitBtn.style.background = "#28a745";
-  submitBtn.onclick = submitTrade;
-}
-
-async function submitTrade(){
-
-  const btn = document.getElementById("submit-btn");
   const platoId = platoInput.value.trim();
 
   let hasError = false;
@@ -410,6 +409,16 @@ async function submitTrade(){
   }
 
   if(hasError) return;
+
+  submitBtn.textContent = "Confirm";
+  submitBtn.style.background = "#28a745";
+  submitBtn.onclick = submitTrade;
+}
+
+async function submitTrade(){
+
+  const btn = document.getElementById("submit-btn");
+  const platoId = platoInput.value.trim();
 
   btn.disabled = true;
 
@@ -432,11 +441,6 @@ async function submitTrade(){
   if(!res.ok){
 
     btn.disabled = false;
-
-    // revert button back to Submit state
-    btn.textContent = "Submit Request";
-    btn.style.background = "#CD9B1E";
-    btn.onclick = prepareSubmit;
 
     document.querySelector(".ticket-panel").innerHTML =
       "Failed to submit request. Please try again.";
