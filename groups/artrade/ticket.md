@@ -96,7 +96,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 
 .item-name:hover{
   color:#CD9B1E;
-}
+}[artrade (1).md](artrade%20%281%29.md)
 
 </style>
 
@@ -134,6 +134,9 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 
 <div class="linebreak"></div>
 
+<div id="discord-invite" style="display:none;text-align:center;margin-top:12px;">
+  <span class="content-link" data-url="https://discord.com/invite/ardc" data-text="" data-copy="true"></span>
+</div>
 
 <script>
 
@@ -367,10 +370,9 @@ async function submitTrade(){
   const panel = document.querySelector(".ticket-panel");
 
   panel.innerHTML =
-    '<div>Your trade request has been submitted. Join the group linked below to stay informed; we\\'ll notify you there once a merchant accepts your trade.</div>' +
-    '<div style="margin-top:12px;text-align:center;">' +
-    '<span class="content-link" data-url="https://discord.com/invite/ardc" data-text="" data-copy="true"></span>' +
-    '</div>';
+    "Your trade request has been submitted. Join the group linked below to stay informed; we'll notify you there once a merchant accepts your trade.";
+
+  document.getElementById("discord-invite").style.display = "block";
 
 }
 
