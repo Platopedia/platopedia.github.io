@@ -225,13 +225,11 @@ function focusAndScrollTop(el){
   el.focus();
 }
 
-platoInput.addEventListener("mousedown", (e)=>{
-  e.preventDefault();
+platoInput.addEventListener("focus", ()=>{
   focusAndScrollTop(platoInput);
 });
 
-searchInput.addEventListener("mousedown", (e)=>{
-  e.preventDefault();
+searchInput.addEventListener("focus", ()=>{
   focusAndScrollTop(searchInput);
 });
 
