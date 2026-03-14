@@ -49,16 +49,16 @@ padding:10px 16px;
 background:#CD9B1E;
 border:none;
 cursor:pointer;
-transition:transform .12s ease, box-shadow .12s ease;
+transition:transform 0.12s ease, box-shadow 0.12s ease;
 }
 
 .ticket-panel button:hover{
-box-shadow:0 2px 6px rgba(0,0,0,.25);
+box-shadow:0 2px 6px rgba(0,0,0,0.25);
 }
 
 .ticket-panel button:active{
-transform:scale(.95);
-box-shadow:0 1px 2px rgba(0,0,0,.25);
+transform:scale(0.95);
+box-shadow:0 1px 2px rgba(0,0,0,0.25);
 }
 
 .input-wrap{
@@ -66,12 +66,12 @@ position:relative;
 }
 
 .input-wrap input{
-padding-right:28px;
+padding-right:26px;
 }
 
 .input-clear{
 position:absolute;
-right:10px;
+right:6px;
 top:50%;
 transform:translateY(-50%);
 cursor:pointer;
@@ -79,19 +79,22 @@ font-size:16px;
 color:#CD9B1E;
 display:none;
 user-select:none;
+width:20px;
+height:20px;
+line-height:20px;
+text-align:center;
+border-radius:50%;
+opacity:0.8;
+transition:opacity 0.15s ease, transform 0.1s ease, background 0.15s ease;
 }
 
-.dropdown-item{
-display:flex;
-align-items:center;
-gap:8px;
-padding:4px;
-cursor:pointer;
-color:var(--color-text);
+.input-clear:hover{
+opacity:1;
+background:rgba(205,155,30,0.15);
 }
 
-.dropdown-item:hover{
-color:#CD9B1E;
+.input-clear:active{
+transform:translateY(-50%) scale(0.9);
 }
 
 </style>
@@ -100,7 +103,7 @@ color:#CD9B1E;
 
 <label>Plato ID</label>
 <div class="input-wrap">
-<input id="plato" placeholder="Enter your Plato ID">
+<input id="plato">
 <span class="input-clear" id="plato-clear">x</span>
 </div>
 <div id="plato-error">
@@ -116,14 +119,15 @@ Invalid Plato ID (3–12 characters: letters, numbers, underscores)
 <div id="items-dropdown" style="max-height:220px;overflow:auto;margin-top:6px;background:var(--color-D);border:1px solid var(--color-B);padding:4px;display:none"></div>
 
 <label>Selected Items</label>
-<textarea id="items" rows="6" readonly placeholder="Selected items will appear here (Max 5 items)"></textarea>
+<textarea id="items" rows="6" readonly
+placeholder="Selected items will appear here (Max 5 items)"></textarea>
 
 <div id="items-error">
 Please add at least one item (Max 5 items)
 </div>
 
-<button id="submit-btn" onclick="submitTrade()">Submit Request</button>
-<button type="button" onclick="clearItems()" style="margin-left:8px;background:#555">Clear All</button>
+<button onclick="submitTrade()">Submit Request</button>
+<button type="button" onclick="clearItems()" style="margin-left:8px;background:#555;">Clear All</button>
 
 </div>
 
@@ -132,18 +136,19 @@ Please add at least one item (Max 5 items)
 const params = new URLSearchParams(location.search);
 const ticket = params.get("t");
 
-if(!ticket){
- document.querySelector(".ticket-panel").innerHTML = "Invalid or missing ticket.";
-}
-
-// Ticket expiry check (10 minutes)
+// Expiry check (10 minutes)
 if(ticket && ticket.includes("-")){
  const parts = ticket.split("-");
  const created = parseInt(parts[1]);
-
  if(created && Date.now() - created > 600000){
-  document.querySelector(".ticket-panel").innerHTML = "This ticket has expired.";
+   document.querySelector(".ticket-panel").innerHTML =
+   "This ticket has expired.";
  }
+}
+
+if(!ticket){
+ document.querySelector(".ticket-panel").innerHTML =
+ "Invalid or missing ticket.";
 }
 
 const platoRegex = /^[A-Za-z0-9_]{3,12}$/;
@@ -151,39 +156,40 @@ const platoRegex = /^[A-Za-z0-9_]{3,12}$/;
 const platoInput = document.getElementById("plato");
 const platoError = document.getElementById("plato-error");
 const itemsError = document.getElementById("items-error");
-const searchInput = document.getElementById("item-search");
-const dropdown = document.getElementById("items-dropdown");
-
 const platoClear = document.getElementById("plato-clear");
 const searchClear = document.getElementById("search-clear");
+const searchInput = document.getElementById("item-search");
+
+platoInput.addEventListener("input",()=>{
+  platoClear.style.display = platoInput.value ? "block" : "none";
+});
+
+searchInput.addEventListener("input",()=>{
+  searchClear.style.display = searchInput.value ? "block" : "none";
+});
+
+platoClear.onclick = ()=>{
+  platoInput.value = "";
+  platoClear.style.display = "none";
+  platoError.style.display = "none";
+};
+
+searchClear.onclick = ()=>{
+  searchInput.value = "";
+  searchClear.style.display = "none";
+  document.getElementById("items-dropdown").innerHTML = "";
+  document.getElementById("items-dropdown").style.display = "none";
+};
 
 let itemImages = {};
 let itemsIndex = [];
 let selectedItems = [];
 
-platoInput.addEventListener("input",()=>{
- platoClear.style.display = platoInput.value ? "block" : "none";
-
+platoInput.addEventListener("input", () => {
  const val = platoInput.value.trim();
- platoError.style.display = (val === "" || platoRegex.test(val)) ? "none" : "block";
+ platoError.style.display =
+   (val === "" || platoRegex.test(val)) ? "none" : "block";
 });
-
-searchInput.addEventListener("input",()=>{
- searchClear.style.display = searchInput.value ? "block" : "none";
-});
-
-platoClear.onclick = ()=>{
- platoInput.value = "";
- platoClear.style.display = "none";
- platoError.style.display = "none";
-};
-
-searchClear.onclick = ()=>{
- searchInput.value = "";
- searchClear.style.display = "none";
- dropdown.innerHTML = "";
- dropdown.style.display = "none";
-};
 
 async function loadItems(){
 
@@ -191,88 +197,107 @@ async function loadItems(){
  const html = await res.text();
 
  const doc = new DOMParser().parseFromString(html,"text/html");
+
  const rows = doc.querySelectorAll("#tool_items_table_default tbody tr");
 
  const imgMatch = html.match(/var items = (\{[\s\S]*?\});/);
 
  if(imgMatch){
-  itemImages = JSON.parse(imgMatch[1]);
+   itemImages = JSON.parse(imgMatch[1]);
  }
 
  rows.forEach(row => {
 
-  const id = row.children[0].textContent.trim();
-  const name = row.children[2].textContent.trim();
+   const id = row.children[0].textContent.trim();
+   const name = row.children[2].textContent.trim();
 
-  const imgUri = itemImages[id]?.med?.images?.find(i => i.uri)?.uri;
+   const imgUri = itemImages[id]?.med?.images?.find(i => i.uri)?.uri;
 
-  itemsIndex.push({
-   id,
-   name,
-   img: imgUri ? "https://profile.platocdn.com/" + imgUri : ""
-  });
+   itemsIndex.push({
+     id,
+     name,
+     img: imgUri ? "https://profile.platocdn.com/" + imgUri : ""
+   });
 
  });
 
- searchInput.addEventListener("input", e => {
+ const dropdown = document.getElementById("items-dropdown");
 
-  const q = e.target.value.toLowerCase().trim();
+ document.getElementById("item-search").addEventListener("input", e => {
 
-  dropdown.innerHTML = "";
-  dropdown.style.display = "none";
+   const q = e.target.value.toLowerCase().trim();
 
-  if(q.length < 2) return;
+   dropdown.innerHTML = "";
+   dropdown.style.display = "none";
 
-  const matches = itemsIndex
-   .filter(i => i.name.toLowerCase().includes(q) || i.id.includes(q))
-   .slice(0,50);
+   if(q.length < 2) return;
 
-  if(matches.length) dropdown.style.display = "block";
+   const matches = itemsIndex
+     .filter(i =>
+       i.name.toLowerCase().includes(q) ||
+       i.id.includes(q)
+     )
+     .slice(0,50);
 
-  matches.forEach(i => {
+   if(matches.length) dropdown.style.display = "block";
 
-   const item = document.createElement("div");
-   item.className = "dropdown-item";
+   matches.forEach(i => {
 
-   item.innerHTML = `
-    <img src="${i.img}" width="26" height="26">
-    <span>${i.id} — ${i.name}</span>
-   `;
+     const item = document.createElement("div");
 
-   item.onclick = () => {
+     item.style.display = "flex";
+     item.style.alignItems = "center";
+     item.style.gap = "8px";
+     item.style.padding = "4px";
+     item.style.cursor = "pointer";
 
-    if(selectedItems.length >= 5){
-     itemsError.textContent = "Maximum 5 items allowed";
-     itemsError.style.display = "block";
+     item.innerHTML = `
+       <img src="${i.img}" width="26" height="26">
+       <span>${i.id} — ${i.name}</span>
+     `;
 
-     searchInput.value = "";
-     searchClear.style.display = "none";
-     dropdown.innerHTML = "";
-     dropdown.style.display = "none";
+     item.onclick = () => {
 
-     return;
-    }
+       if(selectedItems.length >= 5){
+         itemsError.textContent = "Maximum 5 items allowed";
+         itemsError.style.display = "block";
 
-    if(selectedItems.find(x => x.id === i.id)) return;
+         // close dropdown and clear search so UI doesn't get stuck
+         document.getElementById("item-search").value = "";
+         searchClear.style.display = "none";
+         dropdown.innerHTML = "";
+         dropdown.style.display = "none";
 
-    selectedItems.push({ id:i.id, name:i.name });
+         return;
+       }
 
-    document.getElementById("items").value = selectedItems
-     .map((x,i)=>`${i+1}. ${x.name}`)
-     .join("\n");
+       if(selectedItems.find(x => x.id === i.id)){
+         return;
+       }
 
-    itemsError.style.display = "none";
+       selectedItems.push({
+         id:i.id,
+         name:i.name
+       });
 
-    searchInput.value = "";
-    searchClear.style.display = "none";
-    dropdown.innerHTML = "";
-    dropdown.style.display = "none";
+       const textarea = document.getElementById("items");
 
-   };
+       textarea.value = selectedItems
+         .map((x,i)=>`${i+1}. ${x.name}`)
+         .join("\n");
 
-   dropdown.appendChild(item);
+       itemsError.style.display = "none";
 
-  });
+       document.getElementById("item-search").value = "";
+       searchClear.style.display = "none";
+       dropdown.innerHTML = "";
+       dropdown.style.display = "none";
+
+     };
+
+     dropdown.appendChild(item);
+
+   });
 
  });
 
@@ -282,17 +307,12 @@ loadItems();
 
 function clearItems(){
 
+ const textarea = document.getElementById("items");
+
+ textarea.value = "";
  selectedItems = [];
 
- document.getElementById("items").value = "";
  document.getElementById("plato").value = "";
- searchInput.value = "";
-
- dropdown.innerHTML = "";
- dropdown.style.display = "none";
-
- platoClear.style.display = "none";
- searchClear.style.display = "none";
 
  platoError.style.display = "none";
 
@@ -303,20 +323,22 @@ function clearItems(){
 
 async function submitTrade(){
 
- const btn = document.getElementById("submit-btn");
- const platoId = platoInput.value.trim();
+ const btn = document.querySelector(".ticket-panel button");
+
+ const platoId = document.getElementById("plato").value.trim();
 
  let hasError = false;
 
  if(!platoRegex.test(platoId)){
-  platoError.style.display = "block";
-  hasError = true;
+   platoError.style.display = "block";
+   hasError = true;
  }
 
  if(selectedItems.length === 0){
-  itemsError.textContent = "Please add at least one item (Max 5 items)";
-  itemsError.style.display = "block";
-  hasError = true;
+   itemsError.textContent =
+   "Please add at least one item (Max 5 items)";
+   itemsError.style.display = "block";
+   hasError = true;
  }
 
  if(hasError) return;
@@ -328,7 +350,7 @@ async function submitTrade(){
  "https://discord.com/api/webhooks/1482087912295104614/ro6kzQvLhc5vCJq6vMSA66jdiEm8WnNECdZN9jHk1KhQETik74XyvMJusIv3k_A4mzd3",
  {
   method:"POST",
-  headers:{"Content-Type":"application/json"},
+  headers:{ "Content-Type":"application/json" },
   body:JSON.stringify({
    content:
    "🌐 **Website Trade Request**\n\n" +
@@ -336,24 +358,22 @@ async function submitTrade(){
    "**Plato ID:** " + platoId + "\n\n" +
    "**Items:**\n" +
    selectedItems
-    .map(i => "https://platopedia.com/items?id=" + i.id)
-    .join("\n")
+   .map(i=>"https://platopedia.com/items?id="+i.id)
+   .join("\n")
   })
- }
- );
+ });
 
  if(!res.ok){
 
-  btn.disabled = false;
-  btn.textContent = "Submit Request";
+   btn.disabled=false;
+   btn.textContent="Submit Request";
 
-  document.querySelector(".ticket-panel").innerHTML =
-  "Failed to submit request. Please try again.";
+   document.querySelector(".ticket-panel").innerHTML =
+   "Failed to submit request. Please try again.";
 
-  return;
+   return;
  }
-
- localStorage.setItem("artrade_ticket_" + ticket, "used");
+ localStorage.setItem("artrade_ticket_"+ticket,"used");
 
  document.querySelector(".ticket-panel").innerHTML =
  "Your trade request has been submitted.";
