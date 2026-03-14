@@ -13,7 +13,6 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
   max-width:600px;
   margin:0 auto;
   box-sizing:border-box;
-  overflow-anchor:none;
 }
 
 .ticket-panel label{
@@ -218,20 +217,6 @@ const platoError = document.getElementById("plato-error");
 const itemsError = document.getElementById("items-error");
 const searchInput = document.getElementById("item-search");
 const dropdown = document.getElementById("items-dropdown");
-
-// Scroll page to top when focusing key inputs
-function focusAndScrollTop(el){
-  window.scrollTo({ top: 0, behavior: "smooth" });
-  el.focus();
-}
-
-platoInput.addEventListener("focus", ()=>{
-  focusAndScrollTop(platoInput);
-});
-
-searchInput.addEventListener("focus", ()=>{
-  focusAndScrollTop(searchInput);
-});
 
 const itemsBox = document.getElementById("items");
 
