@@ -39,6 +39,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 #items{
   border:1px solid #CD9B1E;
   outline:none;
+  resize:none;
 }
 
 #items:hover,
@@ -98,8 +99,22 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
   color:#b8860b;
 }
 
+
 .item-name:hover{
   color:#CD9B1E;
+}
+
+/* Small shake animation for the Selected Items box */
+@keyframes itemsShake{
+  0%{ transform:translateX(0); }
+  25%{ transform:translateX(-3px); }
+  50%{ transform:translateX(3px); }
+  75%{ transform:translateX(-2px); }
+  100%{ transform:translateX(0); }
+}
+
+.items-shake{
+  animation:itemsShake .25s ease;
 }
 
 </style>
@@ -181,6 +196,20 @@ const platoError = document.getElementById("plato-error");
 const itemsError = document.getElementById("items-error");
 const searchInput = document.getElementById("item-search");
 const dropdown = document.getElementById("items-dropdown");
+
+const itemsBox = document.getElementById("items");
+
+// Haptic feedback when tapping the Selected Items box (supported mobile browsers)
+itemsBox.addEventListener("click", ()=>{
+  if(navigator.vibrate){
+    navigator.vibrate(10);
+  }
+
+  // small shake so users know it is not editable
+  itemsBox.classList.remove("items-shake");
+  void itemsBox.offsetWidth;
+  itemsBox.classList.add("items-shake");
+});
 
 const platoClear = document.getElementById("plato-clear");
 const searchClear = document.getElementById("search-clear");
