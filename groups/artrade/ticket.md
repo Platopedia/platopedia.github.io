@@ -121,17 +121,17 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 
 <div class="ticket-panel">
 
-<label for="plato">Plato ID</label>
+<label>Plato ID</label>
 <div class="input-wrap">
   <input id="plato" placeholder="Enter Plato ID">
   <span class="input-clear" id="plato-clear">×</span>
-</div>
+</div>[ticket2 copy.md](ticket2%20copy.md)
 
 <div id="plato-error">
   Invalid Plato ID (3–12 characters: letters, numbers, underscores)
 </div>
 
-<label for="item-search">Search Item</label>
+<label>Search Item</label>
 <div class="input-wrap">
   <input id="item-search" placeholder="Search item name...">
   <span class="input-clear" id="search-clear">×</span>
@@ -375,7 +375,7 @@ function clearItems(){
 function prepareSubmit(){
   const submitBtn = document.getElementById("submit-btn");
   submitBtn.textContent = "Confirm";
-  submitBtn.style.background = "#2ecc71";
+  submitBtn.style.background = "#28a745";
   submitBtn.onclick = submitTrade;
 }
 
