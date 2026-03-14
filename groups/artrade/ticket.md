@@ -44,9 +44,15 @@ cursor:pointer;
 <label>Plato ID</label>
 <input id="plato">
 
-<label>Item Links</label>
+<label>Select Item</label>
+<input id="item-search" list="items-list" placeholder="Search items">
+<datalist id="items-list"></datalist>
+
+<button type="button" onclick="addItem()">Add Item</button>
+
+<label>Selected Items</label>
 <textarea id="items" rows="6"
-placeholder="Paste Platopedia item links here (one per line)"></textarea>
+placeholder="Selected item links will appear here (one per line)"></textarea>
 
 <button onclick="submitTrade()">Submit Request</button>
 
@@ -71,6 +77,51 @@ if(!ticket){
  document.querySelector(".ticket-panel").innerHTML =
  "Invalid or missing ticket.";
 }
+
+let itemsData = {};
+
+async function loadItems(){
+
+  const res = await fetch("/items.html");
+  const html = await res.text();
+
+  const match = html.match(/var items = (\{[\s\S]*?\});/);
+
+  if(!match){
+    console.error("Items dataset not found");
+    return;
+  }
+
+  itemsData = JSON.parse(match[1]);
+
+  const list = document.getElementById("items-list");
+
+  for(const id in itemsData){
+    const opt = document.createElement("option");
+    opt.value = id;
+    list.appendChild(opt);
+  }
+
+}
+
+function addItem(){
+
+  const id = document.getElementById("item-search").value.trim();
+  if(!id) return;
+
+  const textarea = document.getElementById("items");
+
+  const link = "https://platopedia.com/items?id=" + id;
+
+  if(!textarea.value.includes(link)){
+    textarea.value += (textarea.value ? "\n" : "") + link;
+  }
+
+  document.getElementById("item-search").value = "";
+
+}
+
+loadItems();
 
 async function submitTrade(){
 
