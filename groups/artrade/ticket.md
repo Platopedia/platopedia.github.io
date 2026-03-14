@@ -194,8 +194,11 @@ if(!ticket){
 
 if(submitted === "1"){
   const panel = document.querySelector(".ticket-panel");
-  panel.innerHTML =
-    '<div style="text-align:center;">Your trade request has been submitted. Join the group linked below to stay informed; we\\'ll notify you there once a merchant accepts your trade.</div>';
+  panel.innerHTML = `
+    <div style="text-align:center;">
+      Your trade request has been submitted. Join the group linked below to stay informed; we'll notify you there once a merchant accepts your trade.
+    </div>
+  `;
   document.addEventListener("DOMContentLoaded", ()=>{
     const invite = document.getElementById("discord-invite");
     if(invite) invite.style.display = "block";
