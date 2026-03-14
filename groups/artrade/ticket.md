@@ -13,6 +13,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
   max-width:600px;
   margin:0 auto;
   box-sizing:border-box;
+  overflow-anchor:none;
 }
 
 .ticket-panel label{
