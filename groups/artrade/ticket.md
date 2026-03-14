@@ -49,7 +49,7 @@ padding:10px 16px;
 background:#CD9B1E;
 border:none;
 cursor:pointer;
-color:var(--color-text);
+border-radius:6px;
 transition:transform 0.12s ease, box-shadow 0.12s ease;
 }
 
@@ -98,6 +98,10 @@ background:rgba(205,155,30,0.15);
 transform:translateY(-50%) scale(0.9);
 }
 
+/* Only the item name text turns gold on hover */
+.item-name:hover{
+color:#CD9B1E;
+}
 </style>
 
 <div class="ticket-panel">
@@ -254,7 +258,7 @@ async function loadItems(){
 
      item.innerHTML = `
        <img src="${i.img}" width="26" height="26">
-       <span>${i.id} — ${i.name}</span>
+       <span class="item-name">${i.id} — ${i.name}</span>
      `;
 
      item.onclick = () => {
