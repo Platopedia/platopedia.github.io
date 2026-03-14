@@ -96,13 +96,13 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 
 .item-name:hover{
   color:#CD9B1E;
-}[artrade (1).md](artrade%20%281%29.md)
+}
 
 </style>
 
 <div class="ticket-panel">
 
-<label>Plato ID</label>
+<label for="plato">Plato ID</label>
 <div class="input-wrap">
   <input id="plato" placeholder="Enter Plato ID">
   <span class="input-clear" id="plato-clear">×</span>
@@ -112,7 +112,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
   Invalid Plato ID (3–12 characters: letters, numbers, underscores)
 </div>
 
-<label>Search Item</label>
+<label for="item-search">Search Item</label>
 <div class="input-wrap">
   <input id="item-search" placeholder="Search item name...">
   <span class="input-clear" id="search-clear">×</span>
@@ -134,9 +134,11 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 
 <div class="linebreak"></div>
 
-<div id="discord-invite" class="ticket-panel" style="display:none;text-align:center;margin-top:12px;">
+<div id="discord-invite" class="ticket-panel" style="display:none;text-align:center;">
   <span class="content-link" data-url="https://discord.com/invite/ardc" data-text="" data-copy="true"></span>
 </div>
+
+<div class="linebreak"></div>
 
 <script>
 
