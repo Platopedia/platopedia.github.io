@@ -71,14 +71,30 @@ padding-right:26px;
 
 .input-clear{
 position:absolute;
-right:8px;
+right:6px;
 top:50%;
 transform:translateY(-50%);
 cursor:pointer;
-font-size:14px;
+font-size:16px;
 color:#CD9B1E;
 display:none;
 user-select:none;
+width:20px;
+height:20px;
+line-height:20px;
+text-align:center;
+border-radius:50%;
+opacity:0.8;
+transition:opacity 0.15s ease, transform 0.1s ease, background 0.15s ease;
+}
+
+.input-clear:hover{
+opacity:1;
+background:rgba(205,155,30,0.15);
+}
+
+.input-clear:active{
+transform:translateY(-50%) scale(0.9);
 }
 
 </style>
@@ -100,7 +116,7 @@ Invalid Plato ID (3–12 characters: letters, numbers, underscores)
 <span class="input-clear" id="search-clear">×</span>
 </div>
 
-<div id="items-dropdown" style="max-height:220px;overflow:auto;margin-top:6px;background:var(--color-D);border:1px solid var(--color-B);padding:4px"></div>
+<div id="items-dropdown" style="max-height:220px;overflow:auto;margin-top:6px;background:var(--color-D);border:1px solid var(--color-B);padding:4px;display:none"></div>
 
 <label>Selected Items</label>
 <textarea id="items" rows="6" readonly
@@ -162,6 +178,7 @@ searchClear.onclick = ()=>{
   searchInput.value = "";
   searchClear.style.display = "none";
   document.getElementById("items-dropdown").innerHTML = "";
+  document.getElementById("items-dropdown").style.display = "none";
 };
 
 let itemImages = {};
@@ -211,6 +228,7 @@ async function loadItems(){
    const q = e.target.value.toLowerCase().trim();
 
    dropdown.innerHTML = "";
+   dropdown.style.display = "none";
 
    if(q.length < 2) return;
 
@@ -220,6 +238,8 @@ async function loadItems(){
        i.id.includes(q)
      )
      .slice(0,50);
+
+   if(matches.length) dropdown.style.display = "block";
 
    matches.forEach(i => {
 
@@ -245,6 +265,7 @@ async function loadItems(){
          // close dropdown and clear search so UI doesn't get stuck
          document.getElementById("item-search").value = "";
          dropdown.innerHTML = "";
+         dropdown.style.display = "none";
 
          return;
        }
@@ -268,6 +289,7 @@ async function loadItems(){
 
        document.getElementById("item-search").value = "";
        dropdown.innerHTML = "";
+       dropdown.style.display = "none";
 
      };
 
