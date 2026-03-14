@@ -49,7 +49,6 @@ cursor:pointer;
 
 <div id="items-dropdown" style="max-height:220px;overflow:auto;border:1px solid var(--color-B);margin-top:6px"></div>
 
-<button type="button" onclick="addItem()">Add Item</button>
 
 <label>Selected Items</label>
 <textarea id="items" rows="6"
@@ -146,9 +145,18 @@ async function loadItems(){
       `;
 
       item.onclick = () => {
-        selectedItem = i.id;
-        document.getElementById("item-search").value = `${i.id} — ${i.name}`;
+
+        const textarea = document.getElementById("items");
+        const link = "https://platopedia.com/items?id=" + i.id;
+
+        if(!textarea.value.includes(link)){
+          textarea.value += (textarea.value ? "\n" : "") + link;
+        }
+
+        document.getElementById("item-search").value = "";
         dropdown.innerHTML = "";
+        selectedItem = null;
+
       };
 
       dropdown.appendChild(item);
@@ -159,20 +167,6 @@ async function loadItems(){
 
 }
 
-function addItem(){
-
-  if(!selectedItem) return;
-
-  const textarea = document.getElementById("items");
-
-  const link = "https://platopedia.com/items?id=" + selectedItem;
-
-  if(!textarea.value.includes(link)){
-    textarea.value += (textarea.value ? "\n" : "") + link;
-  }
-
-  selectedItem = null;
-}
 
 loadItems();
 
