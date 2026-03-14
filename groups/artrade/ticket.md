@@ -54,8 +54,11 @@ Invalid Plato ID (3–12 characters: letters, numbers, underscores)
 
 
 <label>Selected Items</label>
-<textarea id="items" rows="6"
-placeholder="Selected item links will appear here (one per line)"></textarea>
+<textarea id="items" rows="6" readonly
+placeholder="Selected items will appear here"></textarea>
+<div id="items-error" style="color:#e74c3c;font-size:13px;margin-top:4px;display:none;">
+Please add at least one item
+</div>
 
 <button onclick="submitTrade()">Submit Request</button>
 <button type="button" onclick="clearItems()" style="margin-left:8px;background:#555;">Clear All</button>
@@ -85,10 +88,12 @@ if(!ticket){
 let itemImages = {};
 let selectedItem = null;
 let itemsIndex = [];
+let selectedItems = [];
 
 const platoInput = document.getElementById("plato");
 const platoError = document.getElementById("plato-error");
 const platoRegex = /^[A-Za-z0-9_]{3,12}$/;
+const itemsError = document.getElementById("items-error");
 
 platoInput.addEventListener("input", () => {
   const val = platoInput.value.trim();
@@ -164,10 +169,22 @@ async function loadItems(){
       item.onclick = () => {
 
         const textarea = document.getElementById("items");
-        const link = "https://platopedia.com/items?id=" + i.id;
 
-        if(!textarea.value.includes(link)){
-          textarea.value += (textarea.value ? "\n" : "") + link;
+        if(!selectedItems.find(x => x.id === i.id)){
+
+          selectedItems.push({
+            id: i.id,
+            name: i.name
+          });
+
+          const lines = selectedItems.map((x,idx) =>
+            (idx+1) + ". " + x.name
+          );
+
+          textarea.value = lines.join("\n");
+
+          itemsError.style.display = "none";
+
         }
 
         document.getElementById("item-search").value = "";
@@ -189,19 +206,26 @@ loadItems();
 
 function clearItems(){
   const textarea = document.getElementById("items");
+  const plato = document.getElementById("plato");
+
   if(textarea){
     textarea.value = "";
+  }
+
+  selectedItems = [];
+
+  if(plato){
+    plato.value = "";
+  }
+
+  if(platoError){
+    platoError.style.display = "none";
   }
 }
 
 async function submitTrade(){
 
- // disable button and show loading feedback
  const btn = document.querySelector(".ticket-panel button");
- if(btn){
-   btn.disabled = true;
-   btn.textContent = "Submitting...";
- }
 
  const platoId = document.getElementById("plato").value.trim();
 
@@ -210,7 +234,26 @@ async function submitTrade(){
    return;
  }
 
- const items = document.getElementById("items").value;
+ const items = selectedItems
+  .map(i => "https://platopedia.com/items?id=" + i.id)
+  .join("\n");
+
+ if(selectedItems.length === 0){
+   itemsError.style.display = "block";
+   if(btn){
+     btn.disabled = false;
+     btn.textContent = "Submit Request";
+   }
+   return;
+ }else{
+   itemsError.style.display = "none";
+ }
+
+ // disable button only AFTER validation passes
+ if(btn){
+   btn.disabled = true;
+   btn.textContent = "Submitting...";
+ }
 
  const res = await fetch("https://discord.com/api/webhooks/1482087912295104614/ro6kzQvLhc5vCJq6vMSA66jdiEm8WnNECdZN9jHk1KhQETik74XyvMJusIv3k_A4mzd3",{
   method:"POST",
