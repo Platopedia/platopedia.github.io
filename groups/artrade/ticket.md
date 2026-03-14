@@ -128,8 +128,6 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 
 </style>
 
-<div class="ticket-panel">
-
 <label>Plato ID</label>
 <div class="input-wrap">
   <input id="plato" placeholder="Enter Plato ID">
@@ -147,6 +145,8 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 </div>
 
 <div id="items-dropdown" style="max-height:220px;overflow:auto;margin-top:6px;background:var(--color-D);border:1px solid var(--color-B);padding:4px;display:none"></div>
+
+<div class="ticket-panel">
 
 <label>Selected Items</label>
 <textarea id="items" rows="6" readonly placeholder="Selected items will appear here (Max 5 items)"></textarea>
