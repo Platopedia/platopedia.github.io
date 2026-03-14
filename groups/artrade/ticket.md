@@ -166,8 +166,6 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
   Each generated ticket can be used only once. Only valid tickets will be processed as Artrade trade requests.
 </div>
 
-<div class="linebreak"></div>
-
 <div id="discord-invite" class="ticket-panel" style="display:none;text-align:center;">
   <span class="content-link" data-url="https://discord.com/invite/ardc" data-text="" data-copy="true"></span>
 </div>
