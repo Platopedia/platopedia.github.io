@@ -79,26 +79,21 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 
 .input-clear{
   position:absolute;
-  right:10px;
+  right:8px;
   top:50%;
   transform:translateY(-50%);
   cursor:pointer;
-  font-size:16px;
+  font-size:14px;
   color:#CD9B1E;
   display:none;
   user-select:none;
-  width:20px;
-  height:20px;
-  line-height:20px;
-  text-align:center;
-  border-radius:50%;
   opacity:.8;
-  transition:opacity .15s ease, transform .1s ease, background .15s ease;
+  line-height:1;
+  transition:opacity .15s ease, transform .1s ease;
 }
 
 .input-clear:hover{
   opacity:1;
-  background:rgba(205,155,30,.15);
 }
 
 .input-clear:active{
@@ -116,7 +111,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 <label>Plato ID</label>
 <div class="input-wrap">
   <input id="plato" placeholder="Enter Plato ID">
-  <span class="input-clear" id="plato-clear">x</span>
+  <span class="input-clear" id="plato-clear">×</span>
 </div>
 
 <div id="plato-error">
@@ -126,7 +121,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 <label>Search Item</label>
 <div class="input-wrap">
   <input id="item-search" placeholder="Search item name...">
-  <span class="input-clear" id="search-clear">x</span>
+  <span class="input-clear" id="search-clear">×</span>
 </div>
 
 <div id="items-dropdown" style="max-height:220px;overflow:auto;margin-top:6px;background:var(--color-D);border:1px solid var(--color-B);padding:4px;display:none"></div>
