@@ -81,6 +81,7 @@ if(!ticket){
 
 let itemImages = {};
 let selectedItem = null;
+let itemsIndex = [];
 
 async function loadItems(){
 
@@ -97,48 +98,61 @@ async function loadItems(){
     itemImages = JSON.parse(imgMatch[1]);
   }
 
-  const dropdown = document.getElementById("items-dropdown");
-
   rows.forEach(row => {
 
     const id = row.children[0].textContent.trim();
     const name = row.children[2].textContent.trim();
 
-    let img = "";
     const imgUri = itemImages[id]?.med?.images?.find(i => i.uri)?.uri;
-    if(imgUri){
-      img = "https://profile.platocdn.com/" + imgUri;
-    }
 
-    const item = document.createElement("div");
-
-    item.style.display = "flex";
-    item.style.alignItems = "center";
-    item.style.gap = "8px";
-    item.style.padding = "4px";
-    item.style.cursor = "pointer";
-
-    item.innerHTML = `
-      <img src="${img}" width="26" height="26">
-      <span>${id} — ${name}</span>
-    `;
-
-    item.onclick = () => {
-      selectedItem = id;
-      document.getElementById("item-search").value = `${id} — ${name}`;
-    };
-
-    dropdown.appendChild(item);
+    itemsIndex.push({
+      id,
+      name,
+      img: imgUri ? "https://profile.platocdn.com/" + imgUri : ""
+    });
 
   });
 
+  const dropdown = document.getElementById("items-dropdown");
+
   document.getElementById("item-search").addEventListener("input", e => {
 
-    const q = e.target.value.toLowerCase();
+    const q = e.target.value.toLowerCase().trim();
 
-    dropdown.childNodes.forEach(n => {
-      n.style.display =
-        n.textContent.toLowerCase().includes(q) ? "flex" : "none";
+    dropdown.innerHTML = "";
+
+    if(q.length < 2) return;
+
+    const matches = itemsIndex
+      .filter(i =>
+        i.name.toLowerCase().includes(q) ||
+        i.id.includes(q)
+      )
+      .slice(0, 50);
+
+    matches.forEach(i => {
+
+      const item = document.createElement("div");
+
+      item.style.display = "flex";
+      item.style.alignItems = "center";
+      item.style.gap = "8px";
+      item.style.padding = "4px";
+      item.style.cursor = "pointer";
+
+      item.innerHTML = `
+        <img src="${i.img}" width="26" height="26">
+        <span>${i.id} — ${i.name}</span>
+      `;
+
+      item.onclick = () => {
+        selectedItem = i.id;
+        document.getElementById("item-search").value = `${i.id} — ${i.name}`;
+        dropdown.innerHTML = "";
+      };
+
+      dropdown.appendChild(item);
+
     });
 
   });
