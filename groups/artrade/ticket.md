@@ -64,6 +64,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
   border-radius:6px;
   cursor:pointer;
   transition:transform .12s ease, box-shadow .12s ease;
+  font-weight:600;
 }
 
 .ticket-panel button:hover{
@@ -169,7 +170,7 @@ if(ticket && submitted === "1"){
   localStorage.setItem("artrade_submitted_"+ticket,"1");
 }
 
-if(ticket && !submitted && localStorage.getItem("artrade_submitted_"+ticket) === "1"){
+if(ticket && submitted !== "1" && localStorage.getItem("artrade_submitted_"+ticket) === "1"){
   const url = new URL(window.location.href);
   url.searchParams.set("submitted","1");
   window.location.replace(url.toString());
@@ -360,6 +361,9 @@ function clearItems(){
   document.getElementById("items").value = "";
   document.getElementById("plato").value = "";
   searchInput.value = "";
+  // Hide the clear buttons after clearing
+  platoClear.style.display = "none";
+  searchClear.style.display = "none";
 
   platoError.style.display = "none";
 
@@ -370,6 +374,14 @@ function clearItems(){
   dropdown.innerHTML = "";
   dropdown.style.display = "none";
 
+  // Reset submit/confirm button back to Submit state
+  const submitBtn = document.getElementById("submit-btn");
+  if(submitBtn){
+    submitBtn.textContent = "Submit Request";
+    submitBtn.style.background = "#CD9B1E";
+    submitBtn.disabled = false;
+    submitBtn.onclick = prepareSubmit;
+  }
 }
 
 function prepareSubmit(){
@@ -420,6 +432,11 @@ async function submitTrade(){
   if(!res.ok){
 
     btn.disabled = false;
+
+    // revert button back to Submit state
+    btn.textContent = "Submit Request";
+    btn.style.background = "#CD9B1E";
+    btn.onclick = prepareSubmit;
 
     document.querySelector(".ticket-panel").innerHTML =
       "Failed to submit request. Please try again.";
