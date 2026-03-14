@@ -96,7 +96,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 
 .item-name:hover{
   color:#CD9B1E;
-}[artrade (1).md](artrade%20%281%29.md)
+}
 
 </style>
 
