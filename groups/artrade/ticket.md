@@ -139,7 +139,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 </div>
 
 <button onclick="submitTrade()">Submit Request</button>
-<button type="button" onclick="clearItems()" style="margin-left:8px;background:#555">Clear All</button>
+<button type="button" onclick="clearItems()" style="margin-left:8px;background:#888">Clear All</button>
 
 </div>
 
