@@ -27,7 +27,6 @@ padding:8px;
 margin-top:4px;
 box-sizing:border-box;
 background:var(--color-D);
-color:var(--color-text);
 border:1px solid var(--color-B);
 }
 
@@ -72,7 +71,7 @@ padding-right:26px;
 
 .input-clear{
 position:absolute;
-right:6px;
+right:10px;
 top:50%;
 transform:translateY(-50%);
 cursor:pointer;
@@ -102,7 +101,7 @@ cursor:pointer;
 }
 
 .dropdown-item:hover{
-background:rgba(0,0,0,0.08);
+background:#CD9B1E;
 }
 
 </style>
@@ -112,7 +111,7 @@ background:rgba(0,0,0,0.08);
 <label>Plato ID</label>
 
 <div class="input-wrap">
-<input id="plato">
+<input id="plato" placeholder="Enter your Plato ID">
 <span class="input-clear" id="plato-clear">x</span>
 </div>
 
@@ -302,6 +301,13 @@ function clearItems(){
 
  document.getElementById("items").value="";
  document.getElementById("plato").value="";
+ document.getElementById("item-search").value="";
+
+ dropdown.innerHTML="";
+ dropdown.style.display="none";
+
+ platoClear.style.display="none";
+ searchClear.style.display="none";
 
  platoError.style.display="none";
  itemsError.style.display="none";
