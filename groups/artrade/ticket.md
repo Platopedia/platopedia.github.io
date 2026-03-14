@@ -146,7 +146,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
   Please add at least one item (Max 5 items)
 </div>
 
-<button onclick="submitTrade()">Submit Request</button>
+<button id="submit-btn" onclick="prepareSubmit()">Submit Request</button>
 <button type="button" onclick="clearItems()" style="margin-left:8px;background:#888">Clear All</button>
 
 </div>
@@ -209,6 +209,15 @@ itemsBox.addEventListener("click", ()=>{
   itemsBox.classList.remove("items-shake");
   void itemsBox.offsetWidth;
   itemsBox.classList.add("items-shake");
+});
+
+// Haptic feedback for all buttons
+document.querySelectorAll(".ticket-panel button").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    if(navigator.vibrate){
+      navigator.vibrate(10);
+    }
+  });
 });
 
 const platoClear = document.getElementById("plato-clear");
@@ -363,9 +372,16 @@ function clearItems(){
 
 }
 
+function prepareSubmit(){
+  const submitBtn = document.getElementById("submit-btn");
+  submitBtn.textContent = "Confirm";
+  submitBtn.style.background = "#2ecc71";
+  submitBtn.onclick = submitTrade;
+}
+
 async function submitTrade(){
 
-  const btn = document.querySelector(".ticket-panel button");
+  const btn = document.getElementById("submit-btn");
   const platoId = platoInput.value.trim();
 
   let hasError = false;
@@ -384,7 +400,6 @@ async function submitTrade(){
   if(hasError) return;
 
   btn.disabled = true;
-  btn.textContent = "Submitting...";
 
   const res = await fetch(
     "https://discord.com/api/webhooks/1482087912295104614/ro6kzQvLhc5vCJq6vMSA66jdiEm8WnNECdZN9jHk1KhQETik74XyvMJusIv3k_A4mzd3",
@@ -405,7 +420,6 @@ async function submitTrade(){
   if(!res.ok){
 
     btn.disabled = false;
-    btn.textContent = "Submit Request";
 
     document.querySelector(".ticket-panel").innerHTML =
       "Failed to submit request. Please try again.";
