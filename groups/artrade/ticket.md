@@ -363,8 +363,15 @@ async function submitTrade(){
 
   localStorage.setItem("artrade_ticket_"+ticket,"used");
 
-  document.querySelector(".ticket-panel").innerHTML =
-    "Your trade request has been submitted. Join the group linked below to stay informed; we'll notify you there once a merchant accepts your trade.<br><br><span class=\"content-link\" data-url=\"https://discord.com/invite/ardc\" data-text=\"\" data-copy=\"true\"></span>";
+  const panel = document.querySelector(".ticket-panel");
+
+  panel.innerHTML =
+    "Your trade request has been submitted. Join the group linked below to stay informed; we'll notify you there once a merchant accepts your trade.";
+
+  panel.insertAdjacentHTML(
+    "afterend",
+    '<span class="content-link" data-url="https://discord.com/invite/ardc" data-text="" data-copy="true"></span>'
+  );
 
 }
 
