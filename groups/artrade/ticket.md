@@ -219,22 +219,20 @@ const itemsError = document.getElementById("items-error");
 const searchInput = document.getElementById("item-search");
 const dropdown = document.getElementById("items-dropdown");
 
-// Prevent browser auto-scroll jump when focusing inputs while scrolled down
-function focusWithoutScroll(el){
-  const x = window.scrollX;
-  const y = window.scrollY;
-  el.focus({ preventScroll: true });
-  window.scrollTo(x, y);
+// Scroll page to top when focusing key inputs
+function focusAndScrollTop(el){
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  el.focus();
 }
 
 platoInput.addEventListener("mousedown", (e)=>{
   e.preventDefault();
-  focusWithoutScroll(platoInput);
+  focusAndScrollTop(platoInput);
 });
 
 searchInput.addEventListener("mousedown", (e)=>{
   e.preventDefault();
-  focusWithoutScroll(searchInput);
+  focusAndScrollTop(searchInput);
 });
 
 const itemsBox = document.getElementById("items");
