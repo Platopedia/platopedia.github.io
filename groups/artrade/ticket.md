@@ -105,9 +105,9 @@ async function loadItems(){
     const name = row.children[2].textContent.trim();
 
     let img = "";
-
-    if(itemImages[id]?.med?.images?.[0]?.uri){
-      img = "https://profile.platocdn.com/" + itemImages[id].med.images[0].uri;
+    const imgUri = itemImages[id]?.med?.images?.find(i => i.uri)?.uri;
+    if(imgUri){
+      img = "https://profile.platocdn.com/" + imgUri;
     }
 
     const item = document.createElement("div");
