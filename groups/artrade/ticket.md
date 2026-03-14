@@ -219,6 +219,24 @@ const itemsError = document.getElementById("items-error");
 const searchInput = document.getElementById("item-search");
 const dropdown = document.getElementById("items-dropdown");
 
+// Prevent browser auto-scroll jump when focusing inputs while scrolled down
+function focusWithoutScroll(el){
+  const x = window.scrollX;
+  const y = window.scrollY;
+  el.focus({ preventScroll: true });
+  window.scrollTo(x, y);
+}
+
+platoInput.addEventListener("mousedown", (e)=>{
+  e.preventDefault();
+  focusWithoutScroll(platoInput);
+});
+
+searchInput.addEventListener("mousedown", (e)=>{
+  e.preventDefault();
+  focusWithoutScroll(searchInput);
+});
+
 const itemsBox = document.getElementById("items");
 
 // Haptic feedback when tapping the Selected Items box (supported mobile browsers)
