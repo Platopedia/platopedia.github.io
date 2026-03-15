@@ -283,10 +283,11 @@ let submitting = false;
 function updateTotals(){
 
   let totalCoins = 0;
+  let totalPips = 0;
 
   selectedItems.forEach(i=>{
     if(i.currency === "p"){
-      totalCoins += (i.price || 0) * 250;
+      totalPips += (i.price || 0);
     }else{
       totalCoins += (i.price || 0);
     }
@@ -303,10 +304,28 @@ function updateTotals(){
 
   totalsBox.style.display = "block";
 
-  const tradePrice = Math.ceil((totalCoins * 1.25) / 50) * 50;
+  // Total price always displayed in coins (pips converted)
+  const totalPriceCoins = totalCoins + (totalPips * 250);
 
-  totalPriceEl.textContent = totalCoins + " coins";
-  totalTradePriceEl.textContent = tradePrice + " coins";
+  // Coin items follow +25% then round up to nearest 50
+  const coinTrade = Math.ceil((totalCoins * 1.25) / 50) * 50;
+
+  // Pip items convert directly to coins
+  const pipTrade = totalPips * 250;
+
+  const totalTradeCoins = coinTrade + pipTrade;
+
+  // Display total price with separate currencies
+  if(totalCoins > 0 && totalPips > 0){
+    totalPriceEl.textContent = totalCoins + " coins + " + totalPips + " pips";
+  }else if(totalPips > 0){
+    totalPriceEl.textContent = totalPips + " pips";
+  }else{
+    totalPriceEl.textContent = totalCoins + " coins";
+  }
+
+  // Trade price always displayed in coins
+  totalTradePriceEl.textContent = totalTradeCoins + " coins";
 
 }
 
