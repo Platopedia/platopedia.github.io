@@ -540,7 +540,14 @@ async function loadItems(){
 
 }
 
-loadItems();
+let itemsLoaded = false;
+
+searchInput.addEventListener("focus", async ()=>{
+  if(!itemsLoaded){
+    await loadItems();
+    itemsLoaded = true;
+  }
+});
 
 function clearItems(){
 
