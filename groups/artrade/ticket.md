@@ -23,7 +23,6 @@ input, textarea {
   max-width:600px;
   margin:0 auto;
   box-sizing:border-box;
-  overscroll-behavior: contain;
 }
 
 .ticket-panel label{
