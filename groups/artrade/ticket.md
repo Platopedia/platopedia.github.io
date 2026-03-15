@@ -247,7 +247,7 @@ input, textarea {
 </div>
 
 <div id="discord-invite" class="ticket-panel" style="display:none;text-align:center;">
-<span class="content-link" id="ticket-number" data-copy="true" data-url="#" data-text=""></span>
+  <span id="ticket-number" class="ticket-copy" style="cursor:pointer;font-weight:600;"></span>
 </div>
 
 <div class="linebreak"></div>
@@ -256,11 +256,19 @@ input, textarea {
 
 const params = new URLSearchParams(location.search);
 const ticket = params.get("t");
-const ticketNumberEl = document.getElementById("ticket-number");
-if(ticketNumberEl && ticket){
-  ticketNumberEl.textContent = ticket;
-  ticketNumberEl.setAttribute("data-text", ticket);
-}
+document.addEventListener("DOMContentLoaded", ()=>{
+  const ticketEl = document.getElementById("ticket-number");
+  if(ticketEl && ticket){
+    ticketEl.textContent = ticket + " (tap to copy)";
+    ticketEl.addEventListener("click", ()=>{
+      navigator.clipboard.writeText(ticket);
+      ticketEl.textContent = ticket + " (copied)";
+      setTimeout(()=>{
+        ticketEl.textContent = ticket + " (tap to copy)";
+      },1500);
+    });
+  }
+});
 const submitted = params.get("submitted");
 
 if(ticket && submitted === "1"){
