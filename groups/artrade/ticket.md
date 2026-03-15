@@ -163,6 +163,25 @@ input, textarea {
   animation:itemsShake .25s ease;
 }
 
+/* Improve scrollbar colors for dark mode (supported browsers) */
+#items-dropdown{
+  scrollbar-color: var(--color-link) var(--color-D);
+}
+
+/* Chrome / Edge scrollbar styling */
+#items-dropdown::-webkit-scrollbar{
+  width:8px;
+}
+
+#items-dropdown::-webkit-scrollbar-track{
+  background:var(--color-D);
+}
+
+#items-dropdown::-webkit-scrollbar-thumb{
+  background:var(--color-link);
+  border-radius:4px;
+}
+
 </style>
 
 <div class="ticket-panel">
