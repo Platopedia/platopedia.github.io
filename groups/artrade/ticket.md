@@ -51,7 +51,7 @@ input, textarea {
 .ticket-panel input:-webkit-autofill:hover,
 .ticket-panel input:-webkit-autofill:focus,
 .ticket-panel input:-webkit-autofill:active{
-  -webkit-box-shadow: 0 0 0 1000px var(--color-D) inset !important;
+  background-color: var(--color-D) !important;
   -webkit-text-fill-color: var(--color-text) !important;
   caret-color: var(--color-text);
 }
