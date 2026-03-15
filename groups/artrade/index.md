@@ -157,7 +157,7 @@ Use the calculator to check the total trade price of one or more items.
 <div class="trade-card">
 
 <h4>Trade Calculator (Coins)</h4>
-<p class="trade-desc">Formula: +25% value, then rounded up to the nearest 50 coins.</p>
+<p class="trade-desc">Formula: +25% value, then rounded up to the nearest 50 Coins.</p>
 
 <label>Item/s Price (Coins)</label>
 
