@@ -247,7 +247,7 @@ input, textarea {
 </div>
 
 <div id="discord-invite" class="ticket-panel" style="display:none;text-align:center;">
-  <span id="ticket-number" class="ticket-copy" style="cursor:pointer;font-weight:600;"></span>
+  <span id="ticket-id" class="ticket-copy" style="cursor:pointer;font-weight:600;"></span>
 </div>
 
 <div class="linebreak"></div>
@@ -257,7 +257,7 @@ input, textarea {
 const params = new URLSearchParams(location.search);
 const ticket = params.get("t");
 document.addEventListener("DOMContentLoaded", ()=>{
-  const ticketEl = document.getElementById("ticket-number");
+  const ticketEl = document.getElementById("ticket-id");
   if(ticketEl && ticket){
     ticketEl.textContent = ticket + " (tap to copy)";
     ticketEl.addEventListener("click", ()=>{
@@ -289,7 +289,7 @@ if(submitted === "1"){
   const panel = document.querySelector(".ticket-panel");
   panel.innerHTML = `
     <div style="text-align:center;">
-      Your trade request has been submitted. Join the group linked below to stay informed; we'll notify you there once a merchant accepts your trade.
+      Your trade request has been submitted. Please save the ticket ID below and keep it private. If your trade is accepted, an Artrade Merchant will add you using the Plato link you provided and present the ID to confirm their identity as a verified member of our team.
     </div>
   `;
   document.addEventListener("DOMContentLoaded", ()=>{
