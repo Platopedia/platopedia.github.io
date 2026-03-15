@@ -247,7 +247,7 @@ input, textarea {
 </div>
 
 <div id="discord-invite" class="ticket-panel" style="display:none;text-align:center;">
-<span class="content-link" id="ticket-number" data-copy="true"></span>
+<span class="content-link" id="ticket-number" data-copy="true" data-url="#" data-text=""></span>
 </div>
 
 <div class="linebreak"></div>
@@ -259,6 +259,7 @@ const ticket = params.get("t");
 const ticketNumberEl = document.getElementById("ticket-number");
 if(ticketNumberEl && ticket){
   ticketNumberEl.textContent = ticket;
+  ticketNumberEl.setAttribute("data-text", ticket);
 }
 const submitted = params.get("submitted");
 
