@@ -170,10 +170,10 @@ input, textarea {
 <label>Selected Items</label>
 <textarea id="items" rows="6" readonly placeholder="Selected items will appear here (Max 5 items)"></textarea>
 <div id="totals-box" style="margin-top:10px;padding:10px;border:1px solid var(--color-B);background:var(--color-D);display:none">
-  <div><strong>Total Price:</strong> <span id="total-price">0</span></div>
-  <div style="margin-top:4px"><strong>Total Trade Price:</strong> <span id="total-trade-price">0</span></div>
+  <div style="font-size:14px;"><strong>Total Price:</strong> <span id="total-price">0</span></div>
+  <div style="margin-top:4px;font-size:14px;"><strong>Total Trade Price:</strong> <span id="total-trade-price">0</span></div>
   <div style="margin-top:6px;font-size:12px;color:var(--color-text);opacity:.85">
-    <div>Formula (Coins): +25% value, then rounded up to the nearest 50 coins.</div>
+    <div>Formula (Coins): +25% value, then rounded up to the nearest 50 Coins.</div>
     <div>Formula (Pips): 1 Pip = 250 Coins.</div>
   </div>
 </div>
@@ -308,7 +308,9 @@ function updateTotals(){
   const totalPriceCoins = totalCoins + (totalPips * 250);
 
   // Coin items follow +25% then round up to nearest 50
-  const coinTrade = Math.ceil((totalCoins * 1.25) / 50) * 50;
+  const coinTrade = totalCoins > 0
+    ? Math.ceil((totalCoins * 1.25) / 50) * 50
+    : 0;
 
   // Pip items convert directly to coins
   const pipTrade = totalPips * 250;
@@ -317,15 +319,15 @@ function updateTotals(){
 
   // Display total price with separate currencies
   if(totalCoins > 0 && totalPips > 0){
-    totalPriceEl.textContent = totalCoins + " coins + " + totalPips + " pips";
+    totalPriceEl.textContent = totalCoins + " Coins + " + totalPips + " Pips";
   }else if(totalPips > 0){
-    totalPriceEl.textContent = totalPips + " pips";
+    totalPriceEl.textContent = totalPips + " Pips";
   }else{
-    totalPriceEl.textContent = totalCoins + " coins";
+    totalPriceEl.textContent = totalCoins + " Coins";
   }
 
   // Trade price always displayed in coins
-  totalTradePriceEl.textContent = totalTradeCoins + " coins";
+  totalTradePriceEl.textContent = totalTradeCoins + " Coins";
 
 }
 
