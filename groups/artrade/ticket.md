@@ -163,18 +163,9 @@ input, textarea {
   animation:itemsShake .25s ease;
 }
 
-/* Improve scrollbar colors for dark mode (supported browsers) */
-#items-dropdown{
-  scrollbar-color: #CD9B1E var(--color-D);
-}
-
-/* Chrome / Edge scrollbar styling */
+/* Gold scrollbar thumb */
 #items-dropdown::-webkit-scrollbar{
   width:8px;
-}
-
-#items-dropdown::-webkit-scrollbar-track{
-  background:var(--color-D);
 }
 
 #items-dropdown::-webkit-scrollbar-thumb{
