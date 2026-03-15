@@ -53,6 +53,7 @@ input, textarea {
   -webkit-box-shadow: 0 0 0 1000px var(--color-D) inset !important;
   -webkit-text-fill-color: var(--color-text) !important;
   caret-color: var(--color-text);
+  border-color: transparent !important; /* prevent Chrome's autofill border */
 }
 
 /* When focused, add the normal glow back on top of the inset background */
@@ -60,6 +61,7 @@ input, textarea {
   -webkit-box-shadow:
     0 0 8px var(--color-form-field-box),
     0 0 0 1000px var(--color-D) inset !important;
+  border-color: transparent !important;
 }
 
 #items{
