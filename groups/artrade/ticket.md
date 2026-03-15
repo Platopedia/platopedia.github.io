@@ -370,9 +370,13 @@ async function loadItems(){
       item.style.padding = "4px";
       item.style.cursor = "pointer";
 
+      // Show price and currency before the item name
+      const currencyLabel = i.currency === "p" ? "p" : "c";
+      const priceLabel = i.price ? `${i.price}${currencyLabel}` : "";
+
       item.innerHTML = `
         <img src="${i.img}" style="height:26px;max-width:40px;object-fit:contain;">
-        <span class="item-name">${i.name}</span>
+        <span class="item-name">${priceLabel} — ${i.name}</span>
       `;
 
       item.onclick = ()=>{
