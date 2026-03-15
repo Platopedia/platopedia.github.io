@@ -46,6 +46,13 @@ input, textarea {
   outline:none;
 }
 
+/* Keep dark background after paste/autofill */
+.ticket-panel input:-webkit-autofill,
+.ticket-panel input:-webkit-autofill:focus{
+  background-color: var(--color-D) !important;
+  color: var(--color-text) !important;
+}
+
 #items{
   border:1px solid #CD9B1E;
   outline:none;
