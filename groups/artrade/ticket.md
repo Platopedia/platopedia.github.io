@@ -10,7 +10,6 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 html, body {
   height: 100%;
   overflow-anchor: none;
-  overscroll-behavior-y: contain;
 }
 
 input, textarea {
@@ -24,6 +23,7 @@ input, textarea {
   max-width:600px;
   margin:0 auto;
   box-sizing:border-box;
+  overscroll-behavior: contain;
 }
 
 .ticket-panel label{
