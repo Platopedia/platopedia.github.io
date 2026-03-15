@@ -52,11 +52,12 @@ input, textarea {
   -webkit-text-fill-color: var(--color-text) !important;
 }
 
-/* When focused, restore the normal glow */
+/* When focused, restore the normal glow and force gold border */
 .ticket-panel input:-webkit-autofill:focus{
   -webkit-box-shadow:
     0 0 8px var(--color-form-field-box),
     0 0 0 1000px var(--color-D) inset !important;
+  border:1px solid #CD9B1E !important;
 }
 
 #items{
@@ -201,13 +202,7 @@ input, textarea {
 
 <label>Plato Friend Link</label>
 <div class="input-wrap">
-  <input id="friend-link"
-         placeholder="Enter Plato friend link (https://...)"
-         autocomplete="off"
-         autocorrect="off"
-         autocapitalize="off"
-         spellcheck="false"
-         inputmode="url">
+  <input id="friend-link" placeholder="Enter Plato friend link (https://...)" autocomplete="off">
   <span class="input-clear" id="friend-clear">×</span>
 </div>
 
