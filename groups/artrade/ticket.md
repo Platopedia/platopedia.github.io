@@ -52,6 +52,7 @@ input, textarea {
   -webkit-box-shadow: 0 0 0 1000px var(--color-D) inset !important;
   -webkit-text-fill-color: var(--color-text) !important;
   caret-color: var(--color-text);
+  outline: none !important; /* remove Chrome autofill focus outline */
 }
 
 /* When focused, add the normal glow back on top of the inset background */
