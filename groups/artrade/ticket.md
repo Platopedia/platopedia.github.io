@@ -4,7 +4,18 @@ title: Artrade Ticket - Platopedia
 heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />&nbsp;Artrade
 ---
 
+
 <style>
+
+html, body {
+  height: 100%;
+  overflow-anchor: none;
+  overscroll-behavior-y: contain;
+}
+
+input, textarea {
+  font-size: 16px;
+}
 
 .ticket-panel{
   padding:20px;
@@ -30,6 +41,10 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
   background:var(--color-D);
   color:var(--color-text);
   border:1px solid var(--color-B);
+}
+
+.ticket-panel input:focus{
+  outline:none;
 }
 
 #items{
