@@ -47,19 +47,19 @@ input, textarea {
 }
 
 
-/* Autofill background fix (not focused) */
+/* Autofill background fix (preserve existing glow from main.css) */
 .ticket-panel input:-webkit-autofill{
-  -webkit-box-shadow: 0 0 0 1000px var(--color-D) inset !important;
+  -webkit-box-shadow:
+    0 0 0 1000px var(--color-D) inset !important;
   -webkit-text-fill-color: var(--color-text) !important;
   caret-color: var(--color-text);
-  border:1px solid var(--color-B);
 }
 
-/* Autofill while focused – keep dark background but allow focus glow */
+/* Autofill while focused – keep inset background but keep outer glow */
 .ticket-panel input:-webkit-autofill:focus{
   -webkit-box-shadow:
-    0 0 0 1000px var(--color-D) inset,
-    0 0 8px rgba(255,255,255,0.6); 
+    0 0 8px var(--color-form-field-box),
+    0 0 0 1000px var(--color-D) inset !important;
   -webkit-text-fill-color: var(--color-text) !important;
   caret-color: var(--color-text);
 }
