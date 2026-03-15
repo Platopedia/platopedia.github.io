@@ -335,12 +335,33 @@ async function loadItems(){
     const id = row.children[0].textContent.trim();
     const name = row.children[2].textContent.trim();
 
+    // Extract price cell (4th column)
+    const priceCell = row.children[3];
+
+    let price = null;
+    let currency = null;
+
+    if(priceCell){
+      const icon = priceCell.querySelector("i");
+
+      if(icon){
+        if(icon.classList.contains("c")) currency = "c";
+        if(icon.classList.contains("p")) currency = "p";
+      }
+
+      const priceText = priceCell.textContent.replace(/,/g,"").trim();
+      const parsed = parseInt(priceText,10);
+      if(!isNaN(parsed)) price = parsed;
+    }
+
     const imgUri = itemImages[id]?.med?.images?.find(i=>i.uri)?.uri;
 
     itemsIndex.push({
       id,
       name,
-      img: imgUri ? "https://profile.platocdn.com/" + imgUri : ""
+      img: imgUri ? "https://profile.platocdn.com/" + imgUri : "",
+      price,
+      currency
     });
 
   });
