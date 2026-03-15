@@ -59,7 +59,8 @@ input, textarea {
 }
 
 .ticket-panel #plato-error,
-.ticket-panel #items-error{
+.ticket-panel #items-error,
+.ticket-panel #friend-error{
   margin-top:4px;
   font-size:13px;
   color:#e74c3c;
@@ -145,8 +146,14 @@ input, textarea {
   <span class="input-clear" id="plato-clear">×</span>
 </div>
 
-<div id="plato-error">
-  Invalid Plato ID (3–12 characters: letters, numbers, underscores)
+<label>Plato Friend Link</label>
+<div class="input-wrap">
+  <input id="friend-link" placeholder="Enter Plato friend link (https://...)">
+  <span class="input-clear" id="friend-clear">×</span>
+</div>
+
+<div id="friend-error">
+  Please enter a valid Plato friend link (https://platoapp.com/link/...)
 </div>
 
 <label>Search Item</label>
@@ -224,6 +231,8 @@ const platoRegex = /^[A-Za-z0-9_]{3,12}$/;
 
 const platoInput = document.getElementById("plato");
 const platoError = document.getElementById("plato-error");
+const friendInput = document.getElementById("friend-link");
+const friendError = document.getElementById("friend-error");
 const itemsError = document.getElementById("items-error");
 const searchInput = document.getElementById("item-search");
 const dropdown = document.getElementById("items-dropdown");
@@ -252,6 +261,7 @@ document.querySelectorAll(".ticket-panel button").forEach(btn=>{
 });
 
 const platoClear = document.getElementById("plato-clear");
+const friendClear = document.getElementById("friend-clear");
 const searchClear = document.getElementById("search-clear");
 
 let itemImages = {};
@@ -266,6 +276,17 @@ platoInput.addEventListener("input",()=>{
   platoError.style.display = (val === "" || platoRegex.test(val)) ? "none" : "block";
 });
 
+friendInput.addEventListener("input",()=>{
+  friendClear.style.display = friendInput.value ? "block" : "none";
+
+  const val = friendInput.value.trim();
+  if(val === ""){
+    friendError.style.display = "none";
+  }else{
+    friendError.style.display = /^https:\/\/platoapp\.com\/link\/.+/i.test(val) ? "none" : "block";
+  }
+});
+
 searchInput.addEventListener("input",()=>{
   searchClear.style.display = searchInput.value ? "block" : "none";
 });
@@ -274,6 +295,12 @@ platoClear.onclick = ()=>{
   platoInput.value = "";
   platoClear.style.display = "none";
   platoError.style.display = "none";
+};
+
+friendClear.onclick = ()=>{
+  friendInput.value = "";
+  friendClear.style.display = "none";
+  friendError.style.display = "none";
 };
 
 searchClear.onclick = ()=>{
@@ -391,9 +418,12 @@ function clearItems(){
 
   document.getElementById("items").value = "";
   document.getElementById("plato").value = "";
+  friendInput.value = "";
   searchInput.value = "";
   // Hide the clear buttons after clearing
   platoClear.style.display = "none";
+  friendError.style.display = "none";
+  friendClear.style.display = "none";
   searchClear.style.display = "none";
 
   platoError.style.display = "none";
@@ -419,11 +449,17 @@ function prepareSubmit(){
 
   const submitBtn = document.getElementById("submit-btn");
   const platoId = platoInput.value.trim();
+  const friendLink = friendInput.value.trim();
 
   let hasError = false;
 
   if(!platoRegex.test(platoId)){
     platoError.style.display = "block";
+    hasError = true;
+  }
+
+  if(friendLink && !/^https:\/\/platoapp\.com\/link\/.+/i.test(friendLink)){
+    friendError.style.display = "block";
     hasError = true;
   }
 
@@ -444,6 +480,7 @@ async function submitTrade(){
 
   const btn = document.getElementById("submit-btn");
   const platoId = platoInput.value.trim();
+  const friendLink = friendInput.value.trim();
   if(submitting) return;
   submitting = true;
 
@@ -460,7 +497,8 @@ async function submitTrade(){
         content:
         "🌐 **Website Trade Request**\n\n"+
         "**Ticket:** "+ticket+"\n"+
-        "**Plato ID:** "+platoId+"\n\n"+
+        "**Plato ID:** "+platoId+"\n"+
+        "**Friend Link:** "+(friendLink ? friendLink : "Not provided")+"\n\n"+
         "**Items:**\n"+
         selectedItems.map(i=>"https://platopedia.com/items?id="+i.id).join("\n")
       })
