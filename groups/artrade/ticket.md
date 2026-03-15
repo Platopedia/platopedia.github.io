@@ -478,85 +478,85 @@ async function loadItems(){
 
   });
 
-  searchInput.addEventListener("input", e=>{
+}
 
-    const q = e.target.value.toLowerCase().trim();
+let itemsLoaded = false;
 
-    dropdown.innerHTML = "";
-    dropdown.style.display = "none";
+searchInput.addEventListener("input", e=>{
 
-    if(q.length < 2) return;
+  const q = e.target.value.toLowerCase().trim();
 
-    const matches = itemsIndex
-      .filter(i=>i.name.toLowerCase().includes(q) || i.id.includes(q))
-      .slice(0,50);
+  dropdown.innerHTML = "";
+  dropdown.style.display = "none";
 
-    if(matches.length) dropdown.style.display = "block";
+  if(q.length < 2) return;
 
-    matches.forEach(i=>{
+  const matches = itemsIndex
+    .filter(i=>i.name.toLowerCase().includes(q) || i.id.includes(q))
+    .slice(0,50);
 
-      const item = document.createElement("div");
+  if(matches.length) dropdown.style.display = "block";
 
-      item.style.display = "flex";
-      item.style.alignItems = "center";
-      item.style.gap = "8px";
-      item.style.padding = "4px";
-      item.style.cursor = "pointer";
+  matches.forEach(i=>{
 
-      // Show price and currency before the item name
-      const currencyLabel = i.currency === "p" ? "p" : "c";
-      const priceLabel = i.price ? `${i.price}${currencyLabel}` : "";
+    const item = document.createElement("div");
 
-      item.innerHTML = `
-        <img src="${i.img}" style="height:26px;max-width:40px;object-fit:contain;">
-        <span class="item-name">${i.name}${priceLabel ? ` (${priceLabel})` : ""}</span>
-      `;
+    item.style.display = "flex";
+    item.style.alignItems = "center";
+    item.style.gap = "8px";
+    item.style.padding = "4px";
+    item.style.cursor = "pointer";
 
-      item.onclick = ()=>{
+    const currencyLabel = i.currency === "p" ? "p" : "c";
+    const priceLabel = i.price ? `${i.price}${currencyLabel}` : "";
 
-        if(selectedItems.length >= 5){
+    item.innerHTML = `
+      <img src="${i.img}" style="height:26px;max-width:40px;object-fit:contain;">
+      <span class="item-name">${i.name}${priceLabel ? ` (${priceLabel})` : ""}</span>
+    `;
 
-          itemsError.textContent = "Maximum 5 items allowed";
-          itemsError.style.display = "block";
+    item.onclick = ()=>{
 
-          searchInput.value = "";
-          searchClear.style.display = "none";
-          dropdown.innerHTML = "";
-          dropdown.style.display = "none";
+      if(selectedItems.length >= 5){
 
-          return;
-        }
-
-        if(selectedItems.find(x=>x.id===i.id)) return;
-
-        selectedItems.push({ id:i.id, name:i.name, price:i.price, currency:i.currency });
-
-        document.getElementById("items").value = selectedItems
-          .map((x,i)=>{
-            const priceLabel = x.price ? ` (${x.price}${x.currency === "p" ? "p" : "c"})` : "";
-            return `${i+1}. ${x.name}${priceLabel}`;
-          })
-          .join("\n");
-        updateTotals();
-
-        itemsError.style.display = "none";
+        itemsError.textContent = "Maximum 5 items allowed";
+        itemsError.style.display = "block";
 
         searchInput.value = "";
         searchClear.style.display = "none";
         dropdown.innerHTML = "";
         dropdown.style.display = "none";
 
-      };
+        return;
+      }
 
-      dropdown.appendChild(item);
+      if(selectedItems.find(x=>x.id===i.id)) return;
 
-    });
+      selectedItems.push({ id:i.id, name:i.name, price:i.price, currency:i.currency });
+
+      document.getElementById("items").value = selectedItems
+        .map((x,i)=>{
+          const priceLabel = x.price ? ` (${x.price}${x.currency === "p" ? "p" : "c"})` : "";
+          return `${i+1}. ${x.name}${priceLabel}`;
+        })
+        .join("\n");
+
+      updateTotals();
+
+      itemsError.style.display = "none";
+
+      searchInput.value = "";
+      searchClear.style.display = "none";
+      dropdown.innerHTML = "";
+      dropdown.style.display = "none";
+
+    };
+
+    dropdown.appendChild(item);
 
   });
 
-}
-
-let itemsLoaded = false;
+});
 
 searchInput.addEventListener("focus", async ()=>{
   if(!itemsLoaded){
