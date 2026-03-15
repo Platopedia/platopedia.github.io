@@ -79,6 +79,33 @@ input, textarea {
   font-weight:500;
 }
 
+/* Confirm loading slide effect */
+.ticket-panel button.loading{
+  position:relative;
+  overflow:hidden;
+}
+
+.ticket-panel button.loading::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-100%;
+  width:100%;
+  height:100%;
+  background:#CD9B1E;
+  animation:confirmSlide .6s ease forwards;
+}
+
+@keyframes confirmSlide{
+  from{ left:-100%; }
+  to{ left:0; }
+}
+
+.ticket-panel button.loading span{
+  position:relative;
+  z-index:1;
+}
+
 .ticket-panel button:hover{
   box-shadow:0 2px 6px rgba(0,0,0,.25);
 }
@@ -573,6 +600,8 @@ function prepareSubmit(){
 async function submitTrade(){
 
   const btn = document.getElementById("submit-btn");
+  // Trigger gold slide loading effect
+  btn.classList.add("loading");
   const platoId = platoInput.value.trim();
   const friendLink = friendInput.value.trim();
   if(submitting) return;
@@ -580,6 +609,7 @@ async function submitTrade(){
 
   setTimeout(()=>{
     btn.disabled = true;
+    btn.textContent = "Processing...";
   },120);
 
   const res = await fetch(
