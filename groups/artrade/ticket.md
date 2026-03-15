@@ -243,7 +243,7 @@ input, textarea {
 <div class="linebreak"></div>
 
 <div id="ticket-note" class="ticket-panel" style="text-align:center;">
-  Each generated ticket can be used only once. Only valid tickets will be processed as Artrade trade requests.
+  Each generated ticket can be <strong>used only once</strong>. Invalid or reused tickets will not be processed as Artrade trade requests.
 </div>
 
 <div id="discord-invite" class="ticket-panel" style="display:none;text-align:center;">
@@ -289,7 +289,7 @@ if(submitted === "1"){
   const panel = document.querySelector(".ticket-panel");
   panel.innerHTML = `
     <div style="text-align:center;">
-      Your trade request has been submitted. Please save the ticket ID below and keep it private. If your trade is accepted, an Artrade Merchant will add you using the Plato link you provided and present the ID to confirm their identity as a verified member of our team.
+      Your trade request has been submitted. Please save your <strong>Ticket ID</strong> and keep it private. If the trade is accepted, an <strong>Artrade Merchant</strong> will add you using your Plato link and will provide the same <strong>Ticket ID</strong> to confirm they are part of our team.
     </div>
   `;
   document.addEventListener("DOMContentLoaded", ()=>{
