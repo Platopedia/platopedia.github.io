@@ -461,7 +461,7 @@ function prepareSubmit(){
     hasError = true;
   }
 
-  if(friendLink && !/^https:\/\/platoapp\.com\/link\/.+/i.test(friendLink)){
+  if(!/^https:\/\/platoapp\.com\/link\/.+/i.test(friendLink)){
     friendError.style.display = "block";
     hasError = true;
   }
