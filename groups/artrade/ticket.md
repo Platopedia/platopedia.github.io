@@ -145,6 +145,9 @@ input, textarea {
   <input id="plato" placeholder="Enter Plato ID">
   <span class="input-clear" id="plato-clear">×</span>
 </div>
+<div id="plato-error">
+  Invalid Plato ID (3–12 characters: letters, numbers, underscores)
+</div>
 
 <label>Plato Friend Link</label>
 <div class="input-wrap">
