@@ -169,6 +169,10 @@ input, textarea {
 
 <label>Selected Items</label>
 <textarea id="items" rows="6" readonly placeholder="Selected items will appear here (Max 5 items)"></textarea>
+<div id="totals-box" style="margin-top:10px;padding:10px;border:1px solid var(--color-B);background:var(--color-D);display:none">
+  <div><strong>Total Price:</strong> <span id="total-price">0</span></div>
+  <div style="margin-top:4px"><strong>Total Trade Price:</strong> <span id="total-trade-price">0</span></div>
+</div>
 
 <div id="items-error">
   Please add at least one item (Max 5 items)
@@ -271,6 +275,34 @@ let itemImages = {};
 let itemsIndex = [];
 let selectedItems = [];
 let submitting = false;
+
+function updateTotals(){
+
+  let totalCoins = 0;
+
+  selectedItems.forEach(i=>{
+    if(i.currency === "p"){
+      totalCoins += (i.price || 0) * 250;
+    }else{
+      totalCoins += (i.price || 0);
+    }
+  });
+
+  const tradePrice = Math.ceil((totalCoins * 1.25) / 50) * 50;
+
+  const totalsBox = document.getElementById("totals-box");
+  const totalPriceEl = document.getElementById("total-price");
+  const totalTradePriceEl = document.getElementById("total-trade-price");
+
+  if(selectedItems.length === 0){
+    totalsBox.style.display = "none";
+    return;
+  }
+
+  totalsBox.style.display = "block";
+  totalPriceEl.textContent = totalCoins + " coins";
+  totalTradePriceEl.textContent = tradePrice + " coins";
+}
 
 platoInput.addEventListener("input",()=>{
   platoClear.style.display = platoInput.value ? "block" : "none";
@@ -417,11 +449,15 @@ async function loadItems(){
 
         if(selectedItems.find(x=>x.id===i.id)) return;
 
-        selectedItems.push({ id:i.id, name:i.name });
+        selectedItems.push({ id:i.id, name:i.name, price:i.price, currency:i.currency });
 
         document.getElementById("items").value = selectedItems
-          .map((x,i)=>`${i+1}. ${x.name}`)
+          .map((x,i)=>{
+            const priceLabel = x.price ? ` (${x.price}${x.currency === "p" ? "p" : "c"})` : "";
+            return `${i+1}. ${x.name}${priceLabel}`;
+          })
           .join("\n");
+        updateTotals();
 
         itemsError.style.display = "none";
 
@@ -445,6 +481,7 @@ loadItems();
 function clearItems(){
 
   selectedItems = [];
+  updateTotals();
 
   document.getElementById("items").value = "";
   document.getElementById("plato").value = "";
