@@ -172,6 +172,10 @@ input, textarea {
 <div id="totals-box" style="margin-top:10px;padding:10px;border:1px solid var(--color-B);background:var(--color-D);display:none">
   <div><strong>Total Price:</strong> <span id="total-price">0</span></div>
   <div style="margin-top:4px"><strong>Total Trade Price:</strong> <span id="total-trade-price">0</span></div>
+  <div style="margin-top:6px;font-size:12px;color:var(--color-text);opacity:.85">
+    <div>Formula (Coins): +25% value, then rounded up to the nearest 50 coins.</div>
+    <div>Formula (Pips): 1 Pip = 250 Coins.</div>
+  </div>
 </div>
 
 <div id="items-error">
@@ -279,11 +283,10 @@ let submitting = false;
 function updateTotals(){
 
   let totalCoins = 0;
-  let totalPips = 0;
 
   selectedItems.forEach(i=>{
     if(i.currency === "p"){
-      totalPips += (i.price || 0);
+      totalCoins += (i.price || 0) * 250;
     }else{
       totalCoins += (i.price || 0);
     }
@@ -300,19 +303,10 @@ function updateTotals(){
 
   totalsBox.style.display = "block";
 
-  if(totalPips > 0 && totalCoins === 0){
-    // Pip-only trade
-    const tradeCoins = totalPips * 250;
+  const tradePrice = Math.ceil((totalCoins * 1.25) / 50) * 50;
 
-    totalPriceEl.textContent = totalPips + " pips";
-    totalTradePriceEl.textContent = tradeCoins + " coins";
-  }else{
-    // Coin trade
-    const tradePrice = Math.ceil((totalCoins * 1.25) / 50) * 50;
-
-    totalPriceEl.textContent = totalCoins + " coins";
-    totalTradePriceEl.textContent = tradePrice + " coins";
-  }
+  totalPriceEl.textContent = totalCoins + " coins";
+  totalTradePriceEl.textContent = tradePrice + " coins";
 
 }
 
