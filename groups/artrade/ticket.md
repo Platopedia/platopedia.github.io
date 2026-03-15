@@ -247,7 +247,7 @@ input, textarea {
 </div>
 
 <div id="discord-invite" class="ticket-panel" style="display:none;text-align:center;">
-  <span class="content-link" data-url="https://discord.com/invite/ardc" data-text="" data-copy="true"></span>
+<span class="content-link" id="ticket-number" data-copy="true"></span>
 </div>
 
 <div class="linebreak"></div>
@@ -256,6 +256,10 @@ input, textarea {
 
 const params = new URLSearchParams(location.search);
 const ticket = params.get("t");
+const ticketNumberEl = document.getElementById("ticket-number");
+if(ticketNumberEl && ticket){
+  ticketNumberEl.textContent = ticket;
+}
 const submitted = params.get("submitted");
 
 if(ticket && submitted === "1"){
