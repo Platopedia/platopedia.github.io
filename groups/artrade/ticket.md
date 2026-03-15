@@ -47,21 +47,18 @@ input, textarea {
 }
 
 
-/* Autofill background fix (preserve existing glow from main.css) */
+/* Chrome autofill fix for dark inputs */
 .ticket-panel input:-webkit-autofill{
-  -webkit-box-shadow:
-    0 0 0 1000px var(--color-D) inset !important;
+  -webkit-box-shadow: 0 0 0 1000px var(--color-D) inset !important;
   -webkit-text-fill-color: var(--color-text) !important;
   caret-color: var(--color-text);
 }
 
-/* Autofill while focused – keep inset background but keep outer glow */
+/* When focused, add the normal glow back on top of the inset background */
 .ticket-panel input:-webkit-autofill:focus{
   -webkit-box-shadow:
     0 0 8px var(--color-form-field-box),
     0 0 0 1000px var(--color-D) inset !important;
-  -webkit-text-fill-color: var(--color-text) !important;
-  caret-color: var(--color-text);
 }
 
 #items{
