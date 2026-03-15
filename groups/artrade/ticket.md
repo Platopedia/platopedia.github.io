@@ -44,6 +44,7 @@ input, textarea {
 
 .ticket-panel input:focus{
   outline:none;
+  border-color:transparent; /* hide border so only the glow is visible */
 }
 
 
