@@ -48,7 +48,7 @@ input, textarea {
 
 /* Simple Chrome autofill background correction */
 .ticket-panel input:-webkit-autofill{
-  background-color: var(--color-D) !important;
+  -webkit-box-shadow: 0 0 0 1000px var(--color-D) inset !important;
   -webkit-text-fill-color: var(--color-text) !important;
 }
 
@@ -194,7 +194,7 @@ input, textarea {
 
 <label>Plato Friend Link</label>
 <div class="input-wrap">
-  <input id="friend-link" placeholder="Enter Plato friend link (https://...)">
+  <input id="friend-link" placeholder="Enter Plato friend link (https://...)" autocomplete="off">
   <span class="input-clear" id="friend-clear">×</span>
 </div>
 
