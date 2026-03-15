@@ -47,11 +47,8 @@ input, textarea {
 }
 
 /* Prevent Chrome autofill from turning inputs white in dark mode */
-.ticket-panel input:-webkit-autofill,
-.ticket-panel input:-webkit-autofill:hover,
-.ticket-panel input:-webkit-autofill:focus,
-.ticket-panel input:-webkit-autofill:active{
-  background-color: var(--color-D) !important;
+.ticket-panel input:-webkit-autofill{
+  -webkit-box-shadow: 0 0 0 1000px var(--color-D) inset !important;
   -webkit-text-fill-color: var(--color-text) !important;
   caret-color: var(--color-text);
 }
