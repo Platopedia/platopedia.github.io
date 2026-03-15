@@ -285,6 +285,8 @@ friendInput.addEventListener("input",()=>{
   const val = friendInput.value.trim();
   if(val === ""){
     friendError.style.display = "none";
+  }else if(val.length > 50){
+    friendError.style.display = "block";
   }else{
     friendError.style.display = /^https:\/\/platoapp\.com\/link\/.+/i.test(val) ? "none" : "block";
   }
@@ -461,7 +463,7 @@ function prepareSubmit(){
     hasError = true;
   }
 
-  if(!/^https:\/\/platoapp\.com\/link\/.+/i.test(friendLink)){
+  if(friendLink.length > 50 || !/^https:\/\/platoapp\.com\/link\/.+/i.test(friendLink)){
     friendError.style.display = "block";
     hasError = true;
   }
