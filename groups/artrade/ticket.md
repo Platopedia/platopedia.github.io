@@ -21,7 +21,6 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
   font-weight:600;
 }
 
-.ticket-panel input,
 .ticket-panel textarea{
   width:100%;
   padding:8px;
