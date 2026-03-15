@@ -279,16 +279,15 @@ let submitting = false;
 function updateTotals(){
 
   let totalCoins = 0;
+  let totalPips = 0;
 
   selectedItems.forEach(i=>{
     if(i.currency === "p"){
-      totalCoins += (i.price || 0) * 250;
+      totalPips += (i.price || 0);
     }else{
       totalCoins += (i.price || 0);
     }
   });
-
-  const tradePrice = Math.ceil((totalCoins * 1.25) / 50) * 50;
 
   const totalsBox = document.getElementById("totals-box");
   const totalPriceEl = document.getElementById("total-price");
@@ -300,8 +299,21 @@ function updateTotals(){
   }
 
   totalsBox.style.display = "block";
-  totalPriceEl.textContent = totalCoins + " coins";
-  totalTradePriceEl.textContent = tradePrice + " coins";
+
+  if(totalPips > 0 && totalCoins === 0){
+    // Pip-only trade
+    const tradeCoins = totalPips * 250;
+
+    totalPriceEl.textContent = totalPips + " pips";
+    totalTradePriceEl.textContent = tradeCoins + " coins";
+  }else{
+    // Coin trade
+    const tradePrice = Math.ceil((totalCoins * 1.25) / 50) * 50;
+
+    totalPriceEl.textContent = totalCoins + " coins";
+    totalTradePriceEl.textContent = tradePrice + " coins";
+  }
+
 }
 
 platoInput.addEventListener("input",()=>{
