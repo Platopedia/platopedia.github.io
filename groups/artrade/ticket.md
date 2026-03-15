@@ -289,7 +289,7 @@ if(submitted === "1"){
   const panel = document.querySelector(".ticket-panel");
   panel.innerHTML = `
     <div style="text-align:center;">
-      Your trade request has been submitted. Please save your <strong>Ticket ID</strong> and keep it private. If the trade is accepted, an <strong>Artrade Merchant</strong> will add you using your Plato link and will provide the same <strong>Ticket ID</strong> to confirm they are part of our team.
+      Your trade request has been submitted.<br><br><strong>Ticket ID:</strong> ${ticket}<br><br>Please save this ID and keep it private. If the trade is accepted, an <strong>Artrade Merchant</strong> will add you using your Plato link and provide the same <strong>Ticket ID</strong> to confirm they are part of our team.
     </div>
   `;
   document.addEventListener("DOMContentLoaded", ()=>{
