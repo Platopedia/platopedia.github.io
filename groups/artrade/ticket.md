@@ -4,17 +4,7 @@ title: Artrade Ticket - Platopedia
 heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />&nbsp;Artrade
 ---
 
-
 <style>
-
-html, body {
-  height: 100%;
-  overflow-anchor: none;
-}
-
-input, textarea {
-  font-size: 16px;
-}
 
 .ticket-panel{
   padding:20px;
@@ -139,20 +129,19 @@ input, textarea {
 
 <div class="ticket-panel">
 
-<label>Plato ID</label>
-<div class="input-wrap">
-  <input id="plato" placeholder="Enter Plato ID">
-  <span class="input-clear" id="plato-clear">×</span>
+<div class="form-group row">
+  <label class="col-sm-2 col-form-label">Plato ID</label>
+  <div class="col-sm-10">
+    <input id="plato" class="form-control" type="text" maxlength="12" placeholder="Enter Plato ID" autocomplete="off" autocapitalize="off">
+    <div id="plato-error" class="invalid-feedback" style="display:block">Invalid Plato ID (3–12 characters: letters, numbers, underscores)</div>
+  </div>
 </div>
 
-<div id="plato-error">
-  Invalid Plato ID (3–12 characters: letters, numbers, underscores)
-</div>
-
-<label>Search Item</label>
-<div class="input-wrap">
-  <input id="item-search" placeholder="Search item name...">
-  <span class="input-clear" id="search-clear">×</span>
+<div class="form-group row">
+  <label class="col-sm-2 col-form-label">Search Item</label>
+  <div class="col-sm-10">
+    <input id="item-search" class="form-control" type="text" placeholder="Search item name..." autocomplete="off" autocapitalize="off">
+  </div>
 </div>
 
 <div id="items-dropdown" style="max-height:220px;overflow:auto;margin-top:6px;background:var(--color-D);border:1px solid var(--color-B);padding:4px;display:none"></div>
