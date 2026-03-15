@@ -46,10 +46,17 @@ input, textarea {
   outline:none;
 }
 
-/* Simple Chrome autofill background correction */
+/* Chrome autofill background correction */
 .ticket-panel input:-webkit-autofill{
   -webkit-box-shadow: 0 0 0 1000px var(--color-D) inset !important;
   -webkit-text-fill-color: var(--color-text) !important;
+}
+
+/* When focused, restore the normal glow */
+.ticket-panel input:-webkit-autofill:focus{
+  -webkit-box-shadow:
+    0 0 8px var(--color-form-field-box),
+    0 0 0 1000px var(--color-D) inset !important;
 }
 
 #items{
@@ -185,7 +192,7 @@ input, textarea {
 
 <label>Plato ID</label>
 <div class="input-wrap">
-  <input id="plato" placeholder="Enter Plato ID">
+<input id="plato" placeholder="Enter Plato ID" autocomplete="off">
   <span class="input-clear" id="plato-clear">×</span>
 </div>
 <div id="plato-error">
@@ -204,7 +211,7 @@ input, textarea {
 
 <label>Search Item</label>
 <div class="input-wrap">
-  <input id="item-search" placeholder="Search item name...">
+<input id="item-search" placeholder="Search item name..." autocomplete="off">
   <span class="input-clear" id="search-clear">×</span>
 </div>
 
