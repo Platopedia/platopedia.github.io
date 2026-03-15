@@ -13,7 +13,6 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
   max-width:600px;
   margin:0 auto;
   box-sizing:border-box;
-  overflow-anchor:none;
 }
 
 .ticket-panel label{
@@ -22,18 +21,15 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
   font-weight:600;
 }
 
+.ticket-panel input,
 .ticket-panel textarea{
   width:100%;
   padding:8px;
-  margin-top:4px;[bootstrapselect.css](bootstrapselect.css)
+  margin-top:4px;
   box-sizing:border-box;
   background:var(--color-D);
   color:var(--color-text);
   border:1px solid var(--color-B);
-}
-
-.ticket-panel input:focus{
-  outline:none;
 }
 
 #items{
@@ -131,7 +127,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 
 <label>Plato ID</label>
 <div class="input-wrap">
-  <input id="plato" type="text" class="form-control" placeholder="Enter Plato ID">
+  <input id="plato" placeholder="Enter Plato ID">
   <span class="input-clear" id="plato-clear">×</span>
 </div>
 
@@ -141,7 +137,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 
 <label>Search Item</label>
 <div class="input-wrap">
-  <input id="item-search" type="search" class="form-control" placeholder="Search item name...">
+  <input id="item-search" placeholder="Search item name...">
   <span class="input-clear" id="search-clear">×</span>
 </div>
 
