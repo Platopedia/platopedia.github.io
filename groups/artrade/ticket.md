@@ -50,6 +50,7 @@ input, textarea {
 .ticket-panel input:-webkit-autofill{
   -webkit-box-shadow: 0 0 0 1000px var(--color-D) inset !important;
   -webkit-text-fill-color: var(--color-text) !important;
+  caret-color: var(--color-text) !important;
 }
 
 /* When focused, restore the normal glow and force gold border */
@@ -58,6 +59,7 @@ input, textarea {
     0 0 8px var(--color-form-field-box),
     0 0 0 1000px var(--color-D) inset !important;
   border:1px solid #CD9B1E !important;
+  caret-color: var(--color-text) !important;
 }
 
 #items{
