@@ -55,13 +55,18 @@ input, textarea {
   outline: none !important; /* remove Chrome autofill focus outline */
 }
 
-/* When focused, add the normal glow back on top of the inset background */
+/* When focused, keep dark background, cancel Chrome autofill border, and preserve glow */
 .ticket-panel input:-webkit-autofill:focus{
   -webkit-box-shadow:
     0 0 8px var(--color-form-field-box),
-    0 0 0 1000px var(--color-D) inset !important;
-  outline: none !important; /* remove Chrome autofill focus outline */
-  border-color: transparent !important; /* remove Chrome autofill border */
+    0 0 0 1000px var(--color-D) inset,
+    0 0 0 1px transparent inset !important;
+  box-shadow:
+    0 0 8px var(--color-form-field-box),
+    0 0 0 1000px var(--color-D) inset,
+    0 0 0 1px transparent inset !important;
+  outline: none !important;
+  border-color: transparent !important;
 }
 
 #items{
