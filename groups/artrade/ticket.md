@@ -201,7 +201,13 @@ input, textarea {
 
 <label>Plato Friend Link</label>
 <div class="input-wrap">
-  <input id="friend-link" placeholder="Enter Plato friend link (https://...)" autocomplete="off">
+  <input id="friend-link"
+         placeholder="Enter Plato friend link (https://...)"
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"
+         inputmode="url">
   <span class="input-clear" id="friend-clear">×</span>
 </div>
 
