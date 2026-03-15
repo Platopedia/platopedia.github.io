@@ -165,7 +165,7 @@ input, textarea {
 
 /* Improve scrollbar colors for dark mode (supported browsers) */
 #items-dropdown{
-  scrollbar-color: var(--color-link) var(--color-D);
+  scrollbar-color: #CD9B1E var(--color-D);
 }
 
 /* Chrome / Edge scrollbar styling */
@@ -178,7 +178,7 @@ input, textarea {
 }
 
 #items-dropdown::-webkit-scrollbar-thumb{
-  background:var(--color-link);
+  background:#CD9B1E;
   border-radius:4px;
 }
 
