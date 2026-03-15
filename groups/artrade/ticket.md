@@ -58,7 +58,7 @@ input, textarea {
   -webkit-box-shadow:
     0 0 8px var(--color-form-field-box),
     0 0 0 1000px var(--color-D) inset !important;
-  border:1px solid #CD9B1E !important;
+  border:1px solid var(--color-D) !important;
   caret-color: var(--color-text) !important;
 }
 
