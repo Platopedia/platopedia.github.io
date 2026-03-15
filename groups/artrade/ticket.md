@@ -61,6 +61,7 @@ input, textarea {
     0 0 8px var(--color-form-field-box),
     0 0 0 1000px var(--color-D) inset !important;
   outline: none !important; /* remove Chrome autofill focus outline */
+  border-color: transparent !important; /* remove Chrome autofill border */
 }
 
 #items{
