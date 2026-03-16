@@ -523,7 +523,7 @@ async function loadItems(){
       const priceLabel = i.price ? `${i.price}${currencyLabel}` : "";
 
       item.innerHTML = `
-        <img src="${i.img}" style="height:26px;max-width:40px;object-fit:contain;">
+        <img src="${i.img}" style="width:40px;height:26px;object-fit:contain;flex-shrink:0;">
         <span class="item-name">${i.name}${priceLabel ? ` (${priceLabel})` : ""}</span>
       `;
 
