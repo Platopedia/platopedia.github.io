@@ -721,7 +721,7 @@ async function submitTrade(){
       btn.style.background = "#CD9B1E";
       btn.onclick = prepareSubmit;
 
-      submitError.textContent = "This ticket has already been used for a trade request.";
+      submitError.textContent = "This ticket has already been used for a trade request. Please generate a new ticket from Discord.";
       submitError.style.display = "block";
 
       submitting = false;
