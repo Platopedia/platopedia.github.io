@@ -4,7 +4,6 @@ title: Artrade Ticket - Platopedia
 heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />&nbsp;Artrade Ticket
 ---
 
-
 <style>
 
 html, body {
