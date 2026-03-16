@@ -659,18 +659,15 @@ async function submitTrade(){
   },120);
 
   const res = await fetch(
-    "https://discord.com/api/webhooks/1482087912295104614/ro6kzQvLhc5vCJq6vMSA66jdiEm8WnNECdZN9jHk1KhQETik74XyvMJusIv3k_A4mzd3",
+    "https://artrade-ticket.fear-bugs.workers.dev",
     {
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({
-        content:
-        "🌐 **Website Trade Request**\n\n"+
-        "**Ticket:** "+ticket+"\n"+
-        "**Plato ID:** "+platoId+"\n"+
-        "**Friend Link:** "+(friendLink ? friendLink : "Not provided")+"\n\n"+
-        "**Items:**\n"+
-        selectedItems.map(i=>"https://platopedia.com/items?id="+i.id).join("\n")
+        ticket,
+        platoId,
+        friendLink,
+        items:selectedItems.map(i=>"https://platopedia.com/items?id="+i.id)
       })
     }
   );
