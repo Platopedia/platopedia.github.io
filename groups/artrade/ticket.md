@@ -695,6 +695,23 @@ async function submitTrade(){
       data = null;
     }
 
+    // Invalid ticket response
+    if(res.status === 400 && data && data.status === "invalid"){
+
+      btn.classList.remove("loading");
+      btn.disabled = false;
+      btn.textContent = "Submit Request";
+      btn.style.background = "#CD9B1E";
+      btn.onclick = prepareSubmit;
+
+      submitError.textContent = "Invalid ticket. Please generate a new ticket from Discord.";
+      submitError.style.display = "block";
+
+      submitting = false;
+
+      return;
+    }
+
     // Duplicate ticket response
     if(res.status === 409 && data && data.status === "duplicate"){
 
