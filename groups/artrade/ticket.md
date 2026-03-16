@@ -659,7 +659,7 @@ async function submitTrade(){
   },120);
 
   const res = await fetch(
-    "https://artrade-ticket.fear-bugs.workers.dev",
+    "https://artrade-ticket.platopedia.workers.dev",
     {
       method:"POST",
       headers:{"Content-Type":"application/json"},
