@@ -76,7 +76,8 @@ input, textarea {
 
 .ticket-panel #plato-error,
 .ticket-panel #items-error,
-.ticket-panel #friend-error{
+.ticket-panel #friend-error,
+.ticket-panel #submit-error{
   margin-top:4px;
   font-size:13px;
   color:#e74c3c;
@@ -237,6 +238,7 @@ input, textarea {
 
 <button id="submit-btn" onclick="prepareSubmit()">Submit Request</button>
 <button type="button" onclick="clearItems()" style="margin-left:8px;background:#888">Clear All</button>
+<div id="submit-error"></div>
 
 </div>
 
@@ -311,6 +313,7 @@ const platoError = document.getElementById("plato-error");
 const friendInput = document.getElementById("friend-link");
 const friendError = document.getElementById("friend-error");
 const itemsError = document.getElementById("items-error");
+const submitError = document.getElementById("submit-error");
 const searchInput = document.getElementById("item-search");
 const dropdown = document.getElementById("items-dropdown");
 
@@ -610,9 +613,17 @@ function clearItems(){
     submitBtn.disabled = false;
     submitBtn.onclick = prepareSubmit;
   }
+
+  // Clear submit error
+  submitError.style.display = "none";
+  submitError.textContent = "";
 }
 
 function prepareSubmit(){
+
+  // Clear any previous submit error
+  submitError.style.display = "none";
+  submitError.textContent = "";
 
   const submitBtn = document.getElementById("submit-btn");
   const platoId = platoInput.value.trim();
@@ -646,10 +657,13 @@ function prepareSubmit(){
 async function submitTrade(){
 
   const btn = document.getElementById("submit-btn");
+
   // Trigger gold slide loading effect
   btn.classList.add("loading");
+
   const platoId = platoInput.value.trim();
   const friendLink = friendInput.value.trim();
+
   if(submitting) return;
   submitting = true;
 
@@ -658,33 +672,70 @@ async function submitTrade(){
     btn.textContent = "Processing...";
   },120);
 
-  const res = await fetch(
-    "https://artrade-ticket.platopedia.workers.dev",
-    {
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({
-        ticket,
-        platoId,
-        friendLink,
-        items:selectedItems.map(i=>"https://platopedia.com/items?id="+i.id)
-      })
+  try{
+
+    const res = await fetch(
+      "https://artrade-ticket.platopedia.workers.dev",
+      {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+          ticket,
+          platoId,
+          friendLink,
+          items:selectedItems.map(i=>"https://platopedia.com/items?id="+i.id)
+        })
+      }
+    );
+
+    let data = null;
+
+    try{
+      data = await res.json();
+    }catch(e){
+      data = null;
     }
-  );
 
-  if(!res.ok){
+    // Duplicate ticket response
+    if(res.status === 409 && data && data.status === "duplicate"){
 
+      btn.classList.remove("loading");
+      btn.disabled = false;
+      btn.textContent = "Submit Request";
+      btn.style.background = "#CD9B1E";
+      btn.onclick = prepareSubmit;
+
+      submitError.textContent = "This ticket has already been used for a trade request.";
+      submitError.style.display = "block";
+
+      submitting = false;
+
+      return;
+    }
+
+    if(!res.ok){
+      throw new Error("Worker request failed");
+    }
+
+    const url = new URL(window.location.href);
+    url.searchParams.set("submitted","1");
+    window.location.href = url.toString();
+
+  }catch(err){
+
+    // Reset button if Worker/network fails
+    btn.classList.remove("loading");
     btn.disabled = false;
+    btn.textContent = "Submit Request";
+    btn.style.background = "#CD9B1E";
+    btn.onclick = prepareSubmit;
 
-    document.querySelector(".ticket-panel").innerHTML =
-      "Failed to submit request. Please try again.";
+    submitError.textContent = "Submission failed. Please try again.";
+    submitError.style.display = "block";
 
-    return;
+    submitting = false;
+
   }
-
-  const url = new URL(window.location.href);
-  url.searchParams.set("submitted","1");
-  window.location.href = url.toString();
 
 }
 
