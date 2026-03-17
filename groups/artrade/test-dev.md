@@ -153,9 +153,9 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       e.stopPropagation();
 
-      awaitingToken = true;
-
       if(btn.disabled || isProcessing) return;
+
+      awaitingToken = true;
 
       if(!widgetId){
         result.textContent = "Verification not ready. Refresh.";
@@ -172,11 +172,12 @@ document.addEventListener("DOMContentLoaded", () => {
       try{
         turnstile.execute(widgetId);
       }catch(err){
-        result.textContent = "Verification failed. Refresh page.";
+        result.textContent = "Verification failed. Please try again.";
         result.style.color = "#ff4d4f";
 
         btn.disabled = false;
         btn.style.pointerEvents = "auto";
+        awaitingToken = false;
       }
     });
   }
