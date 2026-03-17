@@ -7,6 +7,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 <style>
 h2 { color:#CD9B1E !important }
 h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
+</style>
 
 <div class="linebreak"></div>
 
