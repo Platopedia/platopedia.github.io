@@ -151,12 +151,12 @@ During a trade, merchants and requesters must follow the trading rules listed be
 
 ## Generate Trade Ticket
 
-<div id="captcha-container" style="margin-bottom:10px;"></div>
 <div class="trade-card" style="text-align:center;margin-bottom:20px;">
   <p>Need a trade ticket? Generate one instantly.</p>
   <button id="genTicketBtn" style="padding:10px 18px;background:#CD9B1E;border:none;border-radius:6px;cursor:pointer;">
     Generate Ticket
   </button>
+  <div id="captcha-container" style="margin-top:10px;"></div>
   <div id="genTicketResult" style="margin-top:12px;font-weight:600;"></div>
 </div>
 
@@ -228,6 +228,7 @@ Apply to become an Artrade Merchant and join our trusted network of traders. Fil
 <script>
 
 let captchaToken = null;
+let captchaRendered = false;
 
 function renderCaptcha(){
   turnstile.render('#captcha-container', {
@@ -323,12 +324,18 @@ Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coi
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  renderCaptcha();
-
   const btn = document.getElementById("genTicketBtn");
   if (!btn) return;
 
   btn.addEventListener("click", async function(){
+
+    if(!captchaRendered){
+      renderCaptcha();
+      captchaRendered = true;
+      const result = document.getElementById("genTicketResult");
+      result.textContent = "Verification required. Please complete it and click again.";
+      return;
+    }
 
     if(!captchaToken){
       const result = document.getElementById("genTicketResult");
