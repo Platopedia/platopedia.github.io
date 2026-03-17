@@ -316,7 +316,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try{
 
-      const res = await fetch("https://ticket-generator.platopedia.workers.dev", {
+      const res = await fetch("https://ticket-generator.platopedia.workers.dev/generate-ticket", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
