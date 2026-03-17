@@ -151,6 +151,7 @@ During a trade, merchants and requesters must follow the trading rules listed be
 
 ## Generate Trade Ticket
 
+<div id="captcha-container" style="margin-bottom:10px;"></div>
 <div class="trade-card" style="text-align:center;margin-bottom:20px;">
   <p>Need a trade ticket? Generate one instantly.</p>
   <button id="genTicketBtn" style="padding:10px 18px;background:#CD9B1E;border:none;border-radius:6px;cursor:pointer;">
@@ -223,7 +224,19 @@ Apply to become an Artrade Merchant and join our trusted network of traders. Fil
 
 <div class="linebreak"></div>
 
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <script>
+
+let captchaToken = null;
+
+function renderCaptcha(){
+  turnstile.render('#captcha-container', {
+    sitekey: '0x4AAAAAACsY3XYA6cc6K6Ks',
+    callback: function(token){
+      captchaToken = token;
+    }
+  });
+}
 
 function clearCoin(){
 const input=document.getElementById("coinInput");
@@ -304,10 +317,16 @@ Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coi
 
 document.addEventListener("DOMContentLoaded", () => {
 
+  renderCaptcha();
+
   const btn = document.getElementById("genTicketBtn");
   if (!btn) return;
 
   btn.addEventListener("click", async function(){
+
+    if(!captchaToken){
+      throw new Error("captcha_missing");
+    }
 
     const result = document.getElementById("genTicketResult");
 
@@ -322,7 +341,7 @@ document.addEventListener("DOMContentLoaded", () => {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          captchaToken: "dummy", // replace later
+          captchaToken,
           fingerprint: navigator.userAgent
         })
       });
