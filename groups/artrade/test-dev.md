@@ -13,33 +13,38 @@ h2 { color:#CD9B1E !important }
 <div class="trade-card" style="text-align:center;margin-bottom:20px;">
   <p>Need a trade ticket? Generate one instantly.</p>
 
-  <button id="genTicketBtn" style="
-    padding:12px 20px;
-    background:#CD9B1E;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-    font-weight:600;
-  ">
-    Generate Ticket
-  </button>
+<button id="genTicketBtn" style="
+padding:12px 20px;
+background:#CD9B1E;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-weight:600;
+">
+Generate Ticket
+</button>
 
-  <div id="captcha-container" style="display:none;"></div>
+  <!-- Hidden but renderable captcha -->
+  <div id="captcha-container" style="
+    position:absolute;
+    width:1px;
+    height:1px;
+    opacity:0;
+    pointer-events:none;
+  "></div>
 
   <div id="genTicketResult" style="margin-top:12px;font-weight:600;"></div>
 </div>
 
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-<script>
 
+<script>
 let widgetId = null;
 let isProcessing = false;
 
 function initCaptcha(){
   widgetId = turnstile.render('#captcha-container', {
     sitekey: '0x4AAAAAACsY3XYA6cc6K6Ks',
-    execution: 'execute',
-    appearance: 'interaction-only',
     callback: handleSuccess
   });
 }
@@ -54,6 +59,20 @@ async function handleSuccess(token){
   btn.disabled = true;
   btn.textContent = "Generating...";
   result.textContent = "";
+
+  // ⏱️ Safety timeout (prevents stuck button)
+  const timeout = setTimeout(() => {
+    if(isProcessing){
+      btn.disabled = false;
+      btn.textContent = "Generate Ticket";
+      result.textContent = "Verification timeout. Try again.";
+      isProcessing = false;
+
+      if(widgetId){
+        turnstile.reset(widgetId);
+      }
+    }
+  }, 10000);
 
   try{
     const res = await fetch("https://ticket-generator.platopedia.workers.dev/generate-ticket", {
@@ -71,17 +90,20 @@ async function handleSuccess(token){
       throw new Error("failed");
     }
 
+    clearTimeout(timeout);
+
+    // ✅ redirect on success
     window.location.href = `/groups/artrade/ticket?t=${data.ticket}`;
 
   }catch(e){
+    clearTimeout(timeout);
+
     result.textContent = "Failed to generate ticket. Try again.";
 
     btn.disabled = false;
     btn.textContent = "Generate Ticket";
-
     isProcessing = false;
 
-    // reset captcha safely
     if(widgetId){
       turnstile.reset(widgetId);
     }
@@ -89,7 +111,6 @@ async function handleSuccess(token){
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-
   const btn = document.getElementById("genTicketBtn");
   const result = document.getElementById("genTicketResult");
 
@@ -113,7 +134,5 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
   });
-
 });
-
 </script>
