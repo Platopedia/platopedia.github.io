@@ -10,7 +10,7 @@ h2 { color:#CD9B1E !important }
 
 ## Generate Trade Ticket
 
-<div class="trade-card" style="text-align:center;margin-bottom:20px;">
+<div class="trade-card" style="text-align:center;margin-bottom:20px; position:relative;">
   <p>Need a trade ticket? Generate one instantly.</p>
 
 <button id="genTicketBtn" type="button" style="
@@ -20,17 +20,20 @@ border:none;
 border-radius:8px;
 cursor:pointer;
 font-weight:600;
-" >
+position:relative;
+z-index:10;
+">
 Generate Ticket
 </button>
 
-  <!-- Hidden but renderable captcha -->
+  <!-- Hidden Turnstile (safe) -->
   <div id="captcha-container" style="
-    position:absolute;
+    position:fixed;
+    top:-100px;
+    left:-100px;
     width:1px;
     height:1px;
     opacity:0;
-    pointer-events:none;
   "></div>
 
   <div id="genTicketResult" style="margin-top:12px;font-weight:600;"></div>
@@ -41,6 +44,10 @@ Generate Ticket
 <script>
 let widgetId = null;
 let isProcessing = false;
+
+function onTurnstileLoad(){
+  initCaptcha();
+}
 
 function initCaptcha(){
   if(!window.turnstile){
@@ -64,20 +71,20 @@ async function handleSuccess(token){
   btn.disabled = true;
   btn.style.pointerEvents = "none";
   btn.textContent = "Generating...";
-  result.textContent = "";
 
-  // ⏱️ Safety timeout (prevents stuck button)
+  result.textContent = "";
+  result.style.color = "";
+
   const timeout = setTimeout(() => {
     if(isProcessing){
       btn.disabled = false;
       btn.style.pointerEvents = "auto";
       btn.textContent = "Generate Ticket";
       result.textContent = "Verification timeout. Try again.";
+      result.style.color = "#ff4d4f";
       isProcessing = false;
 
-      if(widgetId){
-        turnstile.reset(widgetId);
-      }
+      if(widgetId) turnstile.reset(widgetId);
     }
   }, 10000);
 
@@ -94,17 +101,17 @@ async function handleSuccess(token){
     const data = await res.json();
 
     if(!res.ok){
+      clearTimeout(timeout);
+
       result.textContent = data.message || "Something went wrong.";
       result.style.color = "#ff4d4f";
 
       btn.disabled = false;
+      btn.style.pointerEvents = "auto";
       btn.textContent = "Generate Ticket";
       isProcessing = false;
 
-      if(widgetId){
-        turnstile.reset(widgetId);
-      }
-
+      if(widgetId) turnstile.reset(widgetId);
       return;
     }
 
@@ -114,52 +121,62 @@ async function handleSuccess(token){
 
     clearTimeout(timeout);
 
-    // ✅ redirect on success
     window.location.href = `/groups/artrade/ticket?t=${data.ticket}`;
 
   }catch(e){
     clearTimeout(timeout);
 
     result.textContent = "Failed to generate ticket. Try again.";
+    result.style.color = "#ff4d4f";
 
     btn.disabled = false;
     btn.style.pointerEvents = "auto";
     btn.textContent = "Generate Ticket";
     isProcessing = false;
 
-    if(widgetId){
-      turnstile.reset(widgetId);
-    }
+    if(widgetId) turnstile.reset(widgetId);
   }
-}
-
-function onTurnstileLoad(){
-  initCaptcha();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   const btn = document.getElementById("genTicketBtn");
   const result = document.getElementById("genTicketResult");
-      btn.disabled = false;
-      btn.style.pointerEvents = "auto";
 
-  btn.addEventListener("click", () => {
-    if(btn.disabled) return;
-    if(isProcessing) return;
+  btn.disabled = false;
+  btn.style.pointerEvents = "auto";
 
-    if(!widgetId){
-      result.textContent = "Verification not ready. Refresh.";
-      return;
-    }
+  // Prevent duplicate binding
+  if (!btn.dataset.bound) {
+    btn.dataset.bound = "1";
 
-    result.textContent = "Verifying...";
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
 
-    try{
-      turnstile.execute(widgetId);
-    }catch(e){
-      result.textContent = "Verification failed. Refresh page.";
-    }
+      if(btn.disabled || isProcessing) return;
 
-  });
+      if(!widgetId){
+        result.textContent = "Verification not ready. Refresh.";
+        result.style.color = "#ff4d4f";
+        return;
+      }
+
+      result.textContent = "Verifying...";
+      result.style.color = "";
+
+      btn.disabled = true;
+      btn.style.pointerEvents = "none";
+
+      try{
+        turnstile.execute(widgetId);
+      }catch(err){
+        result.textContent = "Verification failed. Refresh page.";
+        result.style.color = "#ff4d4f";
+
+        btn.disabled = false;
+        btn.style.pointerEvents = "auto";
+      }
+    });
+  }
 });
 </script>
