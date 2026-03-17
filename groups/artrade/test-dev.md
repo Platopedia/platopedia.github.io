@@ -6,105 +6,124 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 
 <style>
 h2 { color:#CD9B1E !important }
+h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 </style>
+
+<div class="linebreak"></div>
 
 ## Generate Trade Ticket
 
 <div class="trade-card" style="text-align:center;margin-bottom:20px;">
   <p>Need a trade ticket? Generate one instantly.</p>
-
-  <button id="genTicketBtn" style="
-    padding:12px 20px;
-    background:#CD9B1E;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-    font-weight:600;
-    transition:0.2s;
-  ">
+  <button id="genTicketBtn" style="padding:10px 18px;background:#CD9B1E;border:none;border-radius:6px;cursor:pointer;">
     Generate Ticket
   </button>
-
-  <div id="captcha-container" style="margin-top:12px;"></div>
-
+  <div id="captcha-container" style="margin-top:10px;"></div>
   <div id="genTicketResult" style="margin-top:12px;font-weight:600;"></div>
 </div>
 
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <script>
 
+let captchaToken = null;
+let captchaRendered = false;
 let widgetId = null;
-let generating = false;
+
+function onCaptchaSuccess(token) {
+  captchaToken = token;
+  const result = document.getElementById("genTicketResult");
+  result.textContent = "Verification successful. You may now generate the ticket.";
+}
 
 function initCaptcha(){
   widgetId = turnstile.render('#captcha-container', {
-    sitekey: '0x4AAAAAACsY3XYA6cc6K6Ks', // your site key
+    sitekey: '0x4AAAAAACsY3XYA6cc6K6Ks',
     appearance: 'interaction-only',
-
+    execution: 'execute',
     callback: onCaptchaSuccess,
-
-    'expired-callback': () => {
-      turnstile.reset(widgetId);
+    'expired-callback': function(){
+      captchaToken = null;
     },
-
-    'error-callback': () => {
-      turnstile.reset(widgetId);
+    'error-callback': function(){
+      captchaToken = null;
     }
   });
 }
 
-async function onCaptchaSuccess(token){
-  if(generating) return;
-  generating = true;
-
-  const btn = document.getElementById("genTicketBtn");
-  const result = document.getElementById("genTicketResult");
-
-  btn.disabled = true;
-  btn.textContent = "Generating...";
-  result.textContent = "";
-
-  try{
-    const res = await fetch("https://ticket-generator.platopedia.workers.dev/generate-ticket", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        captchaToken: token,
-        fingerprint: navigator.userAgent
-      })
-    });
-
-    const data = await res.json();
-
-    if(!res.ok || !data.ticket){
-      throw new Error("Failed");
-    }
-
-    // Redirect to ticket page
-    window.location.href = `/groups/artrade/ticket?t=${data.ticket}`;
-
-  }catch(e){
-    result.textContent = "Failed to generate ticket. Try again.";
-
-    turnstile.reset(widgetId);
-
-    btn.disabled = false;
-    btn.textContent = "Generate Ticket";
-    generating = false;
-  }
-}
+/* =========================
+   SIMPLE TICKET GENERATOR
+   ========================= */
 
 document.addEventListener("DOMContentLoaded", () => {
+
   const btn = document.getElementById("genTicketBtn");
   if (!btn) return;
 
   initCaptcha();
 
-  btn.addEventListener("click", () => {
-    turnstile.execute(widgetId);
+  setTimeout(() => {
+    if(!widgetId){
+      const result = document.getElementById("genTicketResult");
+      result.textContent = "Captcha failed to load. Refresh page.";
+    }
+  }, 3000);
+
+  btn.addEventListener("click", async function(){
+
+    if(!widgetId){
+      const result = document.getElementById("genTicketResult");
+      result.textContent = "Verification not ready. Try again.";
+      return;
+    }
+
+    if(!captchaToken){
+      turnstile.execute(widgetId);
+      const result = document.getElementById("genTicketResult");
+      result.textContent = "Verifying… please complete the captcha.";
+      return;
+    }
+
+    const result = document.getElementById("genTicketResult");
+
+    btn.disabled = true;
+    btn.textContent = "Generating...";
+
+    try{
+
+      const res = await fetch("https://ticket-generator.platopedia.workers.dev/generate-ticket", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          captchaToken,
+          fingerprint: navigator.userAgent
+        })
+      });
+
+      const data = await res.json();
+
+      if(!res.ok || !data.ticket){
+        throw new Error("Failed");
+      }
+
+      result.innerHTML = `
+        Ticket: <span class="trade-highlight">${data.ticket}</span><br>
+        <small>Use this on the trade request page</small>
+      `;
+      // reset captcha for next use
+      captchaToken = null;
+      turnstile.reset(widgetId);
+
+    }catch(e){
+      result.textContent = "Failed to generate ticket. Try again.";
+    }
+
+    btn.disabled = false;
+    btn.textContent = "Generate Ticket";
+
   });
+
 });
 
 </script>
