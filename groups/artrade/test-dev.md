@@ -36,7 +36,7 @@ Generate Ticket
   <div id="genTicketResult" style="margin-top:12px;font-weight:600;"></div>
 </div>
 
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad" defer></script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad&render=explicit" defer></script>
 
 <script>
 let widgetId = null;
@@ -50,12 +50,11 @@ function initCaptcha(){
 
   widgetId = turnstile.render('#captcha-container', {
     sitekey: '0x4AAAAAACsY3XYA6cc6K6Ks',
-    callback: handleSuccess,
-    execution: 'execute'
+    callback: handleSuccess
   });
 }
 
-function handleSuccess(token){
+async function handleSuccess(token){
   if(isProcessing) return;
   isProcessing = true;
 
