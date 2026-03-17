@@ -18,7 +18,7 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
   <button id="genTicketBtn" style="padding:10px 18px;background:#CD9B1E;border:none;border-radius:6px;cursor:pointer;">
     Generate Ticket
   </button>
-  <div id="captcha-container" style="margin-top:10px;"></div>
+  <div id="captcha-container" style="display:none;"></div>
   <div id="genTicketResult" style="margin-top:12px;font-weight:600;"></div>
 </div>
 
@@ -77,9 +77,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if(!captchaToken){
-      turnstile.execute(widgetId);
       const result = document.getElementById("genTicketResult");
-      result.textContent = "Verifying… please complete the captcha.";
+      result.textContent = "Verifying...";
+      turnstile.execute(widgetId);
       return;
     }
 
