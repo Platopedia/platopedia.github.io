@@ -6,19 +6,26 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 
 <style>
 h2 { color:#CD9B1E !important }
-h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 </style>
-
-<div class="linebreak"></div>
 
 ## Generate Trade Ticket
 
 <div class="trade-card" style="text-align:center;margin-bottom:20px;">
   <p>Need a trade ticket? Generate one instantly.</p>
-  <button id="genTicketBtn" style="padding:10px 18px;background:#CD9B1E;border:none;border-radius:6px;cursor:pointer;">
+
+  <button id="genTicketBtn" style="
+    padding:12px 20px;
+    background:#CD9B1E;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:600;
+  ">
     Generate Ticket
   </button>
+
   <div id="captcha-container" style="display:none;"></div>
+
   <div id="genTicketResult" style="margin-top:12px;font-weight:600;"></div>
 </div>
 
@@ -26,12 +33,20 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 <script>
 
 let widgetId = null;
-let generating = false;
+let isProcessing = false;
 
-// Refactored: ticket generation is now done in onCaptchaSuccess
-async function onCaptchaSuccess(token) {
-  if (generating) return;
-  generating = true;
+function initCaptcha(){
+  widgetId = turnstile.render('#captcha-container', {
+    sitekey: '0x4AAAAAACsY3XYA6cc6K6Ks',
+    execution: 'execute',
+    appearance: 'interaction-only',
+    callback: handleSuccess
+  });
+}
+
+async function handleSuccess(token){
+  if(isProcessing) return;
+  isProcessing = true;
 
   const btn = document.getElementById("genTicketBtn");
   const result = document.getElementById("genTicketResult");
@@ -53,74 +68,49 @@ async function onCaptchaSuccess(token) {
     const data = await res.json();
 
     if(!res.ok || !data.ticket){
-      throw new Error("Failed");
+      throw new Error("failed");
     }
 
     window.location.href = `/groups/artrade/ticket?t=${data.ticket}`;
 
   }catch(e){
     result.textContent = "Failed to generate ticket. Try again.";
+
     btn.disabled = false;
     btn.textContent = "Generate Ticket";
-    turnstile.reset(widgetId);
-  } finally {
-    generating = false;
+
+    isProcessing = false;
+
+    // reset captcha safely
+    if(widgetId){
+      turnstile.reset(widgetId);
+    }
   }
 }
-
-function initCaptcha(){
-  widgetId = turnstile.render('#captcha-container', {
-    sitekey: '0x4AAAAAACsY3XYA6cc6K6Ks',
-    appearance: 'interaction-only',
-    execution: 'execute',
-    callback: onCaptchaSuccess,
-    'expired-callback': () => turnstile.reset(widgetId),
-    'error-callback': () => turnstile.reset(widgetId)
-  });
-}
-
-/* =========================
-   SIMPLE TICKET GENERATOR
-   ========================= */
 
 document.addEventListener("DOMContentLoaded", () => {
 
   const btn = document.getElementById("genTicketBtn");
-  if (!btn) return;
+  const result = document.getElementById("genTicketResult");
 
   initCaptcha();
 
-  setTimeout(() => {
-    if(!widgetId){
-      const result = document.getElementById("genTicketResult");
-      result.textContent = "Captcha failed to load. Refresh page.";
-    }
-  }, 3000);
+  btn.addEventListener("click", () => {
 
-  btn.addEventListener("click", function(){
-
-    if (generating) return;
+    if(isProcessing) return;
 
     if(!widgetId){
-      const result = document.getElementById("genTicketResult");
-      result.textContent = "Verification not ready. Try again.";
+      result.textContent = "Verification not ready. Refresh.";
       return;
     }
 
-    const result = document.getElementById("genTicketResult");
     result.textContent = "Verifying...";
 
-    turnstile.execute(widgetId);
-
-    // safety: re-enable if no callback in 5s
-    setTimeout(() => {
-      if (generating) {
-        const btn = document.getElementById("genTicketBtn");
-        btn.disabled = false;
-        btn.textContent = "Generate Ticket";
-        generating = false;
-      }
-    }, 5000);
+    try{
+      turnstile.execute(widgetId);
+    }catch(e){
+      result.textContent = "Verification failed. Refresh page.";
+    }
 
   });
 
