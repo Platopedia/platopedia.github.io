@@ -325,7 +325,9 @@ document.addEventListener("DOMContentLoaded", () => {
   btn.addEventListener("click", async function(){
 
     if(!captchaToken){
-      throw new Error("captcha_missing");
+      const result = document.getElementById("genTicketResult");
+      result.textContent = "Please complete the verification first.";
+      return;
     }
 
     const result = document.getElementById("genTicketResult");
