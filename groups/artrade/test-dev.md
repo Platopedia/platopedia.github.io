@@ -26,9 +26,13 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 <script>
 
 let widgetId = null;
+let generating = false;
 
 // Refactored: ticket generation is now done in onCaptchaSuccess
 async function onCaptchaSuccess(token) {
+  if (generating) return;
+  generating = true;
+
   const btn = document.getElementById("genTicketBtn");
   const result = document.getElementById("genTicketResult");
 
@@ -59,6 +63,8 @@ async function onCaptchaSuccess(token) {
     btn.disabled = false;
     btn.textContent = "Generate Ticket";
     turnstile.reset(widgetId);
+  } finally {
+    generating = false;
   }
 }
 
@@ -93,6 +99,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   btn.addEventListener("click", function(){
 
+    if (generating) return;
+
     if(!widgetId){
       const result = document.getElementById("genTicketResult");
       result.textContent = "Verification not ready. Try again.";
@@ -103,6 +111,16 @@ document.addEventListener("DOMContentLoaded", () => {
     result.textContent = "Verifying...";
 
     turnstile.execute(widgetId);
+
+    // safety: re-enable if no callback in 5s
+    setTimeout(() => {
+      if (generating) {
+        const btn = document.getElementById("genTicketBtn");
+        btn.disabled = false;
+        btn.textContent = "Generate Ticket";
+        generating = false;
+      }
+    }, 5000);
 
   });
 
