@@ -34,7 +34,7 @@ Generate Ticket
 <script>
 let widgetId = null;
 let isProcessing = false;
-let hasUserClicked = false;
+let awaitingToken = false; // strict guard: only accept token after a click-triggered execute
 
 function onTurnstileLoad(){
   initCaptcha();
@@ -54,12 +54,13 @@ function initCaptcha(){
 }
 
 async function handleSuccess(token){
-  if(!hasUserClicked){
-    // Ignore auto-trigger from Turnstile render
+  if(!awaitingToken){
+    // Ignore any auto / duplicate callbacks
     return;
   }
   if(isProcessing) return;
   isProcessing = true;
+  awaitingToken = false; // consume this execution
 
   const btn = document.getElementById("genTicketBtn");
   const result = document.getElementById("genTicketResult");
@@ -79,6 +80,7 @@ async function handleSuccess(token){
       result.textContent = "Verification timeout. Try again.";
       result.style.color = "#ff4d4f";
       isProcessing = false;
+      awaitingToken = false;
 
       if(widgetId) turnstile.reset(widgetId);
     }
@@ -106,6 +108,7 @@ async function handleSuccess(token){
       btn.style.pointerEvents = "auto";
       btn.textContent = "Generate Ticket";
       isProcessing = false;
+      awaitingToken = false;
 
       if(widgetId) turnstile.reset(widgetId);
       return;
@@ -129,6 +132,7 @@ async function handleSuccess(token){
     btn.style.pointerEvents = "auto";
     btn.textContent = "Generate Ticket";
     isProcessing = false;
+    awaitingToken = false;
 
     if(widgetId) turnstile.reset(widgetId);
   }
@@ -149,7 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       e.stopPropagation();
 
-      hasUserClicked = true;
+      awaitingToken = true;
 
       if(btn.disabled || isProcessing) return;
 
