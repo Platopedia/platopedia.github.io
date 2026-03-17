@@ -62,6 +62,7 @@ async function handleSuccess(token){
   const result = document.getElementById("genTicketResult");
 
   btn.disabled = true;
+  btn.style.pointerEvents = "none";
   btn.textContent = "Generating...";
   result.textContent = "";
 
@@ -69,6 +70,7 @@ async function handleSuccess(token){
   const timeout = setTimeout(() => {
     if(isProcessing){
       btn.disabled = false;
+      btn.style.pointerEvents = "auto";
       btn.textContent = "Generate Ticket";
       result.textContent = "Verification timeout. Try again.";
       isProcessing = false;
@@ -121,6 +123,7 @@ async function handleSuccess(token){
     result.textContent = "Failed to generate ticket. Try again.";
 
     btn.disabled = false;
+    btn.style.pointerEvents = "auto";
     btn.textContent = "Generate Ticket";
     isProcessing = false;
 
@@ -137,10 +140,11 @@ function onTurnstileLoad(){
 document.addEventListener("DOMContentLoaded", () => {
   const btn = document.getElementById("genTicketBtn");
   const result = document.getElementById("genTicketResult");
-  btn.disabled = false;
+      btn.disabled = false;
+      btn.style.pointerEvents = "auto";
 
   btn.addEventListener("click", () => {
-
+    if(btn.disabled) return;
     if(isProcessing) return;
 
     if(!widgetId){
