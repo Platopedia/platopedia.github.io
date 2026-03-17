@@ -91,8 +91,23 @@ async function handleSuccess(token){
 
     const data = await res.json();
 
-    if(!res.ok || !data.ticket){
-      throw new Error("failed");
+    if(!res.ok){
+      result.textContent = data.message || "Something went wrong.";
+      result.style.color = "#ff4d4f";
+
+      btn.disabled = false;
+      btn.textContent = "Generate Ticket";
+      isProcessing = false;
+
+      if(widgetId){
+        turnstile.reset(widgetId);
+      }
+
+      return;
+    }
+
+    if(!data.ticket){
+      throw new Error("no_ticket");
     }
 
     clearTimeout(timeout);
