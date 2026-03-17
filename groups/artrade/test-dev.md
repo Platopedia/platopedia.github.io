@@ -234,6 +234,12 @@ function renderCaptcha(){
     sitekey: '0x4AAAAAACsY3XYA6cc6K6Ks',
     callback: function(token){
       captchaToken = token;
+    },
+    'expired-callback': function(){
+      captchaToken = null;
+    },
+    'error-callback': function(){
+      captchaToken = null;
     }
   });
 }
@@ -326,7 +332,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if(!captchaToken){
       const result = document.getElementById("genTicketResult");
-      result.textContent = "Please complete the verification first.";
+      result.textContent = "Verifying… please wait a second and try again.";
       return;
     }
 
@@ -358,6 +364,9 @@ document.addEventListener("DOMContentLoaded", () => {
         Ticket: <span class="trade-highlight">${data.ticket}</span><br>
         <small>Use this on the trade request page</small>
       `;
+      // reset captcha for next use
+      captchaToken = null;
+      turnstile.reset('#captcha-container');
 
     }catch(e){
       result.textContent = "Failed to generate ticket. Try again.";
