@@ -13,14 +13,14 @@ h2 { color:#CD9B1E !important }
 <div class="trade-card" style="text-align:center;margin-bottom:20px;">
   <p>Need a trade ticket? Generate one instantly.</p>
 
-<button id="genTicketBtn" style="
+<button id="genTicketBtn" type="button" style="
 padding:12px 20px;
 background:#CD9B1E;
 border:none;
 border-radius:8px;
 cursor:pointer;
 font-weight:600;
-">
+" >
 Generate Ticket
 </button>
 
@@ -113,6 +113,7 @@ async function handleSuccess(token){
 document.addEventListener("DOMContentLoaded", () => {
   const btn = document.getElementById("genTicketBtn");
   const result = document.getElementById("genTicketResult");
+  btn.disabled = false;
 
   initCaptcha();
 
