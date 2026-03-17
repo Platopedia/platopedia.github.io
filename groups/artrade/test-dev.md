@@ -36,20 +36,26 @@ Generate Ticket
   <div id="genTicketResult" style="margin-top:12px;font-weight:600;"></div>
 </div>
 
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad" defer></script>
 
 <script>
 let widgetId = null;
 let isProcessing = false;
 
 function initCaptcha(){
+  if(!window.turnstile){
+    console.error("Turnstile not loaded");
+    return;
+  }
+
   widgetId = turnstile.render('#captcha-container', {
     sitekey: '0x4AAAAAACsY3XYA6cc6K6Ks',
-    callback: handleSuccess
+    callback: handleSuccess,
+    execution: 'execute'
   });
 }
 
-async function handleSuccess(token){
+function handleSuccess(token){
   if(isProcessing) return;
   isProcessing = true;
 
@@ -110,12 +116,14 @@ async function handleSuccess(token){
   }
 }
 
+function onTurnstileLoad(){
+  initCaptcha();
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const btn = document.getElementById("genTicketBtn");
   const result = document.getElementById("genTicketResult");
   btn.disabled = false;
-
-  initCaptcha();
 
   btn.addEventListener("click", () => {
 
