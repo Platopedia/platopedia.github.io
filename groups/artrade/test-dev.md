@@ -1,13 +1,3 @@
----
-layout: tool-content
-title: Artrade - Platopedia
-heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />&nbsp;Artrade
----
-
-<style>
-h2 { color:#CD9B1E !important }
-</style>
-
 ## Generate Trade Ticket
 
 <div class="trade-card" style="text-align:center;margin-bottom:20px; position:relative;">
@@ -44,6 +34,7 @@ Generate Ticket
 <script>
 let widgetId = null;
 let isProcessing = false;
+let hasUserClicked = false;
 
 function onTurnstileLoad(){
   initCaptcha();
@@ -57,11 +48,16 @@ function initCaptcha(){
 
   widgetId = turnstile.render('#captcha-container', {
     sitekey: '0x4AAAAAACsY3XYA6cc6K6Ks',
-    callback: handleSuccess
+    callback: handleSuccess,
+    execution: 'execute'
   });
 }
 
 async function handleSuccess(token){
+  if(!hasUserClicked){
+    // Ignore auto-trigger from Turnstile render
+    return;
+  }
   if(isProcessing) return;
   isProcessing = true;
 
@@ -152,6 +148,8 @@ document.addEventListener("DOMContentLoaded", () => {
     btn.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
+
+      hasUserClicked = true;
 
       if(btn.disabled || isProcessing) return;
 
