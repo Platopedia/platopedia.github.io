@@ -1,50 +1,107 @@
 ## Generate Trade Ticket
 
-<div class="trade-card" style="text-align:center;margin-bottom:20px; position:relative;">
-  <p>Need a trade ticket? Generate one instantly.</p>
+<div class="trade-card">
+  <h2>🎟 Generate Trade Ticket</h2>
+  <p class="subtitle">Secure, instant ticket generation powered by verification.</p>
 
-<button id="genTicketBtn" type="button" style="
-padding:12px 20px;
-background:#CD9B1E;
-border:none;
-border-radius:8px;
-cursor:pointer;
-font-weight:600;
-position:relative;
-z-index:10;
-">
-Generate Ticket
-</button>
+  <button id="genTicketBtn" class="primary-btn">
+    <span class="btn-text">Generate Ticket</span>
+    <span class="btn-loader" hidden></span>
+  </button>
 
-  <!-- Hidden Turnstile (safe) -->
-  <div id="captcha-container" style="
-    position:fixed;
-    top:-100px;
-    left:-100px;
-    width:1px;
-    height:1px;
-    opacity:0;
-  "></div>
+  <!-- Hidden Turnstile -->
+  <div id="captcha-container" class="captcha-hidden"></div>
 
-  <div id="genTicketResult" style="margin-top:12px;font-weight:600;"></div>
+  <div id="genTicketResult" class="status-text"></div>
 </div>
+
+<style>
+.trade-card {
+  max-width: 420px;
+  margin: 40px auto;
+  padding: 24px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #111 0%, #1a1a1a 100%);
+  color: #fff;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+.trade-card h2 {
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  color: #aaa;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.primary-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #CD9B1E, #f4c542);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  position: relative;
+  overflow: hidden;
+  transition: 0.2s;
+}
+
+.primary-btn:hover {
+  transform: translateY(-1px);
+}
+
+.primary-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-loader {
+  width: 18px;
+  height: 18px;
+  border: 3px solid rgba(255,255,255,0.3);
+  border-top: 3px solid white;
+  border-radius: 50%;
+  display: inline-block;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.status-text {
+  margin-top: 14px;
+  font-weight: 600;
+  min-height: 20px;
+}
+
+.captcha-hidden {
+  position: fixed;
+  top: -100px;
+  left: -100px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+</style>
 
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad&render=explicit" defer></script>
 
 <script>
 let widgetId = null;
 let isProcessing = false;
-let awaitingToken = false; // strict guard: only accept token after a click-triggered execute
+let awaitingToken = false;
 
 function onTurnstileLoad(){
   initCaptcha();
 }
 
 function initCaptcha(){
-  if(!window.turnstile){
-    console.error("Turnstile not loaded");
-    return;
-  }
+  if(!window.turnstile) return;
 
   widgetId = turnstile.render('#captcha-container', {
     sitekey: '0x4AAAAAACsY3XYA6cc6K6Ks',
@@ -53,38 +110,31 @@ function initCaptcha(){
   });
 }
 
-async function handleSuccess(token){
-  if(!awaitingToken){
-    // Ignore any auto / duplicate callbacks
-    return;
+function setLoading(btn, loading){
+  const text = btn.querySelector(".btn-text");
+  const loader = btn.querySelector(".btn-loader");
+
+  if(loading){
+    text.textContent = "Processing...";
+    loader.hidden = false;
+  } else {
+    text.textContent = "Generate Ticket";
+    loader.hidden = true;
   }
-  if(isProcessing) return;
+}
+
+async function handleSuccess(token){
+  if(!awaitingToken || isProcessing) return;
+
   isProcessing = true;
-  awaitingToken = false; // consume this execution
+  awaitingToken = false;
 
   const btn = document.getElementById("genTicketBtn");
   const result = document.getElementById("genTicketResult");
 
-  btn.disabled = true;
-  btn.style.pointerEvents = "none";
-  btn.textContent = "Generating...";
-
-  result.textContent = "";
-  result.style.color = "";
-
-  const timeout = setTimeout(() => {
-    if(isProcessing){
-      btn.disabled = false;
-      btn.style.pointerEvents = "auto";
-      btn.textContent = "Generate Ticket";
-      result.textContent = "Verification timeout. Try again.";
-      result.style.color = "#ff4d4f";
-      isProcessing = false;
-      awaitingToken = false;
-
-      if(widgetId) turnstile.reset(widgetId);
-    }
-  }, 10000);
+  setLoading(btn, true);
+  result.textContent = "Contacting server...";
+  result.style.color = "#aaa";
 
   try{
     const res = await fetch("https://ticket-generator.platopedia.workers.dev/generate-ticket", {
@@ -96,43 +146,26 @@ async function handleSuccess(token){
       })
     });
 
-    const data = await res.json();
+    const data = await res.json().catch(()=>({}));
 
     if(!res.ok){
-      clearTimeout(timeout);
-
-      result.textContent = data.message || "Something went wrong.";
-      result.style.color = "#ff4d4f";
-
-      btn.disabled = false;
-      btn.style.pointerEvents = "auto";
-      btn.textContent = "Generate Ticket";
-      isProcessing = false;
-      awaitingToken = false;
-
-      if(widgetId) turnstile.reset(widgetId);
-      return;
+      throw new Error(data.message || "Failed");
     }
 
-    if(!data.ticket){
-      throw new Error("no_ticket");
-    }
+    result.textContent = "✅ Ticket generated! Redirecting...";
+    result.style.color = "#16A34A";
 
-    clearTimeout(timeout);
-
-    window.location.href = `/groups/artrade/ticket?t=${data.ticket}`;
+    setTimeout(()=>{
+      window.location.href = `/groups/artrade/ticket?t=${data.ticket}`;
+    }, 800);
 
   }catch(e){
-    clearTimeout(timeout);
+    result.textContent = "❌ Failed to generate ticket.";
+    result.style.color = "#E1100D";
 
-    result.textContent = "Failed to generate ticket. Try again.";
-    result.style.color = "#ff4d4f";
-
+    setLoading(btn, false);
     btn.disabled = false;
-    btn.style.pointerEvents = "auto";
-    btn.textContent = "Generate Ticket";
     isProcessing = false;
-    awaitingToken = false;
 
     if(widgetId) turnstile.reset(widgetId);
   }
@@ -142,44 +175,28 @@ document.addEventListener("DOMContentLoaded", () => {
   const btn = document.getElementById("genTicketBtn");
   const result = document.getElementById("genTicketResult");
 
-  btn.disabled = false;
-  btn.style.pointerEvents = "auto";
+  btn.addEventListener("click", () => {
+    if(btn.disabled || isProcessing) return;
 
-  // Prevent duplicate binding
-  if (!btn.dataset.bound) {
-    btn.dataset.bound = "1";
+    if(!widgetId){
+      result.textContent = "Verification not ready. Refresh.";
+      result.style.color = "#E1100D";
+      return;
+    }
 
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
+    awaitingToken = true;
+    btn.disabled = true;
+    result.textContent = "🔐 Verifying...";
+    result.style.color = "#aaa";
 
-      if(btn.disabled || isProcessing) return;
-
-      awaitingToken = true;
-
-      if(!widgetId){
-        result.textContent = "Verification not ready. Refresh.";
-        result.style.color = "#ff4d4f";
-        return;
-      }
-
-      result.textContent = "Verifying...";
-      result.style.color = "";
-
-      btn.disabled = true;
-      btn.style.pointerEvents = "none";
-
-      try{
-        turnstile.execute(widgetId);
-      }catch(err){
-        result.textContent = "Verification failed. Please try again.";
-        result.style.color = "#ff4d4f";
-
-        btn.disabled = false;
-        btn.style.pointerEvents = "auto";
-        awaitingToken = false;
-      }
-    });
-  }
+    try{
+      turnstile.execute(widgetId);
+    }catch{
+      result.textContent = "Verification failed.";
+      result.style.color = "#E1100D";
+      btn.disabled = false;
+      awaitingToken = false;
+    }
+  });
 });
 </script>
