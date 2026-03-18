@@ -141,6 +141,10 @@ to{transform:rotate(360deg);}
 margin-top:10px;
 font-weight:600;
 min-height:20px;
+line-height:20px;
+display:flex;
+align-items:center;
+justify-content:center;
 }
 
 .status-text.success{
