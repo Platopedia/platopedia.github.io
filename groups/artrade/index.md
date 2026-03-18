@@ -95,6 +95,62 @@ input[type=number]{
 -moz-appearance:textfield;
 appearance:textfield;
 }
+/* ticket generator */
+
+.ticket-card{
+text-align:center;
+}
+
+.primary-btn{
+width:100%;
+padding:12px;
+background:linear-gradient(135deg,#CD9B1E,#f4c542);
+border:none;
+border-radius:10px;
+cursor:pointer;
+font-weight:600;
+margin-top:10px;
+}
+
+.primary-btn:disabled{
+opacity:0.6;
+cursor:not-allowed;
+}
+
+.btn-loader{
+width:16px;
+height:16px;
+border:3px solid rgba(255,255,255,0.3);
+border-top:3px solid white;
+border-radius:50%;
+display:inline-block;
+animation:spin 0.8s linear infinite;
+}
+
+@keyframes spin{
+to{transform:rotate(360deg);}
+}
+
+.status-text{
+margin-top:10px;
+font-weight:600;
+min-height:20px;
+}
+
+.security-note{
+margin-top:8px;
+font-size:12px;
+color:#888;
+}
+
+.captcha-hidden{
+position:fixed;
+top:-100px;
+left:-100px;
+width:1px;
+height:1px;
+opacity:0;
+}
 </style>
 
 <div class="linebreak"></div>
@@ -114,6 +170,25 @@ Currently Unavailable
 <span class="content-link" data-url="https://discord.com/invite/ardc" data-text="" data-copy="true"></span>
 
 <div class="linebreak"></div>
+
+## Generate Trade Ticket
+
+<div class="trade-card ticket-card" style="margin-top:10px">
+
+<h4>Secure Ticket Generator</h4>
+<p class="trade-desc">Generate your trade ticket instantly with secure verification.</p>
+
+<button id="genTicketBtn" class="primary-btn">
+  <span class="btn-text">Generate Secure Ticket</span>
+  <span class="btn-loader" hidden></span>
+</button>
+
+<p class="security-note">🔒 Secured and verified automatically</p>
+
+<div id="captcha-container" class="captcha-hidden"></div>
+<div id="genTicketResult" class="status-text"></div>
+
+</div>
 
 ## Item Trading
 
@@ -287,4 +362,136 @@ Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coi
 
 });
 
+</script>
+</script>
+
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad&render=explicit" defer></script>
+
+<script>
+let widgetId=null;
+let isProcessing=false;
+let awaitingToken=false;
+
+function onTurnstileLoad(){
+if(window.turnstile){
+widgetId=turnstile.render('#captcha-container',{
+sitekey:'0x4AAAAAACsY3XYA6cc6K6Ks',
+callback:handleSuccess,
+execution:'execute'
+});
+}
+}
+
+function setLoading(btn,loading){
+const text=btn.querySelector(".btn-text");
+const loader=btn.querySelector(".btn-loader");
+
+if(loading){
+text.textContent="Processing...";
+loader.hidden=false;
+}else{
+text.textContent="Generate Secure Ticket";
+loader.hidden=true;
+}
+}
+
+function setStatus(msg,color){
+const el=document.getElementById("genTicketResult");
+el.textContent=msg;
+el.style.color=color||"";
+}
+
+async function handleSuccess(token){
+if(!awaitingToken||isProcessing) return;
+
+isProcessing=true;
+awaitingToken=false;
+
+const btn=document.getElementById("genTicketBtn");
+
+setLoading(btn,true);
+setStatus("⚙️ Generating your ticket...","#aaa");
+
+try{
+const res=await fetch("https://ticket-generator.platopedia.workers.dev/generate-ticket",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+captchaToken:token,
+fingerprint:navigator.userAgent
+})
+});
+
+const data=await res.json().catch(()=>({}));
+
+if(!res.ok) throw new Error();
+
+setStatus("✅ Ticket ready!","#16A34A");
+
+setTimeout(()=>{
+window.location.replace(`/groups/artrade/ticket?t=${data.ticket}`);
+},200);
+
+}catch{
+setStatus("❌ Something went wrong. Please try again.","#E1100D");
+setLoading(btn,false);
+btn.disabled=false;
+isProcessing=false;
+
+if(widgetId&&window.turnstile){
+try{turnstile.reset(widgetId);}catch{}
+}
+}
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+const btn=document.getElementById("genTicketBtn");
+
+if(!btn) return;
+
+btn.disabled=false;
+setLoading(btn,false);
+setStatus("");
+
+btn.addEventListener("click",()=>{
+if(btn.disabled||isProcessing) return;
+
+if(!widgetId){
+setStatus("❌ Verification not ready. Refresh.","#E1100D");
+return;
+}
+
+awaitingToken=true;
+btn.disabled=true;
+setStatus("🔐 Verifying your request...","#aaa");
+
+try{
+turnstile.execute(widgetId);
+}catch{
+setStatus("❌ Verification failed. Please try again.","#E1100D");
+btn.disabled=false;
+awaitingToken=false;
+}
+});
+});
+
+window.addEventListener("pageshow",(e)=>{
+if(e.persisted){
+const btn=document.getElementById("genTicketBtn");
+
+isProcessing=false;
+awaitingToken=false;
+
+if(btn){
+btn.disabled=false;
+setLoading(btn,false);
+}
+
+setStatus("");
+
+if(widgetId&&window.turnstile){
+try{turnstile.reset(widgetId);}catch{}
+}
+}
+});
 </script>
