@@ -151,11 +151,31 @@ color:#16A34A;
 color:#E1100D;
 }
 
+.status-text.active{
+  font-size:12px;
+  color:#888;
+  font-weight:400;
+}
+
+.status-text.active.success{
+  color:#16A34A;
+  font-weight:600;
+}
+
+.status-text.active.error{
+  color:#E1100D;
+  font-weight:600;
+}
+
 .security-note{
 margin-top:8px;
 font-size:12px;
 color:#888;
 transition:opacity 0.2s ease;
+}
+
+.status-text.security-note{
+  font-weight:400;
 }
 
 .captcha-hidden{
