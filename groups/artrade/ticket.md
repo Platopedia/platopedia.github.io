@@ -716,7 +716,8 @@ async function submitTrade(){
       return;
     }
 
-    if(!res.ok){
+    // Only treat as failure if no structured success
+    if(!res.ok && !data){
       throw new Error("Worker request failed");
     }
 
