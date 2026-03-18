@@ -657,14 +657,14 @@ async function submitTrade(){
 
   const btn = document.getElementById("submit-btn");
 
+  // Trigger gold slide loading effect
+  btn.classList.add("loading");
+
   const platoId = platoInput.value.trim();
   const friendLink = friendInput.value.trim();
 
   if(submitting) return;
   submitting = true;
-
-  // Trigger gold slide loading effect
-  btn.classList.add("loading");
 
   setTimeout(()=>{
     btn.disabled = true;
@@ -695,28 +695,41 @@ async function submitTrade(){
       data = null;
     }
 
-    // Handle new worker errors
-    if(data && data.error){
+    // Invalid ticket response
+    if(res.status === 400 && data && data.status === "invalid"){
+
       btn.classList.remove("loading");
       btn.disabled = false;
       btn.textContent = "Submit Request";
       btn.style.background = "#CD9B1E";
       btn.onclick = prepareSubmit;
 
-      if(data.error === "not_submitted"){
-        submitError.textContent = "Invalid ticket. Please generate a new ticket from Discord.";
-      } else if(data.error === "already_processed"){
-        submitError.textContent = "This ticket has already been used for a trade request. Please generate a new ticket from Discord.";
-      } else {
-        submitError.textContent = "Submission failed. Please try again.";
-      }
-
+      submitError.textContent = "Invalid ticket. Please generate a new ticket from Discord.";
       submitError.style.display = "block";
+
       submitting = false;
+
       return;
     }
 
-    if(!res.ok && !data){
+    // Duplicate ticket response
+    if(res.status === 409 && data && data.status === "duplicate"){
+
+      btn.classList.remove("loading");
+      btn.disabled = false;
+      btn.textContent = "Submit Request";
+      btn.style.background = "#CD9B1E";
+      btn.onclick = prepareSubmit;
+
+      submitError.textContent = "This ticket has already been used for a trade request. Please generate a new ticket from Discord.";
+      submitError.style.display = "block";
+
+      submitting = false;
+
+      return;
+    }
+
+    if(!res.ok){
       throw new Error("Worker request failed");
     }
 
