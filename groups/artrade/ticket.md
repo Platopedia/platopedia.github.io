@@ -666,9 +666,11 @@ async function submitTrade(){
   if(submitting) return;
   submitting = true;
 
-  setTimeout(()=>{
-    btn.disabled = true;
-    btn.textContent = "Processing...";
+  btn.disabled = true;
+  const processingTimeout = setTimeout(()=>{
+    if(submitting){
+      btn.textContent = "Processing...";
+    }
   },120);
 
   try{
@@ -698,6 +700,7 @@ async function submitTrade(){
     // Invalid ticket response
     if(res.status === 400 && data && data.status === "invalid"){
 
+      clearTimeout(processingTimeout);
       btn.classList.remove("loading");
       btn.disabled = false;
       btn.textContent = "Submit Request";
@@ -715,6 +718,7 @@ async function submitTrade(){
     // Duplicate ticket response
     if(res.status === 409 && data && data.status === "duplicate"){
 
+      clearTimeout(processingTimeout);
       btn.classList.remove("loading");
       btn.disabled = false;
       btn.textContent = "Submit Request";
@@ -733,12 +737,13 @@ async function submitTrade(){
       throw new Error("Worker request failed");
     }
 
+    clearTimeout(processingTimeout);
     const url = new URL(window.location.href);
     url.searchParams.set("submitted","1");
     window.location.href = url.toString();
 
   }catch(err){
-
+    clearTimeout(processingTimeout);
     // Reset button if Worker/network fails
     btn.classList.remove("loading");
     btn.disabled = false;
