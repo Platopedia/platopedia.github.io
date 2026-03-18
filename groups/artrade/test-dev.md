@@ -198,10 +198,9 @@ Currently Unavailable
   <span class="btn-loader" hidden></span>
 </button>
 
-<p class="security-note">🔒 Secured and verified automatically</p>
+<div id="genTicketResult" class="status-text security-note">🔒 Secured and verified automatically</div>
 
 <div id="captcha-container" class="captcha-hidden"></div>
-<div id="genTicketResult" class="status-text"></div>
 
 </div>
 
@@ -410,20 +409,16 @@ loader.hidden=true;
 }
 
 function setStatus(msg,type){
-const el=document.getElementById("genTicketResult");
-const note=document.querySelector(".security-note");
+  const el=document.getElementById("genTicketResult");
 
-el.textContent=msg;
-el.className="status-text"+(type?` ${type}`:"")+(msg?" active":"");
-
-// hide security note while processing
-if(note){
-  if(msg){
-    note.style.opacity="0";
-  }else{
-    note.style.opacity="1";
+  if(!msg){
+    el.textContent="🔒 Secured and verified automatically";
+    el.className="status-text security-note";
+    return;
   }
-}
+
+  el.textContent=msg;
+  el.className="status-text"+(type?` ${type}`:"")+" active";
 }
 
 async function handleSuccess(token){
