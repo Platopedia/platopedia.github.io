@@ -657,14 +657,14 @@ async function submitTrade(){
 
   const btn = document.getElementById("submit-btn");
 
-  // Trigger gold slide loading effect
-  btn.classList.add("loading");
-
   const platoId = platoInput.value.trim();
   const friendLink = friendInput.value.trim();
 
   if(submitting) return;
   submitting = true;
+
+  // Trigger gold slide loading effect
+  btn.classList.add("loading");
 
   setTimeout(()=>{
     btn.disabled = true;
@@ -719,6 +719,11 @@ async function submitTrade(){
     if(!res.ok){
       throw new Error("Worker request failed");
     }
+
+    // Reset UI before redirect
+    btn.classList.remove("loading");
+    btn.disabled = false;
+    submitting = false;
 
     const url = new URL(window.location.href);
     url.searchParams.set("submitted","1");
