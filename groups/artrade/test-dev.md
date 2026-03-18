@@ -110,11 +110,17 @@ border-radius:10px;
 cursor:pointer;
 font-weight:600;
 margin-top:10px;
+transition:transform 0.15s ease;
 }
 
 .primary-btn:disabled{
 opacity:0.6;
 cursor:not-allowed;
+}
+
+.primary-btn:active{
+transform:scale(0.96);
+transition:transform 0.05s ease;
 }
 
 .btn-loader{
@@ -137,10 +143,19 @@ font-weight:600;
 min-height:20px;
 }
 
+.status-text.success{
+color:#16A34A;
+}
+
+.status-text.error{
+color:#E1100D;
+}
+
 .security-note{
 margin-top:8px;
 font-size:12px;
 color:#888;
+transition:opacity 0.2s ease;
 }
 
 .captcha-hidden{
@@ -363,7 +378,6 @@ Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coi
 });
 
 </script>
-</script>
 
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad&render=explicit" defer></script>
 
@@ -395,10 +409,21 @@ loader.hidden=true;
 }
 }
 
-function setStatus(msg,color){
+function setStatus(msg,type){
 const el=document.getElementById("genTicketResult");
+const note=document.querySelector(".security-note");
+
 el.textContent=msg;
-el.style.color=color||"";
+el.className="status-text"+(type?` ${type}`:"")+(msg?" active":"");
+
+// hide security note while processing
+if(note){
+  if(msg){
+    note.style.opacity="0";
+  }else{
+    note.style.opacity="1";
+  }
+}
 }
 
 async function handleSuccess(token){
@@ -410,7 +435,7 @@ awaitingToken=false;
 const btn=document.getElementById("genTicketBtn");
 
 setLoading(btn,true);
-setStatus("⚙️ Generating your ticket...","#aaa");
+setStatus("⚙️ Generating your ticket...");
 
 try{
 const res=await fetch("https://ticket-generator.platopedia.workers.dev/generate-ticket",{
@@ -426,14 +451,14 @@ const data=await res.json().catch(()=>({}));
 
 if(!res.ok) throw new Error();
 
-setStatus("✅ Ticket ready!","#16A34A");
+setStatus("✅ Ticket ready!","success");
 
     setTimeout(()=>{
     window.location.href = `/groups/artrade/ticket?t=${data.ticket}`;
-    },200);
+    },350);
 
 }catch{
-setStatus("❌ Something went wrong. Please try again.","#E1100D");
+setStatus("❌ Something went wrong. Please try again.","error");
 setLoading(btn,false);
 btn.disabled=false;
 isProcessing=false;
@@ -454,21 +479,33 @@ setLoading(btn,false);
 setStatus("");
 
 btn.addEventListener("click",()=>{
+// haptic feedback (if supported)
+if(navigator.vibrate){
+navigator.vibrate(30);
+}
+
 if(btn.disabled||isProcessing) return;
 
 if(!widgetId){
-setStatus("❌ Verification not ready. Refresh.","#E1100D");
-return;
+  // try to reinitialize Turnstile once
+  try{
+    onTurnstileLoad();
+  }catch{}
+
+  if(!widgetId){
+    setStatus("❌ Verification not ready. Please refresh.","error");
+    return;
+  }
 }
 
 awaitingToken=true;
 btn.disabled=true;
-setStatus("🔐 Verifying your request...","#aaa");
+setStatus("🔐 Verifying your request...");
 
 try{
 turnstile.execute(widgetId);
 }catch{
-setStatus("❌ Verification failed. Please try again.","#E1100D");
+setStatus("❌ Verification failed. Please try again.","error");
 btn.disabled=false;
 awaitingToken=false;
 }
