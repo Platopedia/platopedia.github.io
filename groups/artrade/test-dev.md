@@ -168,7 +168,7 @@ color:#E1100D;
 }
 
 .security-note{
-margin-top:8px;
+margin-top:10px;
 font-size:12px;
 color:#888;
 transition:opacity 0.2s ease;
@@ -470,7 +470,7 @@ setStatus("✅ Ticket ready!","success");
 
     setTimeout(()=>{
     window.location.href = `/groups/artrade/ticket?t=${data.ticket}`;
-    },350);
+    },500);
 
 }catch{
 setStatus("❌ Something went wrong. Please try again.","error");
