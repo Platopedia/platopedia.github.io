@@ -607,7 +607,7 @@ function clearItems(){
   // Reset submit/confirm button back to Submit state
   const submitBtn = document.getElementById("submit-btn");
   if(submitBtn){
-    submitBtn.textContent = "Submit Request";
+    submitBtn.innerHTML = "<span>Submit Request</span>";
     submitBtn.style.background = "#CD9B1E";
     submitBtn.disabled = false;
     submitBtn.onclick = prepareSubmit;
@@ -648,7 +648,7 @@ function prepareSubmit(){
 
   if(hasError) return;
 
-  submitBtn.textContent = "Confirm";
+  submitBtn.innerHTML = "<span>Confirm</span>";
   submitBtn.style.background = "#28a745";
   submitBtn.onclick = submitTrade;
 }
@@ -668,7 +668,7 @@ async function submitTrade(){
 
   setTimeout(()=>{
     btn.disabled = true;
-    btn.textContent = "Processing...";
+    btn.innerHTML = "<span>Processing...</span>";
   },120);
 
   try{
@@ -686,46 +686,28 @@ async function submitTrade(){
         })
       }
     );
-
-    let data = null;
-
-    try{
+    let data;
+    try {
       data = await res.json();
-    }catch(e){
-      data = null;
-    }
+    } catch {}
 
-    // Invalid ticket response
-    if(res.status === 400 && data && data.status === "invalid"){
-
+    if(data && data.error){
       btn.classList.remove("loading");
       btn.disabled = false;
-      btn.textContent = "Submit Request";
+      btn.innerHTML = "<span>Submit Request</span>";
       btn.style.background = "#CD9B1E";
       btn.onclick = prepareSubmit;
 
-      submitError.textContent = "Invalid ticket. Please generate a new ticket from Discord.";
+      if(data.error === "not_submitted"){
+        submitError.textContent = "Invalid ticket. Please generate a new ticket from Discord.";
+      } else if(data.error === "already_processed"){
+        submitError.textContent = "This ticket has already been used for a trade request. Please generate a new ticket from Discord.";
+      } else {
+        submitError.textContent = "Submission failed. Please try again.";
+      }
+
       submitError.style.display = "block";
-
       submitting = false;
-
-      return;
-    }
-
-    // Duplicate ticket response
-    if(res.status === 409 && data && data.status === "duplicate"){
-
-      btn.classList.remove("loading");
-      btn.disabled = false;
-      btn.textContent = "Submit Request";
-      btn.style.background = "#CD9B1E";
-      btn.onclick = prepareSubmit;
-
-      submitError.textContent = "This ticket has already been used for a trade request. Please generate a new ticket from Discord.";
-      submitError.style.display = "block";
-
-      submitting = false;
-
       return;
     }
 
@@ -742,7 +724,7 @@ async function submitTrade(){
     // Reset button if Worker/network fails
     btn.classList.remove("loading");
     btn.disabled = false;
-    btn.textContent = "Submit Request";
+    btn.innerHTML = "<span>Submit Request</span>";
     btn.style.background = "#CD9B1E";
     btn.onclick = prepareSubmit;
 
