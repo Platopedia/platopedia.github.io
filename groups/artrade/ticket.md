@@ -656,6 +656,10 @@ function prepareSubmit(){
 async function submitTrade(){
 
   const btn = document.getElementById("submit-btn");
+  // Fix empty button text (bfcache / loading edge case)
+  if(btn && !btn.textContent.trim()){
+    btn.textContent = "Submitted";
+  }
 
   // Trigger gold slide loading effect
   btn.classList.add("loading");
