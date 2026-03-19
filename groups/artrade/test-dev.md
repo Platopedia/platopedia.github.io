@@ -493,7 +493,7 @@ btn.addEventListener("click",()=>{
 if(btn.disabled||isProcessing) return;
 
 if(navigator.vibrate){
-navigator.vibrate([10,20,10]);
+navigator.vibrate([20,30,20]);
 }
 
 if(!widgetId){
@@ -533,7 +533,7 @@ verifyTimeout = setTimeout(() => {
       try { turnstile.reset(widgetId); } catch {}
     }
   }
-}, 10000);
+}, 15000);
 
 });
 });
