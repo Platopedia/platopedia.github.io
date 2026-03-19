@@ -127,7 +127,7 @@ input, textarea {
 }
 
 .ticket-panel button:active{
-  transform:scale(.95);
+  transform:scale(.94);
   box-shadow:0 1px 2px rgba(0,0,0,.25);
 }
 
