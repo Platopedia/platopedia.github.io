@@ -192,10 +192,10 @@ Artrade helps you connect with trusted item traders and merchants from our commu
 ## Artrade Invite
 
 **Artrade (Plato Group):**<br>
-<span class="content-link" data-url="https://platoapp.com/link/1k601dxkdvd20" data-text="Platoapp.com/link/1k601dxkdvd20" data-copy="true"></span>
+<span class="content-link" data-url="Platoapp.com/link/1k601dxkdvd20" data-text="" data-copy="true"></span>
 
 **Artrade (Discord Server):**
-<span class="content-link" data-url="https://discord.com/invite/ardc" data-text="Discord.com/invite/ardc" data-copy="true"></span>
+<span class="content-link" data-url="Discord.com/invite/ardc" data-text="" data-copy="true"></span>
 
 <div class="linebreak"></div>
 
@@ -228,7 +228,7 @@ Artrade helps you connect with trusted item traders and merchants from our commu
 To take part in item trading, request for your desired item/s, and wait for a merchant to accept your trade.
 
 <div class="trade-card" style="margin-top:10px">
-You can also join the <a href="https://discord.com/invite/ardc">Artrade (Discord Server)</a> to use our <strong>Items Request Panel</strong> in the <strong>#artrade-panel</strong> channel for safer and more efficient trading.
+You can also join the <a href="Discord.com/invite/ardc">Artrade (Discord Server)</a> to use our <strong>Items Request Panel</strong> in the <strong>#artrade-panel</strong> channel for safer and more efficient trading.
 </div>
 
 <div class="linebreak"></div>
@@ -294,7 +294,7 @@ Use the calculator to check the total trade price of one or more items.
 
 The page below contains the entire list of Plato Items with their base prices (including images & audios).
 
-<span class="content-link" data-url="https://platopedia.com/items" data-text="" data-copy="true"></span>
+<span class="content-link" data-url="Platopedia.com/items" data-text="" data-copy="true"></span>
 
 <div class="linebreak"></div>
 
@@ -312,7 +312,7 @@ Artrade provides insurance for any scam related incidents during a trade. You mu
 
 Apply to become an <strong>Artrade Merchant</strong> and join our trusted network of traders. Fill out the form below to submit your application.
 
-<span class="content-link" data-url="https://forms.gle/TaB5PGsjS7LhyPoq5" data-text="" data-copy="true"></span>
+<span class="content-link" data-url="Forms.gle/TaB5PGsjS7LhyPoq5" data-text="" data-copy="true"></span>
 
 <div class="linebreak"></div>
 
