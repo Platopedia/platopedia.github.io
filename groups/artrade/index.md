@@ -185,7 +185,7 @@ opacity:0;
 
 Artrade helps you connect with trusted item traders and merchants from our community.
 
-<div class="content-contents text-left" data-open="true" data-icon="&#xf068;,&#xf067;">Contents <embed/></div>
+<div class="content-contents text-left" data-open="false" data-icon="&#xf068;,&#xf067;">Contents <embed/></div>
 
 <div class="linebreak"></div>
 
