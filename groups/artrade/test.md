@@ -184,8 +184,11 @@ display:none;
 
 Artrade helps you connect with trusted item traders and merchants from our community. Tap the **+** icon below to see more.
 
+<div class="content-contents text-left" data-open="false" data-icon="&#xf068;,&#xf067;">Contents <embed/></div>
 
-## Artrade Invite
+<div class="linebreak"></div>
+
+<h2 id="artrade-invite">Artrade Invite</h2>
 
 **Artrade (Plato Group):**<br>
 <span class="content-link" data-url="https://platoapp.com/link/1k601dxkdvd20" data-text="" data-copy="true"></span>
@@ -193,8 +196,6 @@ Artrade helps you connect with trusted item traders and merchants from our commu
 **Artrade (Discord Server):**
 <span class="content-link" data-url="https://discord.com/invite/ardc" data-text="" data-copy="true"></span>
 
-<div class="linebreak"></div>
-<div class="content-contents text-left" data-open="false" data-icon="&#xf068;,&#xf067;">Contents <embed/></div>
 <div class="linebreak"></div>
 
 <h2 id="artrade-ticket">Artrade Ticket</h2>
@@ -217,7 +218,7 @@ Artrade helps you connect with trusted item traders and merchants from our commu
 
 <div class="linebreak"></div>
 
-## Item Trading Guide
+<h2 id="item-trading-guide">Item Trading Guide</h2>
 
 **Merchants -** Group admins or traders endorsed by Artrade.
 
@@ -231,7 +232,7 @@ You can also join the <a href="https://discord.com/invite/ardc">Artrade (Discord
 
 <div class="linebreak"></div>
 
-#### Trade Price
+<h4>Trade Price</h4>
 
 The trade price is the final amount required for a trade. Some important points about how trade pricing works are listed below.
 
@@ -240,7 +241,7 @@ The trade price is the final amount required for a trade. Some important points 
 
 <div class="linebreak"></div>
 
-#### Artrade's Trading Rules
+<h4>Artrade's Trading Rules</h4>
 
 During a trade, merchants and requesters must follow the trading rules listed below.
 
@@ -250,7 +251,7 @@ During a trade, merchants and requesters must follow the trading rules listed be
 
 <div class="linebreak"></div>
 
-## Artrade Calculator
+<h2 id="artrade-calculator">Artrade Calculator</h2>
 
 Use the calculator to check the total trade price of one or more items.
 
@@ -296,7 +297,7 @@ The page below contains the entire list of Plato Items with their base prices (i
 
 <div class="linebreak"></div>
 
-## Scam Insurance
+<h2 id="scam-insurance">Scam Insurance</h2>
 
 Artrade provides insurance for any scam related incidents during a trade. You must share screenshots or screen recordings of the incident with one of our group owners. Once the evidence is verified, our insurance account will send you the full amount in items. The conditions are listed below.
 
@@ -306,7 +307,7 @@ Artrade provides insurance for any scam related incidents during a trade. You mu
 
 <div class="linebreak"></div>
 
-## Merchant Application
+<h2 id="merchant-application">Merchant Application</h2>
 
 Apply to become an <strong>Artrade Merchant</strong> and join our trusted network of traders. Fill out the form below to submit your application.
 
@@ -353,60 +354,51 @@ const increased=coins*1.25;
 return Math.ceil(increased/50)*50;
 }
 
+/* coin calculator */
 
-/* calculators */
+document.getElementById("coinInput").addEventListener("input",function(){
 
-document.addEventListener("DOMContentLoaded", () => {
+const coins=parseInt(this.value,10);
+const clearBtn=this.parentElement.querySelector('.trade-clear');
+clearBtn.style.display=this.value ? 'flex' : 'none';
 
-  const coinInput = document.getElementById("coinInput");
-  if (coinInput) {
-    coinInput.addEventListener("input", function(){
+const result=document.getElementById("coinResult");
 
-      const coins = parseInt(this.value, 10);
-      const clearBtn = this.parentElement.querySelector('.trade-clear');
-      clearBtn.style.display = this.value ? 'flex' : 'none';
+if(!coins){
+result.innerHTML="";
+return;
+}
 
-      const result = document.getElementById("coinResult");
+const tradePrice=calculateTradeCoins(coins);
 
-      if (!coins) {
-        result.innerHTML = "";
-        return;
-      }
+result.innerHTML=`
+Item/s Value: <b>${coins.toLocaleString()} Coins</b><br>
+Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coins</b></span>
+`;
 
-      const tradePrice = calculateTradeCoins(coins);
+});
 
-      result.innerHTML = `
-      Item/s Value: <b>${coins.toLocaleString()} Coins</b><br>
-      Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coins</b></span>
-      `;
+/* pip calculator */
 
-    });
-  }
+document.getElementById("pipInput").addEventListener("input",function(){
 
-  const pipInput = document.getElementById("pipInput");
-  if (pipInput) {
-    pipInput.addEventListener("input", function(){
+const pips=parseFloat(this.value);
+const clearBtn=this.parentElement.querySelector('.trade-clear');
+clearBtn.style.display=this.value ? 'flex' : 'none';
 
-      const pips = parseFloat(this.value);
-      const clearBtn = this.parentElement.querySelector('.trade-clear');
-      clearBtn.style.display = this.value ? 'flex' : 'none';
+const result=document.getElementById("pipResult");
 
-      const result = document.getElementById("pipResult");
+if(!pips){
+result.innerHTML="";
+return;
+}
 
-      if (!pips) {
-        result.innerHTML = "";
-        return;
-      }
+const tradePrice=Math.round(pips*250);
 
-      const tradePrice = Math.round(pips * 250);
-
-      result.innerHTML = `
-      Item/s Value: <b>${pips} Pips</b><br>
-      Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coins</b></span>
-      `;
-
-    });
-  }
+result.innerHTML=`
+Item/s Value: <b>${pips} Pips</b><br>
+Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coins</b></span>
+`;
 
 });
 
@@ -597,5 +589,6 @@ try{turnstile.reset(widgetId);}catch{}
 }
 }
 });
+
 
 </script>
