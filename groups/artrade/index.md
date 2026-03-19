@@ -187,7 +187,7 @@ opacity:0;
 
 <div class="linebreak"></div>
 
-Artrade helps you connect with trusted item traders and merchants from our community.
+Artrade helps you connect with trusted item traders and merchants from our community. Tap the **+** icon below to see more.
 
 <div class="content-contents text-left" data-open="false" data-icon="&#xf068;,&#xf067;">Contents <embed/></div>
 
