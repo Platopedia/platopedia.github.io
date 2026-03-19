@@ -597,13 +597,18 @@ try{turnstile.reset(widgetId);}catch{}
 });
 
 window.addEventListener("load", () => {
-  if (location.hash) {
-    const el = document.querySelector(location.hash);
-    if (el) {
-      setTimeout(() => {
-        el.scrollIntoView({ behavior: "instant", block: "start" });
-      }, 100);
-    }
+  if (!location.hash) return;
+
+  const nav = performance.getEntriesByType("navigation")[0];
+  const isReload = nav && nav.type === "reload";
+
+  if (isReload) return;
+
+  const el = document.querySelector(location.hash);
+  if (el) {
+    setTimeout(() => {
+      el.scrollIntoView({ behavior: "instant", block: "start" });
+    }, 100);
   }
 });
 
