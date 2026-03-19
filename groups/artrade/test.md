@@ -590,20 +590,22 @@ Apply to become an <strong>Artrade Merchant</strong> and join our trusted networ
     }
     });
 
-    window.addEventListener("load", () => {
-      if (!location.hash) return;
+window.addEventListener("load", () => {
+  if (!location.hash) return;
 
-      // Only run if page loaded at top (initial anchor visit)
-      if (window.scrollY > 5) return;
+  // Prevent re-scrolling on refresh within same session
+  if (sessionStorage.getItem("anchorHandled")) return;
 
-      const el = document.querySelector(location.hash);
-      if (!el) return;
+  const el = document.querySelector(location.hash);
+  if (!el) return;
 
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          el.scrollIntoView({ behavior: "instant", block: "start" });
-        });
-      });
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      el.scrollIntoView({ behavior: "instant", block: "start" });
     });
+  });
+
+  sessionStorage.setItem("anchorHandled", "1");
+});
 
 </script>
