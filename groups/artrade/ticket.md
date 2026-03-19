@@ -338,6 +338,23 @@ document.querySelectorAll(".ticket-panel button").forEach(btn=>{
   });
 });
 
+// Enable :active on iOS Safari and add reliable tap bounce
+document.addEventListener("touchstart", ()=>{}, { passive: true });
+
+document.querySelectorAll(".ticket-panel button").forEach(btn=>{
+  btn.addEventListener("touchstart", ()=>{
+    btn.style.transform = "scale(0.95)";
+  }, { passive: true });
+
+  btn.addEventListener("touchend", ()=>{
+    btn.style.transform = "";
+  });
+
+  btn.addEventListener("touchcancel", ()=>{
+    btn.style.transform = "";
+  });
+});
+
 const platoClear = document.getElementById("plato-clear");
 const friendClear = document.getElementById("friend-clear");
 const searchClear = document.getElementById("search-clear");
