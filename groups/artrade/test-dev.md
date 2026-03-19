@@ -103,8 +103,7 @@ text-align:center;
 
 .primary-btn{
 width:100%;
-max-width:260px;
-margin:10px auto 0;
+margin-top:10px;
 padding:12px;
 background:linear-gradient(135deg,#CD9B1E,#f4c542);
 border:none;
@@ -466,7 +465,7 @@ setStatus("✅ Ticket ready!","success");
 
 setTimeout(()=>{
 window.location.href=`/groups/artrade/ticket?t=${data.ticket}`;
-},350);
+},800);
 
 }catch{
 setStatus("❌ Something went wrong. Please try again.","error");
