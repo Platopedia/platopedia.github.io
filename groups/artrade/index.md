@@ -117,7 +117,7 @@ transition:transform 0.15s ease;
 }
 
 .primary-btn:active{
-transform:scale(0.96);
+transform:scale(0.94);
 transition:transform 0.05s ease;
 }
 
