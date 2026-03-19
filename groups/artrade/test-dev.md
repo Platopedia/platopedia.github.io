@@ -5,6 +5,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 ---
 
 <style>
+
 h2 { color:#CD9B1E !important }
 h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 
@@ -177,6 +178,7 @@ width:1px;
 height:1px;
 opacity:0;
 }
+
 </style>
 
 <div class="linebreak"></div>
@@ -317,6 +319,7 @@ Apply to become an <strong>Artrade Merchant</strong> and join our trusted networ
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad&render=explicit" defer></script>
 
 <script>
+
 function clearCoin(){
 const input=document.getElementById("coinInput");
 const result=document.getElementById("coinResult");
@@ -455,10 +458,15 @@ fingerprint:navigator.userAgent
 })
 });
 
-const data=await res.json().catch(()=>({}));
-if(!data.ticket) throw new Error();
+const data = await res.json().catch(()=>({}));
 
-if(!res.ok) throw new Error();
+if(!res.ok){
+  throw new Error(data?.message || "Request failed");
+}
+
+if(!data.ticket){
+  throw new Error("Invalid response");
+}
 
 setStatus("✅ Ticket ready!","success");
 
@@ -466,8 +474,8 @@ setTimeout(()=>{
 window.location.href=`/groups/artrade/ticket?t=${data.ticket}`;
 },1000);
 
-}catch{
-setStatus("❌ Something went wrong. Please try again later.","error");
+}catch(err){
+setStatus(`❌ ${err.message || "Something went wrong. Please try again later."}`,"error");
 setLoading(btn,false);
 btn.disabled=false;
 isProcessing=false;
@@ -555,4 +563,5 @@ try{turnstile.reset(widgetId);}catch{}
 }
 }
 });
+
 </script>
