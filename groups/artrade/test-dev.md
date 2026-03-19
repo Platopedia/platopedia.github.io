@@ -217,13 +217,13 @@ Currently Unavailable
 
 <div class="linebreak"></div>
 
-## Item Trading
+## Item Trading Guide
 
 **Merchants -** Group admins or traders endorsed by Artrade.
 
 **Requesters -** Group members or traders not endorsed by Artrade.
 
-To take part in item trading, request for your desired item/s in the group, and wait for a merchant to accept your trade.
+To take part in item trading, request for your desired item/s, and wait for a merchant to accept your trade.
 
 <div class="trade-card" style="margin-top:10px">
 You can also join the <a href="https://discord.com/invite/ardc">Artrade (Discord Server)</a> to use our <strong>Items Request Panel</strong> in the <strong>#artrade-panel</strong> channel for safer and more efficient trading.
@@ -315,7 +315,6 @@ Apply to become an Artrade Merchant and join our trusted network of traders. Fil
 <div class="linebreak"></div>
 
 <script>
-
 function clearCoin(){
 const input=document.getElementById("coinInput");
 const result=document.getElementById("coinResult");
@@ -389,11 +388,8 @@ Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coi
 
 });
 
-</script>
+src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad&render=explicit" defer></script>
 
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad&render=explicit" defer></script>
-
-<script>
 let widgetId=null;
 let isProcessing=false;
 let awaitingToken=false;
