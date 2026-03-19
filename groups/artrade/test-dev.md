@@ -515,7 +515,7 @@ verifyTimeout = setTimeout(() => {
     btn.disabled = false;
     setStatus("❌ Verification timed out. Please try again.","error");
   }
-}, 10000);
+}, 20000);
 
 });
 });
