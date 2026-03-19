@@ -308,11 +308,13 @@ Artrade provides insurance for any scam related incidents during a trade. You mu
 
 ## Merchant Application
 
-Apply to become an Artrade Merchant and join our trusted network of traders. Fill out the form below to submit your application.
+Apply to become an <strong>Artrade Merchant</strong> and join our trusted network of traders. Fill out the form below to submit your application.
 
 <span class="content-link" data-url="https://forms.gle/TaB5PGsjS7LhyPoq5" data-text="" data-copy="true"></span>
 
 <div class="linebreak"></div>
+
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad&render=explicit" defer></script>
 
 <script>
 function clearCoin(){
@@ -387,8 +389,6 @@ Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coi
 `;
 
 });
-
-src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad&render=explicit" defer></script>
 
 let widgetId=null;
 let isProcessing=false;
