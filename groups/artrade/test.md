@@ -184,9 +184,6 @@ display:none;
 
 Artrade helps you connect with trusted item traders and merchants from our community. Tap the **+** icon below to see more.
 
-<div class="content-contents text-left" data-open="false" data-icon="&#xf068;,&#xf067;">Contents <embed/></div>
-
-<div class="linebreak"></div>
 
 ## Artrade Invite
 
@@ -196,6 +193,8 @@ Artrade helps you connect with trusted item traders and merchants from our commu
 **Artrade (Discord Server):**
 <span class="content-link" data-url="https://discord.com/invite/ardc" data-text="" data-copy="true"></span>
 
+<div class="linebreak"></div>
+<div class="content-contents text-left" data-open="false" data-icon="&#xf068;,&#xf067;">Contents <embed/></div>
 <div class="linebreak"></div>
 
 <h2 id="artrade-ticket">Artrade Ticket</h2>
