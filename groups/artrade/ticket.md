@@ -672,6 +672,7 @@ function prepareSubmit(){
 async function submitTrade(){
 
   const btn = document.getElementById("submit-btn");
+  const clearBtn = document.querySelector('button[onclick="clearItems()"]');
 
   // Trigger gold slide loading effect
   btn.classList.add("loading");
@@ -683,6 +684,7 @@ async function submitTrade(){
   submitting = true;
 
   btn.disabled = true;
+  if(clearBtn) clearBtn.disabled = true;
   const processingTimeout = setTimeout(()=>{
     if(submitting){
       btn.textContent = "Processing...";
@@ -719,6 +721,7 @@ async function submitTrade(){
       clearTimeout(processingTimeout);
       btn.classList.remove("loading");
       btn.disabled = false;
+      if(clearBtn) clearBtn.disabled = false;
       btn.textContent = "Submit Request";
       btn.style.background = "#CD9B1E";
       btn.onclick = prepareSubmit;
@@ -737,6 +740,7 @@ async function submitTrade(){
       clearTimeout(processingTimeout);
       btn.classList.remove("loading");
       btn.disabled = false;
+      if(clearBtn) clearBtn.disabled = false;
       btn.textContent = "Submit Request";
       btn.style.background = "#CD9B1E";
       btn.onclick = prepareSubmit;
@@ -763,6 +767,7 @@ async function submitTrade(){
     // Reset button if Worker/network fails
     btn.classList.remove("loading");
     btn.disabled = false;
+    if(clearBtn) clearBtn.disabled = false;
     btn.textContent = "Submit Request";
     btn.style.background = "#CD9B1E";
     btn.onclick = prepareSubmit;
