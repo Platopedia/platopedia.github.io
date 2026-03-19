@@ -590,12 +590,4 @@ try{turnstile.reset(widgetId);}catch{}
 }
 });
 
-window.addEventListener("load", () => {
-  setTimeout(() => {
-    if (window.turnstile && !widgetId) {
-      initTurnstile();
-    }
-  }, 800);
-});
-
 </script>
