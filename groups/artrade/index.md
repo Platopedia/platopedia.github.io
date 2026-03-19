@@ -193,7 +193,7 @@ Artrade helps you connect with trusted item traders and merchants from our commu
 
 <div class="linebreak"></div>
 
-<h2 id="artrade-invite">Artrade Invite</h2>
+## Artrade Invite
 
 **Artrade (Plato Group):**<br>
 <span class="content-link" data-url="https://platoapp.com/link/1k601dxkdvd20" data-text="" data-copy="true"></span>
@@ -223,7 +223,7 @@ Artrade helps you connect with trusted item traders and merchants from our commu
 
 <div class="linebreak"></div>
 
-<h2 id="item-trading-guide">Item Trading Guide</h2>
+## Item Trading Guide
 
 **Merchants -** Group admins or traders endorsed by Artrade.
 
@@ -256,7 +256,7 @@ During a trade, merchants and requesters must follow the trading rules listed be
 
 <div class="linebreak"></div>
 
-<h2 id="artrade-calculator">Artrade Calculator</h2>
+## Artrade Calculator
 
 Use the calculator to check the total trade price of one or more items.
 
@@ -302,7 +302,7 @@ The page below contains the entire list of Plato Items with their base prices (i
 
 <div class="linebreak"></div>
 
-<h2 id="scam-insurance">Scam Insurance</h2>
+## Scam Insurance
 
 Artrade provides insurance for any scam related incidents during a trade. You must share screenshots or screen recordings of the incident with one of our group owners. Once the evidence is verified, our insurance account will send you the full amount in items. The conditions are listed below.
 
@@ -312,7 +312,7 @@ Artrade provides insurance for any scam related incidents during a trade. You mu
 
 <div class="linebreak"></div>
 
-<h2 id="merchant-application">Merchant Application</h2>
+## Merchant Application
 
 Apply to become an <strong>Artrade Merchant</strong> and join our trusted network of traders. Fill out the form below to submit your application.
 
@@ -594,6 +594,17 @@ if(widgetId&&window.turnstile){
 try{turnstile.reset(widgetId);}catch{}
 }
 }
+});
+
+window.addEventListener("load", () => {
+  if (location.hash) {
+    const el = document.querySelector(location.hash);
+    if (el) {
+      setTimeout(() => {
+        el.scrollIntoView({ behavior: "instant", block: "start" });
+      }, 100);
+    }
+  }
 });
 
 </script>
