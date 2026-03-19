@@ -103,13 +103,15 @@ text-align:center;
 
 .primary-btn{
 width:100%;
-margin-top:10px;
+max-width:320px;
+margin:10px auto 0;
 padding:12px;
 background:linear-gradient(135deg,#CD9B1E,#f4c542);
 border:none;
 border-radius:10px;
 cursor:pointer;
 font-weight:600;
+color:var(--color-A);
 transition:transform 0.15s ease;
 }
 
@@ -199,15 +201,15 @@ Currently Unavailable
 
 <div class="trade-card ticket-card" style="margin-top:10px">
 
-<h4>Secure Ticket Generator</h4>
-<p class="trade-desc">Start your trade by generating a secure ticket.</p>
+<h4>Create Trade Ticket</h4>
+<p class="trade-desc">Generate a ticket to start your trade.</p>
 
 <button id="genTicketBtn" class="primary-btn">
-  <span class="btn-text">Generate Secure Ticket</span>
+  <span class="btn-text">Create Trade Ticket</span>
   <span class="btn-loader" hidden></span>
 </button>
 
-<div id="genTicketResult" class="status-text security-note">🔒 Secured and verified automatically</div>
+<div id="genTicketResult" class="status-text security-note">🔒 Safe and secure trading</div>
 
 <div id="captcha-container" class="captcha-hidden"></div>
 
@@ -415,7 +417,7 @@ if(loading){
 text.textContent="Processing...";
 loader.hidden=false;
 }else{
-text.textContent="Generate Secure Ticket";
+text.textContent="Create Trade Ticket";
 loader.hidden=true;
 }
 }
@@ -424,7 +426,7 @@ function setStatus(msg,type){
 const el=document.getElementById("genTicketResult");
 
 if(!msg){
-el.textContent="🔒 Secured and verified automatically";
+el.textContent="🔒 Safe and secure trading";
 el.className="status-text security-note";
 return;
 }
@@ -458,6 +460,7 @@ fingerprint:navigator.userAgent
 });
 
 const data=await res.json().catch(()=>({}));
+if(!data.ticket) throw new Error();
 
 if(!res.ok) throw new Error();
 
@@ -465,10 +468,10 @@ setStatus("✅ Ticket ready!","success");
 
 setTimeout(()=>{
 window.location.href=`/groups/artrade/ticket?t=${data.ticket}`;
-},800);
+},1000);
 
 }catch{
-setStatus("❌ Something went wrong. Please try again.","error");
+setStatus("❌ Something went wrong. Please try again later.","error");
 setLoading(btn,false);
 btn.disabled=false;
 isProcessing=false;
@@ -489,7 +492,7 @@ setLoading(btn,false);
 setStatus("");
 
 btn.addEventListener("click",()=>{
-if(btn.disabled||isProcessing) return;
+if(btn.disabled||isProcessing||awaitingToken) return;
 
 if(navigator.vibrate){
 navigator.vibrate([20,30,20]);
@@ -514,7 +517,7 @@ try { if (verifyTimeout) clearTimeout(verifyTimeout); } catch {}
 try{
   turnstile.execute(widgetId);
 }catch{
-  setStatus("❌ Verification failed. Please try again.","error");
+  setStatus("❌ Verification failed. Please try again later.","error");
   btn.disabled=false;
   awaitingToken=false;
   return;
@@ -525,7 +528,7 @@ verifyTimeout = setTimeout(() => {
   if (awaitingToken) {
     awaitingToken = false;
     btn.disabled = false;
-    setStatus("❌ Verification timed out. Please try again.","error");
+    setStatus("❌ Verification timed out. Please try again later.","error");
 
     // reset Turnstile for next attempt
     if(widgetId && window.turnstile){
