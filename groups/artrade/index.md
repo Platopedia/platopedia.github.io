@@ -320,6 +320,16 @@ Apply to become an <strong>Artrade Merchant</strong> and join our trusted networ
 
 <script>
 
+// Generate stable fingerprint per user
+function getFingerprint(){
+  let fp = localStorage.getItem("artrade_fp");
+  if(!fp){
+    fp = crypto.randomUUID();
+    localStorage.setItem("artrade_fp", fp);
+  }
+  return fp;
+}
+
 function clearCoin(){
 const input=document.getElementById("coinInput");
 const result=document.getElementById("coinResult");
@@ -454,7 +464,7 @@ method:"POST",
 headers:{"Content-Type":"application/json"},
 body:JSON.stringify({
 captchaToken:token,
-fingerprint:navigator.userAgent
+fingerprint:getFingerprint()
 })
 });
 
