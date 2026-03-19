@@ -204,7 +204,7 @@ Currently Unavailable
 <div class="trade-card ticket-card" style="margin-top:10px">
 
 <h4>Item Trading</h4>
-<p class="trade-desc">Trade rare or exclusive Plato items with trusted <strong>Artrade Merchants</strong>. Each generated ticket can be <strong>used only once</strong> and stays <strong>valid for 24 hours</strong>.</p>
+<p class="trade-desc">Trade rare or exclusive Plato items with trusted <strong>Artrade Merchants</strong>. Each generated ticket can be <strong>used only once</strong> and stays <strong>valid for 24 hours</strong>. <strong>Daily Create Limit:</strong> 2 per user.</p>
 
 <button id="genTicketBtn" class="primary-btn">
   <span class="btn-text">Create Trade Ticket</span>
