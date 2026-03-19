@@ -354,54 +354,6 @@ const increased=coins*1.25;
 return Math.ceil(increased/50)*50;
 }
 
-/* coin calculator */
-
-document.getElementById("coinInput").addEventListener("input",function(){
-
-const coins=parseInt(this.value,10);
-const clearBtn=this.parentElement.querySelector('.trade-clear');
-clearBtn.style.display=this.value ? 'flex' : 'none';
-
-const result=document.getElementById("coinResult");
-
-if(!coins){
-result.innerHTML="";
-return;
-}
-
-const tradePrice=calculateTradeCoins(coins);
-
-result.innerHTML=`
-Item/s Value: <b>${coins.toLocaleString()} Coins</b><br>
-Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coins</b></span>
-`;
-
-});
-
-/* pip calculator */
-
-document.getElementById("pipInput").addEventListener("input",function(){
-
-const pips=parseFloat(this.value);
-const clearBtn=this.parentElement.querySelector('.trade-clear');
-clearBtn.style.display=this.value ? 'flex' : 'none';
-
-const result=document.getElementById("pipResult");
-
-if(!pips){
-result.innerHTML="";
-return;
-}
-
-const tradePrice=Math.round(pips*250);
-
-result.innerHTML=`
-Item/s Value: <b>${pips} Pips</b><br>
-Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coins</b></span>
-`;
-
-});
-
 let widgetId=null;
 let isProcessing=false;
 let awaitingToken=false;
@@ -493,81 +445,6 @@ if(widgetId&&window.turnstile){
 try{turnstile.reset(widgetId);}catch{}
 }
 }
-}
-
-document.addEventListener("DOMContentLoaded",()=>{
-const btn=document.getElementById("genTicketBtn");
-
-if(!btn) return;
-
-btn.disabled=false;
-setLoading(btn,false);
-setStatus("");
-
-btn.addEventListener("click",()=>{
-if(btn.disabled||isProcessing||awaitingToken) return;
-
-if(navigator.vibrate){
-navigator.vibrate([20,30,20]);
-}
-
-initTurnstile();
-
-if(!widgetId){
-  setStatus("❌ Verification not ready. Please refresh.","error");
-  return;
-}
-
-awaitingToken=true;
-btn.disabled=true;
-setStatus("🔐 Verifying your request...");
-
-// clear any previous timeout
-try { if (verifyTimeout) clearTimeout(verifyTimeout); } catch {}
-
-// trigger Turnstile execution
-try{
-  turnstile.execute(widgetId);
-}catch{
-  setStatus("❌ Verification failed. Please try again later.","error");
-  btn.disabled=false;
-  awaitingToken=false;
-  return;
-}
-
-// fallback in case Turnstile callback never fires
-verifyTimeout = setTimeout(() => {
-  if (awaitingToken) {
-    awaitingToken = false;
-    btn.disabled = false;
-    setStatus("❌ Verification timed out. Please try again later.","error");
-
-    // reset Turnstile for next attempt
-    if(widgetId && window.turnstile){
-      try { turnstile.reset(widgetId); } catch {}
-    }
-  }
-}, 15000);
-
-});
-});
-
-// Safari tap bounce fix for generator button
-document.addEventListener("touchstart", ()=>{}, { passive: true });
-
-const genBtn = document.getElementById("genTicketBtn");
-if(genBtn){
-  genBtn.addEventListener("touchstart", ()=>{
-    genBtn.style.transform = "scale(0.96)";
-  }, { passive: true });
-
-  genBtn.addEventListener("touchend", ()=>{
-    genBtn.style.transform = "";
-  });
-
-  genBtn.addEventListener("touchcancel", ()=>{
-    genBtn.style.transform = "";
-  });
 }
 
 window.addEventListener("pageshow",(e)=>{
