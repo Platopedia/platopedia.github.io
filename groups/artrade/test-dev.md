@@ -508,14 +508,32 @@ awaitingToken=true;
 btn.disabled=true;
 setStatus("🔐 Verifying your request...");
 
+// clear any previous timeout
+try { if (verifyTimeout) clearTimeout(verifyTimeout); } catch {}
+
+// trigger Turnstile execution
+try{
+  turnstile.execute(widgetId);
+}catch{
+  setStatus("❌ Verification failed. Please try again.","error");
+  btn.disabled=false;
+  awaitingToken=false;
+  return;
+}
+
 // fallback in case Turnstile callback never fires
 verifyTimeout = setTimeout(() => {
   if (awaitingToken) {
     awaitingToken = false;
     btn.disabled = false;
     setStatus("❌ Verification timed out. Please try again.","error");
+
+    // reset Turnstile for next attempt
+    if(widgetId && window.turnstile){
+      try { turnstile.reset(widgetId); } catch {}
+    }
   }
-}, 20000);
+}, 10000);
 
 });
 });
