@@ -229,7 +229,7 @@ Artrade helps you connect with trusted item traders and merchants from our commu
 
 **Requesters -** Group members or traders not endorsed by Artrade.
 
-To take part in item trading, request for your desired item/s, and wait for a merchant to accept your trade.
+To take part in item trading, use **Create Trade Ticket** to request for your desired item/s, and wait for a merchant to accept your trade.
 
 <div class="trade-card" style="margin-top:10px">
 You can also join the <a href="https://discord.com/invite/ardc">Artrade (Discord Server)</a> to use our <strong>Items Request Panel</strong> in the <strong>#artrade-panel</strong> channel for safer and more efficient trading.
