@@ -354,51 +354,60 @@ const increased=coins*1.25;
 return Math.ceil(increased/50)*50;
 }
 
-/* coin calculator */
 
-document.getElementById("coinInput").addEventListener("input",function(){
+/* calculators */
 
-const coins=parseInt(this.value,10);
-const clearBtn=this.parentElement.querySelector('.trade-clear');
-clearBtn.style.display=this.value ? 'flex' : 'none';
+document.addEventListener("DOMContentLoaded", () => {
 
-const result=document.getElementById("coinResult");
+  const coinInput = document.getElementById("coinInput");
+  if (coinInput) {
+    coinInput.addEventListener("input", function(){
 
-if(!coins){
-result.innerHTML="";
-return;
-}
+      const coins = parseInt(this.value, 10);
+      const clearBtn = this.parentElement.querySelector('.trade-clear');
+      clearBtn.style.display = this.value ? 'flex' : 'none';
 
-const tradePrice=calculateTradeCoins(coins);
+      const result = document.getElementById("coinResult");
 
-result.innerHTML=`
-Item/s Value: <b>${coins.toLocaleString()} Coins</b><br>
-Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coins</b></span>
-`;
+      if (!coins) {
+        result.innerHTML = "";
+        return;
+      }
 
-});
+      const tradePrice = calculateTradeCoins(coins);
 
-/* pip calculator */
+      result.innerHTML = `
+      Item/s Value: <b>${coins.toLocaleString()} Coins</b><br>
+      Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coins</b></span>
+      `;
 
-document.getElementById("pipInput").addEventListener("input",function(){
+    });
+  }
 
-const pips=parseFloat(this.value);
-const clearBtn=this.parentElement.querySelector('.trade-clear');
-clearBtn.style.display=this.value ? 'flex' : 'none';
+  const pipInput = document.getElementById("pipInput");
+  if (pipInput) {
+    pipInput.addEventListener("input", function(){
 
-const result=document.getElementById("pipResult");
+      const pips = parseFloat(this.value);
+      const clearBtn = this.parentElement.querySelector('.trade-clear');
+      clearBtn.style.display = this.value ? 'flex' : 'none';
 
-if(!pips){
-result.innerHTML="";
-return;
-}
+      const result = document.getElementById("pipResult");
 
-const tradePrice=Math.round(pips*250);
+      if (!pips) {
+        result.innerHTML = "";
+        return;
+      }
 
-result.innerHTML=`
-Item/s Value: <b>${pips} Pips</b><br>
-Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coins</b></span>
-`;
+      const tradePrice = Math.round(pips * 250);
+
+      result.innerHTML = `
+      Item/s Value: <b>${pips} Pips</b><br>
+      Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coins</b></span>
+      `;
+
+    });
+  }
 
 });
 
