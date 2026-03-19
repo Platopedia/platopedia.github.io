@@ -593,19 +593,26 @@ Apply to become an <strong>Artrade Merchant</strong> and join our trusted networ
 window.addEventListener("load", () => {
   if (!location.hash) return;
 
-  // Prevent re-scrolling on refresh within same session
-  if (sessionStorage.getItem("anchorHandled")) return;
+  const currentHash = location.hash;
+  const lastHandled = sessionStorage.getItem("anchorHandled");
 
-  const el = document.querySelector(location.hash);
+  // Skip if this exact hash was already handled (prevents refresh jump)
+  if (lastHandled === currentHash) return;
+
+  const el = document.querySelector(currentHash);
   if (!el) return;
 
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
-      el.scrollIntoView({ behavior: "instant", block: "start" });
+      el.scrollIntoView({
+        behavior: "instant",
+        block: "start"
+      });
     });
   });
 
-  sessionStorage.setItem("anchorHandled", "1");
+  // Remember which hash we handled
+  sessionStorage.setItem("anchorHandled", currentHash);
 });
 
 </script>
