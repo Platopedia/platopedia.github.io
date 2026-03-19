@@ -197,12 +197,12 @@ Currently Unavailable
 
 <div class="linebreak"></div>
 
-## Generate Trade Ticket
+## Artrade Ticket
 
 <div class="trade-card ticket-card" style="margin-top:10px">
 
-<h4>Create Trade Ticket</h4>
-<p class="trade-desc">Generate a ticket to start your trade.</p>
+<h4>Start Trading</h4>
+<p class="trade-desc">Trade rare or exclusive Plato items with trusted <strong>Artrade Merchants</strong>. Each generated ticket can be <strong>used only once</strong> and stays <strong>valid for 24 hours</strong>.</p>
 
 <button id="genTicketBtn" class="primary-btn">
   <span class="btn-text">Create Trade Ticket</span>
