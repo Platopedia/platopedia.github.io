@@ -87,7 +87,7 @@ input, textarea {
   margin-top:16px;
   padding:10px 16px;
   background:#CD9B1E;
-  color:var(--color-A);
+  color:#1A1A1A;
   border:none;
   border-radius:6px;
   cursor:pointer;
@@ -132,8 +132,7 @@ input, textarea {
 }
 
 .ticket-panel button:disabled{
-  opacity:1;
-  color:var(--color-A);
+  opacity:0.6;
   cursor:not-allowed;
 }
 
