@@ -192,10 +192,10 @@ Artrade helps you connect with trusted item traders and merchants from our commu
 ## Artrade Invite
 
 **Artrade (Plato Group):**<br>
-<span class="content-link" data-url="https://platoapp.com/link/1k601dxkdvd20" data-text="" data-copy="true"></span>
+<span class="content-link" data-url="https://platoapp.com/link/1k601dxkdvd20" data-text="Platoapp.com/link/1k601dxkdvd20" data-copy="true"></span>
 
 **Artrade (Discord Server):**
-<span class="content-link" data-url="https://discord.com/invite/ardc" data-text="" data-copy="true"></span>
+<span class="content-link" data-url="https://discord.com/invite/ardc" data-text="Discord.com/invite/ardc" data-copy="true"></span>
 
 <div class="linebreak"></div>
 
