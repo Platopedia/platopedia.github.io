@@ -91,7 +91,7 @@ input, textarea {
   border:none;
   border-radius:6px;
   cursor:pointer;
-  transition:transform .12s ease, box-shadow .12s ease;
+  transition:transform 0.05s ease;
   font-weight:500;
 }
 
