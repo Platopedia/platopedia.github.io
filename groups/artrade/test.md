@@ -184,7 +184,6 @@ display:none;
 
 Artrade helps you connect with trusted item traders and merchants from our community. Tap the **+** icon below to see more.
 
-<div class="content-contents text-left" data-open="false" data-icon="&#xf068;,&#xf067;">Contents <embed/></div>
 
 <div class="linebreak"></div>
 
@@ -315,7 +314,6 @@ Apply to become an <strong>Artrade Merchant</strong> and join our trusted networ
 
 <div class="linebreak"></div>
 
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
 
 <script>
 
