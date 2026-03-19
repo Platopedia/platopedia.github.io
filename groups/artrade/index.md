@@ -544,6 +544,24 @@ verifyTimeout = setTimeout(() => {
 });
 });
 
+// Safari tap bounce fix for generator button
+document.addEventListener("touchstart", ()=>{}, { passive: true });
+
+const genBtn = document.getElementById("genTicketBtn");
+if(genBtn){
+  genBtn.addEventListener("touchstart", ()=>{
+    genBtn.style.transform = "scale(0.96)";
+  }, { passive: true });
+
+  genBtn.addEventListener("touchend", ()=>{
+    genBtn.style.transform = "";
+  });
+
+  genBtn.addEventListener("touchcancel", ()=>{
+    genBtn.style.transform = "";
+  });
+}
+
 window.addEventListener("pageshow",(e)=>{
 if(e.persisted){
 const btn=document.getElementById("genTicketBtn");
