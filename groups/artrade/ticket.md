@@ -656,10 +656,6 @@ function prepareSubmit(){
 async function submitTrade(){
 
   const btn = document.getElementById("submit-btn");
-  // Fix empty button text (bfcache / loading edge case)
-  if(btn && !btn.textContent.trim()){
-    btn.textContent = "Submitted";
-  }
 
   // Trigger gold slide loading effect
   btn.classList.add("loading");
@@ -744,7 +740,7 @@ async function submitTrade(){
     clearTimeout(processingTimeout);
     const url = new URL(window.location.href);
     url.searchParams.set("submitted","1");
-    window.location.href = url.toString();
+    window.location.replace(url.toString());
 
   }catch(err){
     clearTimeout(processingTimeout);
