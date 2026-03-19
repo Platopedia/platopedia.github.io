@@ -112,7 +112,7 @@ border:none;
 border-radius:10px;
 cursor:pointer;
 font-weight:600;
-color:var(--color-A);
+color:#1A1A1A;
 transition:transform 0.15s ease;
 }
 
