@@ -193,7 +193,7 @@ Artrade helps you connect with trusted item traders and merchants from our commu
 
 <div class="linebreak"></div>
 
-## Artrade Invite
+## Artrade Invite {#artrade-invite}
 
 **Artrade (Plato Group):**<br>
 <span class="content-link" data-url="https://platoapp.com/link/1k601dxkdvd20" data-text="" data-copy="true"></span>
@@ -203,7 +203,7 @@ Artrade helps you connect with trusted item traders and merchants from our commu
 
 <div class="linebreak"></div>
 
-## Artrade Ticket
+## Artrade Ticket {#artrade-ticket}
 
 <div class="trade-card ticket-card" style="margin-top:10px">
 
@@ -223,7 +223,7 @@ Artrade helps you connect with trusted item traders and merchants from our commu
 
 <div class="linebreak"></div>
 
-## Item Trading Guide
+## Item Trading Guide {#item-trading-guide}
 
 **Merchants -** Group admins or traders endorsed by Artrade.
 
@@ -302,7 +302,7 @@ The page below contains the entire list of Plato Items with their base prices (i
 
 <div class="linebreak"></div>
 
-## Scam Insurance
+## Scam Insurance {#scam-insurance}
 
 Artrade provides insurance for any scam related incidents during a trade. You must share screenshots or screen recordings of the incident with one of our group owners. Once the evidence is verified, our insurance account will send you the full amount in items. The conditions are listed below.
 
@@ -312,7 +312,7 @@ Artrade provides insurance for any scam related incidents during a trade. You mu
 
 <div class="linebreak"></div>
 
-## Merchant Application
+## Merchant Application {#merchant-application}
 
 Apply to become an <strong>Artrade Merchant</strong> and join our trusted network of traders. Fill out the form below to submit your application.
 
