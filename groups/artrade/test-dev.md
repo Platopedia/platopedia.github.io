@@ -196,6 +196,26 @@ Currently Unavailable
 
 <div class="linebreak"></div>
 
+## Generate Trade Ticket
+
+<div class="trade-card ticket-card" style="margin-top:10px">
+
+<h4>Secure Ticket Generator</h4>
+<p class="trade-desc">Start your trade by generating a secure ticket.</p>
+
+<button id="genTicketBtn" class="primary-btn">
+  <span class="btn-text">Generate Secure Ticket</span>
+  <span class="btn-loader" hidden></span>
+</button>
+
+<div id="genTicketResult" class="status-text security-note">🔒 Secured and verified automatically</div>
+
+<div id="captcha-container" class="captcha-hidden"></div>
+
+</div>
+
+<div class="linebreak"></div>
+
 ## Item Trading
 
 **Merchants -** Group admins or traders endorsed by Artrade.
@@ -216,26 +236,6 @@ The trade price is the final amount required for a trade. Some important points 
 
 - The trade price is determined by the total value of items you're trading for. It's not counted separately for each item.
 - Use the [**Artrade Calculator**](#artrade-calculator) below to determine the trade price.
-
-<div class="linebreak"></div>
-
-## Generate Trade Ticket
-
-<div class="trade-card ticket-card" style="margin-top:10px">
-
-<h4>Secure Ticket Generator</h4>
-<p class="trade-desc">Start your trade by generating a secure ticket.</p>
-
-<button id="genTicketBtn" class="primary-btn">
-  <span class="btn-text">Generate Secure Ticket</span>
-  <span class="btn-loader" hidden></span>
-</button>
-
-<div id="genTicketResult" class="status-text security-note">🔒 Secured and verified automatically</div>
-
-<div id="captcha-container" class="captcha-hidden"></div>
-
-</div>
 
 <div class="linebreak"></div>
 
@@ -396,6 +396,7 @@ Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coi
 let widgetId=null;
 let isProcessing=false;
 let awaitingToken=false;
+let verifyTimeout=null;
 
 function onTurnstileLoad(){
 if(window.turnstile){
@@ -508,13 +509,13 @@ btn.disabled=true;
 setStatus("🔐 Verifying your request...");
 
 // fallback in case Turnstile callback never fires
-const verifyTimeout = setTimeout(() => {
+verifyTimeout = setTimeout(() => {
   if (awaitingToken) {
     awaitingToken = false;
     btn.disabled = false;
     setStatus("❌ Verification timed out. Please try again.","error");
   }
-}, 5000);
+}, 10000);
 
 });
 });
