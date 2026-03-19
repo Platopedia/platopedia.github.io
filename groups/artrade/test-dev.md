@@ -103,24 +103,25 @@ text-align:center;
 
 .primary-btn{
 width:100%;
+max-width:260px;
+margin:10px auto 0;
 padding:12px;
 background:linear-gradient(135deg,#CD9B1E,#f4c542);
 border:none;
 border-radius:10px;
 cursor:pointer;
 font-weight:600;
-margin-top:10px;
 transition:transform 0.15s ease;
-}
-
-.primary-btn:disabled{
-opacity:0.6;
-cursor:not-allowed;
 }
 
 .primary-btn:active{
 transform:scale(0.96);
 transition:transform 0.05s ease;
+}
+
+.primary-btn:disabled{
+opacity:0.6;
+cursor:not-allowed;
 }
 
 .btn-loader{
@@ -147,39 +148,24 @@ align-items:center;
 justify-content:center;
 }
 
-.status-text.success{
-color:#16A34A;
-}
-
-.status-text.error{
-color:#E1100D;
+.status-text.security-note{
+font-weight:400;
+font-size:12px;
+color:#888;
 }
 
 .status-text.active{
-  font-size:12px;
-  color:#888;
-  font-weight:400;
+font-size:12px;
+color:#888;
+font-weight:400;
 }
 
 .status-text.active.success{
-  color:#16A34A;
-  font-weight:600;
+color:#16A34A;
 }
 
 .status-text.active.error{
-  color:#E1100D;
-  font-weight:600;
-}
-
-.security-note{
-margin-top:10px;
-font-size:12px;
-color:#888;
-transition:opacity 0.2s ease;
-}
-
-.status-text.security-note{
-  font-weight:400;
+color:#E1100D;
 }
 
 .captcha-hidden{
@@ -210,24 +196,6 @@ Currently Unavailable
 
 <div class="linebreak"></div>
 
-## Generate Trade Ticket
-
-<div class="trade-card ticket-card" style="margin-top:10px">
-
-<h4>Secure Ticket Generator</h4>
-<p class="trade-desc">Generate your trade ticket instantly with secure verification.</p>
-
-<button id="genTicketBtn" class="primary-btn">
-  <span class="btn-text">Generate Secure Ticket</span>
-  <span class="btn-loader" hidden></span>
-</button>
-
-<div id="genTicketResult" class="status-text security-note">🔒 Secured and verified automatically</div>
-
-<div id="captcha-container" class="captcha-hidden"></div>
-
-</div>
-
 ## Item Trading
 
 **Merchants -** Group admins or traders endorsed by Artrade.
@@ -248,6 +216,26 @@ The trade price is the final amount required for a trade. Some important points 
 
 - The trade price is determined by the total value of items you're trading for. It's not counted separately for each item.
 - Use the [**Artrade Calculator**](#artrade-calculator) below to determine the trade price.
+
+<div class="linebreak"></div>
+
+## Generate Trade Ticket
+
+<div class="trade-card ticket-card" style="margin-top:10px">
+
+<h4>Secure Ticket Generator</h4>
+<p class="trade-desc">Start your trade by generating a secure ticket.</p>
+
+<button id="genTicketBtn" class="primary-btn">
+  <span class="btn-text">Generate Secure Ticket</span>
+  <span class="btn-loader" hidden></span>
+</button>
+
+<div id="genTicketResult" class="status-text security-note">🔒 Secured and verified automatically</div>
+
+<div id="captcha-container" class="captcha-hidden"></div>
+
+</div>
 
 <div class="linebreak"></div>
 
@@ -433,20 +421,23 @@ loader.hidden=true;
 }
 
 function setStatus(msg,type){
-  const el=document.getElementById("genTicketResult");
+const el=document.getElementById("genTicketResult");
 
-  if(!msg){
-    el.textContent="🔒 Secured and verified automatically";
-    el.className="status-text security-note";
-    return;
-  }
+if(!msg){
+el.textContent="🔒 Secured and verified automatically";
+el.className="status-text security-note";
+return;
+}
 
-  el.textContent=msg;
-  el.className="status-text"+(type?` ${type}`:"")+" active";
+el.textContent=msg;
+el.className="status-text"+(type?` ${type}`:"")+" active";
 }
 
 async function handleSuccess(token){
 if(!awaitingToken||isProcessing) return;
+
+// clear fallback timeout
+try { clearTimeout(verifyTimeout); } catch {}
 
 isProcessing=true;
 awaitingToken=false;
@@ -472,9 +463,9 @@ if(!res.ok) throw new Error();
 
 setStatus("✅ Ticket ready!","success");
 
-    setTimeout(()=>{
-    window.location.href = `/groups/artrade/ticket?t=${data.ticket}`;
-    },500);
+setTimeout(()=>{
+window.location.href=`/groups/artrade/ticket?t=${data.ticket}`;
+},350);
 
 }catch{
 setStatus("❌ Something went wrong. Please try again.","error");
@@ -498,36 +489,33 @@ setLoading(btn,false);
 setStatus("");
 
 btn.addEventListener("click",()=>{
-// haptic feedback (if supported)
-if(navigator.vibrate){
-navigator.vibrate(30);
-}
-
 if(btn.disabled||isProcessing) return;
 
-if(!widgetId){
-  // try to reinitialize Turnstile once
-  try{
-    onTurnstileLoad();
-  }catch{}
+if(navigator.vibrate){
+navigator.vibrate([10,20,10]);
+}
 
-  if(!widgetId){
-    setStatus("❌ Verification not ready. Please refresh.","error");
-    return;
-  }
+if(!widgetId){
+try{onTurnstileLoad();}catch{}
+if(!widgetId){
+setStatus("❌ Verification not ready. Please refresh.","error");
+return;
+}
 }
 
 awaitingToken=true;
 btn.disabled=true;
 setStatus("🔐 Verifying your request...");
 
-try{
-turnstile.execute(widgetId);
-}catch{
-setStatus("❌ Verification failed. Please try again.","error");
-btn.disabled=false;
-awaitingToken=false;
-}
+// fallback in case Turnstile callback never fires
+const verifyTimeout = setTimeout(() => {
+  if (awaitingToken) {
+    awaitingToken = false;
+    btn.disabled = false;
+    setStatus("❌ Verification timed out. Please try again.","error");
+  }
+}, 5000);
+
 });
 });
 
