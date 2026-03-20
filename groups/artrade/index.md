@@ -586,7 +586,6 @@ if(!window.turnstile){
       if(!widgetId){
         throw new Error("Turnstile init failed");
       }
-      try{ turnstile.reset(widgetId); }catch{}
       turnstile.execute(widgetId);
       // fallback in case Turnstile callback never fires (lazy-load path)
       startVerifyTimeout(btn);
@@ -626,7 +625,6 @@ setStatus("🔐 Verifying your request...");
 
 // trigger Turnstile execution
 try{
-  try{ turnstile.reset(widgetId); }catch{}
   turnstile.execute(widgetId);
   // fallback in case Turnstile callback never fires
   startVerifyTimeout(btn);
