@@ -357,6 +357,21 @@ document.querySelectorAll(".ticket-panel button").forEach(btn=>{
   });
 });
 
+// Pointer events for mouse/trackpad (Mac tap-to-click support)
+document.querySelectorAll(".ticket-panel button").forEach(btn=>{
+  btn.addEventListener("pointerdown", ()=>{
+    btn.style.transform = "scale(0.95)";
+  });
+
+  btn.addEventListener("pointerup", ()=>{
+    btn.style.transform = "";
+  });
+
+  btn.addEventListener("pointerleave", ()=>{
+    btn.style.transform = "";
+  });
+});
+
 const platoClear = document.getElementById("plato-clear");
 const friendClear = document.getElementById("friend-clear");
 const searchClear = document.getElementById("search-clear");
