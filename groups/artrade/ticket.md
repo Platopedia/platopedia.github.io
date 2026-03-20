@@ -788,8 +788,3 @@ async function submitTrade(){
 }
 
 </script>
-
-
-.primary-btn:hover{
-  box-shadow:0 1px 3px rgba(0,0,0,.2);
-}
