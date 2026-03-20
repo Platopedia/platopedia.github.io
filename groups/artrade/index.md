@@ -460,6 +460,22 @@ function resetBtn(btn){
   setLoading(btn,false);
 }
 
+function startVerifyTimeout(btn){
+  try { if (verifyTimeout) clearTimeout(verifyTimeout); } catch {}
+
+  verifyTimeout = setTimeout(() => {
+    if (awaitingToken) {
+      awaitingToken = false;
+      resetBtn(btn);
+      setStatus("❌ Verification timed out. Please try again later.","error");
+
+      if(widgetId && window.turnstile){
+        try { turnstile.reset(widgetId); } catch {}
+      }
+    }
+  }, 15000);
+}
+
 function setStatus(msg,type){
 const el=document.getElementById("genTicketResult");
 
@@ -563,12 +579,20 @@ if(!window.turnstile){
       if(!widgetId){
         throw new Error("Turnstile init failed");
       }
+      try{ turnstile.reset(widgetId); }catch{}
       turnstile.execute(widgetId);
+      // fallback in case Turnstile callback never fires (lazy-load path)
+      startVerifyTimeout(btn);
     }catch{
       setStatus("❌ Verification failed. Please try again later.","error");
       resetBtn(btn);
       awaitingToken=false;
     }
+  };
+  script.onerror = () => {
+    setStatus("❌ Failed to load verification. Please try again.", "error");
+    resetBtn(btn);
+    awaitingToken = false;
   };
 
   document.body.appendChild(script);
@@ -583,7 +607,7 @@ if(!widgetId){
     }
   }catch{
     setStatus("❌ Verification not ready. Please refresh.","error");
-    btn.disabled=false;
+    resetBtn(btn);
     awaitingToken=false;
     return;
   }
@@ -593,32 +617,18 @@ awaitingToken=true;
 btn.disabled=true;
 setStatus("🔐 Verifying your request...");
 
-// clear any previous timeout
-try { if (verifyTimeout) clearTimeout(verifyTimeout); } catch {}
-
 // trigger Turnstile execution
 try{
+  try{ turnstile.reset(widgetId); }catch{}
   turnstile.execute(widgetId);
+  // fallback in case Turnstile callback never fires
+  startVerifyTimeout(btn);
 }catch{
   setStatus("❌ Verification failed. Please try again later.","error");
-  btn.disabled=false;
+  resetBtn(btn);
   awaitingToken=false;
   return;
 }
-
-// fallback in case Turnstile callback never fires
-verifyTimeout = setTimeout(() => {
-  if (awaitingToken) {
-    awaitingToken = false;
-    btn.disabled = false;
-    setStatus("❌ Verification timed out. Please try again later.","error");
-
-    // reset Turnstile for next attempt
-    if(widgetId && window.turnstile){
-      try { turnstile.reset(widgetId); } catch {}
-    }
-  }
-}, 15000);
 
 });
 });
