@@ -26,6 +26,8 @@ border:1px solid var(--color-B);
 background:linear-gradient(var(--color-C),var(--color-D));
 box-sizing:border-box;
 min-width:0;
+word-break:break-word;
+overflow-wrap:anywhere;
 }
 
 .trade-card label{
@@ -40,6 +42,8 @@ color:var(--color-text);
 width:100%;
 box-sizing:border-box;
 padding-right:14px;
+overflow:hidden;
+text-overflow:ellipsis;
 }
 
 .trade-input-wrap{
@@ -72,6 +76,9 @@ opacity:1;
 margin-top:10px;
 font-weight:bold;
 line-height:1.5;
+word-break:break-word;
+overflow-wrap:anywhere;
+white-space:normal;
 }
 
 .trade-desc{
@@ -270,7 +277,7 @@ Use the calculator to check the total trade price of one or more items.
 <label>Item/s Price (Coins)</label>
 
 <div class="trade-input-wrap">
-<input id="coinInput" class="form-control trade-input" type="number" placeholder="Enter item/s price in Coins">
+<input id="coinInput" class="form-control trade-input" type="number" max="100000000" placeholder="Enter item/s price in Coins">
 <button class="trade-clear" onclick="clearCoin()">×</button>
 </div>
 
@@ -286,7 +293,7 @@ Use the calculator to check the total trade price of one or more items.
 <label>Item/s Price (Pips)</label>
 
 <div class="trade-input-wrap">
-<input id="pipInput" class="form-control trade-input" type="number" placeholder="Enter item/s price in Pips">
+<input id="pipInput" class="form-control trade-input" type="number" max="100000000000000000000000000000000000000000" placeholder="Enter item/s price in Pips">
 <button class="trade-clear" onclick="clearPip()">×</button>
 </div>
 
@@ -363,7 +370,12 @@ return Math.ceil(increased/50)*50;
 
 document.getElementById("coinInput").addEventListener("input",function(){
 
-const coins = Number(this.value);
+let coins = Number(this.value);
+if (coins > 100000000) {
+  coins = 100000000;
+  this.value = coins;
+}
+
 const clearBtn=this.parentElement.querySelector('.trade-clear');
 clearBtn.style.display=this.value ? 'flex' : 'none';
 
@@ -387,7 +399,12 @@ Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coi
 
 document.getElementById("pipInput").addEventListener("input",function(){
 
-const pips = Number(this.value);
+let pips = Number(this.value);
+if (pips > 100000000) {
+  pips = 100000000;
+  this.value = pips;
+}
+
 const clearBtn=this.parentElement.querySelector('.trade-clear');
 clearBtn.style.display=this.value ? 'flex' : 'none';
 
