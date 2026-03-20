@@ -353,7 +353,9 @@ document.querySelectorAll(".ticket-panel button").forEach(btn=>{
   }, { passive: true });
 
   btn.addEventListener("touchend", ()=>{
-    btn.classList.remove("pressed");
+    setTimeout(()=>{
+      btn.classList.remove("pressed");
+    }, 60);
   });
 
   btn.addEventListener("touchcancel", ()=>{
@@ -368,7 +370,9 @@ document.querySelectorAll(".ticket-panel button").forEach(btn=>{
   });
 
   btn.addEventListener("pointerup", ()=>{
-    btn.classList.remove("pressed");
+    setTimeout(()=>{
+      btn.classList.remove("pressed");
+    }, 60);
   });
 
   btn.addEventListener("pointerleave", ()=>{
