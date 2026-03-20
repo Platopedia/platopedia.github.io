@@ -325,13 +325,25 @@ Apply to become an <strong>Artrade Merchant</strong> and join our trusted networ
 <script>
 
 // Generate stable fingerprint per user
-function getFingerprint(){
-  let fp = localStorage.getItem("artrade_fp");
-  if(!fp){
-    fp = crypto.randomUUID();
-    localStorage.setItem("artrade_fp", fp);
-  }
-  return fp;
+async function getFingerprint() {
+  const data = [
+    navigator.userAgent,
+    navigator.language,
+    screen.width,
+    screen.height,
+    screen.colorDepth,
+    new Date().getTimezoneOffset(),
+    navigator.hardwareConcurrency || 0
+  ].join("|");
+
+  const hashBuffer = await crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(data)
+  );
+
+  return Array.from(new Uint8Array(hashBuffer))
+    .map(b => b.toString(16).padStart(2, "0"))
+    .join("");
 }
 
 function clearCoin(){
@@ -463,12 +475,14 @@ setLoading(btn,true);
 setStatus("⚙️ Generating your ticket...");
 
 try{
+const fingerprint = await getFingerprint();
+
 const res=await fetch("https://ticket-generator.platopedia.workers.dev/generate-ticket",{
 method:"POST",
 headers:{"Content-Type":"application/json"},
 body:JSON.stringify({
 captchaToken:token,
-fingerprint:getFingerprint()
+fingerprint
 })
 });
 
