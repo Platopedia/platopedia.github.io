@@ -130,12 +130,12 @@ input, textarea {
 
 /* Button tap/pressed feedback */
 .ticket-panel button:active{
-  transform:scale(.94);
-  box-shadow:0 1px 2px rgba(0,0,0,.25);
+  transform:scale(.90);
+  box-shadow:0 2px 4px rgba(0,0,0,.35);
 }
 .ticket-panel button.pressed{
-  transform:scale(.94);
-  box-shadow:0 1px 2px rgba(0,0,0,.25);
+  transform:scale(.90);
+  box-shadow:0 2px 4px rgba(0,0,0,.35);
 }
 
 .ticket-panel button:disabled{
@@ -327,7 +327,7 @@ const itemsBox = document.getElementById("items");
 // Haptic feedback when tapping the Selected Items box (supported mobile browsers)
 itemsBox.addEventListener("click", ()=>{
   if(navigator.vibrate){
-    navigator.vibrate(30);
+    navigator.vibrate(25);
   }
 
   // small shake so users know it is not editable
@@ -340,7 +340,7 @@ itemsBox.addEventListener("click", ()=>{
 document.querySelectorAll(".ticket-panel button").forEach(btn=>{
   btn.addEventListener("click", ()=>{
     if(navigator.vibrate){
-      navigator.vibrate(30);
+      navigator.vibrate(25);
     }
   });
 });
