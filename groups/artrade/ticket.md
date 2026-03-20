@@ -106,16 +106,17 @@ input, textarea {
   content:"";
   position:absolute;
   top:0;
-  left:-100%;
+  left:0;
   width:100%;
   height:100%;
   background:#CD9B1E;
+  transform:translateX(-100%);
   animation:confirmSlide .6s ease forwards;
 }
 
 @keyframes confirmSlide{
-  from{ left:-100%; }
-  to{ left:0; }
+  from{ transform:translateX(-100%); }
+  to{ transform:translateX(0); }
 }
 
 .ticket-panel button.loading span{
@@ -130,7 +131,6 @@ input, textarea {
 .ticket-panel button:active{
   transform:scale(.94);
   box-shadow:0 1px 2px rgba(0,0,0,.25);
-  filter:brightness(0.85);
 }
 
 .ticket-panel button:disabled{
@@ -536,7 +536,7 @@ async function loadItems(){
     if(q.length < 2) return;
 
     const matches = itemsIndex
-      .filter(i=>i.name.toLowerCase().includes(q) || i.id.includes(q))
+      .filter(i=>i.name.toLowerCase().includes(q) || i.id.toLowerCase().includes(q))
       .slice(0,50);
 
     if(matches.length) dropdown.style.display = "block";
