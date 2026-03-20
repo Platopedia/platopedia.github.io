@@ -91,7 +91,7 @@ input, textarea {
   border:none;
   border-radius:6px;
   cursor:pointer;
-  transition:transform 0.05s ease;
+  transition:transform 0.05s ease, filter 0.1s ease;
   font-weight:500;
   touch-action: manipulation;
 }
@@ -130,6 +130,7 @@ input, textarea {
 .ticket-panel button:active{
   transform:scale(.94);
   box-shadow:0 1px 2px rgba(0,0,0,.25);
+  filter:brightness(0.85);
 }
 
 .ticket-panel button:disabled{
@@ -321,7 +322,7 @@ const itemsBox = document.getElementById("items");
 // Haptic feedback when tapping the Selected Items box (supported mobile browsers)
 itemsBox.addEventListener("click", ()=>{
   if(navigator.vibrate){
-    navigator.vibrate(25);
+    navigator.vibrate([20,30,20]);
   }
 
   // small shake so users know it is not editable
@@ -334,7 +335,7 @@ itemsBox.addEventListener("click", ()=>{
 document.querySelectorAll(".ticket-panel button").forEach(btn=>{
   btn.addEventListener("click", ()=>{
     if(navigator.vibrate){
-      navigator.vibrate(25);
+      navigator.vibrate([20,30,20]);
     }
   });
 });
