@@ -124,13 +124,12 @@ border-radius:10px;
 cursor:pointer;
 font-weight:600;
 color:#1A1A1A;
-transition:transform 0.05s ease, filter 0.1s ease;
+transition:transform 0.05s ease;
 }
 
 .primary-btn:active{
 transform:scale(0.94);
 box-shadow:0 1px 2px rgba(0,0,0,.25);
-filter:brightness(0.85);
 }
 
 .primary-btn:disabled{
@@ -599,6 +598,21 @@ if(genBtn){
   });
 
   genBtn.addEventListener("touchcancel", ()=>{
+    genBtn.style.transform = "";
+  });
+}
+
+// Pointer-based press feedback for Mac trackpad taps etc.
+if(genBtn){
+  genBtn.addEventListener("pointerdown", ()=>{
+    genBtn.style.transform = "scale(0.96)";
+  });
+
+  genBtn.addEventListener("pointerup", ()=>{
+    genBtn.style.transform = "";
+  });
+
+  genBtn.addEventListener("pointerleave", ()=>{
     genBtn.style.transform = "";
   });
 }
