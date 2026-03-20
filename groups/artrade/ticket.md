@@ -715,8 +715,8 @@ async function submitTrade(){
       data = null;
     }
 
-    // Invalid ticket response
-    if(res.status === 400 && data && data.status === "invalid"){
+    // Invalid ticket response (handle all 400s)
+    if(res.status === 400){
 
       clearTimeout(processingTimeout);
       btn.classList.remove("loading");
@@ -726,7 +726,7 @@ async function submitTrade(){
       btn.style.background = "#CD9B1E";
       btn.onclick = prepareSubmit;
 
-      submitError.textContent = "Invalid ticket. Please generate a new ticket from Discord.";
+      submitError.textContent = data?.message || "Invalid ticket. Please generate a new ticket from Discord.";
       submitError.style.display = "block";
 
       submitting = false;
@@ -754,7 +754,7 @@ async function submitTrade(){
     }
 
     if(!res.ok){
-      throw new Error("Worker request failed");
+      throw new Error(data?.message || "Worker request failed");
     }
 
     clearTimeout(processingTimeout);
@@ -772,7 +772,7 @@ async function submitTrade(){
     btn.style.background = "#CD9B1E";
     btn.onclick = prepareSubmit;
 
-    submitError.textContent = "Submission failed. Please try again.";
+    submitError.textContent = err?.message || "Submission failed. Please try again.";
     submitError.style.display = "block";
 
     submitting = false;
