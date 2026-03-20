@@ -91,7 +91,7 @@ input, textarea {
   border:none;
   border-radius:6px;
   cursor:pointer;
-  transition:transform 0.05s ease, filter 0.1s ease;
+  transition:transform 0.05s ease;
   font-weight:500;
   touch-action: manipulation;
 }
@@ -345,7 +345,7 @@ document.addEventListener("touchstart", ()=>{}, { passive: true });
 
 document.querySelectorAll(".ticket-panel button").forEach(btn=>{
   btn.addEventListener("touchstart", ()=>{
-    btn.style.transform = "scale(0.95)";
+    btn.style.transform = "scale(0.94)";
   }, { passive: true });
 
   btn.addEventListener("touchend", ()=>{
@@ -360,7 +360,7 @@ document.querySelectorAll(".ticket-panel button").forEach(btn=>{
 // Pointer events for mouse/trackpad (Mac tap-to-click support)
 document.querySelectorAll(".ticket-panel button").forEach(btn=>{
   btn.addEventListener("pointerdown", ()=>{
-    btn.style.transform = "scale(0.95)";
+    btn.style.transform = "scale(0.94)";
   });
 
   btn.addEventListener("pointerup", ()=>{
