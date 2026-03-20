@@ -371,8 +371,8 @@ return Math.ceil(increased/50)*50;
 document.getElementById("coinInput").addEventListener("input",function(){
 
 let coins = Number(this.value);
-if (coins > 100000000) {
-  coins = 100000000;
+if (coins > 1000000000000000000000000000000000000) {
+  coins = 1000000000000000000000000000000000000;
   this.value = coins;
 }
 
