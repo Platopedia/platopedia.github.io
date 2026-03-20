@@ -96,6 +96,10 @@ input, textarea {
   touch-action: manipulation;
 }
 
+.ticket-panel button:hover{
+  box-shadow:0 1px 3px rgba(0,0,0,.2);
+}
+
 /* Confirm loading slide effect */
 .ticket-panel button.loading{
   position:relative;
@@ -784,3 +788,8 @@ async function submitTrade(){
 }
 
 </script>
+
+
+.primary-btn:hover{
+  box-shadow:0 1px 3px rgba(0,0,0,.2);
+}
