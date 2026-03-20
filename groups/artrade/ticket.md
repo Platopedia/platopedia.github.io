@@ -322,7 +322,7 @@ const itemsBox = document.getElementById("items");
 // Haptic feedback when tapping the Selected Items box (supported mobile browsers)
 itemsBox.addEventListener("click", ()=>{
   if(navigator.vibrate){
-    navigator.vibrate([20,30,20]);
+    navigator.vibrate(30);
   }
 
   // small shake so users know it is not editable
@@ -335,7 +335,7 @@ itemsBox.addEventListener("click", ()=>{
 document.querySelectorAll(".ticket-panel button").forEach(btn=>{
   btn.addEventListener("click", ()=>{
     if(navigator.vibrate){
-      navigator.vibrate([20,30,20]);
+      navigator.vibrate(30);
     }
   });
 });
