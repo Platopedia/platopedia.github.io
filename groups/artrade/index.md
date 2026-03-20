@@ -593,19 +593,6 @@ verifyTimeout = setTimeout(() => {
 document.addEventListener("touchstart", ()=>{}, { passive: true });
 
 const genBtn = document.getElementById("genTicketBtn");
-if(genBtn){
-  genBtn.addEventListener("touchstart", ()=>{
-    genBtn.classList.add("pressed");
-  }, { passive: true });
-
-  genBtn.addEventListener("touchend", ()=>{
-    setTimeout(()=>genBtn.classList.remove("pressed"),60);
-  });
-
-  genBtn.addEventListener("touchcancel", ()=>{
-    genBtn.classList.remove("pressed");
-  });
-}
 
 // Pointer-based press feedback for Mac trackpad taps etc.
 if(genBtn){
