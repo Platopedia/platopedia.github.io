@@ -436,8 +436,7 @@ let verifyTimeout=null;
 function initTurnstile(){
   return turnstile.render('#captcha-container',{
     sitekey:'0x4AAAAAACsY3XYA6cc6K6Ks',
-    callback:handleSuccess,
-    execution:'execute'
+    callback:handleSuccess
   });
 }
 
