@@ -93,6 +93,7 @@ input, textarea {
   cursor:pointer;
   transition:transform 0.05s ease;
   font-weight:500;
+  touch-action: manipulation;
 }
 
 /* Confirm loading slide effect */
