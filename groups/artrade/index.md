@@ -547,7 +547,7 @@ navigator.vibrate([20,30,20]);
 }
 
 // Lazy-load Turnstile on click
-if(!window.turnstile && !document.querySelector('[src*="turnstile"]')){
+if(!window.turnstile){
   awaitingToken = true;
   btn.disabled = true;
   setLoading(btn,true);
