@@ -293,7 +293,7 @@ Use the calculator to check the total trade price of one or more items.
 <label>Item/s Price (Pips)</label>
 
 <div class="trade-input-wrap">
-<input id="pipInput" class="form-control trade-input" type="number" max="100000000000000000000000000000000000000000" placeholder="Enter item/s price in Pips">
+<input id="pipInput" class="form-control trade-input" type="number" max="100000000" placeholder="Enter item/s price in Pips">
 <button class="trade-clear" onclick="clearPip()">×</button>
 </div>
 
@@ -371,8 +371,8 @@ return Math.ceil(increased/50)*50;
 document.getElementById("coinInput").addEventListener("input",function(){
 
 let coins = Number(this.value);
-if (coins > 1000000000000000000000000000000000000) {
-  coins = 1000000000000000000000000000000000000;
+if (coins > 100000000) {
+  coins = 100000000;
   this.value = coins;
 }
 
