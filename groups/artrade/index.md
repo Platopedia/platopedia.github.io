@@ -475,7 +475,16 @@ fingerprint:getFingerprint()
 const data = await res.json().catch(()=>({}));
 
 if(!res.ok){
-  throw new Error(data?.message || "Request failed");
+  setStatus(`❌ ${data?.message || data?.error || "Request failed"}`,"error");
+  setLoading(btn,false);
+  btn.disabled=false;
+  isProcessing=false;
+
+  if(widgetId&&window.turnstile){
+    try{turnstile.reset(widgetId);}catch{}
+  }
+
+  return;
 }
 
 if(!data.ticket){
