@@ -519,7 +519,7 @@ if(!res.ok){
 
     const timeStr = h > 0 ? `${h}h ${m}m` : `${m}m`;
 
-    setStatus(`⏳ Try again in ${timeStr}`, "error");
+    setStatus(`⏳ Try again in ${timeStr}. You have reached the 24-hour limit (2 tickets).`, "error");
   } else {
     setStatus(`❌ ${data?.message || data?.error || "Request failed"}`, "error");
   }
