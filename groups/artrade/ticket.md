@@ -132,10 +132,6 @@ input, textarea {
   transform:scale(.94);
   box-shadow:0 1px 2px rgba(0,0,0,.25);
 }
-.ticket-panel button.pressed{
-  transform:scale(.94);
-  box-shadow:0 1px 2px rgba(0,0,0,.25);
-}
 
 .ticket-panel button:disabled{
   opacity:0.6;
@@ -349,34 +345,30 @@ document.addEventListener("touchstart", ()=>{}, { passive: true });
 
 document.querySelectorAll(".ticket-panel button").forEach(btn=>{
   btn.addEventListener("touchstart", ()=>{
-    btn.classList.add("pressed");
+    btn.style.transform = "scale(0.94)";
   }, { passive: true });
 
   btn.addEventListener("touchend", ()=>{
-    setTimeout(()=>{
-      btn.classList.remove("pressed");
-    }, 60);
+    btn.style.transform = "";
   });
 
   btn.addEventListener("touchcancel", ()=>{
-    btn.classList.remove("pressed");
+    btn.style.transform = "";
   });
 });
 
 // Pointer events for mouse/trackpad (Mac tap-to-click support)
 document.querySelectorAll(".ticket-panel button").forEach(btn=>{
   btn.addEventListener("pointerdown", ()=>{
-    btn.classList.add("pressed");
+    btn.style.transform = "scale(0.94)";
   });
 
   btn.addEventListener("pointerup", ()=>{
-    setTimeout(()=>{
-      btn.classList.remove("pressed");
-    }, 60);
+    btn.style.transform = "";
   });
 
   btn.addEventListener("pointerleave", ()=>{
-    btn.classList.remove("pressed");
+    btn.style.transform = "";
   });
 });
 
