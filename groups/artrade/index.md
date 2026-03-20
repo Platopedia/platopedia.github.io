@@ -590,7 +590,7 @@ document.addEventListener("touchstart", ()=>{}, { passive: true });
 const genBtn = document.getElementById("genTicketBtn");
 if(genBtn){
   genBtn.addEventListener("touchstart", ()=>{
-    genBtn.style.transform = "scale(0.96)";
+    genBtn.style.transform = "scale(0.94)";
   }, { passive: true });
 
   genBtn.addEventListener("touchend", ()=>{
@@ -605,7 +605,7 @@ if(genBtn){
 // Pointer-based press feedback for Mac trackpad taps etc.
 if(genBtn){
   genBtn.addEventListener("pointerdown", ()=>{
-    genBtn.style.transform = "scale(0.96)";
+    genBtn.style.transform = "scale(0.94)";
   });
 
   genBtn.addEventListener("pointerup", ()=>{
