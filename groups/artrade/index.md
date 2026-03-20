@@ -107,7 +107,6 @@ input[type=number]{
 -moz-appearance:textfield;
 appearance:textfield;
 }
-/* ticket generator */
 
 .ticket-card{
 text-align:center;
@@ -334,7 +333,6 @@ Apply to become an <strong>Artrade Merchant</strong> and join our trusted networ
 
 <div class="linebreak"></div>
 
-
 <script>
 
 // Generate stable fingerprint per user
@@ -438,8 +436,7 @@ let verifyTimeout=null;
 function initTurnstile(){
   return turnstile.render('#captcha-container',{
     sitekey:'0x4AAAAAACsY3XYA6cc6K6Ks',
-    callback:handleSuccess,
-    execution:'execute'
+    callback:handleSuccess
   });
 }
 
@@ -458,6 +455,22 @@ function setLoading(btn,loading){
 function resetBtn(btn){
   btn.disabled = false;
   setLoading(btn,false);
+}
+
+function startVerifyTimeout(btn){
+  try { if (verifyTimeout) clearTimeout(verifyTimeout); } catch {}
+
+  verifyTimeout = setTimeout(() => {
+    if (awaitingToken) {
+      awaitingToken = false;
+      resetBtn(btn);
+      setStatus("❌ Verification timed out. Please try again later.","error");
+
+      if(widgetId && window.turnstile){
+        try { turnstile.reset(widgetId); } catch {}
+      }
+    }
+  }, 15000);
 }
 
 function setStatus(msg,type){
@@ -492,6 +505,7 @@ method:"POST",
 headers:{"Content-Type":"application/json"},
 body:JSON.stringify({
 captchaToken:token,
+"cf-turnstile-response":token,
 fingerprint:getFingerprint()
 })
 });
@@ -499,7 +513,16 @@ fingerprint:getFingerprint()
 const data = await res.json().catch(()=>({}));
 
 if(!res.ok){
-  setStatus(`❌ ${data?.message || data?.error || "Request failed"}`,"error");
+  if (data?.retryIn) {
+    const h = Math.floor(data.retryIn / 3600);
+    const m = Math.floor((data.retryIn % 3600) / 60);
+
+    const timeStr = h > 0 ? `${h}h ${m}m` : `${m}m`;
+
+    setStatus(`⏳ Try again in ${timeStr}`, "error");
+  } else {
+    setStatus(`❌ ${data?.message || data?.error || "Request failed"}`, "error");
+  }
   resetBtn(btn);
   isProcessing=false;
 
@@ -564,11 +587,18 @@ if(!window.turnstile){
         throw new Error("Turnstile init failed");
       }
       turnstile.execute(widgetId);
+      // fallback in case Turnstile callback never fires (lazy-load path)
+      startVerifyTimeout(btn);
     }catch{
       setStatus("❌ Verification failed. Please try again later.","error");
       resetBtn(btn);
       awaitingToken=false;
     }
+  };
+  script.onerror = () => {
+    setStatus("❌ Failed to load verification. Please try again.", "error");
+    resetBtn(btn);
+    awaitingToken = false;
   };
 
   document.body.appendChild(script);
@@ -583,7 +613,7 @@ if(!widgetId){
     }
   }catch{
     setStatus("❌ Verification not ready. Please refresh.","error");
-    btn.disabled=false;
+    resetBtn(btn);
     awaitingToken=false;
     return;
   }
@@ -593,32 +623,17 @@ awaitingToken=true;
 btn.disabled=true;
 setStatus("🔐 Verifying your request...");
 
-// clear any previous timeout
-try { if (verifyTimeout) clearTimeout(verifyTimeout); } catch {}
-
 // trigger Turnstile execution
 try{
   turnstile.execute(widgetId);
+  // fallback in case Turnstile callback never fires
+  startVerifyTimeout(btn);
 }catch{
   setStatus("❌ Verification failed. Please try again later.","error");
-  btn.disabled=false;
+  resetBtn(btn);
   awaitingToken=false;
   return;
 }
-
-// fallback in case Turnstile callback never fires
-verifyTimeout = setTimeout(() => {
-  if (awaitingToken) {
-    awaitingToken = false;
-    btn.disabled = false;
-    setStatus("❌ Verification timed out. Please try again later.","error");
-
-    // reset Turnstile for next attempt
-    if(widgetId && window.turnstile){
-      try { turnstile.reset(widgetId); } catch {}
-    }
-  }
-}, 15000);
 
 });
 });
