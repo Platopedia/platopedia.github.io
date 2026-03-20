@@ -127,6 +127,17 @@ color:#1A1A1A;
 transition:transform 0.05s ease;
 }
 
+/* Lightweight hover shadow for generator button */
+
+.primary-btn:hover{
+  box-shadow:0 1px 3px rgba(0,0,0,.2);
+}
+
+/* Lightweight hover shadow for ticket panel button (same as .primary-btn) */
+.ticket-panel button:hover{
+  box-shadow:0 1px 3px rgba(0,0,0,.2);
+}
+
 .primary-btn:active{
 transform:scale(0.90);
 }
