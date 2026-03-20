@@ -132,6 +132,10 @@ input, textarea {
   transform:scale(.94);
   box-shadow:0 1px 2px rgba(0,0,0,.25);
 }
+.ticket-panel button.pressed{
+  transform:scale(.94);
+  box-shadow:0 1px 2px rgba(0,0,0,.25);
+}
 
 .ticket-panel button:disabled{
   opacity:0.6;
@@ -360,15 +364,15 @@ document.querySelectorAll(".ticket-panel button").forEach(btn=>{
 // Pointer events for mouse/trackpad (Mac tap-to-click support)
 document.querySelectorAll(".ticket-panel button").forEach(btn=>{
   btn.addEventListener("pointerdown", ()=>{
-    btn.style.transform = "scale(0.94)";
+    btn.classList.add("pressed");
   });
 
   btn.addEventListener("pointerup", ()=>{
-    btn.style.transform = "";
+    btn.classList.remove("pressed");
   });
 
   btn.addEventListener("pointerleave", ()=>{
-    btn.style.transform = "";
+    btn.classList.remove("pressed");
   });
 });
 
