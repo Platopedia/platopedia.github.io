@@ -345,22 +345,8 @@ document.querySelectorAll(".ticket-panel button").forEach(btn=>{
   });
 });
 
-// Enable :active on iOS Safari and add reliable tap bounce
+// Enable :active on iOS Safari (kept minimal)
 document.addEventListener("touchstart", ()=>{}, { passive: true });
-
-document.querySelectorAll(".ticket-panel button").forEach(btn=>{
-  btn.addEventListener("touchstart", ()=>{
-    btn.classList.add("pressed");
-  }, { passive: true });
-
-  btn.addEventListener("touchend", ()=>{
-    setTimeout(()=>btn.classList.remove("pressed"), 60);
-  });
-
-  btn.addEventListener("touchcancel", ()=>{
-    btn.classList.remove("pressed");
-  });
-});
 
 // Pointer events for mouse/trackpad (Mac tap-to-click support)
 document.querySelectorAll(".ticket-panel button").forEach(btn=>{
