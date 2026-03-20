@@ -334,7 +334,6 @@ Apply to become an <strong>Artrade Merchant</strong> and join our trusted networ
 
 <div class="linebreak"></div>
 
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad&render=explicit" defer></script>
 
 <script>
 
@@ -436,27 +435,29 @@ let isProcessing=false;
 let awaitingToken=false;
 let verifyTimeout=null;
 
-function onTurnstileLoad(){
-if(window.turnstile && !widgetId){
-widgetId=turnstile.render('#captcha-container',{
-sitekey:'0x4AAAAAACsY3XYA6cc6K6Ks',
-callback:handleSuccess,
-execution:'execute'
-});
-}
+function initTurnstile(){
+  return turnstile.render('#captcha-container',{
+    sitekey:'0x4AAAAAACsY3XYA6cc6K6Ks',
+    callback:handleSuccess,
+    execution:'execute'
+  });
 }
 
 function setLoading(btn,loading){
-const text=btn.querySelector(".btn-text");
-const loader=btn.querySelector(".btn-loader");
-
-if(loading){
-text.textContent="Processing...";
-loader.hidden=false;
-}else{
-text.textContent="Create Trade Ticket";
-loader.hidden=true;
+  const text=btn.querySelector(".btn-text");
+  const loader=btn.querySelector(".btn-loader");
+  if(loading){
+    text.textContent="Processing...";
+    loader.hidden=false;
+  }else{
+    text.textContent="Create Trade Ticket";
+    loader.hidden=true;
+  }
 }
+
+function resetBtn(btn){
+  btn.disabled = false;
+  setLoading(btn,false);
 }
 
 function setStatus(msg,type){
@@ -483,7 +484,6 @@ awaitingToken=false;
 
 const btn=document.getElementById("genTicketBtn");
 
-setLoading(btn,true);
 setStatus("⚙️ Generating your ticket...");
 
 try{
@@ -500,8 +500,7 @@ const data = await res.json().catch(()=>({}));
 
 if(!res.ok){
   setStatus(`❌ ${data?.message || data?.error || "Request failed"}`,"error");
-  setLoading(btn,false);
-  btn.disabled=false;
+  resetBtn(btn);
   isProcessing=false;
 
   if(widgetId&&window.turnstile){
@@ -523,12 +522,11 @@ window.location.href=`/groups/artrade/ticket?t=${data.ticket}`;
 
 }catch(err){
 setStatus(`❌ ${err.message || "Something went wrong. Please try again later."}`,"error");
-setLoading(btn,false);
-btn.disabled=false;
+resetBtn(btn);
 isProcessing=false;
 
 if(widgetId&&window.turnstile){
-try{turnstile.reset(widgetId);}catch{}
+  try{turnstile.reset(widgetId);}catch{}
 }
 }
 }
@@ -538,8 +536,7 @@ const btn=document.getElementById("genTicketBtn");
 
 if(!btn) return;
 
-btn.disabled=false;
-setLoading(btn,false);
+resetBtn(btn);
 setStatus("");
 
 btn.addEventListener("click",()=>{
@@ -549,12 +546,47 @@ if(navigator.vibrate){
 navigator.vibrate([20,30,20]);
 }
 
-if(!widgetId){
-try{onTurnstileLoad();}catch{}
-if(!widgetId){
-setStatus("❌ Verification not ready. Please refresh.","error");
-return;
+// Lazy-load Turnstile on click
+if(!window.turnstile){
+  awaitingToken = true;
+  btn.disabled = true;
+  setLoading(btn,true);
+  setStatus("🔐 Preparing verification...");
+
+  const script=document.createElement("script");
+  script.src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+  script.async=true;
+
+  script.onload=()=>{
+    try{
+      widgetId = initTurnstile();
+      if(!widgetId){
+        throw new Error("Turnstile init failed");
+      }
+      turnstile.execute(widgetId);
+    }catch{
+      setStatus("❌ Verification failed. Please try again later.","error");
+      resetBtn(btn);
+      awaitingToken=false;
+    }
+  };
+
+  document.body.appendChild(script);
+  return;
 }
+
+if(!widgetId){
+  try{
+    widgetId = initTurnstile();
+    if(!widgetId){
+      throw new Error("Turnstile init failed");
+    }
+  }catch{
+    setStatus("❌ Verification not ready. Please refresh.","error");
+    btn.disabled=false;
+    awaitingToken=false;
+    return;
+  }
 }
 
 awaitingToken=true;
@@ -619,8 +651,7 @@ isProcessing=false;
 awaitingToken=false;
 
 if(btn){
-btn.disabled=false;
-setLoading(btn,false);
+  resetBtn(btn);
 }
 
 setStatus("");
