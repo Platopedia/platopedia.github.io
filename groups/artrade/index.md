@@ -124,12 +124,13 @@ border-radius:10px;
 cursor:pointer;
 font-weight:600;
 color:#1A1A1A;
-transition:transform 0.05s ease;
+transition:transform 0.05s ease, filter 0.1s ease;
 }
 
 .primary-btn:active{
 transform:scale(0.94);
 box-shadow:0 1px 2px rgba(0,0,0,.25);
+filter:brightness(0.85);
 }
 
 .primary-btn:disabled{
