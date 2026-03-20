@@ -700,7 +700,6 @@ async function submitTrade(){
         headers:{"Content-Type":"application/json"},
         body:JSON.stringify({
           ticket,
-          fingerprint: localStorage.getItem("artrade_fp"),
           platoId,
           friendLink,
           items:selectedItems.map(i=>"https://platopedia.com/items?id="+i.id)
