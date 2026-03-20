@@ -128,7 +128,12 @@ input, textarea {
   box-shadow:0 2px 6px rgba(0,0,0,.25);
 }
 
+/* Button tap/pressed feedback */
 .ticket-panel button:active{
+  transform:scale(.94);
+  box-shadow:0 1px 2px rgba(0,0,0,.25);
+}
+.ticket-panel button.pressed{
   transform:scale(.94);
   box-shadow:0 1px 2px rgba(0,0,0,.25);
 }
@@ -345,30 +350,30 @@ document.addEventListener("touchstart", ()=>{}, { passive: true });
 
 document.querySelectorAll(".ticket-panel button").forEach(btn=>{
   btn.addEventListener("touchstart", ()=>{
-    btn.style.transform = "scale(0.94)";
+    btn.classList.add("pressed");
   }, { passive: true });
 
   btn.addEventListener("touchend", ()=>{
-    btn.style.transform = "";
+    setTimeout(()=>btn.classList.remove("pressed"), 60);
   });
 
   btn.addEventListener("touchcancel", ()=>{
-    btn.style.transform = "";
+    btn.classList.remove("pressed");
   });
 });
 
 // Pointer events for mouse/trackpad (Mac tap-to-click support)
 document.querySelectorAll(".ticket-panel button").forEach(btn=>{
   btn.addEventListener("pointerdown", ()=>{
-    btn.style.transform = "scale(0.94)";
+    btn.classList.add("pressed");
   });
 
   btn.addEventListener("pointerup", ()=>{
-    btn.style.transform = "";
+    setTimeout(()=>btn.classList.remove("pressed"), 60);
   });
 
   btn.addEventListener("pointerleave", ()=>{
-    btn.style.transform = "";
+    btn.classList.remove("pressed");
   });
 });
 
