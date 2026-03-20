@@ -124,10 +124,6 @@ input, textarea {
   z-index:1;
 }
 
-.ticket-panel button:hover{
-  box-shadow:0 2px 6px rgba(0,0,0,.25);
-}
-
 /* Button tap/pressed feedback */
 .ticket-panel button:active{
   transform:scale(.90);
