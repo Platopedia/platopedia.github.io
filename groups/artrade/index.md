@@ -132,6 +132,11 @@ transform:scale(0.94);
 box-shadow:0 1px 2px rgba(0,0,0,.25);
 }
 
+.primary-btn.pressed{
+  transform:scale(0.94);
+  box-shadow:0 1px 2px rgba(0,0,0,.25);
+}
+
 .primary-btn:disabled{
 opacity:0.6;
 cursor:not-allowed;
@@ -590,30 +595,30 @@ document.addEventListener("touchstart", ()=>{}, { passive: true });
 const genBtn = document.getElementById("genTicketBtn");
 if(genBtn){
   genBtn.addEventListener("touchstart", ()=>{
-    genBtn.style.transform = "scale(0.94)";
+    genBtn.classList.add("pressed");
   }, { passive: true });
 
   genBtn.addEventListener("touchend", ()=>{
-    genBtn.style.transform = "";
+    setTimeout(()=>genBtn.classList.remove("pressed"),60);
   });
 
   genBtn.addEventListener("touchcancel", ()=>{
-    genBtn.style.transform = "";
+    genBtn.classList.remove("pressed");
   });
 }
 
 // Pointer-based press feedback for Mac trackpad taps etc.
 if(genBtn){
   genBtn.addEventListener("pointerdown", ()=>{
-    genBtn.style.transform = "scale(0.94)";
+    genBtn.classList.add("pressed");
   });
 
   genBtn.addEventListener("pointerup", ()=>{
-    genBtn.style.transform = "";
+    setTimeout(()=>genBtn.classList.remove("pressed"),60);
   });
 
   genBtn.addEventListener("pointerleave", ()=>{
-    genBtn.style.transform = "";
+    genBtn.classList.remove("pressed");
   });
 }
 
