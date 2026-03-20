@@ -107,7 +107,6 @@ input[type=number]{
 -moz-appearance:textfield;
 appearance:textfield;
 }
-/* ticket generator */
 
 .ticket-card{
 text-align:center;
@@ -334,7 +333,6 @@ Apply to become an <strong>Artrade Merchant</strong> and join our trusted networ
 
 <div class="linebreak"></div>
 
-
 <script>
 
 // Generate stable fingerprint per user
@@ -515,7 +513,16 @@ fingerprint:getFingerprint()
 const data = await res.json().catch(()=>({}));
 
 if(!res.ok){
-  setStatus(`❌ ${data?.message || data?.error || "Request failed"}`,"error");
+  if (data?.retryIn) {
+    const h = Math.floor(data.retryIn / 3600);
+    const m = Math.floor((data.retryIn % 3600) / 60);
+
+    const timeStr = h > 0 ? `${h}h ${m}m` : `${m}m`;
+
+    setStatus(`⏳ Try again in ${timeStr}`, "error");
+  } else {
+    setStatus(`❌ ${data?.message || data?.error || "Request failed"}`, "error");
+  }
   resetBtn(btn);
   isProcessing=false;
 
