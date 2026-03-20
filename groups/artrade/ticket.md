@@ -131,11 +131,9 @@ input, textarea {
 /* Button tap/pressed feedback */
 .ticket-panel button:active{
   transform:scale(.90);
-  box-shadow:0 2px 4px rgba(0,0,0,.35);
 }
 .ticket-panel button.pressed{
   transform:scale(.90);
-  box-shadow:0 2px 4px rgba(0,0,0,.35);
 }
 
 .ticket-panel button:disabled{
