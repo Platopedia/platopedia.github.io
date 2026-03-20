@@ -128,13 +128,13 @@ transition:transform 0.05s ease;
 }
 
 .primary-btn:active{
-transform:scale(0.94);
-box-shadow:0 1px 2px rgba(0,0,0,.25);
+transform:scale(0.90);
+box-shadow:0 2px 4px rgba(0,0,0,.35);
 }
 
 .primary-btn.pressed{
-  transform:scale(0.94);
-  box-shadow:0 1px 2px rgba(0,0,0,.25);
+  transform:scale(0.90);
+  box-shadow:0 2px 4px rgba(0,0,0,.35);
 }
 
 .primary-btn:disabled{
