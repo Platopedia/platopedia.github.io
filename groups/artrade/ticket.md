@@ -349,15 +349,15 @@ document.addEventListener("touchstart", ()=>{}, { passive: true });
 
 document.querySelectorAll(".ticket-panel button").forEach(btn=>{
   btn.addEventListener("touchstart", ()=>{
-    btn.style.transform = "scale(0.94)";
+    btn.classList.add("pressed");
   }, { passive: true });
 
   btn.addEventListener("touchend", ()=>{
-    btn.style.transform = "";
+    btn.classList.remove("pressed");
   });
 
   btn.addEventListener("touchcancel", ()=>{
-    btn.style.transform = "";
+    btn.classList.remove("pressed");
   });
 });
 
