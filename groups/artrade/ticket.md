@@ -598,6 +598,9 @@ searchInput.addEventListener("focus", async ()=>{
   if(!itemsLoaded){
     await loadItems();
     itemsLoaded = true;
+
+    // Re-trigger search after items load (fix for typing before load completes)
+    searchInput.dispatchEvent(new Event("input"));
   }
 });
 
