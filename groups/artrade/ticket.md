@@ -206,14 +206,14 @@ input, textarea {
   Invalid Plato ID (3–12 characters: letters, numbers, underscores)
 </div>
 
-<label>Plato Friend Link</label>
+<label>Plato Invite Link</label>
 <div class="input-wrap">
-  <input id="friend-link" placeholder="Enter Plato friend link (https://...)" autocomplete="off">
+  <input id="friend-link" placeholder="Enter Plato invite link (https://...)" autocomplete="off">
   <span class="input-clear" id="friend-clear">×</span>
 </div>
 
 <div id="friend-error">
-  Please enter a valid Plato friend link (https://platoapp.com/link/...)
+  Please enter a valid Plato invite link (https://platoapp.com/link/...)
 </div>
 
 <label>Search Item</label>
