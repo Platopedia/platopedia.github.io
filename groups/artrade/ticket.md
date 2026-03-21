@@ -734,7 +734,7 @@ async function submitTrade(){
       btn.style.background = "#CD9B1E";
       btn.onclick = prepareSubmit;
 
-      submitError.textContent = data?.message || "Invalid ticket. Please generate a new ticket from Discord.";
+      submitError.textContent = data?.message || "Invalid ticket. Please generate a new ticket.";
       submitError.style.display = "block";
 
       submitting = false;
@@ -753,7 +753,7 @@ async function submitTrade(){
       btn.style.background = "#CD9B1E";
       btn.onclick = prepareSubmit;
 
-      submitError.textContent = "This ticket has already been used for a trade request. Please generate a new ticket from Discord.";
+      submitError.textContent = "This ticket has already been used for a trade request. Please generate a new ticket.";
       submitError.style.display = "block";
 
       submitting = false;
