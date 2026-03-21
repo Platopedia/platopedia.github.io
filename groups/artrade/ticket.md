@@ -165,7 +165,6 @@ input, textarea {
   color:#b8860b;
 }
 
-
 .item-name:hover{
   color:#CD9B1E;
 }
@@ -208,12 +207,12 @@ input, textarea {
 
 <label>Plato Invite Link</label>
 <div class="input-wrap">
-  <input id="friend-link" placeholder="Enter Plato invite link (https://...)" autocomplete="off">
+  <input id="friend-link" placeholder="Enter Plato Invite Link (https://...)" autocomplete="off">
   <span class="input-clear" id="friend-clear">×</span>
 </div>
 
 <div id="friend-error">
-  Please enter a valid Plato invite link (https://platoapp.com/link/...)
+  Please enter a valid Plato Invite Link (https://platoapp.com/link/...)
 </div>
 
 <label>Search Item</label>
