@@ -470,13 +470,13 @@ function updateTotals(){
 
   if(tradeMethodSelect && tradeMethodSelect.value === "pips"){
     formulaBox.innerHTML = `
-      <div><strong>Pips (items sent) → Pips (items received):</strong> +25% value, rounded to nearest 1 Pip</div>
-      <div><strong>Pips (items sent) → Coins (items received):</strong> 1 Pip = 200 Coins (Requester Rate)</div>
+      <div><strong>Pips (Items Sent) → Pips (Items Received):</strong> +25% value, rounded up to nearest the 1 Pip</div>
+      <div><strong>Pips (Items Sent) → Coins (Items Received):</strong> 1 Pip = 200 Coins (Requester Rate)</div>
     `;
   }else{
     formulaBox.innerHTML = `
-      <div><strong>Coins (items sent) → Coins (items received):</strong> +25% value, rounded to nearest 50 Coins</div>
-      <div><strong>Coins (items sent) → Pips (items received):</strong> 1 Pip = 250 Coins (Merchant Rate)</div>
+      <div><strong>Coins (Items Sent) → Coins (Items Received):</strong> +25% value, rounded up to nearest the 50 Coins</div>
+      <div><strong>Coins (Items Sent) → Pips (Items Received):</strong> 1 Pip = 250 Coins (Merchant Rate)</div>
     `;
   }
 
