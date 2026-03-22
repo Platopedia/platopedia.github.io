@@ -234,6 +234,21 @@ input, textarea {
   </div>
 </div>
 
+<!-- Optional Trade Method -->
+<div style="margin-top:12px;">
+  <div id="optional-toggle" style="cursor:pointer;font-weight:600;">
+    Optional ▼
+  </div>
+
+  <div id="optional-content" style="display:none;margin-top:8px;">
+    <label>Select Trade Method</label>
+    <select id="trade-method" style="width:100%;padding:8px;margin-top:4px;background:var(--color-D);color:var(--color-text);border:1px solid var(--color-B);">
+      <option value="coins" selected>Coins</option>
+      <option value="pips">Pips</option>
+    </select>
+  </div>
+</div>
+
 <div id="items-error">
   Please add at least one item (Max 5 items)
 </div>
@@ -320,6 +335,21 @@ const searchInput = document.getElementById("item-search");
 const dropdown = document.getElementById("items-dropdown");
 
 const itemsBox = document.getElementById("items");
+const optionalToggle = document.getElementById("optional-toggle");
+const optionalContent = document.getElementById("optional-content");
+const tradeMethodSelect = document.getElementById("trade-method");
+
+if(tradeMethodSelect){
+  tradeMethodSelect.addEventListener("change", ()=>{
+    updateTotals();
+  });
+}
+
+if(optionalToggle && optionalContent){
+  optionalToggle.addEventListener("click", ()=>{
+    optionalContent.style.display = optionalContent.style.display === "none" ? "block" : "none";
+  });
+}
 
 // Haptic feedback when tapping the Selected Items box (supported mobile browsers)
 itemsBox.addEventListener("click", ()=>{
@@ -415,8 +445,40 @@ function updateTotals(){
     totalPriceEl.textContent = totalCoins + " Coins";
   }
 
-  // Trade price always displayed in coins
-  totalTradePriceEl.textContent = totalTradeCoins + " Coins";
+    // Apply trade method
+    if(tradeMethodSelect && tradeMethodSelect.value === "pips"){
+
+      // Convert coins to pips (no markup)
+      const coinsToPips = totalCoins / 200;
+
+      // Apply +25% ONLY to pips items
+      const pipsWithMarkup = Math.ceil(totalPips * 1.25);
+
+      const totalTradePips = Math.ceil(pipsWithMarkup + coinsToPips);
+
+      totalTradePriceEl.textContent = totalTradePips + " Pips";
+
+    }else{
+
+      // Default Coins method (existing logic)
+      totalTradePriceEl.textContent = totalTradeCoins + " Coins";
+
+    }
+
+  // Dynamically update the formula box
+  const formulaBox = totalsBox.querySelector("div:last-child");
+
+  if(tradeMethodSelect && tradeMethodSelect.value === "pips"){
+    formulaBox.innerHTML = `
+      <div><strong>Formula - Pips (Sent) → Pips (Received):</strong> +25% value, rounded up to the nearest 1 Pip</div>
+      <div><strong>Formula - Pips (Sent) → Coins (Received):</strong> 1 Pip = 200 Coins (Requester Rate)</div>
+    `;
+  }else{
+    formulaBox.innerHTML = `
+      <div><strong>Formula - Coins (Sent) → Coins (Received):</strong> +25% value, rounded up to the nearest 50 Coins</div>
+      <div><strong>Formula - Coins (Sent) → Pips (Received):</strong> 1 Pip = 250 Coins (Merchant Rate)</div>
+    `;
+  }
 
 }
 
@@ -710,6 +772,7 @@ async function submitTrade(){
           ticket,
           platoId,
           friendLink,
+          tradeMethod: tradeMethodSelect ? tradeMethodSelect.value : "coins",
           items:selectedItems.map(i=>"https://platopedia.com/items?id="+i.id)
         })
       }
