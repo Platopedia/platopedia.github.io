@@ -448,11 +448,13 @@ function updateTotals(){
   // Apply trade method
   if(tradeMethodSelect && tradeMethodSelect.value === "pips"){
 
-    // Convert everything to pips (Requester rate)
+    // Convert coins to pips (no markup)
     const coinsToPips = totalCoins / 200;
-    const basePips = totalPips + coinsToPips;
 
-    const totalTradePips = Math.ceil(basePips * 1.25);
+    // Apply +25% ONLY to pips items
+    const pipsWithMarkup = Math.ceil(totalPips * 1.25);
+
+    const totalTradePips = pipsWithMarkup + coinsToPips;
 
     totalTradePriceEl.textContent = totalTradePips + " Pips";
 
