@@ -239,7 +239,7 @@ input, textarea {
 <!-- Optional Payment Method -->
 <div style="margin-top:12px;">
   <div id="optional-toggle" style="cursor:pointer;font-weight:600;">
-    Optional ▶
+    Optional ▸
   </div>
 
   <div id="optional-content" style="display:none;margin-top:8px;">
@@ -354,7 +354,7 @@ if(optionalToggle && optionalContent){
     optionalContent.style.display = isHidden ? "block" : "none";
 
     // Update arrow
-    optionalToggle.textContent = isHidden ? "Optional ▼" : "Optional ▶";
+    optionalToggle.textContent = isHidden ? "Optional ▾" : "Optional ▸";
   });
 }
 
