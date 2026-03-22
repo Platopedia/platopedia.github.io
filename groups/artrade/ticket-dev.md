@@ -234,6 +234,21 @@ input, textarea {
   </div>
 </div>
 
+<!-- Optional Trade Method -->
+<div style="margin-top:12px;">
+  <div id="optional-toggle" style="cursor:pointer;font-weight:600;">
+    Optional ▼
+  </div>
+
+  <div id="optional-content" style="display:none;margin-top:8px;">
+    <label>Select Trade Method</label>
+    <select id="trade-method" style="width:100%;padding:8px;margin-top:4px;background:var(--color-D);color:var(--color-text);border:1px solid var(--color-B);">
+      <option value="coins" selected>Coins</option>
+      <option value="pips">Pips</option>
+    </select>
+  </div>
+</div>
+
 <div id="items-error">
   Please add at least one item (Max 5 items)
 </div>
@@ -323,13 +338,18 @@ const itemsBox = document.getElementById("items");
 const optionalToggle = document.getElementById("optional-toggle");
 const optionalContent = document.getElementById("optional-content");
 const tradeMethodSelect = document.getElementById("trade-method");
-tradeMethodSelect.addEventListener("change", ()=>{
-  updateTotals();
-});
 
-optionalToggle.addEventListener("click", ()=>{
-  optionalContent.style.display = optionalContent.style.display === "none" ? "block" : "none";
-});
+if(tradeMethodSelect){
+  tradeMethodSelect.addEventListener("change", ()=>{
+    updateTotals();
+  });
+}
+
+if(optionalToggle && optionalContent){
+  optionalToggle.addEventListener("click", ()=>{
+    optionalContent.style.display = optionalContent.style.display === "none" ? "block" : "none";
+  });
+}
 
 // Haptic feedback when tapping the Selected Items box (supported mobile browsers)
 itemsBox.addEventListener("click", ()=>{
