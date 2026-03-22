@@ -772,6 +772,7 @@ async function submitTrade(){
           ticket,
           platoId,
           friendLink,
+          tradeMethod: tradeMethodSelect ? tradeMethodSelect.value : "coins",
           items:selectedItems.map(i=>"https://platopedia.com/items?id="+i.id)
         })
       }
