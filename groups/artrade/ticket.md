@@ -31,7 +31,8 @@ input, textarea {
 }
 
 .ticket-panel input,
-.ticket-panel textarea{
+.ticket-panel textarea,
+.ticket-panel select{
   width:100%;
   padding:8px;
   margin-top:4px;
@@ -41,7 +42,8 @@ input, textarea {
   border:1px solid var(--color-B);
 }
 
-.ticket-panel input:focus{
+.ticket-panel input:focus,
+.ticket-panel select:focus{
   outline:none;
 }
 
@@ -234,15 +236,15 @@ input, textarea {
   </div>
 </div>
 
-<!-- Optional Trade Method -->
+<!-- Optional Payment Method -->
 <div style="margin-top:12px;">
   <div id="optional-toggle" style="cursor:pointer;font-weight:600;">
-    Optional ▼
+    Optional ▶
   </div>
 
   <div id="optional-content" style="display:none;margin-top:8px;">
-    <label>Select Trade Method</label>
-    <select id="trade-method" style="width:100%;padding:8px;margin-top:4px;background:var(--color-D);color:var(--color-text);border:1px solid var(--color-B);">
+    <label>Select Payment Method</label>
+    <select id="trade-method">
       <option value="coins" selected>Coins</option>
       <option value="pips">Pips</option>
     </select>
@@ -347,7 +349,12 @@ if(tradeMethodSelect){
 
 if(optionalToggle && optionalContent){
   optionalToggle.addEventListener("click", ()=>{
-    optionalContent.style.display = optionalContent.style.display === "none" ? "block" : "none";
+    const isHidden = optionalContent.style.display === "none";
+
+    optionalContent.style.display = isHidden ? "block" : "none";
+
+    // Update arrow
+    optionalToggle.textContent = isHidden ? "Optional ▼" : "Optional ▶";
   });
 }
 
@@ -445,10 +452,10 @@ function updateTotals(){
     totalPriceEl.textContent = totalCoins + " Coins";
   }
 
-    // Apply trade method
+    // Apply payment method
     if(tradeMethodSelect && tradeMethodSelect.value === "pips"){
 
-      // Convert coins to pips (no markup)
+      // IMPORTANT: do NOT round here — keep raw value for accurate final calculation
       const coinsToPips = totalCoins / 200;
 
       // Apply +25% ONLY to pips items
