@@ -227,12 +227,10 @@ input, textarea {
 
 <label>Selected Items</label>
 <textarea id="items" rows="6" readonly placeholder="Selected items will appear here (Max 5 items)"></textarea>
-<div id="totals-box" style="margin-top:10px;padding:10px;border:1px solid var(--color-B);background:var(--color-D);display:none">
+  <div id="totals-box" style="margin-top:10px;padding:10px;border:1px solid var(--color-B);background:var(--color-D);display:none">
   <div style="font-size:14px;"><strong>Total Price:</strong> <span id="total-price">0</span></div>
   <div style="margin-top:4px;font-size:14px;"><strong>Total Trade Price:</strong> <span id="total-trade-price">0</span></div>
   <div style="margin-top:6px;font-size:12px;color:var(--color-text);opacity:.85">
-    <div>Formula (Coins): +25% value, then rounded up to the nearest 50 Coins.</div>
-    <div>Formula (Pips): 1 Pip = 250 Coins.</div>
   </div>
 </div>
 
@@ -477,13 +475,13 @@ function updateTotals(){
 
   if(tradeMethodSelect && tradeMethodSelect.value === "pips"){
     formulaBox.innerHTML = `
-      <div>Formula (Pips → Pips): +25% value, rounded up to nearest 1 Pip</div>
-      <div>Formula (Pips → Coins): 1 Pip = 200 Coins (Requester Rate)</div>
+      <div>Formula (Pips → Pips): +25% value, rounded up to the nearest 1 Pip.</div>
+      <div>Formula (Pips → Coins): 1 Pip = 200 Coins (Requester Rate).</div>
     `;
   }else{
     formulaBox.innerHTML = `
-      <div>Formula (Coins → Coins): +25% value, rounded up to nearest 50 Coins</div>
-      <div>Formula (Coins → Pips): 1 Pip = 250 Coins (Merchant Rate)</div>
+      <div>Formula (Coins → Coins): +25% value, rounded up to the nearest 50 Coins.</div>
+      <div>Formula (Coins → Pips): 1 Pip = 250 Coins (Merchant Rate).</div>
     `;
   }
 
@@ -527,7 +525,6 @@ friendClear.onclick = ()=>{
 
 searchClear.onclick = ()=>{
   searchInput.value = "";
-  searchClear.style.display = "none";
   dropdown.innerHTML = "";
   dropdown.style.display = "none";
 };
@@ -693,7 +690,6 @@ function clearItems(){
   itemsError.style.display = "none";
   itemsError.textContent = "Please add at least one item (Max 5 items)";
 
-  searchClear.style.display = "none";
   dropdown.innerHTML = "";
   dropdown.style.display = "none";
 
