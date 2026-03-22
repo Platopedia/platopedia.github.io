@@ -445,25 +445,25 @@ function updateTotals(){
     totalPriceEl.textContent = totalCoins + " Coins";
   }
 
-  // Apply trade method
-  if(tradeMethodSelect && tradeMethodSelect.value === "pips"){
+    // Apply trade method
+    if(tradeMethodSelect && tradeMethodSelect.value === "pips"){
 
-    // Convert coins to pips (no markup)
-    const coinsToPips = totalCoins / 200;
+      // Convert coins to pips (no markup)
+      const coinsToPips = totalCoins / 200;
 
-    // Apply +25% ONLY to pips items
-    const pipsWithMarkup = Math.ceil(totalPips * 1.25);
+      // Apply +25% ONLY to pips items
+      const pipsWithMarkup = Math.ceil(totalPips * 1.25);
 
-    const totalTradePips = pipsWithMarkup + coinsToPips;
+      const totalTradePips = Math.ceil(pipsWithMarkup + coinsToPips);
 
-    totalTradePriceEl.textContent = totalTradePips + " Pips";
+      totalTradePriceEl.textContent = totalTradePips + " Pips";
 
-  }else{
+    }else{
 
-    // Default Coins method (existing logic)
-    totalTradePriceEl.textContent = totalTradeCoins + " Coins";
+      // Default Coins method (existing logic)
+      totalTradePriceEl.textContent = totalTradeCoins + " Coins";
 
-  }
+    }
 
   // Dynamically update the formula box
   const formulaBox = totalsBox.querySelector("div:last-child");
