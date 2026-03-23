@@ -40,6 +40,7 @@ input, textarea {
   background:var(--color-D);
   color:var(--color-text);
   border:1px solid var(--color-B);
+  border-radius:6px;
 }
 
 .ticket-panel input:focus,
