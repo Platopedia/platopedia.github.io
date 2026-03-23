@@ -443,7 +443,7 @@ function updateTotals(){
 
   // Display total price with separate currencies
   if(totalCoins > 0 && totalPips > 0){
-    totalPriceEl.textContent = totalCoins + " Coins + " + totalPips + " Pips";
+    totalPriceEl.textContent = totalCoins + " Coins | " + totalPips + " Pips";
   }else if(totalPips > 0){
     totalPriceEl.textContent = totalPips + " Pips";
   }else{
