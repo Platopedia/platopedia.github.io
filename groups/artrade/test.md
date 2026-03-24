@@ -274,8 +274,8 @@ During a trade, merchants and requesters must follow the trading rules listed be
 Use the calculator to check the total trade price of one or more items.
 
 <div class="trade-tabs" style="display:flex;gap:12px;margin-bottom:14px;flex-wrap:wrap;">
-  <button id="tabCoins" class="primary-btn" style="max-width:none;width:auto;padding:12px 18px;font-size:14px;border-radius:12px;">Coins Payment</button>
-  <button id="tabPips" class="primary-btn" style="max-width:none;width:auto;padding:12px 18px;font-size:14px;border-radius:12px;opacity:0.6;">Pips Payment</button>
+  <button id="tabCoins" class="primary-btn" style="max-width:none;flex:1;padding:12px 18px;font-size:14px;border-radius:12px;">Coins Payment</button>
+  <button id="tabPips" class="primary-btn" style="max-width:none;flex:1;padding:12px 18px;font-size:14px;border-radius:12px;opacity:0.6;">Pips Payment</button>
 </div>
 
 <div id="coinsTab" class="trade-calculators">
@@ -800,21 +800,24 @@ const tabPips=document.getElementById("tabPips");
 const coinsTab=document.getElementById("coinsTab");
 const pipsTab=document.getElementById("pipsTab");
 
-if(tabCoins && tabPips){
-  tabCoins.onclick=()=>{
-    if(navigator.vibrate){ navigator.vibrate(25); }
-    coinsTab.style.display="grid";
-    pipsTab.style.display="none";
-    tabCoins.style.opacity="1";
-    tabPips.style.opacity="0.6";
-  };
+function switchTab(type){
+  if(navigator.vibrate) navigator.vibrate(25);
 
-  tabPips.onclick=()=>{
-    if(navigator.vibrate){ navigator.vibrate(25); }
-    coinsTab.style.display="none";
-    pipsTab.style.display="grid";
-    tabCoins.style.opacity="0.6";
-    tabPips.style.opacity="1";
-  };
+  if(type === "coins"){
+    coinsTab.style.display = "grid";
+    pipsTab.style.display = "none";
+    tabCoins.style.opacity = "1";
+    tabPips.style.opacity = "0.6";
+  } else {
+    coinsTab.style.display = "none";
+    pipsTab.style.display = "grid";
+    tabCoins.style.opacity = "0.6";
+    tabPips.style.opacity = "1";
+  }
+}
+
+if(tabCoins && tabPips){
+  tabCoins.onclick = () => switchTab("coins");
+  tabPips.onclick = () => switchTab("pips");
 }
 </script>
