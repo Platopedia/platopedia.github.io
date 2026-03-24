@@ -273,17 +273,12 @@ During a trade, merchants and requesters must follow the trading rules listed be
 
 Use the calculator to check the total trade price of one or more items.
 
+<div class="trade-calculators">
+
 <div class="trade-card">
 
-<div style="display:flex;gap:10px;margin-bottom:10px;">
-  <button id="tabCoins" class="primary-btn" style="flex:1;">Coins</button>
-  <button id="tabPips" class="primary-btn" style="flex:1;opacity:0.6;">Pips</button>
-</div>
-
-<div id="coinsSection">
-
 <h4>Trade Calculator (Coins)</h4>
-<p class="trade-desc">+25% value, rounded up to nearest 50 Coins.</p>
+<p class="trade-desc">Formula: +25% value, then rounded up to the nearest 50 Coins.</p>
 
 <label>Item/s Price (Coins)</label>
 
@@ -296,24 +291,35 @@ Use the calculator to check the total trade price of one or more items.
 
 </div>
 
-<div id="pipsSection" style="display:none;">
+<div class="trade-card">
 
-<h4>Trade Calculator (Pips Method)</h4>
-<p class="trade-desc">Pip items +25%, coin items converted (1 Pip = 200 Coins).</p>
+<h4>Trade Calculator (Pips → Pips)</h4>
+<p class="trade-desc">Formula: +25% value, rounded to nearest 1 Pip.</p>
 
-<label>Total Pip Items</label>
-
-<div class="trade-input-wrap">
-<input id="pipItemsInput" class="form-control trade-input" type="number" placeholder="Enter pip items">
-</div>
-
-<label style="margin-top:10px;">Total Coin Items</label>
+<label>Item/s Price (Pips)</label>
 
 <div class="trade-input-wrap">
-<input id="coinItemsInput" class="form-control trade-input" type="number" placeholder="Enter coin items">
+<input id="pipInputPips" class="form-control trade-input" type="number" max="100000000" placeholder="Enter item/s price in Pips">
+<button class="trade-clear" onclick="clearPipPips()">×</button>
 </div>
 
-<div id="pipMethodResult" class="trade-result"></div>
+<div id="pipResultPips" class="trade-result"></div>
+
+</div>
+
+<div class="trade-card">
+
+<h4>Trade Calculator (Pips → Coins)</h4>
+<p class="trade-desc">Formula: 1 Pip = 200 Coins (Requester Rate).</p>
+
+<label>Item/s Price (Pips)</label>
+
+<div class="trade-input-wrap">
+<input id="pipInputCoins" class="form-control trade-input" type="number" max="100000000" placeholder="Enter item/s price in Pips">
+<button class="trade-clear" onclick="clearPipCoins()">×</button>
+</div>
+
+<div id="pipResultCoins" class="trade-result"></div>
 
 </div>
 
@@ -410,54 +416,80 @@ Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coi
 });
 
 
-// Tabs
-const tabCoins = document.getElementById("tabCoins");
-const tabPips = document.getElementById("tabPips");
-const coinsSection = document.getElementById("coinsSection");
-const pipsSection = document.getElementById("pipsSection");
+/* pip → pips calculator */
 
-if(tabCoins && tabPips){
-  tabCoins.onclick = () => {
-    coinsSection.style.display = "block";
-    pipsSection.style.display = "none";
-    tabCoins.style.opacity = "1";
-    tabPips.style.opacity = "0.6";
-  };
-
-  tabPips.onclick = () => {
-    coinsSection.style.display = "none";
-    pipsSection.style.display = "block";
-    tabCoins.style.opacity = "0.6";
-    tabPips.style.opacity = "1";
-  };
+function clearPipPips(){
+const input=document.getElementById("pipInputPips");
+const result=document.getElementById("pipResultPips");
+input.value="";
+result.innerHTML="";
+input.parentElement.querySelector('.trade-clear').style.display='none';
+input.focus();
 }
 
-// Pips method calculator
-function updatePipMethod(){
-  const pipItems = Number(document.getElementById("pipItemsInput")?.value) || 0;
-  const coinItems = Number(document.getElementById("coinItemsInput")?.value) || 0;
+document.getElementById("pipInputPips").addEventListener("input",function(){
 
-  if(pipItems <= 0 && coinItems <= 0){
-    document.getElementById("pipMethodResult").innerHTML = "";
-    return;
-  }
-
-  const pipWithMarkup = Math.ceil(pipItems * 1.25);
-  const coinToPips = coinItems / 200;
-
-  const totalPips = Math.ceil(pipWithMarkup + coinToPips);
-
-  document.getElementById("pipMethodResult").innerHTML = `
-    Pip Items (+25%): <b>${pipWithMarkup}</b><br>
-    Coin → Pip: <b>${coinToPips.toFixed(2)}</b><br>
-    <span class="trade-highlight">Final: <b>${totalPips} Pips</b></span>
-  `;
+let pips = Number(this.value);
+if (pips > 100000000) {
+  pips = 100000000;
+  this.value = pips;
 }
 
-document.addEventListener("input", (e)=>{
-  if(e.target.id === "pipItemsInput" || e.target.id === "coinItemsInput"){
-    updatePipMethod();
-  }
+const clearBtn=this.parentElement.querySelector('.trade-clear');
+clearBtn.style.display=this.value ? 'flex' : 'none';
+
+const result=document.getElementById("pipResultPips");
+
+if(isNaN(pips) || pips <= 0){
+result.innerHTML="";
+return;
+}
+
+const tradePips = Math.ceil(pips * 1.25);
+
+result.innerHTML=`
+Item/s Value: <b>${pips} Pips</b><br>
+Trade Price: <span class="trade-highlight"><b>${tradePips} Pips</b></span>
+`;
+
+});
+
+/* pip → coins calculator */
+
+function clearPipCoins(){
+const input=document.getElementById("pipInputCoins");
+const result=document.getElementById("pipResultCoins");
+input.value="";
+result.innerHTML="";
+input.parentElement.querySelector('.trade-clear').style.display='none';
+input.focus();
+}
+
+document.getElementById("pipInputCoins").addEventListener("input",function(){
+
+let pips = Number(this.value);
+if (pips > 100000000) {
+  pips = 100000000;
+  this.value = pips;
+}
+
+const clearBtn=this.parentElement.querySelector('.trade-clear');
+clearBtn.style.display=this.value ? 'flex' : 'none';
+
+const result=document.getElementById("pipResultCoins");
+
+if(isNaN(pips) || pips <= 0){
+result.innerHTML="";
+return;
+}
+
+const coins = pips * 200;
+
+result.innerHTML=`
+Item/s Value: <b>${pips} Pips</b><br>
+Trade Price: <span class="trade-highlight"><b>${coins.toLocaleString()} Coins</b></span>
+`;
+
 });
 
 let widgetId=null;
