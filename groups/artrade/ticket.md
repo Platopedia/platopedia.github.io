@@ -229,7 +229,7 @@ input, textarea {
 <label>Selected Items</label>
 <textarea id="items" rows="6" readonly placeholder="Selected items will appear here (Max 5 items)"></textarea>
   <div id="totals-box" style="margin-top:10px;padding:10px;border:1px solid var(--color-B);background:var(--color-D);display:none">
-  <div style="font-size:14px;"><strong>Total Price:</strong> <span id="total-price">0</span></div>
+  <div style="font-size:14px;"><strong>Total Value:</strong> <span id="total-price">0</span></div>
   <div style="margin-top:4px;font-size:14px;"><strong>Total Trade Price:</strong> <span id="total-trade-price">0</span></div>
   <div style="margin-top:6px;font-size:12px;color:var(--color-text);opacity:.85">
   </div>
