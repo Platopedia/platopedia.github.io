@@ -273,9 +273,9 @@ During a trade, merchants and requesters must follow the trading rules listed be
 
 Use the calculator to check the total trade price of one or more items.
 
-<div class="trade-tabs" style="display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap;">
-  <button id="tabCoins" class="primary-btn" style="max-width:none;width:auto;padding:8px 14px;">Coins Payment</button>
-  <button id="tabPips" class="primary-btn" style="max-width:none;width:auto;padding:8px 14px;opacity:0.6;">Pips Payment</button>
+<div class="trade-tabs" style="display:flex;gap:12px;margin-bottom:14px;flex-wrap:wrap;">
+  <button id="tabCoins" class="primary-btn" style="max-width:none;width:auto;padding:12px 18px;font-size:14px;border-radius:12px;">Coins Payment</button>
+  <button id="tabPips" class="primary-btn" style="max-width:none;width:auto;padding:12px 18px;font-size:14px;border-radius:12px;opacity:0.6;">Pips Payment</button>
 </div>
 
 <div id="coinsTab" class="trade-calculators">
@@ -802,6 +802,7 @@ const pipsTab=document.getElementById("pipsTab");
 
 if(tabCoins && tabPips){
   tabCoins.onclick=()=>{
+    if(navigator.vibrate){ navigator.vibrate(25); }
     coinsTab.style.display="grid";
     pipsTab.style.display="none";
     tabCoins.style.opacity="1";
@@ -809,6 +810,7 @@ if(tabCoins && tabPips){
   };
 
   tabPips.onclick=()=>{
+    if(navigator.vibrate){ navigator.vibrate(25); }
     coinsTab.style.display="none";
     pipsTab.style.display="grid";
     tabCoins.style.opacity="0.6";
