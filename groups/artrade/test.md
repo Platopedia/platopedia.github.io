@@ -20,6 +20,11 @@ max-width:100%;
 box-sizing:border-box;
 }
 
+#coinsSection,
+#pipsSection{
+display:contents;
+}
+
 .trade-card{
 padding:20px;
 border:1px solid var(--color-B);
@@ -350,6 +355,7 @@ Use the calculator to check the total trade price of one or more items.
 
 </div>
 
+</div>
 </div>
 
 The page below contains the entire list of Plato Items with their base prices (including images & audios).
