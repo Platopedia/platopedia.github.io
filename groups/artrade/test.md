@@ -273,6 +273,12 @@ During a trade, merchants and requesters must follow the trading rules listed be
 
 Use the calculator to check the total trade price of one or more items.
 
+<div style="display:flex;gap:10px;margin-bottom:10px;">
+  <button id="tabCoins" class="primary-btn" style="flex:1;">Coins</button>
+  <button id="tabPips" class="primary-btn" style="flex:1;opacity:0.6;">Pips</button>
+</div>
+
+<div id="coinsSection">
 <div class="trade-calculators">
 
 <div class="trade-card">
@@ -291,10 +297,16 @@ Use the calculator to check the total trade price of one or more items.
 
 </div>
 
+</div>
+</div>
+
+<div id="pipsSection" style="display:none;">
+<div class="trade-calculators">
+
 <div class="trade-card">
 
 <h4>Trade Calculator (Pips → Pips)</h4>
-<p class="trade-desc">Formula: +25% value, rounded to nearest 1 Pip.</p>
+<p class="trade-desc">Formula: +25% value, rounded up to the nearest 1 Pip.</p>
 
 <label>Item/s Price (Pips)</label>
 
@@ -323,6 +335,7 @@ Use the calculator to check the total trade price of one or more items.
 
 </div>
 
+</div>
 </div>
 
 The page below contains the entire list of Plato Items with their base prices (including images & audios).
@@ -371,15 +384,6 @@ input.parentElement.querySelector('.trade-clear').style.display='none';
 input.focus();
 }
 
-function clearPip(){
-const input=document.getElementById("pipInput");
-const result=document.getElementById("pipResult");
-
-input.value="";
-result.innerHTML="";
-input.parentElement.querySelector('.trade-clear').style.display='none';
-input.focus();
-}
 
 function calculateTradeCoins(coins){
 const increased=coins*1.25;
@@ -416,11 +420,12 @@ Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coi
 });
 
 
-/* pip → pips calculator */
+/* pip → pips */
 
 function clearPipPips(){
 const input=document.getElementById("pipInputPips");
 const result=document.getElementById("pipResultPips");
+
 input.value="";
 result.innerHTML="";
 input.parentElement.querySelector('.trade-clear').style.display='none';
@@ -454,11 +459,12 @@ Trade Price: <span class="trade-highlight"><b>${tradePips} Pips</b></span>
 
 });
 
-/* pip → coins calculator */
+/* pip → coins */
 
 function clearPipCoins(){
 const input=document.getElementById("pipInputCoins");
 const result=document.getElementById("pipResultCoins");
+
 input.value="";
 result.innerHTML="";
 input.parentElement.querySelector('.trade-clear').style.display='none';
@@ -766,4 +772,26 @@ window.addEventListener("load", () => {
   sessionStorage.setItem("anchorHandled", currentHash);
 });
 
+/* tab switching */
+
+const tabCoins = document.getElementById("tabCoins");
+const tabPips = document.getElementById("tabPips");
+const coinsSection = document.getElementById("coinsSection");
+const pipsSection = document.getElementById("pipsSection");
+
+if(tabCoins && tabPips){
+  tabCoins.onclick = () => {
+    coinsSection.style.display = "block";
+    pipsSection.style.display = "none";
+    tabCoins.style.opacity = "1";
+    tabPips.style.opacity = "0.6";
+  };
+
+  tabPips.onclick = () => {
+    coinsSection.style.display = "none";
+    pipsSection.style.display = "block";
+    tabCoins.style.opacity = "0.6";
+    tabPips.style.opacity = "1";
+  };
+}
 </script>
