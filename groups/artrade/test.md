@@ -767,7 +767,7 @@ try{turnstile.reset(widgetId);}catch{}
 }
 });
 
-window.addEventListener("load", () => {
+window.addEventListener("DOMContentLoaded", () => {
   const hash = location.hash;
   if (!hash) return;
 
@@ -779,13 +779,18 @@ window.addEventListener("load", () => {
   const el = document.querySelector(hash);
   if (!el) return;
 
-  // Prevent instant browser jump
+  // Stop browser from auto restoring / jumping
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+
+  // Force start at top BEFORE first paint completes
   window.scrollTo(0, 0);
 
   const targetY = el.getBoundingClientRect().top + window.pageYOffset - 10;
-  const startY = window.pageYOffset;
+  const startY = 0;
   const distance = targetY - startY;
-  const duration = 500; // animation duration (ms)
+  const duration = 500;
 
   let startTime = null;
 
