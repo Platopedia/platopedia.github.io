@@ -774,45 +774,30 @@ window.addEventListener("DOMContentLoaded", () => {
   const navEntry = performance.getEntriesByType("navigation")[0];
   const navType = navEntry ? navEntry.type : null;
 
+  // Prevent jump on reload
   if (navType === "reload") return;
 
   const el = document.querySelector(hash);
   if (!el) return;
 
-  // Stop browser from auto restoring / jumping
-  if ('scrollRestoration' in history) {
-    history.scrollRestoration = 'manual';
-  }
+  // Remove hash temporarily to prevent browser auto-jump
+  history.replaceState(null, "", location.pathname + location.search);
 
-  // Force start at top BEFORE first paint completes
-  window.scrollTo(0, 0);
+  // Wait one frame to ensure no native jump occurs
+  requestAnimationFrame(() => {
+    const yOffset = -10;
+    const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
 
-  const targetY = el.getBoundingClientRect().top + window.pageYOffset - 10;
-  const startY = 0;
-  const distance = targetY - startY;
-  const duration = 500;
+    window.scrollTo({
+      top: y,
+      behavior: "smooth"
+    });
 
-  let startTime = null;
-
-  function easeOutCubic(t) {
-    return 1 - Math.pow(1 - t, 3);
-  }
-
-  function animateScroll(currentTime) {
-    if (!startTime) startTime = currentTime;
-
-    const time = currentTime - startTime;
-    const progress = Math.min(time / duration, 1);
-    const eased = easeOutCubic(progress);
-
-    window.scrollTo(0, startY + distance * eased);
-
-    if (time < duration) {
-      requestAnimationFrame(animateScroll);
-    }
-  }
-
-  requestAnimationFrame(animateScroll);
+    // Restore hash after scroll starts (so URL still works)
+    setTimeout(() => {
+      history.replaceState(null, "", location.pathname + location.search + hash);
+    }, 100);
+  });
 });
 
 // tab switching
