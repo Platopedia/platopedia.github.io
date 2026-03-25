@@ -92,7 +92,7 @@ color:#CD9B1E;
 }
 
 .content-link{
-font-size:clamp(0.9rem, 1.2vw, 1.05rem);
+font-size:clamp(0.95rem, 1.8vw, 1.2rem);
 }
 
 /* remove browser number arrows */
