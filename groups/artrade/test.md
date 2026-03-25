@@ -92,7 +92,7 @@ color:#CD9B1E;
 }
 
 .content-link{
-font-size:clamp(0.95rem, 1.8vw, 1.2rem);
+font-size:0.9em;
 }
 
 /* remove browser number arrows */
@@ -768,28 +768,26 @@ try{turnstile.reset(widgetId);}catch{}
 });
 
 window.addEventListener("load", () => {
-  if (!location.hash) return;
+  const hash = location.hash;
+  if (!hash) return;
 
-  const currentHash = location.hash;
-  const lastHandled = sessionStorage.getItem("anchorHandled");
+  // Detect navigation type
+  const navEntry = performance.getEntriesByType("navigation")[0];
+  const navType = navEntry ? navEntry.type : null;
 
-  // Skip if this exact hash was already handled (prevents refresh jump)
-  if (lastHandled === currentHash) return;
+  // ❌ Do nothing on reload (prevents jump back)
+  if (navType === "reload") return;
 
-  const el = document.querySelector(currentHash);
+  const el = document.querySelector(hash);
   if (!el) return;
 
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      el.scrollIntoView({
-        behavior: "instant",
-        block: "start"
-      });
+  // Small delay ensures layout is stable
+  setTimeout(() => {
+    el.scrollIntoView({
+      behavior: "instant",
+      block: "start"
     });
-  });
-
-  // Remember which hash we handled
-  sessionStorage.setItem("anchorHandled", currentHash);
+  }, 50);
 });
 
 // tab switching
