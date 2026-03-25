@@ -768,17 +768,20 @@ try{turnstile.reset(widgetId);}catch{}
 });
 
 window.addEventListener("load", () => {
-  if (!location.hash) return;
+  const hash = location.hash;
+  if (!hash) return;
 
-  const currentHash = location.hash;
-  const lastHandled = sessionStorage.getItem("anchorHandled");
+  // Detect navigation type
+  const navEntry = performance.getEntriesByType("navigation")[0];
+  const navType = navEntry ? navEntry.type : null;
 
-  // Skip if this exact hash was already handled (prevents refresh jump)
-  if (lastHandled === currentHash) return;
+  // ❌ Do nothing on reload (prevents jump back)
+  if (navType === "reload") return;
 
-  const el = document.querySelector(currentHash);
+  const el = document.querySelector(hash);
   if (!el) return;
 
+  // Use frame delay for smoother and more reliable timing
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       el.scrollIntoView({
@@ -787,9 +790,6 @@ window.addEventListener("load", () => {
       });
     });
   });
-
-  // Remember which hash we handled
-  sessionStorage.setItem("anchorHandled", currentHash);
 });
 
 // tab switching
