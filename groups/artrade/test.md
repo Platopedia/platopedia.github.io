@@ -781,9 +781,13 @@ window.addEventListener("load", () => {
   const el = document.querySelector(hash);
   if (!el) return;
 
-  el.scrollIntoView({
-    behavior: "instant",
-    block: "start"
+  // Smoothly scroll to the element with a slight offset for better positioning
+  const yOffset = -10; // small offset for nicer positioning (adjust if needed)
+  const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+  window.scrollTo({
+    top: y,
+    behavior: "smooth"
   });
 });
 
