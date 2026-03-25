@@ -781,13 +781,10 @@ window.addEventListener("load", () => {
   const el = document.querySelector(hash);
   if (!el) return;
 
-  // Small delay ensures layout is stable
-  setTimeout(() => {
-    el.scrollIntoView({
-      behavior: "instant",
-      block: "start"
-    });
-  }, 50);
+  el.scrollIntoView({
+    behavior: "instant",
+    block: "start"
+  });
 });
 
 // tab switching
