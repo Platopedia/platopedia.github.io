@@ -767,36 +767,28 @@ try{turnstile.reset(widgetId);}catch{}
 }
 });
 
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("load", () => {
   const hash = location.hash;
   if (!hash) return;
 
+  // Detect navigation type
   const navEntry = performance.getEntriesByType("navigation")[0];
   const navType = navEntry ? navEntry.type : null;
 
-  // Prevent jump on reload
+  // ❌ Do nothing on reload (prevents jump back)
   if (navType === "reload") return;
 
   const el = document.querySelector(hash);
   if (!el) return;
 
-  // Remove hash temporarily to prevent browser auto-jump
-  history.replaceState(null, "", location.pathname + location.search);
-
-  // Wait one frame to ensure no native jump occurs
+  // Use frame delay for smoother and more reliable timing
   requestAnimationFrame(() => {
-    const yOffset = -10;
-    const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
-
-    window.scrollTo({
-      top: y,
-      behavior: "smooth"
+    requestAnimationFrame(() => {
+      el.scrollIntoView({
+        behavior: "instant",
+        block: "start"
+      });
     });
-
-    // Restore hash after scroll starts (so URL still works)
-    setTimeout(() => {
-      history.replaceState(null, "", location.pathname + location.search + hash);
-    }, 100);
   });
 });
 
