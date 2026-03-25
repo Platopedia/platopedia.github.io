@@ -92,12 +92,7 @@ color:#CD9B1E;
 }
 
 .content-link{
-  font-size:0.9em;
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  flex-wrap:nowrap;
-  word-break:break-all;
+font-size:clamp(0.9rem, 1.2vw, 1.05rem);
 }
 
 /* remove browser number arrows */
