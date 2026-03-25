@@ -771,24 +771,43 @@ window.addEventListener("load", () => {
   const hash = location.hash;
   if (!hash) return;
 
-  // Detect navigation type
   const navEntry = performance.getEntriesByType("navigation")[0];
   const navType = navEntry ? navEntry.type : null;
 
-  // ❌ Do nothing on reload (prevents jump back)
   if (navType === "reload") return;
 
   const el = document.querySelector(hash);
   if (!el) return;
 
-  // Smoothly scroll to the element with a slight offset for better positioning
-  const yOffset = -10; // small offset for nicer positioning (adjust if needed)
-  const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+  // Prevent instant browser jump
+  window.scrollTo(0, 0);
 
-  window.scrollTo({
-    top: y,
-    behavior: "smooth"
-  });
+  const targetY = el.getBoundingClientRect().top + window.pageYOffset - 10;
+  const startY = window.pageYOffset;
+  const distance = targetY - startY;
+  const duration = 500; // animation duration (ms)
+
+  let startTime = null;
+
+  function easeOutCubic(t) {
+    return 1 - Math.pow(1 - t, 3);
+  }
+
+  function animateScroll(currentTime) {
+    if (!startTime) startTime = currentTime;
+
+    const time = currentTime - startTime;
+    const progress = Math.min(time / duration, 1);
+    const eased = easeOutCubic(progress);
+
+    window.scrollTo(0, startY + distance * eased);
+
+    if (time < duration) {
+      requestAnimationFrame(animateScroll);
+    }
+  }
+
+  requestAnimationFrame(animateScroll);
 });
 
 // tab switching
