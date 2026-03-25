@@ -6,6 +6,16 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 
 <style>
 
+.button-row{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.button-row button{
+  margin-top:16px;
+}
+
 html, body {
   height: 100%;
   overflow-anchor: none;
@@ -31,7 +41,8 @@ input, textarea {
 }
 
 .ticket-panel input,
-.ticket-panel textarea{
+.ticket-panel textarea,
+.ticket-panel select{
   width:100%;
   padding:8px;
   margin-top:4px;
@@ -39,9 +50,11 @@ input, textarea {
   background:var(--color-D);
   color:var(--color-text);
   border:1px solid var(--color-B);
+  border-radius:6px;
 }
 
-.ticket-panel input:focus{
+.ticket-panel input:focus,
+.ticket-panel select:focus{
   outline:none;
 }
 
@@ -225,24 +238,22 @@ input, textarea {
 
 <label>Selected Items</label>
 <textarea id="items" rows="6" readonly placeholder="Selected items will appear here (Max 5 items)"></textarea>
-<div id="totals-box" style="margin-top:10px;padding:10px;border:1px solid var(--color-B);background:var(--color-D);display:none">
-  <div style="font-size:14px;"><strong>Total Price:</strong> <span id="total-price">0</span></div>
+  <div id="totals-box" style="margin-top:10px;padding:10px;border:1px solid var(--color-B);background:var(--color-D);display:none">
+  <div style="font-size:14px;"><strong>Total Value:</strong> <span id="total-price">0</span></div>
   <div style="margin-top:4px;font-size:14px;"><strong>Total Trade Price:</strong> <span id="total-trade-price">0</span></div>
   <div style="margin-top:6px;font-size:12px;color:var(--color-text);opacity:.85">
-    <div>Formula (Coins): +25% value, then rounded up to the nearest 50 Coins.</div>
-    <div>Formula (Pips): 1 Pip = 250 Coins.</div>
   </div>
 </div>
 
-<!-- Optional Trade Method -->
+<!-- Optional Payment Method -->
 <div style="margin-top:12px;">
   <div id="optional-toggle" style="cursor:pointer;font-weight:600;">
-    Optional ▼
+    Optional ▸
   </div>
 
   <div id="optional-content" style="display:none;margin-top:8px;">
-    <label>Select Trade Method</label>
-    <select id="trade-method" style="width:100%;padding:8px;margin-top:4px;background:var(--color-D);color:var(--color-text);border:1px solid var(--color-B);">
+    <label>Select Payment Method</label>
+    <select id="trade-method">
       <option value="coins" selected>Coins</option>
       <option value="pips">Pips</option>
     </select>
@@ -253,8 +264,10 @@ input, textarea {
   Please add at least one item (Max 5 items)
 </div>
 
-<button id="submit-btn" onclick="prepareSubmit()">Submit Request</button>
-<button type="button" onclick="clearItems()" style="margin-left:8px;background:#888">Clear All</button>
+<div class="button-row">
+  <button id="submit-btn" onclick="prepareSubmit()">Submit Request</button>
+  <button type="button" onclick="clearItems()" style="background:#888">Clear All</button>
+</div>
 <div id="submit-error"></div>
 
 </div>
@@ -347,7 +360,12 @@ if(tradeMethodSelect){
 
 if(optionalToggle && optionalContent){
   optionalToggle.addEventListener("click", ()=>{
-    optionalContent.style.display = optionalContent.style.display === "none" ? "block" : "none";
+    const isHidden = optionalContent.style.display === "none";
+
+    optionalContent.style.display = isHidden ? "block" : "none";
+
+    // Update arrow
+    optionalToggle.textContent = isHidden ? "Optional ▾" : "Optional ▸";
   });
 }
 
@@ -438,17 +456,17 @@ function updateTotals(){
 
   // Display total price with separate currencies
   if(totalCoins > 0 && totalPips > 0){
-    totalPriceEl.textContent = totalCoins + " Coins + " + totalPips + " Pips";
+    totalPriceEl.textContent = totalCoins + " Coins | " + totalPips + " Pips";
   }else if(totalPips > 0){
     totalPriceEl.textContent = totalPips + " Pips";
   }else{
     totalPriceEl.textContent = totalCoins + " Coins";
   }
 
-    // Apply trade method
+    // Apply payment method
     if(tradeMethodSelect && tradeMethodSelect.value === "pips"){
 
-      // Convert coins to pips (no markup)
+      // IMPORTANT: do NOT round here — keep raw value for accurate final calculation
       const coinsToPips = totalCoins / 200;
 
       // Apply +25% ONLY to pips items
@@ -470,13 +488,13 @@ function updateTotals(){
 
   if(tradeMethodSelect && tradeMethodSelect.value === "pips"){
     formulaBox.innerHTML = `
-      <div><strong>Formula - Pips (Sent) → Pips (Received):</strong> +25% value, rounded up to the nearest 1 Pip</div>
-      <div><strong>Formula - Pips (Sent) → Coins (Received):</strong> 1 Pip = 200 Coins (Requester Rate)</div>
+      <div>Formula (Pips → Pips): +25% value, rounded up to the nearest 1 Pip.</div>
+      <div>Formula (Coins → Pips): 1 Pip = 200 Coins (Requester Rate).</div>
     `;
   }else{
     formulaBox.innerHTML = `
-      <div><strong>Formula - Coins (Sent) → Coins (Received):</strong> +25% value, rounded up to the nearest 50 Coins</div>
-      <div><strong>Formula - Coins (Sent) → Pips (Received):</strong> 1 Pip = 250 Coins (Merchant Rate)</div>
+      <div>Formula (Coins → Coins): +25% value, rounded up to the nearest 50 Coins.</div>
+      <div>Formula (Pips → Coins): 1 Pip = 250 Coins (Merchant Rate).</div>
     `;
   }
 
@@ -520,7 +538,6 @@ friendClear.onclick = ()=>{
 
 searchClear.onclick = ()=>{
   searchInput.value = "";
-  searchClear.style.display = "none";
   dropdown.innerHTML = "";
   dropdown.style.display = "none";
 };
@@ -686,7 +703,6 @@ function clearItems(){
   itemsError.style.display = "none";
   itemsError.textContent = "Please add at least one item (Max 5 items)";
 
-  searchClear.style.display = "none";
   dropdown.innerHTML = "";
   dropdown.style.display = "none";
 
