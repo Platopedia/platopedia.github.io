@@ -6,6 +6,16 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 
 <style>
 
+.button-row{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.button-row button{
+  margin-top:16px;
+}
+
 html, body {
   height: 100%;
   overflow-anchor: none;
@@ -254,8 +264,10 @@ input, textarea {
   Please add at least one item (Max 5 items)
 </div>
 
-<button id="submit-btn" onclick="prepareSubmit()">Submit Request</button>
-<button type="button" onclick="clearItems()" style="margin-left:8px;background:#888">Clear All</button>
+<div class="button-row">
+  <button id="submit-btn" onclick="prepareSubmit()">Submit Request</button>
+  <button type="button" onclick="clearItems()" style="background:#888">Clear All</button>
+</div>
 <div id="submit-error"></div>
 
 </div>
