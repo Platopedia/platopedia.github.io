@@ -475,10 +475,11 @@ return;
 }
 
 const pips = Math.floor(coins / 250);
+const tradeCoins = pips * 250;
 
 result.innerHTML=`
 Item/s Value: <b>${coins.toLocaleString()} Coins</b><br>
-Trade Value: <span class="trade-highlight"><b>${pips} Pips</b></span>
+Trade Price: <span class="trade-highlight"><b>${tradeCoins.toLocaleString()} Coins</b></span>
 `;
 });
 
