@@ -298,17 +298,17 @@ Use the calculator to check the total trade price of one or more items.
 
 <div class="trade-card">
 
-<h4>Trade Calculator (Coins → Pips)</h4>
+<h4>Trade Calculator (Pips → Coins)</h4>
 <p class="trade-desc">Formula: 1 Pip = 250 Coins (Merchant Rate).</p>
 
-<label>Item/s Price (Coins)</label>
+<label>Item/s Price (Pips)</label>
 
 <div class="trade-input-wrap">
-<input id="coinToPipInput" class="form-control trade-input" type="number" max="100000000" placeholder="Enter item/s price in Coins">
-<button class="trade-clear" onclick="clearCoinToPip()">×</button>
+<input id="pipToCoinMerchantInput" class="form-control trade-input" type="number" max="100000000" placeholder="Enter item/s price in Pips">
+<button class="trade-clear" onclick="clearPipToCoinMerchant()">×</button>
 </div>
 
-<div id="coinToPipResult" class="trade-result"></div>
+<div id="pipToCoinMerchantResult" class="trade-result"></div>
 
 </div>
 
@@ -390,16 +390,6 @@ input.parentElement.querySelector('.trade-clear').style.display='none';
 input.focus();
 }
 
-function clearCoinToPip(){
-const input=document.getElementById("coinToPipInput");
-const result=document.getElementById("coinToPipResult");
-
-input.value="";
-result.innerHTML="";
-input.parentElement.querySelector('.trade-clear').style.display='none';
-input.focus();
-}
-
 function clearPipToPip(){
 const input=document.getElementById("pipToPipInput");
 const result=document.getElementById("pipToPipResult");
@@ -412,13 +402,11 @@ input.focus();
 function clearCoinToPipRequester(){
 const input=document.getElementById("coinToPipRequesterInput");
 const result=document.getElementById("coinToPipRequesterResult");
-
 input.value="";
 result.innerHTML="";
 input.parentElement.querySelector('.trade-clear').style.display='none';
 input.focus();
 }
-
 
 function calculateTradeCoins(coins){
 const increased=coins*1.25;
@@ -454,32 +442,31 @@ Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coi
 
 });
 
-// coins -> pips (250)
+// pips -> coins (250 merchant)
 
-document.getElementById("coinToPipInput").addEventListener("input",function(){
+document.getElementById("pipToCoinMerchantInput").addEventListener("input",function(){
 
-let coins = Number(this.value);
-if (coins > 100000000) {
-  coins = 100000000;
-  this.value = coins;
+let pips = Number(this.value);
+if (pips > 100000000) {
+  pips = 100000000;
+  this.value = pips;
 }
 
 const clearBtn=this.parentElement.querySelector('.trade-clear');
 clearBtn.style.display=this.value ? 'flex' : 'none';
 
-const result=document.getElementById("coinToPipResult");
+const result=document.getElementById("pipToCoinMerchantResult");
 
-if(isNaN(coins) || coins <= 0){
+if(isNaN(pips) || pips <= 0){
 result.innerHTML="";
 return;
 }
 
-const pips = Math.floor(coins / 250);
-const tradeCoins = pips * 250;
+const coins = Math.round(pips * 250);
 
 result.innerHTML=`
-Item/s Value: <b>${coins.toLocaleString()} Coins</b><br>
-Trade Price: <span class="trade-highlight"><b>${tradeCoins.toLocaleString()} Coins</b></span>
+Item/s Value: <b>${pips} Pips</b><br>
+Trade Price: <span class="trade-highlight"><b>${coins.toLocaleString()} Coins</b></span>
 `;
 });
 
@@ -830,6 +817,15 @@ function switchTab(type){
 if(tabCoins && tabPips){
   tabCoins.onclick = () => switchTab("coins");
   tabPips.onclick = () => switchTab("pips");
+}
+
+function clearPipToCoinMerchant(){
+const input=document.getElementById("pipToCoinMerchantInput");
+const result=document.getElementById("pipToCoinMerchantResult");
+input.value="";
+result.innerHTML="";
+input.parentElement.querySelector('.trade-clear').style.display='none';
+input.focus();
 }
 
 </script>
