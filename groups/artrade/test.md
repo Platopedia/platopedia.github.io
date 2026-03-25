@@ -92,7 +92,12 @@ color:#CD9B1E;
 }
 
 .content-link{
-font-size:0.9em;
+  font-size:0.9em;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:nowrap;
+  word-break:break-all;
 }
 
 /* remove browser number arrows */
@@ -273,7 +278,7 @@ During a trade, merchants and requesters must follow the trading rules listed be
 
 Use the calculator to check the total trade price of one or more items.
 
-<div class="trade-tabs" style="display:flex;gap:12px;margin-bottom:14px;flex-wrap:wrap;">
+<div class="trade-tabs" style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;">
   <button id="tabCoins" class="primary-btn" style="max-width:none;flex:1;padding:12px 18px;font-size:14px;border-radius:12px;">Coins Payment</button>
   <button id="tabPips" class="primary-btn" style="max-width:none;flex:1;padding:12px 18px;font-size:14px;border-radius:12px;opacity:0.6;">Pips Payment</button>
 </div>
@@ -298,17 +303,17 @@ Use the calculator to check the total trade price of one or more items.
 
 <div class="trade-card">
 
-<h4>Trade Calculator (Coins → Pips)</h4>
+<h4>Trade Calculator (Pips → Coins)</h4>
 <p class="trade-desc">Formula: 1 Pip = 250 Coins (Merchant Rate).</p>
 
-<label>Item/s Price (Coins)</label>
+<label>Item/s Price (Pips)</label>
 
 <div class="trade-input-wrap">
-<input id="coinToPipInput" class="form-control trade-input" type="number" max="100000000" placeholder="Enter item/s price in Coins">
-<button class="trade-clear" onclick="clearCoinToPip()">×</button>
+<input id="pipToCoinMerchantInput" class="form-control trade-input" type="number" max="100000000" placeholder="Enter item/s price in Pips">
+<button class="trade-clear" onclick="clearPipToCoinMerchant()">×</button>
 </div>
 
-<div id="coinToPipResult" class="trade-result"></div>
+<div id="pipToCoinMerchantResult" class="trade-result"></div>
 
 </div>
 
@@ -330,16 +335,16 @@ Use the calculator to check the total trade price of one or more items.
 </div>
 
 <div class="trade-card">
-<h4>Trade Calculator (Pips → Coins)</h4>
+<h4>Trade Calculator (Coins → Pips)</h4>
 <p class="trade-desc">Formula: 1 Pip = 200 Coins (Requester Rate).</p>
 
-<label>Item/s Price (Pips)</label>
+<label>Item/s Price (Coins)</label>
 <div class="trade-input-wrap">
-<input id="pipToCoinInput" class="form-control trade-input" type="number" max="100000000" placeholder="Enter item/s price in Pips">
-<button class="trade-clear" onclick="clearPipToCoin()">×</button>
+<input id="coinToPipRequesterInput" class="form-control trade-input" type="number" max="100000000" placeholder="Enter item/s price in Coins">
+<button class="trade-clear" onclick="clearCoinToPipRequester()">×</button>
 </div>
 
-<div id="pipToCoinResult" class="trade-result"></div>
+<div id="coinToPipRequesterResult" class="trade-result"></div>
 </div>
 
 </div>
@@ -390,16 +395,6 @@ input.parentElement.querySelector('.trade-clear').style.display='none';
 input.focus();
 }
 
-function clearCoinToPip(){
-const input=document.getElementById("coinToPipInput");
-const result=document.getElementById("coinToPipResult");
-
-input.value="";
-result.innerHTML="";
-input.parentElement.querySelector('.trade-clear').style.display='none';
-input.focus();
-}
-
 function clearPipToPip(){
 const input=document.getElementById("pipToPipInput");
 const result=document.getElementById("pipToPipResult");
@@ -409,9 +404,9 @@ input.parentElement.querySelector('.trade-clear').style.display='none';
 input.focus();
 }
 
-function clearPipToCoin(){
-const input=document.getElementById("pipToCoinInput");
-const result=document.getElementById("pipToCoinResult");
+function clearCoinToPipRequester(){
+const input=document.getElementById("coinToPipRequesterInput");
+const result=document.getElementById("coinToPipRequesterResult");
 input.value="";
 result.innerHTML="";
 input.parentElement.querySelector('.trade-clear').style.display='none';
@@ -452,31 +447,31 @@ Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coi
 
 });
 
-// coins -> pips (250)
+// pips -> coins (250 merchant)
 
-document.getElementById("coinToPipInput").addEventListener("input",function(){
+document.getElementById("pipToCoinMerchantInput").addEventListener("input",function(){
 
-let coins = Number(this.value);
-if (coins > 100000000) {
-  coins = 100000000;
-  this.value = coins;
+let pips = Number(this.value);
+if (pips > 100000000) {
+  pips = 100000000;
+  this.value = pips;
 }
 
 const clearBtn=this.parentElement.querySelector('.trade-clear');
 clearBtn.style.display=this.value ? 'flex' : 'none';
 
-const result=document.getElementById("coinToPipResult");
+const result=document.getElementById("pipToCoinMerchantResult");
 
-if(isNaN(coins) || coins <= 0){
+if(isNaN(pips) || pips <= 0){
 result.innerHTML="";
 return;
 }
 
-const pips = Math.floor(coins / 250);
+const coins = Math.round(pips * 250);
 
 result.innerHTML=`
-Item/s Value: <b>${coins.toLocaleString()} Coins</b><br>
-Trade Value: <span class="trade-highlight"><b>${pips} Pips</b></span>
+Item/s Value: <b>${pips} Pips</b><br>
+Trade Price: <span class="trade-highlight"><b>${coins.toLocaleString()} Coins</b></span>
 `;
 });
 
@@ -500,23 +495,31 @@ Trade Price: <span class="trade-highlight"><b>${tradePrice} Pips</b></span>
 `;
 });
 
-// pip -> coins (200)
+// coins -> pips (200 requester)
 
-document.getElementById("pipToCoinInput").addEventListener("input",function(){
-let pips = Number(this.value);
-if(pips > 100000000){ pips = 100000000; this.value = pips; }
+document.getElementById("coinToPipRequesterInput").addEventListener("input",function(){
+
+let coins = Number(this.value);
+if (coins > 100000000) {
+  coins = 100000000;
+  this.value = coins;
+}
 
 const clearBtn=this.parentElement.querySelector('.trade-clear');
 clearBtn.style.display=this.value ? 'flex' : 'none';
 
-const result=document.getElementById("pipToCoinResult");
-if(isNaN(pips)||pips<=0){ result.innerHTML=""; return; }
+const result=document.getElementById("coinToPipRequesterResult");
 
-const tradePrice=Math.round(pips*200);
+if(isNaN(coins) || coins <= 0){
+result.innerHTML="";
+return;
+}
+
+const pips = Math.ceil(coins / 200);
 
 result.innerHTML=`
-Item/s Value: <b>${pips} Pips</b><br>
-Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coins</b></span>
+Item/s Value: <b>${coins.toLocaleString()} Coins</b><br>
+Trade Price: <span class="trade-highlight"><b>${pips} Pips</b></span>
 `;
 });
 
@@ -820,4 +823,14 @@ if(tabCoins && tabPips){
   tabCoins.onclick = () => switchTab("coins");
   tabPips.onclick = () => switchTab("pips");
 }
+
+function clearPipToCoinMerchant(){
+const input=document.getElementById("pipToCoinMerchantInput");
+const result=document.getElementById("pipToCoinMerchantResult");
+input.value="";
+result.innerHTML="";
+input.parentElement.querySelector('.trade-clear').style.display='none';
+input.focus();
+}
+
 </script>
