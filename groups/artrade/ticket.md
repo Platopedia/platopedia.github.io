@@ -477,7 +477,7 @@ function updateTotals(){
   if(tradeMethodSelect && tradeMethodSelect.value === "pips"){
     formulaBox.innerHTML = `
       <div>Formula (Pips → Pips): +25% value, rounded up to the nearest 1 Pip.</div>
-      <div>Formula (Pips → Coins): 1 Pip = 200 Coins (Requester Rate).</div>
+      <div>Formula (Coins → Pips): 1 Pip = 200 Coins (Requester Rate).</div>
     `;
   }else{
     formulaBox.innerHTML = `
