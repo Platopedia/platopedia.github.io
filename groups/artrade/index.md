@@ -9,6 +9,10 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 h2 { color:#CD9B1E !important }
 h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 
+html {
+  scrollbar-gutter: stable;
+}
+
 /* calculator layout */
 
 .trade-calculators{
