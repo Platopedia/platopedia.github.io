@@ -560,7 +560,15 @@ async function loadItems(){
   rows.forEach(row=>{
 
     const id = row.children[0].textContent.trim();
+    const type = row.children[1].textContent.trim();
     const name = row.children[2].textContent.trim();
+
+    const rareFlag = row.children[7]?.textContent.trim() === "1";
+
+    // 🚫 Exclude Bundle + rare items
+    if(type === "Bundle" && rareFlag){
+      return;
+    }
 
     // Extract price cell (4th column)
     const priceCell = row.children[3];
