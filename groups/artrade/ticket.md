@@ -286,6 +286,9 @@ input, textarea {
 
 <script>
 
+const STANDARD_COINS_PER_PIP = 175;
+const MERCHANT_COINS_PER_PIP = 250;
+
 const params = new URLSearchParams(location.search);
 const ticket = params.get("t");
 document.addEventListener("DOMContentLoaded", ()=>{
@@ -442,7 +445,7 @@ function updateTotals(){
   totalsBox.style.display = "block";
 
   // Total price always displayed in coins (pips converted)
-  const totalPriceCoins = totalCoins + (totalPips * 250);
+  const totalPriceCoins = totalCoins + (totalPips * MERCHANT_COINS_PER_PIP);
 
   // Coin items follow +25% then round up to nearest 50
   const coinTrade = totalCoins > 0
@@ -450,7 +453,7 @@ function updateTotals(){
     : 0;
 
   // Pip items convert directly to coins
-  const pipTrade = totalPips * 250;
+  const pipTrade = totalPips * MERCHANT_COINS_PER_PIP;
 
   const totalTradeCoins = coinTrade + pipTrade;
 
@@ -467,7 +470,7 @@ function updateTotals(){
     if(tradeMethodSelect && tradeMethodSelect.value === "pips"){
 
       // IMPORTANT: do NOT round here — keep raw value for accurate final calculation
-      const coinsToPips = totalCoins / 200;
+      const coinsToPips = totalCoins / STANDARD_COINS_PER_PIP;
 
       // Apply +25% ONLY to pips items
       const pipsWithMarkup = Math.ceil(totalPips * 1.25);
@@ -489,7 +492,7 @@ function updateTotals(){
   if(tradeMethodSelect && tradeMethodSelect.value === "pips"){
     formulaBox.innerHTML = `
       <div>Formula (Pips → Pips): +25% value, rounded up to the nearest 1 Pip.</div>
-      <div>Formula (Coins → Pips): 1 Pip = 200 Coins (Requester Rate).</div>
+      <div>Formula (Coins → Pips): 1 Pip = 175 Coins (Requester Rate).</div>
     `;
   }else{
     formulaBox.innerHTML = `
