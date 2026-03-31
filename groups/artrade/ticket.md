@@ -286,8 +286,9 @@ input, textarea {
 
 <script>
 
-const STANDARD_COINS_PER_PIP = 175;
 const MERCHANT_COINS_PER_PIP = 250;
+const COINS_TO_PIPS_COINS_PER_PIP = 200;
+const COINS_TO_PIPS_MARKUP_MULTIPLIER = 1.2;
 
 const params = new URLSearchParams(location.search);
 const ticket = params.get("t");
@@ -470,7 +471,7 @@ function updateTotals(){
     if(tradeMethodSelect && tradeMethodSelect.value === "pips"){
 
       // IMPORTANT: do NOT round here — keep raw value for accurate final calculation
-      const coinsToPips = totalCoins / STANDARD_COINS_PER_PIP;
+      const coinsToPips = (totalCoins / COINS_TO_PIPS_COINS_PER_PIP) * COINS_TO_PIPS_MARKUP_MULTIPLIER;
 
       // Apply +25% ONLY to pips items
       const pipsWithMarkup = Math.ceil(totalPips * 1.25);
@@ -492,12 +493,12 @@ function updateTotals(){
   if(tradeMethodSelect && tradeMethodSelect.value === "pips"){
     formulaBox.innerHTML = `
       <div>Formula (Pips → Pips): +25% value, rounded up to the nearest 1 Pip.</div>
-      <div>Formula (Coins → Pips): 1 Pip = 175 Coins (Requester Rate).</div>
+      <div>Formula (Coins → Pips): 1 Pip = 200 Coins, then +20%. (Requester Rate)</div>
     `;
   }else{
     formulaBox.innerHTML = `
       <div>Formula (Coins → Coins): +25% value, rounded up to the nearest 50 Coins.</div>
-      <div>Formula (Pips → Coins): 1 Pip = 250 Coins (Merchant Rate).</div>
+      <div>Formula (Pips → Coins): 1 Pip = 250 Coins. (Merchant Rate)</div>
     `;
   }
 
