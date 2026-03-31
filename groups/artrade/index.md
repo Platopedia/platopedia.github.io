@@ -287,7 +287,7 @@ Use the calculator to check the total trade price of one or more items.
 <div class="trade-card">
 
 <h4>Trade Calculator (Coins → Coins)</h4>
-<p class="trade-desc">Formula: +25% value, then rounded up to the nearest 50 Coins. (Requester Rate)</p>
+<p class="trade-desc">Formula: +25% value, then rounded up to the nearest 50 Coins.</p>
 
 <label>Item/s Price (Coins)</label>
 
@@ -335,7 +335,7 @@ Use the calculator to check the total trade price of one or more items.
 
 <div class="trade-card">
 <h4>Trade Calculator (Coins → Pips)</h4>
-<p class="trade-desc">Formula: 1 Pip = 200 Coins, then +20%.</p>
+<p class="trade-desc">Formula: 1 Pip = 200 Coins, then +20%. (Requester Rate)</p>
 
 <label>Item/s Price (Coins)</label>
 <div class="trade-input-wrap">
