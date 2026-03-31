@@ -286,13 +286,8 @@ input, textarea {
 
 <script>
 
-const REQUESTER_BASE_COINS_PER_PIP = 200;
-const REQUESTER_PIP_MARKUP = 1.2;
+const STANDARD_COINS_PER_PIP = 175;
 const MERCHANT_COINS_PER_PIP = 250;
-
-function calculateRequesterCoinPips(coins){
-  return Math.ceil((coins / REQUESTER_BASE_COINS_PER_PIP) * REQUESTER_PIP_MARKUP);
-}
 
 const params = new URLSearchParams(location.search);
 const ticket = params.get("t");
@@ -475,7 +470,7 @@ function updateTotals(){
     if(tradeMethodSelect && tradeMethodSelect.value === "pips"){
 
       // IMPORTANT: do NOT round here — keep raw value for accurate final calculation
-      const coinsToPips = calculateRequesterCoinPips(totalCoins);
+      const coinsToPips = totalCoins / STANDARD_COINS_PER_PIP;
 
       // Apply +25% ONLY to pips items
       const pipsWithMarkup = Math.ceil(totalPips * 1.25);
@@ -497,7 +492,7 @@ function updateTotals(){
   if(tradeMethodSelect && tradeMethodSelect.value === "pips"){
     formulaBox.innerHTML = `
       <div>Formula (Pips → Pips): +25% value, rounded up to the nearest 1 Pip.</div>
-      <div>Formula (Coins → Pips): 1 Pip = 200 Coins, then +20%.</div>
+      <div>Formula (Coins → Pips): 1 Pip = 175 Coins (Requester Rate).</div>
     `;
   }else{
     formulaBox.innerHTML = `
