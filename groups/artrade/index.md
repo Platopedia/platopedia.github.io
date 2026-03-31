@@ -303,7 +303,7 @@ Use the calculator to check the total trade price of one or more items.
 <div class="trade-card">
 
 <h4>Trade Calculator (Pips → Coins)</h4>
-<p class="trade-desc">Formula: 1 Pip = 250 Coins. (Merchant Rate)</p>
+<p class="trade-desc">Formula: 1 Pip = 250 Coins (Merchant Rate).</p>
 
 <label>Item/s Price (Pips)</label>
 
@@ -335,7 +335,7 @@ Use the calculator to check the total trade price of one or more items.
 
 <div class="trade-card">
 <h4>Trade Calculator (Coins → Pips)</h4>
-<p class="trade-desc">Formula: 1 Pip = 200 Coins, then +20%. (Requester Rate)</p>
+<p class="trade-desc">Formula: 1 Pip = 200 Coins, then +20%.</p>
 
 <label>Item/s Price (Coins)</label>
 <div class="trade-input-wrap">
@@ -375,11 +375,11 @@ Apply to become an <strong>Artrade Merchant</strong> and join our trusted networ
 <script>
 
 const REQUESTER_BASE_COINS_PER_PIP = 200;
-const REQUESTER_COIN_MARKUP = 1.2;
+const REQUESTER_PIP_MARKUP = 1.2;
 const MERCHANT_COINS_PER_PIP = 250;
 
 function calculateRequesterCoinPips(coins){
-  return Math.ceil((coins / REQUESTER_BASE_COINS_PER_PIP) * REQUESTER_COIN_MARKUP);
+  return Math.ceil((coins / REQUESTER_BASE_COINS_PER_PIP) * REQUESTER_PIP_MARKUP);
 }
 
 // Generate stable fingerprint per user
@@ -812,7 +812,7 @@ const pipsTab=document.getElementById("pipsTab");
 
 function switchTab(type){
   if(navigator.vibrate) navigator.vibrate(25);
-
+[platopedia.js](platopedia.js)
   if(type === "coins"){
     coinsTab.style.display = "grid";
     pipsTab.style.display = "none";
