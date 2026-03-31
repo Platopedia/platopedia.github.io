@@ -335,7 +335,7 @@ Use the calculator to check the total trade price of one or more items.
 
 <div class="trade-card">
 <h4>Trade Calculator (Coins → Pips)</h4>
-<p class="trade-desc">Formula: 1 Pip = 200 Coins, then +20%.</p>
+<p class="trade-desc">Formula: 1 Pip = 175 Coins (Requester Rate).</p>
 
 <label>Item/s Price (Coins)</label>
 <div class="trade-input-wrap">
@@ -374,13 +374,8 @@ Apply to become an <strong>Artrade Merchant</strong> and join our trusted networ
 
 <script>
 
-const REQUESTER_BASE_COINS_PER_PIP = 200;
-const REQUESTER_PIP_MARKUP = 1.2;
+const STANDARD_COINS_PER_PIP = 175;
 const MERCHANT_COINS_PER_PIP = 250;
-
-function calculateRequesterCoinPips(coins){
-  return Math.ceil((coins / REQUESTER_BASE_COINS_PER_PIP) * REQUESTER_PIP_MARKUP);
-}
 
 // Generate stable fingerprint per user
 function getFingerprint(){
@@ -502,7 +497,7 @@ Trade Price: <span class="trade-highlight"><b>${tradePrice} Pips</b></span>
 `;
 });
 
-// coins -> pips (200 base, then +20%)
+// coins -> pips (175 requester)
 
 document.getElementById("coinToPipRequesterInput").addEventListener("input",function(){
 
@@ -522,7 +517,7 @@ result.innerHTML="";
 return;
 }
 
-const pips = calculateRequesterCoinPips(coins);
+const pips = Math.ceil(coins / STANDARD_COINS_PER_PIP);
 
 result.innerHTML=`
 Item/s Value: <b>${coins.toLocaleString()} Coins</b><br>
@@ -812,7 +807,7 @@ const pipsTab=document.getElementById("pipsTab");
 
 function switchTab(type){
   if(navigator.vibrate) navigator.vibrate(25);
-[platopedia.js](platopedia.js)
+
   if(type === "coins"){
     coinsTab.style.display = "grid";
     pipsTab.style.display = "none";
