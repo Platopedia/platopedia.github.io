@@ -322,7 +322,7 @@ Use the calculator to check the total trade price of one or more items.
 
 <div class="trade-card">
 <h4>Trade Calculator (Pips → Pips)</h4>
-<p class="trade-desc">Formula: +25% value, then rounded up to the nearest 1 Pip.</p>
+<p class="trade-desc">Formula: +25% value, then rounded up to the nearest 1 Pip. If the total ends in 4 or 9, it is rounded up by +1 Pip.</p>
 
 <label>Item/s Price (Pips)</label>
 <div class="trade-input-wrap">
@@ -335,7 +335,7 @@ Use the calculator to check the total trade price of one or more items.
 
 <div class="trade-card">
 <h4>Trade Calculator (Coins → Pips)</h4>
-<p class="trade-desc">Formula: 1 Pip = 175 Coins (Requester Rate).</p>
+<p class="trade-desc">Formula: 1 Pip = 175 Coins (Requester Rate). If the total ends in 4 or 9, it is rounded up by +1 Pip.</p>
 
 <label>Item/s Price (Coins)</label>
 <div class="trade-input-wrap">
@@ -376,6 +376,10 @@ Apply to become an <strong>Artrade Merchant</strong> and join our trusted networ
 
 const STANDARD_COINS_PER_PIP = 175;
 const MERCHANT_COINS_PER_PIP = 250;
+
+function cleanPipTradePrice(pips){
+  return pips % 5 === 4 ? pips + 1 : pips;
+}
 
 // Generate stable fingerprint per user
 function getFingerprint(){
@@ -489,7 +493,7 @@ clearBtn.style.display=this.value ? 'flex' : 'none';
 const result=document.getElementById("pipToPipResult");
 if(isNaN(pips)||pips<=0){ result.innerHTML=""; return; }
 
-const tradePrice=Math.ceil(pips*1.25);
+const tradePrice=cleanPipTradePrice(Math.ceil(pips*1.25));
 
 result.innerHTML=`
 Item/s Value: <b>${pips} Pips</b><br>
@@ -517,7 +521,7 @@ result.innerHTML="";
 return;
 }
 
-const pips = Math.ceil(coins / STANDARD_COINS_PER_PIP);
+const pips = cleanPipTradePrice(Math.ceil(coins / STANDARD_COINS_PER_PIP));
 
 result.innerHTML=`
 Item/s Value: <b>${coins.toLocaleString()} Coins</b><br>
