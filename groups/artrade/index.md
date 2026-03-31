@@ -287,7 +287,7 @@ Use the calculator to check the total trade price of one or more items.
 <div class="trade-card">
 
 <h4>Trade Calculator (Coins → Coins)</h4>
-<p class="trade-desc">Formula: +25% value, then rounded up to the nearest 50 Coins.</p>
+<p class="trade-desc">Formula: +25% value, then rounded up to the nearest 50 Coins. (Requester Rate)</p>
 
 <label>Item/s Price (Coins)</label>
 
@@ -303,7 +303,7 @@ Use the calculator to check the total trade price of one or more items.
 <div class="trade-card">
 
 <h4>Trade Calculator (Pips → Coins)</h4>
-<p class="trade-desc">Formula: 1 Pip = 250 Coins (Merchant Rate).</p>
+<p class="trade-desc">Formula: 1 Pip = 250 Coins. (Merchant Rate)</p>
 
 <label>Item/s Price (Pips)</label>
 
@@ -335,7 +335,7 @@ Use the calculator to check the total trade price of one or more items.
 
 <div class="trade-card">
 <h4>Trade Calculator (Coins → Pips)</h4>
-<p class="trade-desc">Formula: 1 Pip = 175 Coins (Requester Rate).</p>
+<p class="trade-desc">Formula: 1 Pip = 200 Coins, then +20%.</p>
 
 <label>Item/s Price (Coins)</label>
 <div class="trade-input-wrap">
@@ -374,8 +374,9 @@ Apply to become an <strong>Artrade Merchant</strong> and join our trusted networ
 
 <script>
 
-const STANDARD_COINS_PER_PIP = 175;
 const MERCHANT_COINS_PER_PIP = 250;
+const COINS_TO_PIPS_COINS_PER_PIP = 200;
+const COINS_TO_PIPS_MARKUP_MULTIPLIER = 1.2;
 
 // Generate stable fingerprint per user
 function getFingerprint(){
@@ -497,7 +498,7 @@ Trade Price: <span class="trade-highlight"><b>${tradePrice} Pips</b></span>
 `;
 });
 
-// coins -> pips (175 requester)
+// coins -> pips (200 base + 20%)
 
 document.getElementById("coinToPipRequesterInput").addEventListener("input",function(){
 
@@ -517,7 +518,7 @@ result.innerHTML="";
 return;
 }
 
-const pips = Math.ceil(coins / STANDARD_COINS_PER_PIP);
+const pips = Math.ceil((coins / COINS_TO_PIPS_COINS_PER_PIP) * COINS_TO_PIPS_MARKUP_MULTIPLIER);
 
 result.innerHTML=`
 Item/s Value: <b>${coins.toLocaleString()} Coins</b><br>
