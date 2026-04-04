@@ -530,13 +530,134 @@ let widgetId=null;
 let isProcessing=false;
 let awaitingToken=false;
 let verifyTimeout=null;
+let turnstileLoadPromise=null;
+
+function getGenButton(){
+  return document.getElementById("genTicketBtn");
+}
+
+function clearVerifyTimeout(){
+  try { if (verifyTimeout) clearTimeout(verifyTimeout); } catch {}
+  verifyTimeout = null;
+}
 
 function initTurnstile(){
-  return turnstile.render('#captcha-container',{
+  const container = document.getElementById("captcha-container");
+  if(!container || !window.turnstile){
+    throw new Error("Turnstile not ready");
+  }
+
+  if(widgetId){
+    try { turnstile.remove(widgetId); } catch {}
+    widgetId = null;
+  }
+
+  container.innerHTML = "";
+
+  widgetId = turnstile.render('#captcha-container',{
     sitekey:'0x4AAAAAACyyfcbJQl7aMwTA',
     callback:handleSuccess,
-    execution:'execute'
+    execution:'execute',
+    'error-callback':handleTurnstileError,
+    'expired-callback':handleTurnstileExpired,
+    'timeout-callback':handleTurnstileTimeout
   });
+
+  return widgetId;
+}
+
+function loadTurnstileScript(){
+  if(window.turnstile) return Promise.resolve(window.turnstile);
+  if(turnstileLoadPromise) return turnstileLoadPromise;
+
+  turnstileLoadPromise = new Promise((resolve,reject)=>{
+    const script=document.createElement("script");
+    script.src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+    script.async=true;
+    script.defer=true;
+    script.dataset.turnstileScript="1";
+
+    script.onload=()=>resolve(window.turnstile);
+    script.onerror=()=>{
+      turnstileLoadPromise = null;
+      try { script.remove(); } catch {}
+      reject(new Error("Turnstile failed to load"));
+    };
+
+    document.body.appendChild(script);
+  });
+
+  return turnstileLoadPromise;
+}
+
+function ensureTurnstileWidget(forceRebuild=false){
+  return loadTurnstileScript().then(()=>{
+    if(forceRebuild || !widgetId){
+      return initTurnstile();
+    }
+    return widgetId;
+  });
+}
+
+function rebuildTurnstileWidget(){
+  return ensureTurnstileWidget(true).catch((err)=>{
+    console.error("[turnstile] Failed to rebuild widget:", err);
+    return null;
+  });
+}
+
+function recoverVerification(message, opts={}){
+  const btn = getGenButton();
+  clearVerifyTimeout();
+  awaitingToken=false;
+  isProcessing=false;
+
+  if(btn){
+    resetBtn(btn);
+  }
+
+  if(message){
+    setStatus(message, opts.type || "error");
+  }
+
+  if(opts.rebuild){
+    rebuildTurnstileWidget();
+  }else if(widgetId && window.turnstile){
+    try { turnstile.reset(widgetId); } catch {}
+  }
+}
+
+function handleTurnstileError(errorCode){
+  console.error("[turnstile] Client error:", errorCode);
+
+  if(!awaitingToken && !isProcessing){
+    rebuildTurnstileWidget();
+    return;
+  }
+
+  recoverVerification("❌ Verification failed. Please try again.", { rebuild:true });
+}
+
+function handleTurnstileExpired(){
+  console.warn("[turnstile] Token expired before submission.");
+
+  if(!awaitingToken && !isProcessing){
+    rebuildTurnstileWidget();
+    return;
+  }
+
+  recoverVerification("❌ Verification expired. Please try again.", { rebuild:true });
+}
+
+function handleTurnstileTimeout(){
+  console.warn("[turnstile] Interactive challenge timed out.");
+
+  if(!awaitingToken && !isProcessing){
+    rebuildTurnstileWidget();
+    return;
+  }
+
+  recoverVerification("❌ Verification timed out. Please try again later.", { rebuild:true });
 }
 
 function setLoading(btn,loading){
@@ -557,17 +678,10 @@ function resetBtn(btn){
 }
 
 function startVerifyTimeout(btn){
-  try { if (verifyTimeout) clearTimeout(verifyTimeout); } catch {}
-
+  clearVerifyTimeout();
   verifyTimeout = setTimeout(() => {
     if (awaitingToken) {
-      awaitingToken = false;
-      resetBtn(btn);
-      setStatus("❌ Verification timed out. Please try again later.","error");
-
-      if(widgetId && window.turnstile){
-        try { turnstile.reset(widgetId); } catch {}
-      }
+      recoverVerification("❌ Verification timed out. Please try again later.", { rebuild:true });
     }
   }, 15000);
 }
@@ -589,7 +703,7 @@ async function handleSuccess(token){
 if(!awaitingToken||isProcessing) return;
 
 // clear fallback timeout
-try { clearTimeout(verifyTimeout); } catch {}
+clearVerifyTimeout();
 
 isProcessing=true;
 awaitingToken=false;
@@ -611,6 +725,11 @@ fingerprint:getFingerprint()
 const data = await res.json().catch(()=>({}));
 
 if(!res.ok){
+  if (data?.error === "captcha_failed") {
+    recoverVerification(`❌ ${data?.message || "Verification failed. Please try again."}`, { rebuild:true });
+    return;
+  }
+
   if (data?.retryIn) {
     const h = Math.floor(data.retryIn / 3600);
     const m = Math.floor((data.retryIn % 3600) / 60);
@@ -642,13 +761,7 @@ window.location.href=`/groups/artrade/ticket?t=${data.ticket}`;
 },1000);
 
 }catch(err){
-setStatus(`❌ ${err.message || "Something went wrong. Please try again later."}`,"error");
-resetBtn(btn);
-isProcessing=false;
-
-if(widgetId&&window.turnstile){
-  try{turnstile.reset(widgetId);}catch{}
-}
+recoverVerification(`❌ ${err.message || "Something went wrong. Please try again later."}`, { rebuild:true });
 }
 }
 
@@ -659,78 +772,33 @@ if(!btn) return;
 
 resetBtn(btn);
 setStatus("");
+ensureTurnstileWidget().catch((err)=>{
+  console.warn("[turnstile] Preload failed:", err);
+});
 
-btn.addEventListener("click",()=>{
+btn.addEventListener("click",async()=>{
 if(btn.disabled||isProcessing||awaitingToken) return;
 
 if(navigator.vibrate){
 navigator.vibrate([20,30,20]);
 }
 
-// Lazy-load Turnstile on click
-if(!window.turnstile){
-  awaitingToken = true;
-  btn.disabled = true;
-  setLoading(btn,true);
-  setStatus("🔐 Preparing verification...");
-
-  const script=document.createElement("script");
-  script.src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
-  script.async=true;
-
-  script.onload=()=>{
-    try{
-      widgetId = initTurnstile();
-      if(!widgetId){
-        throw new Error("Turnstile init failed");
-      }
-      turnstile.execute(widgetId);
-      // fallback in case Turnstile callback never fires (lazy-load path)
-      startVerifyTimeout(btn);
-    }catch{
-      setStatus("❌ Verification failed. Please try again later.","error");
-      resetBtn(btn);
-      awaitingToken=false;
-    }
-  };
-  script.onerror = () => {
-    setStatus("❌ Failed to load verification. Please try again.", "error");
-    resetBtn(btn);
-    awaitingToken = false;
-  };
-
-  document.body.appendChild(script);
-  return;
-}
-
-if(!widgetId){
-  try{
-    widgetId = initTurnstile();
-    if(!widgetId){
-      throw new Error("Turnstile init failed");
-    }
-  }catch{
-    setStatus("❌ Verification not ready. Please refresh.","error");
-    resetBtn(btn);
-    awaitingToken=false;
-    return;
-  }
-}
-
 awaitingToken=true;
 btn.disabled=true;
+setLoading(btn,true);
 setStatus("🔐 Verifying your request...");
 
 // trigger Turnstile execution
 try{
-  turnstile.execute(widgetId);
+  const activeWidgetId = await ensureTurnstileWidget();
+  if(!activeWidgetId){
+    throw new Error("Turnstile init failed");
+  }
+  turnstile.execute(activeWidgetId);
   // fallback in case Turnstile callback never fires
   startVerifyTimeout(btn);
 }catch{
-  setStatus("❌ Verification failed. Please try again later.","error");
-  resetBtn(btn);
-  awaitingToken=false;
-  return;
+  recoverVerification("❌ Verification failed. Please try again later.", { rebuild:true });
 }
 
 });
