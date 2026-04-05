@@ -15,6 +15,23 @@ h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 
 Click the button below to launch Plato directly:
 
-<button onclick="window.location.href='intent://#Intent;component=com.plato.android/com.playchat.ui.activity.MainActivity;end'" style="padding:10px 16px;font-size:16px;background:#CD9B1E;color:#fff;border:none;border-radius:6px;cursor:pointer;">
+<button onclick="openPlato()" style="padding:10px 16px;font-size:16px;background:#CD9B1E;color:#fff;border:none;border-radius:6px;cursor:pointer;">
 Open Plato
 </button>
+
+<script>
+function openPlato() {
+  const intent = "intent://#Intent;component=com.plato.android/com.playchat.ui.activity.MainActivity;end";
+  
+  // Try opening via iframe (works better on some browsers)
+  const iframe = document.createElement("iframe");
+  iframe.style.display = "none";
+  iframe.src = intent;
+  document.body.appendChild(iframe);
+
+  // Fallback (for Chrome)
+  setTimeout(() => {
+    window.location.href = intent;
+  }, 500);
+}
+</script>
