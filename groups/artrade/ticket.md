@@ -19,6 +19,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 html{
   min-height:100%;
   overflow-x:hidden;
+  background:var(--color-D,#fff);
   -webkit-text-size-adjust:100%;
 }
 
@@ -27,6 +28,7 @@ body{
   height:auto;
   overflow-x:hidden;
   overflow-anchor:none;
+  background:var(--color-D,#fff);
 }
 
 input, textarea {
@@ -36,7 +38,7 @@ input, textarea {
 .ticket-panel{
   padding:20px;
   border:1px solid var(--color-B);
-  background:linear-gradient(var(--color-C),var(--color-D));
+  background:linear-gradient(var(--color-C,#fff),var(--color-D,#fff));
   max-width:600px;
   margin:0 auto;
   box-sizing:border-box;
@@ -59,8 +61,8 @@ input, textarea {
   color:var(--color-text);
   border:1px solid var(--color-B);
   border-radius:6px;
-  scroll-margin-top:90px;
-  scroll-margin-bottom:360px;
+  scroll-margin-top:80px;
+  scroll-margin-bottom:280px;
 }
 
 .ticket-panel input:focus,
@@ -382,18 +384,6 @@ if(optionalToggle && optionalContent){
     optionalToggle.textContent = isHidden ? "Optional ▾" : "Optional ▸";
   });
 }
-
-document.addEventListener("focusin", e=>{
-  if(!e.target.matches("input, textarea, select")) return;
-
-  setTimeout(()=>{
-    e.target.scrollIntoView({
-      block:"center",
-      inline:"nearest",
-      behavior:"smooth"
-    });
-  },250);
-});
 
 // Haptic feedback when tapping the Selected Items box (supported mobile browsers)
 itemsBox.addEventListener("click", ()=>{
