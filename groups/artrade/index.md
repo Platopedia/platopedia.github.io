@@ -29,6 +29,10 @@ body{
   }
 }
 
+input, textarea {
+  font-size: 16px;
+}
+
 /* calculator layout */
 
 .trade-calculators{
