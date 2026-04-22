@@ -793,14 +793,6 @@ if(!btn) return;
 resetBtn(btn);
 setStatus("");
 
-window.addEventListener("load",()=>{
-  setTimeout(()=>{
-    ensureTurnstileWidget().catch((err)=>{
-      console.warn("[turnstile] Delayed preload failed:", err);
-    });
-  },1500);
-},{ once:true });
-
 btn.addEventListener("click",async()=>{
 if(btn.disabled||isProcessing||awaitingToken) return;
 
