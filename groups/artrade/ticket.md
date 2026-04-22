@@ -557,6 +557,7 @@ friendClear.onclick = ()=>{
 
 searchClear.onclick = ()=>{
   searchInput.value = "";
+  searchClear.style.display = "none";
   dropdown.innerHTML = "";
   dropdown.style.display = "none";
 };
