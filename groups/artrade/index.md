@@ -107,6 +107,12 @@ opacity:0.7;
 margin-bottom:6px;
 }
 
+@media (min-width:640px){
+.trade-calculators .trade-desc{
+min-height:3em;
+}
+}
+
 .trade-highlight{
 color:#CD9B1E;
 }
