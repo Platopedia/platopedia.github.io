@@ -289,6 +289,7 @@ input, textarea {
 const MERCHANT_COINS_PER_PIP = 250;
 const COINS_TO_PIPS_COINS_PER_PIP = 200;
 const COINS_TO_PIPS_MARKUP_MULTIPLIER = 1.2;
+const HIDE_RARE_BUNDLES = false;
 
 const params = new URLSearchParams(location.search);
 const ticket = params.get("t");
@@ -570,8 +571,8 @@ async function loadItems(){
 
     const rareFlag = row.children[7]?.textContent.trim() === "1";
 
-    // 🚫 Exclude Bundle + rare items
-    if(type === "Bundle" && rareFlag){
+    // Toggle this filter with HIDE_RARE_BUNDLES near the top of this script.
+    if(HIDE_RARE_BUNDLES && type === "Bundle" && rareFlag){
       return;
     }
 
