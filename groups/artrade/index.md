@@ -9,24 +9,8 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 h2 { color:#CD9B1E !important }
 h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 
-html{
-height:100%;
-min-height:100%;
-overflow-x:hidden;
-overflow-anchor:none;
--webkit-text-size-adjust:100%;
-}
-
-body{
-min-height:100%;
-overflow-x:hidden;
-overflow-anchor:none;
-}
-
-@supports (-webkit-touch-callout:none){
-body{
-min-height:-webkit-fill-available;
-}
+html {
+  scrollbar-gutter: stable;
 }
 
 /* calculator layout */
@@ -213,15 +197,13 @@ color:#16A34A;
 color:#E1100D;
 }
 
-.captcha-box{
-display:none;
-max-width:320px;
-min-height:65px;
-margin:12px auto 0;
-}
-
-.captcha-box.active{
-display:block;
+.captcha-hidden{
+position:fixed;
+top:-100px;
+left:-100px;
+width:1px;
+height:1px;
+opacity:0;
 }
 
 </style>
@@ -258,7 +240,7 @@ Artrade helps you connect with trusted item traders and merchants from our commu
 
 <div id="genTicketResult" class="status-text security-note">🔒 Safe and secure trading</div>
 
-<div id="captcha-container" class="captcha-box"></div>
+<div id="captcha-container" class="captcha-hidden"></div>
 
 </div>
 
@@ -574,13 +556,6 @@ function isLikelyIOSWebView(){
   return isIOS && !isKnownIOSBrowser;
 }
 
-function setCaptchaVisible(visible){
-  const container = document.getElementById("captcha-container");
-  if(container){
-    container.classList.toggle("active", !!visible);
-  }
-}
-
 function showIOSWebViewFallback(){
   const btn = getGenButton();
 
@@ -591,8 +566,7 @@ function showIOSWebViewFallback(){
     resetBtn(btn);
   }
 
-  setCaptchaVisible(false);
-  setStatus("❌ Verification cannot run inside this iOS in-app browser. Open this page in Safari and try again.", "error");
+  setStatus("❌ Open in Safari to create a ticket.", "error");
 }
 
 function clearVerifyTimeout(){
@@ -612,14 +586,11 @@ function initTurnstile(){
   }
 
   container.innerHTML = "";
-  setCaptchaVisible(true);
 
   widgetId = turnstile.render('#captcha-container',{
     sitekey:'0x4AAAAAACyyfcbJQl7aMwTA',
     callback:handleSuccess,
     execution:'execute',
-    appearance:'interaction-only',
-    size:'flexible',
     'error-callback':handleTurnstileError,
     'expired-callback':handleTurnstileExpired,
     'timeout-callback':handleTurnstileTimeout,
@@ -682,8 +653,6 @@ function recoverVerification(message, opts={}){
   if(message){
     setStatus(message, opts.type || "error");
   }
-
-  setCaptchaVisible(false);
 
   if(opts.rebuild){
     rebuildTurnstileWidget();
@@ -825,7 +794,6 @@ if(!data.ticket){
 }
 
 setStatus("✅ Ticket ready!","success");
-setCaptchaVisible(false);
 
 setTimeout(()=>{
 window.location.href=`/groups/artrade/ticket?t=${data.ticket}`;
