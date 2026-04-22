@@ -17,16 +17,23 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 }
 
 html{
+  height:100%;
   min-height:100%;
   overflow-x:hidden;
+  overflow-anchor:none;
   -webkit-text-size-adjust:100%;
 }
 
 body{
   min-height:100%;
-  height:auto;
   overflow-x:hidden;
   overflow-anchor:none;
+}
+
+@supports (-webkit-touch-callout:none){
+  body{
+    min-height:-webkit-fill-available;
+  }
 }
 
 input, textarea {
@@ -59,8 +66,6 @@ input, textarea {
   color:var(--color-text);
   border:1px solid var(--color-B);
   border-radius:6px;
-  scroll-margin-top:90px;
-  scroll-margin-bottom:360px;
 }
 
 .ticket-panel input:focus,
