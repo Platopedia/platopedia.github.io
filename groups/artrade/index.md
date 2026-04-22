@@ -9,8 +9,24 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 h2 { color:#CD9B1E !important }
 h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 
-html {
-  scrollbar-gutter: stable;
+html{
+height:100%;
+min-height:100%;
+overflow-x:hidden;
+overflow-anchor:none;
+-webkit-text-size-adjust:100%;
+}
+
+body{
+min-height:100%;
+overflow-x:hidden;
+overflow-anchor:none;
+}
+
+@supports (-webkit-touch-callout:none){
+body{
+min-height:-webkit-fill-available;
+}
 }
 
 /* calculator layout */
@@ -382,7 +398,11 @@ const COINS_TO_PIPS_MARKUP_MULTIPLIER = 1.2;
 function getFingerprint(){
   let fp = localStorage.getItem("artrade_fp");
   if(!fp){
-    fp = crypto.randomUUID();
+    if(window.crypto && crypto.randomUUID){
+      fp = crypto.randomUUID();
+    }else{
+      fp = "fp_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2);
+    }
     localStorage.setItem("artrade_fp", fp);
   }
   return fp;
@@ -537,7 +557,7 @@ function getGenButton(){
 }
 
 function clearVerifyTimeout(){
-  try { if (verifyTimeout) clearTimeout(verifyTimeout); } catch {}
+  try { if (verifyTimeout) clearTimeout(verifyTimeout); } catch (err) {}
   verifyTimeout = null;
 }
 
@@ -548,7 +568,7 @@ function initTurnstile(){
   }
 
   if(widgetId){
-    try { turnstile.remove(widgetId); } catch {}
+    try { turnstile.remove(widgetId); } catch (err) {}
     widgetId = null;
   }
 
@@ -580,7 +600,7 @@ function loadTurnstileScript(){
     script.onload=()=>resolve(window.turnstile);
     script.onerror=()=>{
       turnstileLoadPromise = null;
-      try { script.remove(); } catch {}
+      try { script.remove(); } catch (err) {}
       reject(new Error("Turnstile failed to load"));
     };
 
@@ -623,7 +643,7 @@ function recoverVerification(message, opts={}){
   if(opts.rebuild){
     rebuildTurnstileWidget();
   }else if(widgetId && window.turnstile){
-    try { turnstile.reset(widgetId); } catch {}
+    try { turnstile.reset(widgetId); } catch (err) {}
   }
 }
 
@@ -725,12 +745,12 @@ fingerprint:getFingerprint()
 const data = await res.json().catch(()=>({}));
 
 if(!res.ok){
-  if (data?.error === "captcha_failed") {
-    recoverVerification(`❌ ${data?.message || "Verification failed. Please try again."}`, { rebuild:true });
+  if (data && data.error === "captcha_failed") {
+    recoverVerification(`❌ ${(data && data.message) || "Verification failed. Please try again."}`, { rebuild:true });
     return;
   }
 
-  if (data?.retryIn) {
+  if (data && data.retryIn) {
     const h = Math.floor(data.retryIn / 3600);
     const m = Math.floor((data.retryIn % 3600) / 60);
 
@@ -738,13 +758,13 @@ if(!res.ok){
 
     setStatus(`⏳ Try again in ${timeStr}. You have reached the 24-hour limit (2 tickets).`, "error");
   } else {
-    setStatus(`❌ ${data?.message || data?.error || "Request failed"}`, "error");
+    setStatus(`❌ ${(data && (data.message || data.error)) || "Request failed"}`, "error");
   }
   resetBtn(btn);
   isProcessing=false;
 
   if(widgetId&&window.turnstile){
-    try{turnstile.reset(widgetId);}catch{}
+    try{turnstile.reset(widgetId);}catch(err){}
   }
 
   return;
@@ -772,9 +792,14 @@ if(!btn) return;
 
 resetBtn(btn);
 setStatus("");
-ensureTurnstileWidget().catch((err)=>{
-  console.warn("[turnstile] Preload failed:", err);
-});
+
+window.addEventListener("load",()=>{
+  setTimeout(()=>{
+    ensureTurnstileWidget().catch((err)=>{
+      console.warn("[turnstile] Delayed preload failed:", err);
+    });
+  },1500);
+},{ once:true });
 
 btn.addEventListener("click",async()=>{
 if(btn.disabled||isProcessing||awaitingToken) return;
@@ -797,7 +822,7 @@ try{
   turnstile.execute(activeWidgetId);
   // fallback in case Turnstile callback never fires
   startVerifyTimeout(btn);
-}catch{
+}catch(err){
   recoverVerification("❌ Verification failed. Please try again later.", { rebuild:true });
 }
 
@@ -838,7 +863,7 @@ if(btn){
 setStatus("");
 
 if(widgetId&&window.turnstile){
-try{turnstile.reset(widgetId);}catch{}
+try{turnstile.reset(widgetId);}catch(err){}
 }
 }
 });
@@ -861,7 +886,7 @@ window.addEventListener("load", () => {
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       el.scrollIntoView({
-        behavior: "instant",
+        behavior: "auto",
         block: "start"
       });
     });
