@@ -533,12 +533,14 @@ platoClear.onclick = ()=>{
   platoInput.value = "";
   platoClear.style.display = "none";
   platoError.style.display = "none";
+  platoInput.focus();
 };
 
 friendClear.onclick = ()=>{
   friendInput.value = "";
   friendClear.style.display = "none";
   friendError.style.display = "none";
+  friendInput.focus();
 };
 
 searchClear.onclick = ()=>{
@@ -546,6 +548,7 @@ searchClear.onclick = ()=>{
   searchClear.style.display = "none";
   dropdown.innerHTML = "";
   dropdown.style.display = "none";
+  searchInput.focus();
 };
 
 async function loadItems(){
