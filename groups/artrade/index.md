@@ -21,6 +21,7 @@ body{
   min-height:100%;
   overflow-x:hidden;
   overflow-anchor:none;
+  background:var(--color-D);
 }
 
 @supports (-webkit-touch-callout:none){
@@ -31,6 +32,18 @@ body{
 
 input, textarea {
   font-size: 16px;
+}
+
+html.keyboard-open,
+html.keyboard-open body{
+  background:var(--color-D);
+}
+
+html.keyboard-open *,
+html.keyboard-open *::before,
+html.keyboard-open *::after{
+  animation:none !important;
+  transition:none !important;
 }
 
 /* calculator layout */
@@ -52,6 +65,17 @@ box-sizing:border-box;
 min-width:0;
 word-break:break-word;
 overflow-wrap:anywhere;
+}
+
+html.keyboard-open .trade-card{
+background:var(--color-D);
+box-shadow:none !important;
+}
+
+html.keyboard-open .primary-btn{
+background:#CD9B1E;
+box-shadow:none !important;
+transform:none !important;
 }
 
 .trade-card label{
@@ -561,6 +585,36 @@ let isProcessing=false;
 let awaitingToken=false;
 let verifyTimeout=null;
 let turnstileLoadPromise=null;
+
+(()=>{
+  const fieldSelector = "input, textarea, select";
+  let keyboardTimer = null;
+
+  function setKeyboardMode(enabled){
+    clearTimeout(keyboardTimer);
+
+    if(enabled){
+      document.documentElement.classList.add("keyboard-open");
+      return;
+    }
+
+    keyboardTimer = setTimeout(()=>{
+      document.documentElement.classList.remove("keyboard-open");
+    },300);
+  }
+
+  document.addEventListener("focusin", e=>{
+    if(e.target.matches(fieldSelector)){
+      setKeyboardMode(true);
+    }
+  });
+
+  document.addEventListener("focusout", e=>{
+    if(e.target.matches(fieldSelector)){
+      setKeyboardMode(false);
+    }
+  });
+})();
 
 function getGenButton(){
   return document.getElementById("genTicketBtn");
