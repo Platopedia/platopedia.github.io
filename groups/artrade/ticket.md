@@ -289,7 +289,7 @@ input, textarea {
 const MERCHANT_COINS_PER_PIP = 250;
 const COINS_TO_PIPS_COINS_PER_PIP = 200;
 const COINS_TO_PIPS_MARKUP_MULTIPLIER = 1.2;
-const HIDE_RARE_BUNDLES = false;
+const HIDE_RARE_BUNDLES = true;
 
 const params = new URLSearchParams(location.search);
 const ticket = params.get("t");
