@@ -9,8 +9,24 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 h2 { color:#CD9B1E !important }
 h4 { color:#008080 !important;font-size:var(--unit-text-B) !important }
 
-html {
-  scrollbar-gutter: stable;
+html{
+height:100%;
+min-height:100%;
+overflow-x:hidden;
+overflow-anchor:none;
+-webkit-text-size-adjust:100%;
+}
+
+body{
+min-height:100%;
+overflow-x:hidden;
+overflow-anchor:none;
+}
+
+@supports (-webkit-touch-callout:none){
+body{
+min-height:-webkit-fill-available;
+}
 }
 
 /* calculator layout */
