@@ -207,13 +207,15 @@ color:#16A34A;
 color:#E1100D;
 }
 
-.captcha-hidden{
-position:fixed;
-top:-100px;
-left:-100px;
-width:1px;
-height:1px;
-opacity:0;
+.captcha-box{
+display:none;
+max-width:320px;
+min-height:65px;
+margin:12px auto 0;
+}
+
+.captcha-box.active{
+display:block;
 }
 
 </style>
@@ -250,7 +252,7 @@ Artrade helps you connect with trusted item traders and merchants from our commu
 
 <div id="genTicketResult" class="status-text security-note">🔒 Safe and secure trading</div>
 
-<div id="captcha-container" class="captcha-hidden"></div>
+<div id="captcha-container" class="captcha-box"></div>
 
 </div>
 
@@ -556,6 +558,37 @@ function getGenButton(){
   return document.getElementById("genTicketBtn");
 }
 
+function isLikelyIOSWebView(){
+  const ua = navigator.userAgent || "";
+  const isIOS = /iPad|iPhone|iPod/i.test(ua) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  const isSafariBrowser = /Version\/[\d.]+.*Safari/i.test(ua);
+  const isKnownIOSBrowser = isSafariBrowser || /CriOS|FxiOS|EdgiOS|OPiOS/i.test(ua);
+
+  return isIOS && !isKnownIOSBrowser;
+}
+
+function setCaptchaVisible(visible){
+  const container = document.getElementById("captcha-container");
+  if(container){
+    container.classList.toggle("active", !!visible);
+  }
+}
+
+function showIOSWebViewFallback(){
+  const btn = getGenButton();
+
+  awaitingToken=false;
+  isProcessing=false;
+
+  if(btn){
+    resetBtn(btn);
+  }
+
+  setCaptchaVisible(false);
+  setStatus("❌ Verification cannot run inside this iOS in-app browser. Open this page in Safari and try again.", "error");
+}
+
 function clearVerifyTimeout(){
   try { if (verifyTimeout) clearTimeout(verifyTimeout); } catch (err) {}
   verifyTimeout = null;
@@ -573,14 +606,18 @@ function initTurnstile(){
   }
 
   container.innerHTML = "";
+  setCaptchaVisible(true);
 
   widgetId = turnstile.render('#captcha-container',{
     sitekey:'0x4AAAAAACyyfcbJQl7aMwTA',
     callback:handleSuccess,
     execution:'execute',
+    appearance:'interaction-only',
+    size:'flexible',
     'error-callback':handleTurnstileError,
     'expired-callback':handleTurnstileExpired,
-    'timeout-callback':handleTurnstileTimeout
+    'timeout-callback':handleTurnstileTimeout,
+    'unsupported-callback':handleTurnstileUnsupported
   });
 
   return widgetId;
@@ -640,6 +677,8 @@ function recoverVerification(message, opts={}){
     setStatus(message, opts.type || "error");
   }
 
+  setCaptchaVisible(false);
+
   if(opts.rebuild){
     rebuildTurnstileWidget();
   }else if(widgetId && window.turnstile){
@@ -678,6 +717,11 @@ function handleTurnstileTimeout(){
   }
 
   recoverVerification("❌ Verification timed out. Please try again later.", { rebuild:true });
+}
+
+function handleTurnstileUnsupported(){
+  console.warn("[turnstile] Unsupported browser.");
+  showIOSWebViewFallback();
 }
 
 function setLoading(btn,loading){
@@ -775,6 +819,7 @@ if(!data.ticket){
 }
 
 setStatus("✅ Ticket ready!","success");
+setCaptchaVisible(false);
 
 setTimeout(()=>{
 window.location.href=`/groups/artrade/ticket?t=${data.ticket}`;
@@ -795,6 +840,11 @@ setStatus("");
 
 btn.addEventListener("click",async()=>{
 if(btn.disabled||isProcessing||awaitingToken) return;
+
+if(isLikelyIOSWebView()){
+  showIOSWebViewFallback();
+  return;
+}
 
 if(navigator.vibrate){
 navigator.vibrate([20,30,20]);
