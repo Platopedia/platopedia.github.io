@@ -198,21 +198,14 @@ color:#E1100D;
 }
 
 .captcha-shell{
-display:flex;
+display:none;
 justify-content:center;
 align-items:center;
-max-height:0;
-opacity:0;
-overflow:hidden;
-pointer-events:none;
 min-height:0;
-transition:max-height 220ms ease, opacity 160ms ease, margin-top 220ms ease;
 }
 
 .captcha-shell.is-active{
-max-height:160px;
-opacity:1;
-pointer-events:auto;
+display:flex;
 }
 
 .captcha-shell.has-widget-space{
@@ -230,6 +223,10 @@ pointer-events:none;
 
 .captcha-shell iframe{
 max-width:100%;
+}
+
+.ticket-card.is-resizing{
+overflow:hidden;
 }
 
 </style>
@@ -567,7 +564,8 @@ let isProcessing=false;
 let awaitingToken=false;
 let verifyTimeout=null;
 let turnstileLoadPromise=null;
-let captchaResizeTimeout=null;
+let ticketCardResizeTimeout=null;
+let ticketCardResizeFrame=null;
 // Turnstile settings: change these values when switching verification or widget mode.
 // verificationEnabled: true/false, "on"/"off", "enabled"/"disabled".
 // widgetInvisible: true when the Cloudflare widget/sitekey is set to Invisible.
@@ -579,7 +577,7 @@ const TURNSTILE_VERIFICATION_ENABLED=isToggleEnabled(TURNSTILE_SETTINGS.verifica
 const TURNSTILE_WIDGET_INVISIBLE=isToggleEnabled(TURNSTILE_SETTINGS.widgetInvisible, true);
 const TURNSTILE_SCRIPT_TIMEOUT_MS=15000;
 const VERIFY_CALLBACK_TIMEOUT_MS=60000;
-const CAPTCHA_RESIZE_DEBOUNCE_MS=180;
+const TICKET_CARD_RESIZE_MS=240;
 
 function isToggleEnabled(value, fallback=true){
   if(typeof value === "boolean") return value;
@@ -624,7 +622,58 @@ function clearVerifyTimeout(){
   verifyTimeout = null;
 }
 
-function applyTurnstileContainerMode(container, active){
+function animateTicketCardLayout(applyChanges){
+  const card = document.querySelector(".ticket-card");
+  if(!card){
+    applyChanges();
+    return;
+  }
+
+  if(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+    applyChanges();
+    return;
+  }
+
+  if(ticketCardResizeFrame){
+    cancelAnimationFrame(ticketCardResizeFrame);
+    ticketCardResizeFrame = null;
+  }
+
+  if(ticketCardResizeTimeout){
+    clearTimeout(ticketCardResizeTimeout);
+    ticketCardResizeTimeout = null;
+  }
+
+  const startHeight = card.getBoundingClientRect().height;
+  card.classList.add("is-resizing");
+  card.style.transition = "none";
+  card.style.height = `${startHeight}px`;
+
+  applyChanges();
+
+  const endHeight = card.scrollHeight;
+  if(Math.abs(endHeight - startHeight) < 1){
+    card.style.height = "";
+    card.style.transition = "";
+    card.classList.remove("is-resizing");
+    return;
+  }
+
+  ticketCardResizeFrame = requestAnimationFrame(() => {
+    ticketCardResizeFrame = null;
+    card.style.transition = `height ${TICKET_CARD_RESIZE_MS}ms ease`;
+    card.style.height = `${endHeight}px`;
+
+    ticketCardResizeTimeout = setTimeout(() => {
+      card.style.height = "";
+      card.style.transition = "";
+      card.classList.remove("is-resizing");
+      ticketCardResizeTimeout = null;
+    }, TICKET_CARD_RESIZE_MS);
+  });
+}
+
+function applyTurnstileContainerMode(container, active=false){
   if(!container) return;
 
   container.classList.toggle("is-active", active);
@@ -633,37 +682,26 @@ function applyTurnstileContainerMode(container, active){
 }
 
 function syncTurnstileContainerMode(container, active=false){
-  if(!container) return;
-
-  if(captchaResizeTimeout){
-    clearTimeout(captchaResizeTimeout);
-    captchaResizeTimeout = null;
-  }
-
-  if(active || !container.classList.contains("is-active")){
+  animateTicketCardLayout(() => {
     applyTurnstileContainerMode(container, active);
-    return;
-  }
-
-  captchaResizeTimeout = setTimeout(() => {
-    applyTurnstileContainerMode(container, false);
-    captchaResizeTimeout = null;
-  }, CAPTCHA_RESIZE_DEBOUNCE_MS);
+  });
 }
 
 function clearTurnstileWidget(){
   const container = document.getElementById("captcha-container");
 
-  if(widgetId && window.turnstile){
-    try { turnstile.remove(widgetId); } catch (err) {}
-  }
+  animateTicketCardLayout(() => {
+    if(widgetId && window.turnstile){
+      try { turnstile.remove(widgetId); } catch (err) {}
+    }
 
-  widgetId = null;
+    widgetId = null;
 
-  if(container){
-    container.innerHTML = "";
-    syncTurnstileContainerMode(container, false);
-  }
+    if(container){
+      container.innerHTML = "";
+      applyTurnstileContainerMode(container, false);
+    }
+  });
 }
 
 function initTurnstile(){
@@ -671,11 +709,6 @@ function initTurnstile(){
   if(!container || !window.turnstile){
     throw new Error("Turnstile not ready");
   }
-
-  clearTurnstileWidget();
-
-  container.innerHTML = "";
-  syncTurnstileContainerMode(container, true);
 
   const renderOptions={
     sitekey:'0x4AAAAAACyyfcbJQl7aMwTA',
@@ -697,7 +730,16 @@ function initTurnstile(){
     renderOptions.appearance='always';
   }
 
-  widgetId = turnstile.render('#captcha-container',renderOptions);
+  animateTicketCardLayout(() => {
+    if(widgetId){
+      try { turnstile.remove(widgetId); } catch (err) {}
+      widgetId = null;
+    }
+
+    container.innerHTML = "";
+    applyTurnstileContainerMode(container, true);
+    widgetId = turnstile.render('#captcha-container',renderOptions);
+  });
 
   return widgetId;
 }
@@ -840,16 +882,19 @@ function startVerifyTimeout(btn){
 }
 
 function setStatus(msg,type){
-const el=document.getElementById("genTicketResult");
+  const el=document.getElementById("genTicketResult");
+  if(!el) return;
 
-if(!msg){
-el.textContent=TURNSTILE_VERIFICATION_ENABLED ? "🔒 Safe and secure trading" : "Ticket creation available";
-el.className="status-text security-note";
-return;
-}
+  animateTicketCardLayout(() => {
+    if(!msg){
+      el.textContent=TURNSTILE_VERIFICATION_ENABLED ? "🔒 Safe and secure trading" : "Ticket creation available";
+      el.className="status-text security-note";
+      return;
+    }
 
-el.textContent=msg;
-el.className="status-text"+(type?` ${type}`:"")+" active";
+    el.textContent=msg;
+    el.className="status-text"+(type?` ${type}`:"")+" active";
+  });
 }
 
 async function handleSuccess(token){
