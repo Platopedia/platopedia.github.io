@@ -34,6 +34,7 @@ heading: Esthell's Birthday
         background-size: 24px 24px, auto;
         border: 1px solid var(--eb-line);
         overflow: hidden;
+        overflow-x: hidden;
         box-shadow: 0 0 0 100vmax #02110d;
         clip-path: inset(0 -100vmax -100vmax -100vmax);
     }
@@ -51,7 +52,7 @@ heading: Esthell's Birthday
         -webkit-user-drag: none;
     }
 
-    #esthell-birthday :where(h1, h2, h3, p, span, a, button, label, input, td, th) {
+    #esthell-birthday :where(h1, h2, h3, p, strong, span, a, button, label, input, td, th) {
         overflow-wrap: anywhere;
         word-break: break-word;
     }
@@ -211,6 +212,10 @@ heading: Esthell's Birthday
         align-items: center;
     }
 
+    #esthell-birthday .eb-event-card > * {
+        min-width: 0;
+    }
+
     #esthell-birthday .eb-event-copy {
         display: grid;
         gap: 9px;
@@ -302,13 +307,19 @@ heading: Esthell's Birthday
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 8px;
+        gap: 7px;
         margin-top: 0;
+        max-width: 100%;
+        min-width: 0;
+        overflow: hidden;
         white-space: nowrap;
     }
 
     #esthell-birthday .eb-countdown-wrap {
         padding: 12px 14px;
+        max-width: 100%;
+        min-width: 0;
+        overflow: hidden;
         border: 1px solid rgba(255, 227, 155, .24);
         border-radius: 8px;
         background:
@@ -322,6 +333,7 @@ heading: Esthell's Birthday
         align-items: baseline;
         justify-content: center;
         gap: 3px;
+        min-width: 0;
         padding: 0;
         border: 0;
         border-radius: 0;
@@ -334,14 +346,14 @@ heading: Esthell's Birthday
 
     #esthell-birthday .eb-time + .eb-time::before {
         content: ":";
-        margin-right: 8px;
+        margin-right: 7px;
         color: rgba(255, 248, 223, .5);
         font-weight: 900;
     }
 
     #esthell-birthday .eb-time strong {
         color: var(--eb-gold-2) !important;
-        font-size: 1.44rem;
+        font-size: 1.38rem;
         line-height: 1;
         font-variant-numeric: tabular-nums;
     }
@@ -350,7 +362,7 @@ heading: Esthell's Birthday
         color: rgba(255, 248, 223, .7) !important;
         font-size: .82rem;
         font-weight: 900;
-        text-transform: uppercase;
+        text-transform: lowercase;
     }
 
     #esthell-birthday .eb-note {
@@ -636,6 +648,26 @@ heading: Esthell's Birthday
             padding: 7px 6px;
             font-size: .88rem;
         }
+
+        #esthell-birthday .eb-countdown-wrap {
+            padding: 10px 8px;
+        }
+
+        #esthell-birthday .eb-countdown {
+            gap: 5px;
+        }
+
+        #esthell-birthday .eb-time + .eb-time::before {
+            margin-right: 5px;
+        }
+
+        #esthell-birthday .eb-time strong {
+            font-size: 1.22rem;
+        }
+
+        #esthell-birthday .eb-time span {
+            font-size: .72rem;
+        }
     }
 
     @media (max-width: 360px) {
@@ -683,10 +715,10 @@ heading: Esthell's Birthday
 
                 <div class="eb-countdown-wrap">
                     <div class="eb-countdown" aria-live="polite">
-                        <div class="eb-time"><strong data-days>00</strong><span>Days</span></div>
-                        <div class="eb-time"><strong data-hours>00</strong><span>Hours</span></div>
-                        <div class="eb-time"><strong data-minutes>00</strong><span>Minutes</span></div>
-                        <div class="eb-time"><strong data-seconds>00</strong><span>Seconds</span></div>
+                        <div class="eb-time"><strong data-days>00</strong><span>d</span></div>
+                        <div class="eb-time"><strong data-hours>00</strong><span>h</span></div>
+                        <div class="eb-time"><strong data-minutes>00</strong><span>m</span></div>
+                        <div class="eb-time"><strong data-seconds>00</strong><span>s</span></div>
                     </div>
                     <p class="eb-note" data-countdown-note>May 13, 2026 - 1 PM GMT</p>
                 </div>
