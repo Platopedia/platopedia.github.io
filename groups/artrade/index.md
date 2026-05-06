@@ -562,7 +562,7 @@ let turnstileLoadPromise=null;
 // widgetInvisible: true when the Cloudflare widget/sitekey is set to Invisible.
 const TURNSTILE_SETTINGS={
   verificationEnabled:true,
-  widgetInvisible:false
+  widgetInvisible:true
 };
 const TURNSTILE_VERIFICATION_ENABLED=isToggleEnabled(TURNSTILE_SETTINGS.verificationEnabled, true);
 const TURNSTILE_WIDGET_INVISIBLE=isToggleEnabled(TURNSTILE_SETTINGS.widgetInvisible, true);
@@ -662,7 +662,7 @@ function initTurnstile(){
 
   if(!TURNSTILE_WIDGET_INVISIBLE){
     // Cloudflare appearance options: "always", "execute", or "interaction-only".
-    renderOptions.appearance='always';
+    renderOptions.appearance='interaction-only';
   }
 
   widgetId = turnstile.render('#captcha-container',renderOptions);
@@ -848,6 +848,12 @@ const data = await res.json().catch(()=>({}));
 
 if(!res.ok){
   if (data && data.error === "captcha_failed") {
+    if(!TURNSTILE_VERIFICATION_ENABLED){
+      console.error("[turnstile] Page verification is off, but Worker still requires captcha.");
+      recoverVerification("❌ Server still requires verification. Please inform @Fear.");
+      return;
+    }
+
     recoverVerification(`❌ ${(data && data.message) || "Verification failed. Please try again."}`);
     return;
   }
