@@ -5,6 +5,8 @@ heading: Esthell's Birthday
 ---
 
 <style>
+    @import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cormorant+Garamond:wght@500;600;700&family=Great+Vibes&display=swap");
+
     #esthell-birthday {
         --eb-bg: #fbf7eb;
         --eb-surface: #ffffff;
@@ -15,9 +17,9 @@ heading: Esthell's Birthday
         --eb-emerald: #08724f;
         --eb-gold: #b88923;
         --eb-shadow: rgba(35, 27, 7, .12);
-        --eb-font-body: "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
-        --eb-font-heading: "Cormorant Garamond", "Playfair Display", Georgia, "Times New Roman", serif;
-        --eb-font-script: "Snell Roundhand", "Brush Script MT", "Segoe Script", cursive;
+        --eb-font-body: "Cormorant Garamond", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+        --eb-font-heading: "Cinzel", "Cormorant Garamond", Georgia, "Times New Roman", serif;
+        --eb-font-script: "Great Vibes", "Snell Roundhand", "Brush Script MT", "Segoe Script", cursive;
         width: 100%;
         max-width: 1080px;
         margin: 0 auto;
@@ -78,6 +80,7 @@ heading: Esthell's Birthday
     #esthell-birthday p {
         margin: 0;
         color: var(--eb-muted);
+        font-size: 1.08rem;
         line-height: 1.6;
     }
 
@@ -125,10 +128,10 @@ heading: Esthell's Birthday
 
     #esthell-birthday h1 {
         color: var(--eb-gold);
-        font-family: var(--eb-font-heading);
-        font-size: 2.65rem;
-        font-weight: 800;
-        line-height: 1.05;
+        font-family: var(--eb-font-script);
+        font-size: 3.45rem;
+        font-weight: 400;
+        line-height: 1.02;
     }
 
     #esthell-birthday .eb-section {
@@ -146,8 +149,8 @@ heading: Esthell's Birthday
         gap: 10px;
         color: var(--eb-emerald);
         font-family: var(--eb-font-heading);
-        font-size: 1.7rem;
-        font-weight: 800;
+        font-size: 1.55rem;
+        font-weight: 700;
         line-height: 1.1;
     }
 
@@ -223,7 +226,9 @@ heading: Esthell's Birthday
     #esthell-birthday .eb-fact strong,
     #esthell-birthday .eb-stat strong {
         color: var(--eb-gold);
+        font-family: var(--eb-font-heading);
         font-size: 1.12rem;
+        font-weight: 700;
         line-height: 1.1;
         font-variant-numeric: tabular-nums;
     }
@@ -268,7 +273,9 @@ heading: Esthell's Birthday
 
     #esthell-birthday .eb-time strong {
         color: var(--eb-gold);
+        font-family: var(--eb-font-heading);
         font-size: 1.7rem;
+        font-weight: 700;
         line-height: 1;
         font-variant-numeric: tabular-nums;
     }
@@ -484,8 +491,8 @@ heading: Esthell's Birthday
         width: 100%;
         color: var(--eb-gold);
         font-family: var(--eb-font-script);
-        font-size: 2.35rem;
-        font-weight: 700;
+        font-size: 2.8rem;
+        font-weight: 400;
         line-height: 1.1;
         text-align: center !important;
     }
@@ -503,7 +510,7 @@ heading: Esthell's Birthday
         margin: 8px auto 0;
         color: var(--eb-muted);
         font-family: inherit;
-        font-size: .98rem;
+        font-size: 1.06rem;
         font-style: normal;
         line-height: 1.55;
         text-align: center;
@@ -517,11 +524,15 @@ heading: Esthell's Birthday
         }
 
         #esthell-birthday h1 {
-            font-size: 2.15rem;
+            font-size: 2.75rem;
         }
 
         #esthell-birthday h2 {
-            font-size: 1.45rem;
+            font-size: 1.35rem;
+        }
+
+        #esthell-birthday .eb-final h2 {
+            font-size: 2.35rem;
         }
 
         #esthell-birthday .eb-hero,
@@ -575,6 +586,14 @@ heading: Esthell's Birthday
         #esthell-birthday .eb-table td {
             padding: 8px 6px;
             font-size: .9rem;
+        }
+
+        #esthell-birthday h1 {
+            font-size: 2.45rem;
+        }
+
+        #esthell-birthday .eb-final h2 {
+            font-size: 2.15rem;
         }
     }
 
