@@ -5,6 +5,12 @@ heading: Esthell's Birthday
 ---
 
 <style>
+    html:has(#esthell-birthday),
+    body:has(#esthell-birthday) {
+        background: #02110d !important;
+        overflow-x: hidden;
+    }
+
     #esthell-birthday {
         --eb-ink: #031812;
         --eb-deep: #06291f;
@@ -16,9 +22,11 @@ heading: Esthell's Birthday
         --eb-soft: rgba(255, 248, 223, .82);
         --eb-line: rgba(255, 227, 155, .34);
         --eb-shadow: rgba(0, 0, 0, .3);
-        width: 100%;
-        max-width: none;
-        margin: 0;
+        position: relative;
+        left: 50%;
+        width: 100vw;
+        max-width: 100vw;
+        margin: 0 0 0 -50vw;
         color: var(--eb-cream) !important;
         background:
             linear-gradient(90deg, rgba(255, 227, 155, .07) 1px, transparent 1px),
@@ -26,6 +34,8 @@ heading: Esthell's Birthday
         background-size: 24px 24px, auto;
         border: 1px solid var(--eb-line);
         overflow: hidden;
+        box-shadow: 0 0 0 100vmax #02110d;
+        clip-path: inset(0 -100vmax -100vmax -100vmax);
     }
 
     #esthell-birthday,
@@ -266,6 +276,19 @@ heading: Esthell's Birthday
         color: var(--eb-soft) !important;
     }
 
+    body[data-theme="light"] #esthell-birthday .eb-field input {
+        border-color: rgba(255, 227, 155, .46) !important;
+        background: #041c15 !important;
+        background-color: #041c15 !important;
+        color: var(--eb-cream) !important;
+        -webkit-text-fill-color: var(--eb-cream) !important;
+    }
+
+    body[data-theme="light"] #esthell-birthday .eb-field input::placeholder {
+        color: rgba(255, 248, 223, .58) !important;
+        -webkit-text-fill-color: rgba(255, 248, 223, .58) !important;
+    }
+
     body[data-theme="light"] #esthell-birthday :where(.eb-kicker, h1, .eb-title-text, .eb-card h3, .eb-fact strong, .eb-stat strong, .eb-time strong, .eb-note, .eb-form-status, .eb-final h2) {
         color: var(--eb-gold-2) !important;
         -webkit-text-fill-color: var(--eb-gold-2) !important;
@@ -276,14 +299,16 @@ heading: Esthell's Birthday
     }
 
     #esthell-birthday .eb-countdown {
-        display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
         margin-top: 0;
+        white-space: nowrap;
     }
 
     #esthell-birthday .eb-countdown-wrap {
-        padding: 10px;
+        padding: 12px 14px;
         border: 1px solid rgba(255, 227, 155, .24);
         border-radius: 8px;
         background:
@@ -292,31 +317,38 @@ heading: Esthell's Birthday
     }
 
     #esthell-birthday .eb-time {
-        min-height: 64px;
-        display: grid;
-        align-content: center;
-        justify-items: center;
+        min-height: 0;
+        display: inline-flex;
+        align-items: baseline;
+        justify-content: center;
         gap: 3px;
-        padding: 8px 6px;
+        padding: 0;
         border: 0;
         border-radius: 0;
         background: transparent;
     }
 
     #esthell-birthday .eb-time + .eb-time {
-        border-left: 1px solid rgba(255, 227, 155, .18);
+        border-left: 0;
+    }
+
+    #esthell-birthday .eb-time + .eb-time::before {
+        content: ":";
+        margin-right: 8px;
+        color: rgba(255, 248, 223, .5);
+        font-weight: 900;
     }
 
     #esthell-birthday .eb-time strong {
         color: var(--eb-gold-2) !important;
-        font-size: 1.36rem;
+        font-size: 1.44rem;
         line-height: 1;
         font-variant-numeric: tabular-nums;
     }
 
     #esthell-birthday .eb-time span {
         color: rgba(255, 248, 223, .7) !important;
-        font-size: .72rem;
+        font-size: .82rem;
         font-weight: 900;
         text-transform: uppercase;
     }
@@ -442,13 +474,38 @@ heading: Esthell's Birthday
         min-height: 42px;
         border: 1px solid rgba(255, 227, 155, .42);
         border-radius: 8px;
-        background: rgba(0, 0, 0, .24);
+        background: rgba(0, 0, 0, .34) !important;
+        background-color: rgba(0, 0, 0, .34) !important;
         color: var(--eb-cream) !important;
+        -webkit-text-fill-color: var(--eb-cream) !important;
+        caret-color: var(--eb-gold-2);
         padding: 9px 10px;
+        box-shadow: inset 0 0 0 1px rgba(24, 168, 111, .12);
+        appearance: none;
+        -webkit-appearance: none;
     }
 
     #esthell-birthday .eb-field input::placeholder {
-        color: rgba(255, 248, 223, .48);
+        color: rgba(255, 248, 223, .58) !important;
+        -webkit-text-fill-color: rgba(255, 248, 223, .58) !important;
+        opacity: 1;
+    }
+
+    #esthell-birthday .eb-field input:focus {
+        border-color: rgba(255, 227, 155, .78);
+        background: rgba(0, 0, 0, .42) !important;
+        background-color: rgba(0, 0, 0, .42) !important;
+        box-shadow: inset 0 0 0 1px rgba(255, 227, 155, .18), 0 0 0 3px rgba(216, 173, 67, .16);
+    }
+
+    #esthell-birthday .eb-field input:-webkit-autofill,
+    #esthell-birthday .eb-field input:-webkit-autofill:hover,
+    #esthell-birthday .eb-field input:-webkit-autofill:focus {
+        border-color: rgba(255, 227, 155, .58);
+        -webkit-text-fill-color: var(--eb-cream) !important;
+        caret-color: var(--eb-gold-2);
+        box-shadow: 0 0 0 1000px #041c15 inset, inset 0 0 0 1px rgba(24, 168, 111, .18) !important;
+        transition: background-color 9999s ease-in-out 0s;
     }
 
     #esthell-birthday .eb-honeypot {
@@ -570,17 +627,8 @@ heading: Esthell's Birthday
         }
 
         #esthell-birthday .eb-facts,
-        #esthell-birthday .eb-countdown,
         #esthell-birthday .eb-stats {
             grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-
-        #esthell-birthday .eb-time:nth-child(odd) {
-            border-left: 0;
-        }
-
-        #esthell-birthday .eb-time:nth-child(n+3) {
-            border-top: 1px solid rgba(255, 227, 155, .18);
         }
 
         #esthell-birthday .eb-table th,
@@ -592,17 +640,8 @@ heading: Esthell's Birthday
 
     @media (max-width: 360px) {
         #esthell-birthday .eb-facts,
-        #esthell-birthday .eb-countdown,
         #esthell-birthday .eb-stats {
             grid-template-columns: 1fr;
-        }
-
-        #esthell-birthday .eb-time {
-            border-left: 0 !important;
-        }
-
-        #esthell-birthday .eb-time + .eb-time {
-            border-top: 1px solid rgba(255, 227, 155, .18);
         }
     }
 
