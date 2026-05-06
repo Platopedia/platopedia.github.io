@@ -560,10 +560,25 @@ let isProcessing=false;
 let awaitingToken=false;
 let verifyTimeout=null;
 let turnstileLoadPromise=null;
-const TURNSTILE_VERIFICATION_ENABLED=true;
-const TURNSTILE_WIDGET_INVISIBLE=true;
+const TURNSTILE_SETTINGS={
+  verificationEnabled:true,
+  widgetInvisible:true
+};
+const TURNSTILE_VERIFICATION_ENABLED=isToggleEnabled(TURNSTILE_SETTINGS.verificationEnabled, true);
+const TURNSTILE_WIDGET_INVISIBLE=isToggleEnabled(TURNSTILE_SETTINGS.widgetInvisible, true);
 const TURNSTILE_SCRIPT_TIMEOUT_MS=15000;
 const VERIFY_CALLBACK_TIMEOUT_MS=60000;
+
+function isToggleEnabled(value, fallback=true){
+  if(typeof value === "boolean") return value;
+  if(value === null || typeof value === "undefined") return fallback;
+
+  const normalized = String(value).trim().toLowerCase();
+  if(["0","false","off","no","disabled"].includes(normalized)) return false;
+  if(["1","true","on","yes","enabled"].includes(normalized)) return true;
+
+  return fallback;
+}
 
 function getGenButton(){
   return document.getElementById("genTicketBtn");
@@ -647,6 +662,7 @@ function initTurnstile(){
   };
 
   if(!TURNSTILE_WIDGET_INVISIBLE){
+    // Cloudflare appearance options: "always", "execute", or "interaction-only".
     renderOptions.appearance='always';
   }
 
