@@ -462,52 +462,40 @@ heading: Esthell's Birthday
     }
 
     #esthell-birthday .eb-final {
-        padding: 26px 18px 30px;
+        padding: 24px 18px 28px;
         border-top: 1px solid var(--eb-line);
         text-align: center;
-        background:
-            linear-gradient(180deg, transparent, rgba(184, 137, 35, .08)),
-            var(--eb-surface-soft);
+        background: var(--eb-surface-soft);
     }
 
     #esthell-birthday .eb-final h2 {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 12px;
+        display: block;
         width: 100%;
         color: var(--eb-gold);
-        font-family: inherit;
-        font-size: 1.65rem;
-        font-weight: 900;
-        line-height: 1.12;
+        font-family: "Snell Roundhand", "Brush Script MT", "Segoe Script", cursive;
+        font-size: 2.35rem;
+        font-weight: 700;
+        line-height: 1.1;
         text-align: center !important;
     }
 
-    #esthell-birthday .eb-final h2::after {
-        content: "";
-        display: block !important;
-        width: 34px;
-        height: 2px;
-        border-radius: 999px;
-        background: var(--eb-emerald);
+    #esthell-birthday .eb-final #final-title::after {
+        content: none !important;
+        display: none !important;
+        width: 0 !important;
+        height: 0 !important;
+        background: none !important;
     }
 
     #esthell-birthday .eb-final p {
-        max-width: 560px;
-        margin: 10px auto 0;
+        max-width: 520px;
+        margin: 8px auto 0;
         color: var(--eb-muted);
-        font-family: Georgia, "Times New Roman", serif;
-        font-size: 1.02rem;
+        font-family: inherit;
+        font-size: .98rem;
         font-style: normal;
-        line-height: 1.65;
+        line-height: 1.55;
         text-align: center;
-    }
-
-    #esthell-birthday .eb-final-name {
-        font-family: "Brush Script MT", "Segoe Script", "Snell Roundhand", cursive;
-        font-size: 1.2em;
-        font-weight: 700;
     }
 
     @media (max-width: 820px) {
@@ -719,7 +707,7 @@ heading: Esthell's Birthday
     </section>
 
     <section class="eb-final" aria-labelledby="final-title">
-        <h2 id="final-title">Happy Birthday, <span class="eb-final-name">Esthell</span></h2>
+        <h2 id="final-title">Happy Birthday, Esthell</h2>
         <p>May 13 is your day. Arcade is showing up with love, prizes, and clean gold and emerald energy.</p>
     </section>
 </div>
