@@ -565,7 +565,7 @@ let turnstileLoadPromise=null;
 // widgetInvisible: true when the Cloudflare widget/sitekey is set to Invisible.
 const TURNSTILE_SETTINGS={
   verificationEnabled:false,
-  widgetInvisible:true
+  widgetInvisible:false
 };
 const TURNSTILE_VERIFICATION_ENABLED=isToggleEnabled(TURNSTILE_SETTINGS.verificationEnabled, true);
 const TURNSTILE_WIDGET_INVISIBLE=isToggleEnabled(TURNSTILE_SETTINGS.widgetInvisible, true);
