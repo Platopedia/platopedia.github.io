@@ -630,7 +630,7 @@ function initTurnstile(){
   };
 
   if(!TURNSTILE_WIDGET_INVISIBLE){
-    renderOptions.appearance='interaction-only';
+    renderOptions.appearance='always';
   }
 
   widgetId = turnstile.render('#captcha-container',renderOptions);
