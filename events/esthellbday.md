@@ -33,7 +33,7 @@ heading: Esthell's Birthday
         --eb-muted: rgba(255, 248, 223, .72);
         --eb-line: rgba(255, 227, 155, .28);
         --eb-emerald: #18a86f;
-        --eb-gold: #ffe39b;
+        --eb-gold: #b88923;
         --eb-shadow: rgba(0, 0, 0, .28);
     }
 
@@ -156,14 +156,14 @@ heading: Esthell's Birthday
         width: 42px;
         height: 3px;
         border-radius: 999px;
-        background: linear-gradient(90deg, var(--eb-gold), var(--eb-emerald));
-        background-size: 180% 100%;
-        animation: ebAccentMove 3.6s linear infinite;
+        background: repeating-linear-gradient(90deg, var(--eb-gold) 0 12px, var(--eb-emerald) 12px 24px);
+        background-size: 48px 100%;
+        animation: ebAccentMove 2.4s linear infinite;
     }
 
     @keyframes ebAccentMove {
         to {
-            background-position: 180% 50%;
+            background-position: 48px 0;
         }
     }
 
@@ -224,6 +224,14 @@ heading: Esthell's Birthday
         font-size: 1.12rem;
         line-height: 1.1;
         font-variant-numeric: tabular-nums;
+    }
+
+    #esthell-birthday .eb-stat strong span {
+        color: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        line-height: inherit;
+        text-transform: none;
     }
 
     #esthell-birthday .eb-countdown-card {
@@ -321,11 +329,6 @@ heading: Esthell's Birthday
         cursor: not-allowed;
         opacity: .65;
         transform: none;
-    }
-
-    #esthell-birthday .eb-button-secondary {
-        background: var(--eb-surface-soft);
-        color: var(--eb-emerald) !important;
     }
 
     #esthell-birthday .eb-sponsor-top {
@@ -644,7 +647,6 @@ heading: Esthell's Birthday
                 </label>
             </div>
             <div class="eb-form-actions">
-                <button class="eb-button eb-button-secondary" type="button" data-close-sponsor>Hide</button>
                 <button class="eb-button" type="submit" data-submit-sponsor>Send Sponsor</button>
             </div>
             <p class="eb-form-status" data-form-status aria-live="polite"></p>
@@ -762,13 +764,20 @@ heading: Esthell's Birthday
             if (countEl) countEl.textContent = String(rows.length);
         };
 
+        const setupHaptics = () => {
+            root.addEventListener('click', event => {
+                const control = event.target.closest('button, .eb-button');
+                if (!control || !root.contains(control) || control.disabled) return;
+                if (navigator.vibrate) navigator.vibrate(12);
+            });
+        };
+
         const setupSponsorForm = () => {
             const openButton = root.querySelector('[data-open-sponsor]');
-            const closeButton = root.querySelector('[data-close-sponsor]');
             const form = root.querySelector('[data-sponsor-form]');
             const status = root.querySelector('[data-form-status]');
             const submit = root.querySelector('[data-submit-sponsor]');
-            if (!openButton || !closeButton || !form || !status || !submit) return;
+            if (!openButton || !form || !status || !submit) return;
 
             const setFormOpen = open => {
                 form.classList.toggle('is-open', open);
@@ -781,10 +790,6 @@ heading: Esthell's Birthday
 
             openButton.addEventListener('click', () => {
                 setFormOpen(!form.classList.contains('is-open'));
-            });
-
-            closeButton.addEventListener('click', () => {
-                setFormOpen(false);
             });
 
             form.addEventListener('submit', async event => {
@@ -846,6 +851,7 @@ heading: Esthell's Birthday
 
         setupCountdown();
         setupSponsors();
+        setupHaptics();
         setupSponsorForm();
     })();
 </script>
