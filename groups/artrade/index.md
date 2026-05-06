@@ -197,13 +197,28 @@ color:#16A34A;
 color:#E1100D;
 }
 
-.captcha-hidden{
-position:fixed;
-top:-100px;
-left:-100px;
-width:1px;
-height:1px;
-opacity:0;
+.captcha-shell{
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:0;
+}
+
+.captcha-shell.has-widget-space{
+margin-top:10px;
+}
+
+.captcha-shell.is-invisible{
+position:absolute;
+width:0;
+height:0;
+overflow:hidden;
+margin:0;
+pointer-events:none;
+}
+
+.captcha-shell iframe{
+max-width:100%;
 }
 
 </style>
@@ -238,9 +253,9 @@ Artrade helps you connect with trusted item traders and merchants from our commu
   <span class="btn-loader" hidden></span>
 </button>
 
-<div id="genTicketResult" class="status-text security-note">🔒 Safe and secure trading</div>
+<div id="genTicketResult" class="status-text security-note">Ticket creation available</div>
 
-<div id="captcha-container" class="captcha-hidden"></div>
+<div id="captcha-container" class="captcha-shell"></div>
 
 </div>
 
@@ -541,6 +556,10 @@ let isProcessing=false;
 let awaitingToken=false;
 let verifyTimeout=null;
 let turnstileLoadPromise=null;
+const TURNSTILE_VERIFICATION_ENABLED=true;
+const TURNSTILE_WIDGET_INVISIBLE=true;
+const TURNSTILE_SCRIPT_TIMEOUT_MS=15000;
+const VERIFY_CALLBACK_TIMEOUT_MS=60000;
 
 function getGenButton(){
   return document.getElementById("genTicketBtn");
@@ -574,6 +593,13 @@ function clearVerifyTimeout(){
   verifyTimeout = null;
 }
 
+function syncTurnstileContainerMode(container){
+  if(!container) return;
+
+  container.classList.toggle("is-invisible", TURNSTILE_WIDGET_INVISIBLE);
+  container.classList.toggle("has-widget-space", TURNSTILE_VERIFICATION_ENABLED && !TURNSTILE_WIDGET_INVISIBLE);
+}
+
 function initTurnstile(){
   const container = document.getElementById("captcha-container");
   if(!container || !window.turnstile){
@@ -586,16 +612,28 @@ function initTurnstile(){
   }
 
   container.innerHTML = "";
+  syncTurnstileContainerMode(container);
 
-  widgetId = turnstile.render('#captcha-container',{
+  const renderOptions={
     sitekey:'0x4AAAAAACyyfcbJQl7aMwTA',
     callback:handleSuccess,
     execution:'execute',
+    action:'generate_ticket',
+    retry:'auto',
+    'retry-interval':8000,
+    'refresh-expired':'auto',
+    'refresh-timeout':'auto',
     'error-callback':handleTurnstileError,
     'expired-callback':handleTurnstileExpired,
     'timeout-callback':handleTurnstileTimeout,
     'unsupported-callback':handleTurnstileUnsupported
-  });
+  };
+
+  if(!TURNSTILE_WIDGET_INVISIBLE){
+    renderOptions.appearance='interaction-only';
+  }
+
+  widgetId = turnstile.render('#captcha-container',renderOptions);
 
   return widgetId;
 }
@@ -606,16 +644,39 @@ function loadTurnstileScript(){
 
   turnstileLoadPromise = new Promise((resolve,reject)=>{
     const script=document.createElement("script");
+    let settled=false;
     script.src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
     script.async=true;
     script.defer=true;
     script.dataset.turnstileScript="1";
 
-    script.onload=()=>resolve(window.turnstile);
-    script.onerror=()=>{
+    const fail=(err)=>{
+      if(settled) return;
+      settled=true;
       turnstileLoadPromise = null;
+      clearTimeout(loadTimeout);
       try { script.remove(); } catch (err) {}
-      reject(new Error("Turnstile failed to load"));
+      reject(err);
+    };
+
+    const loadTimeout=setTimeout(()=>{
+      fail(new Error("Turnstile load timed out"));
+    }, TURNSTILE_SCRIPT_TIMEOUT_MS);
+
+    script.onload=()=>{
+      if(settled) return;
+      settled=true;
+      clearTimeout(loadTimeout);
+      if(window.turnstile){
+        resolve(window.turnstile);
+      }else{
+        turnstileLoadPromise = null;
+        reject(new Error("Turnstile failed to initialize"));
+      }
+    };
+
+    script.onerror=()=>{
+      fail(new Error("Turnstile failed to load"));
     };
 
     document.body.appendChild(script);
@@ -654,7 +715,7 @@ function recoverVerification(message, opts={}){
     setStatus(message, opts.type || "error");
   }
 
-  if(opts.rebuild){
+  if(opts.rebuild && TURNSTILE_VERIFICATION_ENABLED){
     rebuildTurnstileWidget();
   }else if(widgetId && window.turnstile){
     try { turnstile.reset(widgetId); } catch (err) {}
@@ -720,16 +781,16 @@ function startVerifyTimeout(btn){
   clearVerifyTimeout();
   verifyTimeout = setTimeout(() => {
     if (awaitingToken) {
-      recoverVerification("❌ Verification timed out. Please try again later.", { rebuild:true });
+      recoverVerification("❌ Verification is taking too long. Please try again.", { rebuild:true });
     }
-  }, 30000);
+  }, VERIFY_CALLBACK_TIMEOUT_MS);
 }
 
 function setStatus(msg,type){
 const el=document.getElementById("genTicketResult");
 
 if(!msg){
-el.textContent="🔒 Safe and secure trading";
+el.textContent=TURNSTILE_VERIFICATION_ENABLED ? "🔒 Safe and secure trading" : "Ticket creation available";
 el.className="status-text security-note";
 return;
 }
@@ -806,6 +867,7 @@ recoverVerification(`❌ ${err.message || "Something went wrong. Please try agai
 
 document.addEventListener("DOMContentLoaded",()=>{
 const btn=document.getElementById("genTicketBtn");
+syncTurnstileContainerMode(document.getElementById("captcha-container"));
 
 if(!btn) return;
 
@@ -815,7 +877,7 @@ setStatus("");
 btn.addEventListener("click",async()=>{
 if(btn.disabled||isProcessing||awaitingToken) return;
 
-if(isLikelyIOSWebView()){
+if(TURNSTILE_VERIFICATION_ENABLED && isLikelyIOSWebView()){
   showIOSWebViewFallback();
   return;
 }
@@ -827,7 +889,12 @@ navigator.vibrate([20,30,20]);
 awaitingToken=true;
 btn.disabled=true;
 setLoading(btn,true);
-setStatus("🔐 Verifying your request...");
+setStatus(TURNSTILE_VERIFICATION_ENABLED ? "🔐 Verifying your request..." : "⚙️ Generating your ticket...");
+
+if(!TURNSTILE_VERIFICATION_ENABLED){
+  await handleSuccess(null);
+  return;
+}
 
 // trigger Turnstile execution
 try{
