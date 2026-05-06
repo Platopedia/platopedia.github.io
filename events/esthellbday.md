@@ -5,38 +5,36 @@ heading: Esthell's Birthday
 ---
 
 <style>
-    html:has(#esthell-birthday),
-    body:has(#esthell-birthday) {
-        background: #02110d !important;
-        overflow-x: hidden;
+    #esthell-birthday {
+        --eb-bg: #fbf7eb;
+        --eb-surface: #ffffff;
+        --eb-surface-soft: #f4eedf;
+        --eb-text: #173228;
+        --eb-muted: #5f6d65;
+        --eb-line: #dfd0a7;
+        --eb-emerald: #08724f;
+        --eb-gold: #b88923;
+        --eb-shadow: rgba(35, 27, 7, .12);
+        width: 100%;
+        max-width: 1080px;
+        margin: 0 auto;
+        color: var(--eb-text);
+        background: var(--eb-bg);
+        border: 1px solid var(--eb-line);
+        border-radius: 8px;
+        overflow: hidden;
     }
 
-    #esthell-birthday {
-        --eb-ink: #031812;
-        --eb-deep: #06291f;
-        --eb-emerald: #0b6f4c;
-        --eb-emerald-2: #18a86f;
-        --eb-gold: #d8ad43;
-        --eb-gold-2: #ffe39b;
-        --eb-cream: #fff8df;
-        --eb-soft: rgba(255, 248, 223, .82);
-        --eb-line: rgba(255, 227, 155, .34);
-        --eb-shadow: rgba(0, 0, 0, .3);
-        position: relative;
-        left: 50%;
-        width: 100vw;
-        max-width: 100vw;
-        margin: 0 0 0 -50vw;
-        color: var(--eb-cream) !important;
-        background:
-            linear-gradient(90deg, rgba(255, 227, 155, .07) 1px, transparent 1px),
-            linear-gradient(180deg, var(--eb-ink), var(--eb-deep) 48%, #02110d);
-        background-size: 24px 24px, auto;
-        border: 1px solid var(--eb-line);
-        overflow: hidden;
-        overflow-x: hidden;
-        box-shadow: 0 0 0 100vmax #02110d;
-        clip-path: inset(0 -100vmax -100vmax -100vmax);
+    body[data-theme="dark"] #esthell-birthday {
+        --eb-bg: #071711;
+        --eb-surface: #0d241b;
+        --eb-surface-soft: #102f23;
+        --eb-text: #fff8df;
+        --eb-muted: rgba(255, 248, 223, .72);
+        --eb-line: rgba(255, 227, 155, .28);
+        --eb-emerald: #18a86f;
+        --eb-gold: #ffe39b;
+        --eb-shadow: rgba(0, 0, 0, .28);
     }
 
     #esthell-birthday,
@@ -57,40 +55,30 @@ heading: Esthell's Birthday
         word-break: break-word;
     }
 
-    #esthell-birthday h1,
-    #esthell-birthday h2,
-    #esthell-birthday h3 {
+    #esthell-birthday :where(h1, h2, h3) {
         margin: 0 !important;
         padding: 0 !important;
         border: 0 !important;
-        background-image: none !important;
-        box-shadow: none !important;
-    }
-
-    #esthell-birthday h1::before,
-    #esthell-birthday h1::after,
-    #esthell-birthday h2::before,
-    #esthell-birthday h2::after,
-    #esthell-birthday h3::before,
-    #esthell-birthday h3::after {
-        content: none !important;
-        display: none !important;
-        border: 0 !important;
+        color: inherit;
         background: none !important;
         box-shadow: none !important;
+        letter-spacing: 0;
+    }
+
+    #esthell-birthday :where(h1, h2, h3)::before,
+    #esthell-birthday :where(h1, h2, h3)::after {
+        content: none !important;
+        display: none !important;
     }
 
     #esthell-birthday p {
         margin: 0;
+        color: var(--eb-muted);
+        line-height: 1.6;
     }
 
-    #esthell-birthday p {
-        color: var(--eb-soft) !important;
-        line-height: 1.58;
-    }
-
-    #esthell-birthday p strong {
-        color: var(--eb-gold-2) !important;
+    #esthell-birthday strong {
+        color: var(--eb-gold);
     }
 
     #esthell-birthday button,
@@ -104,313 +92,200 @@ heading: Esthell's Birthday
     }
 
     #esthell-birthday :focus-visible {
-        outline: 3px solid var(--eb-gold-2);
+        outline: 3px solid var(--eb-gold);
         outline-offset: 3px;
     }
 
     #esthell-birthday .eb-hero {
-        padding: 16px;
-        background:
-            linear-gradient(135deg, rgba(216, 173, 67, .12), rgba(24, 168, 111, .12)),
-            rgba(0, 0, 0, .12);
-        border-bottom: 0;
+        display: grid;
+        gap: 18px;
+        padding: 18px;
+        background: var(--eb-bg);
     }
 
     #esthell-birthday .eb-banner {
-        border: 1px solid rgba(255, 227, 155, .62);
+        width: 100%;
+        border: 1px solid var(--eb-line);
         border-radius: 8px;
-        box-shadow: 0 22px 44px var(--eb-shadow);
-        background: #06291f;
+        background: var(--eb-surface-soft);
+        box-shadow: 0 16px 34px var(--eb-shadow);
     }
 
-    #esthell-birthday .eb-intro {
+    #esthell-birthday .eb-hero-copy {
         display: grid;
-        gap: 10px;
-        padding: 18px 4px 2px;
+        gap: 8px;
+        max-width: 780px;
+        margin: 0 auto;
         text-align: center;
     }
 
     #esthell-birthday .eb-kicker {
-        color: var(--eb-gold-2) !important;
+        color: var(--eb-emerald);
         font-weight: 900;
         text-transform: uppercase;
         letter-spacing: 0;
     }
 
     #esthell-birthday h1 {
-        font-size: 3rem;
+        color: var(--eb-gold);
+        font-size: 2.65rem;
         line-height: 1.05;
-        letter-spacing: 0;
-        color: var(--eb-gold-2) !important;
-        -webkit-text-fill-color: var(--eb-gold-2) !important;
-        text-shadow: 0 0 18px rgba(24, 168, 111, .34), 0 0 10px rgba(216, 173, 67, .28);
-        animation: ebTitleGlow 3.8s ease-in-out infinite;
-    }
-
-    #esthell-birthday .eb-lede {
-        max-width: 700px;
-        margin: 0 auto;
-        font-size: 1.05rem;
     }
 
     #esthell-birthday .eb-section {
-        padding: 22px 16px;
-        border-bottom: 0;
-        background:
-            linear-gradient(180deg, rgba(255, 255, 255, .035), rgba(0, 0, 0, .075)),
-            linear-gradient(90deg, rgba(216, 173, 67, .05), rgba(24, 168, 111, .07));
+        padding: 22px 18px;
+        border-top: 1px solid var(--eb-line);
     }
 
-    #esthell-birthday .eb-title {
+    #esthell-birthday .eb-section-head {
         margin-bottom: 14px;
     }
 
-    #esthell-birthday .eb-title-chip {
+    #esthell-birthday h2 {
         display: inline-flex;
         align-items: center;
-        min-height: 0;
-        max-width: 100%;
-        padding: 8px 10px !important;
-        border: 1px solid rgba(255, 227, 155, .28) !important;
-        border-radius: 8px;
-        margin: 0 !important;
-        background: linear-gradient(135deg, rgba(6, 41, 31, .92), rgba(11, 111, 76, .58), rgba(216, 173, 67, .14)) !important;
-        background-size: 220% 100%;
-        box-shadow: 0 10px 22px rgba(0, 0, 0, .18) !important;
-        line-height: 1.08 !important;
-        font-size: inherit !important;
-        animation: ebChipShine 4.2s linear infinite;
+        gap: 10px;
+        color: var(--eb-emerald);
+        font-size: 1.7rem;
+        line-height: 1.1;
     }
 
-    #esthell-birthday .eb-title-text {
-        font-size: 1.9rem;
-        line-height: 1.08;
-        letter-spacing: 0;
-        color: var(--eb-gold-2) !important;
-        -webkit-text-fill-color: var(--eb-gold-2) !important;
-        text-shadow: 0 0 14px rgba(24, 168, 111, .34), 0 0 8px rgba(216, 173, 67, .24);
-        animation: ebTitleGlow 3.8s ease-in-out infinite;
+    #esthell-birthday h2::after {
+        content: "" !important;
+        display: block !important;
+        width: 42px;
+        height: 3px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, var(--eb-gold), var(--eb-emerald));
+        background-size: 180% 100%;
+        animation: ebAccentMove 3.6s linear infinite;
     }
 
-    @keyframes ebChipShine {
+    @keyframes ebAccentMove {
         to {
-            background-position: 220% 50%;
+            background-position: 180% 50%;
         }
     }
 
-    @keyframes ebTitleGlow {
-        50% {
-            color: var(--eb-gold) !important;
-            -webkit-text-fill-color: var(--eb-gold) !important;
-            text-shadow: 0 0 20px rgba(24, 168, 111, .46), 0 0 12px rgba(216, 173, 67, .34);
-        }
-    }
-
-    #esthell-birthday .eb-card,
-    #esthell-birthday .eb-frame-card,
-    #esthell-birthday .eb-form {
-        border: 1px solid rgba(255, 227, 155, .3);
-        border-radius: 8px;
-        background:
-            linear-gradient(180deg, rgba(255, 248, 223, .08), rgba(255, 248, 223, .025)),
-            rgba(3, 24, 18, .5);
-        box-shadow: 0 14px 28px rgba(0, 0, 0, .18);
-    }
-
-    #esthell-birthday .eb-event-grid {
-        display: block;
+    #esthell-birthday .eb-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 14px;
+        align-items: stretch;
     }
 
     #esthell-birthday .eb-card {
+        border: 1px solid var(--eb-line);
+        border-radius: 8px;
+        background: var(--eb-surface);
+        box-shadow: 0 12px 26px var(--eb-shadow);
         padding: 16px;
     }
 
     #esthell-birthday .eb-event-card {
         display: grid;
-        grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
         gap: 14px;
-        align-items: center;
-    }
-
-    #esthell-birthday .eb-event-card > * {
-        min-width: 0;
-    }
-
-    #esthell-birthday .eb-event-copy {
-        display: grid;
-        gap: 9px;
-    }
-
-    #esthell-birthday .eb-event-copy p {
-        font-size: .98rem;
-    }
-
-    #esthell-birthday .eb-card h3 {
-        margin-bottom: 8px;
-        color: var(--eb-gold-2) !important;
-        font-size: 1.12rem;
-        line-height: 1.15;
-        letter-spacing: 0;
     }
 
     #esthell-birthday .eb-facts {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 8px;
-        margin-top: 0;
+        gap: 10px;
     }
 
-    #esthell-birthday .eb-fact {
-        min-height: 58px;
+    #esthell-birthday .eb-fact,
+    #esthell-birthday .eb-stat {
         display: grid;
         align-content: center;
+        justify-items: center;
         gap: 4px;
-        padding: 8px;
-        border: 1px solid rgba(255, 227, 155, .24);
+        min-height: 68px;
+        padding: 10px;
+        border: 1px solid var(--eb-line);
         border-radius: 8px;
-        background: rgba(0, 0, 0, .16);
+        background: var(--eb-surface-soft);
         text-align: center;
     }
 
     #esthell-birthday .eb-label,
     #esthell-birthday .eb-fact span,
-    #esthell-birthday .eb-stat span {
-        color: rgba(255, 248, 223, .7) !important;
+    #esthell-birthday .eb-stat span,
+    #esthell-birthday .eb-time span {
+        color: var(--eb-muted);
         font-size: .78rem;
         font-weight: 800;
-        letter-spacing: 0;
         text-transform: uppercase;
+        letter-spacing: 0;
     }
 
     #esthell-birthday .eb-fact strong,
     #esthell-birthday .eb-stat strong {
-        color: var(--eb-gold-2) !important;
+        color: var(--eb-gold);
         font-size: 1.12rem;
         line-height: 1.1;
         font-variant-numeric: tabular-nums;
     }
 
-    body[data-theme="light"] #esthell-birthday {
-        color: var(--eb-cream) !important;
-        background:
-            linear-gradient(90deg, rgba(255, 227, 155, .07) 1px, transparent 1px),
-            linear-gradient(180deg, var(--eb-ink), var(--eb-deep) 48%, #02110d) !important;
-    }
-
-    body[data-theme="light"] #esthell-birthday :where(p, td, input) {
-        color: var(--eb-soft) !important;
-    }
-
-    body[data-theme="light"] #esthell-birthday .eb-field input {
-        border-color: rgba(255, 227, 155, .46) !important;
-        background: #041c15 !important;
-        background-color: #041c15 !important;
-        color: var(--eb-cream) !important;
-        -webkit-text-fill-color: var(--eb-cream) !important;
-    }
-
-    body[data-theme="light"] #esthell-birthday .eb-field input::placeholder {
-        color: rgba(255, 248, 223, .58) !important;
-        -webkit-text-fill-color: rgba(255, 248, 223, .58) !important;
-    }
-
-    body[data-theme="light"] #esthell-birthday :where(.eb-kicker, h1, .eb-title-text, .eb-card h3, .eb-fact strong, .eb-stat strong, .eb-time strong, .eb-note, .eb-form-status, .eb-final h2) {
-        color: var(--eb-gold-2) !important;
-        -webkit-text-fill-color: var(--eb-gold-2) !important;
-    }
-
-    body[data-theme="light"] #esthell-birthday :where(.eb-label, .eb-fact span, .eb-stat span, .eb-time span) {
-        color: rgba(255, 248, 223, .7) !important;
+    #esthell-birthday .eb-countdown-card {
+        display: grid;
+        align-content: center;
+        justify-items: center;
+        min-height: 100%;
+        text-align: center;
     }
 
     #esthell-birthday .eb-countdown {
         display: flex;
-        align-items: center;
+        align-items: baseline;
         justify-content: center;
-        gap: 7px;
-        margin-top: 0;
+        gap: 8px;
         max-width: 100%;
-        min-width: 0;
-        overflow: hidden;
         white-space: nowrap;
     }
 
-    #esthell-birthday .eb-countdown-wrap {
-        padding: 12px 14px;
-        max-width: 100%;
-        min-width: 0;
-        overflow: hidden;
-        border: 1px solid rgba(255, 227, 155, .24);
-        border-radius: 8px;
-        background:
-            linear-gradient(180deg, rgba(255, 248, 223, .08), rgba(255, 248, 223, .025)),
-            rgba(0, 0, 0, .16);
-    }
-
     #esthell-birthday .eb-time {
-        min-height: 0;
         display: inline-flex;
         align-items: baseline;
-        justify-content: center;
         gap: 3px;
-        min-width: 0;
-        padding: 0;
-        border: 0;
-        border-radius: 0;
-        background: transparent;
-    }
-
-    #esthell-birthday .eb-time + .eb-time {
-        border-left: 0;
     }
 
     #esthell-birthday .eb-time + .eb-time::before {
         content: ":";
-        margin-right: 7px;
-        color: rgba(255, 248, 223, .5);
+        margin-right: 8px;
+        color: var(--eb-muted);
         font-weight: 900;
     }
 
     #esthell-birthday .eb-time strong {
-        color: var(--eb-gold-2) !important;
-        font-size: 1.52rem;
+        color: var(--eb-gold);
+        font-size: 1.7rem;
         line-height: 1;
         font-variant-numeric: tabular-nums;
     }
 
     #esthell-birthday .eb-time span {
-        color: rgba(255, 248, 223, .7) !important;
-        font-size: .82rem;
-        font-weight: 900;
         text-transform: lowercase;
-    }
-
-    #esthell-birthday .eb-note {
-        margin-top: 8px;
-        color: var(--eb-gold-2) !important;
-        font-size: .92rem;
-        font-weight: 900;
-        text-align: center;
     }
 
     #esthell-birthday .eb-frame-card {
         display: grid;
         grid-template-columns: 220px minmax(0, 1fr);
-        gap: 16px;
+        gap: 18px;
         align-items: center;
-        padding: 16px;
     }
 
     #esthell-birthday .eb-frame-card img {
         width: 220px;
-        border: 2px solid rgba(255, 227, 155, .48);
+        justify-self: center;
+        border: 1px solid var(--eb-line);
         border-radius: 8px;
-        background: rgba(0, 0, 0, .18);
+        background: var(--eb-surface-soft);
     }
 
     #esthell-birthday .eb-frame-copy {
         display: grid;
-        gap: 10px;
+        gap: 12px;
+        align-content: center;
     }
 
     #esthell-birthday .eb-button {
@@ -421,26 +296,21 @@ heading: Esthell's Birthday
         width: fit-content;
         max-width: 100%;
         padding: 10px 14px;
-        border: 1px solid rgba(255, 227, 155, .58);
+        border: 1px solid var(--eb-line);
         border-radius: 8px;
-        background: linear-gradient(135deg, var(--eb-gold-2), var(--eb-gold) 56%, var(--eb-emerald-2));
-        color: #031812 !important;
-        font-weight: 950;
+        background: var(--eb-gold);
+        color: #102017 !important;
+        font-weight: 900;
         text-decoration: none !important;
         cursor: pointer;
-        box-shadow: 0 10px 22px rgba(0, 0, 0, .22);
-        transition: transform .16s ease, filter .16s ease, box-shadow .16s ease;
-    }
-
-    #esthell-birthday .eb-button-soft {
-        background: linear-gradient(135deg, rgba(6, 41, 31, .94), rgba(11, 111, 76, .72));
-        color: var(--eb-gold-2) !important;
+        box-shadow: 0 8px 18px var(--eb-shadow);
+        transition: transform .16s ease, box-shadow .16s ease, filter .16s ease;
     }
 
     #esthell-birthday .eb-button:hover {
         transform: translateY(-2px);
-        filter: saturate(1.08);
-        box-shadow: 0 14px 26px rgba(0, 0, 0, .28);
+        filter: saturate(1.05);
+        box-shadow: 0 12px 24px var(--eb-shadow);
     }
 
     #esthell-birthday .eb-button:active {
@@ -448,14 +318,19 @@ heading: Esthell's Birthday
     }
 
     #esthell-birthday .eb-button[disabled] {
-        opacity: .7;
         cursor: not-allowed;
+        opacity: .65;
         transform: none;
+    }
+
+    #esthell-birthday .eb-button-secondary {
+        background: var(--eb-surface-soft);
+        color: var(--eb-emerald) !important;
     }
 
     #esthell-birthday .eb-sponsor-top {
         display: grid;
-        grid-template-columns: 1fr auto;
+        grid-template-columns: minmax(0, 1fr) auto;
         gap: 14px;
         align-items: center;
         margin-bottom: 14px;
@@ -467,32 +342,25 @@ heading: Esthell's Birthday
         gap: 10px;
     }
 
-    #esthell-birthday .eb-stat {
-        min-height: 72px;
-        display: grid;
-        align-content: center;
-        gap: 4px;
-        padding: 10px;
-        border: 1px solid rgba(255, 227, 155, .24);
-        border-radius: 8px;
-        background: rgba(0, 0, 0, .16);
-    }
-
     #esthell-birthday .eb-form {
         display: none;
         margin-bottom: 14px;
         padding: 14px;
+        border: 1px solid var(--eb-line);
+        border-radius: 8px;
+        background: var(--eb-surface);
+        box-shadow: 0 12px 26px var(--eb-shadow);
     }
 
     #esthell-birthday .eb-form.is-open {
-        display: block;
+        display: grid;
+        gap: 10px;
     }
 
     #esthell-birthday .eb-form-grid {
         display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr)) auto auto;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 10px;
-        align-items: end;
     }
 
     #esthell-birthday .eb-field {
@@ -504,40 +372,41 @@ heading: Esthell's Birthday
     #esthell-birthday .eb-field input {
         width: 100%;
         min-height: 42px;
-        border: 1px solid rgba(255, 227, 155, .42);
-        border-radius: 8px;
-        background: rgba(0, 0, 0, .34) !important;
-        background-color: rgba(0, 0, 0, .34) !important;
-        color: var(--eb-cream) !important;
-        -webkit-text-fill-color: var(--eb-cream) !important;
-        caret-color: var(--eb-gold-2);
         padding: 9px 10px;
-        box-shadow: inset 0 0 0 1px rgba(24, 168, 111, .12);
+        border: 1px solid var(--eb-line);
+        border-radius: 8px;
+        background: var(--eb-bg) !important;
+        color: var(--eb-text) !important;
+        -webkit-text-fill-color: var(--eb-text) !important;
+        caret-color: var(--eb-emerald);
         appearance: none;
         -webkit-appearance: none;
     }
 
     #esthell-birthday .eb-field input::placeholder {
-        color: rgba(255, 248, 223, .58) !important;
-        -webkit-text-fill-color: rgba(255, 248, 223, .58) !important;
-        opacity: 1;
+        color: var(--eb-muted) !important;
+        -webkit-text-fill-color: var(--eb-muted) !important;
+        opacity: .78;
     }
 
     #esthell-birthday .eb-field input:focus {
-        border-color: rgba(255, 227, 155, .78);
-        background: rgba(0, 0, 0, .42) !important;
-        background-color: rgba(0, 0, 0, .42) !important;
-        box-shadow: inset 0 0 0 1px rgba(255, 227, 155, .18), 0 0 0 3px rgba(216, 173, 67, .16);
+        border-color: var(--eb-emerald);
+        box-shadow: 0 0 0 3px rgba(8, 114, 79, .16);
     }
 
     #esthell-birthday .eb-field input:-webkit-autofill,
     #esthell-birthday .eb-field input:-webkit-autofill:hover,
     #esthell-birthday .eb-field input:-webkit-autofill:focus {
-        border-color: rgba(255, 227, 155, .58);
-        -webkit-text-fill-color: var(--eb-cream) !important;
-        caret-color: var(--eb-gold-2);
-        box-shadow: 0 0 0 1000px #041c15 inset, inset 0 0 0 1px rgba(24, 168, 111, .18) !important;
+        -webkit-text-fill-color: var(--eb-text) !important;
+        box-shadow: 0 0 0 1000px var(--eb-bg) inset !important;
         transition: background-color 9999s ease-in-out 0s;
+    }
+
+    #esthell-birthday .eb-form-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: flex-end;
     }
 
     #esthell-birthday .eb-honeypot {
@@ -550,8 +419,7 @@ heading: Esthell's Birthday
 
     #esthell-birthday .eb-form-status {
         min-height: 22px;
-        margin-top: 10px;
-        color: var(--eb-gold-2) !important;
+        color: var(--eb-emerald);
         font-weight: 800;
     }
 
@@ -559,118 +427,105 @@ heading: Esthell's Birthday
         width: 100%;
         table-layout: fixed;
         border-collapse: collapse;
-        border: 1px solid rgba(255, 227, 155, .28);
+        border: 1px solid var(--eb-line);
         border-radius: 8px;
         overflow: hidden;
-        background: rgba(3, 24, 18, .48);
+        background: var(--eb-surface);
+        box-shadow: 0 12px 26px var(--eb-shadow);
     }
 
     #esthell-birthday .eb-table th,
     #esthell-birthday .eb-table td {
-        padding: 8px 10px;
-        border-bottom: 1px solid rgba(255, 227, 155, .16);
-        color: var(--eb-soft) !important;
+        width: 50%;
+        padding: 9px 10px;
+        border-bottom: 1px solid var(--eb-line);
+        color: var(--eb-text);
         line-height: 1.25;
         text-align: center;
         vertical-align: middle;
     }
 
     #esthell-birthday .eb-table th {
-        color: #031812 !important;
-        background: linear-gradient(135deg, var(--eb-gold-2), var(--eb-gold));
-        font-weight: 950;
+        color: #102017;
+        background: var(--eb-gold);
+        font-weight: 900;
     }
 
-    #esthell-birthday .eb-table th:first-child,
-    #esthell-birthday .eb-table td:first-child {
-        width: 50%;
-    }
-
-    #esthell-birthday .eb-table th:last-child,
     #esthell-birthday .eb-table td:last-child {
-        width: 50%;
         font-variant-numeric: tabular-nums;
     }
 
     #esthell-birthday .eb-table tbody tr:nth-child(even) {
-        background: rgba(255, 248, 223, .035);
+        background: var(--eb-surface-soft);
     }
 
     #esthell-birthday .eb-final {
-        padding: 24px 16px 28px;
+        padding: 24px 18px 28px;
+        border-top: 1px solid var(--eb-line);
         text-align: center;
-        background: linear-gradient(180deg, rgba(216, 173, 67, .12), rgba(11, 111, 76, .2));
+        background: var(--eb-surface-soft);
     }
 
     #esthell-birthday .eb-final h2 {
-        color: var(--eb-gold-2) !important;
+        display: block;
+        color: var(--eb-gold);
         font-size: 1.8rem;
         line-height: 1.1;
-        letter-spacing: 0;
+    }
+
+    #esthell-birthday .eb-final h2::after {
+        content: none !important;
+        display: none !important;
     }
 
     #esthell-birthday .eb-final p {
-        max-width: 650px;
+        max-width: 640px;
         margin: 10px auto 0;
     }
 
     @media (max-width: 820px) {
-        #esthell-birthday h1 {
-            font-size: 2.35rem;
+        #esthell-birthday {
+            border-radius: 0;
+            border-left: 0;
+            border-right: 0;
         }
 
-        #esthell-birthday .eb-event-card,
+        #esthell-birthday h1 {
+            font-size: 2.15rem;
+        }
+
+        #esthell-birthday h2 {
+            font-size: 1.45rem;
+        }
+
+        #esthell-birthday .eb-hero,
+        #esthell-birthday .eb-section,
+        #esthell-birthday .eb-final {
+            padding-left: 12px;
+            padding-right: 12px;
+        }
+
+        #esthell-birthday .eb-grid,
         #esthell-birthday .eb-frame-card,
         #esthell-birthday .eb-sponsor-top,
         #esthell-birthday .eb-form-grid {
             grid-template-columns: 1fr;
         }
 
-        #esthell-birthday .eb-frame-card img,
-        #esthell-birthday .eb-button {
-            width: 100%;
+        #esthell-birthday .eb-frame-card img {
+            width: min(260px, 100%);
         }
 
-        #esthell-birthday .eb-frame-card img {
-            max-width: 320px;
-            justify-self: center;
+        #esthell-birthday .eb-button,
+        #esthell-birthday .eb-form-actions .eb-button {
+            width: 100%;
         }
     }
 
-    @media (max-width: 540px) {
-        #esthell-birthday {
-            border-left: 0;
-            border-right: 0;
-        }
-
-        #esthell-birthday .eb-hero,
-        #esthell-birthday .eb-section,
-        #esthell-birthday .eb-final {
-            padding-left: 10px;
-            padding-right: 10px;
-        }
-
-        #esthell-birthday h1 {
-            font-size: 1.95rem;
-        }
-
-        #esthell-birthday .eb-title-text {
-            font-size: 1.45rem;
-        }
-
+    @media (max-width: 520px) {
         #esthell-birthday .eb-facts,
         #esthell-birthday .eb-stats {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-
-        #esthell-birthday .eb-table th,
-        #esthell-birthday .eb-table td {
-            padding: 7px 6px;
-            font-size: .88rem;
-        }
-
-        #esthell-birthday .eb-countdown-wrap {
-            padding: 10px 8px;
+            grid-template-columns: 1fr;
         }
 
         #esthell-birthday .eb-countdown {
@@ -682,18 +537,17 @@ heading: Esthell's Birthday
         }
 
         #esthell-birthday .eb-time strong {
-            font-size: 1.34rem;
+            font-size: 1.32rem;
         }
 
         #esthell-birthday .eb-time span {
             font-size: .72rem;
         }
-    }
 
-    @media (max-width: 360px) {
-        #esthell-birthday .eb-facts,
-        #esthell-birthday .eb-stats {
-            grid-template-columns: 1fr;
+        #esthell-birthday .eb-table th,
+        #esthell-birthday .eb-table td {
+            padding: 8px 6px;
+            font-size: .9rem;
         }
     }
 
@@ -710,47 +564,45 @@ heading: Esthell's Birthday
     <section class="eb-hero" aria-labelledby="esthell-title">
         <img class="eb-banner" src="/docs/assets/images/events/esthellbday/esthellbday-banner.png" alt="Esthell Birthday banner, May 13 at 1 PM GMT" width="2000" height="800" fetchpriority="high" decoding="async">
 
-        <div class="eb-intro">
+        <div class="eb-hero-copy">
             <p class="eb-kicker">Arcade Birthday Event</p>
             <h1 id="esthell-title">Esthell's Birthday</h1>
-            <p class="eb-lede">Join us on <strong>May 13 at 1 PM GMT</strong> for Esthell's birthday celebration. Come early, bring love, and stay ready for prizes.</p>
+            <p>Join us on <strong>May 13 at 1 PM GMT</strong> for Esthell's birthday celebration. Come early, bring love, and stay ready for prizes.</p>
         </div>
     </section>
 
     <section class="eb-section" aria-labelledby="event-title">
-        <div class="eb-title">
-            <h2 class="eb-title-chip"><span class="eb-title-text" id="event-title">Event Details</span></h2>
+        <div class="eb-section-head">
+            <h2 id="event-title">Event Details</h2>
         </div>
 
-        <div class="eb-event-grid">
+        <div class="eb-grid">
             <div class="eb-card eb-event-card">
-                <div class="eb-event-copy">
-                    <p>The birthday group opens on <strong>May 13 at 1 PM GMT</strong>. Invites and instructions will be shared before the event begins.</p>
-                    <div class="eb-facts">
-                        <div class="eb-fact"><span>Date</span><strong>May 13</strong></div>
-                        <div class="eb-fact"><span>Time</span><strong>1 PM GMT</strong></div>
-                        <div class="eb-fact"><span>Guest</span><strong>esthell</strong></div>
-                    </div>
+                <p>The birthday group opens on <strong>May 13 at 1 PM GMT</strong>. Invites and instructions will be shared before the event begins.</p>
+                <div class="eb-facts">
+                    <div class="eb-fact"><span>Date</span><strong>May 13</strong></div>
+                    <div class="eb-fact"><span>Time</span><strong>1 PM GMT</strong></div>
+                    <div class="eb-fact"><span>Guest</span><strong>esthell</strong></div>
                 </div>
+            </div>
 
-                <div class="eb-countdown-wrap">
-                    <div class="eb-countdown" aria-live="polite">
-                        <div class="eb-time"><strong data-days>00</strong><span>d</span></div>
-                        <div class="eb-time"><strong data-hours>00</strong><span>h</span></div>
-                        <div class="eb-time"><strong data-minutes>00</strong><span>m</span></div>
-                        <div class="eb-time"><strong data-seconds>00</strong><span>s</span></div>
-                    </div>
+            <div class="eb-card eb-countdown-card">
+                <div class="eb-countdown" aria-live="polite">
+                    <div class="eb-time"><strong data-days>00</strong><span>d</span></div>
+                    <div class="eb-time"><strong data-hours>00</strong><span>h</span></div>
+                    <div class="eb-time"><strong data-minutes>00</strong><span>m</span></div>
+                    <div class="eb-time"><strong data-seconds>00</strong><span>s</span></div>
                 </div>
             </div>
         </div>
     </section>
 
     <section class="eb-section" aria-labelledby="frame-title">
-        <div class="eb-title">
-            <h2 class="eb-title-chip"><span class="eb-title-text" id="frame-title">Birthday Frame</span></h2>
+        <div class="eb-section-head">
+            <h2 id="frame-title">Birthday Frame</h2>
         </div>
 
-        <div class="eb-frame-card">
+        <div class="eb-card eb-frame-card">
             <img src="/docs/assets/images/events/esthellbday/esthellbday-frame.png" alt="Esthell birthday frame preview" width="800" height="800" loading="lazy" decoding="async">
             <div class="eb-frame-copy">
                 <p>Use the official Esthell birthday frame for the event and show up looking ready.</p>
@@ -760,8 +612,8 @@ heading: Esthell's Birthday
     </section>
 
     <section class="eb-section" id="sponsor-board" aria-labelledby="sponsor-title">
-        <div class="eb-title">
-            <h2 class="eb-title-chip"><span class="eb-title-text" id="sponsor-title">Sponsors</span></h2>
+        <div class="eb-section-head">
+            <h2 id="sponsor-title">Sponsors</h2>
         </div>
 
         <div class="eb-sponsor-top">
@@ -790,8 +642,10 @@ heading: Esthell's Birthday
                     <span class="eb-label">Sponsor Amount</span>
                     <input name="amount" type="text" inputmode="numeric" placeholder="50,000" required>
                 </label>
+            </div>
+            <div class="eb-form-actions">
+                <button class="eb-button eb-button-secondary" type="button" data-close-sponsor>Hide</button>
                 <button class="eb-button" type="submit" data-submit-sponsor>Send Sponsor</button>
-                <button class="eb-button eb-button-soft" type="button" data-close-sponsor>Hide</button>
             </div>
             <p class="eb-form-status" data-form-status aria-live="polite"></p>
         </form>
@@ -840,7 +694,7 @@ heading: Esthell's Birthday
 
     <section class="eb-final" aria-labelledby="final-title">
         <h2 id="final-title">Happy Birthday, Esthell</h2>
-        <p>May 13 is your day. Arcade is showing up with love, prizes, and the cleanest gold and emerald energy.</p>
+        <p>May 13 is your day. Arcade is showing up with love, prizes, and clean gold and emerald energy.</p>
     </section>
 </div>
 
@@ -952,7 +806,7 @@ heading: Esthell's Birthday
                     username: 'Esthell Birthday Sponsors',
                     embeds: [{
                         title: 'New Esthell Birthday Sponsor',
-                        color: 14200131,
+                        color: 12093731,
                         fields: [
                             { name: 'Plato ID', value: platoId, inline: true },
                             { name: 'Sponsor Amount', value: normalizedAmount ? `${format(normalizedAmount)} coins` : amount, inline: true },
