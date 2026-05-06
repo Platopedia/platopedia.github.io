@@ -816,7 +816,7 @@ heading: Esthell's Birthday
 <div id="esthell-birthday" data-event-date="2026-05-13T13:00:00Z">
     <section class="eb-hero" aria-labelledby="esthell-title">
         <picture class="eb-banner">
-            <img src="Banner.png" alt="Esthell Birthday banner, May 13 at 1 PM GMT" width="2000" height="800" fetchpriority="high" decoding="async">
+            <img src="/docs/assets/images/events/esthellbday/esthellbday-banner.png" alt="Esthell Birthday banner, May 13 at 1 PM GMT" width="2000" height="800" fetchpriority="high" decoding="async">
         </picture>
 
         <div class="eb-hero-copy">
@@ -827,22 +827,22 @@ heading: Esthell's Birthday
 
         <div class="eb-facts" aria-label="Event details">
             <article class="eb-fact">
-                <img src="assets/Calendar.png" alt="">
+                <img src="/docs/assets/images/events/esthellbday/calendar.png" alt="">
                 <span>Date</span>
                 <strong>May 13</strong>
             </article>
             <article class="eb-fact">
-                <img src="assets/Clock.png" alt="">
+                <img src="/docs/assets/images/events/esthellbday/clock.png" alt="">
                 <span>Time</span>
                 <strong>1 PM GMT</strong>
             </article>
             <article class="eb-fact">
-                <img src="assets/Prize.png" alt="">
+                <img src="/docs/assets/images/events/esthellbday/prize.png" alt="">
                 <span>Prize Pool</span>
                 <strong><span data-total-coins>0</span> coins</strong>
             </article>
             <article class="eb-fact">
-                <img src="assets/Sphinx.png" alt="">
+                <img src="/docs/assets/images/events/esthellbday/sphinx.png" alt="">
                 <span>Guest of Honor</span>
                 <strong>esthell</strong>
             </article>
@@ -852,7 +852,7 @@ heading: Esthell's Birthday
     <section class="eb-band" aria-labelledby="countdown-title">
         <div class="eb-section-head">
             <div class="eb-section-title">
-                <img src="assets/Clock.png" alt="">
+                <img src="/docs/assets/images/events/esthellbday/clock.png" alt="">
                 <h2 id="countdown-title">Royal Countdown</h2>
             </div>
         </div>
@@ -873,7 +873,7 @@ heading: Esthell's Birthday
     <section class="eb-band" aria-labelledby="party-scroll-title">
         <div class="eb-section-head">
             <div class="eb-section-title">
-                <img src="assets/Scroll%20Edited.png" alt="">
+                <img src="/docs/assets/images/events/esthellbday/scroll-edited.png" alt="">
                 <h2 id="party-scroll-title">Party Scroll</h2>
             </div>
         </div>
@@ -897,16 +897,16 @@ heading: Esthell's Birthday
     <section class="eb-band" aria-labelledby="birthday-frame-title">
         <div class="eb-section-head">
             <div class="eb-section-title">
-                <img src="assets/Feather%20Pen.png" alt="">
+                <img src="/docs/assets/images/events/esthellbday/feather-pen.png" alt="">
                 <h2 id="birthday-frame-title">Birthday Banner</h2>
             </div>
         </div>
 
         <div class="eb-banner-card">
-            <img src="Banner.png" alt="Esthell Birthday banner preview" width="2000" height="800" loading="lazy" decoding="async">
+            <img src="/docs/assets/images/events/esthellbday/esthellbday-banner.png" alt="Esthell Birthday banner preview" width="2000" height="800" loading="lazy" decoding="async">
             <p>The official gold and emerald banner is ready for posts, announcements, and the birthday group.</p>
             <div class="eb-actions">
-                <a class="eb-button" href="Banner.png" download>Download Banner</a>
+                <a class="eb-button" href="/docs/assets/images/events/esthellbday/esthellbday-banner.png" download>Download Banner</a>
             </div>
         </div>
     </section>
@@ -914,7 +914,7 @@ heading: Esthell's Birthday
     <section class="eb-band" id="sponsor-board" aria-labelledby="sponsor-title">
         <div class="eb-section-head">
             <div class="eb-section-title">
-                <img src="assets/Prize.png" alt="">
+                <img src="/docs/assets/images/events/esthellbday/prize.png" alt="">
                 <h2 id="sponsor-title">Sponsor Board</h2>
             </div>
         </div>
@@ -981,7 +981,7 @@ heading: Esthell's Birthday
     <section class="eb-band" aria-labelledby="wish-title">
         <div class="eb-section-head">
             <div class="eb-section-title">
-                <img src="assets/Pyramids.png" alt="">
+                <img src="/docs/assets/images/events/esthellbday/pyramids.png" alt="">
                 <h2 id="wish-title">Wish Vault</h2>
             </div>
         </div>
@@ -1023,7 +1023,7 @@ heading: Esthell's Birthday
     <section class="eb-band" aria-labelledby="game-title">
         <div class="eb-section-head">
             <div class="eb-section-title">
-                <img src="assets/Sphinx.png" alt="">
+                <img src="/docs/assets/images/events/esthellbday/sphinx.png" alt="">
                 <h2 id="game-title">Emerald Rush</h2>
             </div>
         </div>
