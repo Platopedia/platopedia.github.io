@@ -201,15 +201,12 @@ color:#E1100D;
 display:none;
 justify-content:center;
 align-items:center;
-min-height:0;
+width:100%;
+margin:10px auto 0;
 }
 
 .captcha-shell.is-active{
 display:flex;
-}
-
-.captcha-shell.has-widget-space{
-margin-top:10px;
 }
 
 .captcha-shell.is-invisible{
@@ -223,10 +220,6 @@ pointer-events:none;
 
 .captcha-shell iframe{
 max-width:100%;
-}
-
-.ticket-card.is-height-animating{
-overflow:hidden;
 }
 
 </style>
@@ -263,9 +256,9 @@ Artrade helps you connect with trusted item traders and merchants from our commu
 
 <div id="genTicketResult" class="status-text security-note">Ticket creation available</div>
 
-<div id="captcha-container" class="captcha-shell"></div>
-
 </div>
+
+<div id="captcha-container" class="captcha-shell"></div>
 
 <div class="linebreak"></div>
 
@@ -564,9 +557,6 @@ let isProcessing=false;
 let awaitingToken=false;
 let verifyTimeout=null;
 let turnstileLoadPromise=null;
-let ticketCardAnimationTimeout=null;
-let ticketCardAnimationFrame=null;
-let ticketCardShrinkTimeout=null;
 // Turnstile settings: change these values when switching verification or widget mode.
 // verificationEnabled: true/false, "on"/"off", "enabled"/"disabled".
 // widgetInvisible: true when the Cloudflare widget/sitekey is set to Invisible.
@@ -578,9 +568,6 @@ const TURNSTILE_VERIFICATION_ENABLED=isToggleEnabled(TURNSTILE_SETTINGS.verifica
 const TURNSTILE_WIDGET_INVISIBLE=isToggleEnabled(TURNSTILE_SETTINGS.widgetInvisible, true);
 const TURNSTILE_SCRIPT_TIMEOUT_MS=15000;
 const VERIFY_CALLBACK_TIMEOUT_MS=60000;
-// Ticket-card animation: expand immediately, delay shrink so the box does not snap shut.
-const TICKET_CARD_ANIMATION_MS=1000;
-const TICKET_CARD_SHRINK_DELAY_MS=2000;
 
 function isToggleEnabled(value, fallback=true){
   if(typeof value === "boolean") return value;
@@ -625,89 +612,14 @@ function clearVerifyTimeout(){
   verifyTimeout = null;
 }
 
-function animateTicketCardLayout(applyChanges){
-  const card = document.querySelector(".ticket-card");
-  if(!card){
-    applyChanges();
-    return;
-  }
-
-  if(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches){
-    applyChanges();
-    return;
-  }
-
-  if(ticketCardAnimationFrame){
-    cancelAnimationFrame(ticketCardAnimationFrame);
-    ticketCardAnimationFrame = null;
-  }
-
-  if(ticketCardShrinkTimeout){
-    clearTimeout(ticketCardShrinkTimeout);
-    ticketCardShrinkTimeout = null;
-  }
-
-  if(ticketCardAnimationTimeout){
-    clearTimeout(ticketCardAnimationTimeout);
-    ticketCardAnimationTimeout = null;
-  }
-
-  const startHeight = card.getBoundingClientRect().height;
-  card.classList.add("is-height-animating");
-  card.style.transition = "none";
-  card.style.height = `${startHeight}px`;
-
-  applyChanges();
-
-  const endHeight = card.scrollHeight;
-  if(Math.abs(endHeight - startHeight) < 1){
-    card.style.height = "";
-    card.style.transition = "";
-    card.classList.remove("is-height-animating");
-    return;
-  }
-
-  const runAnimation = () => {
-    ticketCardAnimationFrame = requestAnimationFrame(() => {
-      ticketCardAnimationFrame = null;
-      card.style.transition = `height ${TICKET_CARD_ANIMATION_MS}ms ease`;
-      card.style.height = `${endHeight}px`;
-
-      ticketCardAnimationTimeout = setTimeout(() => {
-        card.style.height = "";
-        card.style.transition = "";
-        card.classList.remove("is-height-animating");
-        ticketCardAnimationTimeout = null;
-      }, TICKET_CARD_ANIMATION_MS);
-    });
-  };
-
-  if(endHeight < startHeight){
-    ticketCardShrinkTimeout = setTimeout(() => {
-      ticketCardShrinkTimeout = null;
-      runAnimation();
-    }, TICKET_CARD_SHRINK_DELAY_MS);
-    return;
-  }
-
-  runAnimation();
-}
-
-function applyTurnstileContainerMode(container, active=false){
+function syncTurnstileContainerMode(container, active=false){
   if(!container) return;
 
   container.classList.toggle("is-active", active);
   container.classList.toggle("is-invisible", active && TURNSTILE_WIDGET_INVISIBLE);
-  container.classList.toggle("has-widget-space", active && TURNSTILE_VERIFICATION_ENABLED && !TURNSTILE_WIDGET_INVISIBLE);
 }
 
-function syncTurnstileContainerMode(container, active=false){
-  animateTicketCardLayout(() => {
-    applyTurnstileContainerMode(container, active);
-  });
-}
-
-function clearTurnstileWidgetContent(){
+function clearTurnstileWidget(){
   const container = document.getElementById("captcha-container");
 
   if(widgetId && window.turnstile){
@@ -718,14 +630,8 @@ function clearTurnstileWidgetContent(){
 
   if(container){
     container.innerHTML = "";
-    applyTurnstileContainerMode(container, false);
+    syncTurnstileContainerMode(container, false);
   }
-}
-
-function clearTurnstileWidget(){
-  animateTicketCardLayout(() => {
-    clearTurnstileWidgetContent();
-  });
 }
 
 function initTurnstile(){
@@ -733,6 +639,11 @@ function initTurnstile(){
   if(!container || !window.turnstile){
     throw new Error("Turnstile not ready");
   }
+
+  clearTurnstileWidget();
+
+  container.innerHTML = "";
+  syncTurnstileContainerMode(container, true);
 
   const renderOptions={
     sitekey:'0x4AAAAAACyyfcbJQl7aMwTA',
@@ -754,16 +665,7 @@ function initTurnstile(){
     renderOptions.appearance='always';
   }
 
-  animateTicketCardLayout(() => {
-    if(widgetId){
-      try { turnstile.remove(widgetId); } catch (err) {}
-      widgetId = null;
-    }
-
-    container.innerHTML = "";
-    applyTurnstileContainerMode(container, true);
-    widgetId = turnstile.render('#captcha-container',renderOptions);
-  });
+  widgetId = turnstile.render('#captcha-container',renderOptions);
 
   return widgetId;
 }
@@ -822,6 +724,23 @@ function ensureTurnstileWidget(){
     }
     return widgetId;
   });
+}
+
+function recoverVerification(message){
+  const btn = getGenButton();
+  clearVerifyTimeout();
+  awaitingToken=false;
+  isProcessing=false;
+
+  if(btn){
+    resetBtn(btn);
+  }
+
+  if(message){
+    setStatus(message, "error");
+  }
+
+  clearTurnstileWidget();
 }
 
 function handleTurnstileError(errorCode){
@@ -888,64 +807,17 @@ function startVerifyTimeout(btn){
   }, VERIFY_CALLBACK_TIMEOUT_MS);
 }
 
-function setStatusContent(msg,type){
-  const el=document.getElementById("genTicketResult");
-  if(!el) return;
-
-  if(!msg){
-    el.textContent=TURNSTILE_VERIFICATION_ENABLED ? "🔒 Safe and secure trading" : "Ticket creation available";
-    el.className="status-text security-note";
-    return;
-  }
-
-  el.textContent=msg;
-  el.className="status-text"+(type?` ${type}`:"")+" active";
-}
-
 function setStatus(msg,type){
-  animateTicketCardLayout(() => {
-    setStatusContent(msg,type);
-  });
+const el=document.getElementById("genTicketResult");
+
+if(!msg){
+el.textContent=TURNSTILE_VERIFICATION_ENABLED ? "🔒 Safe and secure trading" : "Ticket creation available";
+el.className="status-text security-note";
+return;
 }
 
-function setStatusAndClearTurnstile(msg,type){
-  animateTicketCardLayout(() => {
-    setStatusContent(msg,type);
-    clearTurnstileWidgetContent();
-  });
-}
-
-function recoverVerification(message){
-  const btn = getGenButton();
-  clearVerifyTimeout();
-  awaitingToken=false;
-  isProcessing=false;
-
-  animateTicketCardLayout(() => {
-    if(btn){
-      resetBtn(btn);
-    }
-
-    if(message){
-      setStatusContent(message, "error");
-    }
-
-    clearTurnstileWidgetContent();
-  });
-}
-
-function completeTicketRequest(message,type){
-  const btn = getGenButton();
-
-  animateTicketCardLayout(() => {
-    if(btn){
-      resetBtn(btn);
-    }
-
-    setStatusContent(message,type);
-    isProcessing=false;
-    clearTurnstileWidgetContent();
-  });
+el.textContent=msg;
+el.className="status-text"+(type?` ${type}`:"")+" active";
 }
 
 async function handleSuccess(token){
@@ -959,7 +831,8 @@ awaitingToken=false;
 
 const btn=document.getElementById("genTicketBtn");
 
-setStatusAndClearTurnstile("⚙️ Generating your ticket...");
+setStatus("⚙️ Generating your ticket...");
+clearTurnstileWidget();
 
 try{
 const res=await fetch("https://ticket-generator.platopedia.workers.dev/generate-ticket",{
@@ -975,12 +848,6 @@ const data = await res.json().catch(()=>({}));
 
 if(!res.ok){
   if (data && data.error === "captcha_failed") {
-    if(!TURNSTILE_VERIFICATION_ENABLED){
-      console.error("[turnstile] Page verification is off, but Worker still requires captcha.");
-      recoverVerification("❌ Server still requires verification. Please inform @Fear.");
-      return;
-    }
-
     recoverVerification(`❌ ${(data && data.message) || "Verification failed. Please try again."}`);
     return;
   }
@@ -991,10 +858,13 @@ if(!res.ok){
 
     const timeStr = h > 0 ? `${h}h ${m}m` : `${m}m`;
 
-    completeTicketRequest(`⏳ Try again in ${timeStr}. You have reached the 24-hour limit (2 tickets).`, "error");
+    setStatus(`⏳ Try again in ${timeStr}. You have reached the 24-hour limit (2 tickets).`, "error");
   } else {
-    completeTicketRequest(`❌ ${(data && (data.message || data.error)) || "Request failed"}`, "error");
+    setStatus(`❌ ${(data && (data.message || data.error)) || "Request failed"}`, "error");
   }
+  resetBtn(btn);
+  isProcessing=false;
+  clearTurnstileWidget();
 
   return;
 }
@@ -1002,7 +872,8 @@ if(!res.ok){
 if(!data.ticket){
   throw new Error("Invalid response");
 }
-setStatusAndClearTurnstile("✅ Ticket ready!","success");
+setStatus("✅ Ticket ready!","success");
+clearTurnstileWidget();
 
 setTimeout(()=>{
 window.location.href=`/groups/artrade/ticket?t=${data.ticket}`;
