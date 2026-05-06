@@ -1,7 +1,7 @@
 ---
 layout: tool-content
 title: Esthell's Birthday - Platopedia
-heading: Esthell's Birthday
+heading: <img src="/docs/assets/images/events/esthellbday/scroll.webp" />&nbsp;Esthell's Birthday
 ---
 
 <style>
@@ -595,7 +595,7 @@ heading: Esthell's Birthday
 
 <div id="esthell-birthday" data-event-date="2026-05-13T13:00:00Z">
     <section class="eb-hero" aria-label="Esthell birthday introduction">
-        <img class="eb-banner" src="/docs/assets/images/events/esthellbday/esthellbday-banner.png" alt="Esthell Birthday banner, May 13 at 1 PM GMT" width="2000" height="800" fetchpriority="high" decoding="async">
+        <img class="eb-banner" src="/docs/assets/images/events/esthellbday/esthellbday-banner.webp" alt="Esthell Birthday banner, May 13 at 1 PM GMT" width="2000" height="800" fetchpriority="high" decoding="async">
 
         <div class="eb-hero-copy">
             <p>Join us on <strong>May 13 at 1 PM GMT</strong> for Esthell's birthday celebration. Come early, bring love, and stay ready for prizes.</p>
@@ -613,7 +613,7 @@ heading: Esthell's Birthday
                 <div class="eb-facts">
                     <div class="eb-fact"><span>Date</span><strong>May 13</strong></div>
                     <div class="eb-fact"><span>Time</span><strong>1 PM GMT</strong></div>
-                    <div class="eb-fact"><span>Guest</span><strong>esthell</strong></div>
+                    <div class="eb-fact"><span>Location</span><strong>more info soon</strong></div>
                 </div>
             </div>
 
@@ -653,7 +653,7 @@ heading: Esthell's Birthday
                 <div class="eb-stat"><span>Top</span><strong data-top-sponsor>Loading</strong></div>
                 <div class="eb-stat"><span>Sponsors</span><strong data-sponsor-count>0</strong></div>
             </div>
-            <button class="eb-button" type="button" data-open-sponsor>Sponsor Esthell</button>
+            <button class="eb-button" type="button" data-open-sponsor>Sponsor For Esthell</button>
         </div>
 
         <form class="eb-form" data-sponsor-form>
@@ -692,39 +692,18 @@ heading: Esthell's Birthday
                 </tr>
             </thead>
             <tbody>
-                <tr><td>Risk</td><td>1,000,000</td></tr>
-                <tr><td>Fear</td><td>300,000</td></tr>
-                <tr><td>Dracula</td><td>200,000</td></tr>
-                <tr><td>abc</td><td>100,000</td></tr>
-                <tr><td>Tear</td><td>100,000</td></tr>
-                <tr><td>7777777</td><td>100,000</td></tr>
-                <tr><td>Fairy</td><td>100,000</td></tr>
-                <tr><td>Mellissaaaa</td><td>50,000</td></tr>
-                <tr><td>H22</td><td>50,000</td></tr>
-                <tr><td>Nefya</td><td>50,000</td></tr>
-                <tr><td>LA7</td><td>50,000</td></tr>
-                <tr><td>YR_</td><td>50,000</td></tr>
-                <tr><td>4DA</td><td>30,000</td></tr>
-                <tr><td>Kikutie</td><td>30,000</td></tr>
-                <tr><td>UniqueM_</td><td>30,000</td></tr>
-                <tr><td>Aura</td><td>25,000</td></tr>
-                <tr><td>Galaxy</td><td>20,000</td></tr>
-                <tr><td>Spring</td><td>20,000</td></tr>
-                <tr><td>Qear</td><td>20,000</td></tr>
-                <tr><td>calisha</td><td>20,000</td></tr>
-                <tr><td>888k</td><td>20,000</td></tr>
-                <tr><td>amor</td><td>20,000</td></tr>
-                <tr><td>Hades</td><td>20,000</td></tr>
-                <tr><td>Diem17</td><td>15,000</td></tr>
-                <tr><td>Sue</td><td>15,000</td></tr>
-                <tr><td>Ruby</td><td>10,000</td></tr>
+                <tr><td>ISIRENA</td><td>450,000</td></tr>
+                <tr><td>Fear</td><td>150,000</td></tr>
+                <tr><td>Nefya</td><td>100,000</td></tr>
+                <tr><td>Wytie</td><td>62,500</td></tr>
+                <tr><td>Aura</td><td>60,000</td></tr>
             </tbody>
         </table>
     </section>
 
     <section class="eb-final" aria-labelledby="final-title">
         <h2 id="final-title">Happy Birthday, Esthell</h2>
-        <p>May 13 is your day. Arcade is showing up with love, prizes, and clean gold and emerald energy.</p>
+        <p>May 13 is your day. Siren, help here please.</p>
     </section>
 </div>
 
@@ -809,7 +788,7 @@ heading: Esthell's Birthday
 
             const setFormOpen = open => {
                 form.classList.toggle('is-open', open);
-                openButton.textContent = open ? 'Hide Sponsor Form' : 'Sponsor Esthell';
+                openButton.textContent = open ? 'Hide Sponsor Form' : 'Sponsor For Esthell';
                 if (open) status.textContent = '';
             };
 
