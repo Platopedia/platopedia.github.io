@@ -579,7 +579,7 @@ const TURNSTILE_WIDGET_INVISIBLE=isToggleEnabled(TURNSTILE_SETTINGS.widgetInvisi
 const TURNSTILE_SCRIPT_TIMEOUT_MS=15000;
 const VERIFY_CALLBACK_TIMEOUT_MS=60000;
 // Ticket-card animation: expand immediately, delay shrink so the box does not snap shut.
-const TICKET_CARD_ANIMATION_MS=240;
+const TICKET_CARD_ANIMATION_MS=1000;
 const TICKET_CARD_SHRINK_DELAY_MS=2000;
 
 function isToggleEnabled(value, fallback=true){
