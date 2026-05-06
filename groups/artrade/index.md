@@ -722,7 +722,7 @@ function startVerifyTimeout(btn){
     if (awaitingToken) {
       recoverVerification("❌ Verification timed out. Please try again later.", { rebuild:true });
     }
-  }, 15000);
+  }, 30000);
 }
 
 function setStatus(msg,type){
