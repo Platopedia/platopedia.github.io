@@ -198,14 +198,21 @@ color:#E1100D;
 }
 
 .captcha-shell{
-display:none;
+display:flex;
 justify-content:center;
 align-items:center;
+max-height:0;
+opacity:0;
+overflow:hidden;
+pointer-events:none;
 min-height:0;
+transition:max-height 220ms ease, opacity 160ms ease, margin-top 220ms ease;
 }
 
 .captcha-shell.is-active{
-display:flex;
+max-height:160px;
+opacity:1;
+pointer-events:auto;
 }
 
 .captcha-shell.has-widget-space{
@@ -560,6 +567,7 @@ let isProcessing=false;
 let awaitingToken=false;
 let verifyTimeout=null;
 let turnstileLoadPromise=null;
+let captchaResizeTimeout=null;
 // Turnstile settings: change these values when switching verification or widget mode.
 // verificationEnabled: true/false, "on"/"off", "enabled"/"disabled".
 // widgetInvisible: true when the Cloudflare widget/sitekey is set to Invisible.
@@ -571,6 +579,7 @@ const TURNSTILE_VERIFICATION_ENABLED=isToggleEnabled(TURNSTILE_SETTINGS.verifica
 const TURNSTILE_WIDGET_INVISIBLE=isToggleEnabled(TURNSTILE_SETTINGS.widgetInvisible, true);
 const TURNSTILE_SCRIPT_TIMEOUT_MS=15000;
 const VERIFY_CALLBACK_TIMEOUT_MS=60000;
+const CAPTCHA_RESIZE_DEBOUNCE_MS=180;
 
 function isToggleEnabled(value, fallback=true){
   if(typeof value === "boolean") return value;
@@ -615,12 +624,31 @@ function clearVerifyTimeout(){
   verifyTimeout = null;
 }
 
-function syncTurnstileContainerMode(container, active=false){
+function applyTurnstileContainerMode(container, active){
   if(!container) return;
 
   container.classList.toggle("is-active", active);
   container.classList.toggle("is-invisible", active && TURNSTILE_WIDGET_INVISIBLE);
   container.classList.toggle("has-widget-space", active && TURNSTILE_VERIFICATION_ENABLED && !TURNSTILE_WIDGET_INVISIBLE);
+}
+
+function syncTurnstileContainerMode(container, active=false){
+  if(!container) return;
+
+  if(captchaResizeTimeout){
+    clearTimeout(captchaResizeTimeout);
+    captchaResizeTimeout = null;
+  }
+
+  if(active || !container.classList.contains("is-active")){
+    applyTurnstileContainerMode(container, active);
+    return;
+  }
+
+  captchaResizeTimeout = setTimeout(() => {
+    applyTurnstileContainerMode(container, false);
+    captchaResizeTimeout = null;
+  }, CAPTCHA_RESIZE_DEBOUNCE_MS);
 }
 
 function clearTurnstileWidget(){
@@ -852,6 +880,12 @@ const data = await res.json().catch(()=>({}));
 
 if(!res.ok){
   if (data && data.error === "captcha_failed") {
+    if(!TURNSTILE_VERIFICATION_ENABLED){
+      console.error("[turnstile] Page verification is off, but Worker still requires captcha.");
+      recoverVerification("❌ Server still requires verification. Please inform @Fear.");
+      return;
+    }
+
     recoverVerification(`❌ ${(data && data.message) || "Verification failed. Please try again."}`);
     return;
   }
