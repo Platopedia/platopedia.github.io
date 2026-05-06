@@ -561,7 +561,7 @@ let turnstileLoadPromise=null;
 // verificationEnabled: true/false, "on"/"off", "enabled"/"disabled".
 // widgetInvisible: true when the Cloudflare widget/sitekey is set to Invisible.
 const TURNSTILE_SETTINGS={
-  verificationEnabled:true,
+  verificationEnabled:false,
   widgetInvisible:true
 };
 const TURNSTILE_VERIFICATION_ENABLED=isToggleEnabled(TURNSTILE_SETTINGS.verificationEnabled, true);
