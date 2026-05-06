@@ -557,7 +557,7 @@ let awaitingToken=false;
 let verifyTimeout=null;
 let turnstileLoadPromise=null;
 const TURNSTILE_VERIFICATION_ENABLED=true;
-const TURNSTILE_WIDGET_INVISIBLE=true;
+const TURNSTILE_WIDGET_INVISIBLE=false;
 const TURNSTILE_SCRIPT_TIMEOUT_MS=15000;
 const VERIFY_CALLBACK_TIMEOUT_MS=60000;
 
