@@ -56,12 +56,12 @@ heading: Esthell's Birthday
         -webkit-user-drag: none;
     }
 
-    #esthell-birthday :where(h1, h2, h3, p, strong, span, a, button, label, input, td, th) {
+    #esthell-birthday :where(h2, p, strong, span, a, button, label, input, td, th) {
         overflow-wrap: anywhere;
         word-break: break-word;
     }
 
-    #esthell-birthday :where(h1, h2, h3) {
+    #esthell-birthday h2 {
         margin: 0 !important;
         padding: 0 !important;
         border: 0 !important;
@@ -71,8 +71,8 @@ heading: Esthell's Birthday
         letter-spacing: 0;
     }
 
-    #esthell-birthday :where(h1, h2, h3)::before,
-    #esthell-birthday :where(h1, h2, h3)::after {
+    #esthell-birthday h2::before,
+    #esthell-birthday h2::after {
         content: none !important;
         display: none !important;
     }
@@ -124,20 +124,6 @@ heading: Esthell's Birthday
         max-width: 780px;
         margin: 0 auto;
         text-align: center;
-    }
-
-    #esthell-birthday h1 {
-        color: var(--eb-gold);
-        font-family: var(--eb-font-display);
-        font-size: 2.85rem;
-        font-weight: 900;
-        line-height: 1.03;
-        text-transform: uppercase;
-        text-shadow:
-            0 1px 0 #f7d982,
-            0 2px 0 #6d4308,
-            0 4px 10px rgba(0, 0, 0, .24),
-            0 0 14px rgba(184, 137, 35, .35);
     }
 
     #esthell-birthday .eb-section {
@@ -534,10 +520,6 @@ heading: Esthell's Birthday
             border-right: 0;
         }
 
-        #esthell-birthday h1 {
-            font-size: 2.28rem;
-        }
-
         #esthell-birthday h2 {
             font-size: 1.35rem;
         }
@@ -599,10 +581,6 @@ heading: Esthell's Birthday
             font-size: .9rem;
         }
 
-        #esthell-birthday h1 {
-            font-size: 1.82rem;
-        }
-
         #esthell-birthday .eb-final h2 {
             font-size: 1.38rem;
         }
@@ -618,11 +596,10 @@ heading: Esthell's Birthday
 </style>
 
 <div id="esthell-birthday" data-event-date="2026-05-13T13:00:00Z">
-    <section class="eb-hero" aria-labelledby="esthell-title">
+    <section class="eb-hero" aria-label="Esthell birthday introduction">
         <img class="eb-banner" src="/docs/assets/images/events/esthellbday/esthellbday-banner.png" alt="Esthell Birthday banner, May 13 at 1 PM GMT" width="2000" height="800" fetchpriority="high" decoding="async">
 
         <div class="eb-hero-copy">
-            <h1 id="esthell-title">Esthell's Birthday</h1>
             <p>Join us on <strong>May 13 at 1 PM GMT</strong> for Esthell's birthday celebration. Come early, bring love, and stay ready for prizes.</p>
         </div>
     </section>
