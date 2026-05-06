@@ -409,7 +409,8 @@ heading: Esthell's Birthday
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
-        justify-content: flex-end;
+        justify-content: center;
+        margin-top: 2px;
     }
 
     #esthell-birthday .eb-honeypot {
@@ -421,9 +422,14 @@ heading: Esthell's Birthday
     }
 
     #esthell-birthday .eb-form-status {
-        min-height: 22px;
+        margin: 0;
         color: var(--eb-emerald);
         font-weight: 800;
+        text-align: center;
+    }
+
+    #esthell-birthday .eb-form-status:empty {
+        display: none;
     }
 
     #esthell-birthday .eb-table {
@@ -463,7 +469,7 @@ heading: Esthell's Birthday
     }
 
     #esthell-birthday .eb-final {
-        padding: 24px 18px 28px;
+        padding: 28px 18px 32px;
         border-top: 1px solid var(--eb-line);
         text-align: center;
         background: var(--eb-surface-soft);
@@ -471,9 +477,13 @@ heading: Esthell's Birthday
 
     #esthell-birthday .eb-final h2 {
         display: block;
+        width: 100%;
         color: var(--eb-gold);
-        font-size: 1.8rem;
-        line-height: 1.1;
+        font-family: "Brush Script MT", "Segoe Script", "Snell Roundhand", cursive;
+        font-size: 2.55rem;
+        font-weight: 700;
+        line-height: 1.05;
+        text-align: center !important;
     }
 
     #esthell-birthday .eb-final h2::after {
@@ -482,8 +492,10 @@ heading: Esthell's Birthday
     }
 
     #esthell-birthday .eb-final p {
-        max-width: 640px;
-        margin: 10px auto 0;
+        max-width: 620px;
+        margin: 12px auto 0;
+        font-style: italic;
+        text-align: center;
     }
 
     @media (max-width: 820px) {
@@ -522,6 +534,10 @@ heading: Esthell's Birthday
         #esthell-birthday .eb-button,
         #esthell-birthday .eb-form-actions .eb-button {
             width: 100%;
+        }
+
+        #esthell-birthday .eb-final h2 {
+            font-size: 2.15rem;
         }
     }
 
@@ -782,10 +798,7 @@ heading: Esthell's Birthday
             const setFormOpen = open => {
                 form.classList.toggle('is-open', open);
                 openButton.textContent = open ? 'Hide Sponsor Form' : 'Sponsor Esthell';
-                if (open) {
-                    status.textContent = '';
-                    form.querySelector('input[name="platoId"]').focus();
-                }
+                if (open) status.textContent = '';
             };
 
             openButton.addEventListener('click', () => {
