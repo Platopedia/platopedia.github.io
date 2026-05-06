@@ -198,10 +198,14 @@ color:#E1100D;
 }
 
 .captcha-shell{
-display:flex;
+display:none;
 justify-content:center;
 align-items:center;
 min-height:0;
+}
+
+.captcha-shell.is-active{
+display:flex;
 }
 
 .captcha-shell.has-widget-space{
@@ -557,7 +561,7 @@ let awaitingToken=false;
 let verifyTimeout=null;
 let turnstileLoadPromise=null;
 const TURNSTILE_VERIFICATION_ENABLED=true;
-const TURNSTILE_WIDGET_INVISIBLE=false;
+const TURNSTILE_WIDGET_INVISIBLE=true;
 const TURNSTILE_SCRIPT_TIMEOUT_MS=15000;
 const VERIFY_CALLBACK_TIMEOUT_MS=60000;
 
@@ -593,11 +597,27 @@ function clearVerifyTimeout(){
   verifyTimeout = null;
 }
 
-function syncTurnstileContainerMode(container){
+function syncTurnstileContainerMode(container, active=false){
   if(!container) return;
 
-  container.classList.toggle("is-invisible", TURNSTILE_WIDGET_INVISIBLE);
-  container.classList.toggle("has-widget-space", TURNSTILE_VERIFICATION_ENABLED && !TURNSTILE_WIDGET_INVISIBLE);
+  container.classList.toggle("is-active", active);
+  container.classList.toggle("is-invisible", active && TURNSTILE_WIDGET_INVISIBLE);
+  container.classList.toggle("has-widget-space", active && TURNSTILE_VERIFICATION_ENABLED && !TURNSTILE_WIDGET_INVISIBLE);
+}
+
+function clearTurnstileWidget(){
+  const container = document.getElementById("captcha-container");
+
+  if(widgetId && window.turnstile){
+    try { turnstile.remove(widgetId); } catch (err) {}
+  }
+
+  widgetId = null;
+
+  if(container){
+    container.innerHTML = "";
+    syncTurnstileContainerMode(container, false);
+  }
 }
 
 function initTurnstile(){
@@ -606,13 +626,10 @@ function initTurnstile(){
     throw new Error("Turnstile not ready");
   }
 
-  if(widgetId){
-    try { turnstile.remove(widgetId); } catch (err) {}
-    widgetId = null;
-  }
+  clearTurnstileWidget();
 
   container.innerHTML = "";
-  syncTurnstileContainerMode(container);
+  syncTurnstileContainerMode(container, true);
 
   const renderOptions={
     sitekey:'0x4AAAAAACyyfcbJQl7aMwTA',
@@ -685,23 +702,16 @@ function loadTurnstileScript(){
   return turnstileLoadPromise;
 }
 
-function ensureTurnstileWidget(forceRebuild=false){
+function ensureTurnstileWidget(){
   return loadTurnstileScript().then(()=>{
-    if(forceRebuild || !widgetId){
+    if(!widgetId){
       return initTurnstile();
     }
     return widgetId;
   });
 }
 
-function rebuildTurnstileWidget(){
-  return ensureTurnstileWidget(true).catch((err)=>{
-    console.error("[turnstile] Failed to rebuild widget:", err);
-    return null;
-  });
-}
-
-function recoverVerification(message, opts={}){
+function recoverVerification(message){
   const btn = getGenButton();
   clearVerifyTimeout();
   awaitingToken=false;
@@ -712,47 +722,43 @@ function recoverVerification(message, opts={}){
   }
 
   if(message){
-    setStatus(message, opts.type || "error");
+    setStatus(message, "error");
   }
 
-  if(opts.rebuild && TURNSTILE_VERIFICATION_ENABLED){
-    rebuildTurnstileWidget();
-  }else if(widgetId && window.turnstile){
-    try { turnstile.reset(widgetId); } catch (err) {}
-  }
+  clearTurnstileWidget();
 }
 
 function handleTurnstileError(errorCode){
   console.error("[turnstile] Client error:", errorCode);
 
   if(!awaitingToken && !isProcessing){
-    rebuildTurnstileWidget();
+    clearTurnstileWidget();
     return;
   }
 
-  recoverVerification("❌ Verification failed. Please try again.", { rebuild:true });
+  recoverVerification("❌ Verification failed. Please try again.");
 }
 
 function handleTurnstileExpired(){
   console.warn("[turnstile] Token expired before submission.");
 
   if(!awaitingToken && !isProcessing){
-    rebuildTurnstileWidget();
+    clearTurnstileWidget();
     return;
   }
 
-  recoverVerification("❌ Verification expired. Please try again.", { rebuild:true });
+  recoverVerification("❌ Verification expired. Please try again.");
 }
 
 function handleTurnstileTimeout(){
   console.warn("[turnstile] Interactive challenge timed out.");
 
   if(!awaitingToken && !isProcessing){
-    rebuildTurnstileWidget();
+    clearTurnstileWidget();
     return;
   }
 
-  recoverVerification("❌ Verification timed out. Please try again later.", { rebuild:true });
+  recoverVerification("❌ Verification timed out. Please try again later.");
 }
 
 function handleTurnstileUnsupported(){
@@ -781,7 +787,7 @@ function startVerifyTimeout(btn){
   clearVerifyTimeout();
   verifyTimeout = setTimeout(() => {
     if (awaitingToken) {
-      recoverVerification("❌ Verification is taking too long. Please try again.", { rebuild:true });
+      recoverVerification("❌ Verification is taking too long. Please try again.");
     }
   }, VERIFY_CALLBACK_TIMEOUT_MS);
 }
@@ -811,6 +817,7 @@ awaitingToken=false;
 const btn=document.getElementById("genTicketBtn");
 
 setStatus("⚙️ Generating your ticket...");
+clearTurnstileWidget();
 
 try{
 const res=await fetch("https://ticket-generator.platopedia.workers.dev/generate-ticket",{
@@ -826,7 +833,7 @@ const data = await res.json().catch(()=>({}));
 
 if(!res.ok){
   if (data && data.error === "captcha_failed") {
-    recoverVerification(`❌ ${(data && data.message) || "Verification failed. Please try again."}`, { rebuild:true });
+    recoverVerification(`❌ ${(data && data.message) || "Verification failed. Please try again."}`);
     return;
   }
 
@@ -842,10 +849,7 @@ if(!res.ok){
   }
   resetBtn(btn);
   isProcessing=false;
-
-  if(widgetId&&window.turnstile){
-    try{turnstile.reset(widgetId);}catch(err){}
-  }
+  clearTurnstileWidget();
 
   return;
 }
@@ -853,15 +857,15 @@ if(!res.ok){
 if(!data.ticket){
   throw new Error("Invalid response");
 }
-
 setStatus("✅ Ticket ready!","success");
+clearTurnstileWidget();
 
 setTimeout(()=>{
 window.location.href=`/groups/artrade/ticket?t=${data.ticket}`;
 },1000);
 
 }catch(err){
-recoverVerification(`❌ ${err.message || "Something went wrong. Please try again later."}`, { rebuild:true });
+recoverVerification(`❌ ${err.message || "Something went wrong. Please try again later."}`);
 }
 }
 
@@ -906,7 +910,7 @@ try{
   // fallback in case Turnstile callback never fires
   startVerifyTimeout(btn);
 }catch(err){
-  recoverVerification("❌ Verification failed. Please try again later.", { rebuild:true });
+  recoverVerification("❌ Verification failed. Please try again later.");
 }
 
 });
@@ -945,9 +949,7 @@ if(btn){
 
 setStatus("");
 
-if(widgetId&&window.turnstile){
-try{turnstile.reset(widgetId);}catch(err){}
-}
+clearTurnstileWidget();
 }
 });
 
