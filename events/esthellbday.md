@@ -119,13 +119,6 @@ heading: Esthell's Birthday
         text-align: center;
     }
 
-    #esthell-birthday .eb-kicker {
-        color: var(--eb-emerald);
-        font-weight: 900;
-        text-transform: uppercase;
-        letter-spacing: 0;
-    }
-
     #esthell-birthday h1 {
         color: var(--eb-gold);
         font-size: 2.65rem;
@@ -494,7 +487,10 @@ heading: Esthell's Birthday
     #esthell-birthday .eb-final p {
         max-width: 620px;
         margin: 12px auto 0;
+        font-family: "Brush Script MT", "Segoe Script", "Snell Roundhand", cursive;
+        font-size: 1.55rem;
         font-style: italic;
+        line-height: 1.35;
         text-align: center;
     }
 
@@ -584,7 +580,6 @@ heading: Esthell's Birthday
         <img class="eb-banner" src="/docs/assets/images/events/esthellbday/esthellbday-banner.png" alt="Esthell Birthday banner, May 13 at 1 PM GMT" width="2000" height="800" fetchpriority="high" decoding="async">
 
         <div class="eb-hero-copy">
-            <p class="eb-kicker">Arcade Birthday Event</p>
             <h1 id="esthell-title">Esthell's Birthday</h1>
             <p>Join us on <strong>May 13 at 1 PM GMT</strong> for Esthell's birthday celebration. Come early, bring love, and stay ready for prizes.</p>
         </div>
@@ -784,7 +779,7 @@ heading: Esthell's Birthday
             root.addEventListener('click', event => {
                 const control = event.target.closest('button, .eb-button');
                 if (!control || !root.contains(control) || control.disabled) return;
-                if (navigator.vibrate) navigator.vibrate(12);
+                if (navigator.vibrate) navigator.vibrate([28, 18, 34]);
             });
         };
 
