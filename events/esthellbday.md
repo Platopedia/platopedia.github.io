@@ -15,10 +15,14 @@ heading: Esthell's Birthday
         --eb-emerald: #08724f;
         --eb-gold: #b88923;
         --eb-shadow: rgba(35, 27, 7, .12);
+        --eb-font-body: "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+        --eb-font-heading: "Cormorant Garamond", "Playfair Display", Georgia, "Times New Roman", serif;
+        --eb-font-script: "Snell Roundhand", "Brush Script MT", "Segoe Script", cursive;
         width: 100%;
         max-width: 1080px;
         margin: 0 auto;
         color: var(--eb-text);
+        font-family: var(--eb-font-body);
         background: var(--eb-bg);
         border: 1px solid var(--eb-line);
         border-radius: 8px;
@@ -121,7 +125,9 @@ heading: Esthell's Birthday
 
     #esthell-birthday h1 {
         color: var(--eb-gold);
+        font-family: var(--eb-font-heading);
         font-size: 2.65rem;
+        font-weight: 800;
         line-height: 1.05;
     }
 
@@ -139,7 +145,9 @@ heading: Esthell's Birthday
         align-items: center;
         gap: 10px;
         color: var(--eb-emerald);
+        font-family: var(--eb-font-heading);
         font-size: 1.7rem;
+        font-weight: 800;
         line-height: 1.1;
     }
 
@@ -205,6 +213,7 @@ heading: Esthell's Birthday
     #esthell-birthday .eb-stat span,
     #esthell-birthday .eb-time span {
         color: var(--eb-muted);
+        font-family: var(--eb-font-heading);
         font-size: .78rem;
         font-weight: 800;
         text-transform: uppercase;
@@ -301,6 +310,7 @@ heading: Esthell's Birthday
         border-radius: 8px;
         background: var(--eb-gold);
         color: #102017 !important;
+        font-family: var(--eb-font-heading);
         font-weight: 900;
         text-decoration: none !important;
         cursor: pointer;
@@ -450,6 +460,7 @@ heading: Esthell's Birthday
     #esthell-birthday .eb-table th {
         color: #102017;
         background: var(--eb-gold);
+        font-family: var(--eb-font-heading);
         font-weight: 900;
     }
 
@@ -472,7 +483,7 @@ heading: Esthell's Birthday
         display: block;
         width: 100%;
         color: var(--eb-gold);
-        font-family: "Snell Roundhand", "Brush Script MT", "Segoe Script", cursive;
+        font-family: var(--eb-font-script);
         font-size: 2.35rem;
         font-weight: 700;
         line-height: 1.1;
