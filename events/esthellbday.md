@@ -105,12 +105,9 @@ heading: Esthell's Birthday
         font-size: 3rem;
         line-height: 1.05;
         letter-spacing: 0;
-        color: transparent;
-        background: linear-gradient(90deg, var(--eb-gold-2), var(--eb-cream), var(--eb-emerald-2), var(--eb-gold-2));
-        background-size: 240% 100%;
-        -webkit-background-clip: text;
-        background-clip: text;
-        animation: ebShine 5s linear infinite;
+        color: var(--eb-gold-2);
+        text-shadow: 0 0 18px rgba(255, 227, 155, .28);
+        animation: ebTitleGlow 3.8s ease-in-out infinite;
     }
 
     #esthell-birthday .eb-lede {
@@ -132,30 +129,43 @@ heading: Esthell's Birthday
     }
 
     #esthell-birthday .eb-title-chip {
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
+        min-height: 0;
         max-width: 100%;
-        padding: 8px 10px;
+        padding: 8px 10px !important;
         border: 1px solid rgba(255, 227, 155, .28);
         border-radius: 8px;
-        background: linear-gradient(135deg, rgba(6, 41, 31, .92), rgba(11, 111, 76, .58));
+        margin: 0 !important;
+        background: linear-gradient(135deg, rgba(6, 41, 31, .92), rgba(11, 111, 76, .58), rgba(216, 173, 67, .14));
+        background-size: 220% 100%;
         box-shadow: 0 10px 22px rgba(0, 0, 0, .18);
+        line-height: 1.08 !important;
+        font-size: inherit !important;
+        animation: ebChipShine 4.2s linear infinite;
     }
 
     #esthell-birthday .eb-title-text {
         font-size: 1.9rem;
         line-height: 1.08;
         letter-spacing: 0;
-        color: transparent;
-        background: linear-gradient(90deg, var(--eb-gold-2), var(--eb-gold), var(--eb-cream), var(--eb-emerald-2), var(--eb-gold-2));
-        background-size: 260% 100%;
-        -webkit-background-clip: text;
-        background-clip: text;
-        animation: ebShine 4.2s linear infinite;
+        color: var(--eb-gold-2);
+        -webkit-text-fill-color: var(--eb-gold-2);
+        text-shadow: 0 0 14px rgba(255, 227, 155, .24);
+        animation: ebTitleGlow 3.8s ease-in-out infinite;
     }
 
-    @keyframes ebShine {
+    @keyframes ebChipShine {
         to {
-            background-position: 240% 50%;
+            background-position: 220% 50%;
+        }
+    }
+
+    @keyframes ebTitleGlow {
+        50% {
+            color: var(--eb-cream);
+            -webkit-text-fill-color: var(--eb-cream);
+            text-shadow: 0 0 20px rgba(255, 227, 155, .42);
         }
     }
 
@@ -171,14 +181,27 @@ heading: Esthell's Birthday
     }
 
     #esthell-birthday .eb-event-grid {
-        display: grid;
-        grid-template-columns: 1.1fr .9fr;
-        gap: 12px;
-        align-items: stretch;
+        display: block;
     }
 
     #esthell-birthday .eb-card {
         padding: 16px;
+    }
+
+    #esthell-birthday .eb-event-card {
+        display: grid;
+        grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+        gap: 14px;
+        align-items: center;
+    }
+
+    #esthell-birthday .eb-event-copy {
+        display: grid;
+        gap: 9px;
+    }
+
+    #esthell-birthday .eb-event-copy p {
+        font-size: .98rem;
     }
 
     #esthell-birthday .eb-card h3 {
@@ -192,16 +215,16 @@ heading: Esthell's Birthday
     #esthell-birthday .eb-facts {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 10px;
-        margin-top: 12px;
+        gap: 8px;
+        margin-top: 0;
     }
 
     #esthell-birthday .eb-fact {
-        min-height: 76px;
+        min-height: 58px;
         display: grid;
         align-content: center;
         gap: 4px;
-        padding: 10px;
+        padding: 8px;
         border: 1px solid rgba(255, 227, 155, .24);
         border-radius: 8px;
         background: rgba(0, 0, 0, .16);
@@ -230,11 +253,11 @@ heading: Esthell's Birthday
         display: grid;
         grid-template-columns: repeat(4, minmax(0, 1fr));
         gap: 8px;
-        margin-top: 12px;
+        margin-top: 0;
     }
 
     #esthell-birthday .eb-time {
-        min-height: 72px;
+        min-height: 64px;
         display: grid;
         align-content: center;
         justify-items: center;
@@ -247,7 +270,7 @@ heading: Esthell's Birthday
 
     #esthell-birthday .eb-time strong {
         color: var(--eb-cream);
-        font-size: 1.55rem;
+        font-size: 1.36rem;
         line-height: 1;
         font-variant-numeric: tabular-nums;
     }
@@ -260,8 +283,9 @@ heading: Esthell's Birthday
     }
 
     #esthell-birthday .eb-note {
-        margin-top: 10px;
+        margin-top: 8px;
         color: var(--eb-gold-2);
+        font-size: .92rem;
         font-weight: 900;
         text-align: center;
     }
@@ -414,6 +438,7 @@ heading: Esthell's Birthday
         border-bottom: 1px solid rgba(255, 227, 155, .16);
         color: var(--eb-soft);
         line-height: 1.25;
+        text-align: center;
         vertical-align: middle;
     }
 
@@ -426,13 +451,11 @@ heading: Esthell's Birthday
     #esthell-birthday .eb-table th:first-child,
     #esthell-birthday .eb-table td:first-child {
         width: 58%;
-        text-align: left;
     }
 
     #esthell-birthday .eb-table th:last-child,
     #esthell-birthday .eb-table td:last-child {
         width: 42%;
-        text-align: right;
         font-variant-numeric: tabular-nums;
     }
 
@@ -463,7 +486,7 @@ heading: Esthell's Birthday
             font-size: 2.35rem;
         }
 
-        #esthell-birthday .eb-event-grid,
+        #esthell-birthday .eb-event-card,
         #esthell-birthday .eb-frame-card,
         #esthell-birthday .eb-sponsor-top,
         #esthell-birthday .eb-form-grid {
@@ -549,25 +572,25 @@ heading: Esthell's Birthday
         </div>
 
         <div class="eb-event-grid">
-            <div class="eb-card">
-                <h3>When and Where</h3>
-                <p>The celebration starts in the birthday group at exactly <strong>1 PM GMT</strong>. Instructions and invites will be shared before the event begins.</p>
-                <div class="eb-facts">
-                    <div class="eb-fact"><span>Date</span><strong>May 13</strong></div>
-                    <div class="eb-fact"><span>Time</span><strong>1 PM GMT</strong></div>
-                    <div class="eb-fact"><span>Guest</span><strong>esthell</strong></div>
+            <div class="eb-card eb-event-card">
+                <div class="eb-event-copy">
+                    <p>The birthday group opens on <strong>May 13 at 1 PM GMT</strong>. Invites and instructions will be shared before the event begins.</p>
+                    <div class="eb-facts">
+                        <div class="eb-fact"><span>Date</span><strong>May 13</strong></div>
+                        <div class="eb-fact"><span>Time</span><strong>1 PM GMT</strong></div>
+                        <div class="eb-fact"><span>Guest</span><strong>esthell</strong></div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="eb-card">
-                <h3>Countdown</h3>
-                <div class="eb-countdown" aria-live="polite">
-                    <div class="eb-time"><strong data-days>00</strong><span>Days</span></div>
-                    <div class="eb-time"><strong data-hours>00</strong><span>Hours</span></div>
-                    <div class="eb-time"><strong data-minutes>00</strong><span>Minutes</span></div>
-                    <div class="eb-time"><strong data-seconds>00</strong><span>Seconds</span></div>
+                <div class="eb-countdown-wrap">
+                    <div class="eb-countdown" aria-live="polite">
+                        <div class="eb-time"><strong data-days>00</strong><span>Days</span></div>
+                        <div class="eb-time"><strong data-hours>00</strong><span>Hours</span></div>
+                        <div class="eb-time"><strong data-minutes>00</strong><span>Minutes</span></div>
+                        <div class="eb-time"><strong data-seconds>00</strong><span>Seconds</span></div>
+                    </div>
+                    <p class="eb-note" data-countdown-note>May 13, 2026 - 1 PM GMT</p>
                 </div>
-                <p class="eb-note" data-countdown-note>May 13, 2026 - 1 PM GMT</p>
             </div>
         </div>
     </section>
