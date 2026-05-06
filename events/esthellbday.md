@@ -663,7 +663,7 @@ heading: <img src="/docs/assets/images/events/esthellbday/scroll.webp" />&nbsp;E
             <div class="eb-form-grid">
                 <label class="eb-field">
                     <span class="eb-label">Plato ID</span>
-                    <input name="platoId" type="text" autocomplete="off" placeholder="esthell" required>
+                    <input name="platoId" type="text" autocomplete="off" placeholder="Enter your Plato ID" required>
                 </label>
                 <label class="eb-field">
                     <span class="eb-label">Plato Invite Link</span>
@@ -671,7 +671,7 @@ heading: <img src="/docs/assets/images/events/esthellbday/scroll.webp" />&nbsp;E
                 </label>
                 <label class="eb-field">
                     <span class="eb-label">Sponsor Amount</span>
-                    <input name="amount" type="text" inputmode="numeric" placeholder="50,000" required>
+                    <input name="amount" type="text" inputmode="numeric" placeholder="Enter amount in Coins" required>
                 </label>
             </div>
             <div class="eb-form-actions">
