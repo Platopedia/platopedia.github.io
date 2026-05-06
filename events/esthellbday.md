@@ -59,7 +59,27 @@ heading: Esthell's Birthday
 
     #esthell-birthday h1,
     #esthell-birthday h2,
-    #esthell-birthday h3,
+    #esthell-birthday h3 {
+        margin: 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+        background-image: none !important;
+        box-shadow: none !important;
+    }
+
+    #esthell-birthday h1::before,
+    #esthell-birthday h1::after,
+    #esthell-birthday h2::before,
+    #esthell-birthday h2::after,
+    #esthell-birthday h3::before,
+    #esthell-birthday h3::after {
+        content: none !important;
+        display: none !important;
+        border: 0 !important;
+        background: none !important;
+        box-shadow: none !important;
+    }
+
     #esthell-birthday p {
         margin: 0;
     }
@@ -93,7 +113,7 @@ heading: Esthell's Birthday
         background:
             linear-gradient(135deg, rgba(216, 173, 67, .12), rgba(24, 168, 111, .12)),
             rgba(0, 0, 0, .12);
-        border-bottom: 1px solid var(--eb-line);
+        border-bottom: 0;
     }
 
     #esthell-birthday .eb-banner {
@@ -135,7 +155,7 @@ heading: Esthell's Birthday
 
     #esthell-birthday .eb-section {
         padding: 22px 16px;
-        border-bottom: 1px solid rgba(255, 227, 155, .2);
+        border-bottom: 0;
         background:
             linear-gradient(180deg, rgba(255, 255, 255, .035), rgba(0, 0, 0, .075)),
             linear-gradient(90deg, rgba(216, 173, 67, .05), rgba(24, 168, 111, .07));
@@ -151,12 +171,12 @@ heading: Esthell's Birthday
         min-height: 0;
         max-width: 100%;
         padding: 8px 10px !important;
-        border: 1px solid rgba(255, 227, 155, .28);
+        border: 1px solid rgba(255, 227, 155, .28) !important;
         border-radius: 8px;
         margin: 0 !important;
-        background: linear-gradient(135deg, rgba(6, 41, 31, .92), rgba(11, 111, 76, .58), rgba(216, 173, 67, .14));
+        background: linear-gradient(135deg, rgba(6, 41, 31, .92), rgba(11, 111, 76, .58), rgba(216, 173, 67, .14)) !important;
         background-size: 220% 100%;
-        box-shadow: 0 10px 22px rgba(0, 0, 0, .18);
+        box-shadow: 0 10px 22px rgba(0, 0, 0, .18) !important;
         line-height: 1.08 !important;
         font-size: inherit !important;
         animation: ebChipShine 4.2s linear infinite;
@@ -353,7 +373,7 @@ heading: Esthell's Birthday
 
     #esthell-birthday .eb-time strong {
         color: var(--eb-gold-2) !important;
-        font-size: 1.38rem;
+        font-size: 1.52rem;
         line-height: 1;
         font-variant-numeric: tabular-nums;
     }
@@ -662,7 +682,7 @@ heading: Esthell's Birthday
         }
 
         #esthell-birthday .eb-time strong {
-            font-size: 1.22rem;
+            font-size: 1.34rem;
         }
 
         #esthell-birthday .eb-time span {
@@ -720,7 +740,6 @@ heading: Esthell's Birthday
                         <div class="eb-time"><strong data-minutes>00</strong><span>m</span></div>
                         <div class="eb-time"><strong data-seconds>00</strong><span>s</span></div>
                     </div>
-                    <p class="eb-note" data-countdown-note>May 13, 2026 - 1 PM GMT</p>
                 </div>
             </div>
         </div>
@@ -841,7 +860,6 @@ heading: Esthell's Birthday
             const hours = root.querySelector('[data-hours]');
             const minutes = root.querySelector('[data-minutes]');
             const seconds = root.querySelector('[data-seconds]');
-            const note = root.querySelector('[data-countdown-note]');
 
             const tick = () => {
                 const diff = target - Date.now();
@@ -850,7 +868,6 @@ heading: Esthell's Birthday
                     hours.textContent = '00';
                     minutes.textContent = '00';
                     seconds.textContent = '00';
-                    note.textContent = 'Happy birthday, Esthell!';
                     return;
                 }
 
