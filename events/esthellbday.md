@@ -323,7 +323,7 @@ heading: <img src="/docs/assets/images/events/esthellbday/scroll.webp" />&nbsp;E
         max-width: 100%;
         color: var(--eb-emerald) !important;
         font-family: var(--eb-font-body);
-        font-size: clamp(12px, 2.8vw, 14px);
+        font-size: clamp(14px, 3.6vw, 16px);
         font-weight: 700;
         line-height: 1.3;
         white-space: nowrap;
@@ -754,7 +754,7 @@ heading: <img src="/docs/assets/images/events/esthellbday/scroll.webp" />&nbsp;E
                         <span class="eb-label">Invite Account</span>
                         <strong>@PartyBot2</strong>
                     </div>
-                    <span class="content-link eb-invite-link" data-url="https://plato.app/29zw3mw2s0ro7" data-text="plato.app/29zw3mw2s0ro7" data-copy="true"></span>
+                    <span class="content-link eb-invite-link" data-url="https://plato.app/29zw3mw2s0ro7" data-text="https://plato.app/29zw3mw2s0ro7" data-copy="true"></span>
                 </div>
 
                 <div class="eb-invite-row">
@@ -762,7 +762,7 @@ heading: <img src="/docs/assets/images/events/esthellbday/scroll.webp" />&nbsp;E
                         <span class="eb-label">Invite Account</span>
                         <strong>@PartyBot</strong>
                     </div>
-                    <span class="content-link eb-invite-link" data-url="https://plato.app/39zw3mw2s0ro7" data-text="plato.app/39zw3mw2s0ro7" data-copy="true"></span>
+                    <span class="content-link eb-invite-link" data-url="https://plato.app/39zw3mw2s0ro7" data-text="https://plato.app/39zw3mw2s0ro7" data-copy="true"></span>
                 </div>
             </div>
         </div>
@@ -835,6 +835,7 @@ heading: <img src="/docs/assets/images/events/esthellbday/scroll.webp" />&nbsp;E
                 <tr><td>ISIRENA</td><td>450,000</td></tr>
                 <tr><td>Fear</td><td>150,000</td></tr>
                 <tr><td>Nefya</td><td>100,000</td></tr>
+                <tr><td>Rose</td><td>100,000</td></tr>
                 <tr><td>Wytie</td><td>62,500</td></tr>
                 <tr><td>Aura</td><td>60,000</td></tr>
             </tbody>
