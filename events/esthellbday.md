@@ -20,6 +20,7 @@ heading: <img src="/docs/assets/images/events/esthellbday/scroll.webp" />&nbsp;E
         --eb-font-body: "Cormorant Garamond", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
         --eb-font-heading: "Cinzel", "Cormorant Garamond", Georgia, "Times New Roman", serif;
         --eb-font-script: "Great Vibes", "Snell Roundhand", "Brush Script MT", "Segoe Script", cursive;
+        --eb-font-time: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
         width: 100%;
         max-width: 1080px;
         margin: 0 auto;
@@ -225,6 +226,13 @@ heading: <img src="/docs/assets/images/events/esthellbday/scroll.webp" />&nbsp;E
         font-variant-numeric: tabular-nums;
     }
 
+    #esthell-birthday .eb-date-text {
+        color: var(--eb-gold);
+        font-family: var(--eb-font-time);
+        font-weight: 800;
+        font-variant-numeric: tabular-nums;
+    }
+
     #esthell-birthday .eb-stat strong span {
         color: inherit;
         font-size: inherit;
@@ -265,7 +273,7 @@ heading: <img src="/docs/assets/images/events/esthellbday/scroll.webp" />&nbsp;E
 
     #esthell-birthday .eb-time strong {
         color: var(--eb-gold);
-        font-family: var(--eb-font-heading);
+        font-family: var(--eb-font-time);
         font-size: 1.7rem;
         font-weight: 700;
         line-height: 1;
@@ -710,7 +718,7 @@ heading: <img src="/docs/assets/images/events/esthellbday/scroll.webp" />&nbsp;E
         <img class="eb-banner" src="/docs/assets/images/events/esthellbday/esthellbday-banner.webp" alt="Esthell Birthday banner, May 13 at 1 PM GMT" width="2000" height="800" fetchpriority="high" decoding="async">
 
         <div class="eb-hero-copy">
-            <p>Join us on <strong>May 13 at 1 PM GMT</strong> for Esthell's birthday celebration. Come early, bring love, and stay ready for prizes.</p>
+            <p>Join us on <strong class="eb-date-text">May 13 at 1 PM GMT</strong> for Esthell's birthday celebration. Come early, bring love, and stay ready for prizes.</p>
         </div>
     </section>
 
@@ -721,7 +729,7 @@ heading: <img src="/docs/assets/images/events/esthellbday/scroll.webp" />&nbsp;E
 
         <div class="eb-grid">
             <div class="eb-card eb-event-card">
-                <p>The birthday group opens on <strong>May 13 at 1 PM GMT</strong>. Invites and instructions will be shared before the event begins.</p>
+                <p>The birthday group opens on <strong class="eb-date-text">May 13 at 1 PM GMT</strong>. Invites and instructions will be shared before the event begins.</p>
                 <div class="eb-facts">
                     <div class="eb-fact"><span>Date</span><strong>May 13</strong></div>
                     <div class="eb-fact"><span>Time</span><strong>1 PM GMT</strong></div>
