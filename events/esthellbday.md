@@ -309,17 +309,82 @@ heading: <img src="/docs/assets/images/events/esthellbday/scroll.webp" />&nbsp;E
         line-height: 1.1;
     }
 
-    #esthell-birthday .eb-invite-link,
-    #esthell-birthday .eb-invite-link a {
-        display: inline-flex;
+    #esthell-birthday .eb-invite-link {
+        display: flex;
         align-items: center;
+        gap: 8px;
+        max-width: 100%;
+        min-width: 0;
+    }
+
+    #esthell-birthday .eb-invite-link a {
+        display: inline;
+        min-width: 0;
         max-width: 100%;
         color: var(--eb-emerald) !important;
-        font-family: var(--eb-font-heading);
-        font-size: .92rem;
-        font-weight: 800;
+        font-family: var(--eb-font-body);
+        font-size: clamp(12px, 2.8vw, 14px);
+        font-weight: 700;
         line-height: 1.3;
-        text-decoration: none !important;
+        white-space: nowrap;
+        text-decoration: underline !important;
+        text-decoration-color: currentColor;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 3px;
+        text-transform: none !important;
+    }
+
+    #esthell-birthday .eb-invite-link a:hover,
+    #esthell-birthday .eb-invite-link a:active,
+    #esthell-birthday .eb-invite-link a:focus-visible {
+        color: var(--eb-gold) !important;
+        text-decoration-thickness: 2px;
+    }
+
+    #esthell-birthday .eb-invite-link :where(button, [role="button"], [class*="copy"], [data-action*="copy"]) {
+        position: relative;
+        display: inline-flex !important;
+        flex: 0 0 auto;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        min-width: 30px;
+        height: 30px;
+        min-height: 30px;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: 1px solid var(--eb-line) !important;
+        border-radius: 8px !important;
+        background: var(--eb-surface) !important;
+        color: var(--eb-emerald) !important;
+        font-size: 0 !important;
+        line-height: 1 !important;
+        vertical-align: middle;
+        cursor: pointer;
+    }
+
+    #esthell-birthday .eb-invite-link :where(button, [role="button"], [class*="copy"], [data-action*="copy"])::before,
+    #esthell-birthday .eb-invite-link :where(button, [role="button"], [class*="copy"], [data-action*="copy"])::after {
+        content: "";
+        position: absolute;
+        width: 11px;
+        height: 13px;
+        border: 1.7px solid currentColor;
+        border-radius: 2px;
+    }
+
+    #esthell-birthday .eb-invite-link :where(button, [role="button"], [class*="copy"], [data-action*="copy"])::before {
+        transform: translate(2px, 2px);
+    }
+
+    #esthell-birthday .eb-invite-link :where(button, [role="button"], [class*="copy"], [data-action*="copy"])::after {
+        background: var(--eb-surface);
+        transform: translate(-2px, -2px);
+    }
+
+    #esthell-birthday .eb-invite-link :where(button, [role="button"], [class*="copy"], [data-action*="copy"]):hover {
+        color: var(--eb-gold) !important;
+        transform: translateY(-1px);
     }
 
     #esthell-birthday .eb-frame-card {
@@ -689,7 +754,7 @@ heading: <img src="/docs/assets/images/events/esthellbday/scroll.webp" />&nbsp;E
                         <span class="eb-label">Invite Account</span>
                         <strong>@PartyBot2</strong>
                     </div>
-                    <span class="content-link eb-invite-link" data-url="https://plato.app/29zw3mw2s0ro7" data-text="" data-copy="true"></span>
+                    <span class="content-link eb-invite-link" data-url="https://plato.app/29zw3mw2s0ro7" data-text="plato.app/29zw3mw2s0ro7" data-copy="true"></span>
                 </div>
 
                 <div class="eb-invite-row">
@@ -697,7 +762,7 @@ heading: <img src="/docs/assets/images/events/esthellbday/scroll.webp" />&nbsp;E
                         <span class="eb-label">Invite Account</span>
                         <strong>@PartyBot</strong>
                     </div>
-                    <span class="content-link eb-invite-link" data-url="https://plato.app/39zw3mw2s0ro7" data-text="" data-copy="true"></span>
+                    <span class="content-link eb-invite-link" data-url="https://plato.app/39zw3mw2s0ro7" data-text="plato.app/39zw3mw2s0ro7" data-copy="true"></span>
                 </div>
             </div>
         </div>
