@@ -227,8 +227,11 @@ heading: <img src="/docs/assets/images/events/esthellbday/scroll.webp" />&nbsp;E
 
     #esthell-birthday .eb-date-text {
         color: var(--eb-gold);
-        font-family: var(--eb-font-heading);
+        font-family: inherit;
+        font-size: inherit;
         font-weight: 700;
+        line-height: inherit;
+        font-feature-settings: "lnum" 1, "tnum" 1;
         font-variant-numeric: tabular-nums;
     }
 
