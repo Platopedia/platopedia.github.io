@@ -276,6 +276,52 @@ heading: <img src="/docs/assets/images/events/esthellbday/scroll.webp" />&nbsp;E
         text-transform: lowercase;
     }
 
+    #esthell-birthday .eb-invite-card {
+        display: grid;
+        gap: 14px;
+    }
+
+    #esthell-birthday .eb-invite-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    #esthell-birthday .eb-invite-row {
+        display: grid;
+        gap: 10px;
+        min-width: 0;
+        padding: 14px;
+        border: 1px solid var(--eb-line);
+        border-radius: 8px;
+        background: var(--eb-surface-soft);
+    }
+
+    #esthell-birthday .eb-invite-account {
+        display: grid;
+        gap: 3px;
+    }
+
+    #esthell-birthday .eb-invite-account strong {
+        color: var(--eb-gold);
+        font-family: var(--eb-font-heading);
+        font-size: 1.16rem;
+        line-height: 1.1;
+    }
+
+    #esthell-birthday .eb-invite-link,
+    #esthell-birthday .eb-invite-link a {
+        display: inline-flex;
+        align-items: center;
+        max-width: 100%;
+        color: var(--eb-emerald) !important;
+        font-family: var(--eb-font-heading);
+        font-size: .92rem;
+        font-weight: 800;
+        line-height: 1.3;
+        text-decoration: none !important;
+    }
+
     #esthell-birthday .eb-frame-card {
         display: grid;
         grid-template-columns: 220px minmax(0, 1fr);
@@ -536,7 +582,8 @@ heading: <img src="/docs/assets/images/events/esthellbday/scroll.webp" />&nbsp;E
         #esthell-birthday .eb-grid,
         #esthell-birthday .eb-frame-card,
         #esthell-birthday .eb-sponsor-top,
-        #esthell-birthday .eb-form-grid {
+        #esthell-birthday .eb-form-grid,
+        #esthell-birthday .eb-invite-list {
             grid-template-columns: 1fr;
         }
 
@@ -628,6 +675,34 @@ heading: <img src="/docs/assets/images/events/esthellbday/scroll.webp" />&nbsp;E
         </div>
     </section>
 
+    <section class="eb-section" aria-labelledby="invite-title">
+        <div class="eb-section-head">
+            <h2 id="invite-title">Group Invite</h2>
+        </div>
+
+        <div class="eb-card eb-invite-card">
+            <p>Book your spot for the giveaway by adding one of these accounts. An invite will be sent on the event day. Please add only one account.</p>
+
+            <div class="eb-invite-list">
+                <div class="eb-invite-row">
+                    <div class="eb-invite-account">
+                        <span class="eb-label">Invite Account</span>
+                        <strong>@PartyBot2</strong>
+                    </div>
+                    <span class="content-link eb-invite-link" data-url="https://plato.app/29zw3mw2s0ro7" data-text="" data-copy="true"></span>
+                </div>
+
+                <div class="eb-invite-row">
+                    <div class="eb-invite-account">
+                        <span class="eb-label">Invite Account</span>
+                        <strong>@PartyBot</strong>
+                    </div>
+                    <span class="content-link eb-invite-link" data-url="https://plato.app/39zw3mw2s0ro7" data-text="" data-copy="true"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="eb-section" aria-labelledby="frame-title">
         <div class="eb-section-head">
             <h2 id="frame-title">Birthday Frame</h2>
@@ -703,7 +778,7 @@ heading: <img src="/docs/assets/images/events/esthellbday/scroll.webp" />&nbsp;E
 
     <section class="eb-final" aria-labelledby="final-title">
         <h2 id="final-title">Happy Birthday, Esthell</h2>
-        <p>May 13 is your day. Siren, help here please.</p>
+        <p>May 13th is your day. The day one of the most talented and amazing people in the world was born. We are wishing you the happiest of birthdays today and for the future ones to come! Lots of love - Arcade fam.</p>
     </section>
 </div>
 
