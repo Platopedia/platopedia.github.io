@@ -734,7 +734,7 @@ heading: <img src="/docs/assets/images/events/esthellbday/scroll.webp" />&nbsp;E
                 <div class="eb-facts">
                     <div class="eb-fact"><span>Date</span><strong>May 13</strong></div>
                     <div class="eb-fact"><span>Time</span><strong>1 PM GMT</strong></div>
-                    <div class="eb-fact"><span>Location</span><strong>more info soon</strong></div>
+                    <div class="eb-fact"><span>Location</span><strong>check below!</strong></div>
                 </div>
             </div>
 
@@ -763,7 +763,7 @@ heading: <img src="/docs/assets/images/events/esthellbday/scroll.webp" />&nbsp;E
                         <span class="eb-label">Invite Account</span>
                         <strong>@PartyBot</strong>
                     </div>
-                    <span class="content-link eb-invite-link" data-url="https://platoapp.com/link/i2td55798awk" data-text="https://plato.app/29zw3mw2s0ro7" data-copy="true"></span>
+                    <span class="content-link eb-invite-link" data-url="https://platoapp.com/link/i2td55798awk" data-text="https://platoapp.com/link/i2td55798awk" data-copy="true"></span>
                 </div>
 
                 <div class="eb-invite-row">
@@ -771,7 +771,7 @@ heading: <img src="/docs/assets/images/events/esthellbday/scroll.webp" />&nbsp;E
                         <span class="eb-label">Invite Account</span>
                         <strong>@PartyBot2</strong>
                     </div>
-                    <span class="content-link eb-invite-link" data-url="https://platoapp.com/link/ipgzh37itx48" data-text="https://plato.app/39zw3mw2s0ro7" data-copy="true"></span>
+                    <span class="content-link eb-invite-link" data-url="https://platoapp.com/link/ipgzh37itx48" data-text="https://platoapp.com/link/ipgzh37itx48" data-copy="true"></span>
                 </div>
 
                 <div class="eb-invite-row">
@@ -779,7 +779,7 @@ heading: <img src="/docs/assets/images/events/esthellbday/scroll.webp" />&nbsp;E
                         <span class="eb-label">Invite Account</span>
                         <strong>@PartyBot3</strong>
                     </div>
-                    <span class="content-link eb-invite-link" data-url="https://platoapp.com/link/e4vwnbw4vl7a" data-text="https://plato.app/39zw3mw2s0ro7" data-copy="true"></span>
+                    <span class="content-link eb-invite-link" data-url="https://platoapp.com/link/e4vwnbw4vl7a" data-text="https://platoapp.com/link/e4vwnbw4vl7a" data-copy="true"></span>
                 </div>
             </div>
         </div>
