@@ -785,7 +785,7 @@ heading: <img src="/docs/assets/images/events/esthellbday/scroll.webp" />&nbsp;E
         </div>
     </section>
 
-    <section class="eb-section" aria-labelledby="frame-title">
+    <section class="eb-section" id="frame" aria-labelledby="frame-title">
         <div class="eb-section-head">
             <h2 id="frame-title">Birthday Frame</h2>
         </div>
