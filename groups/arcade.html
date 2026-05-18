@@ -17,7 +17,8 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     input,textarea,[contenteditable="true"],.selectable,.selectable *,.content-link,.content-link *{-webkit-user-select:text!important;user-select:text!important;-webkit-touch-callout:default!important;cursor:text}
     /* Clamp viewport overflow */
     html,body{max-width:100%;overflow-x:hidden}
-    html,body{background-color:var(--color-D)}
+    html{background-color:var(--color-D,#000)}
+    body{background-color:var(--color-D,#000)}
     body{padding-bottom:env(safe-area-inset-bottom)}
     :where(.thumbnail-grid,.podium,.stats-grid,.nav.nav-pills.nav-content,.pagination,.content-table)>*{min-width:0}
     :where(h1,h2,h3,h4,h5,h6,p,li,a,span,.content-link){overflow-wrap:anywhere;word-break:break-word}
@@ -1851,7 +1852,9 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 <!-- ========================= Scripts ========================= -->
 <script>
     /* ========== Mobile browser chrome / bottom gesture bar ========== */
-    (()=>{const color=(getComputedStyle(document.body).getPropertyValue('--color-D')||getComputedStyle(document.documentElement).getPropertyValue('--color-D')||'#000').trim()||'#000';
+    (()=>{const read=el=>getComputedStyle(el).getPropertyValue('--color-D').trim();
+    const color=read(document.body)||read(document.documentElement)||'#000';
+    document.documentElement.style.backgroundColor=color;document.body.style.backgroundColor=color;
     let theme=document.querySelector('meta[name="theme-color"]');if(!theme){theme=document.createElement('meta');theme.name='theme-color';document.head.appendChild(theme);}theme.content=color;
     let viewport=document.querySelector('meta[name="viewport"]');if(!viewport){viewport=document.createElement('meta');viewport.name='viewport';viewport.content='width=device-width, initial-scale=1';document.head.appendChild(viewport);}
     if(!/viewport-fit\s*=/.test(viewport.content))viewport.content=`${viewport.content.replace(/\s*,?\s*$/,'')}, viewport-fit=cover`;})();
