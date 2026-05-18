@@ -1931,6 +1931,18 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
     /* ========== Banner patch ========== */
     document.querySelectorAll('.content-image img').forEach(i=>{const w=i.closest('.content-image'),show=()=>{w&&(w.classList.remove('is-missing'),i.style.opacity='',i.classList.remove('is-missing'))};if(i.complete&&i.naturalWidth){show();return}i.addEventListener('load',show,{once:!0});i.addEventListener('error',()=>{i.addEventListener('load',show,{once:!0});w&&w.classList.add('is-missing');i.style.opacity='0';i.src=i.src.replace(/\.(?:webp|avif)(?:\?.*)?$/i,'.jpg')},{once:!0})});
+    
+    /* ========== Android browser bar color from --color-D ========== */
+    (()=>{
+      const applyThemeColor=()=>{
+        const color=getComputedStyle(document.body).getPropertyValue('--color-D').trim()||'#000000';
+        let meta=document.querySelector('meta[name="theme-color"]');
+        if(!meta){meta=document.createElement('meta');meta.name='theme-color';document.head.appendChild(meta);}
+        meta.setAttribute('content',color);
+      };
+      applyThemeColor();
+      new MutationObserver(applyThemeColor).observe(document.body,{attributes:true,attributeFilter:['data-theme','class']});
+    })();
 
     /* ========== Unified last-updated date ========== */
     (()=>{const LAST_UPDATED="15/05/2026";document.querySelectorAll('[data-updated]').forEach(el=>el.textContent=LAST_UPDATED);})();
