@@ -16,7 +16,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     a,button,[role=button],.nav-link,.page-link,.social-buttons a{cursor:pointer}
     input,textarea,[contenteditable="true"],.selectable,.selectable *,.content-link,.content-link *{-webkit-user-select:text!important;user-select:text!important;-webkit-touch-callout:default!important;cursor:text}
     /* Clamp viewport overflow */
-    html,body{max-width:100%;overflow-x:hidden}
+    html,body{max-width:100%;overflow-x:hidden;background:var(--color-D)}
     :where(.thumbnail-grid,.podium,.stats-grid,.nav.nav-pills.nav-content,.pagination,.content-table)>*{min-width:0}
     :where(h1,h2,h3,h4,h5,h6,p,li,a,span,.content-link){overflow-wrap:anywhere;word-break:break-word}
 
@@ -1931,7 +1931,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
     /* ========== Banner patch ========== */
     document.querySelectorAll('.content-image img').forEach(i=>{const w=i.closest('.content-image'),show=()=>{w&&(w.classList.remove('is-missing'),i.style.opacity='',i.classList.remove('is-missing'))};if(i.complete&&i.naturalWidth){show();return}i.addEventListener('load',show,{once:!0});i.addEventListener('error',()=>{i.addEventListener('load',show,{once:!0});w&&w.classList.add('is-missing');i.style.opacity='0';i.src=i.src.replace(/\.(?:webp|avif)(?:\?.*)?$/i,'.jpg')},{once:!0})});
-    
+
     /* ========== Android browser bar color from --color-D ========== */
     (()=>{
       const applyThemeColor=()=>{
@@ -1939,6 +1939,9 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         let meta=document.querySelector('meta[name="theme-color"]');
         if(!meta){meta=document.createElement('meta');meta.name='theme-color';document.head.appendChild(meta);}
         meta.setAttribute('content',color);
+        let scheme=document.querySelector('meta[name="color-scheme"]');
+        if(!scheme){scheme=document.createElement('meta');scheme.name='color-scheme';document.head.appendChild(scheme);}
+        scheme.setAttribute('content','light dark');
       };
       applyThemeColor();
       new MutationObserver(applyThemeColor).observe(document.body,{attributes:true,attributeFilter:['data-theme','class']});
