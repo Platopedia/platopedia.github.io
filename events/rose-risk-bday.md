@@ -15,7 +15,7 @@ heading: "Rose & Risk's Birthday"
         --rr-muted: #705f58;
         --rr-line: #d2aa63;
         --rr-maroon: #7b1723;
-        --rr-gold: #bd8f2f;
+        --rr-gold: #b37b31;
         --rr-shadow: rgba(47, 12, 15, .14);
         --rr-font-body: "Spectral", "Cormorant Garamond", "Palatino Linotype", Georgia, serif;
         --rr-font-heading: "Marcellus SC", "Cinzel", "Cormorant Garamond", Georgia, serif;
@@ -39,7 +39,7 @@ heading: "Rose & Risk's Birthday"
         --rr-muted: rgba(255, 241, 207, .74);
         --rr-line: rgba(220, 177, 91, .32);
         --rr-maroon: #b02e3c;
-        --rr-gold: #d6a84f;
+        --rr-gold: #b37b31;
         --rr-shadow: rgba(0, 0, 0, .28);
     }
 
@@ -321,7 +321,7 @@ heading: "Rose & Risk's Birthday"
 
     #rose-risk-birthday .rr-invite-link {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         gap: 8px;
         max-width: 100%;
         min-width: 0;
@@ -329,14 +329,16 @@ heading: "Rose & Risk's Birthday"
 
     #rose-risk-birthday .rr-invite-link a {
         display: inline;
+        flex: 1 1 auto;
         min-width: 0;
         max-width: 100%;
         color: var(--rr-maroon) !important;
         font-family: var(--rr-font-body);
-        font-size: clamp(14px, 3.6vw, 16px);
+        font-size: clamp(13px, 3.2vw, 15px);
         font-weight: 700;
         line-height: 1.3;
-        white-space: nowrap;
+        overflow-wrap: anywhere;
+        word-break: break-word;
         text-decoration: underline !important;
         text-decoration-color: currentColor;
         text-decoration-thickness: 1px;
@@ -791,10 +793,10 @@ heading: "Rose & Risk's Birthday"
         </div>
 
         <div class="rr-card rr-frame-card">
-            <img src="/docs/assets/images/events/rose-risk-bday/rose-risk-bday-frame.png" alt="Rose and Risk birthday frame preview" width="800" height="800" loading="lazy" decoding="async">
+            <img src="/docs/assets/images/events/rosebday/rosebday-frame.png" alt="Rose and Risk birthday frame preview" width="800" height="800" loading="lazy" decoding="async">
             <div class="rr-frame-copy">
                 <p><strong>Mandatory:</strong> Put on the Rose and Risk birthday frame before joining the celebration.</p>
-                <a class="rr-button" href="/docs/assets/images/events/rose-risk-bday/rose-risk-bday-frame.png" download>Download Frame</a>
+                <a class="rr-button" href="/docs/assets/images/events/rosebday/rosebday-frame.png" download>Download Frame</a>
             </div>
         </div>
     </section>
