@@ -793,10 +793,10 @@ heading: <img src="/docs/assets/images/events/rose-risk-bday/rose-risk-bday-logo
         </div>
 
         <div class="rr-card rr-frame-card">
-            <img src="/docs/assets/images/events/rose-risk-bday/rose-risk-bday-banner.webp" alt="Rose and Risk birthday frame preview" width="800" height="800" loading="lazy" decoding="async">
+            <img src="/docs/assets/images/events/rose-risk-bday/rose-risk-bday-frame.webp" alt="Rose and Risk birthday frame preview" width="800" height="800" loading="lazy" decoding="async">
             <div class="rr-frame-copy">
                 <p><strong>Mandatory:</strong> Put on the Rose and Risk birthday frame before joining the celebration.</p>
-                <a class="rr-button" href="/docs/assets/images/events/rose-risk-bday/rose-risk-bday-banner.webp" download>Download Frame</a>
+                <a class="rr-button" href="/docs/assets/images/events/rose-risk-bday/rose-risk-bday-frame.webp" download>Download Frame</a>
             </div>
         </div>
     </section>
