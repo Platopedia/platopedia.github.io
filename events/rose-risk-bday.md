@@ -1,7 +1,7 @@
 ---
 layout: tool-content
-title: "Rose & Risk's Birthday - Platopedia"
-heading: "Rose & Risk's Birthday"
+title: Rose & Risk's Birthday - Platopedia
+heading: <img src="/docs/assets/images/events/rose-risk-bday/rose-risk-bday-logo.webp" />&nbsp;Rose & Risk's Birthday
 ---
 
 <style>
@@ -722,7 +722,7 @@ heading: "Rose & Risk's Birthday"
         <img class="rr-banner" src="/docs/assets/images/events/rose-risk-bday/rose-risk-bday-banner.webp" alt="Rose and Risk Birthday banner, June 6 at 1 PM GMT" width="1920" height="768" fetchpriority="high" decoding="async">
 
         <div class="rr-hero-copy">
-            <p>Join us on <strong class="rr-date-text">June 6 at 1 PM GMT</strong> for Rose and Risk's birthday celebration. Come early, bring love, and stay ready for prizes.</p>
+            <p>Arcade is throwing a joint birthday party for <strong>Rose & Risk</strong> on <strong class="rr-date-text">June 6 at 1 PM GMT</strong>! It's a massive event you won't want to miss. Bring your best energy for a day packed with prizes and good vibes. Check below for the party group invite.</p>
         </div>
     </section>
 
@@ -793,10 +793,10 @@ heading: "Rose & Risk's Birthday"
         </div>
 
         <div class="rr-card rr-frame-card">
-            <img src="/docs/assets/images/events/rosebday/rosebday-frame.png" alt="Rose and Risk birthday frame preview" width="800" height="800" loading="lazy" decoding="async">
+            <img src="/docs/assets/images/events/rose-risk-bday/rose-risk-bday-banner.webp" alt="Rose and Risk birthday frame preview" width="800" height="800" loading="lazy" decoding="async">
             <div class="rr-frame-copy">
                 <p><strong>Mandatory:</strong> Put on the Rose and Risk birthday frame before joining the celebration.</p>
-                <a class="rr-button" href="/docs/assets/images/events/rosebday/rosebday-frame.png" download>Download Frame</a>
+                <a class="rr-button" href="/docs/assets/images/events/rose-risk-bday/rose-risk-bday-banner.webp" download>Download Frame</a>
             </div>
         </div>
     </section>
@@ -850,13 +850,21 @@ heading: "Rose & Risk's Birthday"
                     <th scope="col">Amount</th>
                 </tr>
             </thead>
-            <tbody></tbody>
+            <tbody>
+                <tr><td>Fear</td><td>250,000</td></tr>
+                <tr><td>Fairy</td><td>125,000</td></tr>
+                <tr><td>esthell</td><td>100,000</td></tr>
+                <tr><td>Rivings</td><td>75,000</td></tr>
+                <tr><td>Nefya</td><td>50,000</td></tr>
+                <tr><td>Arts</td><td>35,000</td></tr>
+                <tr><td>Aura</td><td>25,000</td></tr>
+            </tbody>
         </table>
     </section>
 
     <section class="rr-final" aria-labelledby="final-title">
         <h2 id="final-title">Happy Birthday, Rose &amp; Risk</h2>
-        <p>June 6 is your day. Twin royalty, crowned in chaos and celebrated with love, prizes, and a room full of Arcade energy. Lots of love - Arcade fam.</p>
+        <p>What can I say? The influence you two have on our community is nothing short of amazing. On June 6, we get to celebrate and appreciate all that you are, because without you, Arcade wouldn't be the same - or even exist. Thank you for everything, absolute legends.</p>
     </section>
 </div>
 
@@ -865,7 +873,7 @@ heading: "Rose & Risk's Birthday"
         const root = document.getElementById('rose-risk-birthday');
         if (!root) return;
 
-        const WEBHOOK_URL = 'https://discord.com/api/webhooks/1501569265952882840/ex5wWeNRbqnqO__g0b8jEqy2Aom5VSyo-TTN0hkPuZsJ_RNZqJCSLL3EOOMCgl49yk2m';
+        const WEBHOOK_URL = 'https://discord.com/api/webhooks/1511006655762927647/cn_XQvtcaUAEyL4CCpF_wWKx1gA8d0_4hi8uroxePhn7apE2ATuaM5bCrc3MmsEYAVwe';
         const numberFrom = value => parseInt(String(value || '').replace(/[^\d]/g, ''), 10) || 0;
         const format = value => value.toLocaleString('en-US');
         const pad = value => String(value).padStart(2, '0');
