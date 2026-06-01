@@ -722,7 +722,7 @@ heading: <img src="/docs/assets/images/events/rose-risk-bday/rose-risk-bday-logo
         <img class="rr-banner" src="/docs/assets/images/events/rose-risk-bday/rose-risk-bday-banner.webp" alt="Rose and Risk Birthday banner, June 6 at 1 PM GMT" width="1920" height="768" fetchpriority="high" decoding="async">
 
         <div class="rr-hero-copy">
-            <p>Arcade is throwing a joint birthday party for <strong>Rose & Risk</strong> on <strong class="rr-date-text">June 6 at 1 PM GMT</strong>! It's a massive event you won't want to miss. Bring your best energy for a day packed with prizes and good vibes. Check below for the party group invite.</p>
+            <p>Arcade is throwing a joint birthday party for <strong>Rose & Risk</strong> on <strong class="rr-date-text">June 6 at 1 PM GMT!</strong> It's a massive event you won't want to miss. Bring your best energy for a day packed with prizes and good vibes. Check below for the party group invite.</p>
         </div>
     </section>
 
@@ -765,7 +765,7 @@ heading: <img src="/docs/assets/images/events/rose-risk-bday/rose-risk-bday-logo
                         <span class="rr-label">Invite Account</span>
                         <strong>@PartyBot</strong>
                     </div>
-                    <span class="content-link rr-invite-link" data-url="https://platoapp.com/link/i2td55798awk" data-text="https://platoapp.com/link/i2td55798awk" data-copy="true"></span>
+                    <span class="content-link rr-invite-link" data-url="https://platoapp.com/link/o69ig53gckal" data-text="https://platoapp.com/link/i2td55798awk" data-copy="true"></span>
                 </div>
 
                 <div class="rr-invite-row">
@@ -773,7 +773,7 @@ heading: <img src="/docs/assets/images/events/rose-risk-bday/rose-risk-bday-logo
                         <span class="rr-label">Invite Account</span>
                         <strong>@PartyBot2</strong>
                     </div>
-                    <span class="content-link rr-invite-link" data-url="https://platoapp.com/link/ipgzh37itx48" data-text="https://platoapp.com/link/ipgzh37itx48" data-copy="true"></span>
+                    <span class="content-link rr-invite-link" data-url="https://platoapp.com/link/olty6mwzykeh" data-text="https://platoapp.com/link/ipgzh37itx48" data-copy="true"></span>
                 </div>
 
                 <div class="rr-invite-row">
@@ -781,7 +781,7 @@ heading: <img src="/docs/assets/images/events/rose-risk-bday/rose-risk-bday-logo
                         <span class="rr-label">Invite Account</span>
                         <strong>@PartyBot3</strong>
                     </div>
-                    <span class="content-link rr-invite-link" data-url="https://platoapp.com/link/e4vwnbw4vl7a" data-text="https://platoapp.com/link/e4vwnbw4vl7a" data-copy="true"></span>
+                    <span class="content-link rr-invite-link" data-url="https://platoapp.com/link/2hs9w2hw5ys8l" data-text="https://platoapp.com/link/e4vwnbw4vl7a" data-copy="true"></span>
                 </div>
             </div>
         </div>
@@ -864,7 +864,7 @@ heading: <img src="/docs/assets/images/events/rose-risk-bday/rose-risk-bday-logo
 
     <section class="rr-final" aria-labelledby="final-title">
         <h2 id="final-title">Happy Birthday, Rose &amp; Risk</h2>
-        <p>What can I say? The influence you two have on our community is nothing short of amazing. On June 6, we get to celebrate and appreciate all that you are, because without you, Arcade wouldn't be the same - or even exist. Thank you for everything, absolute legends.</p>
+        <p>On June 6, we get to celebrate and appreciate all that you are, because without you, Arcade wouldn't be the same - or even exist. The influence you two have on our community is nothing short of amazing. Thank you for everything, absolute legends.</p>
     </section>
 </div>
 
