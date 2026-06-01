@@ -736,7 +736,7 @@ heading: <img src="/docs/assets/images/events/rose-risk-bday/rose-risk-bday-logo
                 <div class="rr-facts">
                     <div class="rr-fact"><span>Date</span><strong>June 6</strong></div>
                     <div class="rr-fact"><span>Time</span><strong>1 PM GMT</strong></div>
-                    <div class="rr-fact"><span>Location</span><strong>Arcade</strong></div>
+                    <div class="rr-fact"><span>Location</span><strong>Party Group</strong></div>
                 </div>
             </div>
 
