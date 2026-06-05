@@ -845,25 +845,29 @@ heading: <img src="/docs/assets/images/events/rose-risk-bday/rose-risk-bday-logo
                 <col style="width:50%">
             </colgroup>
             <thead>
-                <tr>
-                    <th scope="col">Sponsor</th>
-                    <th scope="col">Amount</th>
-                </tr>
+            <tr>
+                <th scope="col">Sponsor</th>
+                <th scope="col">Amount</th>
+            </tr>
             </thead>
             <tbody>
-                <tr><td>Fear</td><td>250,000</td></tr>
-                <tr><td>YYY</td><td>150,000</td></tr>
-                <tr><td>Fairy</td><td>125,000</td></tr>
-                <tr><td>esthell</td><td>100,000</td></tr>
-                <tr><td>Risk</td><td>100,000</td></tr>
-                <tr><td>Meowde</td><td>85,000</td></tr>
-                <tr><td>Rivings</td><td>75,000</td></tr>
-                <tr><td>Nefya</td><td>50,000</td></tr>
-                <tr><td>Frequency</td><td>50,000</td></tr>
-                <tr><td>Arts</td><td>35,000</td></tr>
-                <tr><td>Aura</td><td>25,000</td></tr>
-                <tr><td>zos</td><td>25,000</td></tr>
-                <tr><td>MADIIROSE</td><td>10,000</td></tr>
+            <tr><td>Fear</td><td>250,000</td></tr>
+            <tr><td>YYY</td><td>150,000</td></tr>
+            <tr><td>Fairy</td><td>125,000</td></tr>
+            <tr><td>esthell</td><td>100,000</td></tr>
+            <tr><td>Risk</td><td>100,000</td></tr>
+            <tr><td>iSirena</td><td>100,000</td></tr>
+            <tr><td>Meowde</td><td>85,000</td></tr>
+            <tr><td>Rivings</td><td>75,000</td></tr>
+            <tr><td>Nefya</td><td>50,000</td></tr>
+            <tr><td>Frequency</td><td>50,000</td></tr>
+            <tr><td>Arts</td><td>35,000</td></tr>
+            <tr><td>k4shiv90</td><td>35,000</td></tr>
+            <tr><td>Aura</td><td>25,000</td></tr>
+            <tr><td>zos</td><td>25,000</td></tr>
+            <tr><td>Galaxy</td><td>20,000</td></tr>
+            <tr><td>MADIIROSE</td><td>10,000</td></tr>
+            <tr><td>Kikutie</td><td>10,000</td></tr>
             </tbody>
         </table>
     </section>
