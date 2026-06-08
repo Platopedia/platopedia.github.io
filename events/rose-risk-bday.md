@@ -852,6 +852,7 @@ heading: <img src="/docs/assets/images/events/rose-risk-bday/rose-risk-bday-logo
             </thead>
             <tbody>
             <tr><td>Fear</td><td>250,000</td></tr>
+            <tr><td>Algerien</td><td>200,000</td></tr>
             <tr><td>YYY</td><td>150,000</td></tr>
             <tr><td>Fairy</td><td>125,000</td></tr>
             <tr><td>esthell</td><td>100,000</td></tr>
@@ -865,7 +866,10 @@ heading: <img src="/docs/assets/images/events/rose-risk-bday/rose-risk-bday-logo
             <tr><td>k4shiv90</td><td>35,000</td></tr>
             <tr><td>Aura</td><td>25,000</td></tr>
             <tr><td>zos</td><td>25,000</td></tr>
+            <tr><td>888k</td><td>25,000</td></tr>
             <tr><td>Galaxy</td><td>20,000</td></tr>
+            <tr><td>4574</td><td>20,000</td></tr>
+            <tr><td>Sonams</td><td>20,000</td></tr>
             <tr><td>MADIIROSE</td><td>10,000</td></tr>
             <tr><td>Kikutie</td><td>10,000</td></tr>
             </tbody>
