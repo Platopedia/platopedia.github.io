@@ -235,7 +235,7 @@ Artrade helps you connect with trusted item traders and merchants from our commu
 ## Artrade Invite
 
 **Artrade (Plato Group):**<br>
-<span class="content-link" data-url="https://platoapp.com/link/1k601dxkdvd20" data-text="" data-copy="true"></span>
+<span class="content-link" data-url="https://platoapp.com/link/2qklkynrule8h" data-text="" data-copy="true"></span>
 
 **Artrade (Discord Server):**
 <span class="content-link" data-url="https://discord.com/invite/ardc" data-text="" data-copy="true"></span>
@@ -292,6 +292,8 @@ During a trade, merchants and requesters must follow the trading rules listed be
 - Both parties are only allowed to exchange items, and must not involve any other types of exchanges.
 - Requesters need to send the full amount in items (trade price) before merchants can proceed with their part.
 - Not following Artrade's trading rules can get you removed from the group.
+- Items exchanged must be delivered by the requester’s and merchant’s main accounts. Alt or secondary accounts are not permitted.
+- Any item delivered through a secondary account will be considered invalid and may result in the loss of payment, as only transactions completed through the main requester and merchant accounts are recognized.
 
 <div class="linebreak"></div>
 
