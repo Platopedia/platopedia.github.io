@@ -270,6 +270,7 @@ const PAGE_SIZE = 120;
 
 const params = new URLSearchParams(location.search);
 const collectionId = params.get("id") || "";
+const normalizedCollectionId = /^[A-Za-z0-9_-]{12,64}$/.test(collectionId) ? collectionId : "";
 
 const subtitleEl = document.getElementById("collection-subtitle");
 const idEl = document.getElementById("collection-id");
@@ -494,8 +495,27 @@ crossCheckClearBtn.addEventListener("click", () => {
 });
 
 function setCrossCheckStatus(message, isError = false){
-  crossCheckStatusEl.textContent = message;
+  crossCheckStatusEl.textContent = formatStatusMessage(message);
   crossCheckStatusEl.classList.toggle("error", Boolean(isError));
+}
+
+function formatStatusMessage(message){
+  const text = String(message || "").trim();
+  if(!text) return "";
+
+  return text
+    .replace(/\bread-timeout\b/gi, "Read timeout")
+    .replace(/\bremote-ended\b/gi, "Remote ended")
+    .replace(/\bsocket-error\b/gi, "Socket error")
+    .replace(/\binvalid_collection_id\b/gi, "Invalid collection link")
+    .replace(/\binvalid_invite_link\b/gi, "Invalid Plato invite link")
+    .replace(/\bnot_found\b/gi, "Not found")
+    .replace(/\bdb_not_configured\b/gi, "Service database is not configured")
+    .replace(/\bforbidden\b/gi, "Request was not allowed")
+    .replace(/\b[a-z][a-z0-9]*(?:_[a-z0-9]+)+\b/g, value =>
+      value.split("_").join(" ")
+    )
+    .replace(/^\w/, char => char.toUpperCase());
 }
 
 async function startCrossCheck(){
@@ -515,7 +535,7 @@ async function startCrossCheck(){
       headers:{ "content-type":"application/json" },
       body:JSON.stringify({
         inviteLink,
-        requesterCollectionId:collectionId
+        requesterCollectionId:normalizedCollectionId
       })
     });
     const created = await createResponse.json().catch(() => null);
@@ -540,8 +560,8 @@ async function startCrossCheck(){
 }
 
 async function waitForCrossCheck(id){
-  for(let attempt = 0; attempt < 60; attempt++){
-    if(attempt > 0) await delay(2000);
+  for(let attempt = 0; attempt < 120; attempt++){
+    if(attempt > 0) await delay(1000);
 
     const response = await fetch(`${COLLECTION_API_BASE}/cross-checks/${encodeURIComponent(id)}`, {
       cache:"no-store"
