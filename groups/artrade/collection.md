@@ -221,7 +221,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 <div class="collection-panel">
   <div class="collection-top">
     <div>
-      <h2 class="collection-title">Requester Collection</h2>
+      <h2 id="collection-title" class="collection-title">Requester Collection</h2>
       <div id="collection-subtitle" class="collection-muted">Loading collection...</div>
     </div>
     <div id="collection-id" class="collection-muted"></div>
@@ -231,10 +231,10 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
   <div class="collection-controls">
     <label class="collection-field">
       <span>Your Invite Link</span>
-      <small>Only show items you don't own.</small>
+      <small id="invite-help">Only show items you don't own.</small>
       <div class="collection-filter-row">
         <input id="owner-invite-link" class="collection-input collection-invite" type="url" autocomplete="off" autocapitalize="none">
-        <button id="cross-check-go" class="collection-filter-button" type="button">Go</button>
+        <button id="cross-check-go" class="collection-filter-button" type="button">Show My Collection</button>
         <button id="cross-check-clear" class="collection-filter-button secondary" type="button" hidden>Show all</button>
       </div>
       <div id="cross-check-status" class="collection-filter-status"></div>
@@ -271,12 +271,15 @@ const PAGE_SIZE = 120;
 const params = new URLSearchParams(location.search);
 const collectionId = params.get("id") || "";
 const normalizedCollectionId = /^[A-Za-z0-9_-]{12,64}$/.test(collectionId) ? collectionId : "";
+const hasRequesterCollection = Boolean(normalizedCollectionId);
 
+const titleEl = document.getElementById("collection-title");
 const subtitleEl = document.getElementById("collection-subtitle");
 const idEl = document.getElementById("collection-id");
 const statsEl = document.getElementById("collection-stats");
 const searchEl = document.getElementById("collection-search");
 const ownerInviteEl = document.getElementById("owner-invite-link");
+const inviteHelpEl = document.getElementById("invite-help");
 const crossCheckGoBtn = document.getElementById("cross-check-go");
 const crossCheckClearBtn = document.getElementById("cross-check-clear");
 const crossCheckStatusEl = document.getElementById("cross-check-status");
@@ -294,6 +297,7 @@ let renderedCount = 0;
 let collectionMeta = {};
 let viewerSkuSet = null;
 let viewerItemCount = 0;
+let requesterCollectionLoaded = false;
 
 function escapeHtml(value){
   return String(value).replace(/[&<>"']/g, char => ({
@@ -306,8 +310,13 @@ function escapeHtml(value){
 }
 
 function showError(message){
-  errorEl.textContent = message;
+  errorEl.textContent = formatStatusMessage(message);
   errorEl.style.display = "block";
+}
+
+function clearError(){
+  errorEl.textContent = "";
+  errorEl.style.display = "none";
 }
 
 function pill(label, value){
@@ -363,11 +372,12 @@ async function loadCatalog(){
 }
 
 async function loadCollection(){
-  if(!collectionId){
-    throw new Error("Missing collection id.");
+  if(!normalizedCollectionId){
+    enterMyCollectionMode("Paste your Plato invite link to load your collection.");
+    return;
   }
 
-  const response = await fetch(`${COLLECTION_API_BASE}/collections/${encodeURIComponent(collectionId)}`, {
+  const response = await fetch(`${COLLECTION_API_BASE}/collections/${encodeURIComponent(normalizedCollectionId)}`, {
     cache:"no-store"
   });
   const data = await response.json().catch(() => null);
@@ -378,8 +388,25 @@ async function loadCollection(){
 
   skuIds = Array.isArray(data.skuIds) ? data.skuIds.map(String) : [];
   collectionMeta = data;
-  idEl.textContent = `ID ${collectionId}`;
+  requesterCollectionLoaded = true;
+  titleEl.textContent = "Requester Collection";
+  inviteHelpEl.textContent = "Only show items you don't own.";
+  idEl.textContent = `ID ${normalizedCollectionId}`;
   subtitleEl.textContent = `${skuIds.length} unique SKU IDs`;
+}
+
+function enterMyCollectionMode(message){
+  requesterCollectionLoaded = false;
+  viewerSkuSet = null;
+  viewerItemCount = 0;
+  collectionMeta = {};
+  skuIds = [];
+  titleEl.textContent = "My Collection";
+  subtitleEl.textContent = message || "Paste your Plato invite link to load your collection.";
+  inviteHelpEl.textContent = "Show your collection from your Plato invite link.";
+  idEl.textContent = "";
+  crossCheckClearBtn.hidden = true;
+  buildVisibleItems();
 }
 
 function buildVisibleItems(){
@@ -512,6 +539,7 @@ function formatStatusMessage(message){
     .replace(/\bnot_found\b/gi, "Not found")
     .replace(/\bdb_not_configured\b/gi, "Service database is not configured")
     .replace(/\bforbidden\b/gi, "Request was not allowed")
+    .replace(/\bcollection id\b/gi, "collection ID")
     .replace(/\b[a-z][a-z0-9]*(?:_[a-z0-9]+)+\b/g, value =>
       value.split("_").join(" ")
     )
@@ -527,6 +555,7 @@ async function startCrossCheck(){
 
   crossCheckGoBtn.disabled = true;
   crossCheckClearBtn.hidden = true;
+  clearError();
   setCrossCheckStatus("Starting cross-check...");
 
   try{
@@ -547,10 +576,22 @@ async function startCrossCheck(){
     const ownerSkuIds = Array.isArray(result.skuIds) ? result.skuIds.map(String) : [];
     if(!ownerSkuIds.length) throw new Error("Your collection returned no SKU IDs.");
 
-    viewerSkuSet = new Set(ownerSkuIds);
-    viewerItemCount = Number(result.itemCount || ownerSkuIds.length);
-    crossCheckClearBtn.hidden = false;
-    setCrossCheckStatus(`Cross-check active. Hiding items you already own.`);
+    if(requesterCollectionLoaded){
+      viewerSkuSet = new Set(ownerSkuIds);
+      viewerItemCount = Number(result.itemCount || ownerSkuIds.length);
+      crossCheckClearBtn.textContent = "Show all";
+      crossCheckClearBtn.hidden = false;
+      setCrossCheckStatus("Cross-check active. Hiding items you already own.");
+    }else{
+      skuIds = ownerSkuIds;
+      collectionMeta = result;
+      viewerSkuSet = null;
+      viewerItemCount = 0;
+      titleEl.textContent = "My Collection";
+      subtitleEl.textContent = `${skuIds.length} unique SKU IDs`;
+      idEl.textContent = result.uid ? `UID ${result.uid}` : "";
+      setCrossCheckStatus("My collection loaded.");
+    }
     buildVisibleItems();
   }catch(error){
     setCrossCheckStatus(error.message || "Cross-check failed.", true);
@@ -583,13 +624,27 @@ function delay(ms){
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-Promise.all([loadCatalog(), loadCollection()])
-  .then(buildVisibleItems)
-  .catch(error => {
-    subtitleEl.textContent = "Could not load collection.";
+async function init(){
+  try{
+    await loadCatalog();
+  }catch(error){
+    subtitleEl.textContent = "Could not load catalog.";
     loadMoreBtn.disabled = true;
     copyBtn.disabled = true;
     showError(error.message);
-  });
+    return;
+  }
+
+  try{
+    await loadCollection();
+  }catch(error){
+    enterMyCollectionMode("Requester collection could not be loaded.");
+    showError(error.message);
+  }
+
+  buildVisibleItems();
+}
+
+init();
 
 </script>
