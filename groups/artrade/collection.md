@@ -46,9 +46,42 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
   font-weight:600;
 }
 
-.collection-search{
-  width:100%;
+.collection-controls{
+  display:grid;
+  gap:12px;
   margin-top:16px;
+}
+
+.collection-field{
+  display:grid;
+  gap:5px;
+}
+
+.collection-field span{
+  font-weight:700;
+}
+
+.collection-field small,
+.collection-filter-status{
+  opacity:.72;
+  font-size:13px;
+}
+
+.collection-filter-row,
+.collection-price-filters{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  align-items:flex-end;
+}
+
+.collection-price-filters .collection-field{
+  flex:1 1 140px;
+}
+
+.collection-search,
+.collection-input{
+  width:100%;
   padding:9px 10px;
   box-sizing:border-box;
   background:var(--color-D);
@@ -58,8 +91,39 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
   font-size:16px;
 }
 
-.collection-search:focus{
+.collection-search:focus,
+.collection-input:focus{
   outline:none;
+}
+
+.collection-invite{
+  flex:1 1 260px;
+}
+
+.collection-filter-button{
+  padding:10px 14px;
+  background:#CD9B1E;
+  color:#1A1A1A;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  font-weight:600;
+}
+
+.collection-filter-button.secondary{
+  background:var(--color-D);
+  color:var(--color-text);
+  border:1px solid var(--color-B);
+}
+
+.collection-filter-button:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
+.collection-filter-status.error{
+  color:#e74c3c;
+  opacity:1;
 }
 
 .collection-list{
@@ -142,6 +206,14 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
   .collection-price{
     grid-column:2;
   }
+
+  .collection-filter-row{
+    align-items:stretch;
+  }
+
+  .collection-filter-button{
+    width:100%;
+  }
 }
 
 </style>
@@ -156,7 +228,31 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
   </div>
 
   <div id="collection-stats" class="collection-stats"></div>
-  <input id="collection-search" class="collection-search" autocomplete="off" placeholder="Search SKU, name, type, or price">
+  <div class="collection-controls">
+    <label class="collection-field">
+      <span>Your Invite Link</span>
+      <small>Only show items you don't own.</small>
+      <div class="collection-filter-row">
+        <input id="owner-invite-link" class="collection-input collection-invite" type="url" autocomplete="off" autocapitalize="none">
+        <button id="cross-check-go" class="collection-filter-button" type="button">Go</button>
+        <button id="cross-check-clear" class="collection-filter-button secondary" type="button" hidden>Show all</button>
+      </div>
+      <div id="cross-check-status" class="collection-filter-status"></div>
+    </label>
+
+    <div class="collection-price-filters">
+      <label class="collection-field">
+        <span>Min price</span>
+        <input id="min-price" class="collection-input" type="number" min="0" step="1" inputmode="numeric" autocomplete="off">
+      </label>
+      <label class="collection-field">
+        <span>Max price</span>
+        <input id="max-price" class="collection-input" type="number" min="0" step="1" inputmode="numeric" autocomplete="off">
+      </label>
+    </div>
+
+    <input id="collection-search" class="collection-search" autocomplete="off" placeholder="Search SKU, name, type, or price">
+  </div>
 
   <div id="collection-error" class="collection-error"></div>
   <div id="collection-list" class="collection-list"></div>
@@ -179,6 +275,12 @@ const subtitleEl = document.getElementById("collection-subtitle");
 const idEl = document.getElementById("collection-id");
 const statsEl = document.getElementById("collection-stats");
 const searchEl = document.getElementById("collection-search");
+const ownerInviteEl = document.getElementById("owner-invite-link");
+const crossCheckGoBtn = document.getElementById("cross-check-go");
+const crossCheckClearBtn = document.getElementById("cross-check-clear");
+const crossCheckStatusEl = document.getElementById("cross-check-status");
+const minPriceEl = document.getElementById("min-price");
+const maxPriceEl = document.getElementById("max-price");
 const errorEl = document.getElementById("collection-error");
 const listEl = document.getElementById("collection-list");
 const loadMoreBtn = document.getElementById("load-more");
@@ -188,6 +290,9 @@ let skuIds = [];
 let itemMap = new Map();
 let visibleItems = [];
 let renderedCount = 0;
+let collectionMeta = {};
+let viewerSkuSet = null;
+let viewerItemCount = 0;
 
 function escapeHtml(value){
   return String(value).replace(/[&<>"']/g, char => ({
@@ -228,12 +333,15 @@ async function loadCatalog(){
     const priceCell = row.children[3];
     let currency = "";
     let price = "";
+    let priceValue = null;
 
     if(priceCell){
       const icon = priceCell.querySelector("i");
       if(icon?.classList.contains("c")) currency = "c";
       if(icon?.classList.contains("p")) currency = "p";
       const parsed = priceCell.textContent.replace(/,/g, "").trim();
+      const numeric = parseInt(parsed, 10);
+      if(!Number.isNaN(numeric)) priceValue = numeric;
       if(parsed) price = currency ? `${parsed}${currency}` : parsed;
     }
 
@@ -243,6 +351,8 @@ async function loadCatalog(){
       type,
       name,
       price,
+      priceValue,
+      currency,
       img: imgUri ? "https://profile.platocdn.com/" + imgUri : "",
       search: `${id} ${type} ${name} ${price}`.toLowerCase()
     });
@@ -266,18 +376,15 @@ async function loadCollection(){
   }
 
   skuIds = Array.isArray(data.skuIds) ? data.skuIds.map(String) : [];
+  collectionMeta = data;
   idEl.textContent = `ID ${collectionId}`;
   subtitleEl.textContent = `${skuIds.length} unique SKU IDs`;
-  statsEl.innerHTML = [
-    pill("Items", skuIds.length),
-    data.inventoryRowCount ? pill("Rows", data.inventoryRowCount) : "",
-    data.chunkCount ? pill("Chunks", data.chunkCount) : "",
-    data.version ? pill("Version", data.version) : ""
-  ].filter(Boolean).join("");
 }
 
 function buildVisibleItems(){
   const q = searchEl.value.trim().toLowerCase();
+  const minPrice = parsePriceBound(minPriceEl.value);
+  const maxPrice = parsePriceBound(maxPriceEl.value);
 
   visibleItems = skuIds.map(sku => {
     const catalogItem = itemMap.get(sku);
@@ -286,14 +393,50 @@ function buildVisibleItems(){
       type:"Unknown",
       name:`Unknown SKU ${sku}`,
       price:"",
+      priceValue:null,
+      currency:"",
       img:"",
       search:sku
     };
-  }).filter(item => !q || item.search.includes(q));
+  }).filter(item => {
+    if(q && !item.search.includes(q)) return false;
+    if(viewerSkuSet && viewerSkuSet.has(item.id)) return false;
+    if(minPrice !== null || maxPrice !== null){
+      if(item.priceValue === null) return false;
+      if(minPrice !== null && item.priceValue < minPrice) return false;
+      if(maxPrice !== null && item.priceValue > maxPrice) return false;
+    }
+    return true;
+  });
+
+  updateStats();
 
   renderedCount = 0;
   listEl.innerHTML = "";
   renderMore();
+}
+
+function parsePriceBound(value){
+  const trimmed = String(value || "").trim();
+  if(!trimmed) return null;
+  const parsed = Number(trimmed);
+  return Number.isFinite(parsed) && parsed >= 0 ? parsed : null;
+}
+
+function updateStats(){
+  const hiddenOwned = viewerSkuSet
+    ? skuIds.reduce((count, sku) => count + (viewerSkuSet.has(sku) ? 1 : 0), 0)
+    : 0;
+
+  statsEl.innerHTML = [
+    pill("Items", skuIds.length),
+    pill("Showing", visibleItems.length),
+    viewerSkuSet ? pill("You own", viewerItemCount || viewerSkuSet.size) : "",
+    viewerSkuSet ? pill("Hidden owned", hiddenOwned) : "",
+    collectionMeta.inventoryRowCount ? pill("Rows", collectionMeta.inventoryRowCount) : "",
+    collectionMeta.chunkCount ? pill("Chunks", collectionMeta.chunkCount) : "",
+    collectionMeta.version ? pill("Version", collectionMeta.version) : ""
+  ].filter(Boolean).join("");
 }
 
 function renderMore(){
@@ -317,21 +460,108 @@ function renderMore(){
 
   listEl.insertAdjacentHTML("beforeend", html);
   loadMoreBtn.disabled = renderedCount >= visibleItems.length;
+  copyBtn.disabled = visibleItems.length === 0;
   loadMoreBtn.textContent = renderedCount >= visibleItems.length
     ? "All loaded"
     : `Load more (${visibleItems.length - renderedCount})`;
 }
 
 searchEl.addEventListener("input", buildVisibleItems);
+minPriceEl.addEventListener("input", buildVisibleItems);
+maxPriceEl.addEventListener("input", buildVisibleItems);
 loadMoreBtn.addEventListener("click", renderMore);
 copyBtn.addEventListener("click", async () => {
-  if(!skuIds.length) return;
-  await navigator.clipboard.writeText(skuIds.join("\n"));
+  if(!visibleItems.length) return;
+  await navigator.clipboard.writeText(visibleItems.map(item => item.id).join("\n"));
   copyBtn.textContent = "Copied";
   setTimeout(() => {
     copyBtn.textContent = "Copy SKU IDs";
   }, 1200);
 });
+
+crossCheckGoBtn.addEventListener("click", startCrossCheck);
+ownerInviteEl.addEventListener("keydown", event => {
+  if(event.key !== "Enter") return;
+  event.preventDefault();
+  startCrossCheck();
+});
+crossCheckClearBtn.addEventListener("click", () => {
+  viewerSkuSet = null;
+  viewerItemCount = 0;
+  crossCheckClearBtn.hidden = true;
+  setCrossCheckStatus("");
+  buildVisibleItems();
+});
+
+function setCrossCheckStatus(message, isError = false){
+  crossCheckStatusEl.textContent = message;
+  crossCheckStatusEl.classList.toggle("error", Boolean(isError));
+}
+
+async function startCrossCheck(){
+  const inviteLink = ownerInviteEl.value.trim();
+  if(!/^https:\/\/platoapp\.com\/link\/[A-Za-z0-9_-]+\/?$/i.test(inviteLink)){
+    setCrossCheckStatus("Enter a valid Plato invite link.", true);
+    return;
+  }
+
+  crossCheckGoBtn.disabled = true;
+  crossCheckClearBtn.hidden = true;
+  setCrossCheckStatus("Starting cross-check...");
+
+  try{
+    const createResponse = await fetch(`${COLLECTION_API_BASE}/cross-checks`, {
+      method:"POST",
+      headers:{ "content-type":"application/json" },
+      body:JSON.stringify({
+        inviteLink,
+        requesterCollectionId:collectionId
+      })
+    });
+    const created = await createResponse.json().catch(() => null);
+    if(!createResponse.ok || !created?.id){
+      throw new Error(created?.error || "Could not start cross-check.");
+    }
+
+    const result = await waitForCrossCheck(created.id);
+    const ownerSkuIds = Array.isArray(result.skuIds) ? result.skuIds.map(String) : [];
+    if(!ownerSkuIds.length) throw new Error("Your collection returned no SKU IDs.");
+
+    viewerSkuSet = new Set(ownerSkuIds);
+    viewerItemCount = Number(result.itemCount || ownerSkuIds.length);
+    crossCheckClearBtn.hidden = false;
+    setCrossCheckStatus(`Cross-check active. Hiding items you already own.`);
+    buildVisibleItems();
+  }catch(error){
+    setCrossCheckStatus(error.message || "Cross-check failed.", true);
+  }finally{
+    crossCheckGoBtn.disabled = false;
+  }
+}
+
+async function waitForCrossCheck(id){
+  for(let attempt = 0; attempt < 60; attempt++){
+    if(attempt > 0) await delay(2000);
+
+    const response = await fetch(`${COLLECTION_API_BASE}/cross-checks/${encodeURIComponent(id)}`, {
+      cache:"no-store"
+    });
+    const data = await response.json().catch(() => null);
+    if(!response.ok || !data?.ok){
+      throw new Error(data?.error || "Could not load cross-check status.");
+    }
+
+    if(data.status === "complete") return data;
+    if(data.status === "failed") throw new Error(data.error || "Cross-check failed.");
+    setCrossCheckStatus(data.status === "running" ? "Checking your collection..." : "Waiting for checker...");
+  }
+
+  throw new Error("Cross-check timed out. Try again in a moment.");
+}
+
+function delay(ms){
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 Promise.all([loadCatalog(), loadCollection()])
   .then(buildVisibleItems)
