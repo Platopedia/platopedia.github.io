@@ -449,7 +449,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
     </div>
 
     <div class="collection-clear-wrap">
-      <input id="collection-search" class="collection-search" autocomplete="off" placeholder="Search SKU, name, category, or price">
+      <input id="collection-search" class="collection-search" autocomplete="off" placeholder="Search items">
       <button class="collection-field-clear" type="button" data-clear-field="collection-search" aria-label="Clear search">×</button>
     </div>
   </div>
@@ -466,11 +466,13 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 
 const COLLECTION_API_BASE = "https://artrade-collection.platopedia.workers.dev";
 const PAGE_SIZE = 120;
+const STATE_TTL_MS = 6 * 60 * 60 * 1000;
 
 const params = new URLSearchParams(location.search);
 const rawCollectionId = (params.get("id") || "").trim();
 const normalizedCollectionId = /^[A-Za-z0-9_-]{12,64}$/.test(rawCollectionId) ? rawCollectionId : "";
 const hasCollectionId = Boolean(normalizedCollectionId);
+const stateKey = `artrade_collection:${normalizedCollectionId || "my"}`;
 
 const titleEl = document.getElementById("collection-title");
 const subtitleEl = document.getElementById("collection-subtitle");
@@ -549,6 +551,92 @@ function updateModifiedFieldState(field){
 
 function updateModifiedFields(){
   modifiedFields.forEach(updateModifiedFieldState);
+}
+
+function getFieldState(){
+  return {
+    search:searchEl.value,
+    invite:ownerInviteEl.value,
+    category:categoryEl.value,
+    rarity:rarityEl.value,
+    sort:sortEl.value,
+    currency:currencyEl.value,
+    minPrice:minPriceEl.value,
+    maxPrice:maxPriceEl.value
+  };
+}
+
+function applyFieldState(fields = {}){
+  searchEl.value = fields.search || "";
+  ownerInviteEl.value = fields.invite || "";
+  categoryEl.value = fields.category || "";
+  rarityEl.value = fields.rarity || "";
+  sortEl.value = fields.sort || "";
+  currencyEl.value = fields.currency || "";
+  minPriceEl.value = fields.minPrice || "";
+  maxPriceEl.value = fields.maxPrice || "";
+  updateModifiedFields();
+  updateFilterSummary();
+}
+
+function getCollectionSnapshot(){
+  if(!skuIds.length) return null;
+
+  return {
+    requester:requesterCollectionLoaded,
+    collectionMeta,
+    skuIds,
+    viewerSkuIds:viewerSkuSet ? [...viewerSkuSet] : [],
+    viewerItemCount,
+    status:crossCheckStatusEl.textContent || ""
+  };
+}
+
+function readSavedState(){
+  try{
+    const raw = sessionStorage.getItem(stateKey);
+    if(!raw) return null;
+    const state = JSON.parse(raw);
+    if(!state || Date.now() - Number(state.savedAt || 0) > STATE_TTL_MS){
+      sessionStorage.removeItem(stateKey);
+      return null;
+    }
+    return state;
+  }catch{
+    return null;
+  }
+}
+
+function saveState(){
+  try{
+    sessionStorage.setItem(stateKey, JSON.stringify({
+      savedAt:Date.now(),
+      fields:getFieldState(),
+      filtersOpen:!filtersBodyEl.hidden,
+      collection:getCollectionSnapshot()
+    }));
+  }catch{}
+}
+
+function restoreCollectionSnapshot(snapshot){
+  if(!snapshot || !Array.isArray(snapshot.skuIds) || !snapshot.skuIds.length) return false;
+
+  showCollection({
+    requester:hasCollectionId && Boolean(snapshot.requester),
+    data:snapshot.collectionMeta || {},
+    ids:snapshot.skuIds.map(String)
+  });
+
+  const viewerSkuIds = Array.isArray(snapshot.viewerSkuIds) ? snapshot.viewerSkuIds.map(String) : [];
+  if(viewerSkuIds.length){
+    viewerSkuSet = new Set(viewerSkuIds);
+    viewerItemCount = Number(snapshot.viewerItemCount || viewerSkuIds.length);
+    crossCheckClearBtn.textContent = "Show all";
+    crossCheckClearBtn.hidden = false;
+    setCrossCheckStatus(snapshot.status || "Cross-check active. Hiding items you already own.");
+  }
+
+  return true;
 }
 
 document.querySelectorAll("[data-clear-field]").forEach(button => {
@@ -739,6 +827,7 @@ function buildVisibleItems(){
 function setFiltersOpen(open){
   filtersBodyEl.hidden = !open;
   filtersToggleBtn.setAttribute("aria-expanded", String(open));
+  saveState();
 }
 
 function getActiveFilterCount(){
@@ -762,6 +851,7 @@ function handleFilterChange(){
   updateModifiedFields();
   updateFilterSummary();
   buildVisibleItems();
+  saveState();
 }
 
 function clearFilters(){
@@ -870,8 +960,12 @@ function renderMore(){
 searchEl.addEventListener("input", () => {
   updateModifiedFieldState(searchEl);
   buildVisibleItems();
+  saveState();
 });
-ownerInviteEl.addEventListener("input", () => updateModifiedFieldState(ownerInviteEl));
+ownerInviteEl.addEventListener("input", () => {
+  updateModifiedFieldState(ownerInviteEl);
+  saveState();
+});
 filtersToggleBtn.addEventListener("click", () => {
   setFiltersOpen(filtersBodyEl.hidden);
 });
@@ -896,6 +990,7 @@ crossCheckClearBtn.addEventListener("click", () => {
   crossCheckClearBtn.hidden = true;
   setCrossCheckStatus("");
   buildVisibleItems();
+  saveState();
 });
 
 function setCrossCheckStatus(message, isError = false){
@@ -964,6 +1059,7 @@ async function startCrossCheck(){
       setCrossCheckStatus("My collection loaded.");
     }
     buildVisibleItems();
+    saveState();
   }catch(error){
     setCrossCheckStatus(error.message || "Cross-check failed.", true);
   }finally{
@@ -996,6 +1092,8 @@ function delay(ms){
 }
 
 async function init(){
+  const savedState = readSavedState();
+
   if(hasCollectionId){
     showEmptyCollection({
       requester:true,
@@ -1010,7 +1108,14 @@ async function init(){
 
   try{
     await loadCatalog();
-    if(getActiveFilterCount()){
+    if(savedState?.fields){
+      applyFieldState(savedState.fields);
+    }else{
+      updateModifiedFields();
+      updateFilterSummary();
+    }
+
+    if(savedState?.filtersOpen || getActiveFilterCount()){
       setFiltersOpen(true);
     }
   }catch(error){
@@ -1020,7 +1125,9 @@ async function init(){
     return;
   }
 
-  if(hasCollectionId){
+  const restoredCollection = restoreCollectionSnapshot(savedState?.collection);
+
+  if(hasCollectionId && !restoredCollection){
     try{
       await loadRequesterCollection();
       clearError();
@@ -1034,9 +1141,9 @@ async function init(){
   }
 
   buildVisibleItems();
+  saveState();
 }
 
-updateModifiedFields();
 init();
 
 </script>
