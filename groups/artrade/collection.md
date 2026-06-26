@@ -234,7 +234,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
       <small id="invite-help">Only show items you don't own.</small>
       <div class="collection-filter-row">
         <input id="owner-invite-link" class="collection-input collection-invite" type="url" autocomplete="off" autocapitalize="none">
-        <button id="cross-check-go" class="collection-filter-button" type="button">Show My Collection</button>
+        <button id="cross-check-go" class="collection-filter-button" type="button">Go</button>
         <button id="cross-check-clear" class="collection-filter-button secondary" type="button" hidden>Show all</button>
       </div>
       <div id="cross-check-status" class="collection-filter-status"></div>
@@ -373,8 +373,7 @@ async function loadCatalog(){
 
 async function loadCollection(){
   if(!normalizedCollectionId){
-    enterMyCollectionMode("Paste your Plato invite link to load your collection.");
-    return;
+    throw new Error("Missing collection ID.");
   }
 
   const response = await fetch(`${COLLECTION_API_BASE}/collections/${encodeURIComponent(normalizedCollectionId)}`, {
@@ -391,6 +390,7 @@ async function loadCollection(){
   requesterCollectionLoaded = true;
   titleEl.textContent = "Requester Collection";
   inviteHelpEl.textContent = "Only show items you don't own.";
+  crossCheckGoBtn.textContent = "Go";
   idEl.textContent = `ID ${normalizedCollectionId}`;
   subtitleEl.textContent = `${skuIds.length} unique SKU IDs`;
 }
@@ -405,6 +405,7 @@ function enterMyCollectionMode(message){
   subtitleEl.textContent = message || "Paste your Plato invite link to load your collection.";
   inviteHelpEl.textContent = "Show your collection from your Plato invite link.";
   idEl.textContent = "";
+  crossCheckGoBtn.textContent = hasRequesterCollection ? "Go" : "Show My Collection";
   crossCheckClearBtn.hidden = true;
   buildVisibleItems();
 }
