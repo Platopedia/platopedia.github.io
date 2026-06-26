@@ -67,6 +67,51 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
   font-size:13px;
 }
 
+.collection-filter-panel{
+  display:grid;
+  gap:10px;
+  padding:10px;
+  border:1px solid var(--color-B);
+  background:var(--color-D);
+}
+
+.collection-filter-bar{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:8px;
+}
+
+.collection-filter-toggle{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:10px 14px;
+  background:#CD9B1E;
+  color:#1A1A1A;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  font-weight:700;
+  text-align:left;
+}
+
+.collection-filter-toggle small{
+  font-size:13px;
+  font-weight:600;
+  opacity:.75;
+  white-space:nowrap;
+}
+
+.collection-filter-body{
+  display:grid;
+  gap:12px;
+}
+
+.collection-filter-body[hidden]{
+  display:none;
+}
+
 .collection-filter-row,
 .collection-dropdown-filters{
   display:flex;
@@ -132,6 +177,10 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 .collection-filter-button:disabled{
   opacity:.6;
   cursor:not-allowed;
+}
+
+.collection-clear-filters{
+  white-space:nowrap;
 }
 
 .collection-filter-status.error{
@@ -266,53 +315,65 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
       <div id="cross-check-status" class="collection-filter-status"></div>
     </label>
 
-    <div class="collection-dropdown-filters">
-      <label class="collection-field">
-        <span>Category</span>
-        <select id="category-filter" class="collection-input">
-          <option value="">All categories</option>
-        </select>
-      </label>
-      <label class="collection-field">
-        <span>Rarity</span>
-        <select id="rarity-filter" class="collection-input">
-          <option value="">All rarities</option>
-          <option value="rare">Rare</option>
-          <option value="non-rare">Non-rare</option>
-        </select>
-      </label>
-    </div>
+    <div class="collection-filter-panel">
+      <div class="collection-filter-bar">
+        <button id="filters-toggle" class="collection-filter-toggle" type="button" aria-expanded="false" aria-controls="collection-filter-body">
+          <span>Filters</span>
+          <small id="filters-summary">No filters</small>
+        </button>
+        <button id="clear-filters" class="collection-filter-button secondary collection-clear-filters" type="button" disabled>Clear all</button>
+      </div>
 
-    <div class="collection-sort-filter">
-      <label class="collection-field">
-        <span>Sort</span>
-        <select id="sort-filter" class="collection-input">
-          <option value="">Default</option>
-          <option value="name-asc">Name A-Z</option>
-          <option value="name-desc">Name Z-A</option>
-          <option value="price-asc">Price low-high</option>
-          <option value="price-desc">Price high-low</option>
-        </select>
-      </label>
-      <label class="collection-field">
-        <span>Currency</span>
-        <select id="currency-filter" class="collection-input">
-          <option value="">All currencies</option>
-          <option value="c">Coins</option>
-          <option value="p">Pips</option>
-        </select>
-      </label>
-    </div>
+      <div id="collection-filter-body" class="collection-filter-body" hidden>
+        <div class="collection-dropdown-filters">
+          <label class="collection-field">
+            <span>Category</span>
+            <select id="category-filter" class="collection-input">
+              <option value="">All categories</option>
+            </select>
+          </label>
+          <label class="collection-field">
+            <span>Rarity</span>
+            <select id="rarity-filter" class="collection-input">
+              <option value="">All rarities</option>
+              <option value="rare">Rare</option>
+              <option value="non-rare">Non-rare</option>
+            </select>
+          </label>
+        </div>
 
-    <div class="collection-price-filters">
-      <label class="collection-field">
-        <span>Min price</span>
-        <input id="min-price" class="collection-input" type="number" min="0" step="1" inputmode="numeric" autocomplete="off">
-      </label>
-      <label class="collection-field">
-        <span>Max price</span>
-        <input id="max-price" class="collection-input" type="number" min="0" step="1" inputmode="numeric" autocomplete="off">
-      </label>
+        <div class="collection-sort-filter">
+          <label class="collection-field">
+            <span>Sort</span>
+            <select id="sort-filter" class="collection-input">
+              <option value="">Default</option>
+              <option value="name-asc">Name A-Z</option>
+              <option value="name-desc">Name Z-A</option>
+              <option value="price-asc">Price low-high</option>
+              <option value="price-desc">Price high-low</option>
+            </select>
+          </label>
+          <label class="collection-field">
+            <span>Currency</span>
+            <select id="currency-filter" class="collection-input">
+              <option value="">All currencies</option>
+              <option value="c">Coins</option>
+              <option value="p">Pips</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="collection-price-filters">
+          <label class="collection-field">
+            <span>Min price</span>
+            <input id="min-price" class="collection-input" type="number" min="0" step="1" inputmode="numeric" autocomplete="off">
+          </label>
+          <label class="collection-field">
+            <span>Max price</span>
+            <input id="max-price" class="collection-input" type="number" min="0" step="1" inputmode="numeric" autocomplete="off">
+          </label>
+        </div>
+      </div>
     </div>
 
     <input id="collection-search" class="collection-search" autocomplete="off" placeholder="Search SKU, name, category, or price">
@@ -353,6 +414,10 @@ const sortEl = document.getElementById("sort-filter");
 const currencyEl = document.getElementById("currency-filter");
 const minPriceEl = document.getElementById("min-price");
 const maxPriceEl = document.getElementById("max-price");
+const filtersToggleBtn = document.getElementById("filters-toggle");
+const filtersBodyEl = document.getElementById("collection-filter-body");
+const filtersSummaryEl = document.getElementById("filters-summary");
+const clearFiltersBtn = document.getElementById("clear-filters");
 const errorEl = document.getElementById("collection-error");
 const listEl = document.getElementById("collection-list");
 const loadMoreBtn = document.getElementById("load-more");
@@ -537,6 +602,43 @@ function buildVisibleItems(){
   renderMore();
 }
 
+function setFiltersOpen(open){
+  filtersBodyEl.hidden = !open;
+  filtersToggleBtn.setAttribute("aria-expanded", String(open));
+}
+
+function getActiveFilterCount(){
+  return [
+    categoryEl.value,
+    rarityEl.value,
+    sortEl.value,
+    currencyEl.value,
+    minPriceEl.value.trim(),
+    maxPriceEl.value.trim()
+  ].filter(Boolean).length;
+}
+
+function updateFilterSummary(){
+  const count = getActiveFilterCount();
+  filtersSummaryEl.textContent = count ? `${count} active` : "No filters";
+  clearFiltersBtn.disabled = count === 0;
+}
+
+function handleFilterChange(){
+  updateFilterSummary();
+  buildVisibleItems();
+}
+
+function clearFilters(){
+  categoryEl.value = "";
+  rarityEl.value = "";
+  sortEl.value = "";
+  currencyEl.value = "";
+  minPriceEl.value = "";
+  maxPriceEl.value = "";
+  handleFilterChange();
+}
+
 function sortVisibleItems(sort){
   const byName = (a, b) =>
     a.name.localeCompare(b.name) || String(a.id).localeCompare(String(b.id), undefined, { numeric:true });
@@ -577,6 +679,8 @@ function populateCategoryFilter(){
   if(categories.includes(currentValue)){
     categoryEl.value = currentValue;
   }
+
+  updateFilterSummary();
 }
 
 function parsePriceBound(value){
@@ -630,12 +734,16 @@ function renderMore(){
 }
 
 searchEl.addEventListener("input", buildVisibleItems);
-categoryEl.addEventListener("change", buildVisibleItems);
-rarityEl.addEventListener("change", buildVisibleItems);
-sortEl.addEventListener("change", buildVisibleItems);
-currencyEl.addEventListener("change", buildVisibleItems);
-minPriceEl.addEventListener("input", buildVisibleItems);
-maxPriceEl.addEventListener("input", buildVisibleItems);
+filtersToggleBtn.addEventListener("click", () => {
+  setFiltersOpen(filtersBodyEl.hidden);
+});
+clearFiltersBtn.addEventListener("click", clearFilters);
+categoryEl.addEventListener("change", handleFilterChange);
+rarityEl.addEventListener("change", handleFilterChange);
+sortEl.addEventListener("change", handleFilterChange);
+currencyEl.addEventListener("change", handleFilterChange);
+minPriceEl.addEventListener("input", handleFilterChange);
+maxPriceEl.addEventListener("input", handleFilterChange);
 loadMoreBtn.addEventListener("click", renderMore);
 copyBtn.addEventListener("click", async () => {
   if(!visibleItems.length) return;
@@ -772,6 +880,9 @@ async function init(){
 
   try{
     await loadCatalog();
+    if(getActiveFilterCount()){
+      setFiltersOpen(true);
+    }
   }catch(error){
     subtitleEl.textContent = "Could not load catalog.";
     loadMoreBtn.disabled = true;
