@@ -251,6 +251,11 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
   opacity:1;
 }
 
+.collection-filter-status.success{
+  color:#16865f;
+  opacity:1;
+}
+
 .collection-list{
   display:grid;
   gap:8px;
@@ -638,7 +643,7 @@ function restoreCollectionSnapshot(snapshot){
     viewerItemCount = Number(snapshot.viewerItemCount || viewerSkuIds.length);
     crossCheckClearBtn.textContent = "Show all";
     crossCheckClearBtn.hidden = false;
-    setCrossCheckStatus(snapshot.status || "Cross-check active. Hiding items you already own.");
+    setCrossCheckStatus(snapshot.status || "Cross-check active. Hiding items you already own.", "success");
   }
 
   return true;
@@ -999,9 +1004,10 @@ crossCheckClearBtn.addEventListener("click", () => {
   saveState();
 });
 
-function setCrossCheckStatus(message, isError = false){
+function setCrossCheckStatus(message, tone = ""){
   crossCheckStatusEl.textContent = formatStatusMessage(message);
-  crossCheckStatusEl.classList.toggle("error", Boolean(isError));
+  crossCheckStatusEl.classList.toggle("error", tone === "error");
+  crossCheckStatusEl.classList.toggle("success", tone === "success");
 }
 
 function formatStatusMessage(message){
@@ -1027,7 +1033,7 @@ function formatStatusMessage(message){
 async function startCrossCheck(){
   const inviteLink = ownerInviteEl.value.trim();
   if(!/^https:\/\/platoapp\.com\/link\/[A-Za-z0-9_-]+\/?$/i.test(inviteLink)){
-    setCrossCheckStatus("Enter a valid Plato invite link.", true);
+    setCrossCheckStatus("Enter a valid Plato invite link.", "error");
     return;
   }
 
@@ -1059,15 +1065,15 @@ async function startCrossCheck(){
       viewerItemCount = Number(result.itemCount || ownerSkuIds.length);
       crossCheckClearBtn.textContent = "Show all";
       crossCheckClearBtn.hidden = false;
-      setCrossCheckStatus("Cross-check active. Hiding items you already own.");
+      setCrossCheckStatus("Cross-check active. Hiding items you already own.", "success");
     }else{
       showCollection({ requester:false, data:result, ids:ownerSkuIds });
-      setCrossCheckStatus("My collection loaded.");
+      setCrossCheckStatus("My collection loaded.", "success");
     }
     buildVisibleItems();
     saveState();
   }catch(error){
-    setCrossCheckStatus(error.message || "Cross-check failed.", true);
+    setCrossCheckStatus(error.message || "Cross-check failed.", "error");
   }finally{
     crossCheckGoBtn.disabled = false;
   }
