@@ -272,7 +272,6 @@ const params = new URLSearchParams(location.search);
 const rawCollectionId = (params.get("id") || "").trim();
 const normalizedCollectionId = /^[A-Za-z0-9_-]{12,64}$/.test(rawCollectionId) ? rawCollectionId : "";
 const hasCollectionId = Boolean(normalizedCollectionId);
-const hasInvalidCollectionId = Boolean(rawCollectionId && !normalizedCollectionId);
 
 const titleEl = document.getElementById("collection-title");
 const subtitleEl = document.getElementById("collection-subtitle");
@@ -382,18 +381,10 @@ async function loadRequesterCollection(){
     throw new Error(data?.error === "not_found" ? "Collection link expired or was not found." : "Could not load collection.");
   }
 
-  skuIds = Array.isArray(data.skuIds) ? data.skuIds.map(String) : [];
-  collectionMeta = data;
-  requesterCollectionLoaded = true;
-  viewerSkuSet = null;
-  viewerItemCount = 0;
-  crossCheckClearBtn.hidden = true;
-  setCollectionHeader({
-    title:"Requester Collection",
-    subtitle:`${skuIds.length} unique SKU IDs`,
-    idText:`ID ${normalizedCollectionId}`,
-    inviteHelp:"Only show items you don't own.",
-    actionLabel:"Go"
+  showCollection({
+    requester:true,
+    data,
+    ids:Array.isArray(data.skuIds) ? data.skuIds.map(String) : []
   });
 }
 
@@ -405,51 +396,37 @@ function setCollectionHeader({ title, subtitle, idText = "", inviteHelp, actionL
   crossCheckGoBtn.textContent = actionLabel;
 }
 
-function clearCollectionData(){
+function showEmptyCollection({ requester = false, subtitle, error = "" } = {}){
   requesterCollectionLoaded = false;
-  viewerSkuSet = null;
-  viewerItemCount = 0;
-  collectionMeta = {};
   skuIds = [];
-  crossCheckClearBtn.hidden = true;
-}
-
-function showMissingCollectionIdMode(){
-  clearCollectionData();
-  setCollectionHeader({
-    title:"My Collection",
-    subtitle:"Paste your Plato invite link to load your collection.",
-    inviteHelp:"Show your collection from your Plato invite link.",
-    actionLabel:"Show My Collection"
-  });
-  showError(hasInvalidCollectionId ? "Invalid collection link." : "Missing collection ID.");
-}
-
-function showRequesterUnavailableMode(message){
-  clearCollectionData();
-  setCollectionHeader({
-    title:"Requester Collection",
-    subtitle:"Requester collection could not be loaded.",
-    idText:hasCollectionId ? `ID ${normalizedCollectionId}` : "",
-    inviteHelp:"Only show items you don't own.",
-    actionLabel:"Go"
-  });
-  showError(message);
-}
-
-function showMyCollection(result, ownerSkuIds){
-  requesterCollectionLoaded = false;
-  skuIds = ownerSkuIds;
-  collectionMeta = result;
+  collectionMeta = {};
   viewerSkuSet = null;
   viewerItemCount = 0;
   crossCheckClearBtn.hidden = true;
   setCollectionHeader({
-    title:"My Collection",
+    title:requester ? "Requester Collection" : "My Collection",
+    subtitle,
+    idText:requester && hasCollectionId ? `ID ${normalizedCollectionId}` : "",
+    inviteHelp:requester ? "Only show items you don't own." : "Show your collection from your Plato invite link.",
+    actionLabel:requester || hasCollectionId ? "Go" : "Show My Collection"
+  });
+  if(error) showError(error);
+  else clearError();
+}
+
+function showCollection({ requester, data, ids }){
+  requesterCollectionLoaded = requester;
+  skuIds = ids;
+  collectionMeta = data;
+  viewerSkuSet = null;
+  viewerItemCount = 0;
+  crossCheckClearBtn.hidden = true;
+  setCollectionHeader({
+    title:requester ? "Requester Collection" : "My Collection",
     subtitle:`${skuIds.length} unique SKU IDs`,
-    idText:result.uid ? `UID ${result.uid}` : "",
-    inviteHelp:"Show your collection from your Plato invite link.",
-    actionLabel:hasCollectionId ? "Go" : "Show My Collection"
+    idText:requester ? `ID ${normalizedCollectionId}` : data.uid ? `UID ${data.uid}` : "",
+    inviteHelp:requester ? "Only show items you don't own." : "Show your collection from your Plato invite link.",
+    actionLabel:requester || hasCollectionId ? "Go" : "Show My Collection"
   });
 }
 
@@ -627,7 +604,7 @@ async function startCrossCheck(){
       crossCheckClearBtn.hidden = false;
       setCrossCheckStatus("Cross-check active. Hiding items you already own.");
     }else{
-      showMyCollection(result, ownerSkuIds);
+      showCollection({ requester:false, data:result, ids:ownerSkuIds });
       setCrossCheckStatus("My collection loaded.");
     }
     buildVisibleItems();
@@ -663,8 +640,16 @@ function delay(ms){
 }
 
 async function init(){
-  if(!hasCollectionId){
-    showMissingCollectionIdMode();
+  if(hasCollectionId){
+    showEmptyCollection({
+      requester:true,
+      subtitle:"Loading collection..."
+    });
+  }else{
+    showEmptyCollection({
+      subtitle:"Paste your Plato invite link to load your collection.",
+      error:rawCollectionId ? "Invalid collection link." : ""
+    });
   }
 
   try{
@@ -682,7 +667,11 @@ async function init(){
       await loadRequesterCollection();
       clearError();
     }catch(error){
-      showRequesterUnavailableMode(error.message);
+      showEmptyCollection({
+        requester:true,
+        subtitle:"Requester collection could not be loaded.",
+        error:error.message
+      });
     }
   }
 
