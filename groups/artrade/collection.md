@@ -80,10 +80,16 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
   min-width:0;
 }
 
-.collection-sort-filter,
+.collection-sort-filter{
+  display:grid;
+  gap:8px;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+
 .collection-price-filters{
   display:grid;
   gap:8px;
+  grid-template-columns:repeat(2,minmax(0,1fr));
 }
 
 .collection-search,
@@ -208,6 +214,12 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 }
 
 @media (max-width:560px){
+  .collection-dropdown-filters,
+  .collection-sort-filter{
+    display:grid;
+    grid-template-columns:1fr;
+  }
+
   .collection-item{
     grid-template-columns:48px minmax(0,1fr);
   }
@@ -282,6 +294,14 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
           <option value="price-desc">Price high-low</option>
         </select>
       </label>
+      <label class="collection-field">
+        <span>Currency</span>
+        <select id="currency-filter" class="collection-input">
+          <option value="">All currencies</option>
+          <option value="c">Coins</option>
+          <option value="p">Pips</option>
+        </select>
+      </label>
     </div>
 
     <div class="collection-price-filters">
@@ -330,6 +350,7 @@ const crossCheckStatusEl = document.getElementById("cross-check-status");
 const categoryEl = document.getElementById("category-filter");
 const rarityEl = document.getElementById("rarity-filter");
 const sortEl = document.getElementById("sort-filter");
+const currencyEl = document.getElementById("currency-filter");
 const minPriceEl = document.getElementById("min-price");
 const maxPriceEl = document.getElementById("max-price");
 const errorEl = document.getElementById("collection-error");
@@ -485,6 +506,7 @@ function buildVisibleItems(){
   const category = categoryEl.value;
   const rarity = rarityEl.value;
   const sort = sortEl.value;
+  const currency = currencyEl.value;
   const minPrice = parsePriceBound(minPriceEl.value);
   const maxPrice = parsePriceBound(maxPriceEl.value);
 
@@ -496,6 +518,7 @@ function buildVisibleItems(){
       if(category && item.type !== category) return false;
       if(rarity === "rare" && !item.rare) return false;
       if(rarity === "non-rare" && item.rare) return false;
+      if(currency && item.currency !== currency) return false;
       if(viewerSkuSet && viewerSkuSet.has(item.id)) return false;
       if(minPrice !== null || maxPrice !== null){
         if(item.priceValue === null) return false;
@@ -544,7 +567,7 @@ function sortVisibleItems(sort){
 
 function populateCategoryFilter(){
   const currentValue = categoryEl.value;
-  const categories = [...new Set([...itemMap.values()].map(item => item.type).filter(Boolean))]
+  const categories = [...new Set([...itemMap.values()].map(item => item.type).filter(type => type && type !== "Hype"))]
     .sort((a, b) => a.localeCompare(b));
 
   categoryEl.innerHTML = `<option value="">All categories</option>` + categories
@@ -610,6 +633,7 @@ searchEl.addEventListener("input", buildVisibleItems);
 categoryEl.addEventListener("change", buildVisibleItems);
 rarityEl.addEventListener("change", buildVisibleItems);
 sortEl.addEventListener("change", buildVisibleItems);
+currencyEl.addEventListener("change", buildVisibleItems);
 minPriceEl.addEventListener("input", buildVisibleItems);
 maxPriceEl.addEventListener("input", buildVisibleItems);
 loadMoreBtn.addEventListener("click", renderMore);
