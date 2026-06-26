@@ -68,17 +68,22 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 }
 
 .collection-filter-row,
-.collection-dropdown-filters,
-.collection-price-filters{
+.collection-dropdown-filters{
   display:flex;
   gap:8px;
   flex-wrap:wrap;
   align-items:flex-end;
 }
 
-.collection-dropdown-filters .collection-field,
-.collection-price-filters .collection-field{
+.collection-dropdown-filters .collection-field{
   flex:1 1 140px;
+  min-width:0;
+}
+
+.collection-sort-filter,
+.collection-price-filters{
+  display:grid;
+  gap:8px;
 }
 
 .collection-search,
@@ -266,7 +271,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
       </label>
     </div>
 
-    <div class="collection-price-filters">
+    <div class="collection-sort-filter">
       <label class="collection-field">
         <span>Sort</span>
         <select id="sort-filter" class="collection-input">
@@ -277,6 +282,9 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
           <option value="price-desc">Price high-low</option>
         </select>
       </label>
+    </div>
+
+    <div class="collection-price-filters">
       <label class="collection-field">
         <span>Min price</span>
         <input id="min-price" class="collection-input" type="number" min="0" step="1" inputmode="numeric" autocomplete="off">
@@ -480,32 +488,22 @@ function buildVisibleItems(){
   const minPrice = parsePriceBound(minPriceEl.value);
   const maxPrice = parsePriceBound(maxPriceEl.value);
 
-  visibleItems = skuIds.map(sku => {
-    const catalogItem = itemMap.get(sku);
-    return catalogItem || {
-      id:sku,
-      type:"Unknown",
-      name:`Unknown SKU ${sku}`,
-      price:"",
-      priceValue:null,
-      currency:"",
-      rare:false,
-      img:"",
-      search:sku
-    };
-  }).filter(item => {
-    if(q && !item.search.includes(q)) return false;
-    if(category && item.type !== category) return false;
-    if(rarity === "rare" && !item.rare) return false;
-    if(rarity === "non-rare" && item.rare) return false;
-    if(viewerSkuSet && viewerSkuSet.has(item.id)) return false;
-    if(minPrice !== null || maxPrice !== null){
-      if(item.priceValue === null) return false;
-      if(minPrice !== null && item.priceValue < minPrice) return false;
-      if(maxPrice !== null && item.priceValue > maxPrice) return false;
-    }
-    return true;
-  });
+  visibleItems = skuIds
+    .map(sku => itemMap.get(sku))
+    .filter(Boolean)
+    .filter(item => {
+      if(q && !item.search.includes(q)) return false;
+      if(category && item.type !== category) return false;
+      if(rarity === "rare" && !item.rare) return false;
+      if(rarity === "non-rare" && item.rare) return false;
+      if(viewerSkuSet && viewerSkuSet.has(item.id)) return false;
+      if(minPrice !== null || maxPrice !== null){
+        if(item.priceValue === null) return false;
+        if(minPrice !== null && item.priceValue < minPrice) return false;
+        if(maxPrice !== null && item.priceValue > maxPrice) return false;
+      }
+      return true;
+    });
 
   sortVisibleItems(sort);
 
@@ -517,21 +515,30 @@ function buildVisibleItems(){
 }
 
 function sortVisibleItems(sort){
-  const byName = (a, b) => a.name.localeCompare(b.name) || Number(a.id) - Number(b.id);
-  const byPrice = (a, b) => {
-    const left = a.priceValue ?? Number.POSITIVE_INFINITY;
-    const right = b.priceValue ?? Number.POSITIVE_INFINITY;
-    return left - right || byName(a, b);
+  const byName = (a, b) =>
+    a.name.localeCompare(b.name) || String(a.id).localeCompare(String(b.id), undefined, { numeric:true });
+  const priceGroup = (item, highToLow) => {
+    if(item.currency === "p") return highToLow ? 0 : 1;
+    if(item.currency === "c") return highToLow ? 1 : 0;
+    return 2;
   };
+  const byPriceLowHigh = (a, b) =>
+    priceGroup(a, false) - priceGroup(b, false) ||
+    (a.priceValue ?? Number.POSITIVE_INFINITY) - (b.priceValue ?? Number.POSITIVE_INFINITY) ||
+    byName(a, b);
+  const byPriceHighLow = (a, b) =>
+    priceGroup(a, true) - priceGroup(b, true) ||
+    (b.priceValue ?? Number.NEGATIVE_INFINITY) - (a.priceValue ?? Number.NEGATIVE_INFINITY) ||
+    byName(a, b);
 
   if(sort === "name-asc"){
     visibleItems.sort(byName);
   }else if(sort === "name-desc"){
     visibleItems.sort((a, b) => byName(b, a));
   }else if(sort === "price-asc"){
-    visibleItems.sort(byPrice);
+    visibleItems.sort(byPriceLowHigh);
   }else if(sort === "price-desc"){
-    visibleItems.sort((a, b) => byPrice(b, a));
+    visibleItems.sort(byPriceHighLow);
   }
 }
 
