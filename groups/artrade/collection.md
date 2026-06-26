@@ -87,7 +87,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
   justify-content:space-between;
   gap:10px;
   padding:10px 14px;
-  background:#9a211f;
+  background:#bb2f2d;
   color:#1A1A1A;
   border:none;
   border-radius:6px;
