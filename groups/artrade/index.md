@@ -359,7 +359,7 @@ Use the calculator to check the total trade price of one or more items.
 
 <div class="trade-card">
 <h4>Trade Calculator (Coins → Pips)</h4>
-<p class="trade-desc">Formula: 1 Pip = 200 Coins, then +20%. (Requester Rate)</p>
+<p class="trade-desc">Formula: 1 Pip = 200 Coins. (Requester Rate)</p>
 
 <label>Item/s Price (Coins)</label>
 <div class="trade-input-wrap">
@@ -400,7 +400,7 @@ Apply to become an <strong>Artrade Merchant</strong> and join our trusted networ
 
 const MERCHANT_COINS_PER_PIP = 250;
 const COINS_TO_PIPS_COINS_PER_PIP = 200;
-const COINS_TO_PIPS_MARKUP_MULTIPLIER = 1.2;
+const COINS_TO_PIPS_MARKUP_MULTIPLIER = 1;
 
 // Generate stable fingerprint per user
 function getFingerprint(){
@@ -526,7 +526,7 @@ Trade Price: <span class="trade-highlight"><b>${tradePrice} Pips</b></span>
 `;
 });
 
-// coins -> pips (200 base + 20%)
+// coins -> pips (200 base)
 
 document.getElementById("coinToPipRequesterInput").addEventListener("input",function(){
 
