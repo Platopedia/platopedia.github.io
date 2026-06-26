@@ -94,6 +94,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
   cursor:pointer;
   font-weight:700;
   text-align:left;
+  transition:transform 0.05s ease;
 }
 
 .collection-filter-toggle small{
@@ -166,6 +167,18 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
   border-radius:6px;
   cursor:pointer;
   font-weight:600;
+  transition:transform 0.05s ease;
+}
+
+.collection-filter-toggle:active,
+.collection-filter-toggle.pressed,
+.collection-filter-button:active,
+.collection-filter-button.pressed,
+.collection-actions button:active,
+.collection-actions button.pressed,
+#load-more:active,
+#load-more.pressed{
+  transform:scale(0.90);
 }
 
 .collection-filter-button.secondary{
@@ -249,6 +262,11 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
   border-radius:6px;
   cursor:pointer;
   font-weight:600;
+  transition:transform 0.05s ease;
+}
+
+#load-more{
+  transition:transform 0.05s ease;
 }
 
 .collection-actions button:disabled{
@@ -429,6 +447,31 @@ let collectionMeta = {};
 let viewerSkuSet = null;
 let viewerItemCount = 0;
 let requesterCollectionLoaded = false;
+
+function addButtonFeedback(button){
+  if(!button) return;
+
+  button.addEventListener("click", () => {
+    if(button.disabled) return;
+    if(navigator.vibrate) navigator.vibrate(25);
+  });
+
+  button.addEventListener("pointerdown", () => {
+    if(button.disabled) return;
+    button.classList.add("pressed");
+  });
+
+  button.addEventListener("pointerup", () => {
+    setTimeout(() => button.classList.remove("pressed"), 60);
+  });
+
+  button.addEventListener("pointerleave", () => {
+    button.classList.remove("pressed");
+  });
+}
+
+document.addEventListener("touchstart", () => {}, { passive:true });
+document.querySelectorAll("button").forEach(addButtonFeedback);
 
 function escapeHtml(value){
   return String(value).replace(/[&<>"']/g, char => ({
