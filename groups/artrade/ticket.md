@@ -288,7 +288,7 @@ input, textarea {
 
 const MERCHANT_COINS_PER_PIP = 250;
 const COINS_TO_PIPS_COINS_PER_PIP = 200;
-const COINS_TO_PIPS_MARKUP_MULTIPLIER = 1.2;
+const COINS_TO_PIPS_MARKUP_MULTIPLIER = 1;
 const HIDE_RARE_BUNDLES = false;
 
 const params = new URLSearchParams(location.search);
@@ -494,7 +494,7 @@ function updateTotals(){
   if(tradeMethodSelect && tradeMethodSelect.value === "pips"){
     formulaBox.innerHTML = `
       <div>Formula (Pips → Pips): +25% value, rounded up to the nearest 1 Pip.</div>
-      <div>Formula (Coins → Pips): 1 Pip = 200 Coins, then +20%. (Requester Rate)</div>
+      <div>Formula (Coins → Pips): 1 Pip = 200 Coins. (Requester Rate)</div>
     `;
   }else{
     formulaBox.innerHTML = `
