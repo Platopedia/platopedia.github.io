@@ -68,6 +68,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 }
 
 .collection-filter-row,
+.collection-dropdown-filters,
 .collection-price-filters{
   display:flex;
   gap:8px;
@@ -75,6 +76,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
   align-items:flex-end;
 }
 
+.collection-dropdown-filters .collection-field,
 .collection-price-filters .collection-field{
   flex:1 1 140px;
 }
@@ -247,7 +249,34 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
       <div id="cross-check-status" class="collection-filter-status"></div>
     </label>
 
+    <div class="collection-dropdown-filters">
+      <label class="collection-field">
+        <span>Category</span>
+        <select id="category-filter" class="collection-input">
+          <option value="">All categories</option>
+        </select>
+      </label>
+      <label class="collection-field">
+        <span>Rarity</span>
+        <select id="rarity-filter" class="collection-input">
+          <option value="">All rarities</option>
+          <option value="rare">Rare</option>
+          <option value="non-rare">Non-rare</option>
+        </select>
+      </label>
+    </div>
+
     <div class="collection-price-filters">
+      <label class="collection-field">
+        <span>Sort</span>
+        <select id="sort-filter" class="collection-input">
+          <option value="">Default</option>
+          <option value="name-asc">Name A-Z</option>
+          <option value="name-desc">Name Z-A</option>
+          <option value="price-asc">Price low-high</option>
+          <option value="price-desc">Price high-low</option>
+        </select>
+      </label>
       <label class="collection-field">
         <span>Min price</span>
         <input id="min-price" class="collection-input" type="number" min="0" step="1" inputmode="numeric" autocomplete="off">
@@ -258,7 +287,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
       </label>
     </div>
 
-    <input id="collection-search" class="collection-search" autocomplete="off" placeholder="Search SKU, name, type, or price">
+    <input id="collection-search" class="collection-search" autocomplete="off" placeholder="Search SKU, name, category, or price">
   </div>
 
   <div id="collection-error" class="collection-error"></div>
@@ -290,6 +319,9 @@ const inviteHelpEl = document.getElementById("invite-help");
 const crossCheckGoBtn = document.getElementById("cross-check-go");
 const crossCheckClearBtn = document.getElementById("cross-check-clear");
 const crossCheckStatusEl = document.getElementById("cross-check-status");
+const categoryEl = document.getElementById("category-filter");
+const rarityEl = document.getElementById("rarity-filter");
+const sortEl = document.getElementById("sort-filter");
 const minPriceEl = document.getElementById("min-price");
 const maxPriceEl = document.getElementById("max-price");
 const errorEl = document.getElementById("collection-error");
@@ -348,6 +380,7 @@ async function loadCatalog(){
     const type = row.children[1]?.textContent.trim() || "Unknown";
     const name = row.children[2]?.textContent.trim() || `Item ${id}`;
     const priceCell = row.children[3];
+    const rare = row.children[7]?.textContent.trim() === "1";
     let currency = "";
     let price = "";
     let priceValue = null;
@@ -370,12 +403,14 @@ async function loadCatalog(){
       price,
       priceValue,
       currency,
+      rare,
       img: imgUri ? "https://profile.platocdn.com/" + imgUri : "",
-      search: `${id} ${type} ${name} ${price}`.toLowerCase()
+      search: `${id} ${type} ${name} ${price} ${rare ? "rare" : "non-rare"}`.toLowerCase()
     });
   });
 
   itemMap = map;
+  populateCategoryFilter();
 }
 
 async function loadRequesterCollection(){
@@ -439,6 +474,9 @@ function showCollection({ requester, data, ids }){
 
 function buildVisibleItems(){
   const q = searchEl.value.trim().toLowerCase();
+  const category = categoryEl.value;
+  const rarity = rarityEl.value;
+  const sort = sortEl.value;
   const minPrice = parsePriceBound(minPriceEl.value);
   const maxPrice = parsePriceBound(maxPriceEl.value);
 
@@ -451,11 +489,15 @@ function buildVisibleItems(){
       price:"",
       priceValue:null,
       currency:"",
+      rare:false,
       img:"",
       search:sku
     };
   }).filter(item => {
     if(q && !item.search.includes(q)) return false;
+    if(category && item.type !== category) return false;
+    if(rarity === "rare" && !item.rare) return false;
+    if(rarity === "non-rare" && item.rare) return false;
     if(viewerSkuSet && viewerSkuSet.has(item.id)) return false;
     if(minPrice !== null || maxPrice !== null){
       if(item.priceValue === null) return false;
@@ -465,11 +507,46 @@ function buildVisibleItems(){
     return true;
   });
 
+  sortVisibleItems(sort);
+
   updateStats();
 
   renderedCount = 0;
   listEl.innerHTML = "";
   renderMore();
+}
+
+function sortVisibleItems(sort){
+  const byName = (a, b) => a.name.localeCompare(b.name) || Number(a.id) - Number(b.id);
+  const byPrice = (a, b) => {
+    const left = a.priceValue ?? Number.POSITIVE_INFINITY;
+    const right = b.priceValue ?? Number.POSITIVE_INFINITY;
+    return left - right || byName(a, b);
+  };
+
+  if(sort === "name-asc"){
+    visibleItems.sort(byName);
+  }else if(sort === "name-desc"){
+    visibleItems.sort((a, b) => byName(b, a));
+  }else if(sort === "price-asc"){
+    visibleItems.sort(byPrice);
+  }else if(sort === "price-desc"){
+    visibleItems.sort((a, b) => byPrice(b, a));
+  }
+}
+
+function populateCategoryFilter(){
+  const currentValue = categoryEl.value;
+  const categories = [...new Set([...itemMap.values()].map(item => item.type).filter(Boolean))]
+    .sort((a, b) => a.localeCompare(b));
+
+  categoryEl.innerHTML = `<option value="">All categories</option>` + categories
+    .map(category => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`)
+    .join("");
+
+  if(categories.includes(currentValue)){
+    categoryEl.value = currentValue;
+  }
 }
 
 function parsePriceBound(value){
@@ -523,6 +600,9 @@ function renderMore(){
 }
 
 searchEl.addEventListener("input", buildVisibleItems);
+categoryEl.addEventListener("change", buildVisibleItems);
+rarityEl.addEventListener("change", buildVisibleItems);
+sortEl.addEventListener("change", buildVisibleItems);
 minPriceEl.addEventListener("input", buildVisibleItems);
 maxPriceEl.addEventListener("input", buildVisibleItems);
 loadMoreBtn.addEventListener("click", renderMore);
