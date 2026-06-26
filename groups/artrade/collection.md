@@ -384,7 +384,6 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 
   <div class="collection-actions">
     <button id="load-more" type="button">Load more</button>
-    <button id="copy-skus" type="button">Copy SKU IDs</button>
   </div>
 </div>
 
@@ -421,7 +420,6 @@ const clearFiltersBtn = document.getElementById("clear-filters");
 const errorEl = document.getElementById("collection-error");
 const listEl = document.getElementById("collection-list");
 const loadMoreBtn = document.getElementById("load-more");
-const copyBtn = document.getElementById("copy-skus");
 
 let skuIds = [];
 let itemMap = new Map();
@@ -727,7 +725,6 @@ function renderMore(){
 
   listEl.insertAdjacentHTML("beforeend", html);
   loadMoreBtn.disabled = renderedCount >= visibleItems.length;
-  copyBtn.disabled = visibleItems.length === 0;
   loadMoreBtn.textContent = renderedCount >= visibleItems.length
     ? "All loaded"
     : `Load more (${visibleItems.length - renderedCount})`;
@@ -745,14 +742,6 @@ currencyEl.addEventListener("change", handleFilterChange);
 minPriceEl.addEventListener("input", handleFilterChange);
 maxPriceEl.addEventListener("input", handleFilterChange);
 loadMoreBtn.addEventListener("click", renderMore);
-copyBtn.addEventListener("click", async () => {
-  if(!visibleItems.length) return;
-  await navigator.clipboard.writeText(visibleItems.map(item => item.id).join("\n"));
-  copyBtn.textContent = "Copied";
-  setTimeout(() => {
-    copyBtn.textContent = "Copy SKU IDs";
-  }, 1200);
-});
 
 crossCheckGoBtn.addEventListener("click", startCrossCheck);
 ownerInviteEl.addEventListener("keydown", event => {
@@ -886,7 +875,6 @@ async function init(){
   }catch(error){
     subtitleEl.textContent = "Could not load catalog.";
     loadMoreBtn.disabled = true;
-    copyBtn.disabled = true;
     showError(error.message);
     return;
   }
