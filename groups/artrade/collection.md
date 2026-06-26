@@ -221,7 +221,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 <div class="collection-panel">
   <div class="collection-top">
     <div>
-      <h2 id="collection-title" class="collection-title">Requester Collection</h2>
+      <h2 id="collection-title" class="collection-title">Collection</h2>
       <div id="collection-subtitle" class="collection-muted">Loading collection...</div>
     </div>
     <div id="collection-id" class="collection-muted"></div>
@@ -269,9 +269,10 @@ const COLLECTION_API_BASE = "https://artrade-collection.platopedia.workers.dev";
 const PAGE_SIZE = 120;
 
 const params = new URLSearchParams(location.search);
-const collectionId = params.get("id") || "";
-const normalizedCollectionId = /^[A-Za-z0-9_-]{12,64}$/.test(collectionId) ? collectionId : "";
-const hasRequesterCollection = Boolean(normalizedCollectionId);
+const rawCollectionId = (params.get("id") || "").trim();
+const normalizedCollectionId = /^[A-Za-z0-9_-]{12,64}$/.test(rawCollectionId) ? rawCollectionId : "";
+const hasCollectionId = Boolean(normalizedCollectionId);
+const hasInvalidCollectionId = Boolean(rawCollectionId && !normalizedCollectionId);
 
 const titleEl = document.getElementById("collection-title");
 const subtitleEl = document.getElementById("collection-subtitle");
@@ -371,11 +372,7 @@ async function loadCatalog(){
   itemMap = map;
 }
 
-async function loadCollection(){
-  if(!normalizedCollectionId){
-    throw new Error("Missing collection ID.");
-  }
-
+async function loadRequesterCollection(){
   const response = await fetch(`${COLLECTION_API_BASE}/collections/${encodeURIComponent(normalizedCollectionId)}`, {
     cache:"no-store"
   });
@@ -388,26 +385,72 @@ async function loadCollection(){
   skuIds = Array.isArray(data.skuIds) ? data.skuIds.map(String) : [];
   collectionMeta = data;
   requesterCollectionLoaded = true;
-  titleEl.textContent = "Requester Collection";
-  inviteHelpEl.textContent = "Only show items you don't own.";
-  crossCheckGoBtn.textContent = "Go";
-  idEl.textContent = `ID ${normalizedCollectionId}`;
-  subtitleEl.textContent = `${skuIds.length} unique SKU IDs`;
+  viewerSkuSet = null;
+  viewerItemCount = 0;
+  crossCheckClearBtn.hidden = true;
+  setCollectionHeader({
+    title:"Requester Collection",
+    subtitle:`${skuIds.length} unique SKU IDs`,
+    idText:`ID ${normalizedCollectionId}`,
+    inviteHelp:"Only show items you don't own.",
+    actionLabel:"Go"
+  });
 }
 
-function enterMyCollectionMode(message){
+function setCollectionHeader({ title, subtitle, idText = "", inviteHelp, actionLabel }){
+  titleEl.textContent = title;
+  subtitleEl.textContent = subtitle;
+  idEl.textContent = idText;
+  inviteHelpEl.textContent = inviteHelp;
+  crossCheckGoBtn.textContent = actionLabel;
+}
+
+function clearCollectionData(){
   requesterCollectionLoaded = false;
   viewerSkuSet = null;
   viewerItemCount = 0;
   collectionMeta = {};
   skuIds = [];
-  titleEl.textContent = "My Collection";
-  subtitleEl.textContent = message || "Paste your Plato invite link to load your collection.";
-  inviteHelpEl.textContent = "Show your collection from your Plato invite link.";
-  idEl.textContent = "";
-  crossCheckGoBtn.textContent = hasRequesterCollection ? "Go" : "Show My Collection";
   crossCheckClearBtn.hidden = true;
-  buildVisibleItems();
+}
+
+function showMissingCollectionIdMode(){
+  clearCollectionData();
+  setCollectionHeader({
+    title:"My Collection",
+    subtitle:"Paste your Plato invite link to load your collection.",
+    inviteHelp:"Show your collection from your Plato invite link.",
+    actionLabel:"Show My Collection"
+  });
+  showError(hasInvalidCollectionId ? "Invalid collection link." : "Missing collection ID.");
+}
+
+function showRequesterUnavailableMode(message){
+  clearCollectionData();
+  setCollectionHeader({
+    title:"Requester Collection",
+    subtitle:"Requester collection could not be loaded.",
+    idText:hasCollectionId ? `ID ${normalizedCollectionId}` : "",
+    inviteHelp:"Only show items you don't own.",
+    actionLabel:"Go"
+  });
+  showError(message);
+}
+
+function showMyCollection(result, ownerSkuIds){
+  requesterCollectionLoaded = false;
+  skuIds = ownerSkuIds;
+  collectionMeta = result;
+  viewerSkuSet = null;
+  viewerItemCount = 0;
+  crossCheckClearBtn.hidden = true;
+  setCollectionHeader({
+    title:"My Collection",
+    subtitle:`${skuIds.length} unique SKU IDs`,
+    idText:result.uid ? `UID ${result.uid}` : "",
+    inviteHelp:"Show your collection from your Plato invite link.",
+    actionLabel:hasCollectionId ? "Go" : "Show My Collection"
+  });
 }
 
 function buildVisibleItems(){
@@ -565,7 +608,7 @@ async function startCrossCheck(){
       headers:{ "content-type":"application/json" },
       body:JSON.stringify({
         inviteLink,
-        requesterCollectionId:normalizedCollectionId
+        ...(hasCollectionId ? { requesterCollectionId:normalizedCollectionId } : {})
       })
     });
     const created = await createResponse.json().catch(() => null);
@@ -584,13 +627,7 @@ async function startCrossCheck(){
       crossCheckClearBtn.hidden = false;
       setCrossCheckStatus("Cross-check active. Hiding items you already own.");
     }else{
-      skuIds = ownerSkuIds;
-      collectionMeta = result;
-      viewerSkuSet = null;
-      viewerItemCount = 0;
-      titleEl.textContent = "My Collection";
-      subtitleEl.textContent = `${skuIds.length} unique SKU IDs`;
-      idEl.textContent = result.uid ? `UID ${result.uid}` : "";
+      showMyCollection(result, ownerSkuIds);
       setCrossCheckStatus("My collection loaded.");
     }
     buildVisibleItems();
@@ -626,6 +663,10 @@ function delay(ms){
 }
 
 async function init(){
+  if(!hasCollectionId){
+    showMissingCollectionIdMode();
+  }
+
   try{
     await loadCatalog();
   }catch(error){
@@ -636,11 +677,13 @@ async function init(){
     return;
   }
 
-  try{
-    await loadCollection();
-  }catch(error){
-    enterMyCollectionMode("Requester collection could not be loaded.");
-    showError(error.message);
+  if(hasCollectionId){
+    try{
+      await loadRequesterCollection();
+      clearError();
+    }catch(error){
+      showRequesterUnavailableMode(error.message);
+    }
   }
 
   buildVisibleItems();
