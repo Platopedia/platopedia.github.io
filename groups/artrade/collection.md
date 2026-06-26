@@ -54,7 +54,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 
 .collection-field{
   display:grid;
-  gap:5px;
+  gap:6px;
 }
 
 .collection-field span{
@@ -87,8 +87,8 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
   justify-content:space-between;
   gap:10px;
   padding:10px 14px;
-  background:#CD9B1E;
-  color:#1A1A1A;
+  background:#9a211f;
+  color:#fff;
   border:none;
   border-radius:6px;
   cursor:pointer;
@@ -105,7 +105,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 
 .collection-filter-body{
   display:grid;
-  gap:12px;
+  gap:14px;
 }
 
 .collection-filter-body[hidden]{
@@ -115,7 +115,7 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 .collection-filter-row,
 .collection-dropdown-filters{
   display:flex;
-  gap:8px;
+  gap:14px;
   flex-wrap:wrap;
   align-items:flex-end;
 }
@@ -127,13 +127,13 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
 
 .collection-sort-filter{
   display:grid;
-  gap:8px;
+  gap:14px;
   grid-template-columns:repeat(2,minmax(0,1fr));
 }
 
 .collection-price-filters{
   display:grid;
-  gap:8px;
+  gap:14px;
   grid-template-columns:repeat(2,minmax(0,1fr));
 }
 
