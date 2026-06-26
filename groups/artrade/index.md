@@ -311,7 +311,7 @@ Use the calculator to check the total trade price of one or more items.
 <div class="trade-card">
 
 <h4>Trade Calculator (Coins → Coins)</h4>
-<p class="trade-desc">Formula: +25% value, then rounded up to the nearest 50 Coins.</p>
+<p class="trade-desc">Formula: +25% value, then rounded up to the nearest 250 Coins.</p>
 
 <label>Item/s Price (Coins)</label>
 
@@ -446,7 +446,7 @@ input.focus();
 
 function calculateTradeCoins(coins){
 const increased=coins*1.25;
-return Math.ceil(increased/50)*50;
+return Math.ceil(increased/250)*250;
 }
 
 /* coin calculator */
