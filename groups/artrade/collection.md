@@ -148,6 +148,13 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
   object-fit:contain;
 }
 
+.collection-empty{
+  padding:10px;
+  border:1px solid var(--color-B);
+  background:var(--color-D);
+  font-weight:700;
+}
+
 .collection-name{
   font-weight:700;
   overflow-wrap:anywhere;
@@ -492,8 +499,8 @@ function renderMore(){
   const nextItems = visibleItems.slice(renderedCount, renderedCount + PAGE_SIZE);
   renderedCount += nextItems.length;
 
-  if(renderedCount === 0 && !nextItems.length){
-    listEl.innerHTML = `<div class="collection-item"><div class="collection-name">No matching items.</div></div>`;
+  if(renderedCount === 0 && !nextItems.length && skuIds.length){
+    listEl.innerHTML = `<div class="collection-empty">No matching items.</div>`;
   }
 
   const html = nextItems.map(item => `
