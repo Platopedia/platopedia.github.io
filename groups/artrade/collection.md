@@ -150,13 +150,58 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
   font-size:16px;
 }
 
+.collection-search.is-modified,
+.collection-input.is-modified{
+  border-color:#CD9B1E;
+  box-shadow:0 0 0 1px rgba(205,155,30,.35), 0 0 10px rgba(205,155,30,.18);
+}
+
 .collection-search:focus,
 .collection-input:focus{
   outline:none;
+  border-color:#CD9B1E;
+  box-shadow:0 0 0 2px rgba(205,155,30,.34), 0 0 14px rgba(205,155,30,.24);
 }
 
 .collection-invite{
   flex:1 1 260px;
+}
+
+.collection-clear-wrap{
+  position:relative;
+  min-width:0;
+}
+
+.collection-clear-wrap .collection-search,
+.collection-clear-wrap .collection-input{
+  padding-right:40px;
+}
+
+.collection-clear-wrap .collection-field-clear{
+  position:absolute;
+  right:5px;
+  top:50%;
+  transform:translateY(-50%);
+  width:30px;
+  height:30px;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  border:none;
+  background:transparent;
+  color:#CD9B1E;
+  cursor:pointer;
+  font-size:20px;
+  line-height:1;
+  opacity:.75;
+}
+
+.collection-clear-wrap:focus-within.has-value .collection-field-clear{
+  display:flex;
+}
+
+.collection-clear-wrap .collection-field-clear:active{
+  opacity:1;
 }
 
 .collection-filter-button{
@@ -326,7 +371,10 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
       <span>Your Invite Link</span>
       <small id="invite-help">Only show items you don't own.</small>
       <div class="collection-filter-row">
-        <input id="owner-invite-link" class="collection-input collection-invite" type="url" autocomplete="off" autocapitalize="none">
+        <div class="collection-clear-wrap collection-invite">
+          <input id="owner-invite-link" class="collection-input" type="url" autocomplete="off" autocapitalize="none">
+          <button class="collection-field-clear" type="button" data-clear-field="owner-invite-link" aria-label="Clear invite link">×</button>
+        </div>
         <button id="cross-check-go" class="collection-filter-button" type="button">Go</button>
         <button id="cross-check-clear" class="collection-filter-button secondary" type="button" hidden>Show all</button>
       </div>
@@ -384,17 +432,26 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
         <div class="collection-price-filters">
           <label class="collection-field">
             <span>Min price</span>
-            <input id="min-price" class="collection-input" type="number" min="0" step="1" inputmode="numeric" autocomplete="off">
+            <div class="collection-clear-wrap">
+              <input id="min-price" class="collection-input" type="number" min="0" step="1" inputmode="numeric" autocomplete="off">
+              <button class="collection-field-clear" type="button" data-clear-field="min-price" aria-label="Clear min price">×</button>
+            </div>
           </label>
           <label class="collection-field">
             <span>Max price</span>
-            <input id="max-price" class="collection-input" type="number" min="0" step="1" inputmode="numeric" autocomplete="off">
+            <div class="collection-clear-wrap">
+              <input id="max-price" class="collection-input" type="number" min="0" step="1" inputmode="numeric" autocomplete="off">
+              <button class="collection-field-clear" type="button" data-clear-field="max-price" aria-label="Clear max price">×</button>
+            </div>
           </label>
         </div>
       </div>
     </div>
 
-    <input id="collection-search" class="collection-search" autocomplete="off" placeholder="Search SKU, name, category, or price">
+    <div class="collection-clear-wrap">
+      <input id="collection-search" class="collection-search" autocomplete="off" placeholder="Search SKU, name, category, or price">
+      <button class="collection-field-clear" type="button" data-clear-field="collection-search" aria-label="Clear search">×</button>
+    </div>
   </div>
 
   <div id="collection-error" class="collection-error"></div>
@@ -447,6 +504,16 @@ let collectionMeta = {};
 let viewerSkuSet = null;
 let viewerItemCount = 0;
 let requesterCollectionLoaded = false;
+const modifiedFields = [
+  searchEl,
+  ownerInviteEl,
+  categoryEl,
+  rarityEl,
+  sortEl,
+  currencyEl,
+  minPriceEl,
+  maxPriceEl
+];
 
 function addButtonFeedback(button){
   if(!button) return;
@@ -471,7 +538,33 @@ function addButtonFeedback(button){
 }
 
 document.addEventListener("touchstart", () => {}, { passive:true });
-document.querySelectorAll("button").forEach(addButtonFeedback);
+document.querySelectorAll(".collection-panel button").forEach(addButtonFeedback);
+
+function updateModifiedFieldState(field){
+  if(!field) return;
+  const hasValue = Boolean(String(field.value || "").trim());
+  field.classList.toggle("is-modified", hasValue);
+  field.closest(".collection-clear-wrap")?.classList.toggle("has-value", hasValue);
+}
+
+function updateModifiedFields(){
+  modifiedFields.forEach(updateModifiedFieldState);
+}
+
+document.querySelectorAll("[data-clear-field]").forEach(button => {
+  button.addEventListener("click", () => {
+    const field = document.getElementById(button.dataset.clearField);
+    if(!field) return;
+
+    field.value = "";
+    field.dispatchEvent(new Event("input", { bubbles:true }));
+    try{
+      field.focus({ preventScroll:true });
+    }catch{
+      field.focus();
+    }
+  });
+});
 
 function escapeHtml(value){
   return String(value).replace(/[&<>"']/g, char => ({
@@ -666,6 +759,7 @@ function updateFilterSummary(){
 }
 
 function handleFilterChange(){
+  updateModifiedFields();
   updateFilterSummary();
   buildVisibleItems();
 }
@@ -773,7 +867,11 @@ function renderMore(){
     : `Load more (${visibleItems.length - renderedCount})`;
 }
 
-searchEl.addEventListener("input", buildVisibleItems);
+searchEl.addEventListener("input", () => {
+  updateModifiedFieldState(searchEl);
+  buildVisibleItems();
+});
+ownerInviteEl.addEventListener("input", () => updateModifiedFieldState(ownerInviteEl));
 filtersToggleBtn.addEventListener("click", () => {
   setFiltersOpen(filtersBodyEl.hidden);
 });
@@ -938,6 +1036,7 @@ async function init(){
   buildVisibleItems();
 }
 
+updateModifiedFields();
 init();
 
 </script>
