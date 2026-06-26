@@ -449,9 +449,9 @@ function updateTotals(){
   // Total price always displayed in coins (pips converted)
   const totalPriceCoins = totalCoins + (totalPips * MERCHANT_COINS_PER_PIP);
 
-  // Coin items follow +25% then round up to nearest 50
+  // Coin items follow +25% then round up to nearest 250
   const coinTrade = totalCoins > 0
-    ? Math.ceil((totalCoins * 1.25) / 50) * 50
+    ? Math.ceil((totalCoins * 1.25) / 250) * 250
     : 0;
 
   // Pip items convert directly to coins
@@ -498,7 +498,7 @@ function updateTotals(){
     `;
   }else{
     formulaBox.innerHTML = `
-      <div>Formula (Coins → Coins): +25% value, rounded up to the nearest 50 Coins.</div>
+      <div>Formula (Coins → Coins): +25% value, rounded up to the nearest 250 Coins.</div>
       <div>Formula (Pips → Coins): 1 Pip = 250 Coins. (Merchant Rate)</div>
     `;
   }
