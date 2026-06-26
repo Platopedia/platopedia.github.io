@@ -104,6 +104,11 @@ heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />
   white-space:nowrap;
 }
 
+.collection-filter-toggle.has-active-filters{
+  background:#16865f;
+  color:#fff;
+}
+
 .collection-filter-body{
   display:grid;
   gap:14px;
@@ -844,6 +849,7 @@ function getActiveFilterCount(){
 function updateFilterSummary(){
   const count = getActiveFilterCount();
   filtersSummaryEl.textContent = count ? `${count} active` : "No filters";
+  filtersToggleBtn.classList.toggle("has-active-filters", count > 0);
   clearFiltersBtn.disabled = count === 0;
 }
 
