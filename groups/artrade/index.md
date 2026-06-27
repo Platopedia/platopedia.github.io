@@ -167,8 +167,12 @@ box-shadow:0 0 0 2px #CD9B1E,0 6px 14px rgba(0,0,0,.18);
 box-shadow:0 0 0 2px #CD9B1E;
 }
 
+.artrade-invite-buttons a.is-loading,
 .artrade-invite-buttons button.is-loading{
 opacity:.65;
+}
+
+.artrade-invite-buttons button.is-loading{
 pointer-events:none;
 }
 
@@ -316,7 +320,7 @@ Artrade helps you connect with trusted item traders and merchants from our commu
     <button id="artradePlatoInviteButton" type="button" aria-label="Open Artrade Plato group invite">
       <span class="artrade-plato-icon" aria-hidden="true"></span>
     </button>
-    <a class="fab fa-discord" href="https://discord.com/invite/ardc" aria-label="Open Artrade Discord server invite"></a>
+    <a id="artradeDiscordInviteLink" class="fab fa-discord" href="https://discord.com/invite/ardc" aria-label="Open Artrade Discord server invite"></a>
   </div>
 </div>
 
@@ -526,6 +530,11 @@ function setInviteButtonLoading(button,loading){
   }else{
     button.removeAttribute("aria-busy");
   }
+}
+
+function setInviteLinkLoading(link,loading){
+  if(!link) return;
+  link.classList.toggle("is-loading",loading);
 }
 
 function clearCoin(){
@@ -1007,10 +1016,15 @@ recoverVerification(`❌ ${err.message || "Something went wrong. Please try agai
 document.addEventListener("DOMContentLoaded",()=>{
 const btn=document.getElementById("genTicketBtn");
 const inviteButton=document.getElementById("artradePlatoInviteButton");
+const discordInviteLink=document.getElementById("artradeDiscordInviteLink");
 syncTurnstileContainerMode(document.getElementById("captcha-container"));
 
 if(inviteButton){
   inviteButton.addEventListener("click",openLatestArtradeInvite);
+}
+
+if(discordInviteLink){
+  discordInviteLink.addEventListener("click",()=>setInviteLinkLoading(discordInviteLink,true));
 }
 
 if(!btn) return;
@@ -1077,6 +1091,9 @@ if(genBtn){
 }
 
 window.addEventListener("pageshow",(e)=>{
+setInviteButtonLoading(document.getElementById("artradePlatoInviteButton"),false);
+setInviteLinkLoading(document.getElementById("artradeDiscordInviteLink"),false);
+
 if(e.persisted){
 const btn=document.getElementById("genTicketBtn");
 
