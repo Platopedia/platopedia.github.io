@@ -7,7 +7,7 @@
                     <strong class="artrade-ticket-mini-title">Artrade Ticket</strong>\
                     <span>Trade rare or exclusive Plato items with trusted <strong>Artrade Merchants</strong>.</span>\
                 </div>\
-                <a class="artrade-ticket-mini-button" href="/groups/artrade#artrade-ticket">Open</a>\
+                <a class="artrade-ticket-mini-button" href="/groups/artrade#artrade-ticket">Trade</a>\
             </div>\
         ';
 
