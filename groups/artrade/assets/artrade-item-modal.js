@@ -64,7 +64,7 @@
         '#popup-item .artrade-ticket-mini-button',
         function ( )
         {
-            if ( navigator.vibrate ) navigator.vibrate( [ 20, 30, 20 ] );
+            if ( navigator.vibrate ) navigator.vibrate( 25 );
         }
     );
 }
