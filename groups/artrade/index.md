@@ -226,7 +226,7 @@ max-width:100%;
 
 <div class="linebreak"></div>
 
-Artrade helps you connect with trusted item traders and merchants from our community. Tap the **+** icon below to see more.
+Artrade helps you connect with trusted item traders and merchants from our community.
 
 **Artrade (Plato Group):**<br>
 <span class="content-link" data-url="https://platoapp.com/link/2qklkynrule8h" data-text="" data-copy="true"></span>
