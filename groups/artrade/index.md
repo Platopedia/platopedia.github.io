@@ -110,6 +110,7 @@ display:flex;
 justify-content:center;
 width:fit-content;
 max-width:100%;
+padding:12px;
 margin:15px 0;
 }
 
@@ -117,14 +118,14 @@ margin:15px 0;
 display:flex;
 justify-content:center;
 align-items:center;
-gap:22px;
+gap:14px;
 }
 
 .artrade-invite-buttons a{
 display:grid;
 place-items:center;
-width:72px;
-height:72px;
+width:60px;
+height:60px;
 border-radius:50%;
 border:1px solid var(--color-B);
 background:linear-gradient(135deg,var(--color-C),var(--color-D));
