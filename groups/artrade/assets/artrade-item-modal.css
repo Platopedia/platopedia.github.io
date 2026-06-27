@@ -1,0 +1,79 @@
+#popup-item .artrade-ticket-mini
+{
+    display         : flex;
+    align-items     : center;
+    justify-content : space-between;
+    gap             : 10px;
+    margin-top      : 10px;
+    padding         : 10px 12px;
+    border          : 1px solid var( --color-B );
+    background      : linear-gradient( var( --color-C ), var( --color-D ) );
+    box-sizing      : border-box;
+}
+
+#popup-item .artrade-ticket-mini-copy
+{
+    min-width   : 0;
+    line-height : 1.25;
+    text-align  : left;
+}
+
+#popup-item .artrade-ticket-mini-copy strong
+{
+    display     : block;
+    color       : #CD9B1E;
+    font-size   : var( --unit-text-C );
+    font-weight : 700;
+}
+
+#popup-item .artrade-ticket-mini-copy span
+{
+    display   : block;
+    opacity   : .72;
+    font-size : var( --unit-text-D );
+}
+
+#popup-item .artrade-ticket-mini-button,
+#popup-item .artrade-ticket-mini-button:active,
+#popup-item .artrade-ticket-mini-button:hover,
+#popup-item .artrade-ticket-mini-button:link,
+#popup-item .artrade-ticket-mini-button:visited
+{
+    display         : inline-flex;
+    flex            : 0 0 auto;
+    align-items     : center;
+    justify-content : center;
+    min-height      : 32px;
+    padding         : 7px 10px;
+    border-radius   : 6px;
+    color           : #1A1A1A !important;
+    background      : linear-gradient( 135deg, #CD9B1E, #F4C542 );
+    font-size       : var( --unit-text-C );
+    font-weight     : 700;
+    line-height     : 1;
+    text-decoration : none;
+    white-space     : nowrap;
+}
+
+#popup-item .artrade-ticket-mini-button:hover
+{
+    box-shadow : 0 3px 8px rgba( 0, 0, 0, .24 );
+}
+
+#popup-item .artrade-ticket-mini-button:active
+{
+    transform : scale( .97 );
+}
+
+@media ( max-width : 420px )
+{
+    #popup-item .artrade-ticket-mini
+    {
+        align-items : stretch;
+    }
+
+    #popup-item .artrade-ticket-mini-button
+    {
+        min-width : 116px;
+    }
+}
