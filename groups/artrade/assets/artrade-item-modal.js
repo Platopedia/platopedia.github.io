@@ -7,7 +7,7 @@
                     <strong class="artrade-ticket-mini-title">Artrade Ticket</strong>\
                     <span>Trade rare or exclusive Plato items with trusted <strong>Artrade Merchants</strong>.</span>\
                 </div>\
-                <a class="artrade-ticket-mini-button" href="/groups/artrade#artrade-ticket">Trade</a>\
+                <a class="artrade-ticket-mini-button" href="/groups/artrade">Trade</a>\
             </div>\
         ';
 
@@ -62,40 +62,9 @@
     (
         'click',
         '#popup-item .artrade-ticket-mini-button',
-        function ( event )
+        function ( )
         {
-            var href = this.getAttribute( 'href' );
-            var destination = href;
-
-            if ( event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.which === 2 || ! href )
-            {
-                return;
-            }
-
-            event.preventDefault( );
-
-            try
-            {
-                var url = new URL( href, window.location.href );
-
-                if ( url.pathname === '/groups/artrade' && url.hash === '#artrade-ticket' )
-                {
-                    sessionStorage.setItem( 'artrade_focus_ticket', '1' );
-                    destination = url.pathname + url.search;
-                }
-            }
-            catch ( err ) { }
-
             if ( navigator.vibrate ) navigator.vibrate( [ 20, 30, 20 ] );
-
-            setTimeout
-            (
-                function ( )
-                {
-                    window.location.href = destination;
-                },
-                80
-            );
         }
     );
 }
