@@ -133,10 +133,19 @@ border:1px solid var(--color-B);
 background:linear-gradient(135deg,var(--color-C),var(--color-D));
 color:var(--color-text)!important;
 text-decoration:none;
-font:inherit;
 cursor:pointer;
+line-height:1;
+outline:none;
+-webkit-tap-highlight-color:transparent;
+user-select:none;
 box-shadow:0 4px 10px rgba(0,0,0,.12);
 transition:transform .15s,box-shadow .15s;
+}
+
+.artrade-invite-buttons button{
+font:inherit;
+-webkit-appearance:none;
+appearance:none;
 }
 
 @media(any-hover:hover){
@@ -164,6 +173,8 @@ pointer-events:none;
 }
 
 .artrade-invite-buttons .fa-discord{
+font-family:"Font Awesome 5 Brands";
+font-weight:400;
 font-size:28px;
 background:transparent;
 }
@@ -489,9 +500,7 @@ async function openLatestArtradeInvite(event){
   const button = event.currentTarget;
   if(button.dataset.loading === "true") return;
 
-  button.dataset.loading = "true";
-  button.classList.add("is-loading");
-  button.setAttribute("aria-busy", "true");
+  setInviteButtonLoading(button,true);
 
   try{
     const response = await fetch(ARTRADE_GROUP_INVITE_API,{ cache:"no-store" });
@@ -499,12 +508,22 @@ async function openLatestArtradeInvite(event){
     if(!response.ok || !data || !data.ok || !data.url){
       throw new Error(data && data.error ? data.error : "invite_fetch_failed");
     }
+    setInviteButtonLoading(button,false);
     window.location.href = data.url;
   }catch(error){
     console.error("[artrade] Failed to fetch Plato invite link:", error);
     alert("Could not load the latest Plato invite link. Please try again.");
-    button.dataset.loading = "false";
-    button.classList.remove("is-loading");
+    setInviteButtonLoading(button,false);
+  }
+}
+
+function setInviteButtonLoading(button,loading){
+  if(!button) return;
+  button.dataset.loading = loading ? "true" : "false";
+  button.classList.toggle("is-loading",loading);
+  if(loading){
+    button.setAttribute("aria-busy","true");
+  }else{
     button.removeAttribute("aria-busy");
   }
 }
