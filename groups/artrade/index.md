@@ -121,34 +121,46 @@ align-items:center;
 gap:14px;
 }
 
-.artrade-invite-buttons a{
+.artrade-invite-buttons a,
+.artrade-invite-buttons button{
 display:grid;
 place-items:center;
 width:60px;
 height:60px;
+padding:0;
 border-radius:50%;
 border:1px solid var(--color-B);
 background:linear-gradient(135deg,var(--color-C),var(--color-D));
 color:var(--color-text)!important;
 text-decoration:none;
+font:inherit;
+cursor:pointer;
 box-shadow:0 4px 10px rgba(0,0,0,.12);
 transition:transform .15s,box-shadow .15s;
 }
 
 @media(any-hover:hover){
-.artrade-invite-buttons a:hover{
+.artrade-invite-buttons a:hover,
+.artrade-invite-buttons button:hover{
 transform:translateY(-2px) scale(1.03);
 box-shadow:0 0 0 2px #CD9B1E,0 8px 16px rgba(0,0,0,.18);
 }
 }
 
-.artrade-invite-buttons a:active{
+.artrade-invite-buttons a:active,
+.artrade-invite-buttons button:active{
 transform:translateY(0) scale(.98);
 box-shadow:0 0 0 2px #CD9B1E,0 6px 14px rgba(0,0,0,.18);
 }
 
-.artrade-invite-buttons a:focus-visible{
+.artrade-invite-buttons a:focus-visible,
+.artrade-invite-buttons button:focus-visible{
 box-shadow:0 0 0 2px #CD9B1E;
+}
+
+.artrade-invite-buttons button.is-loading{
+opacity:.65;
+pointer-events:none;
 }
 
 .artrade-invite-buttons .fa-discord{
@@ -290,9 +302,9 @@ Artrade helps you connect with trusted item traders and merchants from our commu
 
 <div class="trade-card artrade-invite-card" aria-label="Artrade invite links">
   <div class="artrade-invite-buttons">
-    <a href="https://platoapp.com/link/2qklkynrule8h" aria-label="Open Artrade Plato group invite">
+    <button id="artradePlatoInviteButton" type="button" aria-label="Open Artrade Plato group invite">
       <span class="artrade-plato-icon" aria-hidden="true"></span>
-    </a>
+    </button>
     <a class="fab fa-discord" href="https://discord.com/invite/ardc" aria-label="Open Artrade Discord server invite"></a>
   </div>
 </div>
@@ -456,6 +468,7 @@ Apply to become an <strong>Artrade Merchant</strong> and join our trusted networ
 const MERCHANT_COINS_PER_PIP = 250;
 const COINS_TO_PIPS_COINS_PER_PIP = 200;
 const COINS_TO_PIPS_MARKUP_MULTIPLIER = 1;
+const ARTRADE_GROUP_INVITE_API = "https://artrade-collection.platopedia.workers.dev/group-invite/artrade";
 
 // Generate stable fingerprint per user
 function getFingerprint(){
@@ -469,6 +482,31 @@ function getFingerprint(){
     localStorage.setItem("artrade_fp", fp);
   }
   return fp;
+}
+
+async function openLatestArtradeInvite(event){
+  event.preventDefault();
+  const button = event.currentTarget;
+  if(button.dataset.loading === "true") return;
+
+  button.dataset.loading = "true";
+  button.classList.add("is-loading");
+  button.setAttribute("aria-busy", "true");
+
+  try{
+    const response = await fetch(ARTRADE_GROUP_INVITE_API,{ cache:"no-store" });
+    const data = await response.json().catch(() => null);
+    if(!response.ok || !data || !data.ok || !data.url){
+      throw new Error(data && data.error ? data.error : "invite_fetch_failed");
+    }
+    window.location.href = data.url;
+  }catch(error){
+    console.error("[artrade] Failed to fetch Plato invite link:", error);
+    alert("Could not load the latest Plato invite link. Please try again.");
+    button.dataset.loading = "false";
+    button.classList.remove("is-loading");
+    button.removeAttribute("aria-busy");
+  }
 }
 
 function clearCoin(){
@@ -949,7 +987,12 @@ recoverVerification(`❌ ${err.message || "Something went wrong. Please try agai
 
 document.addEventListener("DOMContentLoaded",()=>{
 const btn=document.getElementById("genTicketBtn");
+const inviteButton=document.getElementById("artradePlatoInviteButton");
 syncTurnstileContainerMode(document.getElementById("captcha-container"));
+
+if(inviteButton){
+  inviteButton.addEventListener("click",openLatestArtradeInvite);
+}
 
 if(!btn) return;
 
