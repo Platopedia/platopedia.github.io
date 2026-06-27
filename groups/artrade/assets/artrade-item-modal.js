@@ -4,8 +4,8 @@
         '\
             <div class="artrade-ticket-mini">\
                 <div class="artrade-ticket-mini-copy">\
-                    <strong>Artrade Ticket</strong>\
-                    <span>Trade rare or exclusive Plato items with trusted Artrade Merchants.</span>\
+                    <strong class="artrade-ticket-mini-title">Artrade Ticket</strong>\
+                    <span>Trade rare or exclusive Plato items with trusted <strong>Artrade Merchants</strong>.</span>\
                 </div>\
                 <a class="artrade-ticket-mini-button" href="/groups/artrade#artrade-ticket">Open</a>\
             </div>\
