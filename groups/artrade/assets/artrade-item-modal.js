@@ -11,20 +11,31 @@
             </div>\
         ';
 
-    $( document ).on
+    //$( document ).on
+    //(
+    //    'show.bs.modal',
+    //    '#popup-item',
+    //    function ( )
+    //    {
+    //        var modal_body = $( this ).find( '.modal-body' );
+
+    //        if ( modal_body.find( '.artrade-ticket-mini' ).length ) return;
+
+    //        modal_body.append( block );
+    //    }
+    //);
+
+    document.addEventListener
     (
-        'show.bs.modal',
-        '#popup-item',
-        function ( )
+        'tool_items_popup_body',
+        function ( event )
         {
-            var modal_body = $( this ).find( '.modal-body' );
-
-            if ( modal_body.find( '.artrade-ticket-mini' ).length ) return;
-
+            var modal_body = $( '#popup-item' ).find( '.modal-body' );
+        
             modal_body.append( block );
         }
     );
-
+    
     document.addEventListener( 'touchstart', function ( ) { }, { passive : true } );
 
     $( document ).on
