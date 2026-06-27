@@ -1,0 +1,10 @@
+html.artrade-ticket-focus-pending .content
+{
+    opacity : 0;
+}
+
+html.artrade-ticket-focus-ready .content
+{
+    opacity    : 1;
+    transition : opacity .16s ease;
+}
