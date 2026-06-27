@@ -228,17 +228,13 @@ max-width:100%;
 
 Artrade helps you connect with trusted item traders and merchants from our community. Tap the **+** icon below to see more.
 
-<div class="content-contents text-left" data-open="false" data-icon="&#xf068;,&#xf067;">Contents <embed/></div>
-
-<div class="linebreak"></div>
-
-## Artrade Invite
-
 **Artrade (Plato Group):**<br>
 <span class="content-link" data-url="https://platoapp.com/link/2qklkynrule8h" data-text="" data-copy="true"></span>
 
 **Artrade (Discord Server):**
 <span class="content-link" data-url="https://discord.com/invite/ardc" data-text="" data-copy="true"></span>
+
+<div class="content-contents text-left" data-open="false" data-icon="&#xf068;,&#xf067;">Contents <embed/></div>
 
 <div class="linebreak"></div>
 
@@ -263,10 +259,6 @@ Artrade helps you connect with trusted item traders and merchants from our commu
 <div class="linebreak"></div>
 
 ## Item Trading Guide
-
-**Merchants -** Group admins or traders endorsed by Artrade.
-
-**Requesters -** Group members or traders not endorsed by Artrade.
 
 To take part in item trading, press the **Create Trade Ticket** button above to request for your desired item/s, and wait for a merchant to accept your trade.
 
