@@ -62,9 +62,40 @@
     (
         'click',
         '#popup-item .artrade-ticket-mini-button',
-        function ( )
+        function ( event )
         {
+            var href = this.getAttribute( 'href' );
+            var destination = href;
+
+            if ( event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.which === 2 || ! href )
+            {
+                return;
+            }
+
+            event.preventDefault( );
+
+            try
+            {
+                var url = new URL( href, window.location.href );
+
+                if ( url.pathname === '/groups/artrade' && url.hash === '#artrade-ticket' )
+                {
+                    sessionStorage.setItem( 'artrade_focus_ticket', '1' );
+                    destination = url.pathname + url.search;
+                }
+            }
+            catch ( err ) { }
+
             if ( navigator.vibrate ) navigator.vibrate( [ 20, 30, 20 ] );
+
+            setTimeout
+            (
+                function ( )
+                {
+                    window.location.href = destination;
+                },
+                80
+            );
         }
     );
 }
