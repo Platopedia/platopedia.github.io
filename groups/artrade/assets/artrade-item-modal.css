@@ -44,6 +44,7 @@
     align-items     : center;
     justify-content : center;
     min-height      : 32px;
+    min-width       : 72px;
     padding         : 7px 10px;
     border-radius   : 6px;
     color           : #1A1A1A !important;
