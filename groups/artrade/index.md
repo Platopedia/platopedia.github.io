@@ -105,6 +105,65 @@ color:#CD9B1E;
 font-size:0.9em;
 }
 
+.artrade-invite-card{
+display:flex;
+justify-content:center;
+width:fit-content;
+max-width:100%;
+margin:15px 0;
+}
+
+.artrade-invite-buttons{
+display:flex;
+justify-content:center;
+align-items:center;
+gap:22px;
+}
+
+.artrade-invite-buttons a{
+display:grid;
+place-items:center;
+width:72px;
+height:72px;
+border-radius:50%;
+border:1px solid var(--color-B);
+background:linear-gradient(135deg,var(--color-C),var(--color-D));
+color:var(--color-text)!important;
+text-decoration:none;
+box-shadow:0 4px 10px rgba(0,0,0,.12);
+transition:transform .15s,box-shadow .15s;
+}
+
+@media(any-hover:hover){
+.artrade-invite-buttons a:hover{
+transform:translateY(-2px) scale(1.03);
+box-shadow:0 0 0 2px #CD9B1E,0 8px 16px rgba(0,0,0,.18);
+}
+}
+
+.artrade-invite-buttons a:active{
+transform:translateY(0) scale(.98);
+box-shadow:0 0 0 2px #CD9B1E,0 6px 14px rgba(0,0,0,.18);
+}
+
+.artrade-invite-buttons a:focus-visible{
+box-shadow:0 0 0 2px #CD9B1E;
+}
+
+.artrade-invite-buttons .fa-discord{
+font-size:28px;
+background:transparent;
+}
+
+.artrade-plato-icon{
+display:block;
+width:28px;
+height:31px;
+background:var(--color-text);
+-webkit-mask:url("/groups/artrade/assets/plato.png") center/contain no-repeat;
+mask:url("/groups/artrade/assets/plato.png") center/contain no-repeat;
+}
+
 /* remove browser number arrows */
 
 input[type=number]::-webkit-outer-spin-button,
@@ -228,11 +287,14 @@ max-width:100%;
 
 Artrade helps you connect with trusted item traders and merchants from our community.
 
-**Artrade (Plato Group):**<br>
-<span class="content-link" data-url="https://platoapp.com/link/2qklkynrule8h" data-text="" data-copy="true"></span>
-
-**Artrade (Discord Server):**
-<span class="content-link" data-url="https://discord.com/invite/ardc" data-text="" data-copy="true"></span>
+<div class="trade-card artrade-invite-card" aria-label="Artrade invite links">
+  <div class="artrade-invite-buttons">
+    <a href="https://platoapp.com/link/2qklkynrule8h" aria-label="Open Artrade Plato group invite">
+      <span class="artrade-plato-icon" aria-hidden="true"></span>
+    </a>
+    <a class="fab fa-discord" href="https://discord.com/invite/ardc" aria-label="Open Artrade Discord server invite"></a>
+  </div>
+</div>
 
 <div class="content-contents text-left" data-open="false" data-icon="&#xf068;,&#xf067;">Contents <embed/></div>
 
