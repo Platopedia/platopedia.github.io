@@ -583,6 +583,8 @@ function Tool_Items_popup ( datatable, row )
         );
     }
     
+    document.dispatchEvent( new CustomEvent( 'tool_items_popup_body', { 'detail' : { } } ) );
+    
     modal.modal( 'show' );
     
     modal            .off( 'swiped.popup' );
