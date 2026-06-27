@@ -4,9 +4,6 @@ title: Artrade - Platopedia
 heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />&nbsp;Artrade
 ---
 
-<link rel="stylesheet" href="/groups/artrade/assets/artrade-ticket-focus.css" />
-<script type="text/javascript" src="/groups/artrade/assets/artrade-ticket-focus.js"></script>
-
 <style>
 
 h2 { color:#CD9B1E !important }
