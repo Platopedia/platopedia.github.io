@@ -52,6 +52,7 @@
     font-weight     : 700;
     line-height     : 1;
     text-decoration : none;
+    transition      : transform .05s ease;
     white-space     : nowrap;
 }
 
@@ -62,7 +63,12 @@
 
 #popup-item .artrade-ticket-mini-button:active
 {
-    transform : scale( .97 );
+    transform : scale( .90 );
+}
+
+#popup-item .artrade-ticket-mini-button.pressed
+{
+    transform : scale( .90 );
 }
 
 @media ( max-width : 420px )
