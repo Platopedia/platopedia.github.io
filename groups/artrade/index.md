@@ -160,6 +160,7 @@ border-color:#CD9B1E;
 .artrade-invite-buttons button:active{
 transform:translateY(0) scale(.98);
 border-color:#CD9B1E;
+opacity:.65;
 }
 
 .artrade-invite-buttons a:focus-visible,
@@ -503,11 +504,7 @@ async function openLatestArtradeInvite(event){
   setInviteButtonLoading(button,true);
 
   try{
-    const response = await fetch(ARTRADE_GROUP_INVITE_API,{ cache:"no-store" });
-    const data = await response.json().catch(() => null);
-    if(!response.ok || !data || !data.ok || !data.url){
-      throw new Error(data && data.error ? data.error : "invite_fetch_failed");
-    }
+    const data = await fetchLatestArtradeInvite();
     setInviteButtonLoading(button,false);
     window.location.href = data.url;
   }catch(error){
@@ -515,6 +512,26 @@ async function openLatestArtradeInvite(event){
     alert("Could not load the latest Plato invite link. Please try again.");
     setInviteButtonLoading(button,false);
   }
+}
+
+async function fetchLatestArtradeInvite(){
+  let lastError = null;
+  for(let attempt=0;attempt<2;attempt++){
+    try{
+      const response = await fetch(ARTRADE_GROUP_INVITE_API,{ cache:"no-store" });
+      const data = await response.json().catch(() => null);
+      if(response.ok && data && data.ok && data.url) return data;
+      lastError = new Error(data && data.error ? data.error : "invite_fetch_failed");
+    }catch(error){
+      lastError = error;
+    }
+    if(attempt === 0) await sleep(400);
+  }
+  throw lastError || new Error("invite_fetch_failed");
+}
+
+function sleep(ms){
+  return new Promise((resolve)=>setTimeout(resolve,ms));
 }
 
 function setInviteButtonLoading(button,loading){
