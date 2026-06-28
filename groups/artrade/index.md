@@ -137,10 +137,7 @@ cursor:pointer;
 line-height:1;
 outline:none;
 -webkit-tap-highlight-color:transparent;
--webkit-touch-callout:none;
--webkit-user-select:none;
 user-select:none;
-touch-action:manipulation;
 box-shadow:0 4px 10px rgba(0,0,0,.12);
 transition:transform .15s,box-shadow .15s;
 }
@@ -193,10 +190,6 @@ height:31px;
 background:var(--color-text);
 -webkit-mask:url("/groups/artrade/assets/plato.png") center/contain no-repeat;
 mask:url("/groups/artrade/assets/plato.png") center/contain no-repeat;
-pointer-events:none;
--webkit-touch-callout:none;
--webkit-user-select:none;
-user-select:none;
 }
 
 /* remove browser number arrows */
