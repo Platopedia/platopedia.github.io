@@ -4,6 +4,8 @@ title: Artrade - Platopedia
 heading: <img src="/docs/assets/images/groups/artrade/artrade-thumbnail.webp" />&nbsp;Artrade
 ---
 
+<link rel="preload" as="image" href="/groups/artrade/assets/plato.png" fetchpriority="high">
+
 <style>
 
 h2 { color:#CD9B1E !important }
