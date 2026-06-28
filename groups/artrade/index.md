@@ -123,6 +123,7 @@ gap:14px;
 
 .artrade-invite-buttons a,
 .artrade-invite-buttons button{
+position:relative;
 display:grid;
 place-items:center;
 width:60px;
@@ -139,7 +140,19 @@ outline:none;
 -webkit-tap-highlight-color:transparent;
 user-select:none;
 box-shadow:0 4px 10px rgba(0,0,0,.12);
-transition:transform .15s,box-shadow .15s;
+transition:transform .15s;
+}
+
+.artrade-invite-buttons a::after,
+.artrade-invite-buttons button::after{
+content:"";
+position:absolute;
+inset:-3px;
+border:2px solid #CD9B1E;
+border-radius:50%;
+opacity:0;
+pointer-events:none;
+transition:opacity .15s;
 }
 
 .artrade-invite-buttons button{
@@ -152,19 +165,21 @@ appearance:none;
 .artrade-invite-buttons a:hover,
 .artrade-invite-buttons button:hover{
 transform:translateY(-2px) scale(1.03);
-box-shadow:0 0 0 2px #CD9B1E,0 8px 16px rgba(0,0,0,.18);
 }
 }
 
 .artrade-invite-buttons a:active,
 .artrade-invite-buttons button:active{
 transform:translateY(0) scale(.98);
-box-shadow:0 0 0 2px #CD9B1E,0 6px 14px rgba(0,0,0,.18);
 }
 
-.artrade-invite-buttons a:focus-visible,
-.artrade-invite-buttons button:focus-visible{
-box-shadow:0 0 0 2px #CD9B1E;
+.artrade-invite-buttons a:hover::after,
+.artrade-invite-buttons button:hover::after,
+.artrade-invite-buttons a:active::after,
+.artrade-invite-buttons button:active::after,
+.artrade-invite-buttons a:focus-visible::after,
+.artrade-invite-buttons button:focus-visible::after{
+opacity:1;
 }
 
 .artrade-invite-buttons a.is-loading,
