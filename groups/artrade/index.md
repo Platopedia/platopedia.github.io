@@ -361,7 +361,7 @@ You can also join the <a href="https://discord.com/invite/ardc">Artrade (Discord
 
 The trade price is the final amount required for a trade. Some important points about how trade pricing works are listed below.
 
-- The trade price is determined by the total value of items you're trading for. It's not counted separately for each item.
+- Each item's trade price is calculated separately, then all item trade prices are added together.
 - Use the [**Artrade Calculator**](#artrade-calculator) below to determine the trade price.
 
 <div class="linebreak"></div>
@@ -380,7 +380,7 @@ During a trade, merchants and requesters must follow the trading rules listed be
 
 ## Artrade Calculator {#artrade-calculator}
 
-Use the calculator to check the total trade price of one or more items.
+Use the calculator to check the trade price for one item, or enter multiple item prices separated by commas, spaces, or new lines.
 
 <div class="trade-tabs" style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;">
   <button id="tabCoins" class="primary-btn" style="max-width:none;flex:1;padding:12px 18px;font-size:14px;border-radius:12px;">Coins Payment</button>
@@ -392,12 +392,12 @@ Use the calculator to check the total trade price of one or more items.
 <div class="trade-card">
 
 <h4>Trade Calculator (Coins → Coins)</h4>
-<p class="trade-desc">Formula: +25% value, then rounded up to the nearest 250 Coins.</p>
+<p class="trade-desc">Formula: each item gets +25%, rounded up to the nearest 250 Coins, then totaled.</p>
 
-<label>Item/s Price (Coins)</label>
+<label>Item Price/s (Coins)</label>
 
 <div class="trade-input-wrap">
-<input id="coinInput" class="form-control trade-input" type="number" max="100000000" placeholder="Enter item/s price in Coins">
+<input id="coinInput" class="form-control trade-input" type="text" placeholder="Example: 500, 250, 250">
 <button class="trade-clear" onclick="clearCoin()">×</button>
 </div>
 
@@ -408,12 +408,12 @@ Use the calculator to check the total trade price of one or more items.
 <div class="trade-card">
 
 <h4>Trade Calculator (Pips → Coins)</h4>
-<p class="trade-desc">Formula: 1 Pip = 250 Coins. (Merchant Rate)</p>
+<p class="trade-desc">Formula: each item uses 1 Pip = 250 Coins, then totaled. (Merchant Rate)</p>
 
-<label>Item/s Price (Pips)</label>
+<label>Item Price/s (Pips)</label>
 
 <div class="trade-input-wrap">
-<input id="pipToCoinMerchantInput" class="form-control trade-input" type="number" max="100000000" placeholder="Enter item/s price in Pips">
+<input id="pipToCoinMerchantInput" class="form-control trade-input" type="text" placeholder="Example: 2, 1, 1">
 <button class="trade-clear" onclick="clearPipToCoinMerchant()">×</button>
 </div>
 
@@ -427,11 +427,11 @@ Use the calculator to check the total trade price of one or more items.
 
 <div class="trade-card">
 <h4>Trade Calculator (Pips → Pips)</h4>
-<p class="trade-desc">Formula: +25% value, then rounded up to the nearest 1 Pip.</p>
+<p class="trade-desc">Formula: each item gets +25%, rounded up to the nearest 1 Pip, then totaled.</p>
 
-<label>Item/s Price (Pips)</label>
+<label>Item Price/s (Pips)</label>
 <div class="trade-input-wrap">
-<input id="pipToPipInput" class="form-control trade-input" type="number" max="100000000" placeholder="Enter item/s price in Pips">
+<input id="pipToPipInput" class="form-control trade-input" type="text" placeholder="Example: 2, 1, 1">
 <button class="trade-clear" onclick="clearPipToPip()">×</button>
 </div>
 
@@ -440,11 +440,11 @@ Use the calculator to check the total trade price of one or more items.
 
 <div class="trade-card">
 <h4>Trade Calculator (Coins → Pips)</h4>
-<p class="trade-desc">Formula: 1 Pip = 200 Coins. (Requester Rate)</p>
+<p class="trade-desc">Formula: each item uses 1 Pip = 200 Coins, rounded up, then totaled. (Requester Rate)</p>
 
-<label>Item/s Price (Coins)</label>
+<label>Item Price/s (Coins)</label>
 <div class="trade-input-wrap">
-<input id="coinToPipRequesterInput" class="form-control trade-input" type="number" max="100000000" placeholder="Enter item/s price in Coins">
+<input id="coinToPipRequesterInput" class="form-control trade-input" type="text" placeholder="Example: 500, 250, 250">
 <button class="trade-clear" onclick="clearCoinToPipRequester()">×</button>
 </div>
 
@@ -482,6 +482,7 @@ Apply to become an <strong>Artrade Merchant</strong> and join our trusted networ
 const MERCHANT_COINS_PER_PIP = 250;
 const COINS_TO_PIPS_COINS_PER_PIP = 200;
 const COINS_TO_PIPS_MARKUP_MULTIPLIER = 1;
+const MAX_TRADE_INPUT_VALUE = 100000000;
 const ARTRADE_GROUP_INVITE_API = "https://artrade-collection.platopedia.workers.dev/group-invite/artrade";
 
 // Generate stable fingerprint per user
@@ -547,6 +548,44 @@ function setInviteButtonLoading(button,loading){
   }
 }
 
+function parseTradeAmounts(value){
+  const text = String(value || "").trim();
+
+  if(/^\d{1,2}(?:,\d{3})+(?:\.\d+)?$/.test(text)){
+    return [Math.min(Number(text.replace(/,/g,"")),MAX_TRADE_INPUT_VALUE)];
+  }
+
+  return text
+    .split(/[\s,;+|]+/)
+    .map(part=>Number(part))
+    .filter(amount=>Number.isFinite(amount) && amount > 0)
+    .map(amount=>Math.min(amount,MAX_TRADE_INPUT_VALUE));
+}
+
+function sumTradeAmounts(amounts){
+  return amounts.reduce((sum,amount)=>sum + amount,0);
+}
+
+function formatTradeAmount(amount){
+  return amount.toLocaleString();
+}
+
+function renderTradeResult(result,amounts,valueCurrency,tradePrice,tradeCurrency){
+  const valueLabel = amounts.length === 1 ? "Item Value" : "Item Values";
+  const tradeLabel = amounts.length === 1 ? "Trade Price" : "Total Trade Price";
+  const values = amounts.map(formatTradeAmount).join(" + ");
+  const totalValue = sumTradeAmounts(amounts);
+  const totalLine = amounts.length > 1
+    ? `Total Item Value: <b>${formatTradeAmount(totalValue)} ${valueCurrency}</b><br>`
+    : "";
+
+  result.innerHTML=`
+${valueLabel}: <b>${values} ${valueCurrency}</b><br>
+${totalLine}
+${tradeLabel}: <span class="trade-highlight"><b>${formatTradeAmount(tradePrice)} ${tradeCurrency}</b></span>
+`;
+}
+
 function clearCoin(){
 const input=document.getElementById("coinInput");
 const result=document.getElementById("coinResult");
@@ -584,28 +623,19 @@ return Math.ceil(increased/250)*250;
 
 document.getElementById("coinInput").addEventListener("input",function(){
 
-let coins = Number(this.value);
-if (coins > 100000000) {
-  coins = 100000000;
-  this.value = coins;
-}
-
 const clearBtn=this.parentElement.querySelector('.trade-clear');
 clearBtn.style.display=this.value ? 'flex' : 'none';
 
 const result=document.getElementById("coinResult");
+const amounts = parseTradeAmounts(this.value);
 
-if(isNaN(coins) || coins <= 0){
+if(!amounts.length){
 result.innerHTML="";
 return;
 }
 
-const tradePrice=calculateTradeCoins(coins);
-
-result.innerHTML=`
-Item/s Value: <b>${coins.toLocaleString()} Coins</b><br>
-Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coins</b></span>
-`;
+const tradePrice=amounts.reduce((sum,coins)=>sum + calculateTradeCoins(coins),0);
+renderTradeResult(result,amounts,"Coins",tradePrice,"Coins");
 
 });
 
@@ -613,76 +643,55 @@ Trade Price: <span class="trade-highlight"><b>${tradePrice.toLocaleString()} Coi
 
 document.getElementById("pipToCoinMerchantInput").addEventListener("input",function(){
 
-let pips = Number(this.value);
-if (pips > 100000000) {
-  pips = 100000000;
-  this.value = pips;
-}
-
 const clearBtn=this.parentElement.querySelector('.trade-clear');
 clearBtn.style.display=this.value ? 'flex' : 'none';
 
 const result=document.getElementById("pipToCoinMerchantResult");
+const amounts = parseTradeAmounts(this.value);
 
-if(isNaN(pips) || pips <= 0){
+if(!amounts.length){
 result.innerHTML="";
 return;
 }
 
-const coins = Math.round(pips * MERCHANT_COINS_PER_PIP);
-
-result.innerHTML=`
-Item/s Value: <b>${pips} Pips</b><br>
-Trade Price: <span class="trade-highlight"><b>${coins.toLocaleString()} Coins</b></span>
-`;
+const coins = amounts.reduce((sum,pips)=>sum + (pips * MERCHANT_COINS_PER_PIP),0);
+renderTradeResult(result,amounts,"Pips",coins,"Coins");
 });
 
 // pip -> pip
 
 document.getElementById("pipToPipInput").addEventListener("input",function(){
-let pips = Number(this.value);
-if(pips > 100000000){ pips = 100000000; this.value = pips; }
-
 const clearBtn=this.parentElement.querySelector('.trade-clear');
 clearBtn.style.display=this.value ? 'flex' : 'none';
 
 const result=document.getElementById("pipToPipResult");
-if(isNaN(pips)||pips<=0){ result.innerHTML=""; return; }
+const amounts = parseTradeAmounts(this.value);
 
-const tradePrice=Math.ceil(pips*1.25);
+if(!amounts.length){ result.innerHTML=""; return; }
 
-result.innerHTML=`
-Item/s Value: <b>${pips} Pips</b><br>
-Trade Price: <span class="trade-highlight"><b>${tradePrice} Pips</b></span>
-`;
+const tradePrice=amounts.reduce((sum,pips)=>sum + Math.ceil(pips*1.25),0);
+renderTradeResult(result,amounts,"Pips",tradePrice,"Pips");
 });
 
 // coins -> pips (200 base)
 
 document.getElementById("coinToPipRequesterInput").addEventListener("input",function(){
 
-let coins = Number(this.value);
-if (coins > 100000000) {
-  coins = 100000000;
-  this.value = coins;
-}
-
 const clearBtn=this.parentElement.querySelector('.trade-clear');
 clearBtn.style.display=this.value ? 'flex' : 'none';
 
 const result=document.getElementById("coinToPipRequesterResult");
+const amounts = parseTradeAmounts(this.value);
 
-if(isNaN(coins) || coins <= 0){
+if(!amounts.length){
 result.innerHTML="";
 return;
 }
 
-const pips = Math.ceil((coins / COINS_TO_PIPS_COINS_PER_PIP) * COINS_TO_PIPS_MARKUP_MULTIPLIER);
-
-result.innerHTML=`
-Item/s Value: <b>${coins.toLocaleString()} Coins</b><br>
-Trade Price: <span class="trade-highlight"><b>${pips} Pips</b></span>
-`;
+const pips = amounts.reduce((sum,coins)=>{
+  return sum + Math.ceil((coins / COINS_TO_PIPS_COINS_PER_PIP) * COINS_TO_PIPS_MARKUP_MULTIPLIER);
+},0);
+renderTradeResult(result,amounts,"Coins",pips,"Pips");
 });
 
 let widgetId=null;
