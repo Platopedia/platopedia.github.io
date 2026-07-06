@@ -422,6 +422,21 @@ let itemsIndex = [];
 let selectedItems = [];
 let submitting = false;
 
+function calculateItemTradePrice(item, method){
+  const price = item.price || 0;
+  const isPipItem = item.currency === "p";
+
+  if((method || "coins") === "pips"){
+    return isPipItem
+      ? Math.ceil(price * 1.25)
+      : Math.ceil((price / COINS_TO_PIPS_COINS_PER_PIP) * COINS_TO_PIPS_MARKUP_MULTIPLIER);
+  }
+
+  return isPipItem
+    ? price * MERCHANT_COINS_PER_PIP
+    : Math.ceil((price * 1.25) / 250) * 250;
+}
+
 function updateTotals(){
 
   let totalCoins = 0;
@@ -446,19 +461,6 @@ function updateTotals(){
 
   totalsBox.style.display = "block";
 
-  // Total price always displayed in coins (pips converted)
-  const totalPriceCoins = totalCoins + (totalPips * MERCHANT_COINS_PER_PIP);
-
-  // Coin items follow +25% then round up to nearest 250
-  const coinTrade = totalCoins > 0
-    ? Math.ceil((totalCoins * 1.25) / 250) * 250
-    : 0;
-
-  // Pip items convert directly to coins
-  const pipTrade = totalPips * MERCHANT_COINS_PER_PIP;
-
-  const totalTradeCoins = coinTrade + pipTrade;
-
   // Display total price with separate currencies
   if(totalCoins > 0 && totalPips > 0){
     totalPriceEl.textContent = totalCoins + " Coins | " + totalPips + " Pips";
@@ -471,19 +473,18 @@ function updateTotals(){
     // Apply payment method
     if(tradeMethodSelect && tradeMethodSelect.value === "pips"){
 
-      // IMPORTANT: do NOT round here — keep raw value for accurate final calculation
-      const coinsToPips = (totalCoins / COINS_TO_PIPS_COINS_PER_PIP) * COINS_TO_PIPS_MARKUP_MULTIPLIER;
-
-      // Apply +25% ONLY to pips items
-      const pipsWithMarkup = Math.ceil(totalPips * 1.25);
-
-      const totalTradePips = Math.ceil(pipsWithMarkup + coinsToPips);
+      const totalTradePips = selectedItems.reduce((sum,item)=>{
+        return sum + calculateItemTradePrice(item,"pips");
+      },0);
 
       totalTradePriceEl.textContent = totalTradePips + " Pips";
 
     }else{
 
-      // Default Coins method (existing logic)
+      const totalTradeCoins = selectedItems.reduce((sum,item)=>{
+        return sum + calculateItemTradePrice(item,"coins");
+      },0);
+
       totalTradePriceEl.textContent = totalTradeCoins + " Coins";
 
     }
@@ -493,13 +494,13 @@ function updateTotals(){
 
   if(tradeMethodSelect && tradeMethodSelect.value === "pips"){
     formulaBox.innerHTML = `
-      <div>Formula (Pips → Pips): +25% value, rounded up to the nearest 1 Pip.</div>
-      <div>Formula (Coins → Pips): 1 Pip = 200 Coins. (Requester Rate)</div>
+      <div>Formula (Pips → Pips): each item gets +25%, rounded up to the nearest 1 Pip, then totaled.</div>
+      <div>Formula (Coins → Pips): each item uses 1 Pip = 200 Coins, rounded up, then totaled. (Requester Rate)</div>
     `;
   }else{
     formulaBox.innerHTML = `
-      <div>Formula (Coins → Coins): +25% value, rounded up to the nearest 250 Coins.</div>
-      <div>Formula (Pips → Coins): 1 Pip = 250 Coins. (Merchant Rate)</div>
+      <div>Formula (Coins → Coins): each item gets +25%, rounded up to the nearest 250 Coins, then totaled.</div>
+      <div>Formula (Pips → Coins): each item uses 1 Pip = 250 Coins, then totaled. (Merchant Rate)</div>
     `;
   }
 
