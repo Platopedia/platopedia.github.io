@@ -108,6 +108,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .arcade-join-card::after{content:"";position:absolute;z-index:-1;inset:0;background:radial-gradient(circle at 20% 50%,color-mix(in srgb,var(--join-accent) 15%,transparent),transparent 38%),linear-gradient(135deg,color-mix(in srgb,var(--color-C) 93%,transparent),color-mix(in srgb,var(--color-D) 96%,transparent));pointer-events:none}
     .arcade-join-card[data-state="checking"]{--join-accent:#28FDFD}
     .arcade-join-card[data-state="open"]{--join-accent:#54F58A}
+    .arcade-join-card[data-state="returned"]{--join-accent:#54F58A}
     .arcade-join-card[data-state="preparing"]{--join-accent:#FFD166}
     .arcade-join-card[data-state="full"]{--join-accent:#FF6B6B}
     .arcade-join-card[data-state="offline"]{--join-accent:#A993FF}
@@ -591,6 +592,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         primary='Join Arcade Group',
         primaryDisabled=false,
         showRetry=false,
+        retry='Retry now',
         showFollow=false,
       }={}){
         card.dataset.state=state;
@@ -598,6 +600,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         message.textContent=text;
         button.textContent=primary;
         button.disabled=primaryDisabled;
+        retryButton.textContent=retry;
         retryButton.hidden=!showRetry;
         followLink.hidden=!showFollow;
         card.setAttribute('aria-busy',state==='checking'||state==='preparing'?'true':'false');
@@ -726,22 +729,12 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         });
       }
 
-      function resetAfterInviteReturn(){
-        if(!inviteNavigationPending)return;
+      function clearInviteNavigationState(){
         inviteNavigationPending=false;
         inviteNavigationWasHidden=false;
         if(navigationFallbackTimer)clearTimeout(navigationFallbackTimer);
         navigationFallbackTimer=null;
-        runToken+=1;
-        requestController?.abort();
-        requestController=null;
-        cancelRetry();
-        automaticRetries=0;
         latestInviteUrl='';
-        capacity.hidden=true;
-        capacityValue.textContent='— / 500';
-        capacityMeter.removeAttribute('aria-valuenow');
-        capacityMeter.style.removeProperty('--join-capacity');
         dialog.hidden=true;
         document.documentElement.classList.remove('arcade-invite-dialog-open');
         previousDialogFocus=null;
@@ -754,8 +747,40 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
           delete next.arcadeInviteDialog;
           history.replaceState(next,'',location.href);
         }
+      }
+
+      function resetAdmissionCard(){
+        runToken+=1;
+        requestController?.abort();
+        requestController=null;
+        cancelRetry();
+        automaticRetries=0;
+        clearInviteNavigationState();
+        capacity.hidden=true;
+        capacityValue.textContent='— / 500';
+        capacityMeter.removeAttribute('aria-valuenow');
+        capacityMeter.style.removeProperty('--join-capacity');
         setSteps(-1);
         setCardState('idle');
+      }
+
+      function resetAfterInviteReturn(){
+        if(!inviteNavigationPending)return;
+        runToken+=1;
+        requestController?.abort();
+        requestController=null;
+        cancelRetry();
+        automaticRetries=0;
+        clearInviteNavigationState();
+        setSteps(3,{complete:true});
+        setCardState('returned',{
+          status:'Arcade opened',
+          text:'Returned from Plato? Retry when you want to check for a fresh place and Group invite.',
+          primary:'Arcade opened',
+          primaryDisabled:true,
+          showRetry:true,
+          retry:'Retry',
+        });
       }
 
       async function showOpening(data,token){
@@ -943,7 +968,14 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         }
         runAdmissionCheck();
       });
-      retryButton.addEventListener('click',()=>runAdmissionCheck());
+      retryButton.addEventListener('click',()=>{
+        if(card.dataset.state==='returned'){
+          vibrate(18);
+          resetAdmissionCard();
+          return;
+        }
+        runAdmissionCheck();
+      });
       inviteCopy?.addEventListener('click',copyInviteLink);
       inviteOpen.addEventListener('click',()=>{
         if(!latestInviteUrl)return;
