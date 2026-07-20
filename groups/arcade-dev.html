@@ -661,6 +661,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       let retryTimeout=null;
       let automaticRetries=0;
       let latestInviteUrl='';
+      let navigationFallbackTimer=null;
       let previousDialogFocus=null;
       const allowedAvailability=new Set(['open','preparing','full','unavailable','offline']);
       const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
@@ -803,14 +804,30 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         const startingLocation=location.href;
         try{
           location.assign(safeUrl);
-          setTimeout(()=>{
+          if(navigationFallbackTimer)clearTimeout(navigationFallbackTimer);
+          navigationFallbackTimer=setTimeout(()=>{
+            navigationFallbackTimer=null;
             if(location.href===startingLocation&&document.visibilityState==='visible'){
+              restoreJoinButton();
               openInviteDialog(safeUrl);
             }
           },1800);
         }catch(_){
+          restoreJoinButton();
           openInviteDialog(safeUrl);
         }
+      }
+
+      function restoreJoinButton(){
+        if(card.dataset.state!=='open'||!latestInviteUrl)return;
+        if(navigationFallbackTimer)clearTimeout(navigationFallbackTimer);
+        navigationFallbackTimer=null;
+        setSteps(3,{complete:true});
+        setCardState('open',{
+          status:pill.textContent||'Place available',
+          text:message.textContent||'A place is available right now.',
+          primary:isLikelyEmbeddedWebView()?'Show Group link':'Join Arcade Group',
+        });
       }
 
       async function showOpening(data,token){
@@ -1025,6 +1042,10 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
           history.replaceState(next,'',location.href);
           event.stopImmediatePropagation();
         }
+      });
+      addEventListener('pageshow',restoreJoinButton);
+      document.addEventListener('visibilitychange',()=>{
+        if(document.visibilityState==='visible')restoreJoinButton();
       });
       followLink?.addEventListener('click',()=>vibrate(18));
       setSteps(-1);
