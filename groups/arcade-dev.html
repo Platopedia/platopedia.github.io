@@ -846,10 +846,26 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         navigationFallbackTimer=null;
         runToken+=1;
         requestController?.abort();
+        requestController=null;
         cancelRetry();
         automaticRetries=0;
         latestInviteUrl='';
         capacity.hidden=true;
+        capacityValue.textContent='— / 500';
+        capacityMeter.removeAttribute('aria-valuenow');
+        capacityMeter.style.removeProperty('--join-capacity');
+        dialog.hidden=true;
+        document.documentElement.classList.remove('arcade-invite-dialog-open');
+        previousDialogFocus=null;
+        inviteInput.value='';
+        inviteOpen.href='#';
+        copyStatus.textContent='';
+        const state=currentHistoryState();
+        if(state.arcadeInviteDialog){
+          const next={...state};
+          delete next.arcadeInviteDialog;
+          history.replaceState(next,'',location.href);
+        }
         setSteps(-1);
         setCardState('idle');
       }
@@ -1041,6 +1057,12 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       });
       retryButton.addEventListener('click',()=>runAdmissionCheck());
       inviteCopy?.addEventListener('click',copyInviteLink);
+      inviteOpen.addEventListener('click',()=>{
+        if(!latestInviteUrl)return;
+        inviteNavigationPending=true;
+        inviteNavigationWasHidden=false;
+        vibrate([18,30,28]);
+      });
       dialogClose?.addEventListener('click',()=>closeInviteDialog());
       dialog.addEventListener('click',event=>{if(event.target===dialog)closeInviteDialog()});
       dialog.addEventListener('keydown',event=>{
