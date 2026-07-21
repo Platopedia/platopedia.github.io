@@ -219,8 +219,6 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .content-table{overflow-x:visible}
     .gradient-block.g-4,.gradient-block.g-4 :where(p,span,div,strong,em,b,small,a){white-space:normal;overflow-wrap:anywhere;word-break:break-word;hyphens:auto;-webkit-hyphens:auto}
 
-    /* ========== Opt-out of global 10-row padding for these prize tables ========== */
-    #arcadebot-prize tr.pad, #arcadebot-prize-2 tr.pad { display: none !important; }
 </style>
 
 <!-- ========================= Content ========================= -->
@@ -402,82 +400,36 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 <div class="gradient-block g-4"><p class="text-center"><b>Total:</b> <span id="total-sponsor-coins">—</span> coins</p></div>
 <div class="linebreak"></div>
 
-<!-- Arcade Guide -->
-<h2 id="arcade-guide">Arcade Guide</h2>
-<ul class="nav nav-pills x-nav-justified justify-content-center nav-content" role="tablist" aria-label="Arcade Guide">
-    <li class="nav-item"><a class="nav-link active" href="#tab-guide-arcadebot" role="tab" data-target="#tab-guide-arcadebot" aria-selected="true">ArcadeBot Notes</a></li>
-    <li class="nav-item"><a class="nav-link" href="#tab-guide-prize" role="tab" data-target="#tab-guide-prize" aria-selected="false">ArcadeBot Rewards</a></li>
-</ul>
-
-<div class="tab-content">
-    <div id="tab-guide-arcadebot" class="tab-pane fade show active" role="tabpanel">
-        <div class="gradient-block g-3">
-            <p class="selectable shoutout">
-                <strong>Weekly Rewards:</strong> Every Friday, TOP 10 Arcade members from both <em>Weekly Messages</em> and <em>Weekly Wins</em> categories are rewarded.
-            </p>
-        </div>
-        <div class="linebreak"></div>
-        <div class="gradient-block g-3">
-            <p class="selectable shoutout">
-                <strong>Important Note:</strong> Players who rank TOP 10 in both categories will only be eligible to claim a reward from one category — the higher placement.
-            </p>
-        </div>
-        <div class="linebreak"></div>
-        <div class="gradient-block g-3">
-            <p class="selectable shoutout">
-                <strong>Monthly Cap:</strong> Each member's monthly winnings from ArcadeBot are capped at 15,000 coins - totals reset back to zero at the start of each month.
-            </p>
-        </div>
-        <div class="linebreak"></div>
-        <div class="gradient-block g-3">
-            <p class="selectable shoutout">
-                <strong>Reward Options:</strong> Winners may optionally claim Pips-exclusive items; however, it's the coin value that still counts toward their monthly total.
-            </p>
-        </div>
-    </div>
-
-    <div id="tab-guide-prize" class="tab-pane fade" role="tabpanel">
-        <div class="gradient-block g-2">
-            <div class="linebreak"></div>
-            <table id="arcadebot-prize" class="table table-bordered table-upgraded" aria-label="ArcadeBot Prize Distribution — Weekly Messages">
-                <thead>
-                <tr><th colspan="2">Weekly Messages</th></tr>
-                </thead>
-                <colgroup><col style="width:50%"><col style="width:50%"></colgroup>
-                <tbody>
-                <tr><td>1st Place</td><td>10,000c / 50p</td></tr>
-                <tr><td>2nd Place</td><td>7,500c  / 30p</td></tr>
-                <tr><td>3rd place</td><td>7,500c  / 30p</td></tr>
-                <tr><td>4th Place</td><td>5,000c  / 20p</td></tr>
-                <tr><td>5th Place</td><td>5,000c  / 20p</td></tr>
-                <tr><td>6th Place</td><td>3,000c  / 15p</td></tr>
-                <tr><td>7th Place</td><td>3,000c  / 15p</td></tr>
-                <tr><td>8th place</td><td>3,000c  / 15p</td></tr>
-                <tr><td>9th Place</td><td>3,000c  / 15p</td></tr>
-                <tr><td>10th Place</td><td>3,000c / 15p</td></tr>
-                </tbody>
-            </table>
-
-            <table id="arcadebot-prize-2" class="table table-bordered table-upgraded" aria-label="ArcadeBot Prize Distribution — Weekly Wins">
-                <thead>
-                <tr><th colspan="2">Weekly Wins</th></tr>
-                </thead>
-                <colgroup><col style="width:50%"><col style="width:50%"></colgroup>
-                <tbody>
-                <tr><td>1st Place</td><td>10,000c / 50p</td></tr>
-                <tr><td>2nd Place</td><td>7,500c  / 30p</td></tr>
-                <tr><td>3rd place</td><td>7,500c  / 30p</td></tr>
-                <tr><td>4th Place</td><td>5,000c  / 20p</td></tr>
-                <tr><td>5th Place</td><td>5,000c  / 20p</td></tr>
-                <tr><td>6th Place</td><td>3,000c  / 15p</td></tr>
-                <tr><td>7th Place</td><td>3,000c  / 15p</td></tr>
-                <tr><td>8th place</td><td>3,000c  / 15p</td></tr>
-                <tr><td>9th Place</td><td>3,000c  / 15p</td></tr>
-                <tr><td>10th Place</td><td>3,000c / 15p</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+<!-- ArcadeEye Notes -->
+<h2 id="arcade-guide">ArcadeEye Notes</h2>
+<div class="gradient-block g-3">
+    <p class="selectable shoutout">
+        <strong>Daily Pip Rewards:</strong> Every day, the top 10 members on each of the <em>Game Wins</em> and <em>Messages</em> leaderboards earn <strong>2 Pips</strong>. The leaderboards are separate, so placing in both earns <strong>4 Pips</strong> that day. Daily rankings reset at midnight GMT and can be viewed at <a href="https://claim.platopedia.xyz/leaderboard">claim.platopedia.xyz/leaderboard</a>.
+    </p>
+</div>
+<div class="linebreak"></div>
+<div class="gradient-block g-3">
+    <p class="selectable shoutout">
+        <strong>Claim Whenever You Want:</strong> Pips are credited automatically and remain in your balance until you spend them. Visit <a href="https://claim.platopedia.xyz">claim.platopedia.xyz</a> whenever you’re ready—redeem smaller rewards immediately or save for something bigger.
+    </p>
+</div>
+<div class="linebreak"></div>
+<div class="gradient-block g-3">
+    <p class="selectable shoutout">
+        <strong>Hourly Games:</strong> Every hour, ArcadeEye creates new game tables and posts their table numbers in Group chat. Results are tracked automatically and count toward the daily Game Wins leaderboard. Please finish your current game before joining another, as multi-tabbing isn’t allowed.
+    </p>
+</div>
+<div class="linebreak"></div>
+<div class="gradient-block g-3">
+    <p class="selectable shoutout">
+        <strong>Daily Tournament:</strong> At <strong>1:30 PM GMT</strong> every day, ArcadeEye opens sign-ups for a fully automated tournament. Up to <strong>32 players</strong> can enter, and the winner receives <strong>10 Pips</strong>.
+    </p>
+</div>
+<div class="linebreak"></div>
+<div class="gradient-block g-3">
+    <p class="selectable shoutout">
+        <strong>Useful Commands:</strong> Use <code>!balance</code> to check your Pips, <code>!claim</code> to open the rewards page, <code>!leaderboard</code> to view current rankings, and <code>!invite</code> to request the latest Arcade Group link.
+    </p>
 </div>
 
 <div class="linebreak"></div>
