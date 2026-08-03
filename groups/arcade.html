@@ -112,6 +112,8 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .arcade-join-card::before{content:"";position:absolute;z-index:-2;inset:-60%;background:conic-gradient(from 210deg,transparent 0 32%,color-mix(in srgb,var(--join-accent) 18%,transparent) 42%,transparent 52% 100%);animation:arcadeJoinOrbit 8s linear infinite;pointer-events:none}
     .arcade-join-card::after{content:"";position:absolute;z-index:-1;inset:0;background:radial-gradient(circle at 20% 50%,color-mix(in srgb,var(--join-accent) 15%,transparent),transparent 38%),linear-gradient(135deg,color-mix(in srgb,var(--color-C) 93%,transparent),color-mix(in srgb,var(--color-D) 96%,transparent));pointer-events:none}
     .arcade-join-card[data-state="checking"]{--join-accent:#28FDFD}
+    .arcade-join-card[data-state="verification"]{--join-accent:#28FDFD}
+    .arcade-join-card[data-state="ineligible"]{--join-accent:#FF6B6B}
     .arcade-join-card[data-state="open"]{--join-accent:#54F58A}
     .arcade-join-card[data-state="returned"]{--join-accent:#54F58A}
     .arcade-join-card[data-state="preparing"]{--join-accent:#FFD166}
@@ -151,6 +153,13 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .arcade-join-step.is-active::before,.arcade-join-step.is-done::before{background:var(--join-accent);box-shadow:0 0 10px var(--join-accent)}
     .arcade-join-step.is-active::before{animation:arcadeJoinStep 1s ease-in-out infinite}
     @keyframes arcadeJoinStep{50%{opacity:.4}}
+    .arcade-join-verification{display:grid;gap:7px;padding:11px;border:1px solid color-mix(in srgb,var(--join-accent) 48%,var(--color-B));border-radius:9px;background:color-mix(in srgb,var(--color-D) 82%,transparent)}
+    .arcade-join-verification[hidden]{display:none}
+    .arcade-join-verification-label{font:700 10px/1.2 monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--join-accent)}
+    .arcade-join-friend-link{width:100%;min-height:44px;padding:10px 12px;border:1px solid color-mix(in srgb,var(--join-accent) 56%,var(--color-B));border-radius:8px;background:var(--color-D);color:var(--color-text);font:600 12px/1.35 monospace;outline:none;box-sizing:border-box}
+    .arcade-join-friend-link::placeholder{color:color-mix(in srgb,var(--color-text) 42%,transparent)}
+    .arcade-join-friend-link:focus{border-color:var(--join-accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--join-accent) 18%,transparent)}
+    .arcade-join-verification-status{min-height:1.3em;font:600 10px/1.3 monospace;color:color-mix(in srgb,var(--color-text) 66%,transparent)}
     .arcade-join-actions{display:flex;flex-wrap:wrap;align-items:center;gap:9px}
     .arcade-join-button,.arcade-join-retry,.arcade-join-follow{min-height:44px;padding:10px 15px;border:1px solid color-mix(in srgb,var(--join-accent) 70%,var(--color-B));border-radius:9px;background:linear-gradient(135deg,color-mix(in srgb,var(--join-accent) 20%,var(--color-C)),var(--color-D));color:var(--color-text)!important;font:800 12px/1 monospace;letter-spacing:.04em;text-decoration:none!important;transition:transform .15s ease,box-shadow .15s ease,opacity .15s ease;-webkit-tap-highlight-color:transparent}
     .arcade-join-button{flex:1 1 190px}
@@ -272,8 +281,13 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
             <ol class="arcade-join-progress" aria-label="Admission check progress">
                 <li class="arcade-join-step" data-join-step="0">Live signal</li>
                 <li class="arcade-join-step" data-join-step="1">Capacity</li>
-                <li class="arcade-join-step" data-join-step="2">Group link</li>
+                <li class="arcade-join-step" data-join-step="2">Account &amp; link</li>
             </ol>
+            <div id="arcadeFriendLinkPanel" class="arcade-join-verification" hidden>
+                <label class="arcade-join-verification-label" for="arcadeFriendLinkInput">Your Plato friend link</label>
+                <input id="arcadeFriendLinkInput" class="arcade-join-friend-link" type="url" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="https://platoapp.com/link/…" maxlength="300">
+                <div id="arcadeFriendLinkStatus" class="arcade-join-verification-status" aria-live="polite">Paste your friend link so ArcadeEye can check your account.</div>
+            </div>
             <div class="arcade-join-actions">
                 <button id="arcadeJoinButton" class="arcade-join-button" type="button">Join Arcade Group</button>
                 <button id="arcadeJoinRetry" class="arcade-join-retry" type="button" hidden>Retry now</button>
@@ -1031,6 +1045,9 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       const capacity=document.getElementById('arcadeJoinCapacity');
       const capacityValue=document.getElementById('arcadeJoinCapacityValue');
       const capacityMeter=document.getElementById('arcadeJoinMeter');
+      const friendLinkPanel=document.getElementById('arcadeFriendLinkPanel');
+      const friendLinkInput=document.getElementById('arcadeFriendLinkInput');
+      const friendLinkStatus=document.getElementById('arcadeFriendLinkStatus');
       const steps=[...document.querySelectorAll('[data-join-step]')];
       const dialog=document.getElementById('arcadeInviteDialog');
       const dialogPanel=dialog?.querySelector('.arcade-invite-dialog-panel');
@@ -1039,7 +1056,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       const inviteCopy=document.getElementById('arcadeInviteCopy');
       const inviteOpen=document.getElementById('arcadeInviteOpen');
       const copyStatus=document.getElementById('arcadeInviteCopyStatus');
-      if(!card||!button||!retryButton||!pill||!message||!countdown||!capacity||!capacityValue||!capacityMeter||!dialog||!inviteInput||!inviteOpen)return;
+      if(!card||!button||!retryButton||!pill||!message||!countdown||!capacity||!capacityValue||!capacityMeter||!friendLinkPanel||!friendLinkInput||!friendLinkStatus||!dialog||!inviteInput||!inviteOpen)return;
 
       let runToken=0;
       let requestController=null;
@@ -1051,9 +1068,14 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       let inviteNavigationPending=false;
       let inviteNavigationWasHidden=false;
       let previousDialogFocus=null;
-      const allowedAvailability=new Set(['open','preparing','full','unavailable','offline']);
+      let lastFriendLink='';
+      const allowedAvailability=new Set(['open','verification-required','ineligible','preparing','full','unavailable','offline']);
       const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
       const safeInviteUrl=value=>{
+        const url=String(value||'').trim();
+        return /^https:\/\/platoapp\.com\/link\/[A-Za-z0-9_-]+\/?$/i.test(url)?url.replace(/\/$/,''):'';
+      };
+      const safeFriendLink=value=>{
         const url=String(value||'').trim();
         return /^https:\/\/platoapp\.com\/link\/[A-Za-z0-9_-]+\/?$/i.test(url)?url.replace(/\/$/,''):'';
       };
@@ -1103,6 +1125,15 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         card.setAttribute('aria-busy',state==='checking'||state==='preparing'?'true':'false');
       }
 
+      function showFriendLinkPanel(show,{status='Paste your friend link so ArcadeEye can check your account.',clear=false}={}){
+        friendLinkPanel.hidden=!show;
+        friendLinkStatus.textContent=status;
+        if(clear){
+          friendLinkInput.value='';
+          lastFriendLink='';
+        }
+      }
+
       function cancelRetry(){
         if(retryInterval)clearInterval(retryInterval);
         if(retryTimeout)clearTimeout(retryTimeout);
@@ -1111,14 +1142,17 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         countdown.textContent='';
       }
 
-      async function fetchAdmission(){
+      async function fetchAdmission(friendLink=''){
+        const cleanFriendLink=safeFriendLink(friendLink);
         const controller=new AbortController();
         requestController=controller;
-        const timeout=setTimeout(()=>controller.abort(),REQUEST_TIMEOUT_MS);
+        const timeout=setTimeout(()=>controller.abort(),cleanFriendLink?20000:REQUEST_TIMEOUT_MS);
         try{
           const response=await fetch(API_URL,{
+            method:cleanFriendLink?'POST':'GET',
             cache:'no-store',
-            headers:{accept:'application/json'},
+            headers:{accept:'application/json',...(cleanFriendLink?{'content-type':'application/json'}:{})},
+            ...(cleanFriendLink?{body:JSON.stringify({friendLink:cleanFriendLink})}:{}),
             signal:controller.signal,
           });
           const data=await response.json().catch(()=>null);
@@ -1257,6 +1291,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         capacityValue.textContent='— / 500';
         capacityMeter.removeAttribute('aria-valuenow');
         capacityMeter.style.removeProperty('--join-capacity');
+        showFriendLinkPanel(false,{clear:true});
         setSteps(-1);
         setCardState('idle');
       }
@@ -1291,6 +1326,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
           return;
         }
         latestInviteUrl=inviteUrl;
+        showFriendLinkPanel(false,{clear:true});
         cancelRetry();
         updateCapacity(data);
         setSteps(3,{complete:true});
@@ -1308,6 +1344,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
       function showFull(data){
         cancelRetry();
+        showFriendLinkPanel(false,{clear:true});
         updateCapacity(data);
         setSteps(1);
         setCardState('full',{
@@ -1344,18 +1381,56 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       function showUnavailable(data,{networkFailure=false}={}){
         updateCapacity(data);
         const offline=networkFailure||data?.availability==='offline';
+        const verificationFailure=Boolean(lastFriendLink&&data?.friendLinkRequired===true);
+        showFriendLinkPanel(verificationFailure,{
+          status:verificationFailure?'ArcadeEye could not finish this check. You can retry the same link.':''
+        });
         setSteps(offline?0:1);
         setCardState(offline?'offline':'unavailable',{
           status:offline?'Signal lost':'Unable to confirm',
           text:networkFailure
             ?'Arcade is off the radar. We could not contact the live admission service.'
             :(data?.message||'Live Group availability cannot be confirmed right now.'),
-          primary:'Join Arcade Group',
+          primary:verificationFailure?'Verify & get Group link':'Join Arcade Group',
           primaryDisabled:true,
           showRetry:true,
         });
         vibrate([10,60,10]);
-        scheduleRetry(data?.retryAfterMs);
+        if(verificationFailure){
+          cancelRetry();
+          countdown.textContent='Press Retry now to check the same friend link again.';
+        }else{
+          scheduleRetry(data?.retryAfterMs);
+        }
+      }
+
+      function showVerificationRequired(data){
+        cancelRetry();
+        updateCapacity(data);
+        setSteps(2);
+        showFriendLinkPanel(true);
+        setCardState('verification',{
+          status:'Account check',
+          text:data.message||'Verify your Plato account to receive the current Group link.',
+          primary:'Verify & get Group link',
+        });
+        countdown.textContent='Your friend link identifies the Plato account ArcadeEye will check.';
+      }
+
+      function showIneligible(data){
+        cancelRetry();
+        updateCapacity(data);
+        setSteps(2);
+        showFriendLinkPanel(true,{
+          status:'This link was checked. You can paste a different friend link and try again.'
+        });
+        setCardState('ineligible',{
+          status:data.reason==='invalid-friend-link'?'Link not verified':'Not eligible',
+          text:data.message||"This Plato account does not meet Arcade's admission requirements.",
+          primary:'Check another friend link',
+        });
+        countdown.textContent='No Group invite was returned.';
+        vibrate([10,50,10]);
       }
 
       async function watchPreparing(data,token){
@@ -1404,6 +1479,10 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         updateCapacity(data);
         if(data.availability==='open'){
           showOpening(data,token);
+        }else if(data.availability==='verification-required'){
+          showVerificationRequired(data);
+        }else if(data.availability==='ineligible'){
+          showIneligible(data);
         }else if(data.availability==='preparing'){
           watchPreparing(data,token);
         }else if(data.availability==='full'){
@@ -1413,27 +1492,38 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         }
       }
 
-      async function runAdmissionCheck({automatic=false}={}){
+      async function runAdmissionCheck({automatic=false,friendLink=''}={}){
+        const cleanFriendLink=safeFriendLink(friendLink);
         cancelRetry();
         requestController?.abort();
         if(!automatic)automaticRetries=0;
         const token=++runToken;
         latestInviteUrl='';
-        capacity.hidden=true;
+        if(!cleanFriendLink)capacity.hidden=true;
+        if(cleanFriendLink){
+          lastFriendLink=cleanFriendLink;
+          friendLinkInput.value=cleanFriendLink;
+          showFriendLinkPanel(true,{status:'Resolving your Plato account and checking Arcade admission…'});
+        }else{
+          showFriendLinkPanel(false,{clear:true});
+        }
         setCardState('checking',{
-          status:'Scanning',
-          text:'Connecting to ArcadeEye and checking the live Group…',
-          primary:'Checking live availability…',
+          status:cleanFriendLink?'Verifying':'Scanning',
+          text:cleanFriendLink?'Resolving your Plato account and checking Arcade policy…':'Connecting to ArcadeEye and checking the live Group…',
+          primary:cleanFriendLink?'Checking account…':'Checking live availability…',
           primaryDisabled:true,
         });
         vibrate([15,25,15]);
-        const resultPromise=fetchAdmission().then(data=>({data}),error=>({error}));
+        const resultPromise=fetchAdmission(cleanFriendLink).then(data=>({data}),error=>({error}));
         const animationComplete=await animateCheck(token);
         if(!animationComplete)return;
         const result=await resultPromise;
         if(token!==runToken)return;
         if(result.error){
-          showUnavailable({retryAfterMs:DEFAULT_RETRY_MS},{networkFailure:true});
+          showUnavailable({
+            retryAfterMs:DEFAULT_RETRY_MS,
+            friendLinkRequired:Boolean(cleanFriendLink),
+          },{networkFailure:true});
           return;
         }
         handleAdmissionState(result.data,token);
@@ -1463,6 +1553,16 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
           navigateToInvite(latestInviteUrl);
           return;
         }
+        if(card.dataset.state==='verification'||card.dataset.state==='ineligible'){
+          const friendLink=safeFriendLink(friendLinkInput.value);
+          if(!friendLink){
+            friendLinkStatus.textContent='Paste a valid Plato friend link, such as https://platoapp.com/link/…';
+            friendLinkInput.focus();
+            return;
+          }
+          runAdmissionCheck({friendLink});
+          return;
+        }
         runAdmissionCheck();
       });
       retryButton.addEventListener('click',()=>{
@@ -1471,7 +1571,15 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
           resetAdmissionCard();
           return;
         }
-        runAdmissionCheck();
+        runAdmissionCheck({friendLink:lastFriendLink});
+      });
+      friendLinkInput.addEventListener('input',()=>{
+        friendLinkStatus.textContent='Paste your friend link so ArcadeEye can check your account.';
+      });
+      friendLinkInput.addEventListener('keydown',event=>{
+        if(event.key!=='Enter')return;
+        event.preventDefault();
+        button.click();
       });
       inviteCopy?.addEventListener('click',copyInviteLink);
       inviteOpen.addEventListener('click',()=>{
