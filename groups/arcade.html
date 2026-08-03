@@ -156,8 +156,8 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .arcade-join-verification{display:grid;gap:7px;padding:11px;border:1px solid color-mix(in srgb,var(--join-accent) 48%,var(--color-B));border-radius:9px;background:color-mix(in srgb,var(--color-D) 82%,transparent)}
     .arcade-join-verification[hidden]{display:none}
     .arcade-join-verification-label{font:700 10px/1.2 monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--join-accent)}
-    .arcade-join-friend-link-wrap{position:relative;width:100%}
-    .arcade-join-friend-link{width:100%;min-height:44px;padding:10px 46px 10px 12px;border:1px solid color-mix(in srgb,var(--join-accent) 56%,var(--color-B));border-radius:8px;background:var(--color-D);color:var(--color-text);font:600 12px/1.35 monospace;outline:none;box-sizing:border-box}
+    .arcade-join-friend-link-wrap{position:relative;width:100%;min-width:0}
+    .arcade-join-friend-link{width:100%;min-width:0;min-height:44px;padding:10px 46px 10px 12px;border:1px solid color-mix(in srgb,var(--join-accent) 56%,var(--color-B));border-radius:8px;background:var(--color-D);color:var(--color-text);font:600 12px/1.35 monospace;outline:none;box-sizing:border-box;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
     .arcade-join-friend-link::placeholder{color:color-mix(in srgb,var(--color-text) 42%,transparent)}
     .arcade-join-friend-link:focus{border-color:var(--join-accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--join-accent) 18%,transparent)}
     .arcade-join-friend-link-clear{position:absolute;top:50%;right:5px;width:34px;height:34px;display:grid;place-items:center;transform:translateY(-50%);padding:0;border:0;border-radius:7px;background:transparent;color:color-mix(in srgb,var(--color-text) 68%,transparent);font:500 24px/1 monospace;cursor:pointer;-webkit-tap-highlight-color:transparent}
@@ -1039,6 +1039,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     (()=>{
       const API_URL='https://artrade-collection.platopedia.workers.dev/group-invite/arcade';
       const REQUEST_TIMEOUT_MS=8000;
+      const FRIEND_LINK_TIMEOUT_MS=8000;
       const PREPARING_TIMEOUT_MS=30000;
       const DEFAULT_RETRY_MS=10000;
       const MAX_AUTOMATIC_RETRIES=2;
@@ -1162,7 +1163,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         const cleanFriendLink=safeFriendLink(friendLink);
         const controller=new AbortController();
         requestController=controller;
-        const timeout=setTimeout(()=>controller.abort(),cleanFriendLink?20000:REQUEST_TIMEOUT_MS);
+        const timeout=setTimeout(()=>controller.abort(),cleanFriendLink?FRIEND_LINK_TIMEOUT_MS:REQUEST_TIMEOUT_MS);
         try{
           const response=await fetch(API_URL,{
             method:cleanFriendLink?'POST':'GET',
@@ -1397,13 +1398,13 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       function showUnavailable(data,{networkFailure=false}={}){
         updateCapacity(data);
         const offline=networkFailure||data?.availability==='offline';
-        const verificationFailure=Boolean(lastFriendLink&&data?.friendLinkRequired===true);
+        const friendLinkFailure=Boolean(lastFriendLink);
         const dailyLimit=data?.reason==='daily-invite-limit';
-        showFriendLinkPanel(verificationFailure,{
+        showFriendLinkPanel(friendLinkFailure,{
           status:dailyLimit
             ?'This account has reached today\'s Group invite limit.'
-            :verificationFailure
-              ?'ArcadeEye could not finish this check. You can retry the same link.'
+            :friendLinkFailure
+              ?'This check could not be completed. Go back to start again.'
               :''
         });
         setSteps(offline?0:1);
@@ -1412,19 +1413,19 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
           text:networkFailure
             ?'Arcade is off the radar. We could not contact the live admission service.'
             :(data?.message||'Live Group availability cannot be confirmed right now.'),
-          primary:verificationFailure?'Verify & get Group link':'Join Arcade Group',
+          primary:friendLinkFailure?'Verify & get Group link':'Join Arcade Group',
           primaryDisabled:true,
           showRetry:true,
-          retry:dailyLimit?'Go back':'Retry now',
-          retryAction:dailyLimit?'reset':'retry',
+          retry:friendLinkFailure?'Go back':'Retry now',
+          retryAction:friendLinkFailure?'reset':'retry',
         });
         vibrate([10,60,10]);
         if(dailyLimit){
           cancelRetry();
           countdown.textContent='You can request another Group invite after 00:00 UTC.';
-        }else if(verificationFailure){
+        }else if(friendLinkFailure){
           cancelRetry();
-          countdown.textContent='Press Retry now to check the same friend link again.';
+          countdown.textContent='Go back to the start before trying another friend link.';
         }else{
           scheduleRetry(data?.retryAfterMs);
         }
@@ -1448,12 +1449,12 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         updateCapacity(data);
         setSteps(2);
         showFriendLinkPanel(true,{
-          status:'This link was checked. You can paste a different friend link and try again.'
+          status:'This account was checked. Go back to start again.'
         });
         setCardState('ineligible',{
           status:data.reason==='invalid-friend-link'?'Link not verified':'Not eligible',
           text:data.message||"This Plato account does not meet Arcade's admission requirements.",
-          primary:'Check another friend link',
+          primary:'Go back',
         });
         countdown.textContent='No Group invite was returned.';
         vibrate([10,50,10]);
@@ -1580,7 +1581,12 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
           navigateToInvite(latestInviteUrl);
           return;
         }
-        if(card.dataset.state==='verification'||card.dataset.state==='ineligible'){
+        if(card.dataset.state==='ineligible'){
+          vibrate(18);
+          resetAdmissionCard();
+          return;
+        }
+        if(card.dataset.state==='verification'){
           const friendLink=safeFriendLink(friendLinkInput.value);
           if(!friendLink){
             friendLinkStatus.textContent='Paste a valid Plato friend link, such as https://platoapp.com/link/…';
