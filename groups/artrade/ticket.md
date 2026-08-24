@@ -575,6 +575,11 @@ async function loadItems(){
 
     const rareFlag = row.children[7]?.textContent.trim() === "1";
 
+    // Hype items are not available through Artrade.
+    if(type.toLowerCase() === "hype"){
+      return;
+    }
+
     // Toggle this filter with HIDE_RARE_BUNDLES near the top of this script.
     if(HIDE_RARE_BUNDLES && type === "Bundle" && rareFlag){
       return;
