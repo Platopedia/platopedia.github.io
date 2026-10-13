@@ -128,7 +128,16 @@
     botToken = ''; challenge = null;
     await getChallenge(); await loadBotWidget();
     if (widget !== null) window.turnstile.remove(widget);
-    widget = window.turnstile.render($('[data-bot-check]'), { sitekey: config.turnstileSiteKey, theme: 'light', action: 'birthday-wish', cData: challenge.nonce, callback: token => { botToken = token; }, 'expired-callback': () => { botToken = ''; }, 'error-callback': () => { botToken = ''; status.textContent = 'A tiny storm in the security check. Please try it again.'; } });
+    const botCheck = $('[data-bot-check]'); botCheck.classList.remove('is-interactive');
+    widget = window.turnstile.render(botCheck, {
+      sitekey: config.turnstileSiteKey, theme: 'light', appearance: 'interaction-only', size: 'compact',
+      action: 'birthday-wish', cData: challenge.nonce,
+      callback: token => { botToken = token; botCheck.classList.remove('is-interactive'); },
+      'before-interactive-callback': () => { botCheck.classList.add('is-interactive'); },
+      'after-interactive-callback': () => { botCheck.classList.remove('is-interactive'); },
+      'expired-callback': () => { botToken = ''; },
+      'error-callback': () => { botToken = ''; status.textContent = 'A tiny storm in the security check. Please try it again.'; }
+    });
     $('[data-send-label]').textContent = 'Seal it & set it sailing!';
     $('[data-post-note]').textContent = 'One wish per device each day. No name, no account, just your birthday message.';
   }
@@ -139,7 +148,7 @@
     if (length < 10 || length > 600) { status.textContent = 'Give your wish a little heart: 10 to 600 characters, please!'; message.setAttribute('aria-invalid', 'true'); message.focus(); return; }
     if (!connected) { showBottle(text, false); return; }
     if (!challenge || !window.turnstile) { try { await preparePost(); } catch (error) { status.textContent = error.message; } return; }
-    if (!botToken) { status.textContent = 'Finish the quick security check before your bottle sets sail.'; return; }
+    if (!botToken) { status.textContent = $('[data-bot-check]').classList.contains('is-interactive') ? 'Finish the quick security check before your bottle sets sail.' : 'Your bottle is getting its final check. Give it a moment, then try again.'; return; }
     busy = true; send.disabled = true; status.textContent = ''; $('[data-send-label]').textContent = 'Setting sail…';
     try {
       const response = await fetch(`${api}/api/wishes`, { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json', ...deviceHeaders() }, body: JSON.stringify({ message: text, website: form.elements.website.value, challenge: challenge.token, turnstileToken: botToken }) });

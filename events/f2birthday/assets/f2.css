@@ -41,6 +41,25 @@ body[data-theme="dark"] #f2birthday{--f2-bg:#15283d;--f2-surface:#20384e;--f2-in
 #f2birthday .f2-wanted-poster:after{z-index:0;pointer-events:none}
 #f2birthday .f2-wax-seal{z-index:2;line-height:1;pointer-events:none}
 
+/* A challenge iframe must not dictate the poster's mobile grid width. */
+#f2birthday .f2-wishes{grid-template-columns:repeat(2,minmax(0,1fr))}
+#f2birthday .f2-wishes>*{min-width:0}
+#f2birthday .f2-wanted-poster{min-width:0;width:100%}
+#f2birthday .f2-wanted-poster form{min-width:0;max-width:100%}
+#f2birthday .f2-form-meta>span:first-child{min-width:0}
+#f2birthday .f2-form-meta>span:last-child{flex-shrink:0;white-space:nowrap}
+#f2birthday [data-bot-check]{display:flex;justify-content:center;min-width:0;max-width:100%;margin-top:0;overflow:visible}
+#f2birthday [data-bot-check]:empty{display:none}
+#f2birthday [data-bot-check].is-interactive{margin-top:12px}
+@container(max-width:650px){
+  #f2birthday .f2-wishes{grid-template-columns:minmax(0,1fr)}
+}
+@container(max-width:440px){
+  #f2birthday .f2-poster-heading{gap:7px}
+  #f2birthday .f2-poster-heading h3{font-size:clamp(32px,12cqw,52px);letter-spacing:2px}
+  #f2birthday .f2-poster-heading>span{font-size:14px;flex-shrink:0}
+}
+
 @container(max-width:440px){
   /* Keep Luffy's original absolute position and give the left-hand details their own space. */
   #f2birthday .f2-hero-scribble{display:block;width:126px;max-width:34%;font-size:17px;line-height:1.18;rotate:-2deg;transform-origin:top left}
