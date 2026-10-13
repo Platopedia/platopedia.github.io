@@ -130,14 +130,17 @@
   const form = $('[data-wish-form]'); const message = $('#f2-wish-message'); const sender = $('#f2-sender-name'); const status = $('[data-form-status]'); const send = $('.f2-send'); const dialog = $('[data-bottle-dialog]');
   const receipt = $('[data-bottle-receipt]'); const receiptId = $('[data-bottle-id]'); const copyId = $('[data-copy-bottle-id]');
   const copyLabel = $('[data-copy-id-label]'); const copyStatus = $('[data-copy-id-status]'); let receiptVersion = 0;
-  const botDialog = $('[data-bot-dialog]'); let crewCheckOpened = false;
+  const botDialog = $('[data-bot-dialog]'); let awaitingCaptcha = false;
+  function stopWaitingForCaptcha() {
+    awaitingCaptcha = false;
+    if (!busy) { send.disabled = false; $('[data-send-label]').textContent = 'Seal it & set it sailing!'; }
+  }
   function openCrewCheck() {
     if (!needsCaptcha || widget === null || botToken || !challenge) return;
-    crewCheckOpened = true;
     if (!botDialog.open) botDialog.showModal();
   }
-  $('[data-open-bot-check]').addEventListener('click', openCrewCheck);
-  for (const button of $$('[data-close-bot-check]')) button.addEventListener('click', () => botDialog.close());
+  for (const button of $$('[data-close-bot-check]')) button.addEventListener('click', () => { stopWaitingForCaptcha(); botDialog.close(); status.textContent = ''; });
+  botDialog.addEventListener('cancel', () => { stopWaitingForCaptcha(); status.textContent = ''; });
   const api = config.wishesApi.replace(/\/$/, '');
   // Match the live event origin; local HTML previews should never try production submissions.
   let liveOrigin = '';
@@ -201,41 +204,43 @@
   }
   async function preparePost() {
     botToken = ''; challenge = null;
-    crewCheckOpened = false; if (botDialog.open) botDialog.close();
+    stopWaitingForCaptcha(); if (botDialog.open) botDialog.close();
     await getChallenge();
     if (widget !== null) { window.turnstile.remove(widget); widget = null; }
-    const botCheck = $('[data-bot-check]'); const botPanel = $('[data-bot-panel]');
-    botCheck.classList.remove('is-interactive'); botPanel.classList.remove('is-interactive'); botPanel.classList.remove('is-verified');
+    const botCheck = $('[data-bot-check]'); botCheck.classList.remove('is-interactive');
     $('[data-send-label]').textContent = 'Seal it & set it sailing!';
     $('[data-post-note]').textContent = 'Two wishes per device each day. No account needed. Your name is optional.';
-    if (!needsCaptcha) { botPanel.classList.add('is-verified'); return; }
+    if (!needsCaptcha) return;
     if (!config.turnstileSiteKey) throw new Error('The crew check is not configured. Please try the birthday post later.');
     await loadBotWidget();
     // The top-layer popup fits the full rectangle independently of the narrower poster.
     const showCheck = () => {
-      botPanel.classList.remove('is-verified'); botPanel.classList.add('is-interactive'); botCheck.classList.add('is-interactive');
+      botCheck.classList.add('is-interactive');
+      if (awaitingCaptcha) { status.textContent = 'Finish the quick security check and your bottle will set sail.'; openCrewCheck(); }
     };
     const collapseCheck = () => {
-      botCheck.classList.remove('is-interactive'); botPanel.classList.remove('is-interactive');
+      botCheck.classList.remove('is-interactive');
       if (botDialog.open) botDialog.close();
     };
     widget = window.turnstile.render(botCheck, {
       sitekey: config.turnstileSiteKey, theme: 'dark', appearance: 'interaction-only', size: 'normal',
       action: 'birthday-wish', cData: challenge.nonce,
       callback: token => {
-        botToken = token; collapseCheck(); botPanel.classList.add('is-verified');
-        if (crewCheckOpened) { status.textContent = 'Crew check passed. Your bottle is ready to sail.'; crewCheckOpened = false; }
+        botToken = token; collapseCheck();
+        const resumeSubmission = awaitingCaptcha; stopWaitingForCaptcha();
+        if (resumeSubmission) form.requestSubmit();
       },
       'before-interactive-callback': showCheck,
       'after-interactive-callback': collapseCheck,
-      'expired-callback': () => { botToken = ''; botPanel.classList.remove('is-verified'); },
-      'timeout-callback': () => { botToken = ''; collapseCheck(); status.textContent = 'The crew check timed out. Give it a moment to start again.'; },
-      'error-callback': () => { botToken = ''; collapseCheck(); botPanel.classList.remove('is-verified'); status.textContent = 'A tiny storm in the security check. Please try it again.'; }
+      'expired-callback': () => { botToken = ''; const wasWaiting = awaitingCaptcha; stopWaitingForCaptcha(); collapseCheck(); if (wasWaiting) status.textContent = 'The crew check expired. Seal your bottle again to retry.'; },
+      'timeout-callback': () => { botToken = ''; stopWaitingForCaptcha(); collapseCheck(); status.textContent = 'The crew check timed out. Give it a moment, then seal your bottle again.'; },
+      'error-callback': () => { botToken = ''; stopWaitingForCaptcha(); collapseCheck(); status.textContent = 'A tiny storm in the security check. Please try it again.'; }
     });
   }
   if (connected) preparePost().catch(error => { status.textContent = error.message; $('[data-send-label]').textContent = 'Try the birthday post'; });
   form.addEventListener('submit', async event => {
     event.preventDefault(); if (busy) return;
+    if (awaitingCaptcha) { if ($('[data-bot-check]').classList.contains('is-interactive')) openCrewCheck(); return; }
     const text = message.value.trim(); const length = [...text].length;
     if (length < 10 || length > 600) { status.textContent = 'Give your wish a little heart: 10 to 600 characters, please!'; message.setAttribute('aria-invalid', 'true'); message.focus(); return; }
     const normalizedName = sender.value.normalize('NFKC'); const senderName = normalizedName.trim().replace(/\s+/gu, ' ');
@@ -247,8 +252,9 @@
     if (!challenge || (needsCaptcha && !window.turnstile)) { try { await preparePost(); } catch (error) { status.textContent = error.message; } return; }
     if (senderName && challenge.senderNameEnabled !== true) { status.textContent = 'Named bottles are getting ready. Leave the name blank to send anonymously, or try again later.'; return; }
     if (needsCaptcha && !botToken) {
+      awaitingCaptcha = true; send.disabled = true; $('[data-send-label]').textContent = 'Checking your bottle…';
       const interactive = $('[data-bot-check]').classList.contains('is-interactive');
-      status.textContent = interactive ? 'Finish the quick security check before your bottle sets sail.' : 'Your bottle is getting its final check. Give it a moment, then try again.';
+      status.textContent = interactive ? 'Finish the quick security check and your bottle will set sail.' : 'Your bottle is getting its final check.';
       if (interactive) openCrewCheck();
       return;
     }

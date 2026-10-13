@@ -71,12 +71,6 @@ body[data-theme="dark"] #f2birthday #f2-sender-name:-webkit-autofill{-webkit-box
 #f2birthday .f2-wanted-poster form{min-width:0;max-width:100%}
 #f2birthday .f2-form-meta>span:first-child{min-width:0}
 #f2birthday .f2-form-meta>span:last-child{flex-shrink:0;white-space:nowrap}
-#f2birthday .f2-crew-check{display:none;min-width:0;max-width:100%}
-#f2birthday .f2-crew-check.is-interactive{display:block;margin-top:13px;padding:10px 0 12px;border-block:1px dashed #99774366;background:#cfaf6814;text-align:center}
-#f2birthday .f2-crew-check.is-verified{display:none}
-#f2birthday .f2-crew-check-title{display:flex;align-items:center;justify-content:center;gap:6px;color:var(--f2-poster-ink);font:700 19px/1.2 var(--f2-hand)}
-#f2birthday .f2-crew-check-note{text-align:center;color:#795f45;font-size:8px;line-height:1.5;margin:4px 5px 10px}
-#f2birthday .f2-check-button{min-height:40px;margin-top:8px;padding:8px 16px;font-size:10px;background:#24334b;color:#fff0d5!important;box-shadow:2px 2px 0 #75563b}
 #f2birthday .f2-crew-dialog{width:calc(100% - 12px);min-width:304px;max-width:380px;margin:auto;padding:22px 0 18px;border:2px solid #24334b;border-radius:12px;background:var(--f2-poster);color:var(--f2-poster-ink);box-shadow:6px 7px 0 #07172280;text-align:center;max-height:calc(100svh - 24px);overflow:auto;color-scheme:light}
 /* Keep a background rendering surface, then let showModal present the same iframe in the top layer. */
 #f2birthday .f2-crew-dialog:not([open]){display:block;position:absolute;inset:0 auto auto 0;width:304px;height:0;min-height:0;padding:0;border:0;margin:0;visibility:hidden;overflow:hidden;pointer-events:none}
