@@ -58,6 +58,7 @@ body[data-theme="dark"] #f2birthday{--f2-bg:#15283d;--f2-surface:#20384e;--f2-in
 #f2birthday .f2-sponsors-heading>img{width:52px;flex-shrink:0}
 #f2birthday .f2-sponsors-heading p{font:900 8px/1.5 var(--f2-body);letter-spacing:.15em;color:#795e3d}
 #f2birthday .f2-sponsors-heading h3{margin-top:3px;font-size:36px;color:#24334b}
+#f2birthday .f2-sponsors-conversion{margin:0 0 16px;text-align:center;font:800 11px/1.6 var(--f2-body);color:#795e3d}
 /* Platopedia's parent stylesheet sets important table colors and cell padding. */
 #f2birthday .f2-sponsor-table{width:100%;margin:0;border:0;border-collapse:collapse;table-layout:fixed;background:transparent;color:var(--f2-poster-ink)!important;font:800 14px/1.5 var(--f2-body)}
 #f2birthday .f2-sponsor-table :is(th,td){padding:11px 8px!important;border:0;text-align:left;background:transparent}
