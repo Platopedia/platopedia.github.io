@@ -1,5 +1,5 @@
 ---
 layout: redirect
-path: events/rose-risk-bday
+path: events/f2birthday
 ---
 
