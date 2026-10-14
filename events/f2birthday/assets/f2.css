@@ -51,6 +51,38 @@ body[data-theme="dark"] #f2birthday{--f2-bg:#15283d;--f2-surface:#20384e;--f2-in
 #f2birthday .f2-wanted-poster:after{z-index:0;pointer-events:none}
 #f2birthday .f2-wax-seal{z-index:2;line-height:1;pointer-events:none}
 
+/* A parchment ledger keeps sponsor contributions readable within the giveaway. */
+#f2birthday .f2-sponsors{position:relative;z-index:1;width:100%;max-width:520px;margin:32px auto 38px;padding:25px 28px 18px;border:3px solid #24334b;border-radius:7px;background:var(--f2-poster);color:var(--f2-poster-ink);box-shadow:5px 6px 0 #24334b;text-align:left}
+#f2birthday .f2-sponsors::before{content:"";position:absolute;inset:7px;border:1px dashed #a48656;border-radius:2px;pointer-events:none}
+#f2birthday .f2-sponsors-heading{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:12px;padding-bottom:17px;border-bottom:2px solid #a48656}
+#f2birthday .f2-sponsors-heading>img{width:52px;flex-shrink:0}
+#f2birthday .f2-sponsors-heading p{font:900 8px/1.5 var(--f2-body);letter-spacing:.15em;color:#795e3d}
+#f2birthday .f2-sponsors-heading h3{margin-top:3px;font-size:36px;color:#24334b}
+/* Platopedia's parent stylesheet sets important table colors and cell padding. */
+#f2birthday .f2-sponsor-table{width:100%;margin:0;border:0;border-collapse:collapse;table-layout:fixed;background:transparent;color:var(--f2-poster-ink)!important;font:800 14px/1.5 var(--f2-body)}
+#f2birthday .f2-sponsor-table :is(th,td){padding:11px 8px!important;border:0;text-align:left;background:transparent}
+#f2birthday .f2-sponsor-table :is(th,td):last-child{width:44%;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+#f2birthday .f2-sponsor-table thead th{padding-top:0!important;padding-bottom:10px!important;font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:#795e3d}
+#f2birthday .f2-sponsor-table tbody tr{border-top:1px solid #a4865666}
+#f2birthday .f2-sponsor-table tbody th{font-weight:900;overflow-wrap:anywhere}
+#f2birthday .f2-coin-label{display:inline-flex;align-items:center;justify-content:flex-end;gap:7px;vertical-align:middle}
+#f2birthday .f2-coin-label img{flex-shrink:0;width:19px;height:19px}
+#f2birthday .f2-sponsor-table tfoot :is(th,td){padding:13px 12px!important;background:#24334b;color:#fff0d5;font-weight:900}
+#f2birthday .f2-sponsor-table tfoot th{font-size:12px}
+#f2birthday .f2-sponsor-table tfoot td{font-size:20px}
+#f2birthday .f2-sponsors-note{margin-top:14px;text-align:center;font:700 21px/1.2 var(--f2-hand);color:#795e3d}
+@container(max-width:440px){
+  #f2birthday .f2-sponsors{margin-top:27px;padding:22px 15px 17px;box-shadow:4px 5px 0 #24334b}
+  #f2birthday .f2-sponsors-heading{gap:10px}
+  #f2birthday .f2-sponsors-heading>img{width:43px}
+  #f2birthday .f2-sponsors-heading h3{font-size:31px}
+  #f2birthday .f2-sponsors-heading p{font-size:7px;letter-spacing:.1em}
+  #f2birthday .f2-sponsor-table :is(th,td){padding:10px 5px!important}
+  #f2birthday .f2-sponsor-table tfoot :is(th,td){padding:12px 8px!important}
+  #f2birthday .f2-sponsor-table tfoot td{font-size:18px}
+  #f2birthday .f2-sponsors-note{font-size:19px}
+}
+
 /* Keep the optional bottle signature on the same parchment as the wish. */
 #f2birthday .f2-bottle-name{min-width:0;margin-bottom:15px}
 #f2birthday .f2-bottle-name label{display:flex;align-items:baseline;justify-content:space-between;gap:8px;font:700 21px/1.3 var(--f2-hand);color:var(--f2-poster-ink);margin:0 0 5px}

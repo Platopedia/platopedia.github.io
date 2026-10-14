@@ -4,6 +4,8 @@ The current page uses the main Luffy illustration and the Law and more-covered R
 
 `mugiwara-skull.svg` is a project-drawn fan SVG of the straw-hat skull and crossbones, using the existing icon palette. `straw-hat.svg`, `pirate-ship.svg`, clouds, sea, bunting, and panel decorations are also project-created vector/CSS graphics.
 
+`coin.png` is the existing Platopedia Coin icon supplied by the user, copied unchanged from `docs/assets/images/coin.png` for the sponsor ledger. The ledger uses native HTML/CSS and the existing skull SVG.
+
 The active frame, `f2-birthday-frame.png`, was supplied by the user as `frame-circular.png` and copied without editing its pixels. It is a 1080 × 1080 indexed PNG with a transparent centre and exterior, an ornate navy-and-gold ring, red ribbons, anchors, skulls, and Happy Birthday F2 lettering. The page uses a 768 × 768 WebP derivative, `f2-birthday-frame-preview.webp`, to reduce preview bytes; downloading still returns the unchanged supplied PNG. Both preserve transparency. No additional source or license claim is made for it.
 
 `frame-circular.svg` and its 1024-pixel PNG export are the earlier unused concept, with a coral band, gold rope, cream curved lettering, straw-hat skull and compass badges. The old non-circular `frame-concept.svg` is also retained unused. The SVG concept remains editable and its render script targets the unused concept PNG, not the active supplied frame.
