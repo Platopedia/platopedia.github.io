@@ -18,8 +18,8 @@
       if (!reduced && values[name] !== undefined) { el.classList.remove('is-ticking'); requestAnimationFrame(() => el.classList.add('is-ticking')); }
       values[name] = value;
     }
-    $('.f2-countdown').setAttribute('aria-label', time ? `${next.days} days, ${next.hours} hours, ${next.minutes} minutes, ${next.seconds} seconds until F2's birthday celebration` : 'Happy birthday, F2!');
-    if (!time) $('[data-birthday-status]').textContent = 'HAPPY BIRTHDAY, F2! Let the adventure begin!';
+    $('.f2-countdown').setAttribute('aria-label', time ? `${next.days} days, ${next.hours} hours, ${next.minutes} minutes, ${next.seconds} seconds until F2's main birthday event` : "F2's main birthday event is here!");
+    if (!time) $('[data-birthday-status]').textContent = 'THE MAIN EVENT IS HERE! Let the adventure begin!';
   }
   $('[data-event-label]').textContent = config.eventLabel;
   if (Number.isFinite(date)) { countdown(); setInterval(countdown, 1000); }
