@@ -37,3 +37,5 @@ The inspected result is saved as `robin-profile-covered.png`; its smaller previe
 ## Bottle sea
 
 The bottle illustration embedded in `wishes/index.html`, its coloured glass variations, cork, paper, wax seal, islands, glints, water and cloud shapes are original native SVG/CSS artwork created for this page. The sea reuses only the project-created `pirate-ship.svg` and `straw-hat.svg` assets described above. It does not download or generate additional character artwork or large background images. Local preview messages in `wishes.js` are fictional samples, explicitly labelled and never substituted for the production feed.
+
+`message-bottle.svg` reuses the original bottle sea illustration as a small standalone SVG for the main-page invitation banner. It adds no raster artwork or external image requests.
