@@ -343,6 +343,10 @@ Artrade helps you connect with trusted item traders and merchants from our commu
 
 </div>
 
+<div class="trade-card" style="margin-top:10px" role="note">
+<strong>Before you trade:</strong> If you've never made a <strong>real-money in-app purchase on Plato</strong>, you won't be able to send gifts or complete a trade.
+</div>
+
 <div id="captcha-container" class="captcha-shell"></div>
 
 <div class="linebreak"></div>
