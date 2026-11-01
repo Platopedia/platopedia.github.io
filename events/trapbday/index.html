@@ -1,5 +1,9 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="dark"><meta name="theme-color" content="#0c191d"><meta name="robots" content="noindex,nofollow"><title>Trap’s Workshop · Locked</title><style>
-html{color-scheme:dark;background:#0c191d;color:#eee8d6;-webkit-tap-highlight-color:transparent}*{box-sizing:border-box}body{margin:0;min-height:100svh;display:grid;place-items:center;padding:24px;font:16px/1.6 Arial,sans-serif;background:radial-gradient(ellipse at 0 10%,#6ee6dc18,transparent 65%)}main{width:100%;max-width:430px;padding:32px 26px;border:2px solid #3c625b;border-radius:12px;background:#14272b;box-shadow:8px 10px 0 #06181d}small{font:700 10px/1.5 monospace;letter-spacing:2px;color:#f0a1c2}h1{margin:23px 0;font:900 clamp(38px,11vw,58px)/.95 Impact,'Arial Narrow',sans-serif;letter-spacing:-1px}h1 span{color:#6ee6dc}p{margin:0 0 23px}label{display:block;font-size:12px;margin-bottom:7px}input,button{width:100%;font:inherit;padding:13px;border:2px solid #56776b;border-radius:0}input{background:#0c191d;color:inherit}button{margin-top:16px;background:#6ee6dc;color:#10272b;font-weight:bold;cursor:pointer;box-shadow:3px 4px 0 #06181d}button:active{transform:translateY(3px);box-shadow:none}:focus-visible{outline:3px solid #f3dc78;outline-offset:3px}button:disabled{opacity:.6;cursor:wait}#workshop-unlock-status{min-height:24px;font-size:12px;margin:17px 0 0;color:#b0c2ba}</style></head><body><main><small>09 NOV / KEEP THE SURPRISE IN</small><h1>TRAP’S<br><span>WORKSHOP.</span></h1><p>Got the password? Come on in.</p><form id="workshop-unlock"><label for="workshop-password">The secret knock</label><input id="workshop-password" type="password" autocomplete="current-password" required><button id="workshop-enter" type="submit">LET ME IN ↗</button><p id="workshop-unlock-status" role="status" aria-live="polite"></p></form><noscript>JavaScript is needed to unlock the workshop.</noscript></main><script type="module">// Included in the password screen. Only this screen and encrypted files ship.
+html{color-scheme:dark;background:#0c191d;color:#eee8d6;-webkit-tap-highlight-color:transparent}*{box-sizing:border-box}[hidden]{display:none}body{margin:0;min-height:100svh;display:grid;place-items:center;padding:24px;font:16px/1.6 Arial,sans-serif;background:radial-gradient(ellipse at 0 10%,#6ee6dc18,transparent 65%)}main{width:100%;max-width:430px;padding:32px 26px;border:2px solid #3c625b;border-radius:12px;background:#14272b;box-shadow:8px 10px 0 #06181d}small{font:700 10px/1.5 monospace;letter-spacing:2px;color:#f0a1c2}h1{margin:23px 0;font:900 clamp(38px,11vw,58px)/.95 Impact,'Arial Narrow',sans-serif;letter-spacing:-1px}h1 span{color:#6ee6dc}p{margin:0 0 23px}label{display:block;font-size:12px;margin-bottom:7px}input,button{width:100%;font:inherit;padding:13px;border:2px solid #56776b;border-radius:0}input{background:#0c191d;color:inherit}button{margin-top:16px;background:#6ee6dc;color:#10272b;font-weight:bold;cursor:pointer;box-shadow:3px 4px 0 #06181d}button:active{transform:translateY(3px);box-shadow:none}:focus-visible{outline:3px solid #f3dc78;outline-offset:3px}button:disabled{opacity:.6;cursor:wait}#workshop-unlock-status{min-height:24px;font-size:12px;margin:17px 0 0;color:#b0c2ba}#workshop-opening{margin:0;color:#b0c2ba;font:12px/1.6 monospace}</style></head><body>
+<p id="workshop-opening" role="status">Opening the workshop…</p>
+<main id="workshop-lock-panel" hidden><small>09 NOV / KEEP THE SURPRISE IN</small><h1>TRAP’S<br><span>WORKSHOP.</span></h1><p>Got the password? Come on in.</p><form id="workshop-unlock"><label for="workshop-password">The secret knock</label><input id="workshop-password" type="password" autocomplete="current-password" required><button id="workshop-enter" type="submit">LET ME IN ↗</button><p id="workshop-unlock-status" role="status" aria-live="polite"></p></form></main>
+<noscript><style>#workshop-opening{display:none}</style>JavaScript is needed to unlock the workshop.</noscript>
+<script type="module">// Included in the password screen. Only this screen and encrypted files ship.
 const ITERATIONS = 310000;
 const encoder = new TextEncoder();
 const STORAGE_KEY = 'trap-workshop-unlock-v1';
@@ -35,7 +39,9 @@ export async function bootWorkshopLock(manifest, { doc = document, win = window,
   if (storage === undefined) { try { storage = win.sessionStorage; } catch { storage = null; } }
   const form = doc.getElementById('workshop-unlock'), input = doc.getElementById('workshop-password');
   const button = doc.getElementById('workshop-enter'), status = doc.getElementById('workshop-unlock-status');
+  const panel = doc.getElementById('workshop-lock-panel'), opening = doc.getElementById('workshop-opening');
   let busy = false;
+  function showPassword() { opening.hidden = true; panel.hidden = false; }
   function forget() { try { storage?.removeItem(STORAGE_KEY); } catch {} }
   async function unlock(key) {
     const access = createWorkshopAccess(manifest, key, { base: win.location.href, fetcher: win.fetch?.bind(win) || fetch });
@@ -50,15 +56,15 @@ export async function bootWorkshopLock(manifest, { doc = document, win = window,
     catch (error) { forget(); status.textContent = error.name === 'OperationError' ? 'Wrong password. Try another key.' : 'Couldn’t open the workshop. Check the connection and try again.'; input.focus(); }
     finally { busy = false; button.disabled = false; }
   }
-  if (!globalThis.crypto?.subtle) { status.textContent = 'Open this page over HTTPS to unlock the workshop.'; button.disabled = true; return; }
+  if (!globalThis.crypto?.subtle) { status.textContent = 'Open this page over HTTPS to unlock the workshop.'; button.disabled = true; showPassword(); return; }
   form.addEventListener('submit', submit);
   try {
     const saved = JSON.parse(storage?.getItem(STORAGE_KEY) || 'null');
-    if (saved?.salt !== manifest.salt || !Number.isFinite(saved.until) || saved.until <= Date.now() || !/^[A-Za-z0-9+/]{43}=$/.test(saved.key || '')) { forget(); return; }
+    if (saved?.salt !== manifest.salt || !Number.isFinite(saved.until) || saved.until <= Date.now() || !/^[A-Za-z0-9+/]{43}=$/.test(saved.key || '')) { forget(); showPassword(); return; }
     busy = true; button.disabled = true; status.textContent = 'Opening the workshop…';
     await unlock(await crypto.subtle.importKey('raw', fromBase64(saved.key), 'AES-GCM', true, ['encrypt', 'decrypt']));
-  } catch { forget(); status.textContent = 'Enter the password to open the workshop.'; }
+  } catch { forget(); status.textContent = 'Enter the password to open the workshop.'; showPassword(); }
   finally { busy = false; button.disabled = false; }
 }
 
-bootWorkshopLock({"version":1,"basePath":"/events/trapbday/","salt":"dlC9hTnuVMMUhb2qq6wzXVjTZZ87I4KxraX27q4KdnI=","page":"locked/workshop.2bc814ddddf44f55.bin","audio":{"/events/trapbday/assets/audio/love-me-not.m4a":{"file":"locked/love-me-not.066fb84fa635993b.bin","type":"audio/mp4"},"/events/trapbday/assets/audio/paint-the-town-blue.mp3":{"file":"locked/paint-the-town-blue.1c7c9c18613d8cfe.bin","type":"audio/mpeg"}}});</script></body></html>
+bootWorkshopLock({"version":1,"basePath":"/events/trapbday/","salt":"dlC9hTnuVMMUhb2qq6wzXVjTZZ87I4KxraX27q4KdnI=","page":"locked/workshop.6787faa4d3873772.bin","audio":{"/events/trapbday/assets/audio/love-me-not.m4a":{"file":"locked/love-me-not.b00198054961d8cd.bin","type":"audio/mp4"},"/events/trapbday/assets/audio/paint-the-town-blue.mp3":{"file":"locked/paint-the-town-blue.91a9c89c5caab68c.bin","type":"audio/mpeg"}}});</script></body></html>
