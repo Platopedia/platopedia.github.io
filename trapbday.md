@@ -1,6 +1,6 @@
 ---
 layout: null
-title: Trap’s Birthday - Platopedia
+title: Trap's Birthday
 description: Step into Trap’s birthday workshop.
 permalink: /trapbday/
 ---
