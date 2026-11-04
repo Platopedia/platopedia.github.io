@@ -2723,6 +2723,7 @@ window.TrapMural = { create };
     me = data; syncPolicy(data);
     syncAccountBar();
     mural?.setAccount(data);
+    $('[data-wish-reset]').hidden = !data.wishResetId;
     paintAvailable = Boolean(drawing && data.verified && data.graffitiEnabled === true); drawing?.setAvailable(paintAvailable);
     if (data.verified && data.wish) {
       const tag = `${data.name} WAS HERE`; $('[data-visitor-tag]').textContent = tag; $('[data-visitor-tag]').hidden = false;
@@ -2747,7 +2748,7 @@ window.TrapMural = { create };
       return;
     }
     if (intent === 'present') { panel('present'); renderOwnPresent(data.present); return; }
-    if (!data.wish && data.reward?.status !== 'sent') { panel('wish'); updatePreview(); return; }
+    if (data.wishResetId || !data.wish && data.reward?.status !== 'sent') { panel('wish'); updatePreview(); return; }
     panel('loot'); renderLoot(data);
   }
   function renderOwnPresent(present) {
@@ -2920,7 +2921,7 @@ window.TrapMural = { create };
     if ([...message].length < 10 || [...message].length > 600) throw new Error('Write a birthday wish of 10–600 characters. Your graffiti and message are both required.');
     if (!paintAvailable) throw new Error('The paint wall is still warming up. Your drawing is saved.');
     if (!art) throw new Error('Add your graffiti before submitting. Your painting and written wish are both required.');
-    const data = await api('wish', { message, color, style: lettering, sticker, art });
+    const data = await api('wish', { message, color, style: lettering, sticker, art, ...(me?.wishResetId ? { resetWishId: me.wishResetId } : {}) });
     if (!data.wish) { renderMe(data); return; }
     clearWishDraft();
     renderMe(data); $('[data-panel=loot]').classList.add('spray-arrival'); toast('Your mark’s saved. That wall had it coming.'); loadWall();
@@ -3193,7 +3194,7 @@ window.TrapMural = { create };
     <div class="linked-account" data-linked-account hidden><span>Using <strong data-linked-name dir="auto"></strong></span><button type="button" data-change-account>Change friend link</button></div>
     <section data-panel="account"><p class="bench-intro">First, who’s joining the party? ♡</p><form data-account-form><label for="workshop-friend">Your Plato friend link</label><input id="workshop-friend" type="url" autocomplete="off" placeholder="https://platoapp.com/link/…" required><p class="small-note">Arcade members only. Your link stays private.</p><div class="account-check-slot" data-account-check-slot hidden></div><button type="submit" class="ink-button">THAT’S ME ↗</button></form><div class="verify-slip" data-verify-slip hidden><p data-account-name></p><p>Send this exact line in the <strong>Arcade Group chat</strong>, then pop back.</p><button class="verify-code" data-copy-code></button><button class="ink-button" data-verify>I SENT IT ↗</button><p class="small-note">Use the account linked above. No impersonating the birthday girl.</p></div></section>
     <section data-panel="prelaunch" hidden><div class="prelaunch-notice"><p>Wishes and Trap’s gift stash aren’t open yet. Check back soon.</p><button class="plain-button" type="button" data-early-access>HAVE EARLY ACCESS? ↗</button></div></section>
-    <section data-panel="wish" hidden><div class="spray-bench"><form data-wish-form><div class="wish-editor"><label for="workshop-wish">Go on. Say the thing.</label><textarea id="workshop-wish" rows="5" minlength="10" maxlength="600" required placeholder="Trap, you absolute…"></textarea><div class="field-bottom"><span>Keep it kind. She knows where you live.*</span><span data-char-count>0 / 600</span></div><div class="wish-text-options" data-text-options><fieldset><legend>Message colour</legend><div class="can-row" data-can-row></div></fieldset><fieldset><legend>Your handwriting, but worse</legend><div class="choice-row"><button class="mini-button selected" type="button" data-lettering="marker" aria-pressed="true">Marker</button><button class="mini-button" type="button" data-lettering="spray" aria-pressed="false">LOUD</button><button class="mini-button" type="button" data-lettering="note" aria-pressed="false">Love note</button></div></fieldset><fieldset><legend>Needs a little something</legend><div class="sticker-row"><button type="button" data-sticker="star" aria-label="Star sticker" aria-pressed="true" class="selected">✦</button><button type="button" data-sticker="heart" aria-label="Heart sticker" aria-pressed="false">♡</button><button type="button" data-sticker="bolt" aria-label="Lightning sticker" aria-pressed="false">ϟ</button><button type="button" data-sticker="none" aria-pressed="false">nah</button></div></fieldset></div><section class="graffiti-bench" data-graffiti hidden aria-labelledby="graffiti-title">
+    <section data-panel="wish" hidden><div class="spray-bench"><form data-wish-form><div class="wish-editor"><p class="small-note" data-wish-reset hidden>Your wish was reset. Add a new mark; your gift stays unchanged.</p><label for="workshop-wish">Go on. Say the thing.</label><textarea id="workshop-wish" rows="5" minlength="10" maxlength="600" required placeholder="Trap, you absolute…"></textarea><div class="field-bottom"><span>Keep it kind. She knows where you live.*</span><span data-char-count>0 / 600</span></div><div class="wish-text-options" data-text-options><fieldset><legend>Message colour</legend><div class="can-row" data-can-row></div></fieldset><fieldset><legend>Your handwriting, but worse</legend><div class="choice-row"><button class="mini-button selected" type="button" data-lettering="marker" aria-pressed="true">Marker</button><button class="mini-button" type="button" data-lettering="spray" aria-pressed="false">LOUD</button><button class="mini-button" type="button" data-lettering="note" aria-pressed="false">Love note</button></div></fieldset><fieldset><legend>Needs a little something</legend><div class="sticker-row"><button type="button" data-sticker="star" aria-label="Star sticker" aria-pressed="true" class="selected">✦</button><button type="button" data-sticker="heart" aria-label="Heart sticker" aria-pressed="false">♡</button><button type="button" data-sticker="bolt" aria-label="Lightning sticker" aria-pressed="false">ϟ</button><button type="button" data-sticker="none" aria-pressed="false">nah</button></div></fieldset></div><section class="graffiti-bench" data-graffiti hidden aria-labelledby="graffiti-title">
       <div class="graffiti-heading"><h3 id="graffiti-title">PAINT YOUR GRAFFITI.</h3><span>REQUIRED</span></div>
       <p id="cover-help">A little paint and a written wish. Both required. Draw here; scroll outside the board.</p>
       <canvas class="draw-canvas" data-draw-canvas width="800" height="560" tabindex="0" aria-label="Neon graffiti drawing board" aria-describedby="cover-help"></canvas>
