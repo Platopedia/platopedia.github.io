@@ -1611,7 +1611,6 @@ body.trap-event > footer {
 
 #jaz-workshop .prelaunch-notice{max-width:40rem;padding:1.2rem 0;line-height:1.7}
 #jaz-workshop .prelaunch-notice .plain-button{margin-top:1rem}
-#jaz-workshop [data-repeat-gift]{margin-top:1rem}
 </style>
     <link rel="icon" type="image/png" href="https://platopedia.com/docs/assets/images/icons/favicon-32x32.png">
     <script type="module">(() => {
@@ -1641,7 +1640,7 @@ body.trap-event > footer {
 })();
 </script>
     <script type="module">window.JAZ_WORKSHOP_CONFIG = Object.freeze({
-  eventId: 'jaz-2026', birthday: '2026-11-09T00:00:00Z',
+  eventId: 'jaz-2026', birthday: '2026-11-09T14:00:00Z',
   apiBase: "https://trap-birthday-api.platopedia.workers.dev/api/events/jaz-birthday", turnstileSiteKey: "0x4AAAAAAFv1k2ub4hBnYsnt",
   recipientName: 'Trap',
   groupUrl: '', // Add Trap’s Plato group invite when it opens.
@@ -1793,7 +1792,7 @@ body.trap-event > footer {
     completeSource(tracks[index]).then(url => {
       if (disposed || leaving || version !== sourceVersion || current !== index) return;
       sourceLoading = false; sourceReady = true; pendingCue = true;
-      tape.preload = 'auto'; tape.src = url; tape.controls = false; tape.load(); progress();
+      tape.preload = 'auto'; tape.src = url; tape.load(); progress();
       if (wantsPlayback) requestPlay();
       else { phase = 'paused'; sync('Tape’s ready. Hit play.'); }
     }).catch(() => {
@@ -1829,7 +1828,7 @@ body.trap-event > footer {
     }
     if (tape.error) {
       if (!pendingCue && !cueSeeking && Number.isFinite(tape.currentTime)) cuePosition = tape.currentTime;
-      pendingCue = true; cueSeeking = false; phase = 'loading'; tape.controls = false; tape.load(); sync('Reloading the tape…'); return;
+      pendingCue = true; cueSeeking = false; phase = 'loading'; tape.load(); sync('Reloading the tape…'); return;
     }
     if (pendingCue && !positionInitialCue()) return;
     if (cueSeeking) { phase = 'loading'; sync('Finding your place on the tape…'); return; }
@@ -1866,7 +1865,7 @@ body.trap-event > footer {
     seekPreview = null; seekTarget = null;
     sourceVersion++; sourceReady = false; sourceLoading = false; wantsPlayback = false;
     cueSeeking = false; playPending = 0;
-    attempt++; tape.pause(); setLevel(1); tape.controls = false;
+    attempt++; tape.pause(); setLevel(1);
     if (hadTrack) { tape.removeAttribute('src'); tape.load(); }
     current = index; const track = tracks[index];
     cuePosition = Number(track.startAt) || 0;
@@ -1923,7 +1922,7 @@ body.trap-event > footer {
       sync('Couldn’t find your place on the tape. Hit play to try again.'); return false;
     }
     if (!tape.seeking && Math.abs(tape.currentTime - target) < .05) cueSeeking = false;
-    tape.controls = !cueSeeking; progress();
+    progress();
     return !cueSeeking;
   }
   function previewSeek() {
@@ -2012,7 +2011,6 @@ body.trap-event > footer {
     const initial = cueSeeking;
     if (initial && (tape.seeking || seekTarget !== null && Math.abs(tape.currentTime - seekTarget) > .25)) return;
     cueSeeking = false; seekTarget = null; progress();
-    if (!pendingCue && sourceReady) tape.controls = true;
     if (initial && wantsPlayback && !pendingCue) requestPlay();
   });
   tape.addEventListener('ended', () => {
@@ -2252,7 +2250,7 @@ window.TrapMural = { create };
   let wallReading = false;
   let restoreWishId = '', restorePosition = null, wallState = 'loading', wallNameFilter = '';
   let color = 'cyan', lettering = 'marker', sticker = 'star', wrapping = 'cyan';
-  let draftArt = null, paintAvailable = false, draftCycle = '';
+  let draftArt = null, paintAvailable = false;
   let birthdayShown = false;
   let toastTimer, quipTimer, wallLoading = false, presentsLoading = null, freshPresentId = '';
   const secrets = new Set();
@@ -2287,7 +2285,6 @@ window.TrapMural = { create };
     const draft = JSON.parse(localStorage.getItem('jaz-draft') || 'null');
     if (draft) {
       draftArt = draft.art;
-      if (/^[0-9a-z]{1,13}-[0-9a-z]{1,13}$/u.test(draft.restartGiftUid || '')) draftCycle = draft.restartGiftUid;
       $('#workshop-wish').value = String(draft.message || '').slice(0, 600);
       if (Object.hasOwn(COLORS, draft.color)) color = draft.color;
       if (['marker', 'spray', 'note'].includes(draft.style)) lettering = draft.style;
@@ -2371,7 +2368,7 @@ window.TrapMural = { create };
   async function run(task) {
     if (busy) return; busy = true; profileVersion++; clearTimeout(giftTimer); $('[data-bench-dialog]').setAttribute('aria-busy', 'true');
     drawing?.setDisabled(true);
-    for (const button of $$('[data-bench-dialog] button[type="submit"],[data-claim],[data-repeat-gift],[data-verify],[data-change-account]')) button.disabled = true;
+    for (const button of $$('[data-bench-dialog] button[type="submit"],[data-claim],[data-verify],[data-change-account]')) button.disabled = true;
     try { await task(); }
     catch (error) {
       if (typeof error.prelaunchMode === 'boolean') syncPolicy({ prelaunchMode: error.prelaunchMode });
@@ -2601,20 +2598,19 @@ window.TrapMural = { create };
             visited.add(correct); offset = correct; data = await page(offset);
           }
         } else if (activeId && !data.wishes.some(wish => wish.id === activeId)) {
-          // Try the saved rank first. If approvals shifted it, locate the same
-          // public ID without accumulating every preceding painting in the DOM.
+          // The by-ID lookup supplies the current approved rank, so restoration
+          // fetches its page directly instead of scanning all preceding paintings.
           const visible = await api('wall', { wishId: activeId, name });
-          const first = offset === 0 ? data : await page(0);
-          if (!visible.wishes.some(wish => wish.id === activeId)) { data = first; offset = 0; }
-          else {
-            const hinted = data, hintedOffset = offset, visited = new Set();
-            data = first; offset = 0;
-            while (!data.wishes.some(wish => wish.id === activeId) && data.nextCursor) {
-              const next = Number(data.nextCursor);
-              if (!Number.isSafeInteger(next) || next < 0 || next > 9999999 || visited.has(next)) throw new Error('The wall got stuck loading. Try opening it again.');
-              visited.add(next); offset = next; data = next === hintedOffset ? hinted : await page(next);
-            }
-            if (!data.wishes.some(wish => wish.id === activeId)) { data = first; offset = 0; }
+          if (name && visible.nameFilter !== name) throw new Error('The name search couldn’t load. Try again shortly.');
+          const located = visible.wishes.some(wish => wish.id === activeId) && Number.isSafeInteger(visible.position)
+            && visible.position >= 0 && visible.position < visible.total;
+          const currentOffset = located ? Math.floor(visible.position / WALL_PAGE_SIZE) * WALL_PAGE_SIZE : 0;
+          if (located || offset !== currentOffset) data = await page(currentOffset);
+          offset = currentOffset;
+          // A removal or another approval between those reads falls back to
+          // the latest page; an older API without ranks never triggers a scan.
+          if (located && !data.wishes.some(wish => wish.id === activeId) && offset !== 0) {
+            data = await page(0); offset = 0;
           }
         }
         const found = activeId ? data.wishes.findIndex(wish => wish.id === activeId) : -1;
@@ -2720,15 +2716,11 @@ window.TrapMural = { create };
       button.classList.toggle('selected', active); button.setAttribute('aria-pressed', String(active));
     }
   }
-  function saveDraft() { try { localStorage.setItem('jaz-draft', JSON.stringify({ message: $('#workshop-wish').value, color, style: lettering, sticker, art: drawing?.getArt(), restartGiftUid: draftCycle })); } catch {} }
-  function clearWishDraft() { draftCycle = ''; drawing?.reset(); try { localStorage.removeItem('jaz-draft'); } catch {} }
+  function saveDraft() { try { localStorage.setItem('jaz-draft', JSON.stringify({ message: $('#workshop-wish').value, color, style: lettering, sticker, art: drawing?.getArt() })); } catch {} }
+  function clearWishDraft() { drawing?.reset(); try { localStorage.removeItem('jaz-draft'); } catch {} }
   function renderMe(data) {
     const justDelivered = data.reward?.status === 'sent' && me?.reward?.status && me.reward.status !== 'sent';
     me = data; syncPolicy(data);
-    if (data.verified && !data.wish && data.restartGiftUid && draftCycle !== data.restartGiftUid) {
-      $('#workshop-wish').value = ''; color = 'cyan'; lettering = 'marker'; sticker = 'star'; drawing?.reset();
-      draftCycle = data.restartGiftUid; saveDraft();
-    }
     syncAccountBar();
     mural?.setAccount(data);
     paintAvailable = Boolean(drawing && data.verified && data.graffitiEnabled === true); drawing?.setAvailable(paintAvailable);
@@ -2755,7 +2747,7 @@ window.TrapMural = { create };
       return;
     }
     if (intent === 'present') { panel('present'); renderOwnPresent(data.present); return; }
-    if (!data.wish) { panel('wish'); updatePreview(); return; }
+    if (!data.wish && data.reward?.status !== 'sent') { panel('wish'); updatePreview(); return; }
     panel('loot'); renderLoot(data);
   }
   function renderOwnPresent(present) {
@@ -2769,15 +2761,13 @@ window.TrapMural = { create };
     }
   }
   function updateClaimButton() {
-    $('[data-repeat-gift]').disabled = busy || me?.canRepeatGift !== true;
     const reward = me?.reward;
     $('[data-claim]').disabled = busy || !selected || !me?.offer?.some(item => item.skuId === selected) || ['queued', 'sending', 'ambiguous', 'sent'].includes(reward?.status);
   }
   function renderLoot(data) {
     clearTimeout(giftTimer); const reward = data.reward;
-    $('[data-repeat-gift]').hidden = data.canRepeatGift !== true;
     const tier = data.assignedPips;
-    $('[data-reward-rules]').textContent = (prelaunchMode && data.participationAllowed === true ? 'Early access: repeat gifts keep your assigned Pip tier. ' : 'One gift per Arcade account. ')
+    $('[data-reward-rules]').textContent = 'One gift per Arcade account. '
       + (tier ? `Your ${tier}-Pip tier is saved to your account. ` : 'Your random Pip tier stays with your account. ') + '150 gifts · 600-Pip birthday pot.';
     selected = reward?.selected || (data.offer || []).some(item => item.skuId === selected) && selected || '';
     $('[data-loot-intro]').textContent = reward?.status === 'sent' ? `It’s yours, ${data.name}. Excellent taste.` : data.offer?.length ? 'Your mark’s saved. Pick something from the hatch. Yes, really.' : data.rewardMessage || 'Your mark’s saved. The gift hatch isn’t open right now.';
@@ -2799,7 +2789,7 @@ window.TrapMural = { create };
     if (['queued', 'sending'].includes(reward?.status) && $('[data-bench-dialog]').open && !document.hidden) giftTimer = setTimeout(() => refreshMe().catch(error => status(error.message)), 3000);
   }
   async function refreshMe() {
-    // Gift polls can outlive account changes or Start again; only the current read applies.
+    // Gift polls can outlive account changes; only the current read applies.
     const accountToken = token, version = ++profileVersion;
     try {
       const data = await api('me');
@@ -2930,9 +2920,8 @@ window.TrapMural = { create };
     if ([...message].length < 10 || [...message].length > 600) throw new Error('Write a birthday wish of 10–600 characters. Your graffiti and message are both required.');
     if (!paintAvailable) throw new Error('The paint wall is still warming up. Your drawing is saved.');
     if (!art) throw new Error('Add your graffiti before submitting. Your painting and written wish are both required.');
-    const cycle = me?.restartGiftUid || '';
-    const data = await api('wish', { message, color, style: lettering, sticker, art, ...(cycle ? { restartGiftUid: cycle } : {}) });
-    if (!data.wish || cycle && data.wish.afterGiftUid !== cycle) { renderMe(data); return; }
+    const data = await api('wish', { message, color, style: lettering, sticker, art });
+    if (!data.wish) { renderMe(data); return; }
     clearWishDraft();
     renderMe(data); $('[data-panel=loot]').classList.add('spray-arrival'); toast('Your mark’s saved. That wall had it coming.'); loadWall();
     setTimeout(() => $('[data-panel=loot]').classList.remove('spray-arrival'), 600);
@@ -2940,12 +2929,6 @@ window.TrapMural = { create };
   $('[data-claim]').addEventListener('click', () => run(async () => {
     if (!selected) return;
     try { renderMe(await api('select', { skuId: selected, offerId: me?.offerId || '' })); }
-    catch (error) { try { await refreshMe(); } catch {} throw error; }
-  }));
-  $('[data-repeat-gift]').addEventListener('click', () => run(async () => {
-    if (!me?.canRepeatGift || !me.reward?.receiptId) return;
-    const giftUid = me.reward.receiptId; selected = '';
-    try { renderMe(await api('repeat', { giftUid })); }
     catch (error) { try { await refreshMe(); } catch {} throw error; }
   }));
   $('[data-own-wish]').addEventListener('click', () => { if (me?.wish) readWish({ ...me.wish, name: me.name }); });
@@ -3155,7 +3138,7 @@ window.TrapMural = { create };
     <section class="frame-station" id="birthday-frame" aria-labelledby="frame-title">
       <div class="frame-display">
         <div class="frame-proof" data-frame-proof>
-          <img class="frame-overlay" src="/events/trapbday/assets/images/trap-birthday-frame.54b5140f66fc189a.png" width="1254" height="1254" alt="Trap’s circular birthday frame with silver filigree, ruby and cyan gems, flowers, a butterfly, gears and clocks, and Happy birthday Trap lettering." draggable="false" loading="lazy" decoding="async">
+          <img class="frame-overlay" src="/events/trapbday/assets/images/trap-birthday-frame-preview.e8e82e4985d1cb90.webp" width="768" height="768" alt="Trap’s circular birthday frame with silver filigree, ruby and cyan gems, flowers, a butterfly, gears and clocks, and Happy birthday Trap lettering." draggable="false" loading="lazy" decoding="async">
         </div>
       </div>
       <div class="frame-copy">
@@ -3232,7 +3215,7 @@ window.TrapMural = { create };
       <p class="draw-status" data-draw-status role="status" aria-live="polite"></p>
       <p class="small-note">Your graffiti and written wish are saved and reviewed together.</p>
     </section></div><div class="wish-review"><div class="preview-board"><span class="scribble">your graffiti + wish ↓</span><article class="graffiti-mark" data-mark-preview tabindex="0" aria-label="Your wish preview"></article><span class="scribble preview-foot">beautifully questionable.</span></div><button class="ink-button" type="submit">SPRAY IT ✺</button><p class="small-note">*She doesn’t. Probably. Your mark goes to the approval queue.</p></div></form></div></section>
-    <section data-panel="loot" hidden><p class="loot-intro" data-loot-intro>Your mark’s saved. Now rob the gift hatch.</p><div class="loot-crates" data-rewards></div><div class="delivery-slip" data-delivery hidden role="status"></div><button class="ink-button" data-claim disabled>PICK YOUR LOOT ↑</button><button class="ink-button" type="button" data-repeat-gift hidden>START AGAIN ↻</button><div class="bench-links"><button class="plain-button" data-own-wish>READ MY MARK ↗</button><button class="plain-button" data-close>BACK TO THE WORKSHOP ↩</button></div><p class="small-note" data-reward-rules>One gift per Arcade account · a saved random 2, 5, 10 or 15-Pip tier · 150 gifts in the 600-Pip birthday pot.</p></section>
+    <section data-panel="loot" hidden><p class="loot-intro" data-loot-intro>Your mark’s saved. Now rob the gift hatch.</p><div class="loot-crates" data-rewards></div><div class="delivery-slip" data-delivery hidden role="status"></div><button class="ink-button" data-claim disabled>PICK YOUR LOOT ↑</button><div class="bench-links"><button class="plain-button" data-own-wish>READ MY MARK ↗</button><button class="plain-button" data-close>BACK TO THE WORKSHOP ↩</button></div><p class="small-note" data-reward-rules>One gift per Arcade account · a saved random 2, 5, 10 or 15-Pip tier · 150 gifts in the 600-Pip birthday pot.</p></section>
     <section data-panel="present" hidden><p class="bench-intro">Tell Trap what you’re gifting her on 9 November. Plato items are especially welcome. ♡</p><form data-present-form><label for="workshop-note">Your gift for Trap</label><textarea id="workshop-note" rows="5" minlength="3" maxlength="1200" placeholder="Plato item name, or the gift you’re planning for her…" required></textarea><fieldset><legend>Wrap it badly</legend><div class="wrap-options"><button type="button" data-wrap="cyan" aria-pressed="true" class="selected"><span></span>Blue</button><button type="button" data-wrap="pink" aria-pressed="false"><span></span>Pink</button><button type="button" data-wrap="yellow" aria-pressed="false"><span></span>Yellow</button></div></fieldset><p class="small-note">This wraps your gift details for Trap. You’ll send the actual gift yourself on her birthday. Gifts are reviewed before she can open them.</p><button type="submit" class="ink-button">WRAP MY GIFT ▣</button></form><div class="saved-present" data-saved-present hidden><p data-own-present-status>Wrapped and waiting for approval.</p><blockquote data-own-note></blockquote><button class="plain-button" data-close>DON’T SHAKE IT ↩</button></div></section>
     <p class="form-status" data-form-status role="status" aria-live="polite"></p>
   </dialog>
@@ -3253,7 +3236,7 @@ window.TrapMural = { create };
       <div class="radio-volume"><button class="volume-switch" data-radio-mute aria-label="Mute music" aria-pressed="false">VOL</button><label class="radio-sr-only" for="radio-volume">Music volume</label><input id="radio-volume" class="radio-range" data-radio-volume type="range" min="0" max="100" value="70" step="1"><span data-radio-volume-value>70%</span></div>
     </div>
     <p class="radio-away">Close this. Go make a mess. The music stays on.</p>
-    <audio data-radio-audio preload="none"></audio>
+    <audio data-radio-audio preload="none" hidden></audio>
   </dialog>
 
   <dialog class="read-dialog" aria-labelledby="read-title" data-read-dialog>
