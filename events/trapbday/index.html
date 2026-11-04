@@ -1290,7 +1290,7 @@ body.trap-event > footer {
   #jaz-workshop .home-wish-navigation>.wish-nav-meta{display:contents}
   #jaz-workshop .home-wish-navigation [data-home-position]{grid-area:position;justify-self:start;align-self:end;font-size:12px}
   #jaz-workshop .home-wish-navigation .wish-nav-meta>small{grid-area:hint;justify-self:start;align-self:start;white-space:nowrap;font-size:9px}
-  #jaz-workshop .home-wish-navigation .wish-nav-meta>button{grid-area:latest;justify-self:end;min-height:32px;font-size:9px}
+  #jaz-workshop .home-wish-navigation .wish-nav-tools{grid-area:latest;justify-self:end;justify-items:end}#jaz-workshop .home-wish-navigation .wish-nav-tools>button{min-height:28px;font-size:9px}
   #jaz-workshop .wall-station>.home-wish-find{grid-column:1;grid-row:3;min-width:0}
   #jaz-workshop .wall-station>.home-wish-find>summary{min-height:72px;padding:24px 20px;font-size:11px;line-height:24px}
   #jaz-workshop .home-wish-find .home-wish-search{padding:0 20px 16px}
@@ -1538,12 +1538,14 @@ body.trap-event > footer {
 #jaz-workshop .wish-nav-position{text-align:center;font:10px/1.4 var(--mono);color:var(--paper);white-space:nowrap}
 #jaz-workshop .wish-navigation button{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
 #jaz-workshop .wish-nav-meta{display:grid;flex:0 0 auto;width:86px;gap:3px;justify-items:center;text-align:center}
+#jaz-workshop .wish-nav-tools{display:grid;gap:3px;justify-items:center}
+#jaz-workshop .wish-nav-tools>[data-home-auto][aria-pressed=true]{color:var(--pink)}
 #jaz-workshop .wish-nav-meta small{font:8px/1.5 var(--mono);color:var(--muted)}
 #jaz-workshop .wish-key-hint{display:none}
 @media(hover:hover) and (pointer:fine){#jaz-workshop .wish-touch-hint{display:none}#jaz-workshop .wish-key-hint{display:inline}}
-#jaz-workshop .wish-nav-meta>button{min-height:24px;padding:4px 6px;border:0;border-radius:4px;background:none;color:var(--cyan);font:700 8px/1.5 var(--mono);white-space:nowrap;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
-@media(hover:hover) and (pointer:fine){#jaz-workshop .wish-nav-meta>button:hover:not(:disabled){background:#294640;color:var(--paper)}}
-#jaz-workshop .wish-nav-meta>button:active:not(:disabled){background:#35584f}
+#jaz-workshop .wish-nav-tools>button{min-height:24px;padding:4px 6px;border:0;border-radius:4px;background:none;color:var(--cyan);font:700 8px/1.5 var(--mono);white-space:nowrap;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+@media(hover:hover) and (pointer:fine){#jaz-workshop .wish-nav-tools>button:hover:not(:disabled){background:#294640;color:var(--paper)}}
+#jaz-workshop .wish-nav-tools>button:active:not(:disabled){background:#35584f}
 #jaz-workshop .home-wish-navigation{margin:0;padding:14px 10px 10px;background:#15282a;border-top:1px solid #57776555}
 #jaz-workshop .wish-search{display:grid;gap:8px;margin:18px 0;min-width:0}
 #jaz-workshop .wish-search>label{font:700 11px/1.5 var(--mono);color:var(--paper)}
@@ -1606,7 +1608,7 @@ body.trap-event > footer {
 #jaz-workshop .wall-preview.wish-next{animation:jw-wish-next .2s ease-out}
 #jaz-workshop .wall-preview.wish-prev{animation:jw-wish-prev .2s ease-out}
 @container(max-width:700px){#jaz-workshop .read-dialog h2{font-size:42px}}
-@container(max-width:320px){#jaz-workshop .home-wish-navigation{gap:7px;padding-inline:8px}#jaz-workshop .wish-nav-meta{display:flex;justify-content:center;gap:8px;width:100%}}
+@container(max-width:320px){#jaz-workshop .home-wish-navigation{gap:7px;padding-inline:8px}#jaz-workshop .wish-nav-meta{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;width:100%}#jaz-workshop .wish-nav-tools{display:flex;gap:8px}}
 
 #jaz-workshop .prelaunch-notice{max-width:40rem;padding:1.2rem 0;line-height:1.7}
 #jaz-workshop .prelaunch-notice .plain-button{margin-top:1rem}
@@ -2246,6 +2248,7 @@ window.TrapMural = { create };
   let wishes = [], totalWishes = 0, wallOffset = 0, presents = [], presentCursor = '', readingWish = null;
   let wallIndex = 0, wallRequest = null, wallMoveBusy = false, readAnimationTimer, homeTapBlocked = false, homeTapTimer;
   let wallEffectTimer = null;
+  let homeAuto = true, homeAutoTimer = null, homePressed = false;
   let wallReading = false;
   let restoreWishId = '', restorePosition = null, wallState = 'loading', wallNameFilter = '';
   let color = 'cyan', lettering = 'marker', sticker = 'star', wrapping = 'cyan';
@@ -2256,7 +2259,7 @@ window.TrapMural = { create };
   // At most one pending drawing for each public surface; hidden views do no canvas work.
   const deferredArt = new Map();
   const pageZoomed = () => Math.abs((window.visualViewport?.scale || 1) - 1) > .01;
-  const syncZoom = () => root.classList.toggle('page-zoomed', pageZoomed());
+  const syncZoom = () => { root.classList.toggle('page-zoomed', pageZoomed()); syncHomeAuto(); };
   window.visualViewport?.addEventListener('resize', syncZoom);
   syncZoom();
   const room = $('[data-room]');
@@ -2270,6 +2273,7 @@ window.TrapMural = { create };
     $('[data-group-note]').textContent = 'Come on in. Bring the birthday chaos.';
   }
   try {
+    homeAuto = localStorage.getItem('trap-home-auto') !== 'false';
     wallReading = localStorage.getItem('trap-wall-reading') === 'true';
     const saved = JSON.parse(localStorage.getItem('jaz-wall-state') || 'null');
     if (/^[a-f0-9]{24}$/.test(saved?.wishId)) restoreWishId = saved.wishId;
@@ -2315,6 +2319,7 @@ window.TrapMural = { create };
       }
     }
     flushVisibleArt();
+    syncHomeAuto();
   }
   function panel(name) {
     const giftFlow = intent === 'present' || intent === 'unwrap';
@@ -2553,6 +2558,18 @@ window.TrapMural = { create };
     $('[data-back-latest]').disabled = blocked;
     for (const form of $$('[data-wall-search]')) form.querySelector('input').disabled = form.querySelector('button').disabled = wallLoading;
     for (const button of $$('[data-wall-search-clear]')) button.disabled = wallLoading;
+    syncHomeAuto();
+  }
+  function homeAutoActive() {
+    return homeAuto && !document.hidden && !$$('dialog[open]').length && !pageZoomed() && !homePressed && !wallLoading && !wallMoveBusy && wishes.length > 0 && totalWishes > 1;
+  }
+  function syncHomeAuto() {
+    clearTimeout(homeAutoTimer); homeAutoTimer = null;
+    $('[data-home-auto]').textContent = homeAuto ? 'Auto: on' : 'Auto: off';
+    $('[data-home-auto]').setAttribute('aria-pressed', String(homeAuto));
+    $('[data-wall-preview]').setAttribute('aria-live', homeAuto ? 'off' : 'polite');
+    if (!homeAutoActive()) return;
+    homeAutoTimer = setTimeout(() => { homeAutoTimer = null; if (homeAutoActive()) moveWish(1); }, 5000);
   }
   function renderWall(direction = 0) {
     deferredArt.delete('wall');
@@ -2650,7 +2667,7 @@ window.TrapMural = { create };
     let gesture = null;
     const available = () => !pageZoomed() && wishes.length && totalWishes > 1 && !wallLoading && !wallMoveBusy && (!reader || !$('[data-read-navigation]').hidden);
     surface.addEventListener('pointerdown', event => {
-      if (home) { homeTapBlocked = false; clearTimeout(homeTapTimer); }
+      if (home) { homeTapBlocked = false; clearTimeout(homeTapTimer); homePressed = event.pointerType === 'touch'; syncHomeAuto(); }
       gesture = event.pointerType === 'touch' && event.isPrimary !== false && available()
         ? { id: event.pointerId, x: event.clientX, y: event.clientY, axis: '' } : null;
     }, { passive: true });
@@ -2663,6 +2680,7 @@ window.TrapMural = { create };
       } else if (y > 12 && y > x * 1.3) gesture.axis = 'y';
     }, { passive: true });
     surface.addEventListener('pointerup', event => {
+      if (home) { homePressed = false; syncHomeAuto(); }
       const start = gesture; gesture = null;
       if (!start || start.id !== event.pointerId || start.axis === 'y' || !available()) return;
       const x = event.clientX - start.x, y = event.clientY - start.y;
@@ -2670,7 +2688,7 @@ window.TrapMural = { create };
       if (home) { homeTapBlocked = true; homeTapTimer = setTimeout(() => { homeTapBlocked = false; }, 400); }
       if (Math.abs(x) >= 45 && Math.abs(x) > Math.abs(y) * 1.3 && available()) moveWish(x < 0 ? 1 : -1, reader);
     }, { passive: true });
-    surface.addEventListener('pointercancel', () => { gesture = null; }, { passive: true });
+    surface.addEventListener('pointercancel', () => { gesture = null; if (home) { homePressed = false; syncHomeAuto(); } }, { passive: true });
   }
   function randomWishPosition() {
     const current = wallOffset + wallIndex;
@@ -2864,7 +2882,7 @@ window.TrapMural = { create };
   function openRadio() { show($('[data-radio-dialog]')); }
 
   for (const button of $$('[data-close]')) button.addEventListener('click', () => button.closest('dialog').close());
-  for (const dialog of $$('dialog')) dialog.addEventListener('close', () => { queueMicrotask(flushVisibleArt); });
+  for (const dialog of $$('dialog')) dialog.addEventListener('close', () => { queueMicrotask(() => { flushVisibleArt(); syncHomeAuto(); }); });
   $('[data-bench-dialog]').addEventListener('close', () => clearTimeout(giftTimer));
   for (const button of $$('[data-compose]')) button.addEventListener('click', () => openBench('wish'));
   for (const button of $$('[data-open]')) button.addEventListener('click', event => {
@@ -2960,6 +2978,12 @@ window.TrapMural = { create };
     if (wallLoading || wallMoveBusy || !wishes.length) return;
     rattle($('.wall-hotspot'));
     if (wallOffset + wallIndex !== 0) jumpWish(0);
+    else syncHomeAuto();
+  });
+  $('[data-home-auto]').addEventListener('click', () => {
+    homeAuto = !homeAuto;
+    try { localStorage.setItem('trap-home-auto', String(homeAuto)); } catch {}
+    syncHomeAuto();
   });
   for (const form of $$('[data-wall-search]')) form.addEventListener('submit', event => {
     event.preventDefault(); if (wallLoading || wallMoveBusy) return;
@@ -2997,10 +3021,13 @@ window.TrapMural = { create };
   $('[data-celebrate]').addEventListener('click', () => { confetti(); });
   $('[data-reveal-close]').addEventListener('click', () => { $('[data-birthday-reveal]').hidden = true; });
   document.addEventListener('visibilitychange', () => {
+    homePressed = false;
     if (document.hidden) clearTimeout(giftTimer);
     else if (token && $('[data-bench-dialog]').open) run(refreshMe);
+    syncHomeAuto();
   });
-  window.addEventListener('pagehide', () => clearTimeout(giftTimer));
+  window.addEventListener('pagehide', () => { clearTimeout(giftTimer); clearTimeout(homeAutoTimer); });
+  window.addEventListener('pageshow', syncHomeAuto);
   setInterval(() => { if (!document.hidden) clock(); }, 1000);
   setInterval(() => { if (!document.hidden && !$$('dialog[open]').length) loadWall(); }, 60000);
   setInterval(() => { if (!document.hidden && !$$('dialog[open]').length && !reduced.matches) quip(QUIPS[Math.floor(Math.random() * QUIPS.length)]); }, 75000);
@@ -3094,7 +3121,7 @@ window.TrapMural = { create };
       </div>
       <div class="wish-nav-meta">
         <span class="wish-nav-position" data-home-position aria-label="Current wish"></span><small><span class="wish-touch-hint">Swipe left or right</span><span class="wish-key-hint">Use ← → keys</span></small>
-        <button type="button" data-back-latest>Back to latest</button>
+        <div class="wish-nav-tools"><button type="button" data-back-latest>Back to latest</button><button type="button" data-home-auto aria-pressed="true" aria-controls="room-wall-preview" aria-label="Automatically switch wishes every 5 seconds">Auto: on</button></div>
       </div>
     </nav>
     <details class="home-wish-find" data-home-find><summary>Find a name</summary><form class="wish-search home-wish-search" data-wall-search="home" role="search" aria-label="Find a birthday wish by name">
