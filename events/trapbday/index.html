@@ -1118,9 +1118,9 @@ body.trap-event > footer {
 #jaz-workshop .preview-foot{margin-top:25px;margin-bottom:0;font-size:13px;color:var(--yellow);transform:rotate(3deg)}
 #jaz-workshop .form-status{font-size:12px;white-space:pre-line;color:var(--yellow);min-height:21px;margin-top:22px;overflow-wrap:anywhere}
 #jaz-workshop .loot-intro{font-size:16px;max-width:620px}
-#jaz-workshop .loot-crates{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px;margin:28px 0}
+#jaz-workshop .loot-crates{display:grid;grid-template-columns:repeat(var(--loot-columns,3),minmax(0,1fr));gap:17px;margin:28px 0}
 #jaz-workshop .loot-item{position:relative;padding:24px 15px 15px;min-width:0;min-height:225px;background:repeating-linear-gradient(0deg,#283e35 0 44px,#1a302c 44px 47px);border:3px solid #61795e;border-radius:2px;color:var(--paper);box-shadow:4px 5px 0 #041b24;text-align:center;transform:rotate(var(--tilt,-1deg));transition:transform .15s,border-color .15s}
-#jaz-workshop .loot-item:before{content:'1 PIP';position:absolute;right:9px;top:-10px;padding:4px 7px;font:700 8px var(--mono);color:#21382e;background:var(--paper);transform:rotate(5deg)}
+#jaz-workshop .loot-item:before{content:attr(data-pips) ' PIPS';position:absolute;right:9px;top:-10px;padding:4px 7px;font:700 8px var(--mono);color:#21382e;background:var(--paper);transform:rotate(5deg)}
 #jaz-workshop .loot-item:hover:not(:disabled){transform:rotate(0) translateY(-5px)}
 #jaz-workshop .loot-item.selected{border-color:var(--cyan);background:#234b40;box-shadow:0 0 0 2px #6ee6dc55,4px 5px 0 #041b24}
 #jaz-workshop .loot-item img{display:block;width:100%;height:115px;object-fit:contain;filter:drop-shadow(2px 4px 3px #0008)}
@@ -2338,8 +2338,8 @@ window.TrapMural = { create };
   function syncPolicy(event) {
     if (typeof event.prelaunchMode === 'boolean') { prelaunchMode = event.prelaunchMode; policyKnown = true; }
     if (typeof event.giftsSent === 'number') $('[data-event-status]').textContent = prelaunchMode
-      ? `Wishes & gift stash · not open yet · ${event.giftsSent} / 500 gifts sent`
-      : event.rewardsOpen ? `Gift hatch open · ${event.giftsSent} / 500 gifts sent` : event.wishesOpen ? 'Wall open. Gift hatch paused.' : 'The workshop is open to explore. New marks are paused.';
+      ? `Wishes & gift stash · not open yet · ${event.giftsSent} / ${event.giftCapacity || 150} gifts sent`
+      : event.rewardsOpen ? `Gift hatch open · ${event.giftsSent} / ${event.giftCapacity || 150} gifts sent` : event.wishesOpen ? 'Wall open. Gift hatch paused.' : 'The workshop is open to explore. New marks are paused.';
   }
   async function loadStatus() {
     if (!statusRequest) {
@@ -2403,6 +2403,7 @@ window.TrapMural = { create };
       headers: read ? action === 'presents' && token ? { authorization: `Bearer ${token}` } : {} : { 'content-type': 'application/json' }, body: read ? undefined : JSON.stringify({ ...input, token }), signal: AbortSignal.timeout(25000) });
     let data; try { data = await response.json(); } catch { throw new Error('The workshop’s connection dropped. Your draft is still here.'); }
     if (!response.ok || data.ok === false) throw Object.assign(new Error(data.error || 'That didn’t go through. Try again in a moment.'), { statusCode: response.status, prelaunchMode: typeof data.prelaunchMode === 'boolean' ? data.prelaunchMode : undefined });
+    if (data.flowVersion !== undefined && data.flowVersion !== 3 && ['account', 'verification', 'me'].includes(action)) throw new Error('The gift hatch is updating. Please check back in a moment.');
     return data;
   }
   async function humanToken() {
@@ -2775,21 +2776,24 @@ window.TrapMural = { create };
   function renderLoot(data) {
     clearTimeout(giftTimer); const reward = data.reward;
     $('[data-repeat-gift]').hidden = data.canRepeatGift !== true;
-    $('[data-reward-rules]').textContent = prelaunchMode && data.participationAllowed === true ? 'Early access: each 1-Pip gift counts toward the shared 500-Pip birthday pot.' : 'One 1-Pip gift per Arcade account, from the shared 500-Pip birthday pot.';
+    const tier = data.assignedPips;
+    $('[data-reward-rules]').textContent = (prelaunchMode && data.participationAllowed === true ? 'Early access: repeat gifts keep your assigned Pip tier. ' : 'One gift per Arcade account. ')
+      + (tier ? `Your ${tier}-Pip tier is saved to your account. ` : 'Your random Pip tier stays with your account. ') + '150 gifts · 600-Pip birthday pot.';
     selected = reward?.selected || (data.offer || []).some(item => item.skuId === selected) && selected || '';
     $('[data-loot-intro]').textContent = reward?.status === 'sent' ? `It’s yours, ${data.name}. Excellent taste.` : data.offer?.length ? 'Your mark’s saved. Pick something from the hatch. Yes, really.' : data.rewardMessage || 'Your mark’s saved. The gift hatch isn’t open right now.';
-    const list = $('[data-rewards]'); list.replaceChildren();
+    const list = $('[data-rewards]'); list.replaceChildren(); list.style.setProperty('--loot-columns', Math.min(3, Math.max(1, data.offer?.length || 0)));
     for (const [i, item] of (data.offer || []).entries()) {
       const card = document.createElement('button'); card.type = 'button'; card.className = 'loot-item'; card.dataset.sku = item.skuId;
-      card.style.setProperty('--tilt', `${[-2, 2, -1][i]}deg`); card.classList.toggle('selected', selected === item.skuId); card.setAttribute('aria-pressed', String(selected === item.skuId));
+      card.dataset.pips = item.priceInPips;
+      card.style.setProperty('--tilt', `${[-2, 2, -1][i % 3]}deg`); card.classList.toggle('selected', selected === item.skuId); card.setAttribute('aria-pressed', String(selected === item.skuId));
       card.disabled = ['queued', 'sending', 'ambiguous', 'sent'].includes(reward?.status);
       if (item.imageUrl) { const img = document.createElement('img'); img.src = item.imageUrl; img.alt = ''; img.loading = 'lazy'; card.append(img); }
       else { const missing = document.createElement('span'); missing.className = 'loot-image-missing'; missing.textContent = 'Image unavailable'; card.append(missing); }
-      const title = document.createElement('h3'); title.textContent = item.title; const price = document.createElement('small'); price.textContent = '1 PIP · BIRTHDAY POT'; card.append(title, price);
+      const title = document.createElement('h3'); title.textContent = item.title; const price = document.createElement('small'); price.textContent = `${item.priceInPips} PIPS · BIRTHDAY POT`; card.append(title, price);
       card.addEventListener('click', () => { selected = item.skuId; renderLoot(me); }); list.append(card);
     }
     const labels = { queued: 'Picked and safely queued. The bot’s on it.', sending: 'Sending your Plato gift. Hold your paint can.', ambiguous: 'No confirmed receipt yet. Your gift stays reserved while delivery is checked. Don’t pick another.', ready: 'That gift wasn’t sent. You can try the saved choice again.', sent: `DELIVERED. Yours, ${data.name}. ✺` };
-    $('[data-delivery]').hidden = !reward; $('[data-delivery]').classList.toggle('sent', reward?.status === 'sent');
+    $('[data-delivery]').hidden = !labels[reward?.status]; $('[data-delivery]').classList.toggle('sent', reward?.status === 'sent');
     if (reward) $('[data-delivery]').textContent = labels[reward.status] || 'Your choice is waiting in the hatch.';
     $('[data-claim]').textContent = reward?.status === 'sent' ? 'YOURS. ENJOY. ✓' : selected ? 'THIS ONE. SEND IT. ↗' : 'PICK YOUR LOOT ↑'; updateClaimButton();
     if (['queued', 'sending'].includes(reward?.status) && $('[data-bench-dialog]').open && !document.hidden) giftTimer = setTimeout(() => refreshMe().catch(error => status(error.message)), 3000);
@@ -3228,7 +3232,7 @@ window.TrapMural = { create };
       <p class="draw-status" data-draw-status role="status" aria-live="polite"></p>
       <p class="small-note">Your graffiti and written wish are saved and reviewed together.</p>
     </section></div><div class="wish-review"><div class="preview-board"><span class="scribble">your graffiti + wish ↓</span><article class="graffiti-mark" data-mark-preview tabindex="0" aria-label="Your wish preview"></article><span class="scribble preview-foot">beautifully questionable.</span></div><button class="ink-button" type="submit">SPRAY IT ✺</button><p class="small-note">*She doesn’t. Probably. Your mark goes to the approval queue.</p></div></form></div></section>
-    <section data-panel="loot" hidden><p class="loot-intro" data-loot-intro>Your mark’s saved. Now rob the gift hatch.</p><div class="loot-crates" data-rewards></div><div class="delivery-slip" data-delivery hidden role="status"></div><button class="ink-button" data-claim disabled>PICK YOUR LOOT ↑</button><button class="ink-button" type="button" data-repeat-gift hidden>START AGAIN ↻</button><div class="bench-links"><button class="plain-button" data-own-wish>READ MY MARK ↗</button><button class="plain-button" data-close>BACK TO THE WORKSHOP ↩</button></div><p class="small-note" data-reward-rules>One 1-Pip gift per Arcade account, from the shared 500-Pip birthday pot.</p></section>
+    <section data-panel="loot" hidden><p class="loot-intro" data-loot-intro>Your mark’s saved. Now rob the gift hatch.</p><div class="loot-crates" data-rewards></div><div class="delivery-slip" data-delivery hidden role="status"></div><button class="ink-button" data-claim disabled>PICK YOUR LOOT ↑</button><button class="ink-button" type="button" data-repeat-gift hidden>START AGAIN ↻</button><div class="bench-links"><button class="plain-button" data-own-wish>READ MY MARK ↗</button><button class="plain-button" data-close>BACK TO THE WORKSHOP ↩</button></div><p class="small-note" data-reward-rules>One gift per Arcade account · a saved random 2, 5, 10 or 15-Pip tier · 150 gifts in the 600-Pip birthday pot.</p></section>
     <section data-panel="present" hidden><p class="bench-intro">Tell Trap what you’re gifting her on 9 November. Plato items are especially welcome. ♡</p><form data-present-form><label for="workshop-note">Your gift for Trap</label><textarea id="workshop-note" rows="5" minlength="3" maxlength="1200" placeholder="Plato item name, or the gift you’re planning for her…" required></textarea><fieldset><legend>Wrap it badly</legend><div class="wrap-options"><button type="button" data-wrap="cyan" aria-pressed="true" class="selected"><span></span>Blue</button><button type="button" data-wrap="pink" aria-pressed="false"><span></span>Pink</button><button type="button" data-wrap="yellow" aria-pressed="false"><span></span>Yellow</button></div></fieldset><p class="small-note">This wraps your gift details for Trap. You’ll send the actual gift yourself on her birthday. Gifts are reviewed before she can open them.</p><button type="submit" class="ink-button">WRAP MY GIFT ▣</button></form><div class="saved-present" data-saved-present hidden><p data-own-present-status>Wrapped and waiting for approval.</p><blockquote data-own-note></blockquote><button class="plain-button" data-close>DON’T SHAKE IT ↩</button></div></section>
     <p class="form-status" data-form-status role="status" aria-live="polite"></p>
   </dialog>
@@ -3272,7 +3276,7 @@ window.TrapMural = { create };
     <p class="form-status" data-mural-status role="status" aria-live="polite"></p>
   </dialog>
 
-  <dialog class="info-dialog" aria-labelledby="info-title" data-info-dialog><button class="close-bolt" data-close aria-label="Close workshop guide">×</button><p class="tape-label">SOME VERY LOOSE INSTRUCTIONS</p><h2 id="info-title">TOUCH<br><em>STUFF.</em></h2><p>The wall’s for birthday wishes. The stash is for gifts you’re planning to give Trap, preferably a Plato item. The radio does radio things.</p><p>Leave a verified Arcade birthday wish and the gift hatch offers up to three eligible 1-Pip Plato items. Pick one. The bot sends it to your account.</p><p>There are four suspicious things to find. Nobody is offering a sensible prize for that.</p><button class="ink-button" data-close>RIGHT. GOT IT. ↩</button></dialog>
+  <dialog class="info-dialog" aria-labelledby="info-title" data-info-dialog><button class="close-bolt" data-close aria-label="Close workshop guide">×</button><p class="tape-label">SOME VERY LOOSE INSTRUCTIONS</p><h2 id="info-title">TOUCH<br><em>STUFF.</em></h2><p>The wall’s for birthday wishes. The stash is for gifts you’re planning to give Trap, preferably a Plato item. The radio does radio things.</p><p>Leave a verified Arcade birthday wish and the gift hatch offers up to five unowned Plato items at your randomly assigned Pip value. Pick one. The bot sends it to your account.</p><p>There are four suspicious things to find. Nobody is offering a sensible prize for that.</p><button class="ink-button" data-close>RIGHT. GOT IT. ↩</button></dialog>
   <noscript><p class="noscript-message">Trap’s workshop needs JavaScript for the radio, birthday gift stash and real gift hatch. Happy birthday, Trap. ♡</p></noscript>
 </div>
 
