@@ -2258,9 +2258,15 @@ window.TrapMural = { create };
   const secrets = new Set();
   // At most one pending drawing for each public surface; hidden views do no canvas work.
   const deferredArt = new Map();
-  const pageZoomed = () => Math.abs((window.visualViewport?.scale || 1) - 1) > .01;
+  // A phone's fitted desktop page can have scale < 1 without being pinch-zoomed.
+  // Compare CSS viewport widths so that only an actually cropped view yields panning.
+  const pageZoomed = () => {
+    const visibleWidth = window.visualViewport?.width, layoutWidth = document.documentElement.clientWidth;
+    return visibleWidth > 0 && layoutWidth > 0 && Math.abs(layoutWidth / visibleWidth - 1) > .02;
+  };
   const syncZoom = () => { root.classList.toggle('page-zoomed', pageZoomed()); syncHomeAuto(); };
   window.visualViewport?.addEventListener('resize', syncZoom);
+  window.addEventListener('resize', syncZoom);
   syncZoom();
   const room = $('[data-room]');
   // Keep native image menus and dragging out of the decorative frame preview.
