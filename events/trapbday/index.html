@@ -2793,7 +2793,8 @@ window.TrapMural = { create };
     clearTimeout(giftTimer); const reward = data.reward;
     const tier = data.assignedPips;
     $('[data-reward-rules]').textContent = 'One gift per Arcade account. '
-      + (tier ? `Your ${tier}-Pip tier is saved to your account. ` : 'Your random Pip tier stays with your account. ') + '150 gifts · 600-Pip birthday pot.';
+      + (tier ? `Your ${tier}-Pip tier is saved to your account. ` : 'Your random Pip tier stays with your account. ')
+      + `${data.giftCapacity || 150} gifts · ${data.budgetPips || 600}-Pip birthday pot.`;
     selected = reward?.selected || (data.offer || []).some(item => item.skuId === selected) && selected || '';
     $('[data-loot-intro]').textContent = reward?.status === 'sent' ? `It’s yours, ${data.name}. Excellent taste.` : data.offer?.length ? 'Your mark’s saved. Pick something from the hatch. Yes, really.' : data.rewardMessage || 'Your mark’s saved. The gift hatch isn’t open right now.';
     const list = $('[data-rewards]'); list.replaceChildren(); list.style.setProperty('--loot-columns', Math.min(3, Math.max(1, data.offer?.length || 0)));
