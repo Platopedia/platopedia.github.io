@@ -2244,7 +2244,7 @@ window.TrapMural = { create };
   const STICKERS = { star: '✦', heart: '♡', bolt: 'ϟ', none: '' };
   const QUIPS = ['That button had it coming.', 'Trap gets the good chair.', 'Absolutely no refunds on glitter.', 'Don’t lick the paint.', 'This seemed like a good idea yesterday.', 'The monkey knows what you did.'];
   let token = '', me = null, busy = false, intent = 'wish', selected = '', giftTimer = null, profileVersion = 0;
-  let prelaunchMode = false, policyKnown = false, statusRequest = null;
+  let prelaunchMode = false, policyKnown = false, statusRequest = null, wishesOpen = null, stashOpen = null;
   const WALL_PAGE_SIZE = 24;
   let wishes = [], totalWishes = 0, wallOffset = 0, presents = [], presentCursor = '', readingWish = null;
   let wallIndex = 0, wallRequest = null, wallMoveBusy = false, readAnimationTimer, homeTapBlocked = false, homeTapTimer;
@@ -2331,23 +2331,41 @@ window.TrapMural = { create };
   function panel(name) {
     const giftFlow = intent === 'present' || intent === 'unwrap';
     for (const node of $$('[data-panel]')) node.hidden = node.dataset.panel !== name;
+    if (name === 'wishes-closed') $('[data-check-saved-wish]').hidden = Boolean(me?.verified);
     for (const step of $$('[data-step]')) {
-      step.hidden = name === 'prelaunch' || giftFlow && step.dataset.step === 'loot';
+      step.hidden = name === 'prelaunch' || name === 'wishes-closed' || giftFlow && step.dataset.step === 'loot';
       step.textContent = step.dataset.step === 'account' ? '01 / YOU' : step.dataset.step === 'wish' ? giftFlow ? '02 / YOUR GIFT' : '02 / YOUR MARK' : '03 / THE LOOT';
       step.classList.toggle('current', step.dataset.step === (name === 'present' ? 'wish' : name));
     }
     $('[data-bench-label]').textContent = giftFlow ? 'THE WRAPPING BENCH' : 'THE SPRAY BENCH';
     $('#bench-title').replaceChildren();
-    const title = name === 'prelaunch' ? ['NOT OPEN', 'JUST YET.'] : giftFlow ? ['A GIFT.', 'FOR TRAP.'] : name === 'loot' ? ['OHH.', 'SHINY.'] : ['MAKE A', 'PROPER MESS.'];
+    const title = name === 'prelaunch' ? ['NOT OPEN', 'JUST YET.'] : name === 'wishes-closed' ? ['WISHES', 'CLOSED.'] : giftFlow ? ['A GIFT.', 'FOR TRAP.'] : name === 'loot' ? ['OHH.', 'SHINY.'] : ['MAKE A', 'PROPER MESS.'];
     $('#bench-title').append(document.createTextNode(title[0]), document.createElement('br'));
     const em = document.createElement('em'); em.textContent = title[1]; $('#bench-title').append(em); status();
   }
   function canEnter() { return me?.verified && (!prelaunchMode || me.participationAllowed === true); }
+  function entryPanel() {
+    if (intent === 'wish' && wishesOpen === false) return 'wishes-closed';
+    return prelaunchMode && !canEnter() ? 'prelaunch' : 'account';
+  }
   function syncPolicy(event) {
     if (typeof event.prelaunchMode === 'boolean') { prelaunchMode = event.prelaunchMode; policyKnown = true; }
+    if (typeof event.wishesOpen === 'boolean') {
+      wishesOpen = event.wishesOpen;
+      $('[data-compose-title]').textContent = wishesOpen ? 'LEAVE YOUR MARK' : 'WISHES CLOSED';
+      $('[data-compose-detail]').textContent = wishesOpen ? 'birthday wish in. little gift out.' : 'Check a wish you already saved.';
+    }
+    if (typeof event.stashOpen === 'boolean') {
+      stashOpen = event.stashOpen;
+      $('[data-write-present]').textContent = stashOpen ? 'ADD A PRESENT ▣' : 'VIEW MY GIFT ▣';
+      $('[data-stash-description]').textContent = stashOpen
+        ? 'Birthday gifts for Trap, wrapped up and waiting for her. Add what you’re planning to give her.'
+        : 'Trap’s stash is closed to new entries. You can still view saved gifts.';
+      $('[data-stash-empty-copy]').textContent = stashOpen ? 'No gifts wrapped yet. Got something in mind for Trap?' : 'No gifts were wrapped.';
+    }
     if (typeof event.giftsSent === 'number') $('[data-event-status]').textContent = prelaunchMode
       ? `Wishes & gift stash · not open yet · ${event.giftsSent} / ${event.giftCapacity || 150} gifts sent`
-      : event.rewardsOpen ? `Gift hatch open · ${event.giftsSent} / ${event.giftCapacity || 150} gifts sent` : event.wishesOpen ? 'Wall open. Gift hatch paused.' : 'The workshop is open to explore. New marks are paused.';
+      : event.rewardsOpen ? `${wishesOpen === false ? 'Wishes closed · ' : ''}Gift hatch open · ${event.giftsSent} / ${event.giftCapacity || 150} gifts sent` : wishesOpen ? 'Wall open. Gift hatch paused.' : 'The workshop is open to explore. New marks are paused.';
   }
   async function loadStatus() {
     if (!statusRequest) {
@@ -2768,15 +2786,22 @@ window.TrapMural = { create };
     }
     if (intent === 'unwrap') {
       if (data.canUnwrap) { show($('[data-stash-dialog]')); loadPresents(); toast('There she is. Have at them.'); }
-      else { panel('present'); status('Nice try. Trap’s presents are for Trap. You can leave her one, though.'); renderOwnPresent(data.present); }
+      else { panel('present'); status('Nice try. Trap’s presents are for Trap.'); renderOwnPresent(data.present); }
       return;
     }
     if (intent === 'present') { panel('present'); renderOwnPresent(data.present); return; }
-    if (data.wishResetId || !data.wish && data.reward?.status !== 'sent') { panel('wish'); updatePreview(); return; }
+    if (data.wishResetId || !data.wish && data.reward?.status !== 'sent') {
+      if (wishesOpen === false) { panel('wishes-closed'); return; }
+      panel('wish'); updatePreview(); return;
+    }
     panel('loot'); renderLoot(data);
   }
   function renderOwnPresent(present) {
-    $('[data-present-form]').hidden = Boolean(present); $('[data-saved-present]').hidden = !present;
+    const closed = stashOpen === false;
+    $('[data-present-intro]').hidden = Boolean(present) || closed;
+    $('[data-present-form]').hidden = Boolean(present) || closed;
+    $('[data-present-closed]').hidden = Boolean(present) || !closed;
+    $('[data-saved-present]').hidden = !present;
     if (present) {
       $('[data-own-note]').textContent = present.message;
       const moderation = present.moderation || (present.openedAt ? 'approved' : 'pending');
@@ -2824,11 +2849,13 @@ window.TrapMural = { create };
     } catch (error) { if (accountToken === token && version === profileVersion) throw error; }
   }
   async function openBench(nextIntent = 'wish') {
-    intent = nextIntent; show($('[data-bench-dialog]')); panel(prelaunchMode && !canEnter() ? 'prelaunch' : 'account');
+    intent = nextIntent;
+    const initialPanel = entryPanel();
+    show($('[data-bench-dialog]')); panel(initialPanel);
     $('[data-account-form]').hidden = false; $('[data-verify-slip]').hidden = true;
     if (token) await run(refreshMe);
     else loadStatus().then(() => {
-      if ($('[data-bench-dialog]').open && !token && !busy && intent === nextIntent) panel(prelaunchMode ? 'prelaunch' : 'account');
+      if ($('[data-bench-dialog]').open && !token && !busy && intent === nextIntent && entryPanel() !== initialPanel) panel(entryPanel());
     }).catch(error => { if (!policyKnown) status(error.message); });
   }
   async function openStash() {
@@ -2853,7 +2880,7 @@ window.TrapMural = { create };
       const number = document.createElement('span'); number.className = 'gift-number'; number.textContent = present.opened ? 'TRAP OPENED THIS ONE' : 'TO TRAP. OBVIOUSLY.';
       box.append(block, bow, number); box.addEventListener('click', () => openPresent(present, box)); pile.append(box);
     }
-    $('[data-stash-empty]').hidden = total !== 0; $('[data-present-count]').textContent = total ? `${total} ${total === 1 ? 'PRESENT' : 'PRESENTS'} FOR TRAP` : 'ADD YOUR GIFT';
+    $('[data-stash-empty]').hidden = total !== 0; $('[data-present-count]').textContent = total ? `${total} ${total === 1 ? 'PRESENT' : 'PRESENTS'} FOR TRAP` : stashOpen === false ? 'GIFT STASH CLOSED' : 'ADD YOUR GIFT';
     $('[data-stash-status]').textContent = me?.canUnwrap ? `${total} presents. You’re the birthday girl: click one to unwrap it.` : `${total} ${total === 1 ? 'present' : 'presents'}, patiently waiting for the birthday girl.`;
   }
   async function loadPresents(more = false) {
@@ -2904,7 +2931,9 @@ window.TrapMural = { create };
   for (const selector of ['[data-wall-reading]', '[data-read-reading]']) {
     const button = $(selector); button.addEventListener('click', () => { if (!button.hidden) toggleReadingMode(); });
   }
-  $('[data-early-access]').addEventListener('click', () => { panel('account'); $('[data-account-form]').hidden = false; $('[data-verify-slip]').hidden = true; $('#workshop-friend').focus(); });
+  for (const selector of ['[data-early-access]', '[data-check-saved-wish]']) {
+    $(selector).addEventListener('click', () => { panel('account'); $('[data-account-form]').hidden = false; $('[data-verify-slip]').hidden = true; $('#workshop-friend').focus(); });
+  }
   $('[data-write-present]').addEventListener('click', () => openBench('present'));
   $('[data-jaz-login]').addEventListener('click', () => openBench('unwrap'));
   $('[data-account-form]').addEventListener('submit', event => { event.preventDefault(); run(async () => {
@@ -2946,7 +2975,13 @@ window.TrapMural = { create };
     if ([...message].length < 10 || [...message].length > 600) throw new Error('Write a birthday wish of 10–600 characters. Your graffiti and message are both required.');
     if (!paintAvailable) throw new Error('The paint wall is still warming up. Your drawing is saved.');
     if (!art) throw new Error('Add your graffiti before submitting. Your painting and written wish are both required.');
-    const data = await api('wish', { message, color, style: lettering, sticker, art, ...(me?.wishResetId ? { resetWishId: me.wishResetId } : {}) });
+    let data;
+    try { data = await api('wish', { message, color, style: lettering, sticker, art, ...(me?.wishResetId ? { resetWishId: me.wishResetId } : {}) }); }
+    catch (error) {
+      if (error.statusCode !== 423 || error.prelaunchMode) throw error;
+      syncPolicy({ wishesOpen: false });
+      panel('wishes-closed'); return;
+    }
     if (!data.wish) { renderMe(data); return; }
     clearWishDraft();
     renderMe(data); $('[data-panel=loot]').classList.add('spray-arrival'); toast('Your mark’s saved. That wall had it coming.'); loadWall();
@@ -3016,7 +3051,14 @@ window.TrapMural = { create };
   });
   $('#workshop-note').addEventListener('input', () => { try { localStorage.setItem('jaz-private-draft', $('#workshop-note').value); } catch {} });
   $('[data-present-form]').addEventListener('submit', event => { event.preventDefault(); run(async () => {
-    const data = await api('present', { message: $('#workshop-note').value.trim(), wrap: wrapping }); me = { ...me, present: data.present }; freshPresentId = data.present.id; renderOwnPresent(data.present);
+    let data;
+    try { data = await api('present', { message: $('#workshop-note').value.trim(), wrap: wrapping }); }
+    catch (error) {
+      if (error.statusCode !== 423 || error.prelaunchMode) throw error;
+      syncPolicy({ stashOpen: false });
+      renderOwnPresent(me?.present); return;
+    }
+    me = { ...me, present: data.present }; freshPresentId = data.present.id; renderOwnPresent(data.present);
     try { localStorage.removeItem('jaz-private-draft'); } catch {} confetti({ x: .8, y: .75 }); toast('Your gift is wrapped. Waiting for approval. ♡'); loadPresents();
   }); });
   $('[data-danger]').addEventListener('click', event => randomRoomWish(event.currentTarget));
@@ -3136,7 +3178,7 @@ window.TrapMural = { create };
       <label class="visually-hidden" for="wish-name-home">Find someone’s wish</label><div><input id="wish-name-home" type="search" maxlength="80" autocomplete="off" placeholder="Plato name…"><button type="submit">Find</button><button type="button" data-wall-search-clear hidden>Clear</button></div><p data-wall-search-status role="status" aria-live="polite" hidden></p>
     </form></details>
     <div class="wall-actions" id="workshop-controls">
-      <button class="spray-main pressable" data-compose><span class="spray-icon" aria-hidden="true">✺</span><span>LEAVE YOUR MARK<small>birthday wish in. little gift out.</small></span><b>↗</b></button>
+      <button class="spray-main pressable" data-compose><span class="spray-icon" aria-hidden="true">✺</span><span><span data-compose-title>LEAVE YOUR MARK</span><small data-compose-detail>birthday wish in. little gift out.</small></span><b>↗</b></button>
 
     </div>
     </div>
@@ -3228,6 +3270,7 @@ window.TrapMural = { create };
     <div class="linked-account" data-linked-account hidden><span>Using <strong data-linked-name dir="auto"></strong></span><button type="button" data-change-account>Change friend link</button></div>
     <section data-panel="account"><p class="bench-intro">First, who’s joining the party? ♡</p><form data-account-form><label for="workshop-friend">Your Plato friend link</label><input id="workshop-friend" type="url" autocomplete="off" placeholder="https://platoapp.com/link/…" required><p class="small-note">Arcade members only. Your link stays private.</p><div class="account-check-slot" data-account-check-slot hidden></div><button type="submit" class="ink-button">THAT’S ME ↗</button></form><div class="verify-slip" data-verify-slip hidden><p data-account-name></p><p>Send this exact line in the <strong>Arcade Group chat</strong>, then pop back.</p><button class="verify-code" data-copy-code></button><button class="ink-button" data-verify>I SENT IT ↗</button><p class="small-note">Use the account linked above. No impersonating the birthday girl.</p></div></section>
     <section data-panel="prelaunch" hidden><div class="prelaunch-notice"><p>Wishes and Trap’s gift stash aren’t open yet. Check back soon.</p><button class="plain-button" type="button" data-early-access>HAVE EARLY ACCESS? ↗</button></div></section>
+    <section data-panel="wishes-closed" hidden><div class="prelaunch-notice"><p>The birthday wall is closed to new wishes.</p><button class="plain-button" type="button" data-check-saved-wish>CHECK MY SAVED WISH ↗</button></div></section>
     <section data-panel="wish" hidden><div class="spray-bench"><form data-wish-form><div class="wish-editor"><p class="small-note" data-wish-reset hidden>Your wish was reset. Add a new mark; your gift stays unchanged.</p><label for="workshop-wish">Go on. Say the thing.</label><textarea id="workshop-wish" rows="5" minlength="10" maxlength="600" required placeholder="Trap, you absolute…"></textarea><div class="field-bottom"><span>Keep it kind. She knows where you live.*</span><span data-char-count>0 / 600</span></div><div class="wish-text-options" data-text-options><fieldset><legend>Message colour</legend><div class="can-row" data-can-row></div></fieldset><fieldset><legend>Your handwriting, but worse</legend><div class="choice-row"><button class="mini-button selected" type="button" data-lettering="marker" aria-pressed="true">Marker</button><button class="mini-button" type="button" data-lettering="spray" aria-pressed="false">LOUD</button><button class="mini-button" type="button" data-lettering="note" aria-pressed="false">Love note</button></div></fieldset><fieldset><legend>Needs a little something</legend><div class="sticker-row"><button type="button" data-sticker="star" aria-label="Star sticker" aria-pressed="true" class="selected">✦</button><button type="button" data-sticker="heart" aria-label="Heart sticker" aria-pressed="false">♡</button><button type="button" data-sticker="bolt" aria-label="Lightning sticker" aria-pressed="false">ϟ</button><button type="button" data-sticker="none" aria-pressed="false">nah</button></div></fieldset></div><section class="graffiti-bench" data-graffiti hidden aria-labelledby="graffiti-title">
       <div class="graffiti-heading"><h3 id="graffiti-title">PAINT YOUR GRAFFITI.</h3><span>REQUIRED</span></div>
       <p id="cover-help">A little paint and a written wish. Both required. Draw here; scroll outside the board.</p>
@@ -3251,11 +3294,11 @@ window.TrapMural = { create };
       <p class="small-note">Your graffiti and written wish are saved and reviewed together.</p>
     </section></div><div class="wish-review"><div class="preview-board"><span class="scribble">your graffiti + wish ↓</span><article class="graffiti-mark" data-mark-preview tabindex="0" aria-label="Your wish preview"></article><span class="scribble preview-foot">beautifully questionable.</span></div><button class="ink-button" type="submit">SPRAY IT ✺</button><p class="small-note">*She doesn’t. Probably. Your mark goes to the approval queue.</p></div></form></div></section>
     <section data-panel="loot" hidden><p class="loot-intro" data-loot-intro>Your mark’s saved. Now rob the gift hatch.</p><div class="loot-crates" data-rewards></div><div class="delivery-slip" data-delivery hidden role="status"></div><button class="ink-button" data-claim disabled>PICK YOUR LOOT ↑</button><div class="bench-links"><button class="plain-button" data-own-wish>READ MY MARK ↗</button><button class="plain-button" data-close>BACK TO THE WORKSHOP ↩</button></div><p class="small-note" data-reward-rules>One gift per Arcade account · a saved random 2, 5, 10 or 15-Pip tier · 150 gifts in the 600-Pip birthday pot.</p></section>
-    <section data-panel="present" hidden><p class="bench-intro">Tell Trap what you’re gifting her on 9 November. Plato items are especially welcome. ♡</p><form data-present-form><label for="workshop-note">Your gift for Trap</label><textarea id="workshop-note" rows="5" minlength="3" maxlength="1200" placeholder="Plato item name, or the gift you’re planning for her…" required></textarea><fieldset><legend>Wrap it badly</legend><div class="wrap-options"><button type="button" data-wrap="cyan" aria-pressed="true" class="selected"><span></span>Blue</button><button type="button" data-wrap="pink" aria-pressed="false"><span></span>Pink</button><button type="button" data-wrap="yellow" aria-pressed="false"><span></span>Yellow</button></div></fieldset><p class="small-note">This wraps your gift details for Trap. You’ll send the actual gift yourself on her birthday. Gifts are reviewed before she can open them.</p><button type="submit" class="ink-button">WRAP MY GIFT ▣</button></form><div class="saved-present" data-saved-present hidden><p data-own-present-status>Wrapped and waiting for approval.</p><blockquote data-own-note></blockquote><button class="plain-button" data-close>DON’T SHAKE IT ↩</button></div></section>
+    <section data-panel="present" hidden><p class="bench-intro" data-present-intro>Tell Trap what you’re gifting her on 9 November. Plato items are especially welcome. ♡</p><p class="bench-intro" data-present-closed hidden>Trap’s stash is closed to new entries.</p><form data-present-form><label for="workshop-note">Your gift for Trap</label><textarea id="workshop-note" rows="5" minlength="3" maxlength="1200" placeholder="Plato item name, or the gift you’re planning for her…" required></textarea><fieldset><legend>Wrap it badly</legend><div class="wrap-options"><button type="button" data-wrap="cyan" aria-pressed="true" class="selected"><span></span>Blue</button><button type="button" data-wrap="pink" aria-pressed="false"><span></span>Pink</button><button type="button" data-wrap="yellow" aria-pressed="false"><span></span>Yellow</button></div></fieldset><p class="small-note">This wraps your gift details for Trap. You’ll send the actual gift yourself on her birthday. Gifts are reviewed before she can open them.</p><button type="submit" class="ink-button">WRAP MY GIFT ▣</button></form><div class="saved-present" data-saved-present hidden><p data-own-present-status>Wrapped and waiting for approval.</p><blockquote data-own-note></blockquote><button class="plain-button" data-close>DON’T SHAKE IT ↩</button></div></section>
     <p class="form-status" data-form-status role="status" aria-live="polite"></p>
   </dialog>
 
-  <dialog class="stash-dialog" id="workshop-stash" aria-labelledby="stash-title" data-stash-dialog><button class="close-bolt" data-close aria-label="Close Trap’s stash">×</button><p class="tape-label">THE BIRTHDAY GIRL’S PROPERTY</p><div class="stash-heading"><h2 id="stash-title">HANDS OFF.<br><em>TRAP’S STASH.</em></h2><button class="ink-button pink-button" data-write-present>ADD A PRESENT ▣</button></div><p class="stash-description">Birthday gifts for Trap, wrapped up and waiting for her. Add what you’re planning to give her.</p><p class="small-note" data-stash-status>Looking for the pile…</p><div class="present-pile" data-present-pile></div><div class="empty-stash" data-stash-empty hidden><span>▣</span><p>No gifts wrapped yet. Got something in mind for Trap?</p></div><button class="plain-button load-more" data-more-presents hidden>MORE IN THE PILE ↓</button><button class="plain-button" data-jaz-login>I’M TRAP. LET ME AT THEM. ↗</button></dialog>
+  <dialog class="stash-dialog" id="workshop-stash" aria-labelledby="stash-title" data-stash-dialog><button class="close-bolt" data-close aria-label="Close Trap’s stash">×</button><p class="tape-label">THE BIRTHDAY GIRL’S PROPERTY</p><div class="stash-heading"><h2 id="stash-title">HANDS OFF.<br><em>TRAP’S STASH.</em></h2><button class="ink-button pink-button" data-write-present>ADD A PRESENT ▣</button></div><p class="stash-description" data-stash-description>Birthday gifts for Trap, wrapped up and waiting for her. Add what you’re planning to give her.</p><p class="small-note" data-stash-status>Looking for the pile…</p><div class="present-pile" data-present-pile></div><div class="empty-stash" data-stash-empty hidden><span>▣</span><p data-stash-empty-copy>No gifts wrapped yet. Got something in mind for Trap?</p></div><button class="plain-button load-more" data-more-presents hidden>MORE IN THE PILE ↓</button><button class="plain-button" data-jaz-login>I’M TRAP. LET ME AT THEM. ↗</button></dialog>
 
   <dialog class="radio-dialog" id="workshop-radio" aria-labelledby="radio-title" data-radio-dialog>
     <button class="close-bolt" data-close aria-label="Close radio">×</button>
