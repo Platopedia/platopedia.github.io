@@ -2245,7 +2245,9 @@ window.TrapMural = { create };
   const QUIPS = ['That button had it coming.', 'Trap gets the good chair.', 'Absolutely no refunds on glitter.', 'Don’t lick the paint.', 'This seemed like a good idea yesterday.', 'The monkey knows what you did.'];
   let token = '', me = null, busy = false, intent = 'wish', selected = '', giftTimer = null, profileVersion = 0;
   let prelaunchMode = false, policyKnown = false, statusRequest = null, wishesOpen = null, stashOpen = null;
-  const WALL_PAGE_SIZE = 24;
+  const LEGACY_WALL_PAGE_SIZE = 24, WALL_REFRESH_MS = 60000, WALL_CACHE_PAGES = 8;
+  const wallPages = new Map();
+  let wallRevision = '', wallPageSize = 0;
   let wishes = [], totalWishes = 0, wallOffset = 0, presents = [], presentCursor = '', readingWish = null;
   let wallIndex = 0, wallRequest = null, wallMoveBusy = false, readAnimationTimer, homeTapBlocked = false, homeTapTimer;
   let wallEffectTimer = null;
@@ -2424,7 +2426,7 @@ window.TrapMural = { create };
     const url = new URL(`${apiBase}/${action}`, location.origin);
     if (read && input.cursor) url.searchParams.set('cursor', input.cursor);
     if (read && input.wishId) url.searchParams.set('wish', input.wishId);
-    if (action === 'wall' && input.name) url.searchParams.set('name', input.name);
+    if (action === 'wall') for (const key of ['name', 'browse', 'anchor']) if (input[key]) url.searchParams.set(key, input[key]);
     const response = await fetch(url, { method: read ? 'GET' : 'POST', credentials: 'same-origin', cache: 'no-store',
       headers: read ? action === 'presents' && token ? { authorization: `Bearer ${token}` } : {} : { 'content-type': 'application/json' }, body: read ? undefined : JSON.stringify({ ...input, token }), signal: AbortSignal.timeout(25000) });
     let data; try { data = await response.json(); } catch { throw new Error('The workshop’s connection dropped. Your draft is still here.'); }
@@ -2614,6 +2616,31 @@ window.TrapMural = { create };
     const preview = $('[data-wall-preview]'); preview.classList.remove('wish-next', 'wish-prev');
     if (direction && !reduced.matches) { void preview.offsetWidth; preview.classList.add(direction > 0 ? 'wish-next' : 'wish-prev'); }
   }
+  function rememberWallPage(data) {
+    if (wallRevision !== data.wallRevision || wallNameFilter !== data.nameFilter || wallPageSize !== data.pageSize) wallPages.clear();
+    wallRevision = data.wallRevision || '';
+    wallPageSize = data.pageSize || 0;
+    if (!wallRevision) return;
+    wallPages.delete(data.offset);
+    wallPages.set(data.offset, { data, expires: performance.now() + WALL_REFRESH_MS });
+    if (wallPages.size > WALL_CACHE_PAGES) {
+      // Keep the latest page handy even after several random jumps.
+      for (const offset of wallPages.keys()) if (offset !== 0) { wallPages.delete(offset); break; }
+    }
+  }
+  function useWallPage(target) {
+    if (!wallPageSize || typeof target !== 'number') return false;
+    const offset = Math.floor(target / wallPageSize) * wallPageSize;
+    const cached = wallPages.get(offset);
+    if (!cached || !cached.data.wishes[target - offset]) return false;
+    wallPages.delete(offset);
+    if (cached.expires <= performance.now()) return false;
+    wallPages.set(offset, cached);
+    wishes = cached.data.wishes;
+    wallOffset = offset;
+    wallIndex = target - offset;
+    return true;
+  }
   function loadWall({ target, name = wallNameFilter, deferRender = false } = {}) {
     if (wallRequest) return wallRequest;
     wallLoading = true; updateWallNavigation();
@@ -2622,18 +2649,21 @@ window.TrapMural = { create };
         const explicit = target !== undefined, activeId = explicit ? '' : restoreWishId || wishes[wallIndex]?.id;
         const hint = activeId ? restorePosition ?? wallOffset + wallIndex : 0;
         let desired = target === 'latest' ? 0 : target === 'oldest' ? Math.max(0, totalWishes - 1) : explicit ? target : hint;
-        let offset = Math.floor(desired / WALL_PAGE_SIZE) * WALL_PAGE_SIZE;
-        const page = async index => {
-          const data = await api('wall', { cursor: index ? String(index) : '', name });
+        let offset = Math.floor(desired / LEGACY_WALL_PAGE_SIZE) * LEGACY_WALL_PAGE_SIZE;
+        const page = async (index, options) => {
+          const data = await api('wall', { cursor: index ? String(index) : '', name, ...options });
           if (name && data.nameFilter !== name) throw new Error('The name search couldn’t load. Try again shortly.');
           return data;
         };
-        let data = await page(offset);
-        if (explicit) {
+        let data = await page(offset, { browse: target === 'oldest' ? 'oldest' : String(desired), anchor: activeId });
+        if (data.wallRevision) {
+          offset = data.offset;
+          desired = data.position;
+        } else if (explicit) {
           const visited = new Set([offset]);
           while (true) {
             desired = target === 'oldest' ? Math.max(0, data.total - 1) : Math.max(0, Math.min(desired, data.total - 1));
-            const correct = Math.floor(desired / WALL_PAGE_SIZE) * WALL_PAGE_SIZE;
+            const correct = Math.floor(desired / LEGACY_WALL_PAGE_SIZE) * LEGACY_WALL_PAGE_SIZE;
             if (correct === offset) break;
             if (visited.has(correct)) throw new Error('The wall changed while loading. Try that jump again.');
             visited.add(correct); offset = correct; data = await page(offset);
@@ -2645,7 +2675,7 @@ window.TrapMural = { create };
           if (name && visible.nameFilter !== name) throw new Error('The name search couldn’t load. Try again shortly.');
           const located = visible.wishes.some(wish => wish.id === activeId) && Number.isSafeInteger(visible.position)
             && visible.position >= 0 && visible.position < visible.total;
-          const currentOffset = located ? Math.floor(visible.position / WALL_PAGE_SIZE) * WALL_PAGE_SIZE : 0;
+          const currentOffset = located ? Math.floor(visible.position / LEGACY_WALL_PAGE_SIZE) * LEGACY_WALL_PAGE_SIZE : 0;
           if (located || offset !== currentOffset) data = await page(currentOffset);
           offset = currentOffset;
           // A removal or another approval between those reads falls back to
@@ -2655,6 +2685,7 @@ window.TrapMural = { create };
           }
         }
         const found = activeId ? data.wishes.findIndex(wish => wish.id === activeId) : -1;
+        rememberWallPage(data);
         wishes = data.wishes; totalWishes = data.total; wallOffset = offset; wallNameFilter = name;
         wallIndex = explicit ? Math.max(0, Math.min(desired - offset, wishes.length - 1)) : Math.max(0, found);
         restoreWishId = ''; restorePosition = null; wallState = 'ready';
@@ -2669,16 +2700,17 @@ window.TrapMural = { create };
     })();
     return wallRequest;
   }
-  async function jumpWish(target, reader = false, focus = false, direction = 0) {
+  async function jumpWish(target, { reader = false, focus = false, direction = 0, onCommit } = {}) {
     if (wallMoveBusy || wallLoading || !wishes.length) return false;
     wallMoveBusy = true; updateWallNavigation();
     try {
       if (typeof target === 'number' && target >= wallOffset && target < wallOffset + wishes.length) wallIndex = target - wallOffset;
-      else if (!await loadWall({ target, deferRender: true })) return false;
+      else if (!useWallPage(target) && !await loadWall({ target, deferRender: true })) return false;
       if (!wishes[wallIndex]) return false;
       renderWall(direction);
       if (reader) readWish(wishes[wallIndex], direction);
       else if (focus) $('[data-community-wall]').children[0]?.focus({ preventScroll: true });
+      onCommit?.();
       return true;
     } finally { wallMoveBusy = false; updateWallNavigation(); }
   }
@@ -2686,7 +2718,7 @@ window.TrapMural = { create };
     const index = reader ? wishes.findIndex(wish => wish.id === readingWish?.id) : wallIndex;
     if (index < 0 || totalWishes < 2) return Promise.resolve(false);
     const target = (wallOffset + index + direction + totalWishes) % totalWishes;
-    return jumpWish(target, reader, focus, direction);
+    return jumpWish(target, { reader, focus, direction });
   }
   function bindWishSwipe(surface, reader = false, home = false) {
     let gesture = null;
@@ -3000,13 +3032,13 @@ window.TrapMural = { create };
   $('[data-wall-dialog]').addEventListener('keydown', event => {
     if (pageZoomed() || ['INPUT', 'TEXTAREA', 'SELECT'].includes(event.target.tagName) || event.target.isContentEditable || event.isComposing || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey || !['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
     event.preventDefault();
-    if (event.key === 'Home' || event.key === 'End') jumpWish(event.key === 'Home' ? 'latest' : 'oldest', false, true);
+    if (event.key === 'Home' || event.key === 'End') jumpWish(event.key === 'Home' ? 'latest' : 'oldest', { focus: true });
     else moveWish(event.key === 'ArrowRight' ? 1 : -1, false, true);
   });
   $('[data-read-dialog]').addEventListener('keydown', event => {
     if (pageZoomed() || $('[data-read-navigation]').hidden || ['INPUT', 'TEXTAREA', 'SELECT'].includes(event.target.tagName) || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey || !['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
     event.preventDefault();
-    if (event.key === 'Home' || event.key === 'End') jumpWish(event.key === 'Home' ? 'latest' : 'oldest', true);
+    if (event.key === 'Home' || event.key === 'End') jumpWish(event.key === 'Home' ? 'latest' : 'oldest', { reader: true });
     else moveWish(event.key === 'ArrowRight' ? 1 : -1, true);
   });
   document.addEventListener('keydown', event => {
@@ -3019,9 +3051,9 @@ window.TrapMural = { create };
   }
   $('[data-back-latest]').addEventListener('click', () => {
     if (wallLoading || wallMoveBusy || !wishes.length) return;
-    rattle($('.wall-hotspot'));
-    if (wallOffset + wallIndex !== 0) jumpWish(0);
-    else syncHomeAuto();
+    const shake = () => rattle($('.wall-hotspot'));
+    if (wallOffset + wallIndex !== 0) jumpWish(0, { onCommit: shake });
+    else { shake(); syncHomeAuto(); }
   });
   $('[data-home-auto]').addEventListener('click', () => {
     homeAuto = !homeAuto;
@@ -3079,7 +3111,7 @@ window.TrapMural = { create };
   window.addEventListener('pagehide', () => { clearTimeout(giftTimer); clearTimeout(homeAutoTimer); });
   window.addEventListener('pageshow', syncHomeAuto);
   setInterval(() => { if (!document.hidden) clock(); }, 1000);
-  setInterval(() => { if (!document.hidden && !$$('dialog[open]').length) loadWall(); }, 60000);
+  setInterval(() => { if (!document.hidden && !$$('dialog[open]').length) loadWall(); }, WALL_REFRESH_MS);
   setInterval(() => { if (!document.hidden && !$$('dialog[open]').length && !reduced.matches) quip(QUIPS[Math.floor(Math.random() * QUIPS.length)]); }, 75000);
   const shared = sharedWishId(location.hash);
   if (shared) { restoreWishId = shared; restorePosition = null; wallNameFilter = ''; }
