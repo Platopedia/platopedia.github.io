@@ -1032,10 +1032,6 @@ body.trap-event > footer {
 #jaz-workshop .intervention{position:relative;flex-shrink:0;max-width:220px;padding:8px 10px;border:1px solid #b7a980;background:var(--paper);box-shadow:2px 3px 0 #071b23;font:13px/1.35 var(--marker);color:#243c35;transform:rotate(-2deg);opacity:0;pointer-events:none}
 #jaz-workshop .intervention:before{content:'';position:absolute;left:16px;top:-5px;width:32px;height:9px;background:#6ee6dcbb;transform:rotate(-5deg)}
 #jaz-workshop .intervention.show{animation:jw-intervention 3.3s both}
-#jaz-workshop .room-reveal{position:absolute;inset:0;z-index:15;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;background:#0e212df0;text-align:center;padding:30px}
-#jaz-workshop .room-reveal>span{font:23px var(--marker);color:var(--pink);transform:rotate(-4deg)}
-#jaz-workshop .room-reveal>strong{font:900 90px/.85 var(--display);color:var(--cyan)}
-#jaz-workshop .room-reveal>small{font:16px var(--marker);color:var(--paper);margin:10px 0 15px}
 #jaz-workshop .party-particle{position:absolute;pointer-events:none;z-index:30;font-size:22px;line-height:1;animation:jw-confetti var(--duration,1.4s) ease-out forwards;--travel-x:0px;--travel-y:-200px;color:var(--cyan)}
 #jaz-workshop .countdown-machine.poked{animation:jw-rattle .4s ease-out}
 #jaz-workshop .tiny-present.poked{animation:jw-rattle .4s ease-out}
@@ -1406,12 +1402,6 @@ body.trap-event > footer {
   #jaz-workshop .under-bench{padding:12px 16px;font-size:8px;flex-wrap:wrap;gap:8px}
   #jaz-workshop .room-caption{display:none}
   #jaz-workshop .intervention{width:max-content;max-width:min(205px,calc(100cqi - 40px));align-self:flex-start;font-size:11.5px;padding:7px 9px}
-  #jaz-workshop .room-reveal{gap:14px;padding:24px}
-  #jaz-workshop .room-reveal>span{font-size:20px}
-  #jaz-workshop .room-reveal>strong{font-size:64px}
-  #jaz-workshop .room-reveal>small{font-size:12px;margin:7px 0}
-  #jaz-workshop .room-reveal>.ink-button{font-size:16px;padding:12px}
-  #jaz-workshop .room-reveal>.plain-button{font-size:11px;padding:9px}
   #jaz-workshop dialog{width:calc(100vw - 24px);max-height:calc(100dvh - 24px);padding:28px 21px;border-width:2px}
   #jaz-workshop input,#jaz-workshop textarea{font-size:16px!important}
   #jaz-workshop .close-bolt{right:9px;top:9px;min-height:34px;min-width:34px;font-size:25px}
@@ -2490,7 +2480,7 @@ window.TrapMural = { create };
     for (const [i, node] of [...$('[data-clock]').children].filter(node => node.tagName === 'SPAN').entries()) node.firstChild.textContent = String(values[i]).padStart(2, '0');
     if (!difference) {
       $('[data-clock-label]').textContent = 'IT’S TRAP DAY';
-      if (!birthdayShown) { birthdayShown = true; $('[data-birthday-reveal]').hidden = false; confetti(); }
+      if (!birthdayShown) { birthdayShown = true; confetti(); }
     }
   }
   function paintMark(element, wish, full = false) {
@@ -3096,12 +3086,9 @@ window.TrapMural = { create };
   $('[data-danger]').addEventListener('click', event => randomRoomWish(event.currentTarget));
   $('[data-machine]').addEventListener('click', () => {
     found('machine', birthdayShown ? 'YES. IT’S TODAY. GO HUG HER.' : 'Poking it won’t make her birthday faster.'); rattle($('[data-machine]'));
-    if (birthdayShown) { $('[data-birthday-reveal]').hidden = false; room.scrollIntoView({ block: 'center', behavior: reduced.matches ? 'instant' : 'smooth' }); }
   });
   $('[data-secret=monkey]').addEventListener('click', () => found('monkey', 'The monkey has read your draft.'));
   $('[data-secret=jinx]').addEventListener('click', () => found('jinx', 'Reserved for Trap. Find a different chair.'));
-  $('[data-celebrate]').addEventListener('click', () => { confetti(); });
-  $('[data-reveal-close]').addEventListener('click', () => { $('[data-birthday-reveal]').hidden = true; });
   document.addEventListener('visibilitychange', () => {
     homePressed = false;
     if (document.hidden) clearTimeout(giftTimer);
@@ -3173,7 +3160,6 @@ window.TrapMural = { create };
     <div class="room-grain" aria-hidden="true"></div>
     <button class="character-secret" data-secret="jinx" aria-label="Poke Jinx"><span>psst.</span></button>
     <button class="monkey-secret" data-secret="monkey" aria-label="Investigate the suspicious monkey doodle"><svg viewBox="0 0 90 72" aria-hidden="true"><path d="M21 30C4 10 0 45 19 48M70 30c19-20 20 17 2 18M18 37C15 5 71 5 74 37c7 36-61 36-56 0Z"/><path d="m29 29 12 11m0-11L29 40m22-11 12 11m0-11L51 40M28 50q18 18 36-1"/></svg></button>
-    <div class="room-reveal" data-birthday-reveal hidden><span>IT’S TRAP DAY.</span><strong>EVERYBODY<br>BE NORMAL.</strong><small>…yeah, that was never happening.</small><button class="ink-button" data-celebrate>HAPPY BIRTHDAY, TRAP! ✺</button><button class="plain-button" data-reveal-close>back to the mess ↩</button></div>
     </div>
 
     <div class="room-props">
