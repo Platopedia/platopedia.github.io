@@ -8,7 +8,6 @@ const status = byId('stage-status');
 async function startMural() {
   await overview.decode();
   enableViewer(TRAP_MURAL);
-  status.hidden = true;
 }
 
 function enableViewer({ width, height, paintings, standard, detail }) {
@@ -379,8 +378,5 @@ function enableViewer({ width, height, paintings, standard, detail }) {
 }
 
 startMural().catch(() => {
-  const original = document.createElement('a');
-  original.href = 'mural.svg';
-  original.textContent = 'Open the original SVG';
-  status.replaceChildren(document.createTextNode('Interactive view unavailable. '), original);
+  status.hidden = false;
 });
