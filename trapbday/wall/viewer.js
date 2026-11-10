@@ -11,17 +11,20 @@ async function startMural() {
   status.hidden = true;
 }
 
-function enableViewer({ width, height, paintings, levels }) {
+function enableViewer({ width, height, paintings, standard, detail }) {
   const shell = byId('mural-shell');
   const cameraLayer = byId('mural-camera');
   const tileLayer = byId('mural-tiles');
+  const detailLayer = byId('mural-detail');
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const zoomIn = byId('zoom-in'), zoomOut = byId('zoom-out'), fitButton = byId('fit-wall');
   const zoomValue = byId('zoom-value');
   const mounted = new Map();
+  const detailed = new Map();
   const pointers = new Map();
   let viewportWidth = 0, viewportHeight = 0, fit = 1, maxScale = 1;
   let camera, motion, frame, gesture, lastTap, selected, wheelSettle;
+  let detailView, detailTimer;
   let velocity = { x: 0, y: 0 };
 
   const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
@@ -33,57 +36,94 @@ function enableViewer({ width, height, paintings, levels }) {
     return { x: constrain(x, boardWidth, viewportWidth), y: constrain(y, boardHeight, viewportHeight), scale };
   }
 
-  function drawTiles() {
-    const standardScale = fit * 1.7;
-    const detailScale = Math.max(standardScale, .24, levels[0].pixelsPerUnit * 1.55 / (window.devicePixelRatio || 1));
-    const thresholds = [standardScale, detailScale];
-    const visible = new Set();
-    const margin = 48;
-    function inView(box, view) {
-      const [left, top, wide, tall] = box;
-      const startX = view.x + left * view.scale, startY = view.y + top * view.scale;
-      return startX <= viewportWidth + margin && startY <= viewportHeight + margin
-        && startX + wide * view.scale >= -margin && startY + tall * view.scale >= -margin;
+  function inView([left, top, wide, tall], view, margin = 0) {
+    const x = view.x + left * view.scale, y = view.y + top * view.scale;
+    return x < viewportWidth + margin && y < viewportHeight + margin
+      && x + wide * view.scale > -margin && y + tall * view.scale > -margin;
+  }
+
+  function tileImage(src, layer, images) {
+    const img = new Image();
+    img.alt = '';
+    img.decoding = 'async';
+    img.draggable = false;
+    img.addEventListener('load', () => img.classList.add('ready'), { once: true });
+    img.src = src;
+    layer.append(img);
+    images.set(src, img);
+    return img;
+  }
+
+  function removeOffscreen(images, visible) {
+    for (const [src, img] of images) {
+      if (visible.has(src)) continue;
+      img.remove();
+      images.delete(src);
     }
-    for (const [index, level] of levels.entries()) {
-      const threshold = thresholds[index];
-      if (camera.scale <= threshold) continue;
-      for (const tile of level.tiles) {
-        if (!inView(tile.box, camera)) continue;
-        if (!mounted.has(tile.src)) {
-          // Draw the cheaper tiles while moving. Load fine detail once the camera settles.
-          if (index > 0 && (pointers.size || motion || wheelSettle)) continue;
-          // Fly-to transitions only request artwork at the destination.
-          if (motion?.target && (motion.target.scale <= threshold || !inView(tile.box, motion.target))) continue;
-          const [left, top, wide, tall] = tile.box;
-          const img = new Image();
-          img.alt = '';
-          img.decoding = 'async';
-          img.draggable = false;
+  }
+
+  function drawTiles() {
+    const threshold = fit * 1.7;
+    const visible = new Set();
+    if (camera.scale > threshold) {
+      for (const { box, src } of standard) {
+        if (!inView(box, camera, 48)) continue;
+        if (!mounted.has(src)) {
+          if (motion?.target && (motion.target.scale <= threshold || !inView(box, motion.target, 48))) continue;
+          const [left, top, wide, tall] = box;
+          const img = tileImage(src, tileLayer, mounted);
           img.style.left = `${left / width * 100}%`;
           img.style.top = `${top / height * 100}%`;
           img.style.width = `${wide / width * 100}%`;
           img.style.height = `${tall / height * 100}%`;
-          img.style.zIndex = String(index);
-          img.src = tile.src;
-          tileLayer.append(img);
-          mounted.set(tile.src, img);
-          img.decode().then(() => img.classList.add('ready'), () => {});
         }
-        visible.add(tile.src);
+        visible.add(src);
       }
     }
-    for (const [src, img] of mounted) {
-      if (visible.has(src)) continue;
-      img.remove();
-      mounted.delete(src);
+    removeOffscreen(mounted, visible);
+  }
+
+  function drawDetail() {
+    clearTimeout(detailTimer);
+    const view = camera;
+    const [, , tileWidth, tileHeight] = detail[0].box;
+    // Limit how many vector tiles can be visible at once, including on wide screens.
+    const detailScale = Math.max(fit * 1.7, viewportWidth / (5 * tileWidth), viewportHeight / (5 * tileHeight));
+    if (view.scale <= detailScale) {
+      detailLayer.hidden = true;
+      detailView = null;
+      for (const img of detailed.values()) img.remove();
+      detailed.clear();
+      return;
     }
+    detailLayer.hidden = detailView !== view;
+    if (detailView === view || motion || pointers.size || wheelSettle) return;
+
+    // Render the original strokes at their final screen size, outside the moving camera.
+    detailTimer = setTimeout(() => {
+      if (camera !== view || motion || pointers.size || wheelSettle) return;
+      const visible = new Set();
+      for (const { box, src } of detail) {
+        if (!inView(box, view)) continue;
+        const [left, top, wide, tall] = box;
+        const img = detailed.get(src) || tileImage(src, detailLayer, detailed);
+        img.style.left = `${view.x + left * view.scale}px`;
+        img.style.top = `${view.y + top * view.scale}px`;
+        img.style.width = `${wide * view.scale}px`;
+        img.style.height = `${tall * view.scale}px`;
+        visible.add(src);
+      }
+      removeOffscreen(detailed, visible);
+      detailView = view;
+      detailLayer.hidden = false;
+    }, 110);
   }
 
   function draw() {
     const { x, y, scale } = camera;
     cameraLayer.style.transform = `translate3d(${x}px,${y}px,0) scale(${scale / fit})`;
     drawTiles();
+    drawDetail();
     const label = `${Math.round(scale / fit * 100)}%`;
     if (zoomValue.textContent !== label) zoomValue.textContent = label;
     zoomOut.disabled = scale <= fit;
