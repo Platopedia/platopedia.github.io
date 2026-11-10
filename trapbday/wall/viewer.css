@@ -105,6 +105,9 @@ dialog::backdrop { background: #060c12c9; }
 .result-count { margin: 9px 0; font-size: .77rem; color: var(--muted); }
 .name-list { padding: 0; margin: 0; list-style: none; }
 .name-list button { display: block; width: 100%; min-height: 42px; padding: 7px 9px; border: 0; border-top: 1px solid var(--line); color: var(--paper); background: none; text-align: start; overflow-wrap: anywhere; }
+.name-list button[aria-current="true"] { background: #203b40; color: var(--cyan); font-weight: 700; }
+.name-list button:focus-visible { outline-offset: -2px; }
+.name-list button:active { background: #35584f; }
 .wish-message { margin: 0; color: var(--paper); white-space: pre-wrap; overflow-wrap: anywhere; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .mural-shell:fullscreen { width: 100%; overflow: auto; background: var(--page); }

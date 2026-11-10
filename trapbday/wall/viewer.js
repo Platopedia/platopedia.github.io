@@ -322,6 +322,7 @@ function enableViewer({ width, height, paintings, standard, detail }) {
       button.type = 'button';
       button.dir = 'auto';
       button.textContent = painting.name;
+      if (painting === selected) button.setAttribute('aria-current', 'true');
       button.addEventListener('click', () => { findDialog.close(); centerPainting(painting); stage.focus({ preventScroll: true }); });
       row.append(button);
       items.append(row);
