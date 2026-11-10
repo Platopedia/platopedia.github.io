@@ -243,6 +243,7 @@ function enableViewer({ width, height, paintings, standard, detail }) {
     if (!gesture.moved && Math.hypot(next.x - start.x, next.y - start.y) < 5) return;
     gesture.moved = true;
     lastTap = null;
+    if (!start.distance && view.scale <= fit) return;
     const scale = clamp(view.scale * (start.distance ? next.distance / start.distance : 1), fit, maxScale);
     const ratio = scale / view.scale;
     const nextCamera = bounded({ x: next.x - left - (start.x - left - view.x) * ratio, y: next.y - top - (start.y - top - view.y) * ratio, scale });
