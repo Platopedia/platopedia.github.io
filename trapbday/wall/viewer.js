@@ -32,7 +32,7 @@ function enableViewer({ width, height, paintings, standard, detail }) {
     const boardWidth = width * scale, boardHeight = height * scale;
     const constrain = (offset, boardSize, viewportSize) => boardSize <= viewportSize
       ? (viewportSize - boardSize) / 2
-      : clamp(offset, viewportSize - boardSize - 12, 12);
+      : clamp(offset, viewportSize - boardSize, 0);
     return { x: constrain(x, boardWidth, viewportWidth), y: constrain(y, boardHeight, viewportHeight), scale };
   }
 
@@ -126,7 +126,9 @@ function enableViewer({ width, height, paintings, standard, detail }) {
     drawDetail();
     const label = `${Math.round(scale / fit * 100)}%`;
     if (zoomValue.textContent !== label) zoomValue.textContent = label;
-    zoomOut.disabled = scale <= fit;
+    const zoomed = scale > fit;
+    stage.toggleAttribute('data-zoomed', zoomed);
+    zoomOut.disabled = fitButton.disabled = !zoomed;
     zoomIn.disabled = scale >= maxScale;
   }
 
@@ -160,6 +162,7 @@ function enableViewer({ width, height, paintings, standard, detail }) {
     if (frame == null) frame = requestAnimationFrame(renderFrame);
   }
   function moveTo(target, duration = 200) {
+    lastTap = null;
     target = bounded(target);
     if (reduceMotion.matches) {
       motion = null;
@@ -168,6 +171,7 @@ function enableViewer({ width, height, paintings, standard, detail }) {
     queueDraw();
   }
   function zoom(factor, point = { x: viewportWidth / 2, y: viewportHeight / 2 }, animate = true) {
+    lastTap = null;
     const base = motion?.target || camera;
     const scale = clamp(base.scale * factor, fit, maxScale);
     const ratio = scale / base.scale;
@@ -183,6 +187,10 @@ function enableViewer({ width, height, paintings, standard, detail }) {
     setSelected(null);
     moveTo({ x: 0, y: 0, scale: fit });
   }
+  function toggleZoom(point) {
+    if (camera.scale > fit * 1.01) fitWall();
+    else zoom(4, point);
+  }
 
   function resize() {
     const oldWidth = viewportWidth, oldHeight = viewportHeight, oldFit = fit;
@@ -190,12 +198,13 @@ function enableViewer({ width, height, paintings, standard, detail }) {
     viewportHeight = stage.clientHeight;
     if (!viewportWidth || !viewportHeight) return;
     if (viewportWidth === oldWidth && viewportHeight === oldHeight) return;
-    fit = Math.min((viewportWidth - 12) / width, (viewportHeight - 12) / height);
+    fit = Math.min(viewportWidth / width, viewportHeight / height);
     maxScale = Math.max(fit, Math.min(fit * 40, 1.05));
     const scale = camera ? clamp(camera.scale / oldFit * fit, fit, maxScale) : fit;
     const x = camera ? viewportWidth / 2 - (oldWidth / 2 - camera.x) * scale / camera.scale : 0;
     const y = camera ? viewportHeight / 2 - (oldHeight / 2 - camera.y) * scale / camera.scale : 0;
     motion = null;
+    lastTap = null;
     camera = bounded({ x, y, scale });
     cameraLayer.style.width = `${width * fit}px`;
     cameraLayer.style.height = `${height * fit}px`;
@@ -221,6 +230,7 @@ function enableViewer({ width, height, paintings, standard, detail }) {
     if (event.button !== 0 || pointers.size >= 2) return;
     motion = null;
     pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+    if (pointers.size > 1) lastTap = null;
     stage.setPointerCapture(event.pointerId);
     beginGesture(pointers.size > 1 || gesture?.moved);
     stage.classList.add('dragging');
@@ -232,6 +242,7 @@ function enableViewer({ width, height, paintings, standard, detail }) {
     const next = pointerState();
     if (!gesture.moved && Math.hypot(next.x - start.x, next.y - start.y) < 5) return;
     gesture.moved = true;
+    lastTap = null;
     const scale = clamp(view.scale * (start.distance ? next.distance / start.distance : 1), fit, maxScale);
     const ratio = scale / view.scale;
     const nextCamera = bounded({ x: next.x - left - (start.x - left - view.x) * ratio, y: next.y - top - (start.y - top - view.y) * ratio, scale });
@@ -251,13 +262,14 @@ function enableViewer({ width, height, paintings, standard, detail }) {
     const finished = gesture;
     gesture = null;
     stage.classList.remove('dragging');
-    if (event.type === 'pointerup' && !finished.moved) {
+    if (event.type === 'pointerup' && !finished.moved && performance.now() - finished.time < 350) {
       const point = clientPoint(event), now = performance.now();
-      if (lastTap && now - lastTap.time < 320 && Math.hypot(point.x - lastTap.x, point.y - lastTap.y) < 28) {
-        lastTap = null;
-        zoom(2, point);
+      const tolerance = event.pointerType === 'mouse' ? 10 : 28;
+      if (lastTap && lastTap.type === event.pointerType && now - lastTap.time < 320
+        && Math.hypot(point.x - lastTap.x, point.y - lastTap.y) < tolerance) {
+        toggleZoom(point);
       } else {
-        lastTap = { ...point, time: now };
+        lastTap = { ...point, time: now, type: event.pointerType };
         selectAt(point);
       }
     } else {
@@ -359,7 +371,7 @@ function enableViewer({ width, height, paintings, standard, detail }) {
   } else expand.hidden = true;
 
   byId('mural-count').textContent = `${paintings.length} paintings · Made for Trap`;
-  findButton.disabled = fitButton.disabled = false;
+  findButton.disabled = false;
   resize();
   new ResizeObserver(resize).observe(stage);
 }

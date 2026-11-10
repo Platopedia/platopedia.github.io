@@ -14,7 +14,7 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 [hidden] { display: none !important; }
-body { margin: 0; }
+body { margin: 0; background: radial-gradient(ellipse at 15% 0%, #1a3538 0, var(--page) 55%); }
 button, input { font: inherit; }
 button, a { -webkit-tap-highlight-color: transparent; }
 button { cursor: pointer; }
@@ -24,14 +24,19 @@ a { color: var(--cyan); }
 svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
 .mural-shell {
-  height: 100vh;
-  height: 100dvh;
-  min-height: 420px;
+  --mural-ratio: 1.413793;
+  --screen-height: 100vh;
+  --frame-width: min(100%, max(380px, calc((var(--screen-height) - 180px) * var(--mural-ratio))));
+  min-height: 100vh;
+  min-height: 100dvh;
   display: grid;
-  grid-template-rows: auto minmax(250px, 1fr) auto;
-  background: radial-gradient(ellipse at 15% 0%, #1a3538 0, var(--page) 55%);
+  align-content: start;
+  justify-items: center;
+  padding-inline: clamp(10px, 2vw, 30px);
 }
-.mural-header, .mural-footer { padding: 12px clamp(13px, 3vw, 44px); }
+@supports (height: 100dvh) { .mural-shell { --screen-height: 100dvh; } }
+.mural-header, .viewport, .mural-footer { width: var(--frame-width); }
+.mural-header, .mural-footer { padding-block: 12px; }
 .back-link { display: inline-block; font-size: .84rem; text-decoration-thickness: 1px; text-underline-offset: 4px; }
 .heading-row, .mural-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .heading-row { margin-top: 10px; }
@@ -48,7 +53,7 @@ h1 em { color: var(--cyan); font-style: normal; }
 
 .viewport {
   position: relative;
-  margin-inline: clamp(8px, 2vw, 30px);
+  aspect-ratio: var(--mural-ratio);
   overflow: hidden;
   contain: strict;
   isolation: isolate;
@@ -57,9 +62,10 @@ h1 em { color: var(--cyan); font-style: normal; }
   background: #0a1218;
   touch-action: none;
   user-select: none;
-  cursor: grab;
+  cursor: zoom-in;
 }
-.viewport.dragging { cursor: grabbing; }
+.viewport[data-zoomed] { cursor: grab; }
+.viewport[data-zoomed].dragging { cursor: grabbing; }
 .viewport:focus-visible { outline-offset: -3px; }
 .mural-camera { position: absolute; inset: 0 auto auto 0; width: 100%; height: 100%; transform-origin: 0 0; will-change: transform; pointer-events: none; }
 .overview, .tiles img, .mural-detail img { position: absolute; inset: 0 auto auto 0; display: block; }
@@ -95,7 +101,7 @@ dialog::backdrop { background: #060c12c9; }
 .name-list button { display: block; width: 100%; min-height: 42px; padding: 7px 9px; border: 0; border-top: 1px solid var(--line); color: var(--paper); background: none; text-align: start; overflow-wrap: anywhere; }
 .wish-message { margin: 0; color: var(--paper); white-space: pre-wrap; overflow-wrap: anywhere; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-.mural-shell:fullscreen { width: 100%; overflow: auto; }
+.mural-shell:fullscreen { width: 100%; overflow: auto; background: var(--page); }
 
 @media (pointer: coarse) {
   .touch-hint { display: inline; }
