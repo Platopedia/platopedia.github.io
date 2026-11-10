@@ -1588,6 +1588,7 @@ body.trap-event > footer {
 @media(hover:hover) and (pointer:fine){#jaz-workshop .wall-navigation>.wish-arrow:hover:not(:disabled){background:#2a5148}}
 #jaz-workshop .wall-navigation>.wish-arrow:active:not(:disabled){background:#386056}
 #jaz-workshop .wall-footer{display:flex;justify-content:flex-end;margin:12px 0 0;padding:8px 0 0;border-top:1px solid #57776555}
+#jaz-workshop .wall-footer>.mural-link{margin-right:auto;text-decoration:none}
 #jaz-workshop .wall-footer>.wall-tool{flex:0 0 auto;min-width:0;min-height:32px;display:flex;align-items:center;justify-content:center;gap:6px;padding:6px 8px;border:0;border-radius:4px;background:none;color:var(--muted);font:700 9px/1.4 var(--mono);text-align:center}
 @media(hover:hover) and (pointer:fine){#jaz-workshop .wall-footer>.wall-tool:hover:not(:disabled){background:#294640;color:var(--paper)}}
 #jaz-workshop .wall-footer>.wall-tool:active:not(:disabled){background:#35584f}
@@ -3280,7 +3281,7 @@ window.TrapMural = { create };
     <div class="wall-reader-heading"><p>BIRTHDAY WISH FROM</p><h2 id="wall-title" data-wall-author dir="auto">EVERYBODY.</h2></div>
     <div class="wall-navigation" data-wall-navigation><button class="wish-arrow" type="button" data-wall-prev aria-label="Previous wish"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5m6-6-6 6 6 6"/></svg></button><div class="wall-browse-status"><p data-wall-position role="status" aria-live="polite"></p><span data-wall-swipe-hint>Swipe left or right</span></div><button class="wish-arrow" type="button" data-wall-next aria-label="Next wish"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button></div>
     <div class="community-wall" id="workshop-wall-wishes" data-community-wall role="region" aria-label="Birthday wishes" tabindex="0"></div><div class="empty-wall" data-wall-empty hidden><span>✺</span><h3 data-wall-empty-title>Suspiciously tidy.</h3><p data-wall-empty-message>Get some birthday wishes on this thing.</p></div>
-    <div class="wall-footer" role="group" aria-label="Mural download"><button class="wall-tool" type="button" data-mural-login>PRINT THE MURAL <span aria-hidden="true">↓</span></button><button class="wall-tool" type="button" data-mural-open hidden>PRINT THE MURAL <span aria-hidden="true">↓</span></button></div>
+    <div class="wall-footer" role="group" aria-label="Mural"><a class="wall-tool mural-link" href="https://platopedia.com/trapbday/wall/">EXPLORE THE FULL MURAL <span aria-hidden="true">↗</span></a><button class="wall-tool" type="button" data-mural-login>PRINT THE MURAL <span aria-hidden="true">↓</span></button><button class="wall-tool" type="button" data-mural-open hidden>PRINT THE MURAL <span aria-hidden="true">↓</span></button></div>
   </dialog>
 
   <dialog class="bench-dialog" id="workshop-bench" aria-labelledby="bench-title" data-bench-dialog>

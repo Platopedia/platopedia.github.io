@@ -1,0 +1,321 @@
+'use strict';
+
+const byId = id => document.getElementById(id);
+const stage = byId('mural-stage');
+const overview = byId('mural-overview');
+const status = byId('stage-status');
+
+async function startMural() {
+  await overview.decode();
+  enableViewer(TRAP_MURAL);
+  status.hidden = true;
+}
+
+function enableViewer({ width, height, paintings, tiles }) {
+  const shell = byId('mural-shell');
+  const tileLayer = byId('mural-tiles');
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  const zoomIn = byId('zoom-in'), zoomOut = byId('zoom-out'), fitButton = byId('fit-wall');
+  const zoomValue = byId('zoom-value');
+  const mounted = new Map();
+  const pointers = new Map();
+  let viewportWidth = 0, viewportHeight = 0, fit = 1, maxScale = 1;
+  let camera, motion, frame, gesture, lastTap, selected;
+  let velocity = { x: 0, y: 0 };
+
+  const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+  function bounded({ x, y, scale }) {
+    const boardWidth = width * scale, boardHeight = height * scale;
+    const constrain = (offset, boardSize, viewportSize) => boardSize <= viewportSize
+      ? (viewportSize - boardSize) / 2
+      : clamp(offset, viewportSize - boardSize - 12, 12);
+    return { x: constrain(x, boardWidth, viewportWidth), y: constrain(y, boardHeight, viewportHeight), scale };
+  }
+
+  function drawTiles() {
+    const { x, y, scale } = camera;
+    const detailScale = fit * 1.7;
+    const visible = new Set();
+    const margin = 48;
+    function inView(box, view) {
+      const [left, top, wide, tall] = box;
+      const startX = view.x + left * view.scale, startY = view.y + top * view.scale;
+      return startX <= viewportWidth + margin && startY <= viewportHeight + margin
+        && startX + wide * view.scale >= -margin && startY + tall * view.scale >= -margin;
+    }
+    if (scale > detailScale) {
+      for (const tile of tiles) {
+        if (!inView(tile.box, camera)) continue;
+        const [left, top, wide, tall] = tile.box;
+        const screenX = x + left * scale, screenY = y + top * scale;
+        let layer = mounted.get(tile.src);
+        if (!layer) {
+          // Fly-to transitions only request artwork at the destination.
+          if (motion?.target && (motion.target.scale <= detailScale || !inView(tile.box, motion.target))) continue;
+          const img = new Image();
+          img.alt = '';
+          img.decoding = 'async';
+          img.draggable = false;
+          img.addEventListener('load', () => img.classList.add('ready'), { once: true });
+          img.src = tile.src;
+          tileLayer.append(img);
+          layer = { img, base: 0 };
+          mounted.set(tile.src, layer);
+        }
+        visible.add(tile.src);
+        if (!layer.base || scale > layer.base * 1.3 || scale < layer.base / 1.6 || !motion && !pointers.size && scale !== layer.base) {
+          layer.base = scale;
+          layer.img.style.width = `${wide * scale}px`;
+          layer.img.style.height = `${tall * scale}px`;
+        }
+        layer.img.style.transform = `translate3d(${screenX}px,${screenY}px,0) scale(${scale / layer.base})`;
+      }
+    }
+    for (const [src, { img }] of mounted) {
+      if (visible.has(src)) continue;
+      img.remove();
+      mounted.delete(src);
+    }
+  }
+
+  function draw() {
+    const { x, y, scale } = camera;
+    overview.style.transform = `translate3d(${x}px,${y}px,0) scale(${scale / fit})`;
+    drawTiles();
+    const label = `${Math.round(scale / fit * 100)}%`;
+    if (zoomValue.textContent !== label) zoomValue.textContent = label;
+    zoomOut.disabled = scale <= fit;
+    zoomIn.disabled = scale >= maxScale;
+  }
+
+  function renderFrame(now) {
+    frame = null;
+    if (motion?.target) {
+      const { from, target, start, duration } = motion;
+      const time = clamp((now - start) / duration, 0, 1);
+      const eased = 1 - (1 - time) ** 3;
+      const scale = from.scale * (target.scale / from.scale) ** eased;
+      const progress = target.scale === from.scale ? eased : (scale - from.scale) / (target.scale - from.scale);
+      camera = time === 1 ? target : bounded({
+        x: from.x + (target.x - from.x) * progress, y: from.y + (target.y - from.y) * progress, scale,
+      });
+      if (time === 1) motion = null;
+    } else if (motion) {
+      const elapsed = clamp(now - motion.previous, 0, 32);
+      motion.previous = now;
+      const next = bounded({ x: camera.x + motion.x * elapsed, y: camera.y + motion.y * elapsed, scale: camera.scale });
+      const fade = Math.exp(-elapsed / 110);
+      motion.x = next.x === camera.x && elapsed ? 0 : motion.x * fade;
+      motion.y = next.y === camera.y && elapsed ? 0 : motion.y * fade;
+      camera = next;
+      if (Math.hypot(motion.x, motion.y) < .035) motion = null;
+    }
+    draw();
+    if (motion) queueDraw();
+  }
+
+  function queueDraw() {
+    if (frame == null) frame = requestAnimationFrame(renderFrame);
+  }
+  function moveTo(target, duration = 200) {
+    target = bounded(target);
+    if (reduceMotion.matches) {
+      motion = null;
+      camera = target;
+    } else motion = { from: camera, target, start: performance.now(), duration };
+    queueDraw();
+  }
+  function zoom(factor, point = { x: viewportWidth / 2, y: viewportHeight / 2 }) {
+    const base = motion?.target || camera;
+    const scale = clamp(base.scale * factor, fit, maxScale);
+    const ratio = scale / base.scale;
+    moveTo({ x: point.x - (point.x - base.x) * ratio, y: point.y - (point.y - base.y) * ratio, scale }, 165);
+  }
+  function fitWall() {
+    setSelected(null);
+    moveTo({ x: 0, y: 0, scale: fit });
+  }
+
+  function resize() {
+    const oldWidth = viewportWidth, oldHeight = viewportHeight, oldFit = fit;
+    viewportWidth = stage.clientWidth;
+    viewportHeight = stage.clientHeight;
+    if (!viewportWidth || !viewportHeight) return;
+    if (viewportWidth === oldWidth && viewportHeight === oldHeight) return;
+    fit = Math.min((viewportWidth - 12) / width, (viewportHeight - 12) / height);
+    maxScale = Math.max(fit, Math.min(fit * 40, 1.05));
+    const scale = camera ? clamp(camera.scale / oldFit * fit, fit, maxScale) : fit;
+    const x = camera ? viewportWidth / 2 - (oldWidth / 2 - camera.x) * scale / camera.scale : 0;
+    const y = camera ? viewportHeight / 2 - (oldHeight / 2 - camera.y) * scale / camera.scale : 0;
+    motion = null;
+    camera = bounded({ x, y, scale });
+    overview.style.width = `${width * fit}px`;
+    overview.style.height = `${height * fit}px`;
+    if (gesture) beginGesture(gesture.moved);
+    queueDraw();
+  }
+  function clientPoint(event) {
+    const bounds = stage.getBoundingClientRect();
+    return { x: event.clientX - bounds.left - stage.clientLeft, y: event.clientY - bounds.top - stage.clientTop };
+  }
+  function pointerState() {
+    const [a, b] = pointers.values();
+    return b ? { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2, distance: Math.max(1, Math.hypot(a.x - b.x, a.y - b.y)) }
+      : { ...a, distance: 0 };
+  }
+  function beginGesture(moved = false) {
+    const bounds = stage.getBoundingClientRect();
+    gesture = { start: pointerState(), view: camera, moved, left: bounds.left + stage.clientLeft, top: bounds.top + stage.clientTop, time: performance.now() };
+    velocity = { x: 0, y: 0 };
+  }
+
+  stage.addEventListener('pointerdown', event => {
+    if (event.button !== 0 || pointers.size >= 2) return;
+    motion = null;
+    pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+    stage.setPointerCapture(event.pointerId);
+    beginGesture(pointers.size > 1 || gesture?.moved);
+    stage.classList.add('dragging');
+  });
+  stage.addEventListener('pointermove', event => {
+    if (!pointers.has(event.pointerId)) return;
+    pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+    const { start, view, left, top } = gesture;
+    const next = pointerState();
+    if (!gesture.moved && Math.hypot(next.x - start.x, next.y - start.y) < 5) return;
+    gesture.moved = true;
+    const scale = clamp(view.scale * (start.distance ? next.distance / start.distance : 1), fit, maxScale);
+    const ratio = scale / view.scale;
+    const nextCamera = bounded({ x: next.x - left - (start.x - left - view.x) * ratio, y: next.y - top - (start.y - top - view.y) * ratio, scale });
+    const now = performance.now(), elapsed = Math.max(4, now - gesture.time);
+    if (!start.distance) {
+      velocity.x = velocity.x * .35 + (nextCamera.x - camera.x) / elapsed * .65;
+      velocity.y = velocity.y * .35 + (nextCamera.y - camera.y) / elapsed * .65;
+    }
+    gesture.time = now;
+    camera = nextCamera;
+    queueDraw();
+  });
+
+  function finishPointer(event) {
+    if (!pointers.delete(event.pointerId)) return;
+    if (pointers.size) { beginGesture(true); return; }
+    const finished = gesture;
+    gesture = null;
+    stage.classList.remove('dragging');
+    if (event.type === 'pointerup' && !finished.moved) {
+      const point = clientPoint(event), now = performance.now();
+      if (lastTap && now - lastTap.time < 320 && Math.hypot(point.x - lastTap.x, point.y - lastTap.y) < 28) {
+        lastTap = null;
+        zoom(2, point);
+      } else {
+        lastTap = { ...point, time: now };
+        selectAt(point);
+      }
+    } else {
+      lastTap = null;
+      if (event.type === 'pointerup' && event.pointerType === 'touch' && !reduceMotion.matches
+        && performance.now() - finished.time < 75 && Math.hypot(velocity.x, velocity.y) > .12) {
+        motion = { x: clamp(velocity.x, -2.5, 2.5), y: clamp(velocity.y, -2.5, 2.5), previous: performance.now() };
+      }
+    }
+    queueDraw();
+  }
+  for (const event of ['pointerup', 'pointercancel', 'lostpointercapture']) stage.addEventListener(event, finishPointer);
+  stage.addEventListener('wheel', event => {
+    event.preventDefault();
+    const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? viewportHeight : 1);
+    zoom(Math.exp(-clamp(delta, -160, 160) * .004), clientPoint(event));
+  }, { passive: false });
+
+  const findButton = byId('find-button'), findDialog = byId('find-dialog'), query = byId('name-query');
+  const nameList = byId('name-list'), resultCount = byId('result-count'), selection = byId('mural-selection');
+  const wishDialog = byId('wish-dialog');
+  function setSelected(painting) {
+    selected = painting;
+    selection.hidden = !painting;
+    byId('selected-name').textContent = painting?.name || '';
+  }
+  function selectAt(point) {
+    if (camera.scale < fit * 2) return;
+    const x = (point.x - camera.x) / camera.scale, y = (point.y - camera.y) / camera.scale;
+    setSelected(paintings.find(({ box: [left, top, wide, tall] }) => x >= left && x < left + wide && y >= top && y < top + tall));
+  }
+  function centerPainting(painting) {
+    const [left, top, wide, tall] = painting.box;
+    const scale = clamp(Math.min(viewportWidth / wide, viewportHeight / tall) * .83, fit, maxScale);
+    setSelected(painting);
+    moveTo({ x: viewportWidth / 2 - (left + wide / 2) * scale, y: viewportHeight / 2 - (top + tall / 2) * scale, scale }, 290);
+  }
+  const normalize = name => name.normalize('NFKC').toLocaleLowerCase();
+  const sorted = [...paintings].sort((a, b) => a.name.localeCompare(b.name));
+  function listNames() {
+    const needle = normalize(query.value.trim());
+    const matches = sorted.filter(painting => normalize(painting.name).includes(needle));
+    resultCount.textContent = matches.length ? `${matches.length} ${matches.length === 1 ? 'painting' : 'paintings'}` : 'No matching names.';
+    const items = document.createDocumentFragment();
+    for (const painting of matches) {
+      const row = document.createElement('li'), button = document.createElement('button');
+      button.type = 'button';
+      button.dir = 'auto';
+      button.textContent = painting.name;
+      button.addEventListener('click', () => { findDialog.close(); centerPainting(painting); stage.focus({ preventScroll: true }); });
+      row.append(button);
+      items.append(row);
+    }
+    nameList.replaceChildren(items);
+  }
+  findButton.addEventListener('click', () => { listNames(); findDialog.showModal(); });
+  query.addEventListener('input', listNames);
+  byId('read-button').addEventListener('click', () => {
+    if (!selected) return;
+    byId('wish-title').textContent = selected.name;
+    byId('wish-message').textContent = selected.message;
+    wishDialog.showModal();
+  });
+
+  zoomIn.addEventListener('click', () => zoom(1.5));
+  zoomOut.addEventListener('click', () => zoom(1 / 1.5));
+  fitButton.addEventListener('click', fitWall);
+  stage.addEventListener('keydown', event => {
+    if (event.ctrlKey || event.metaKey || event.altKey) return;
+    const step = event.shiftKey ? 140 : 50;
+    const arrows = { ArrowLeft: [step, 0], ArrowRight: [-step, 0], ArrowUp: [0, step], ArrowDown: [0, -step] };
+    if (arrows[event.key]) {
+      const [x, y] = arrows[event.key];
+      const base = motion?.target || camera;
+      moveTo({ x: base.x + x, y: base.y + y, scale: base.scale }, 140);
+    } else if (event.key === '+' || event.key === '=') zoom(1.5);
+    else if (event.key === '-') zoom(1 / 1.5);
+    else if (event.key === '0' || event.key === 'Home') fitWall();
+    else return;
+    event.preventDefault();
+  });
+  const expand = byId('expand-wall');
+  if (document.fullscreenEnabled && shell.requestFullscreen) {
+    expand.disabled = false;
+    expand.addEventListener('click', async () => {
+      try {
+        if (document.fullscreenElement) await document.exitFullscreen();
+        else await shell.requestFullscreen();
+      } catch { /* Fullscreen can be denied by the embedding browser. */ }
+    });
+    document.addEventListener('fullscreenchange', () => {
+      const label = document.fullscreenElement ? 'Exit fullscreen' : 'Enter fullscreen';
+      expand.setAttribute('aria-label', label);
+      expand.title = label;
+    });
+  } else expand.hidden = true;
+
+  byId('mural-count').textContent = `${paintings.length} paintings · Made for Trap`;
+  findButton.disabled = fitButton.disabled = false;
+  resize();
+  new ResizeObserver(resize).observe(stage);
+}
+
+startMural().catch(() => {
+  const original = document.createElement('a');
+  original.href = 'mural.svg';
+  original.textContent = 'Open the original SVG';
+  status.replaceChildren(document.createTextNode('Interactive view unavailable. '), original);
+});
