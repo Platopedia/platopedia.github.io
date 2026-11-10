@@ -11,8 +11,9 @@ async function startMural() {
   status.hidden = true;
 }
 
-function enableViewer({ width, height, paintings, tiles }) {
+function enableViewer({ width, height, paintings, levels }) {
   const shell = byId('mural-shell');
+  const cameraLayer = byId('mural-camera');
   const tileLayer = byId('mural-tiles');
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const zoomIn = byId('zoom-in'), zoomOut = byId('zoom-out'), fitButton = byId('fit-wall');
@@ -20,7 +21,7 @@ function enableViewer({ width, height, paintings, tiles }) {
   const mounted = new Map();
   const pointers = new Map();
   let viewportWidth = 0, viewportHeight = 0, fit = 1, maxScale = 1;
-  let camera, motion, frame, gesture, lastTap, selected;
+  let camera, motion, frame, gesture, lastTap, selected, wheelSettle;
   let velocity = { x: 0, y: 0 };
 
   const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
@@ -33,8 +34,9 @@ function enableViewer({ width, height, paintings, tiles }) {
   }
 
   function drawTiles() {
-    const { x, y, scale } = camera;
-    const detailScale = fit * 1.7;
+    const standardScale = fit * 1.7;
+    const detailScale = Math.max(standardScale, .24, levels[0].pixelsPerUnit * 1.55 / (window.devicePixelRatio || 1));
+    const thresholds = [standardScale, detailScale];
     const visible = new Set();
     const margin = 48;
     function inView(box, view) {
@@ -43,35 +45,35 @@ function enableViewer({ width, height, paintings, tiles }) {
       return startX <= viewportWidth + margin && startY <= viewportHeight + margin
         && startX + wide * view.scale >= -margin && startY + tall * view.scale >= -margin;
     }
-    if (scale > detailScale) {
-      for (const tile of tiles) {
+    for (const [index, level] of levels.entries()) {
+      const threshold = thresholds[index];
+      if (camera.scale <= threshold) continue;
+      for (const tile of level.tiles) {
         if (!inView(tile.box, camera)) continue;
-        const [left, top, wide, tall] = tile.box;
-        const screenX = x + left * scale, screenY = y + top * scale;
-        let layer = mounted.get(tile.src);
-        if (!layer) {
+        if (!mounted.has(tile.src)) {
+          // Draw the cheaper tiles while moving. Load fine detail once the camera settles.
+          if (index > 0 && (pointers.size || motion || wheelSettle)) continue;
           // Fly-to transitions only request artwork at the destination.
-          if (motion?.target && (motion.target.scale <= detailScale || !inView(tile.box, motion.target))) continue;
+          if (motion?.target && (motion.target.scale <= threshold || !inView(tile.box, motion.target))) continue;
+          const [left, top, wide, tall] = tile.box;
           const img = new Image();
           img.alt = '';
           img.decoding = 'async';
           img.draggable = false;
-          img.addEventListener('load', () => img.classList.add('ready'), { once: true });
+          img.style.left = `${left / width * 100}%`;
+          img.style.top = `${top / height * 100}%`;
+          img.style.width = `${wide / width * 100}%`;
+          img.style.height = `${tall / height * 100}%`;
+          img.style.zIndex = String(index);
           img.src = tile.src;
           tileLayer.append(img);
-          layer = { img, base: 0 };
-          mounted.set(tile.src, layer);
+          mounted.set(tile.src, img);
+          img.decode().then(() => img.classList.add('ready'), () => {});
         }
         visible.add(tile.src);
-        if (!layer.base || scale > layer.base * 1.3 || scale < layer.base / 1.6 || !motion && !pointers.size && scale !== layer.base) {
-          layer.base = scale;
-          layer.img.style.width = `${wide * scale}px`;
-          layer.img.style.height = `${tall * scale}px`;
-        }
-        layer.img.style.transform = `translate3d(${screenX}px,${screenY}px,0) scale(${scale / layer.base})`;
       }
     }
-    for (const [src, { img }] of mounted) {
+    for (const [src, img] of mounted) {
       if (visible.has(src)) continue;
       img.remove();
       mounted.delete(src);
@@ -80,7 +82,7 @@ function enableViewer({ width, height, paintings, tiles }) {
 
   function draw() {
     const { x, y, scale } = camera;
-    overview.style.transform = `translate3d(${x}px,${y}px,0) scale(${scale / fit})`;
+    cameraLayer.style.transform = `translate3d(${x}px,${y}px,0) scale(${scale / fit})`;
     drawTiles();
     const label = `${Math.round(scale / fit * 100)}%`;
     if (zoomValue.textContent !== label) zoomValue.textContent = label;
@@ -104,7 +106,7 @@ function enableViewer({ width, height, paintings, tiles }) {
       const elapsed = clamp(now - motion.previous, 0, 32);
       motion.previous = now;
       const next = bounded({ x: camera.x + motion.x * elapsed, y: camera.y + motion.y * elapsed, scale: camera.scale });
-      const fade = Math.exp(-elapsed / 110);
+      const fade = Math.exp(-elapsed / 82);
       motion.x = next.x === camera.x && elapsed ? 0 : motion.x * fade;
       motion.y = next.y === camera.y && elapsed ? 0 : motion.y * fade;
       camera = next;
@@ -125,11 +127,17 @@ function enableViewer({ width, height, paintings, tiles }) {
     } else motion = { from: camera, target, start: performance.now(), duration };
     queueDraw();
   }
-  function zoom(factor, point = { x: viewportWidth / 2, y: viewportHeight / 2 }) {
+  function zoom(factor, point = { x: viewportWidth / 2, y: viewportHeight / 2 }, animate = true) {
     const base = motion?.target || camera;
     const scale = clamp(base.scale * factor, fit, maxScale);
     const ratio = scale / base.scale;
-    moveTo({ x: point.x - (point.x - base.x) * ratio, y: point.y - (point.y - base.y) * ratio, scale }, 165);
+    const next = { x: point.x - (point.x - base.x) * ratio, y: point.y - (point.y - base.y) * ratio, scale };
+    if (animate) moveTo(next, 165);
+    else {
+      motion = null;
+      camera = bounded(next);
+      queueDraw();
+    }
   }
   function fitWall() {
     setSelected(null);
@@ -149,8 +157,8 @@ function enableViewer({ width, height, paintings, tiles }) {
     const y = camera ? viewportHeight / 2 - (oldHeight / 2 - camera.y) * scale / camera.scale : 0;
     motion = null;
     camera = bounded({ x, y, scale });
-    overview.style.width = `${width * fit}px`;
-    overview.style.height = `${height * fit}px`;
+    cameraLayer.style.width = `${width * fit}px`;
+    cameraLayer.style.height = `${height * fit}px`;
     if (gesture) beginGesture(gesture.moved);
     queueDraw();
   }
@@ -225,7 +233,10 @@ function enableViewer({ width, height, paintings, tiles }) {
   stage.addEventListener('wheel', event => {
     event.preventDefault();
     const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? viewportHeight : 1);
-    zoom(Math.exp(-clamp(delta, -160, 160) * .004), clientPoint(event));
+    const point = event.target === stage ? { x: event.offsetX, y: event.offsetY } : clientPoint(event);
+    clearTimeout(wheelSettle);
+    wheelSettle = setTimeout(() => { wheelSettle = null; queueDraw(); }, 100);
+    zoom(Math.exp(-clamp(delta, -160, 160) * .004), point, false);
   }, { passive: false });
 
   const findButton = byId('find-button'), findDialog = byId('find-dialog'), query = byId('name-query');

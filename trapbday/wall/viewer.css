@@ -61,8 +61,10 @@ h1 em { color: var(--cyan); font-style: normal; }
 }
 .viewport.dragging { cursor: grabbing; }
 .viewport:focus-visible { outline-offset: -3px; }
-.overview, .tiles img { position: absolute; inset: 0 auto auto 0; display: block; pointer-events: none; transform-origin: 0 0; }
-.overview { width: 100%; height: 100%; object-fit: contain; will-change: transform; }
+.mural-camera { position: absolute; inset: 0 auto auto 0; width: 100%; height: 100%; transform-origin: 0 0; will-change: transform; pointer-events: none; }
+.overview, .tiles img { position: absolute; inset: 0 auto auto 0; display: block; }
+.overview { width: 100%; height: 100%; object-fit: contain; }
+.tiles { position: absolute; inset: 0; }
 .tiles img { opacity: 0; }
 .tiles img.ready { opacity: 1; }
 .stage-status { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); margin: 0; padding: 7px 10px; border-radius: 5px; background: var(--page); color: var(--muted); font-size: .8rem; white-space: nowrap; }
@@ -73,6 +75,7 @@ h1 em { color: var(--cyan); font-style: normal; }
 #mural-hint, .selection { grid-area: 1 / 1; align-self: center; }
 .details:has(.selection:not([hidden])) #mural-hint { visibility: hidden; }
 .mural-count { grid-area: 2 / 1; }
+.mural-count a { margin-inline-start: 5px; white-space: nowrap; }
 .touch-hint { display: none; }
 .selection { display: flex; align-items: center; gap: 8px; }
 .selection > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--pink); font-weight: 700; }
