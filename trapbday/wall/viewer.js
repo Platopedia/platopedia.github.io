@@ -21,8 +21,9 @@ function enableViewer({ width, height, paintings, standard, detail }) {
   const mounted = new Map();
   const detailed = new Map();
   const pointers = new Map();
+  const doubleTapWindow = 320;
   let viewportWidth = 0, viewportHeight = 0, fit = 1, maxScale = 1;
-  let camera, motion, frame, gesture, lastTap, selected, wheelSettle;
+  let camera, motion, frame, gesture, lastTap, wishTapTimer, selected, wheelSettle;
   let detailView, detailTimer;
   let velocity = { x: 0, y: 0 };
 
@@ -160,8 +161,12 @@ function enableViewer({ width, height, paintings, standard, detail }) {
   function queueDraw() {
     if (frame == null) frame = requestAnimationFrame(renderFrame);
   }
-  function moveTo(target, duration = 200) {
+  function resetTap() {
     lastTap = null;
+    clearTimeout(wishTapTimer);
+  }
+  function moveTo(target, duration = 200) {
+    resetTap();
     target = bounded(target);
     if (reduceMotion.matches) {
       motion = null;
@@ -170,7 +175,7 @@ function enableViewer({ width, height, paintings, standard, detail }) {
     queueDraw();
   }
   function zoom(factor, point = { x: viewportWidth / 2, y: viewportHeight / 2 }, animate = true) {
-    lastTap = null;
+    resetTap();
     const base = motion?.target || camera;
     const scale = clamp(base.scale * factor, fit, maxScale);
     const ratio = scale / base.scale;
@@ -203,7 +208,7 @@ function enableViewer({ width, height, paintings, standard, detail }) {
     const x = camera ? viewportWidth / 2 - (oldWidth / 2 - camera.x) * scale / camera.scale : 0;
     const y = camera ? viewportHeight / 2 - (oldHeight / 2 - camera.y) * scale / camera.scale : 0;
     motion = null;
-    lastTap = null;
+    resetTap();
     camera = bounded({ x, y, scale });
     cameraLayer.style.width = `${width * fit}px`;
     cameraLayer.style.height = `${height * fit}px`;
@@ -227,6 +232,7 @@ function enableViewer({ width, height, paintings, standard, detail }) {
 
   stage.addEventListener('pointerdown', event => {
     if (event.button !== 0 || pointers.size >= 2) return;
+    clearTimeout(wishTapTimer);
     motion = null;
     pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
     if (pointers.size > 1) lastTap = null;
@@ -265,7 +271,7 @@ function enableViewer({ width, height, paintings, standard, detail }) {
     if (event.type === 'pointerup' && !finished.moved && performance.now() - finished.time < 350) {
       const point = clientPoint(event), now = performance.now();
       const tolerance = event.pointerType === 'mouse' ? 10 : 28;
-      if (lastTap && lastTap.type === event.pointerType && now - lastTap.time < 320
+      if (lastTap && lastTap.type === event.pointerType && now - lastTap.time < doubleTapWindow
         && Math.hypot(point.x - lastTap.x, point.y - lastTap.y) < tolerance) {
         toggleZoom(point);
       } else {
@@ -302,7 +308,11 @@ function enableViewer({ width, height, paintings, standard, detail }) {
   function selectAt(point) {
     if (camera.scale < fit * 2) return;
     const x = (point.x - camera.x) / camera.scale, y = (point.y - camera.y) / camera.scale;
-    setSelected(paintings.find(({ box: [left, top, wide, tall] }) => x >= left && x < left + wide && y >= top && y < top + tall));
+    const painting = paintings.find(({ box: [left, top, wide, tall] }) => x >= left && x < left + wide && y >= top && y < top + tall);
+    if (painting && painting === selected) {
+      // Wait for a possible double-tap before opening the wish.
+      wishTapTimer = setTimeout(openWish, doubleTapWindow);
+    } else setSelected(painting);
   }
   function centerPainting(painting) {
     const [left, top, wide, tall] = painting.box;
@@ -329,14 +339,16 @@ function enableViewer({ width, height, paintings, standard, detail }) {
     }
     nameList.replaceChildren(items);
   }
-  findButton.addEventListener('click', () => { listNames(); findDialog.showModal(); });
+  findButton.addEventListener('click', () => { resetTap(); listNames(); findDialog.showModal(); });
   query.addEventListener('input', listNames);
-  byId('read-button').addEventListener('click', () => {
+  function openWish() {
     if (!selected) return;
+    resetTap();
     byId('wish-title').textContent = selected.name;
     byId('wish-message').textContent = selected.message;
     wishDialog.showModal();
-  });
+  }
+  byId('read-button').addEventListener('click', openWish);
 
   zoomIn.addEventListener('click', () => zoom(1.5));
   zoomOut.addEventListener('click', () => zoom(1 / 1.5));

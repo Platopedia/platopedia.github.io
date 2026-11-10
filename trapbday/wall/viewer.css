@@ -100,7 +100,8 @@ dialog { width: min(460px, calc(100% - 26px)); max-height: min(80dvh, 600px); pa
 dialog::backdrop { background: #060c12c9; }
 .dialog-heading { display: flex; align-items: start; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
 .dialog-heading h2 { margin: 4px 0 0; overflow-wrap: anywhere; font-size: 1.22rem; color: var(--cyan); }
-.close { min-width: 42px; flex: 0 0 auto; font-size: 1.4rem; }
+.close { min-width: 42px; flex: 0 0 auto; font-size: 1.4rem; transition: transform .1s; }
+.close:active { transform: translateY(2px); }
 #name-query { width: 100%; min-height: 44px; padding: 9px 11px; border: 1px solid var(--line); border-radius: 7px; background: #0c181e; color: var(--paper); font-size: max(16px, 1rem); }
 .result-count { margin: 9px 0; font-size: .77rem; color: var(--muted); }
 .name-list { padding: 0; margin: 0; list-style: none; }
