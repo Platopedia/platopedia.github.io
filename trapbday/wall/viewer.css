@@ -87,7 +87,7 @@ h1 em { color: var(--cyan); font-style: normal; }
 #mural-hint, .selection { grid-area: 1 / 1; align-self: center; }
 .details:has(.selection:not([hidden])) #mural-hint { visibility: hidden; }
 .mural-count { grid-area: 2 / 1; }
-.mural-count a { white-space: nowrap; }
+.mural-count .mural-action { color: var(--cyan); text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
 .touch-hint { display: none; }
 .selection { display: flex; align-items: center; gap: 8px; }
 .selection > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--pink); font-weight: 700; }
