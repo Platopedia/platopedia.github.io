@@ -37,7 +37,13 @@ svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width:
 @supports (height: 100dvh) { .mural-shell { --screen-height: 100dvh; } }
 .mural-header, .viewport, .mural-footer { width: var(--frame-width); }
 .mural-header, .mural-footer { padding-block: 12px; }
-.back-link { display: inline-block; font-size: .84rem; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+.mural-action {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  min-height: 32px; padding: 6px 8px; border-radius: 4px;
+  color: var(--muted); font: 700 .78rem/1.4 ui-monospace, monospace; text-decoration: none;
+}
+@media (hover: hover) and (pointer: fine) { .mural-action:hover { background: #294640; color: var(--paper); } }
+.mural-action:active { background: #35584f; color: var(--paper); }
 .heading-row, .mural-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .heading-row { margin-top: 10px; }
 .eyebrow { margin: 0 0 2px; color: var(--pink); font: 700 .65rem/1.4 ui-monospace, monospace; letter-spacing: .14em; }
@@ -81,7 +87,7 @@ h1 em { color: var(--cyan); font-style: normal; }
 #mural-hint, .selection { grid-area: 1 / 1; align-self: center; }
 .details:has(.selection:not([hidden])) #mural-hint { visibility: hidden; }
 .mural-count { grid-area: 2 / 1; }
-.mural-count a { margin-inline-start: 5px; white-space: nowrap; }
+.mural-count a { white-space: nowrap; }
 .touch-hint { display: none; }
 .selection { display: flex; align-items: center; gap: 8px; }
 .selection > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--pink); font-weight: 700; }

@@ -6,14 +6,14 @@
   <meta name="theme-color" content="#0d171d">
   <meta name="description" content="Explore the hand-painted birthday mural made for Trap by Arcade.">
   <title>Trap’s Birthday Mural · Platopedia</title>
-  <link rel="stylesheet" href="viewer.css?v=4">
+  <link rel="stylesheet" href="viewer.css?v=5">
   <script src="mural-data.js?v=3" defer></script>
   <script src="viewer.js?v=4" defer></script>
 </head>
 <body>
   <main class="mural-shell" id="mural-shell">
     <header class="mural-header">
-      <a class="back-link" href="/trapbday/">← Back to the workshop</a>
+      <a class="mural-action" href="/trapbday/"><span aria-hidden="true">←</span> Back to the workshop</a>
       <div class="heading-row">
         <div>
           <p class="eyebrow">ARCADE · 09 NOV 2026</p>
@@ -35,7 +35,7 @@
       <div class="details">
         <p id="mural-hint"><span class="pointer-hint">Scroll to zoom · Drag to move</span><span class="touch-hint">Pinch or double-tap to zoom</span></p>
         <p id="mural-selection" class="selection" hidden><span id="selected-name" dir="auto"></span><button id="read-button" type="button">Read wish ↗</button></p>
-        <p class="mural-count"><span id="mural-count"></span> <a href="mural.svg" target="_blank" rel="noopener">Original SVG ↗</a></p>
+        <p class="mural-count"><span id="mural-count">140 paintings · Made for Trap</span> <a class="mural-action" href="mural.svg" download="trap-birthday-mural.svg">Download SVG <span aria-hidden="true">↓</span></a></p>
       </div>
       <div class="controls" id="mural-controls" role="group" aria-label="Mural view controls">
         <button id="zoom-out" type="button" aria-label="Zoom out" disabled>−</button>

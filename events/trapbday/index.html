@@ -1492,16 +1492,6 @@ body.trap-event > footer {
   #jaz-workshop .frequency{font-size:14px;padding:6px 4px}
   #jaz-workshop .can-row{gap:12px}
 }
-#jaz-workshop .mural-dialog h2{margin:30px 0 22px;font-size:clamp(42px,8vw,64px)}
-#jaz-workshop .mural-dialog>p:not(.tape-label){max-width:650px}
-#jaz-workshop .mural-summary{color:var(--pink);font:700 12px/1.8 var(--mono);margin-bottom:14px}
-#jaz-workshop .mural-download-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:25px;margin:28px 0}
-#jaz-workshop .mural-download-options>section{min-width:0;padding:20px 16px;border:1px solid #6ee6dc44;background:#14282c}
-#jaz-workshop .mural-download-options h3{color:var(--cyan);margin-bottom:15px}
-#jaz-workshop .mural-download-options p{min-height:85px;font-size:13px;margin-bottom:20px}
-#jaz-workshop .mural-download-options .ink-button{font-size:22px;max-width:100%}
-#jaz-workshop .mural-download-options a{display:block;margin-top:22px;font-size:11px;overflow-wrap:anywhere}
-@media(max-width:650px){#jaz-workshop .mural-download-options{grid-template-columns:1fr}#jaz-workshop .mural-download-options p{min-height:0}}
 /* A small, optional drawing bench. Touch capture stays inside its canvas. */
 #jaz-workshop .graffiti-bench{margin:24px 0;padding:16px 12px;background:#14282c;border:1px solid #6ee6dc55;border-radius:5px}
 #jaz-workshop .graffiti-heading{display:flex;align-items:center;justify-content:space-between;gap:10px}
@@ -1587,9 +1577,8 @@ body.trap-event > footer {
 #jaz-workshop .wall-navigation>.wish-arrow{display:grid;place-items:center;min-height:44px;padding:0;border:1px solid #6d9786;border-radius:4px;background:#203d38;color:var(--cyan)}
 @media(hover:hover) and (pointer:fine){#jaz-workshop .wall-navigation>.wish-arrow:hover:not(:disabled){background:#2a5148}}
 #jaz-workshop .wall-navigation>.wish-arrow:active:not(:disabled){background:#386056}
-#jaz-workshop .wall-footer{display:flex;justify-content:flex-end;margin:12px 0 0;padding:8px 0 0;border-top:1px solid #57776555}
-#jaz-workshop .wall-footer>.mural-link{margin-right:auto;text-decoration:none}
-#jaz-workshop .wall-footer>.wall-tool{flex:0 0 auto;min-width:0;min-height:32px;display:flex;align-items:center;justify-content:center;gap:6px;padding:6px 8px;border:0;border-radius:4px;background:none;color:var(--muted);font:700 9px/1.4 var(--mono);text-align:center}
+#jaz-workshop .wall-footer{display:flex;margin:12px 0 0;padding:8px 0 0;border-top:1px solid #57776555}
+#jaz-workshop .wall-footer>.wall-tool{text-decoration:none;flex:0 0 auto;min-width:0;min-height:32px;display:flex;align-items:center;justify-content:center;gap:6px;padding:6px 8px;border:0;border-radius:4px;background:none;color:var(--muted);font:700 9px/1.4 var(--mono);text-align:center}
 @media(hover:hover) and (pointer:fine){#jaz-workshop .wall-footer>.wall-tool:hover:not(:disabled){background:#294640;color:var(--paper)}}
 #jaz-workshop .wall-footer>.wall-tool:active:not(:disabled){background:#35584f}
 #jaz-workshop .wish-reader{touch-action:pan-y pinch-zoom}
@@ -2155,73 +2144,6 @@ window.TrapGraffiti = { paint: paintBirthdayGraffiti, createEditor };
 })();
 </script>
     <script type="module">(() => {
-function create({ root, api, apiBase, getToken, show, login, fetcher = fetch, urls = URL }) {
-  const $ = selector => root.querySelector(selector), $$ = selector => [...root.querySelectorAll(selector)];
-  const dialog = $('[data-mural-dialog]'), status = $('[data-mural-status]'), files = new Map();
-  let allowed = false, busy = false, count = 0, epoch = 0;
-  function controls() { for (const button of $$('[data-mural-format]')) button.disabled = busy || !allowed || !count; }
-  function clear() {
-    epoch++;
-    for (const url of files.values()) urls.revokeObjectURL(url); files.clear();
-    for (const link of $$('[data-mural-file]')) { link.hidden = true; link.removeAttribute('href'); }
-  }
-  function permission(value) {
-    allowed = value;
-    for (const button of $$('[data-mural-open]')) button.hidden = !allowed;
-    for (const button of $$('[data-mural-login]')) button.hidden = allowed;
-    if (!allowed) clear(); controls();
-  }
-  function details(info) {
-    count = info.count;
-    $('[data-mural-summary]').textContent = count ? `${count} approved ${count === 1 ? 'painting' : 'paintings'} · ${info.authors} ${info.authors === 1 ? 'person' : 'people'}` : 'No approved paintings yet. The mural will be ready when the first one is approved.';
-    controls();
-  }
-  async function open() {
-    const checkedToken = getToken();
-    show(dialog); status.textContent = 'Checking the paint…';
-    try { const info = await api('muralinfo'); if (getToken() !== checkedToken) return; permission(true); details(info); status.textContent = ''; }
-    catch (error) { if (getToken() !== checkedToken) return; permission(false); status.textContent = error.message; if (error.statusCode === 401) login(); }
-  }
-  async function generate(format) {
-    if (busy || !allowed || !count) return;
-    const requestToken = getToken(), requestEpoch = epoch;
-    busy = true; controls(); dialog.setAttribute('aria-busy', 'true'); status.textContent = 'Gathering every little mark…';
-    try {
-      const response = await fetcher(new URL(`${apiBase}/mural`, location.origin), { method: 'POST', credentials: 'same-origin', cache: 'no-store',
-        headers: { 'content-type': 'application/json' }, body: JSON.stringify({ token: requestToken, format }), signal: AbortSignal.timeout(60000) });
-      if (!response.ok) {
-        const data = await response.json();
-        throw Object.assign(new Error(data.error || 'The mural could not be generated.'), { statusCode: response.status });
-      }
-      const expected = format === 'svg' ? 'image/svg+xml' : 'text/html';
-      if ((response.headers.get('content-type') || '').split(';')[0] !== expected) throw new Error('The mural file did not come back correctly. Try again.');
-      const blob = await response.blob();
-      if (!allowed || getToken() !== requestToken || epoch !== requestEpoch) return;
-      const url = urls.createObjectURL(blob);
-      if (files.has(format)) urls.revokeObjectURL(files.get(format)); files.set(format, url);
-      const link = $(`[data-mural-file="${format}"]`), match = response.headers.get('content-disposition')?.match(/filename="([a-zA-Z0-9._-]+)"/u);
-      link.href = url; link.download = match?.[1] || `trap-birthday-mural.${format}`;
-      const savedCount = Number(response.headers.get('x-mural-count')) || count;
-      link.textContent = `DOWNLOAD ${format === 'svg' ? 'SVG POSTER' : 'OFFLINE VIEWER'} · ${savedCount} PAINTINGS ↓`; link.hidden = false;
-      status.textContent = 'Ready. Your download is below.';
-    } catch (error) {
-      status.textContent = error.name === 'TimeoutError' ? 'The download took too long. Your paintings are safe. Try generating it again.' : error.message;
-      if (error.statusCode === 401 || error.statusCode === 403) permission(false);
-    } finally { busy = false; controls(); dialog.removeAttribute('aria-busy'); }
-  }
-  for (const button of $$('[data-mural-login]')) button.addEventListener('click', login);
-  for (const button of $$('[data-mural-open]')) button.addEventListener('click', open);
-  for (const button of $$('[data-mural-format]')) button.addEventListener('click', () => generate(button.dataset.muralFormat));
-  window.addEventListener('pagehide', () => { clear(); status.textContent = ''; });
-  controls();
-  const restoredToken = getToken();
-  if (restoredToken) api('muralinfo').then(info => { if (getToken() === restoredToken) { permission(true); details(info); } }).catch(() => { if (getToken() === restoredToken) permission(false); });
-  return { open, setAccount(data) { permission(Boolean(data?.verified && data.canExportMural)); } };
-}
-window.TrapMural = { create };
-})();
-</script>
-    <script type="module">(() => {
   const root = document.getElementById('jaz-workshop');
   if (!root || root.dataset.ready) return;
   root.dataset.ready = 'true';
@@ -2298,7 +2220,6 @@ window.TrapMural = { create };
   const drawing = window.TrapGraffiti?.createEditor(root, { initial: draftArt, onChange: () => {
     updatePreview(); saveDraft();
   } });
-  const mural = window.TrapMural?.create({ root, api, apiBase, getToken: () => token, show, login: () => openBench('mural') });
   syncAccountBar();
   syncReadingMode();
 
@@ -2397,10 +2318,10 @@ window.TrapMural = { create };
       if (error.prelaunchMode) {
         prelaunchMode = true; policyKnown = true; clearTimeout(giftTimer);
         token = ''; me = null; selected = ''; paintAvailable = false; drawing?.setAvailable(false);
-        syncAccountBar(); mural?.setAccount(null); try { sessionStorage.removeItem('jaz-session'); sessionStorage.removeItem('jaz-workshop-tag'); } catch {}
+        syncAccountBar(); try { sessionStorage.removeItem('jaz-session'); sessionStorage.removeItem('jaz-workshop-tag'); } catch {}
         $('[data-visitor-tag]').hidden = true; panel('prelaunch');
       } else if (error.statusCode === 401) {
-        token = ''; me = null; syncAccountBar(); mural?.setAccount(null); try { sessionStorage.removeItem('jaz-session'); } catch {}
+        token = ''; me = null; syncAccountBar(); try { sessionStorage.removeItem('jaz-session'); } catch {}
         $('[data-visitor-tag]').hidden = true;
         panel(prelaunchMode ? 'prelaunch' : 'account'); $('[data-account-form]').hidden = false; $('[data-verify-slip]').hidden = true;
       }
@@ -2787,7 +2708,6 @@ window.TrapMural = { create };
     const justDelivered = data.reward?.status === 'sent' && me?.reward?.status && me.reward.status !== 'sent';
     me = data; syncPolicy(data);
     syncAccountBar();
-    mural?.setAccount(data);
     $('[data-wish-reset]').hidden = !data.wishResetId;
     paintAvailable = Boolean(drawing && data.verified && data.graffitiEnabled === true); drawing?.setAvailable(paintAvailable);
     if (data.verified && data.wish) {
@@ -2801,12 +2721,6 @@ window.TrapMural = { create };
       return;
     }
     if (intent === 'stash') { show($('[data-stash-dialog]')); loadPresents(); return; }
-    if (intent === 'mural') {
-      if (data.canExportMural) mural?.open();
-      else { panel('account'); $('[data-account-form]').hidden = false; $('[data-verify-slip]').hidden = true;
-        status('This download is for the mural’s owners. Try a different account.'); }
-      return;
-    }
     if (intent === 'unwrap') {
       if (data.canUnwrap) { show($('[data-stash-dialog]')); loadPresents(); toast('There she is. Have at them.'); }
       else { panel('present'); status('Nice try. Trap’s presents are for Trap.'); renderOwnPresent(data.present); }
@@ -2917,7 +2831,7 @@ window.TrapMural = { create };
       renderPresents(data.total); $('[data-more-presents]').hidden = !presentCursor;
     } catch (error) {
       if (accountToken !== token) return;
-      if (error.prelaunchMode || prelaunchMode && [401, 403].includes(error.statusCode)) { syncPolicy({ prelaunchMode: true }); if (!error.prelaunchMode) { token = ''; me = null; syncAccountBar(); mural?.setAccount(null); try { sessionStorage.removeItem('jaz-session'); } catch {} } presents = []; $('[data-present-pile]').replaceChildren(); $('[data-room-presents]').replaceChildren(); $('[data-present-count]').textContent = 'NOT OPEN YET'; if ($('[data-stash-dialog]').open && !canEnter()) openBench('stash'); }
+      if (error.prelaunchMode || prelaunchMode && [401, 403].includes(error.statusCode)) { syncPolicy({ prelaunchMode: true }); if (!error.prelaunchMode) { token = ''; me = null; syncAccountBar(); try { sessionStorage.removeItem('jaz-session'); } catch {} } presents = []; $('[data-present-pile]').replaceChildren(); $('[data-room-presents]').replaceChildren(); $('[data-present-count]').textContent = 'NOT OPEN YET'; if ($('[data-stash-dialog]').open && !canEnter()) openBench('stash'); }
       $('[data-stash-status]').textContent = error.statusCode === 404 ? 'The gift stash isn’t ready yet. Your gift details haven’t been submitted.' : error.message; }
     finally { if (presentsLoading === accountToken) presentsLoading = null; }
   }
@@ -2966,7 +2880,7 @@ window.TrapMural = { create };
   $('[data-change-account]').addEventListener('click', () => {
     if (busy) return;
     clearTimeout(giftTimer); profileVersion++; token = ''; me = null; selected = ''; paintAvailable = false;
-    mural?.setAccount(null); syncAccountBar(); drawing?.setAvailable(false);
+    syncAccountBar(); drawing?.setAvailable(false);
     try { sessionStorage.removeItem('jaz-session'); sessionStorage.removeItem('jaz-workshop-tag'); } catch {}
     $('[data-visitor-tag]').hidden = true; $('[data-visitor-tag]').textContent = '';
     saveDraft();
@@ -3281,7 +3195,7 @@ window.TrapMural = { create };
     <div class="wall-reader-heading"><p>BIRTHDAY WISH FROM</p><h2 id="wall-title" data-wall-author dir="auto">EVERYBODY.</h2></div>
     <div class="wall-navigation" data-wall-navigation><button class="wish-arrow" type="button" data-wall-prev aria-label="Previous wish"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5m6-6-6 6 6 6"/></svg></button><div class="wall-browse-status"><p data-wall-position role="status" aria-live="polite"></p><span data-wall-swipe-hint>Swipe left or right</span></div><button class="wish-arrow" type="button" data-wall-next aria-label="Next wish"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button></div>
     <div class="community-wall" id="workshop-wall-wishes" data-community-wall role="region" aria-label="Birthday wishes" tabindex="0"></div><div class="empty-wall" data-wall-empty hidden><span>✺</span><h3 data-wall-empty-title>Suspiciously tidy.</h3><p data-wall-empty-message>Get some birthday wishes on this thing.</p></div>
-    <div class="wall-footer" role="group" aria-label="Mural"><a class="wall-tool mural-link" href="https://platopedia.com/trapbday/wall/">EXPLORE THE FULL MURAL <span aria-hidden="true">↗</span></a><button class="wall-tool" type="button" data-mural-login>PRINT THE MURAL <span aria-hidden="true">↓</span></button><button class="wall-tool" type="button" data-mural-open hidden>PRINT THE MURAL <span aria-hidden="true">↓</span></button></div>
+    <div class="wall-footer"><a class="wall-tool" href="https://platopedia.com/trapbday/wall/">EXPLORE THE FULL MURAL <span aria-hidden="true">↗</span></a></div>
   </dialog>
 
   <dialog class="bench-dialog" id="workshop-bench" aria-labelledby="bench-title" data-bench-dialog>
@@ -3340,20 +3254,6 @@ window.TrapMural = { create };
     <div class="wish-dialog-toolbar"><button type="button" class="reading-toggle" data-read-reading aria-pressed="false" aria-controls="workshop-wish-reader" hidden>Reading mode</button><button class="close-bolt" data-close aria-label="Close message"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div><p class="tape-label" data-read-label>A MARK ON THE WALL</p><h2 id="read-title">FOR <em>TRAP.</em></h2>
     <div class="wall-navigation" data-read-navigation hidden><button class="wish-arrow" type="button" data-read-prev aria-label="Previous wish"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5m6-6-6 6 6 6"/></svg></button><div class="wall-browse-status"><p data-read-position role="status" aria-live="polite"></p><span>Swipe left or right</span></div><button class="wish-arrow" type="button" data-read-next aria-label="Next wish"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button></div>
     <div class="wish-reader" id="workshop-wish-reader" data-wish-reader><canvas class="read-art" data-read-art width="800" height="560" role="img" aria-label="Hand-painted wish cover" hidden></canvas><div class="wish-text-card" data-read-text><span class="mark-sticker" data-read-sticker aria-hidden="true"></span><p class="mark-message read-message" data-read-message dir="auto"></p><p class="mark-signature read-signature" data-read-author dir="auto"></p></div></div>
-  </dialog>
-
-  <dialog class="mural-dialog" aria-labelledby="mural-title" data-mural-dialog aria-busy="false">
-    <button class="close-bolt" data-close aria-label="Close mural download">×</button>
-    <p class="tape-label">FOR TRAP. FROM EVERYBODY.</p>
-    <h2 id="mural-title">THE WHOLE<br><em>GLORIOUS MESS.</em></h2>
-    <p class="mural-summary" data-mural-summary>Checking the paintings…</p>
-    <p>Every approved hand-painted cover, with its signature. A little piece of everyone, all on one wall.</p>
-    <div class="mural-download-options">
-      <section><h3>THE POSTER.</h3><p>A vector SVG. A0 landscape by default, sharp at any print size.</p><button class="ink-button" type="button" data-mural-format="svg" disabled>MAKE THE SVG ↓</button><a class="plain-button" data-mural-file="svg" download hidden>DOWNLOAD SVG POSTER ↓</a></section>
-      <section><h3>THE ONE YOU EXPLORE.</h3><p>An offline HTML viewer. Pinch, drag, jump to each painting and read its wish. Includes Print / Save PDF.</p><button class="ink-button pink-button" type="button" data-mural-format="html" disabled>MAKE THE VIEWER ↓</button><a class="plain-button" data-mural-file="html" download hidden>DOWNLOAD OFFLINE VIEWER ↓</a></section>
-    </div>
-    <p class="small-note">Each download captures the approved paintings at that moment. You can make another copy after more are approved. Open the downloaded HTML file in a browser to explore it.</p>
-    <p class="form-status" data-mural-status role="status" aria-live="polite"></p>
   </dialog>
 
   <dialog class="info-dialog" aria-labelledby="info-title" data-info-dialog><button class="close-bolt" data-close aria-label="Close workshop guide">×</button><p class="tape-label">SOME VERY LOOSE INSTRUCTIONS</p><h2 id="info-title">TOUCH<br><em>STUFF.</em></h2><p>The wall’s for birthday wishes. The stash is for gifts you’re planning to give Trap, preferably a Plato item. The radio does radio things.</p><p>Leave a verified Arcade birthday wish and the gift hatch offers up to five unowned Plato items at your randomly assigned Pip value. Pick one. The bot sends it to your account.</p><p>There are four suspicious things to find. Nobody is offering a sensible prize for that.</p><button class="ink-button" data-close>RIGHT. GOT IT. ↩</button></dialog>
