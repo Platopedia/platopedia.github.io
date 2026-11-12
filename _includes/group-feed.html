@@ -1,34 +1,107 @@
-<link rel="stylesheet" href="/docs/assets/css/group-feed.css">
-<section class="group-feed" data-group-feed data-mode="{{ include.mode }}"
-  data-group="{{ include.group }}" data-api="https://platopedia-groups.platopedia.workers.dev/api/feed">
+{% if include.mode == 'embed' %}<link rel="stylesheet" href="/docs/assets/css/group-feed.css">{% endif %}
+<section class="group-feed" data-group-feed data-mode="{{ include.mode }}" data-group="{{ include.group }}"
+  data-api="https://platopedia-groups.platopedia.workers.dev/api/feed"{% if include.mode == 'embed' %} hidden{% endif %}>
   {% if include.mode == 'feed' %}
-  <header class="group-feed-intro">
-    <h1>Group Feed</h1>
-    <p>Announcements, events, and updates from the Plato community.</p>
-  </header>
-  {% elsif include.mode == 'profile' %}
-  <a class="group-feed-back" href="/groups/">← Group Feed</a>
-  {% endif %}
-  <div data-feed-profile hidden></div>
-  <div class="group-feed-grid">
-    <div class="group-feed-main">
-      {% if include.mode == 'feed' %}
-      <div class="group-feed-controls">
-        <label>Server <select data-feed-region><option value="">All servers</option></select></label>
-        <button type="button" data-feed-refresh>Refresh</button>
+  <header class="gf-hero" data-gf-hero>
+    <img class="gf-hero-art" src="/docs/assets/images/groups/clubhouse.jpg"
+      srcset="/docs/assets/images/groups/clubhouse-small.jpg 900w, /docs/assets/images/groups/clubhouse.jpg 1536w"
+      sizes="(max-width: 720px) 100vw, 1240px" width="1536" height="1024" alt="" fetchpriority="high">
+    <div class="gf-hero-copy">
+      <p class="gf-kicker"><span class="gf-signal" aria-hidden="true"></span> Plato community</p>
+      <h1>Find your<br><em>people.</em></h1>
+      <p>Group news, game nights, and the people who make Plato feel like home.</p>
+      <div class="gf-hero-actions">
+        <button class="gf-button gf-primary" type="button" data-gf-action="jump" data-key="directory">
+          Explore groups <span aria-hidden="true">↗</span>
+        </button>
+        <button class="gf-button gf-hero-secondary" type="button" data-gf-action="jump" data-key="latest">
+          Latest posts <span aria-hidden="true">↓</span>
+        </button>
       </div>
-      <a class="group-feed-back" data-feed-all href="/groups/" hidden>← All posts</a>
-      {% endif %}
-      <p data-feed-status class="group-feed-status" role="status">Loading group posts…</p>
-      <div data-feed-posts class="group-feed-posts"></div>
-      <button type="button" data-feed-more hidden>Load more posts</button>
     </div>
+    <button class="gf-spotlight" type="button" data-gf-action="group" data-gf-spotlight hidden></button>
+  </header>
+
+  <div class="gf-workspace" id="group-feed-workspace" tabindex="-1">
+    <div class="gf-console">
+      <nav class="gf-views" aria-label="Group Feed views">
+        <button type="button" data-gf-action="view" data-key="latest" aria-current="page">Feed</button>
+        <button type="button" data-gf-action="view" data-key="directory">Directory</button>
+        <button type="button" data-gf-action="view" data-key="following">Following</button>
+        <button type="button" data-gf-action="view" data-key="saved">Saved</button>
+      </nav>
+      <button class="gf-search-trigger" type="button" data-gf-action="search" aria-label="Search groups and posts">
+        <span class="gf-search-icon" aria-hidden="true"></span> <span>Search</span> <kbd aria-hidden="true">/</kbd>
+      </button>
+    </div>
+
+    <div class="gf-filterbar" data-gf-filterbar hidden>
+      <div class="gf-regions" data-gf-regions role="group" aria-label="Filter by server"></div>
+      <button class="gf-button gf-filter-clear" type="button" data-gf-action="clear-group" data-gf-group-filter hidden></button>
+    </div>
+
+    <section class="gf-directory-view" data-gf-directory-view hidden aria-labelledby="gf-directory-title">
+      <header class="gf-section-head">
+        <div>
+          <h2 id="gf-directory-title">Group directory</h2>
+          <p class="gf-caption" data-gf-directory-count></p>
+        </div>
+        <button class="gf-button" type="button" data-gf-action="surprise" data-gf-surprise hidden>Surprise me <span aria-hidden="true">✦</span></button>
+      </header>
+      <label class="gf-search-field">
+        <span class="gf-search-icon" aria-hidden="true"></span>
+        <span class="gf-sr-only">Filter the directory by group name</span>
+        <input type="search" data-gf-directory-search placeholder="Find a group…" autocomplete="off" maxlength="80">
+      </label>
+      <div class="gf-directory-grid" data-gf-directory-grid></div>
+      <p class="gf-status" data-gf-directory-status role="status" hidden></p>
+    </section>
+  {% elsif include.mode == 'profile' %}
+  <a class="gf-back" href="/groups/"><span aria-hidden="true">←</span> Back to Groups</a>
+  {% endif %}
+
+  {% if include.mode != 'feed' %}<div data-gf-profile hidden></div>{% endif %}
+  <div class="gf-feed-layout" data-gf-feed-view>
+    <section class="gf-timeline" aria-labelledby="gf-feed-heading">
+      {% if include.mode != 'embed' %}
+      <header class="gf-section-head">
+        <div>
+          <h2 id="gf-feed-heading" data-gf-heading>{% if include.mode == 'feed' %}Latest posts{% else %}Group posts{% endif %}</h2>
+        </div>
+        <div class="gf-section-actions">
+          <a class="gf-back" data-gf-back href="/groups/" hidden>← All posts</a>
+          <button class="gf-button gf-refresh" type="button" data-gf-action="refresh" data-gf-refresh>
+            <span aria-hidden="true">↻</span> Refresh
+          </button>
+        </div>
+      </header>
+      {% else %}
+      <h2 id="gf-feed-heading" class="gf-sr-only">Arcade group posts</h2>
+      {% endif %}
+      <noscript><p class="gf-status">Enable JavaScript to browse the Group Feed.</p></noscript>
+      <p class="gf-status" data-gf-status role="status">Loading group posts…</p>
+      <div class="gf-posts" data-gf-posts aria-busy="true"></div>
+      <button class="gf-button gf-more" type="button" data-gf-action="more" data-gf-more hidden>Load older posts <span aria-hidden="true">↓</span></button>
+    </section>
     {% if include.mode == 'feed' %}
-    <aside class="group-feed-directory">
-      <h2>Group directory</h2>
-      <ul data-feed-directory></ul>
+    <aside class="gf-side" aria-labelledby="gf-discover-title">
+      <div class="gf-side-head">
+        <h2 id="gf-discover-title">Discover groups</h2>
+        <button class="gf-text-button" type="button" data-gf-action="jump" data-key="directory">See all <span aria-hidden="true">↗</span></button>
+      </div>
+      <ul class="gf-group-list" data-gf-group-list></ul>
+      <p class="gf-caption" data-gf-sidebar-status hidden></p>
     </aside>
     {% endif %}
   </div>
+  {% if include.mode == 'feed' %}</div>{% endif %}
+
+  <dialog class="gf-dialog" data-gf-dialog aria-labelledby="gf-dialog-title">
+    <div class="gf-dialog-inner">
+      <button class="gf-button gf-dialog-close" type="button" data-gf-action="close" aria-label="Close"><span aria-hidden="true">×</span></button>
+      <div data-gf-dialog-content></div>
+    </div>
+  </dialog>
+  <p class="gf-toast" data-gf-toast role="status" hidden></p>
 </section>
 <script defer src="/docs/assets/js/group-feed.js"></script>

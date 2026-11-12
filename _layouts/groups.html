@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{{ page.description | escape }}">
+  <meta name="theme-color" content="#10101a">
+  <meta name="color-scheme" content="dark">
+  <title>{{ page.title | escape }}</title>
+  <link rel="icon" href="/docs/assets/images/icons/favicon-32x32.png" sizes="32x32">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500..800&family=DM+Sans:wght@400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/docs/assets/css/group-feed.css">
+</head>
+<body class="groups-page">
+  <a class="groups-skip" href="#groups-main">Skip to Groups</a>
+  <header class="groups-masthead">
+    <div class="groups-masthead-inner">
+      <a class="groups-brand" href="/"><img src="/docs/assets/images/logos/default.png" width="21" height="24" alt="">Platopedia</a>
+      <nav class="groups-site-nav" aria-label="Platopedia">
+        <ul>{% include head-menu.html %}</ul>
+      </nav>
+      <details class="groups-site-mobile">
+        <summary>Menu <span aria-hidden="true">⌄</span></summary>
+        <nav aria-label="Platopedia"><ul>{% include head-menu.html %}</ul></nav>
+      </details>
+    </div>
+  </header>
+  <main class="groups-shell" id="groups-main">
+    {{ content }}
+  </main>
+  <footer class="groups-site-footer">
+    <a href="/">Platopedia</a>
+    <a href="/contact">Contact</a>
+  </footer>
+  {% include foot-counter.html %}
+</body>
+</html>
