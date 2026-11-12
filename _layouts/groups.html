@@ -4,15 +4,31 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="{{ page.description | escape }}">
-  <meta name="theme-color" content="#1687ef">
-  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="color-scheme" content="only light">
+  <script data-groups-theme-init>
+    (() => {
+      let preference;
+      try { preference = localStorage.getItem("util_theme"); } catch {}
+      const theme = preference === "light" || preference === "dark" ? preference
+        : matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      const root = document.documentElement;
+      root.dataset.theme = theme;
+      const scheme = theme === "dark" ? "dark" : "only light";
+      root.style.colorScheme = scheme;
+      root.style.backgroundColor = theme === "dark" ? "#0c1522" : "#f1f6fc";
+      document.querySelector('meta[name="color-scheme"]').setAttribute("content", scheme);
+      document.querySelector('meta[name="theme-color"]').setAttribute("content", theme === "dark" ? "#142030" : "#ffffff");
+    })();
+  </script>
+  <style>.groups-masthead{background:#fff}.groups-document[data-theme="dark"] .groups-masthead{background:#142030}</style>
   <title>{{ page.title | escape }}</title>
   <link rel="icon" href="/docs/assets/images/icons/favicon-32x32.png" sizes="32x32">
-  <script src="/docs/assets/js/groups-theme.js"></script>
+  <script defer src="/docs/assets/js/groups-theme.js?v=20261112.2"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400..800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/docs/assets/css/group-feed.css">
+  <link rel="stylesheet" href="/docs/assets/css/group-feed.css?v=20261112.2">
 </head>
 <body class="groups-page">
   <a class="groups-skip" href="#groups-main">Skip to Groups</a>

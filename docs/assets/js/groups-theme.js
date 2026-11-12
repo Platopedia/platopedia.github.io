@@ -14,9 +14,13 @@
   function apply() {
     const theme = preference === "dark" || preference === "light" ? preference : system.matches ? "dark" : "light";
     root.dataset.theme = theme;
+    root.style.colorScheme = theme === "dark" ? "dark" : "only light";
+    root.style.backgroundColor = theme === "dark" ? "#0c1522" : "#f1f6fc";
     if (document.body) document.body.dataset.theme = theme;
+    const scheme = document.querySelector('meta[name="color-scheme"]');
+    if (scheme) scheme.setAttribute("content", root.style.colorScheme);
     const meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.content = theme === "dark" ? "#0c1522" : "#1687ef";
+    if (meta) meta.setAttribute("content", theme === "dark" ? "#142030" : "#ffffff");
     if (toggle) {
       toggle.setAttribute("aria-pressed", String(theme === "dark"));
       toggle.title = theme === "dark" ? "Switch to light mode" : "Switch to dark mode";

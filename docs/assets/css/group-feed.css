@@ -14,7 +14,7 @@
   -webkit-font-smoothing: antialiased;
 }
 .groups-page *, .group-feed * { box-sizing: border-box; }
-.groups-document { color-scheme: light; }
+.groups-document { color-scheme: only light; }
 .groups-document[data-theme="dark"] { color-scheme: dark; }
 .groups-document[data-theme="dark"] .groups-page {
   --groups-ink: #edf4fc;
@@ -177,7 +177,7 @@
   color: var(--gf-ink);
   font: 400 1rem/1.55 var(--gf-display);
   text-align: left;
-  color-scheme: light;
+  color-scheme: only light;
 }
 
 .group-feed [hidden], .group-feed[hidden] { display: none !important; }
