@@ -450,6 +450,7 @@
 
     if (isFeed && route.view === "directory") return;
     const posts = filteredPosts();
+    replaceKnownPosts(posts);
     postsNode.setAttribute("aria-busy", String(Boolean(activeLoad)));
     renderPosts(posts);
     const refresh = find("refresh");
@@ -572,7 +573,6 @@
     try {
       if (route.view === "following" && !following.size) {
         timeline = nextTimeline;
-        replaceKnownPosts([]);
         return;
       }
       const before = append ? timeline.cursor : "";
@@ -593,7 +593,6 @@
         if (!isFeed) renderProfile();
       }
       timeline = nextTimeline;
-      replaceKnownPosts(timeline.posts);
     } catch (error) {
       if (activeLoad !== controller || error.name === "AbortError") return;
       errorMessage = "Could not load group posts.";
@@ -624,7 +623,9 @@
       nextSaved.posts.push(...ids.map(id => byId.get(id)).filter(Boolean));
       for (const id of ids) nextSaved.loaded.add(id);
       savedView = nextSaved;
-      replaceKnownPosts(savedView.posts);
+      // Keep an already loaded timeline consistent with the posts just rechecked in Saved.
+      const checked = new Set(ids);
+      timeline.posts = timeline.posts.flatMap(post => checked.has(post.id) ? byId.get(post.id) || [] : post);
     } catch (error) {
       if (activeLoad !== controller || error.name === "AbortError") return;
       errorMessage = "Could not load saved posts.";
