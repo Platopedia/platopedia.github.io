@@ -18,6 +18,15 @@
   const postKey = /^\d{17,20}$/;
   const views = new Set(["latest", "directory", "following", "saved"]);
   const palette = ["#1266bf", "#0a747e", "#3e57a1", "#12618c", "#455c7a"];
+  const iconPaths = {
+    plus: "M12 5v14M5 12h14",
+    check: "m5 13 4 4L19 7",
+    close: "m6 6 12 12M18 6 6 18",
+    external: "M7 17 17 7M7 7h10v10",
+    right: "M5 12h14m-6-6 6 6-6 6",
+    expand: "M8 3H3v5M16 3h5v5M21 16v5h-5M8 21H3v-5",
+    copy: "M8 8H3v13h13v-5M8 3h13v13H8z",
+  };
   const savedKey = "platopedia.groupFeed.saved";
   const followingKey = "platopedia.groupFeed.following";
 
@@ -85,21 +94,22 @@
     return button;
   }
 
-  function icon(mark) {
-    const span = el("span", null, mark);
-    span.setAttribute("aria-hidden", "true");
-    return span;
+  function icon(name) {
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("class", "gf-icon");
+    svg.setAttribute("viewBox", "0 0 24 24");
+    svg.setAttribute("aria-hidden", "true");
+    svg.setAttribute("focusable", "false");
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("d", iconPaths[name]);
+    svg.append(path);
+    return svg;
   }
 
-  function copyIcon() {
-    const span = el("span", "gf-copy-icon");
-    span.setAttribute("aria-hidden", "true");
-    return span;
-  }
-
-  function link(href, label, className) {
+  function link(href, label, className, iconName) {
     const anchor = el("a", className, label);
     anchor.href = href;
+    if (iconName) anchor.append(icon(iconName));
     return anchor;
   }
 
@@ -166,7 +176,7 @@
       glyph.setAttribute("aria-hidden", "true");
       button.replaceChildren(glyph, document.createTextNode(active ? "Saved" : "Save"));
     } else {
-      button.replaceChildren(icon(active ? "✓" : "+"), document.createTextNode(active ? "Following" : "Follow"));
+      button.replaceChildren(icon(active ? "check" : "plus"), document.createTextNode(active ? "Following" : "Follow"));
     }
   }
 
@@ -181,7 +191,7 @@
     const actions = el("div", "gf-card-actions");
     if (includeRead) {
       const read = action("read", "Read post", post.id, "gf-button gf-read");
-      read.append(icon("↗"));
+      read.append(icon("external"));
       actions.append(read);
     }
     const save = action("save", undefined, post.id, "gf-button gf-save");
@@ -220,7 +230,7 @@
     const friendUrl = managerFriendUrl(group);
     if (friendUrl) {
       const contact = el("section", "gf-manager-contact");
-      const label = el("label", "gf-profile-label", "Manager’s friend link");
+      const label = el("label", "gf-profile-label", "Manager's friend link");
       const input = el("textarea", "gf-friend-input");
       input.id = `gf-friend-${inDialog ? "dialog" : mode}-${group.slug}`;
       input.value = friendUrl;
@@ -228,19 +238,19 @@
       input.rows = 2;
       input.spellcheck = false;
       input.dir = "ltr";
-      input.setAttribute("aria-label", `${group.name} manager’s Plato friend link`);
+      input.setAttribute("aria-label", `${group.name} manager's Plato friend link`);
       input.setAttribute("autocapitalize", "off");
       input.addEventListener("focus", () => input.select());
       label.htmlFor = input.id;
       const field = el("div", "gf-friend-field");
       const copy = action("copy-friend", undefined, group.slug, "gf-button gf-friend-copy");
-      copy.setAttribute("aria-label", `Copy ${group.name} manager’s friend link`);
+      copy.setAttribute("aria-label", `Copy ${group.name} manager's friend link`);
       copy.title = "Copy friend link";
-      copy.append(copyIcon());
+      copy.append(icon("copy"));
       const notice = el("p", "gf-copy-status");
       notice.setAttribute("role", "status");
       field.append(input, copy);
-      const connect = link(friendUrl, "Connect on Plato ↗", "gf-button gf-primary");
+      const connect = link(friendUrl, "Connect on Plato", "gf-button gf-primary", "external");
       connect.rel = "noreferrer";
       contact.append(label, el("p", "gf-contact-help", "Add the manager on Plato to ask about joining."), field, notice, connect);
       details.append(contact);
@@ -248,7 +258,7 @@
     if (details.children.length) fragment.append(details);
     if (inDialog) {
       const footer = el("div", "gf-profile-footer");
-      footer.append(link(profileUrl(group), "View group page →", "gf-button gf-profile-open"));
+      footer.append(link(profileUrl(group), "View group page", "gf-button gf-profile-open", "right"));
       fragment.append(footer);
     }
     return fragment;
@@ -283,7 +293,10 @@
     image.loading = "lazy";
     const control = action("image", undefined, post.id, "gf-image-button");
     control.setAttribute("aria-label", `Enlarge image for ${post.title}`);
-    control.append(image, icon("⤢"));
+    const expand = el("span", "gf-image-expand");
+    expand.setAttribute("aria-hidden", "true");
+    expand.append(icon("expand"));
+    control.append(image, expand);
     image.addEventListener("error", () => control.remove(), { once: true });
     return control;
   }
@@ -347,7 +360,7 @@
       controls.find((control) => control.dataset.key === focusedRegion)?.focus({ preventScroll: true });
     }
     const groupFilter = find("group-filter");
-    groupFilter.textContent = `${groups.get(route.group)?.name || route.group} ×`;
+    groupFilter.replaceChildren(document.createTextNode(groups.get(route.group)?.name || route.group), icon("close"));
     groupFilter.hidden = !route.group;
     find("filterbar").hidden = Boolean(route.post) || (regions.length <= 1 && !route.group);
 
@@ -370,7 +383,6 @@
     const available = visibleGroups(find("directory-search").value);
     const count = find("directory-count");
     count.textContent = available.length ? `${available.length} ${available.length === 1 ? "group" : "groups"}` : "";
-    find("surprise").hidden = !available.length;
     const visible = new Set(available.map(group => group.slug));
     for (const [slug, entry] of renderedGroups) if (!visible.has(slug)) {
       entry.card.remove();
@@ -385,7 +397,7 @@
         card.append(identity(group));
         if (group.bio) card.append(el("p", "gf-group-bio", group.bio));
         const actions = el("div", "gf-profile-actions");
-        actions.append(followButton(group), link(profileUrl(group), "Open profile ↗", "gf-button"));
+        actions.append(followButton(group), link(profileUrl(group), "Open profile", "gf-button", "external"));
         card.append(actions);
         entry?.card.remove();
         entry = { card, signature };
@@ -772,18 +784,18 @@
     try {
       await navigator.clipboard.writeText(url);
       notice.textContent = "Friend link copied.";
-      button.replaceChildren(icon("✓"));
+      button.replaceChildren(icon("check"));
       button.title = "Friend link copied";
       setTimeout(() => {
         if (!button.isConnected) return;
-        button.replaceChildren(copyIcon());
+        button.replaceChildren(icon("copy"));
         button.title = "Copy friend link";
       }, 2000);
     } catch {
       const input = contact.querySelector(".gf-friend-input");
       input.focus();
       input.select();
-      notice.textContent = "Link selected. Use your device’s Copy option.";
+      notice.textContent = "Link selected. Use your device's Copy option.";
     }
   }
 
@@ -793,7 +805,7 @@
       await navigator.clipboard.writeText(url);
       if (dialog.open && dialog.contains(button)) {
         const label = button.textContent;
-        button.textContent = "Copied ✓";
+        button.replaceChildren(icon("check"), document.createTextNode("Copied"));
         setTimeout(() => { if (button.isConnected) button.textContent = label; }, 2000);
       } else {
         toast("Link copied.");
@@ -867,12 +879,6 @@
       case "search":
         searchDialog();
         break;
-      case "surprise": {
-        const candidates = visibleGroups(find("directory-search").value);
-        const choice = candidates[Math.floor(Math.random() * candidates.length)];
-        if (choice) groupDialog(choice);
-        break;
-      }
       case "group":
         if (group) groupDialog(group);
         break;

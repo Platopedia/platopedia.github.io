@@ -6,13 +6,13 @@
     <div class="gf-hero-copy">
       <p class="gf-kicker"><img src="/docs/assets/images/plato.png" alt="" width="31" height="31"> Plato community</p>
       <h1>Plato Groups</h1>
-      <p>Find a group, catch up on its posts, and connect with the people you’ll play with next.</p>
+      <p>Find a group, catch up on its posts, and connect with the people you'll play with next.</p>
       <div class="gf-hero-actions">
         <button class="gf-button gf-primary" type="button" data-gf-action="jump" data-key="directory">
-          Find a group <span aria-hidden="true">↗</span>
+          Find a group <svg class="gf-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M7 7h10v10"/></svg>
         </button>
         <button class="gf-button gf-hero-secondary" type="button" data-gf-action="jump" data-key="latest">
-          Latest posts <span aria-hidden="true">↓</span>
+          Latest posts <svg class="gf-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14m-6-6 6 6 6-6"/></svg>
         </button>
       </div>
     </div>
@@ -42,7 +42,6 @@
           <h2 id="gf-directory-title">Group directory</h2>
           <p class="gf-caption" data-gf-directory-count></p>
         </div>
-        <button class="gf-button" type="button" data-gf-action="surprise" data-gf-surprise hidden>Surprise me <span aria-hidden="true">✦</span></button>
       </header>
       <label class="gf-search-field">
         <span class="gf-search-icon" aria-hidden="true"></span>
@@ -53,21 +52,21 @@
       <p class="gf-status" data-gf-directory-status role="status" hidden></p>
     </section>
   {% elsif include.mode == 'profile' %}
-  <a class="gf-back" href="/groups/"><span aria-hidden="true">←</span> Back to Groups</a>
+  <a class="gf-back" href="/groups/"><svg class="gf-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19 12H5m6-6-6 6 6 6"/></svg> Back to Groups</a>
   {% endif %}
 
   {% if include.mode != 'feed' %}<div data-gf-profile hidden></div>{% endif %}
   <div class="gf-feed-layout" data-gf-feed-view>
     <section class="gf-timeline" aria-labelledby="gf-feed-heading">
       {% if include.mode != 'embed' %}
-      <a class="gf-back gf-all-posts" data-gf-back href="/groups/" hidden>← All posts</a>
+      <a class="gf-back gf-all-posts" data-gf-back href="/groups/" hidden><svg class="gf-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19 12H5m6-6-6 6 6 6"/></svg> All posts</a>
       <header class="gf-section-head">
         <div>
           <h2 id="gf-feed-heading" data-gf-heading>{% if include.mode == 'feed' %}Latest posts{% else %}Group posts{% endif %}</h2>
         </div>
         <div class="gf-section-actions">
           <button class="gf-button gf-refresh" type="button" data-gf-action="refresh" data-gf-refresh>
-            <span aria-hidden="true">↻</span> Refresh
+            <svg class="gf-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 12a9 9 0 0 1 15.36-6.36L21 8M21 3v5h-5M21 12a9 9 0 0 1-15.36 6.36L3 16M8 16H3v5"/></svg> Refresh
           </button>
         </div>
       </header>
@@ -77,13 +76,13 @@
       <noscript><p class="gf-status">Enable JavaScript to browse the Group Feed.</p></noscript>
       <p class="gf-status" data-gf-status role="status">Loading group posts…</p>
       <div class="gf-posts" data-gf-posts aria-busy="true"></div>
-      <button class="gf-button gf-more" type="button" data-gf-action="more" data-gf-more hidden>Load older posts <span aria-hidden="true">↓</span></button>
+      <button class="gf-button gf-more" type="button" data-gf-action="more" data-gf-more hidden><span>Load older posts </span><svg class="gf-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14m-6-6 6 6 6-6"/></svg></button>
     </section>
     {% if include.mode == 'feed' %}
     <aside class="gf-side" aria-labelledby="gf-discover-title">
       <div class="gf-side-head">
         <div><p class="gf-side-kicker">Directory</p><h2 id="gf-discover-title">Discover groups</h2></div>
-        <button class="gf-text-button" type="button" data-gf-action="jump" data-key="directory">See all <span aria-hidden="true">↗</span></button>
+        <button class="gf-text-button" type="button" data-gf-action="jump" data-key="directory">See all <svg class="gf-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M7 7h10v10"/></svg></button>
       </div>
       <ul class="gf-group-list" data-gf-group-list></ul>
       <p class="gf-caption" data-gf-sidebar-status hidden></p>

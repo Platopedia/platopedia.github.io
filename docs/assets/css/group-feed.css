@@ -28,6 +28,18 @@
 .groups-document[data-theme="dark"] .groups-brand img { filter: brightness(0) invert(1); }
 .groups-page :is(button, a, summary), .group-feed :is(button, a) { -webkit-tap-highlight-color: transparent; }
 .groups-page button, .group-feed button { appearance: none; }
+.groups-page .gf-icon, .group-feed .gf-icon {
+  display: block;
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
 .groups-page :is(button, a, summary):focus:not(:focus-visible), .group-feed :is(button, a):focus:not(:focus-visible) { outline: none; }
 .groups-page a { color: inherit; }
 .groups-page .d-none { display: none; }
@@ -265,7 +277,6 @@
 .gf-button:hover, .group-feed a.gf-button:hover { background: var(--gf-neutral-hover); border-color: var(--gf-rule); }
 .gf-button:active { transform: translateY(1px); }
 .gf-button:disabled { opacity: .56; cursor: wait; }
-.gf-button span[aria-hidden="true"] { font-size: 1.05em; }
 .group-feed .gf-button.gf-primary { color: var(--gf-accent-ink); background: var(--gf-accent); border-color: var(--gf-accent); }
 .group-feed .gf-button.gf-primary:is(:hover, :active, :focus-visible) { color: var(--gf-accent-ink); background: var(--gf-accent-hover); border-color: var(--gf-accent-hover); }
 
@@ -361,7 +372,7 @@
 .gf-section-head > div:first-child { min-width: 0; }
 .gf-section-actions { display: flex; flex: 0 0 auto; align-items: center; gap: .65rem; }
 .group-feed .gf-caption { color: var(--gf-muted); font-size: .84rem; margin-top: .25rem; }
-.group-feed a.gf-back, .gf-text-button { color: var(--gf-link); font-weight: 700; font-size: .86rem; }
+.group-feed a.gf-back, .gf-text-button { display: inline-flex; align-items: center; gap: .45rem; color: var(--gf-link); font-weight: 700; font-size: .86rem; }
 .group-feed a.gf-back:hover { text-decoration: underline; }
 .gf-all-posts { display: inline-flex; align-items: center; margin-bottom: .8rem; white-space: nowrap; }
 .gf-text-button { padding: .4rem .5rem; }
@@ -458,13 +469,13 @@
   transition: opacity .2s ease;
 }
 .gf-image-button:hover img { opacity: .86; }
-.gf-image-button span {
+.gf-image-expand {
   display: grid;
   place-items: center;
   position: absolute;
   right: .55rem;
   bottom: .55rem;
-  min-width: 34px;
+  width: 34px;
   height: 34px;
   border: 1px solid #7d9ab8;
   border-radius: 7px;
@@ -484,7 +495,7 @@
 .gf-status[role="status"][data-state="loading"] { animation: gf-pulse 1.4s ease-in-out infinite alternate; }
 @keyframes gf-pulse { to { opacity: .62; } }
 .gf-more { display: flex; margin: 1rem auto 0; }
-.gf-refresh[aria-busy="true"] > span { display: inline-block; animation: gf-spin .8s linear infinite; }
+.gf-refresh[aria-busy="true"] > .gf-icon { animation: gf-spin .8s linear infinite; }
 @keyframes gf-spin { to { transform: rotate(360deg); } }
 .gf-side { padding: 1.2rem; background: linear-gradient(150deg, var(--gf-surface-up), var(--gf-surface) 52%); }
 .gf-side-head { display: flex; align-items: center; justify-content: space-between; gap: .45rem; }
@@ -606,10 +617,6 @@
   background: var(--gf-neutral-hover);
   font-size: .78rem;
 }
-.gf-copy-icon { display: block; position: relative; width: 18px; height: 19px; }
-.gf-copy-icon::before, .gf-copy-icon::after { content: ""; position: absolute; width: 12px; height: 14px; border: 1.5px solid currentColor; border-radius: 3px; background: var(--gf-neutral-hover); }
-.gf-copy-icon::before { top: 0; left: 0; }
-.gf-copy-icon::after { right: 0; bottom: 0; }
 .group-feed .gf-copy-status { margin-top: .5rem; color: var(--gf-muted); font-size: .76rem; }
 .group-feed .gf-copy-status:empty { display: none; }
 .gf-manager-contact .gf-primary { width: 100%; min-height: 43px; margin-top: .75rem; }
@@ -708,7 +715,6 @@ body:not([data-theme="light"]) .group-feed[data-mode="embed"] {
 .gf-search-result.gf-identity { justify-content: flex-start; }
 .gf-dialog .gf-card-meta { padding-right: 2.65rem; margin-bottom: .8rem; }
 .gf-dialog .gf-post-text { margin-top: .75rem; }
-.gf-dialog .gf-image-button { cursor: default; }
 .gf-dialog-image { display: block; width: 100%; max-height: 70dvh; object-fit: contain; border-radius: .55rem; margin-top: .85rem; }
 .gf-dialog[data-kind="image"] { width: min(100% - 24px, 1050px); }
 .gf-dialog[data-kind="group"] { width: min(100% - 28px, 540px); border-radius: 24px; }

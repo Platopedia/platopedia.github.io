@@ -32,6 +32,21 @@
     apply();
   });
   document.addEventListener("DOMContentLoaded", () => {
+    const menu = document.querySelector(".groups-site-mobile");
+    if (menu) {
+      document.addEventListener("click", (event) => {
+        if (!menu.contains(event.target) || event.target.closest("a")) menu.open = false;
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key !== "Escape" || !menu.open) return;
+        menu.open = false;
+        menu.querySelector("summary").focus();
+        event.preventDefault();
+      });
+      document.addEventListener("focusin", (event) => {
+        if (!menu.contains(event.target)) menu.open = false;
+      });
+    }
     toggle = document.querySelector("[data-groups-theme-toggle]");
     if (!toggle) return;
     apply();
