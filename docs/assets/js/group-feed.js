@@ -105,8 +105,11 @@
   }
 
   function profileUrl(group) {
-    const fallback = group.slug === "arcade" ? "/groups/arcade" : `/groups/profile/?group=${encodeURIComponent(group.slug)}`;
-    return safeUrl(group.url, [location.origin, "https://platopedia.com"]) || fallback;
+    return `/groups/profile/?group=${encodeURIComponent(group.slug)}`;
+  }
+
+  function managerFriendUrl(group) {
+    return safeUrl(group.friendUrl, ["https://platoapp.com", "https://www.platoapp.com"]);
   }
 
   function postUrl(post) {
@@ -183,12 +186,6 @@
 
   function profileActions(group, inDialog) {
     const actions = el("div", "gf-profile-actions");
-    const friendUrl = safeUrl(group.friendUrl, ["https://platoapp.com", "https://www.platoapp.com"]);
-    if (friendUrl) {
-      const friend = link(friendUrl, "Find the manager on Plato ↗", "gf-button gf-primary");
-      friend.rel = "noreferrer";
-      actions.append(friend);
-    }
     actions.append(followButton(group), action("share-group", "Share group", group.slug));
     if (inDialog) {
       actions.append(link(profileUrl(group), "Open profile ↗", "gf-button"));
@@ -211,6 +208,16 @@
       const bio = el("p", "gf-group-bio", group.bio);
       bio.dir = "auto";
       fragment.append(bio);
+    }
+    const friendUrl = managerFriendUrl(group);
+    if (friendUrl) {
+      const contact = el("div", "gf-manager-contact");
+      const actions = el("div", "gf-profile-actions");
+      const connect = link(friendUrl, "Connect on Plato ↗", "gf-button gf-primary");
+      connect.rel = "noreferrer";
+      actions.append(connect, action("copy-friend", "Copy friend link", group.slug));
+      contact.append(el("p", "gf-caption", "Group manager"), actions);
+      fragment.append(contact);
     }
     fragment.append(profileActions(group, inDialog));
     return fragment;
@@ -346,7 +353,7 @@
       card.append(identity(group));
       if (group.bio) card.append(el("p", "gf-group-bio", group.bio));
       const actions = el("div", "gf-profile-actions");
-      actions.append(followButton(group), link(profileUrl(group), "Profile ↗", "gf-button"));
+      actions.append(followButton(group), link(profileUrl(group), "Open profile ↗", "gf-button"));
       card.append(actions);
       return card;
     });
@@ -666,24 +673,25 @@
     toastTimeout = setTimeout(() => { notice.hidden = true; }, 2400);
   }
 
-  async function share(path, button) {
+  async function share(path, button, friendLink = false) {
     const url = new URL(path, location.href).href;
+    const message = friendLink ? "Friend link copied" : "Link copied";
     try {
       await navigator.clipboard.writeText(url);
       if (dialog.open && dialog.contains(button)) {
-        button.textContent = "Link copied ✓";
+        button.textContent = `${message} ✓`;
       } else {
-        toast("Link copied.");
+        toast(`${message}.`);
       }
     } catch {
       const panel = el("div");
-      const title = el("h2", null, "Share this link");
+      const title = el("h2", null, friendLink ? "Copy friend link" : "Share this link");
       title.id = "gf-dialog-title";
       const field = el("label", "gf-search-field gf-link-box");
       const input = el("input");
       input.value = url;
       input.readOnly = true;
-      input.setAttribute("aria-label", "Link to copy");
+      input.setAttribute("aria-label", friendLink ? "Manager’s Plato friend link" : "Link to copy");
       field.append(input);
       panel.append(title, field);
       showDialog("share", panel, input);
@@ -768,6 +776,11 @@
       case "share-group":
         if (group) share(profileUrl(group), button);
         break;
+      case "copy-friend": {
+        const url = group && managerFriendUrl(group);
+        if (url) share(url, button, true);
+        break;
+      }
       case "close":
         dialog.close();
         break;

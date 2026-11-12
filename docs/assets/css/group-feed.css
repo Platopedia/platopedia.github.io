@@ -492,6 +492,17 @@
 .gf-profile .gf-region { font-size: .9rem; }
 .gf-profile .gf-group-bio { max-width: 44rem; margin-top: 1rem; font-size: 1rem; }
 .gf-profile-actions { margin-top: 1rem; }
+.gf-manager-contact {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .5rem .85rem;
+  margin-top: 1rem;
+  padding-top: .85rem;
+  border-top: 1px solid var(--gf-rule);
+}
+.group-feed .gf-manager-contact .gf-caption { margin: 0; font-weight: 700; }
+.group-feed .gf-manager-contact .gf-profile-actions { margin: 0; }
 .group-feed[data-mode="profile"] .gf-timeline { max-width: 55rem; }
 .group-feed[data-mode="embed"] { margin: 1.35rem auto 1.8rem; }
 .group-feed[data-mode="embed"] .gf-profile { padding: 1rem 1.15rem; margin: 0 0 .75rem; }
