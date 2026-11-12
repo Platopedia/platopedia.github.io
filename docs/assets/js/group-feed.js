@@ -328,18 +328,6 @@
 
   function renderDiscovery() {
     if (!isFeed) return;
-    const spotlight = find("spotlight");
-    const spotlightGroup = timeline.posts[0]?.group || [...groups.values()][0];
-    if (spotlightGroup) {
-      const label = el("span");
-      label.append(el("small", null, "Group spotlight"), el("strong", null, spotlightGroup.name));
-      spotlight.dataset.key = spotlightGroup.slug;
-      spotlight.replaceChildren(avatar(spotlightGroup), label, icon("↗"));
-      spotlight.hidden = false;
-    } else {
-      spotlight.hidden = true;
-    }
-
     const labels = new Map();
     for (const group of groups.values()) labels.set(group.region.toLocaleLowerCase(), group.region);
     const regions = ["", ...[...labels.values()].sort((a, b) => a.localeCompare(b))];
