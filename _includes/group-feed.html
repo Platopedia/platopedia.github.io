@@ -3,35 +3,43 @@
   data-api="https://platopedia-groups.platopedia.workers.dev/api/feed"{% if include.mode == 'embed' %} hidden{% endif %}>
   {% if include.mode == 'feed' %}
   <header class="gf-hero" data-gf-hero>
-    <img class="gf-hero-art" src="/docs/assets/images/groups/clubhouse.jpg"
-      srcset="/docs/assets/images/groups/clubhouse-small.jpg 900w, /docs/assets/images/groups/clubhouse.jpg 1536w"
-      sizes="(max-width: 720px) 100vw, 1240px" width="1536" height="1024" alt="" fetchpriority="high">
     <div class="gf-hero-copy">
-      <p class="gf-kicker"><span class="gf-signal" aria-hidden="true"></span> Plato community</p>
-      <h1>Find your<br><em>people.</em></h1>
-      <p>Group news, game nights, and the people who make Plato feel like home.</p>
+      <p class="gf-kicker"><img src="/docs/assets/images/plato.png" alt="" width="31" height="31"> Plato community</p>
+      <h1>Plato Groups</h1>
+      <p>Find a group, catch up on its posts, and connect with the people you’ll play with next.</p>
       <div class="gf-hero-actions">
         <button class="gf-button gf-primary" type="button" data-gf-action="jump" data-key="directory">
-          Explore groups <span aria-hidden="true">↗</span>
+          Find a group <span aria-hidden="true">↗</span>
         </button>
         <button class="gf-button gf-hero-secondary" type="button" data-gf-action="jump" data-key="latest">
           Latest posts <span aria-hidden="true">↓</span>
         </button>
       </div>
     </div>
-    <button class="gf-spotlight" type="button" data-gf-action="group" data-gf-spotlight hidden></button>
+    <div class="gf-hero-scene">
+      <div class="gf-game-shelf">
+        <p class="gf-shelf-label">On Plato</p>
+        <p class="gf-shelf-title">What are we playing?</p>
+        <ul class="gf-game-list" aria-label="Explore games on the official Plato site">
+          <li><a class="gf-game gf-game-ocho" href="https://platoapp.com/en/games/ocho" target="_blank" rel="noopener noreferrer" aria-label="Ocho on Plato (opens in a new tab)"><img src="/docs/assets/images/groups/plato-games/ocho.png" width="50" height="50" alt=""><span>Ocho</span></a></li>
+          <li><a class="gf-game gf-game-pool" href="https://platoapp.com/en/games/pool" target="_blank" rel="noopener noreferrer" aria-label="Pool on Plato (opens in a new tab)"><img src="/docs/assets/images/groups/plato-games/pool.png" width="50" height="50" alt=""><span>Pool</span></a></li>
+          <li><a class="gf-game gf-game-ludo" href="https://platoapp.com/en/games/ludo" target="_blank" rel="noopener noreferrer" aria-label="Ludo on Plato (opens in a new tab)"><img src="/docs/assets/images/groups/plato-games/ludo.png" width="50" height="50" alt=""><span>Ludo</span></a></li>
+        </ul>
+      </div>
+      <button class="gf-spotlight" type="button" data-gf-action="group" data-gf-spotlight hidden></button>
+    </div>
   </header>
 
   <div class="gf-workspace" id="group-feed-workspace" tabindex="-1">
     <div class="gf-console">
       <nav class="gf-views" aria-label="Group Feed views">
-        <button type="button" data-gf-action="view" data-key="latest" aria-current="page">Feed</button>
-        <button type="button" data-gf-action="view" data-key="directory">Directory</button>
-        <button type="button" data-gf-action="view" data-key="following">Following</button>
-        <button type="button" data-gf-action="view" data-key="saved">Saved</button>
+        <button type="button" data-gf-action="view" data-key="latest" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 9h8M8 13h8M8 17h4"/></svg>Feed</button>
+        <button type="button" data-gf-action="view" data-key="directory"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="8" r="3"/><path d="M4 20v-2a6 6 0 0 1 12 0v2M16 5a3 3 0 0 1 0 6m2 3a5 5 0 0 1 2 4v2"/></svg>Directory</button>
+        <button type="button" data-gf-action="view" data-key="following"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 9c0 4-8 9-8 9S4 13 4 9a4.3 4.3 0 0 1 8-2.2A4.3 4.3 0 0 1 20 9Z"/></svg>Following</button>
+        <button type="button" data-gf-action="view" data-key="saved"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v14l-6-4-6 4z"/></svg>Saved</button>
       </nav>
       <button class="gf-search-trigger" type="button" data-gf-action="search" aria-label="Search groups and posts">
-        <span class="gf-search-icon" aria-hidden="true"></span> <span>Search</span> <kbd aria-hidden="true">/</kbd>
+        <span class="gf-search-icon" aria-hidden="true"></span> <span>Search groups and posts</span> <kbd aria-hidden="true">/</kbd>
       </button>
     </div>
 
@@ -86,7 +94,7 @@
     {% if include.mode == 'feed' %}
     <aside class="gf-side" aria-labelledby="gf-discover-title">
       <div class="gf-side-head">
-        <h2 id="gf-discover-title">Discover groups</h2>
+        <div><p class="gf-side-kicker">Directory</p><h2 id="gf-discover-title">Discover groups</h2></div>
         <button class="gf-text-button" type="button" data-gf-action="jump" data-key="directory">See all <span aria-hidden="true">↗</span></button>
       </div>
       <ul class="gf-group-list" data-gf-group-list></ul>

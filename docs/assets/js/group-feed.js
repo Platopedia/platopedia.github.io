@@ -17,7 +17,7 @@
   const groupKey = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
   const postKey = /^\d{17,20}$/;
   const views = new Set(["latest", "directory", "following", "saved"]);
-  const palette = ["#bda2ff", "#dfeb93", "#83dce4", "#f6a7bd", "#f1c58a"];
+  const palette = ["#1266bf", "#0a747e", "#3e57a1", "#12618c", "#455c7a"];
   const savedKey = "platopedia.groupFeed.saved";
   const followingKey = "platopedia.groupFeed.following";
 
