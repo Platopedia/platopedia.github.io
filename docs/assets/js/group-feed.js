@@ -422,24 +422,31 @@
   function renderPosts(posts) {
     const active = new Set(posts.map((post) => post.id));
     for (const [id, entry] of renderedPosts) {
-      if (!active.has(id)) {
-        entry.card.remove();
-        renderedPosts.delete(id);
-      }
+      if (!active.has(id)) entry.card.remove();
     }
     posts.forEach((post, index) => {
       let entry = renderedPosts.get(post.id);
       const signature = JSON.stringify([post.title, post.body, post.publishedAt, post.imageUrl,
         post.originalImageUrl, post.group.slug, post.group.name, post.group.region, post.group.iconUrl]);
-      if (entry?.signature !== signature) {
+      const expectedImages = Number(Boolean(post.imageUrl)) + Number(Boolean(post.group.iconUrl));
+      if (entry?.signature !== signature || entry.card.querySelectorAll("img").length !== expectedImages) {
         entry?.card.remove();
         entry = { signature, card: postCard(post) };
-        renderedPosts.set(post.id, entry);
       }
+      renderedPosts.delete(post.id);
+      renderedPosts.set(post.id, entry);
+      const save = entry.card.querySelector('[data-gf-action="save"]');
+      if (save.getAttribute("aria-pressed") !== String(saved.has(post.id))) updateToggle(save, saved.has(post.id));
       if (postsNode.children[index] !== entry.card) {
         postsNode.insertBefore(entry.card, postsNode.children[index] || null);
       }
     });
+    // Preserve recently viewed cards and their decoded images without accumulating detached pages.
+    let detached = renderedPosts.size - active.size;
+    for (const id of renderedPosts.keys()) {
+      if (detached <= 24) break;
+      if (!active.has(id)) { renderedPosts.delete(id); detached -= 1; }
+    }
   }
 
   function render() {
@@ -569,7 +576,7 @@
     return JSON.stringify(params);
   }
 
-  async function loadTimeline(append = false) {
+  async function loadTimeline(append = false, refreshCatalog = false) {
     const params = timelineParams();
     const key = timelineId(params);
     if (append && (!timeline.cursor || timeline.key !== key)) return;
@@ -584,11 +591,16 @@
     render();
     try {
       if (route.view === "following" && !following.size) {
+        if (refreshCatalog) {
+          const data = await requestFeed({ catalog: "only" }, controller.signal);
+          if (activeLoad !== controller) return;
+          ingest(data, true);
+        }
         timeline = nextTimeline;
         return;
       }
       const before = append ? timeline.cursor : "";
-      const data = await requestFeed({ ...params, before }, controller.signal);
+      const data = await requestFeed({ ...params, before, ...(refreshCatalog ? { catalog: "all" } : {}) }, controller.signal);
       if (activeLoad !== controller) return;
       if (!data) {
         if (isEmbed) root.hidden = true;
@@ -598,7 +610,7 @@
         }
         errorMessage = "This group could not be found.";
       } else {
-        ingest(data, isFeed && !params.group && !params.post);
+        ingest(data, refreshCatalog || isFeed && !params.group && !params.post);
         const existing = new Set(nextTimeline.posts.map((post) => post.id));
         nextTimeline.posts.push(...data.posts.filter((post) => !existing.has(post.id)));
         nextTimeline.cursor = data.next;
@@ -616,7 +628,7 @@
     }
   }
 
-  async function loadSaved(append = false) {
+  async function loadSaved(append = false, refreshCatalog = false) {
     activeLoad?.abort();
     const controller = new AbortController();
     activeLoad = controller;
@@ -627,10 +639,10 @@
     const ids = [...saved].reverse().filter((id) => !nextSaved.loaded.has(id)).slice(0, 8);
     render();
     try {
-      const data = ids.length ? await requestFeed({ posts: ids.join(","), catalog: "0" }, controller.signal)
-        : { groups: [], posts: [] };
+      const data = ids.length ? await requestFeed({ posts: ids.join(","), catalog: refreshCatalog ? "all" : "0" }, controller.signal)
+        : refreshCatalog ? await requestFeed({ catalog: "only" }, controller.signal) : { groups: [], posts: [] };
       if (activeLoad !== controller) return;
-      ingest(data);
+      ingest(data, refreshCatalog);
       const byId = new Map(data.posts.map(post => [post.id, post]));
       nextSaved.posts.push(...ids.map(id => byId.get(id)).filter(Boolean));
       for (const id of ids) nextSaved.loaded.add(id);
@@ -650,19 +662,18 @@
   }
 
   function sync(force = false) {
-    if (force && route.view !== "directory" && isFeed) ensureCatalog(true);
     if (route.view === "directory") {
       activeLoad?.abort();
       activeLoad = null;
       ensureCatalog(force);
       render();
     } else if (route.view === "saved") {
-      loadSaved();
+      loadSaved(false, force && isFeed);
     } else if (!force && !errorMessage && !activeLoad && timeline.key === timelineId(timelineParams()) &&
       (route.view !== "following" || !following.size || filteredPosts().length || !timeline.cursor)) {
       render();
     } else {
-      loadTimeline();
+      loadTimeline(false, force && isFeed);
     }
   }
 
