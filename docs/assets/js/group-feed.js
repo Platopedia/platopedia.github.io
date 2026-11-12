@@ -184,42 +184,62 @@
     return actions;
   }
 
-  function profileActions(group, inDialog) {
-    const actions = el("div", "gf-profile-actions");
-    actions.append(followButton(group), action("share-group", "Share group", group.slug));
-    if (inDialog) {
-      actions.append(link(profileUrl(group), "Open profile ↗", "gf-button"));
-      if (isFeed) actions.append(action("filter-group", "See group posts", group.slug));
-    }
-    return actions;
-  }
-
   function profileContent(group, headingLevel, headingText, inDialog) {
     const fragment = document.createDocumentFragment();
+    const overview = el("div", "gf-profile-overview");
     const identityRow = el("div", "gf-profile-identity");
-    const text = el("div");
+    const text = el("div", "gf-profile-name");
     const heading = el(headingLevel, null, headingText);
     heading.dir = "auto";
     if (inDialog) heading.id = "gf-dialog-title";
-    text.append(heading, el("p", "gf-region", group.region));
+    const region = el("p", "gf-region gf-profile-region", group.region);
+    region.setAttribute("aria-label", `Server: ${group.region}`);
+    text.append(el("p", "gf-profile-eyebrow", "Plato group"), heading, region);
     identityRow.append(avatar(group), text);
-    fragment.append(identityRow);
+    const tools = el("div", "gf-profile-tools");
+    tools.append(followButton(group), action("share-group", "Share", group.slug, "gf-button gf-profile-share"));
+    overview.append(identityRow, tools);
+    fragment.append(overview);
+    const details = el("div", "gf-profile-details");
     if (group.bio) {
+      const about = el("section", "gf-profile-about");
       const bio = el("p", "gf-group-bio", group.bio);
       bio.dir = "auto";
-      fragment.append(bio);
+      about.append(el("h3", "gf-profile-label", "About the group"), bio);
+      details.append(about);
     }
     const friendUrl = managerFriendUrl(group);
     if (friendUrl) {
-      const contact = el("div", "gf-manager-contact");
-      const actions = el("div", "gf-profile-actions");
+      const contact = el("section", "gf-manager-contact");
+      const label = el("label", "gf-profile-label", "Manager’s friend link");
+      const input = el("textarea", "gf-friend-input");
+      input.id = `gf-friend-${inDialog ? "dialog" : mode}-${group.slug}`;
+      input.value = friendUrl;
+      input.readOnly = true;
+      input.rows = 2;
+      input.spellcheck = false;
+      input.dir = "ltr";
+      input.setAttribute("aria-label", `${group.name} manager’s Plato friend link`);
+      input.setAttribute("autocapitalize", "off");
+      input.addEventListener("focus", () => input.select());
+      label.htmlFor = input.id;
+      const field = el("div", "gf-friend-field");
+      const copy = action("copy-friend", "Copy", group.slug, "gf-button gf-friend-copy");
+      copy.setAttribute("aria-label", `Copy ${group.name} manager’s friend link`);
+      const notice = el("p", "gf-copy-status");
+      notice.setAttribute("role", "status");
+      field.append(input, copy);
       const connect = link(friendUrl, "Connect on Plato ↗", "gf-button gf-primary");
       connect.rel = "noreferrer";
-      actions.append(connect, action("copy-friend", "Copy friend link", group.slug));
-      contact.append(el("p", "gf-caption", "Group manager"), actions);
-      fragment.append(contact);
+      contact.append(label, el("p", "gf-contact-help", "Add the manager on Plato to ask about joining."), field, notice, connect);
+      details.append(contact);
     }
-    fragment.append(profileActions(group, inDialog));
+    if (details.children.length) fragment.append(details);
+    if (inDialog) {
+      const footer = el("div", "gf-profile-footer");
+      footer.append(link(profileUrl(group), "View group page →", "gf-button gf-profile-open"));
+      fragment.append(footer);
+    }
     return fragment;
   }
 
@@ -228,7 +248,6 @@
     if (!group) return;
     const profile = find("profile");
     const card = el("header", "gf-profile");
-    card.style.background = `radial-gradient(ellipse at 6% 0%, ${colorFor(group.slug)}24, transparent 65%), var(--gf-surface)`;
     card.append(profileContent(group, isEmbed ? "h2" : "h1", isEmbed ? `${group.name} group feed` : group.name, false));
     profile.replaceChildren(card);
     profile.hidden = false;
@@ -673,25 +692,44 @@
     toastTimeout = setTimeout(() => { notice.hidden = true; }, 2400);
   }
 
-  async function share(path, button, friendLink = false) {
+  async function copyFriend(group, button) {
+    const url = managerFriendUrl(group);
+    if (!url) return;
+    const contact = button.closest(".gf-manager-contact");
+    const notice = contact.querySelector(".gf-copy-status");
+    try {
+      await navigator.clipboard.writeText(url);
+      notice.textContent = "Friend link copied.";
+      button.textContent = "Copied ✓";
+      setTimeout(() => { if (button.isConnected) button.textContent = "Copy"; }, 2000);
+    } catch {
+      const input = contact.querySelector(".gf-friend-input");
+      input.focus();
+      input.select();
+      notice.textContent = "Link selected. Use your device’s Copy option.";
+    }
+  }
+
+  async function share(path, button) {
     const url = new URL(path, location.href).href;
-    const message = friendLink ? "Friend link copied" : "Link copied";
     try {
       await navigator.clipboard.writeText(url);
       if (dialog.open && dialog.contains(button)) {
-        button.textContent = `${message} ✓`;
+        const label = button.textContent;
+        button.textContent = "Copied ✓";
+        setTimeout(() => { if (button.isConnected) button.textContent = label; }, 2000);
       } else {
-        toast(`${message}.`);
+        toast("Link copied.");
       }
     } catch {
       const panel = el("div");
-      const title = el("h2", null, friendLink ? "Copy friend link" : "Share this link");
+      const title = el("h2", null, "Share this link");
       title.id = "gf-dialog-title";
       const field = el("label", "gf-search-field gf-link-box");
       const input = el("input");
       input.value = url;
       input.readOnly = true;
-      input.setAttribute("aria-label", friendLink ? "Manager’s Plato friend link" : "Link to copy");
+      input.setAttribute("aria-label", "Link to copy");
       field.append(input);
       panel.append(title, field);
       showDialog("share", panel, input);
@@ -756,12 +794,6 @@
       case "group":
         if (group) groupDialog(group);
         break;
-      case "filter-group":
-        if (group) {
-          dialog.close();
-          navigate({ group: group.slug, region: "", post: "", view: "latest" }, true);
-        }
-        break;
       case "read":
       case "image":
         if (post) postDialog(post, gfAction === "image");
@@ -777,8 +809,7 @@
         if (group) share(profileUrl(group), button);
         break;
       case "copy-friend": {
-        const url = group && managerFriendUrl(group);
-        if (url) share(url, button, true);
+        if (group) copyFriend(group, button);
         break;
       }
       case "close":

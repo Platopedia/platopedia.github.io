@@ -1,13 +1,14 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="groups-document">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="{{ page.description | escape }}">
   <meta name="theme-color" content="#1687ef">
-  <meta name="color-scheme" content="light">
+  <meta name="color-scheme" content="light dark">
   <title>{{ page.title | escape }}</title>
   <link rel="icon" href="/docs/assets/images/icons/favicon-32x32.png" sizes="32x32">
+  <script src="/docs/assets/js/groups-theme.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400..800&display=swap" rel="stylesheet">
@@ -21,10 +22,16 @@
       <nav class="groups-site-nav" aria-label="Platopedia">
         <ul>{% include head-menu.html %}</ul>
       </nav>
-      <details class="groups-site-mobile">
-        <summary>Menu <span aria-hidden="true">⌄</span></summary>
-        <nav aria-label="Platopedia"><ul>{% include head-menu.html %}</ul></nav>
-      </details>
+      <div class="groups-header-actions">
+        <button class="groups-theme-toggle" type="button" data-groups-theme-toggle aria-label="Dark mode" aria-pressed="false" title="Switch to dark mode" hidden>
+          <svg class="groups-theme-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 13A8.5 8.5 0 0 1 11 3.5 8.5 8.5 0 1 0 20.5 13Z"/></svg>
+          <svg class="groups-theme-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.4 1.4m11.2 11.2L19 19M5 19l1.4-1.4M17.6 6.4 19 5"/></svg>
+        </button>
+        <details class="groups-site-mobile">
+          <summary>Menu <span aria-hidden="true">⌄</span></summary>
+          <nav aria-label="Platopedia"><ul>{% include head-menu.html %}</ul></nav>
+        </details>
+      </div>
     </div>
   </header>
   <main class="groups-shell" id="groups-main">
