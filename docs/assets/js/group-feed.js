@@ -29,6 +29,8 @@
   };
   const savedKey = "platopedia.groupFeed.saved";
   const followingKey = "platopedia.groupFeed.following";
+  const freshFor = 60_000;
+  const imageRecovery = new WeakMap();
 
   let route = routeFromUrl();
   const groups = new Map();
@@ -38,11 +40,14 @@
   let saved = storedSet(savedKey, postKey);
   let following = storedSet(followingKey, groupKey);
   let catalogComplete = false;
+  let catalogLoadedAt = 0;
   let catalogLoad;
   let catalogError = false;
-  let timeline = { key: "", posts: [], cursor: null };
-  let savedView = { posts: [], loaded: new Set() };
+  let timeline = { key: "", posts: [], cursor: null, loadedAt: 0 };
+  let savedView = { posts: [], loaded: new Set(), loadedAt: 0 };
   let activeLoad;
+  let activeStartedAt = 0;
+  let lastRecoveryAt = 0;
   let errorMessage = "";
   let lastDialogFocus;
   let toastTimeout;
@@ -151,11 +156,39 @@
       image.alt = "";
       image.loading = "lazy";
       image.decoding = "async";
-      image.addEventListener("error", () => image.remove(), { once: true });
+      watchImage(image);
       image.src = url;
       frame.append(image);
     }
     return frame;
+  }
+
+  function watchImage(image, target = image, fallback) {
+    const recovery = { target, fallback, retryAt: 0 };
+    imageRecovery.set(image, recovery);
+    image.addEventListener("error", () => {
+      image.dataset.gfImageFailed = "true";
+      recovery.retryAt = Date.now() + 30_000;
+      target.hidden = true;
+      if (fallback) fallback.hidden = false;
+    });
+    image.addEventListener("load", () => {
+      image.removeAttribute("data-gf-image-failed");
+      target.hidden = false;
+      if (fallback) fallback.hidden = true;
+    });
+  }
+
+  function retryImages(scope = root, force = false) {
+    for (const image of scope.querySelectorAll("img[data-gf-image-failed]")) {
+      const recovery = imageRecovery.get(image);
+      if (!recovery || !force && Date.now() < recovery.retryAt) continue;
+      image.removeAttribute("data-gf-image-failed");
+      recovery.target.hidden = false;
+      if (recovery.fallback) recovery.fallback.hidden = true;
+      // Reuse the same URL and element; healthy images never enter this path.
+      image.src = image.src;
+    }
   }
 
   function identity(group) {
@@ -285,10 +318,16 @@
     const image = el("img");
     image.alt = `Image attached to ${post.title}`;
     image.decoding = "async";
-    image.src = url;
     if (inReader) {
       image.className = "gf-dialog-image";
-      return image;
+      const frame = el("div", "gf-reader-image");
+      const fallback = el("p", "gf-status", "Image could not load. ");
+      fallback.hidden = true;
+      fallback.append(action("retry-image", "Retry image"));
+      watchImage(image, image, fallback);
+      image.src = url;
+      frame.append(image, fallback);
+      return frame;
     }
     image.loading = "lazy";
     const control = action("image", undefined, post.id, "gf-image-button");
@@ -296,8 +335,9 @@
     const expand = el("span", "gf-image-expand");
     expand.setAttribute("aria-hidden", "true");
     expand.append(icon("expand"));
+    watchImage(image, control);
+    image.src = url;
     control.append(image, expand);
-    image.addEventListener("error", () => control.remove(), { once: true });
     return control;
   }
 
@@ -428,8 +468,7 @@
       let entry = renderedPosts.get(post.id);
       const signature = JSON.stringify([post.title, post.body, post.publishedAt, post.imageUrl,
         post.originalImageUrl, post.group.slug, post.group.name, post.group.region, post.group.iconUrl]);
-      const expectedImages = Number(Boolean(post.imageUrl)) + Number(Boolean(post.group.iconUrl));
-      if (entry?.signature !== signature || entry.card.querySelectorAll("img").length !== expectedImages) {
+      if (entry?.signature !== signature) {
         entry?.card.remove();
         entry = { signature, card: postCard(post) };
       }
@@ -467,11 +506,15 @@
       renderDirectory();
     }
 
-    if (isFeed && route.view === "directory") return;
+    if (isFeed && route.view === "directory") {
+      retryImages();
+      return;
+    }
     const posts = filteredPosts();
     replaceKnownPosts(posts);
     postsNode.setAttribute("aria-busy", String(Boolean(activeLoad)));
     renderPosts(posts);
+    retryImages();
     const refresh = find("refresh");
     if (refresh) {
       refresh.disabled = Boolean(activeLoad);
@@ -540,6 +583,7 @@
     if (replacing) {
       groups.clear();
       catalogComplete = true;
+      catalogLoadedAt = Date.now();
       catalogError = false;
     }
     for (const group of data.groups) {
@@ -552,19 +596,24 @@
   }
 
   async function ensureCatalog(force = false) {
-    if (!force && catalogComplete) return;
+    if (!force && !catalogError && catalogComplete && Date.now() - catalogLoadedAt < freshFor) return;
     if (!catalogLoad) {
       catalogError = false;
-      catalogLoad = requestFeed({ catalog: "only" }, undefined).then((data) => ingest(data, true)).catch(() => {
-        catalogError = true;
+      const load = { controller: new AbortController(), startedAt: Date.now() };
+      catalogLoad = load;
+      load.promise = requestFeed({ catalog: "only" }, load.controller.signal).then((data) => {
+        if (catalogLoad === load) ingest(data, true);
+      }).catch(() => {
+        if (catalogLoad === load) catalogError = true;
       }).finally(() => {
+        if (catalogLoad !== load) return;
         catalogLoad = null;
         render();
         const input = dialog.querySelector("[data-gf-search-input]");
         if (dialog.open && input) renderSearch(input.value);
       });
     }
-    return catalogLoad;
+    return catalogLoad.promise;
   }
 
   function timelineParams() {
@@ -573,21 +622,24 @@
   }
 
   function timelineId(params) {
-    return JSON.stringify(params);
+    return JSON.stringify({ ...params, following: route.view === "following" });
   }
 
-  async function loadTimeline(append = false, refreshCatalog = false) {
+  async function loadTimeline(append = false, refreshCatalog = false, preservePages = false) {
     const params = timelineParams();
     const key = timelineId(params);
     if (append && (!timeline.cursor || timeline.key !== key)) return;
     activeLoad?.abort();
     const controller = new AbortController();
     activeLoad = controller;
+    activeStartedAt = Date.now();
     errorMessage = "";
     const nextTimeline = {
       key, posts: append ? [...timeline.posts] : [], cursor: append ? timeline.cursor : null,
+      loadedAt: append ? timeline.loadedAt : 0,
     };
-    if (timeline.key !== key) timeline = { key, posts: [], cursor: null };
+    const keepCount = preservePages && timeline.key === key ? timeline.posts.length : 0;
+    if (timeline.key !== key) timeline = { key, posts: [], cursor: null, loadedAt: 0 };
     render();
     try {
       if (route.view === "following" && !following.size) {
@@ -596,29 +648,37 @@
           if (activeLoad !== controller) return;
           ingest(data, true);
         }
-        timeline = nextTimeline;
+        timeline = { ...nextTimeline, loadedAt: Date.now() };
         return;
       }
-      const before = append ? timeline.cursor : "";
-      const data = await requestFeed({ ...params, before, ...(refreshCatalog ? { catalog: "all" } : {}) }, controller.signal);
-      if (activeLoad !== controller) return;
-      if (!data) {
-        if (isEmbed) root.hidden = true;
-        if (!isFeed) {
-          find("profile").hidden = true;
-          profileSignature = "";
+      let before = append ? timeline.cursor : "";
+      do {
+        activeStartedAt = Date.now();
+        const data = await requestFeed({ ...params, before, ...(refreshCatalog ? { catalog: "all" } : {}) }, controller.signal);
+        if (activeLoad !== controller) return;
+        if (!data) {
+          if (isEmbed) root.hidden = true;
+          if (!isFeed) {
+            find("profile").hidden = true;
+            profileSignature = "";
+          }
+          errorMessage = "This group could not be found.";
+          break;
+        } else {
+          ingest(data, refreshCatalog || isFeed && !params.group && !params.post);
+          const existing = new Set(nextTimeline.posts.map((post) => post.id));
+          nextTimeline.posts.push(...data.posts.filter((post) => !existing.has(post.id)));
+          nextTimeline.cursor = data.next;
+          if (!isFeed) renderProfile();
         }
-        errorMessage = "This group could not be found.";
-      } else {
-        ingest(data, refreshCatalog || isFeed && !params.group && !params.post);
-        const existing = new Set(nextTimeline.posts.map((post) => post.id));
-        nextTimeline.posts.push(...data.posts.filter((post) => !existing.has(post.id)));
-        nextTimeline.cursor = data.next;
-        if (!isFeed) renderProfile();
-      }
+        refreshCatalog = false;
+        if (!nextTimeline.cursor || nextTimeline.cursor === before) break;
+        before = nextTimeline.cursor;
+      } while (nextTimeline.posts.length < keepCount);
+      if (!errorMessage && !append) nextTimeline.loadedAt = Date.now();
       timeline = nextTimeline;
     } catch (error) {
-      if (activeLoad !== controller || error.name === "AbortError") return;
+      if (activeLoad !== controller || controller.signal.aborted) return;
       errorMessage = "Could not load group posts.";
     } finally {
       if (activeLoad === controller) {
@@ -628,30 +688,40 @@
     }
   }
 
-  async function loadSaved(append = false, refreshCatalog = false) {
+  async function loadSaved(append = false, refreshCatalog = false, preservePages = false) {
     activeLoad?.abort();
     const controller = new AbortController();
     activeLoad = controller;
+    activeStartedAt = Date.now();
     errorMessage = "";
     const nextSaved = {
       posts: append ? [...savedView.posts] : [], loaded: append ? new Set(savedView.loaded) : new Set(),
+      loadedAt: append ? savedView.loadedAt : 0,
     };
-    const ids = [...saved].reverse().filter((id) => !nextSaved.loaded.has(id)).slice(0, 8);
+    const count = preservePages ? Math.max(8, savedView.loaded.size) : 8;
+    const ids = [...saved].reverse().filter((id) => !nextSaved.loaded.has(id)).slice(0, count);
     render();
     try {
-      const data = ids.length ? await requestFeed({ posts: ids.join(","), catalog: refreshCatalog ? "all" : "0" }, controller.signal)
-        : refreshCatalog ? await requestFeed({ catalog: "only" }, controller.signal) : { groups: [], posts: [] };
-      if (activeLoad !== controller) return;
-      ingest(data, refreshCatalog);
-      const byId = new Map(data.posts.map(post => [post.id, post]));
-      nextSaved.posts.push(...ids.map(id => byId.get(id)).filter(Boolean));
-      for (const id of ids) nextSaved.loaded.add(id);
+      const byId = new Map();
+      for (let offset = 0; offset < Math.max(1, ids.length); offset += 8) {
+        activeStartedAt = Date.now();
+        const batch = ids.slice(offset, offset + 8);
+        const data = batch.length ? await requestFeed({ posts: batch.join(","), catalog: refreshCatalog ? "all" : "0" }, controller.signal)
+          : refreshCatalog ? await requestFeed({ catalog: "only" }, controller.signal) : { groups: [], posts: [] };
+        if (activeLoad !== controller) return;
+        ingest(data, refreshCatalog);
+        for (const post of data.posts) byId.set(post.id, post);
+        nextSaved.posts.push(...batch.map(id => byId.get(id)).filter(Boolean));
+        for (const id of batch) nextSaved.loaded.add(id);
+        refreshCatalog = false;
+      }
+      if (!append) nextSaved.loadedAt = Date.now();
       savedView = nextSaved;
       // Keep an already loaded timeline consistent with the posts just rechecked in Saved.
       const checked = new Set(ids);
       timeline.posts = timeline.posts.flatMap(post => checked.has(post.id) ? byId.get(post.id) || [] : post);
     } catch (error) {
-      if (activeLoad !== controller || error.name === "AbortError") return;
+      if (activeLoad !== controller || controller.signal.aborted) return;
       errorMessage = "Could not load saved posts.";
     } finally {
       if (activeLoad === controller) {
@@ -661,20 +731,44 @@
     }
   }
 
-  function sync(force = false) {
+  function sync(force = false, preservePages = false) {
+    if (force) retryImages(root, true);
+    const refreshCatalog = isFeed && (force || preservePages || catalogError || catalogComplete && Date.now() - catalogLoadedAt >= freshFor);
     if (route.view === "directory") {
       activeLoad?.abort();
       activeLoad = null;
       ensureCatalog(force);
       render();
     } else if (route.view === "saved") {
-      loadSaved(false, force && isFeed);
-    } else if (!force && !errorMessage && !activeLoad && timeline.key === timelineId(timelineParams()) &&
+      loadSaved(false, refreshCatalog, preservePages || !force);
+    } else if (!force && !errorMessage && !catalogError && !activeLoad && timeline.loadedAt && Date.now() - timeline.loadedAt < freshFor &&
+      timeline.key === timelineId(timelineParams()) &&
       (route.view !== "following" || !following.size || filteredPosts().length || !timeline.cursor)) {
       render();
     } else {
-      loadTimeline(false, force && isFeed);
+      loadTimeline(false, refreshCatalog, preservePages || !force);
     }
+  }
+
+  function recover(event) {
+    if (document.visibilityState === "hidden") return;
+    if (!isFeed && (!profileSlug || !groupKey.test(profileSlug))) return;
+    retryImages(root, event.type === "online" || event.type === "visibilitychange" || event.type === "pageshow" && event.persisted);
+    const now = Date.now();
+    if (catalogLoad && now - catalogLoad.startedAt >= 12_000) {
+      catalogLoad.controller.abort();
+      catalogLoad = null;
+    }
+    if (activeLoad) {
+      if (now - activeStartedAt < 12_000) return;
+      activeLoad.abort();
+      activeLoad = null;
+    }
+    if (now - lastRecoveryAt < 1_000 && event.type !== "online") return;
+    const loadedAt = route.view === "directory" ? catalogLoadedAt : route.view === "saved" ? savedView.loadedAt : timeline.loadedAt;
+    if (!errorMessage && !catalogError && loadedAt && now - loadedAt < freshFor) return;
+    lastRecoveryAt = now;
+    sync(false, true);
   }
 
   function navigate(change, scroll = false) {
@@ -883,6 +977,9 @@
       case "refresh":
         sync(true);
         break;
+      case "retry-image":
+        retryImages(button.closest(".gf-reader-image"), true);
+        break;
       case "more":
         if (route.view === "saved") loadSaved(true);
         else loadTimeline(true);
@@ -924,6 +1021,8 @@
   dialog.addEventListener("close", () => {
     if (lastDialogFocus?.isConnected) lastDialogFocus.focus({ preventScroll: true });
   });
+  document.addEventListener("visibilitychange", recover);
+  for (const event of ["pageshow", "focus", "online"]) window.addEventListener(event, recover);
   if (isFeed) {
     document.addEventListener("keydown", (event) => {
       if (event.key === "/" && !event.ctrlKey && !event.metaKey && !event.altKey && !dialog.open &&
