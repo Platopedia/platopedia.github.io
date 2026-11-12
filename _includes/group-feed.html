@@ -60,12 +60,12 @@
   <div class="gf-feed-layout" data-gf-feed-view>
     <section class="gf-timeline" aria-labelledby="gf-feed-heading">
       {% if include.mode != 'embed' %}
+      <a class="gf-back gf-all-posts" data-gf-back href="/groups/" hidden>← All posts</a>
       <header class="gf-section-head">
         <div>
           <h2 id="gf-feed-heading" data-gf-heading>{% if include.mode == 'feed' %}Latest posts{% else %}Group posts{% endif %}</h2>
         </div>
         <div class="gf-section-actions">
-          <a class="gf-back" data-gf-back href="/groups/" hidden>← All posts</a>
           <button class="gf-button gf-refresh" type="button" data-gf-action="refresh" data-gf-refresh>
             <span aria-hidden="true">↻</span> Refresh
           </button>

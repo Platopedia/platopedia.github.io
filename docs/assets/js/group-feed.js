@@ -290,14 +290,12 @@
   function postMeta(post) {
     const meta = el("div", "gf-card-meta");
     const timestamp = new Date(post.publishedAt);
-    const date = link(postUrl(post), undefined, "gf-date");
+    meta.append(identity(post.group));
     if (!Number.isNaN(timestamp.getTime())) {
-      const time = el("time", null, dateFormat.format(timestamp));
+      const time = el("time", "gf-date", dateFormat.format(timestamp));
       time.dateTime = timestamp.toISOString();
-      date.setAttribute("aria-label", `Permalink for ${post.title}`);
-      date.append(time);
+      meta.append(time);
     }
-    meta.append(identity(post.group), date);
     return meta;
   }
 
