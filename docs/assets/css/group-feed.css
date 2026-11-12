@@ -483,6 +483,8 @@
 .gf-status[role="status"][data-state="loading"] { animation: gf-pulse 1.4s ease-in-out infinite alternate; }
 @keyframes gf-pulse { to { opacity: .62; } }
 .gf-more { display: flex; margin: 1rem auto 0; }
+.gf-refresh[aria-busy="true"] > span { display: inline-block; animation: gf-spin .8s linear infinite; }
+@keyframes gf-spin { to { transform: rotate(360deg); } }
 .gf-side { padding: 1.2rem; background: linear-gradient(150deg, var(--gf-surface-up), var(--gf-surface) 52%); }
 .gf-side-head { display: flex; align-items: center; justify-content: space-between; gap: .45rem; }
 .group-feed .gf-side h2 { font-size: 1.25rem; }

@@ -36,6 +36,8 @@
   let errorMessage = "";
   let lastDialogFocus;
   let toastTimeout;
+  let discoverySignature = "";
+  let profileSignature = "";
 
   function routeFromUrl() {
     const query = new URLSearchParams(location.search);
@@ -255,10 +257,13 @@
     const group = groups.get(profileSlug);
     if (!group) return;
     const profile = find("profile");
+    const signature = JSON.stringify([group.slug, group.name, group.region, group.bio, group.friendUrl, group.iconUrl]);
+    if (profileSignature === signature) return;
     const card = el("header", "gf-profile");
     card.append(profileContent(group, isEmbed ? "h2" : "h1", isEmbed ? `${group.name} group feed` : group.name, false));
     profile.replaceChildren(card);
     profile.hidden = false;
+    profileSignature = signature;
     if (!isEmbed) document.title = `${group.name} · Platopedia Groups`;
     root.hidden = false;
   }
@@ -348,11 +353,16 @@
     find("filterbar").hidden = Boolean(route.post) || (regions.length <= 1 && !route.group);
 
     const available = visibleGroups();
-    find("group-list").replaceChildren(...available.slice(0, 5).map((group) => {
-      const item = el("li");
-      item.append(identity(group));
-      return item;
-    }));
+    const featured = available.slice(0, 5);
+    const signature = JSON.stringify(featured.map((group) => [group.slug, group.name, group.region, group.iconUrl]));
+    if (discoverySignature !== signature) {
+      find("group-list").replaceChildren(...featured.map((group) => {
+        const item = el("li");
+        item.append(identity(group));
+        return item;
+      }));
+      discoverySignature = signature;
+    }
     setStatus(find("sidebar-status"), available.length ? "" : activeLoad ? "Loading groups…" : "No groups in this view.");
   }
 
@@ -396,9 +406,11 @@
     }
     posts.forEach((post, index) => {
       let entry = renderedPosts.get(post.id);
-      if (entry?.post !== post) {
+      const signature = JSON.stringify([post.title, post.body, post.publishedAt, post.imageUrl,
+        post.group.slug, post.group.name, post.group.region, post.group.iconUrl]);
+      if (entry?.signature !== signature) {
         entry?.card.remove();
-        entry = { post, card: postCard(post) };
+        entry = { signature, card: postCard(post) };
         renderedPosts.set(post.id, entry);
       }
       if (postsNode.children[index] !== entry.card) {
@@ -430,7 +442,10 @@
     postsNode.setAttribute("aria-busy", String(Boolean(activeLoad)));
     renderPosts(posts);
     const refresh = find("refresh");
-    if (refresh) refresh.disabled = Boolean(activeLoad);
+    if (refresh) {
+      refresh.disabled = Boolean(activeLoad);
+      refresh.setAttribute("aria-busy", String(Boolean(activeLoad)));
+    }
     const hasMore = route.view === "saved" ? [...saved].some((id) => !savedView.loaded.has(id)) :
       Boolean(timeline.cursor && (route.view !== "following" || following.size));
     more.hidden = !hasMore;
@@ -441,7 +456,7 @@
         hasMore ? "No followed groups in these posts yet. Load older posts to keep looking." : "Your followed groups have no posts in this view.") :
       route.view === "saved" ? (!saved.size ? "Save a post to find it here again." : "No saved posts in this view.") :
       "No posts have been published here yet.";
-    const message = errorMessage || (activeLoad ? (posts.length ? "Loading more posts…" : "Loading group posts…") : posts.length ? "" : noPosts);
+    const message = errorMessage || (activeLoad ? (posts.length ? "" : "Loading group posts…") : posts.length ? "" : noPosts);
     setStatus(status, message, Boolean(activeLoad) && !errorMessage);
     if (errorMessage) {
       status.append(document.createTextNode(" "), action("refresh", "Retry"));
@@ -504,7 +519,10 @@
     const controller = new AbortController();
     activeLoad = controller;
     errorMessage = "";
-    if (!append) timeline = { key, posts: [], cursor: null };
+    const nextTimeline = {
+      key, posts: append ? [...timeline.posts] : [], cursor: append ? timeline.cursor : null,
+    };
+    if (timeline.key !== key) timeline = { key, posts: [], cursor: null };
     render();
     try {
       let before = append ? timeline.cursor : "";
@@ -513,17 +531,23 @@
         if (activeLoad !== controller) return;
         if (!data) {
           if (isEmbed) root.hidden = true;
+          if (!isFeed) {
+            find("profile").hidden = true;
+            profileSignature = "";
+          }
           errorMessage = "This group could not be found.";
           break;
         }
         ingest(data, isFeed && !params.group && !params.post);
-        const existing = new Set(timeline.posts.map((post) => post.id));
-        timeline.posts.push(...data.posts.filter((post) => !existing.has(post.id)));
-        timeline.cursor = data.next;
+        const existing = new Set(nextTimeline.posts.map((post) => post.id));
+        nextTimeline.posts.push(...data.posts.filter((post) => !existing.has(post.id)));
+        nextTimeline.cursor = data.next;
         if (!isFeed) renderProfile();
-        if (append || route.view !== "following" || !following.size || filteredPosts().length || !data.next || data.next === before) break;
+        const hasFollowedPosts = nextTimeline.posts.some((post) => following.has(post.group.slug));
+        if (append || route.view !== "following" || !following.size || hasFollowedPosts || !data.next || data.next === before) break;
         before = data.next;
       }
+      timeline = nextTimeline;
     } catch (error) {
       if (activeLoad !== controller || error.name === "AbortError") return;
       errorMessage = "Could not load group posts.";
@@ -540,17 +564,20 @@
     const controller = new AbortController();
     activeLoad = controller;
     errorMessage = "";
-    if (!append) savedView = { posts: [], loaded: new Set() };
-    const ids = [...saved].reverse().filter((id) => !savedView.loaded.has(id)).slice(0, 8);
+    const nextSaved = {
+      posts: append ? [...savedView.posts] : [], loaded: append ? new Set(savedView.loaded) : new Set(),
+    };
+    const ids = [...saved].reverse().filter((id) => !nextSaved.loaded.has(id)).slice(0, 8);
     render();
     try {
       const pages = await Promise.all(ids.map((id) => requestFeed({ post: id }, controller.signal)));
       if (activeLoad !== controller) return;
       for (const data of pages) {
         ingest(data);
-        savedView.posts.push(...data.posts);
+        nextSaved.posts.push(...data.posts);
       }
-      for (const id of ids) savedView.loaded.add(id);
+      for (const id of ids) nextSaved.loaded.add(id);
+      savedView = nextSaved;
     } catch (error) {
       if (activeLoad !== controller || error.name === "AbortError") return;
       errorMessage = "Could not load saved posts.";
