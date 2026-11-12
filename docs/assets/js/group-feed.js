@@ -25,6 +25,7 @@
   const groups = new Map();
   const knownPosts = new Map();
   const renderedPosts = new Map();
+  const renderedGroups = new Map();
   let saved = storedSet(savedKey, postKey);
   let following = storedSet(followingKey, groupKey);
   let catalogComplete = false;
@@ -269,7 +270,7 @@
   }
 
   function postImage(post, inReader = false) {
-    const url = safeUrl(post.imageUrl, [api.origin]);
+    const url = safeUrl(inReader ? post.originalImageUrl || post.imageUrl : post.imageUrl, [api.origin]);
     if (!url) return null;
     const image = el("img");
     image.alt = `Image attached to ${post.title}`;
@@ -370,17 +371,29 @@
     const count = find("directory-count");
     count.textContent = available.length ? `${available.length} ${available.length === 1 ? "group" : "groups"}` : "";
     find("surprise").hidden = !available.length;
-    const cards = available.map((group) => {
-      const card = el("article", "gf-directory-card");
-      card.style.setProperty("--avatar-color", colorFor(group.slug));
-      card.append(identity(group));
-      if (group.bio) card.append(el("p", "gf-group-bio", group.bio));
-      const actions = el("div", "gf-profile-actions");
-      actions.append(followButton(group), link(profileUrl(group), "Open profile ↗", "gf-button"));
-      card.append(actions);
-      return card;
+    const visible = new Set(available.map(group => group.slug));
+    for (const [slug, entry] of renderedGroups) if (!visible.has(slug)) {
+      entry.card.remove();
+      renderedGroups.delete(slug);
+    }
+    available.forEach((group, index) => {
+      const signature = JSON.stringify([group.name, group.region, group.bio, group.iconUrl]);
+      let entry = renderedGroups.get(group.slug);
+      if (entry?.signature !== signature) {
+        const card = el("article", "gf-directory-card");
+        card.style.setProperty("--avatar-color", colorFor(group.slug));
+        card.append(identity(group));
+        if (group.bio) card.append(el("p", "gf-group-bio", group.bio));
+        const actions = el("div", "gf-profile-actions");
+        actions.append(followButton(group), link(profileUrl(group), "Open profile ↗", "gf-button"));
+        card.append(actions);
+        entry?.card.remove();
+        entry = { card, signature };
+        renderedGroups.set(group.slug, entry);
+      }
+      const grid = find("directory-grid");
+      if (grid.children[index] !== entry.card) grid.insertBefore(entry.card, grid.children[index] || null);
     });
-    find("directory-grid").replaceChildren(...cards);
     const directoryStatus = find("directory-status");
     const message = catalogError ? "Could not load the directory. " : !catalogComplete ? "Loading groups…" :
       available.length ? "" : "No groups match this search.";
@@ -405,7 +418,7 @@
     posts.forEach((post, index) => {
       let entry = renderedPosts.get(post.id);
       const signature = JSON.stringify([post.title, post.body, post.publishedAt, post.imageUrl,
-        post.group.slug, post.group.name, post.group.region, post.group.iconUrl]);
+        post.originalImageUrl, post.group.slug, post.group.name, post.group.region, post.group.iconUrl]);
       if (entry?.signature !== signature) {
         entry?.card.remove();
         entry = { signature, card: postCard(post) };
@@ -463,25 +476,58 @@
 
   async function requestFeed(params, signal) {
     const url = new URL(api);
-    for (const [key, value] of Object.entries(params)) if (value) url.searchParams.set(key, value);
-    const response = await fetch(url, { signal, headers: { accept: "application/json" } });
-    if (response.status === 404 && params.group) return null;
-    if (!response.ok) throw new Error("Group feed request failed");
-    const data = await response.json();
-    if (!Array.isArray(data.groups) || !Array.isArray(data.posts)) throw new Error("Unexpected group feed response");
-    return data;
+    const query = { ...params, catalog: params.catalog ?? (catalogComplete ? "0" : "") };
+    for (const [key, value] of Object.entries(query)) if (value) url.searchParams.set(key, value);
+    const controller = new AbortController();
+    let timedOut = false;
+    const cancel = () => controller.abort();
+    if (signal?.aborted) controller.abort();
+    else signal?.addEventListener("abort", cancel, { once: true });
+    const timer = setTimeout(() => { timedOut = true; controller.abort(); }, 12_000);
+    try {
+      const response = await fetch(url, { signal: controller.signal, headers: { accept: "application/json" } });
+      if (response.status === 404 && params.group) return null;
+      if (!response.ok) throw new Error("Group feed request failed");
+      const data = await response.json();
+      if (!Array.isArray(data.groups) || !Array.isArray(data.posts)) throw new Error("Unexpected group feed response");
+      return data;
+    } catch (error) {
+      if (timedOut) throw new Error("The group feed took too long to respond.");
+      throw error;
+    } finally {
+      clearTimeout(timer);
+      signal?.removeEventListener("abort", cancel);
+    }
+  }
+
+  function mergeGroup(group) {
+    const previous = groups.get(group.slug);
+    if (!previous || !previous.updatedAt || !group.updatedAt || group.updatedAt >= previous.updatedAt) groups.set(group.slug, group);
+  }
+
+  function replaceKnownPosts(posts) {
+    knownPosts.clear();
+    for (const post of posts) knownPosts.set(post.id, post);
+    if (dialog.open && dialog.dataset.kind === "search") {
+      const input = dialog.querySelector("[data-gf-search-input]");
+      if (input) renderSearch(input.value);
+    }
   }
 
   function ingest(data, allGroups = false) {
-    if (allGroups) {
+    const replacing = allGroups && (data.catalogIncluded !== false && data.groups.length || data.catalogIncluded === true);
+    const previous = replacing ? new Map(groups) : null;
+    if (replacing) {
       groups.clear();
       catalogComplete = true;
       catalogError = false;
     }
-    for (const group of data.groups) groups.set(group.slug, group);
+    for (const group of data.groups) {
+      const remembered = previous?.get(group.slug);
+      mergeGroup(remembered?.updatedAt > group.updatedAt ? remembered : group);
+    }
     for (const post of data.posts) {
-      if (!groups.has(post.group.slug)) groups.set(post.group.slug, post.group);
-      knownPosts.set(post.id, post);
+      mergeGroup(post.group);
     }
   }
 
@@ -489,7 +535,7 @@
     if (!force && catalogComplete) return;
     if (!catalogLoad) {
       catalogError = false;
-      catalogLoad = requestFeed({}, undefined).then((data) => ingest(data, true)).catch(() => {
+      catalogLoad = requestFeed({ catalog: "only" }, undefined).then((data) => ingest(data, true)).catch(() => {
         catalogError = true;
       }).finally(() => {
         catalogLoad = null;
@@ -502,7 +548,8 @@
   }
 
   function timelineParams() {
-    return { group: isFeed ? route.group : profileSlug, region: route.region, post: route.post };
+    return { group: isFeed ? route.group : profileSlug, region: route.region, post: route.post,
+      groups: isFeed && route.view === "following" ? [...following].sort().join(",") : "" };
   }
 
   function timelineId(params) {
@@ -523,29 +570,30 @@
     if (timeline.key !== key) timeline = { key, posts: [], cursor: null };
     render();
     try {
-      let before = append ? timeline.cursor : "";
-      for (let page = 0; page < 3; page += 1) {
-        const data = await requestFeed({ ...params, before }, controller.signal);
-        if (activeLoad !== controller) return;
-        if (!data) {
-          if (isEmbed) root.hidden = true;
-          if (!isFeed) {
-            find("profile").hidden = true;
-            profileSignature = "";
-          }
-          errorMessage = "This group could not be found.";
-          break;
+      if (route.view === "following" && !following.size) {
+        timeline = nextTimeline;
+        replaceKnownPosts([]);
+        return;
+      }
+      const before = append ? timeline.cursor : "";
+      const data = await requestFeed({ ...params, before }, controller.signal);
+      if (activeLoad !== controller) return;
+      if (!data) {
+        if (isEmbed) root.hidden = true;
+        if (!isFeed) {
+          find("profile").hidden = true;
+          profileSignature = "";
         }
+        errorMessage = "This group could not be found.";
+      } else {
         ingest(data, isFeed && !params.group && !params.post);
         const existing = new Set(nextTimeline.posts.map((post) => post.id));
         nextTimeline.posts.push(...data.posts.filter((post) => !existing.has(post.id)));
         nextTimeline.cursor = data.next;
         if (!isFeed) renderProfile();
-        const hasFollowedPosts = nextTimeline.posts.some((post) => following.has(post.group.slug));
-        if (append || route.view !== "following" || !following.size || hasFollowedPosts || !data.next || data.next === before) break;
-        before = data.next;
       }
       timeline = nextTimeline;
+      replaceKnownPosts(timeline.posts);
     } catch (error) {
       if (activeLoad !== controller || error.name === "AbortError") return;
       errorMessage = "Could not load group posts.";
@@ -568,14 +616,15 @@
     const ids = [...saved].reverse().filter((id) => !nextSaved.loaded.has(id)).slice(0, 8);
     render();
     try {
-      const pages = await Promise.all(ids.map((id) => requestFeed({ post: id }, controller.signal)));
+      const data = ids.length ? await requestFeed({ posts: ids.join(","), catalog: "0" }, controller.signal)
+        : { groups: [], posts: [] };
       if (activeLoad !== controller) return;
-      for (const data of pages) {
-        ingest(data);
-        nextSaved.posts.push(...data.posts);
-      }
+      ingest(data);
+      const byId = new Map(data.posts.map(post => [post.id, post]));
+      nextSaved.posts.push(...ids.map(id => byId.get(id)).filter(Boolean));
       for (const id of ids) nextSaved.loaded.add(id);
       savedView = nextSaved;
+      replaceKnownPosts(savedView.posts);
     } catch (error) {
       if (activeLoad !== controller || error.name === "AbortError") return;
       errorMessage = "Could not load saved posts.";
@@ -588,6 +637,7 @@
   }
 
   function sync(force = false) {
+    if (force && route.view !== "directory" && isFeed) ensureCatalog(true);
     if (route.view === "directory") {
       activeLoad?.abort();
       activeLoad = null;
@@ -767,6 +817,10 @@
     const isSave = key === "save";
     const values = isSave ? saved : following;
     const active = !values.has(id);
+    if (!isSave && active && values.size >= 200) {
+      toast("You can follow up to 200 groups. Unfollow a group to add another.");
+      return;
+    }
     if (active) values.add(id);
     else values.delete(id);
     saveSet(isSave ? savedKey : followingKey, values);
@@ -775,7 +829,8 @@
     }
     if (!dialog.open) toast(isSave ? (active ? "Post saved." : "Post removed from Saved.") : (active ? "Group followed." : "Group unfollowed."));
     if (isFeed && route.view === (isSave ? "saved" : "following")) {
-      render();
+      if (!isSave) sync();
+      else render();
     }
   }
 
