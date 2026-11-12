@@ -88,6 +88,12 @@
     return span;
   }
 
+  function copyIcon() {
+    const span = el("span", "gf-copy-icon");
+    span.setAttribute("aria-hidden", "true");
+    return span;
+  }
+
   function link(href, label, className) {
     const anchor = el("a", className, label);
     anchor.href = href;
@@ -224,8 +230,10 @@
       input.addEventListener("focus", () => input.select());
       label.htmlFor = input.id;
       const field = el("div", "gf-friend-field");
-      const copy = action("copy-friend", "Copy", group.slug, "gf-button gf-friend-copy");
+      const copy = action("copy-friend", undefined, group.slug, "gf-button gf-friend-copy");
       copy.setAttribute("aria-label", `Copy ${group.name} manager’s friend link`);
+      copy.title = "Copy friend link";
+      copy.append(copyIcon());
       const notice = el("p", "gf-copy-status");
       notice.setAttribute("role", "status");
       field.append(input, copy);
@@ -700,8 +708,13 @@
     try {
       await navigator.clipboard.writeText(url);
       notice.textContent = "Friend link copied.";
-      button.textContent = "Copied ✓";
-      setTimeout(() => { if (button.isConnected) button.textContent = "Copy"; }, 2000);
+      button.replaceChildren(icon("✓"));
+      button.title = "Friend link copied";
+      setTimeout(() => {
+        if (!button.isConnected) return;
+        button.replaceChildren(copyIcon());
+        button.title = "Copy friend link";
+      }, 2000);
     } catch {
       const input = contact.querySelector(".gf-friend-input");
       input.focus();

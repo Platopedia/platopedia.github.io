@@ -460,6 +460,7 @@
   display: block;
   position: relative;
   width: 100%;
+  height: clamp(170px, 28vw, 240px);
   border: 1px solid var(--gf-rule);
   border-radius: 11px;
   margin-top: 1rem;
@@ -472,7 +473,7 @@
 .gf-image-button img {
   display: block;
   width: 100%;
-  max-height: min(33rem, 62vh);
+  height: 100%;
   object-fit: contain;
   transition: opacity .2s ease;
 }
@@ -606,7 +607,7 @@
   border-radius: 6px;
   color: var(--gf-ink);
   background: transparent;
-  font-size: 16px;
+  font-size: .78rem;
   font-weight: 500;
   line-height: 1.45;
   overflow-wrap: anywhere;
@@ -616,14 +617,19 @@
 .group-feed .gf-friend-copy {
   flex: 0 0 auto;
   align-self: center;
-  min-width: 76px;
+  width: 40px;
+  min-width: 40px;
   min-height: 40px;
-  padding: .45rem .6rem;
+  padding: .45rem;
   border: 0;
   border-radius: 7px;
   background: var(--gf-neutral-hover);
   font-size: .78rem;
 }
+.gf-copy-icon { display: block; position: relative; width: 18px; height: 19px; }
+.gf-copy-icon::before, .gf-copy-icon::after { content: ""; position: absolute; width: 12px; height: 14px; border: 1.5px solid currentColor; border-radius: 3px; background: var(--gf-neutral-hover); }
+.gf-copy-icon::before { top: 0; left: 0; }
+.gf-copy-icon::after { right: 0; bottom: 0; }
 .group-feed .gf-copy-status { margin-top: .5rem; color: var(--gf-muted); font-size: .76rem; }
 .group-feed .gf-copy-status:empty { display: none; }
 .gf-manager-contact .gf-primary { width: 100%; min-height: 43px; margin-top: .75rem; }
@@ -662,8 +668,13 @@ body:not([data-theme="light"]) .group-feed[data-mode="embed"] {
 }
 
 .gf-dialog {
+  position: fixed;
+  inset: 0;
+  box-sizing: border-box;
   width: min(100% - 26px, 670px);
-  max-height: min(90dvh, 850px);
+  max-width: none;
+  max-height: min(850px, calc(100vh - 32px));
+  max-height: min(850px, calc(100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom)));
   margin: auto;
   padding: 0;
   border: 1px solid var(--gf-rule);
@@ -672,6 +683,7 @@ body:not([data-theme="light"]) .group-feed[data-mode="embed"] {
   background: var(--gf-surface);
   box-shadow: 0 25px 80px #0a2a515e;
   overscroll-behavior: contain;
+  overflow-y: auto;
   text-align: left;
 }
 .gf-dialog[open] { animation: gf-enter .23s ease both; }
@@ -794,8 +806,12 @@ body:not([data-theme="light"]) .group-feed[data-mode="embed"] {
   .gf-directory-grid { grid-template-columns: minmax(0, 1fr); }
   .gf-section-head { gap: .4rem; }
   .gf-section-actions { gap: .3rem; }
-  .gf-dialog[data-kind="group"] { width: 100%; max-height: calc(100dvh - 16px); margin: auto auto 0; border-radius: 24px 24px 0 0; }
-  .gf-dialog[data-kind="group"] .gf-dialog-inner { padding: 1.45rem 1.2rem max(1.2rem, env(safe-area-inset-bottom)); }
+  .gf-dialog[data-kind="group"] { width: calc(100% - 24px); margin: auto; border-radius: 24px; }
+  .gf-dialog[data-kind="group"] .gf-dialog-inner { padding: 1.2rem; }
+  .gf-dialog[data-kind="group"] .gf-profile-tools { margin-top: 1rem; padding-bottom: 1rem; }
+  .gf-dialog[data-kind="group"] .gf-profile-about { margin-top: .9rem; }
+  .gf-dialog[data-kind="group"] .gf-manager-contact { margin-top: 1rem; }
+  .gf-dialog[data-kind="group"] .gf-profile-footer { margin-top: 1rem; padding-top: .75rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
