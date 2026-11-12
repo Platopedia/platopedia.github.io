@@ -1,0 +1,34 @@
+<link rel="stylesheet" href="/docs/assets/css/group-feed.css">
+<section class="group-feed" data-group-feed data-mode="{{ include.mode }}"
+  data-group="{{ include.group }}" data-api="https://platopedia-groups.platopedia.workers.dev/api/feed">
+  {% if include.mode == 'feed' %}
+  <header class="group-feed-intro">
+    <h1>Group Feed</h1>
+    <p>Announcements, events, and updates from the Plato community.</p>
+  </header>
+  {% elsif include.mode == 'profile' %}
+  <a class="group-feed-back" href="/groups/">← Group Feed</a>
+  {% endif %}
+  <div data-feed-profile hidden></div>
+  <div class="group-feed-grid">
+    <div class="group-feed-main">
+      {% if include.mode == 'feed' %}
+      <div class="group-feed-controls">
+        <label>Server <select data-feed-region><option value="">All servers</option></select></label>
+        <button type="button" data-feed-refresh>Refresh</button>
+      </div>
+      <a class="group-feed-back" data-feed-all href="/groups/" hidden>← All posts</a>
+      {% endif %}
+      <p data-feed-status class="group-feed-status" role="status">Loading group posts…</p>
+      <div data-feed-posts class="group-feed-posts"></div>
+      <button type="button" data-feed-more hidden>Load more posts</button>
+    </div>
+    {% if include.mode == 'feed' %}
+    <aside class="group-feed-directory">
+      <h2>Group directory</h2>
+      <ul data-feed-directory></ul>
+    </aside>
+    {% endif %}
+  </div>
+</section>
+<script defer src="/docs/assets/js/group-feed.js"></script>

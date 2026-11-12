@@ -1,0 +1,95 @@
+.group-feed {
+  --feed-text: #1e283d;
+  --feed-muted: #516079;
+  --feed-bg: #fff;
+  --feed-soft: #f1f3fa;
+  --feed-border: #dbe1ef;
+  --feed-accent: #4745a6;
+  color: var(--feed-text);
+  max-width: 68rem;
+  margin: 2rem auto 3rem;
+  font-family: "Inter", system-ui, sans-serif;
+}
+body[data-theme="dark"] .group-feed {
+  --feed-text: #edf2fa;
+  --feed-muted: #b5c2d8;
+  --feed-bg: #202637;
+  --feed-soft: #282f43;
+  --feed-border: #424d66;
+  --feed-accent: #b6b6ff;
+}
+.group-feed [hidden], .group-feed[hidden] { display: none !important; }
+.group-feed h1, .group-feed h2, .group-feed h3 { color: inherit; margin: 0; text-align: left; }
+.group-feed h1 { font-size: clamp(1.9rem, 4vw, 2.65rem); font-weight: 750; letter-spacing: -.03em; }
+.group-feed h2 { font-size: 1.18rem; font-weight: 700; }
+.group-feed .group-feed-post-title { font-size: 1.2rem; font-weight: 700; margin-top: .8rem; overflow-wrap: anywhere; }
+.group-feed a { color: var(--feed-accent); }
+.group-feed a:focus-visible, .group-feed button:focus-visible, .group-feed select:focus-visible {
+  outline: 2px solid var(--feed-accent);
+  outline-offset: 3px;
+}
+.group-feed-intro { margin-bottom: 1.25rem; }
+.group-feed-intro p { margin: .35rem 0 0; color: var(--feed-muted); }
+.group-feed-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; align-items: start; }
+.group-feed[data-mode="feed"] .group-feed-grid { grid-template-columns: minmax(0, 1fr) minmax(13rem, 17rem); }
+.group-feed-controls { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .65rem; margin-bottom: .85rem; }
+.group-feed-controls label { display: flex; gap: .5rem; align-items: center; margin: 0; color: var(--feed-muted); }
+.group-feed button, .group-feed select, .group-feed-button {
+  padding: .42rem .68rem;
+  border: 1px solid var(--feed-border);
+  border-radius: .5rem;
+  color: var(--feed-text);
+  background: var(--feed-bg);
+  font: inherit;
+}
+.group-feed button { cursor: pointer; }
+.group-feed button:disabled { opacity: .6; cursor: wait; }
+.group-feed button:hover:enabled, .group-feed-button:hover { background: var(--feed-soft); }
+.group-feed [data-feed-more] { display: block; margin: 1rem auto 0; }
+.group-feed-back { display: inline-block; margin-bottom: .8rem; }
+.group-feed-posts { display: grid; gap: .85rem; }
+.group-feed-card, .group-feed-directory, .group-feed-status {
+  border: 1px solid var(--feed-border);
+  border-radius: .8rem;
+  background: var(--feed-bg);
+  padding: 1rem;
+}
+.group-feed-status { color: var(--feed-muted); }
+.group-feed-directory ul { list-style: none; margin: .65rem 0 0; padding: 0; }
+.group-feed-directory li + li { margin-top: .8rem; }
+.group-feed-meta { display: flex; flex-wrap: wrap; gap: .5rem 1rem; align-items: center; justify-content: space-between; }
+.group-feed-meta .group-feed-date { color: var(--feed-muted); font-size: .8rem; }
+.group-feed-identity, .group-feed-profile-title { display: flex; align-items: center; gap: .65rem; min-width: 0; }
+.group-feed-identity-text { display: grid; color: var(--feed-text); overflow-wrap: anywhere; }
+.group-feed-region { color: var(--feed-muted); font-size: .82rem; margin: 0; }
+.group-feed-avatar {
+  flex: 0 0 2.35rem;
+  width: 2.35rem;
+  height: 2.35rem;
+  border-radius: 30%;
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  background: var(--feed-soft);
+  color: var(--feed-accent);
+  font-weight: 700;
+}
+.group-feed-avatar img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.group-feed-profile-title .group-feed-avatar { width: 4rem; height: 4rem; flex-basis: 4rem; font-size: 1.5rem; }
+.group-feed [data-feed-profile] { margin-bottom: 1.15rem; }
+.group-feed h2.group-feed-post-heading { margin-top: 1.25rem; }
+.group-feed-button { display: inline-block; margin-top: .65rem; }
+.group-feed-text { white-space: pre-wrap; overflow-wrap: anywhere; margin: .55rem 0 0; }
+.group-feed-image {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  max-height: min(42rem, 72vh);
+  margin: .85rem auto 0;
+  border-radius: .55rem;
+  object-fit: contain;
+}
+@media (max-width: 680px) {
+  .group-feed[data-mode="feed"] .group-feed-grid { grid-template-columns: minmax(0, 1fr); }
+}
