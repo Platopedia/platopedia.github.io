@@ -645,17 +645,22 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     return JSON.stringify({ ...params, following: route.view === "following" });
   }
 
-  function reconcileSavedPosts(posts, cursor, params) {
+  function isBeforeCursor(post, [timestamp, id]) {
+    const publishedAt = Number(timestamp);
+    return post.publishedAt < publishedAt || post.publishedAt === publishedAt && post.id < id;
+  }
+
+  function reconcileSavedPosts(posts, cursor, params, before) {
     if (!savedView.loaded.size) return;
     const latest = new Map(posts.map(post => [post.id, post]));
     const byId = new Map(savedView.posts.map(post => [post.id, post]));
-    const [timestamp, id] = cursor?.split(".") || [];
-    const boundary = Number(timestamp);
+    const lower = cursor?.split(".");
+    const upper = before?.split(".");
     for (const post of savedView.posts) {
       if (latest.has(post.id) || params.post && post.id !== params.post ||
         params.group && post.group.slug !== params.group ||
         route.view === "following" && !following.has(post.group.slug)) continue;
-      if (cursor && (post.publishedAt < boundary || post.publishedAt === boundary && post.id < id)) continue;
+      if (lower && isBeforeCursor(post, lower) || upper && !isBeforeCursor(post, upper)) continue;
       if (!params.region) byId.delete(post.id);
       else if (post.group.region.toLowerCase() === params.region.toLowerCase()) savedView.loadedAt = 0;
     }
@@ -672,10 +677,12 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     activeLoad = controller;
     activeStartedAt = Date.now();
     errorMessage = "";
+    const startingCursor = append ? timeline.cursor : null;
     const nextTimeline = {
-      key, posts: append ? [...timeline.posts] : [], cursor: append ? timeline.cursor : null,
+      key, posts: append ? [...timeline.posts] : [], cursor: startingCursor,
       loadedAt: append ? timeline.loadedAt : 0,
     };
+    const existingCount = nextTimeline.posts.length;
     const keepCount = !append && timeline.key === key ? timeline.posts.length : 0;
     if (timeline.key !== key) timeline = { key, posts: [], cursor: null, loadedAt: 0 };
     render();
@@ -689,7 +696,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
         timeline = { ...nextTimeline, loadedAt: Date.now() };
         return;
       }
-      let before = append ? timeline.cursor : "";
+      let before = startingCursor || "";
       do {
         activeStartedAt = Date.now();
         const limit = Math.min(maxRefreshBatch, keepCount - nextTimeline.posts.length);
@@ -716,9 +723,10 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
         if (!nextTimeline.cursor || nextTimeline.cursor === before) break;
         before = nextTimeline.cursor;
       } while (nextTimeline.posts.length < keepCount);
-      if (!errorMessage && !append) {
-        nextTimeline.loadedAt = Date.now();
-        reconcileSavedPosts(nextTimeline.posts, nextTimeline.cursor, params);
+      if (!errorMessage) {
+        if (!append) nextTimeline.loadedAt = Date.now();
+        reconcileSavedPosts(append ? nextTimeline.posts.slice(existingCount) : nextTimeline.posts,
+          nextTimeline.cursor, params, startingCursor);
       }
       timeline = nextTimeline;
     } catch (error) {
