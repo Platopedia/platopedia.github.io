@@ -37,6 +37,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
 
   let route = routeFromUrl();
   const groups = new Map();
+  const groupRequestIds = new Map();
   const knownPosts = new Map();
   const renderedPosts = new Map();
   let selectedPostCard;
@@ -45,8 +46,12 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   let following = storedSet(followingKey, groupKey);
   let catalogComplete = false;
   let catalogLoadedAt = 0;
+  let catalogRequestId = 0;
+  let feedRequestId = 0;
   let catalogLoad;
   let catalogError = false;
+  // Keep only the latest query for each timeline tab.
+  const timelines = new Map();
   let timeline = { key: "", posts: [], cursor: null, loadedAt: 0 };
   let savedView = { posts: [], loaded: new Set(), loadedAt: 0 };
   let activeLoad;
@@ -63,10 +68,11 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     const query = new URLSearchParams(location.search);
     const group = query.get("group");
     const post = query.get("post");
-    const view = query.get("view");
+    const requestedView = query.get("view");
+    const view = views.has(requestedView) && !post ? requestedView : "latest";
     return {
-      view: isFeed && views.has(view) && !post ? view : "latest",
-      group: isFeed && group && group.length <= 60 && groupKey.test(group) ? group : "",
+      view: isFeed ? view : "latest",
+      group: isFeed && view === "latest" && group && group.length <= 60 && groupKey.test(group) ? group : "",
       region: isFeed ? (query.get("region") || "").slice(0, 60) : "",
       post: isFeed && postKey.test(post) ? post : "",
     };
@@ -469,7 +475,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     const source = route.view === "saved" ? savedView.posts.filter((post) => saved.has(post.id)) : timeline.posts;
     return source.filter((post) => (!catalogComplete || groups.has(post.group.slug)) &&
       (route.view !== "following" || following.has(post.group.slug)) &&
-      (route.view !== "saved" || !route.region || post.group.region.toLocaleLowerCase() === route.region.toLocaleLowerCase()));
+      (!route.region || (groups.get(post.group.slug)?.region || post.group.region).toLocaleLowerCase() === route.region.toLocaleLowerCase()));
   }
 
   function renderPosts(posts) {
@@ -553,6 +559,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   }
 
   async function requestFeed(params, signal) {
+    const requestId = ++feedRequestId;
     const url = new URL(api);
     const query = { ...params, catalog: params.catalog ?? (catalogComplete ? "0" : "") };
     for (const [key, value] of Object.entries(query)) if (value) url.searchParams.set(key, value);
@@ -564,11 +571,11 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     const timer = setTimeout(() => { timedOut = true; controller.abort(); }, 12_000);
     try {
       const response = await fetch(url, { signal: controller.signal, headers: { accept: "application/json" } });
-      if (response.status === 404 && params.group) return null;
+      if (response.status === 404 && params.group) return { missing: true, requestId };
       if (!response.ok) throw new Error("Group feed request failed");
       const data = await response.json();
       if (!Array.isArray(data.groups) || !Array.isArray(data.posts)) throw new Error("Unexpected group feed response");
-      return data;
+      return { ...data, requestId };
     } catch (error) {
       if (timedOut) throw new Error("The group feed took too long to respond.");
       throw error;
@@ -593,22 +600,26 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   }
 
   function ingest(data, allGroups = false) {
+    if (data.requestId < catalogRequestId) return;
     const replacing = allGroups && (data.catalogIncluded !== false && data.groups.length || data.catalogIncluded === true);
-    const previous = replacing ? new Map(groups) : null;
+    const reported = replacing ? new Set() : null;
+    for (const group of [...data.groups, ...data.posts.map(post => post.group)]) {
+      reported?.add(group.slug);
+      if (groupRequestIds.get(group.slug) > data.requestId) continue;
+      mergeGroup(group);
+      groupRequestIds.set(group.slug, data.requestId);
+    }
     if (replacing) {
-      groups.clear();
+      catalogRequestId = data.requestId;
       catalogComplete = true;
       catalogLoadedAt = Date.now();
       catalogError = false;
-    }
-    for (const group of data.groups) {
-      const remembered = previous?.get(group.slug);
-      mergeGroup(remembered?.updatedAt > group.updatedAt ? remembered : group);
-    }
-    for (const post of data.posts) {
-      mergeGroup(post.group);
-    }
-    if (replacing) {
+      // A newer filtered response may already have confirmed or removed a group.
+      for (const [slug, requestId] of groupRequestIds) {
+        if (reported.has(slug) || requestId > data.requestId) continue;
+        groups.delete(slug);
+        groupRequestIds.delete(slug);
+      }
       for (const [id, post] of knownPosts) if (!groups.has(post.group.slug)) knownPosts.delete(id);
       if (dialog.open && dialog.dataset.group && !groups.has(dialog.dataset.group)) dialog.close();
     }
@@ -621,10 +632,12 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       catalogError = false;
       const load = { controller: new AbortController(), startedAt: Date.now() };
       catalogLoad = load;
-      load.promise = requestFeed({ catalog: "only" }, load.controller.signal).then((data) => {
+      const request = requestFeed({ catalog: "only" }, load.controller.signal);
+      const requestId = feedRequestId;
+      load.promise = request.then((data) => {
         if (catalogLoad === load) ingest(data, true);
       }).catch(() => {
-        if (catalogLoad === load) catalogError = true;
+        if (catalogLoad === load && requestId >= catalogRequestId) catalogError = true;
       }).finally(() => {
         if (catalogLoad !== load) return;
         catalogLoad = null;
@@ -650,22 +663,34 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     return post.publishedAt < publishedAt || post.publishedAt === publishedAt && post.id < id;
   }
 
-  function reconcileSavedPosts(posts, cursor, params, before) {
-    if (!savedView.loaded.size) return;
+  function reconcileCachedPosts(posts, cursor, params, before) {
     const latest = new Map(posts.map(post => [post.id, post]));
-    const byId = new Map(savedView.posts.map(post => [post.id, post]));
     const lower = cursor?.split(".");
     const upper = before?.split(".");
-    for (const post of savedView.posts) {
-      if (latest.has(post.id) || params.post && post.id !== params.post ||
+    const covered = post => {
+      if (params.post && post.id !== params.post ||
         params.group && post.group.slug !== params.group ||
-        route.view === "following" && !following.has(post.group.slug)) continue;
-      if (lower && isBeforeCursor(post, lower) || upper && !isBeforeCursor(post, upper)) continue;
-      if (!params.region) byId.delete(post.id);
-      else if (post.group.region.toLowerCase() === params.region.toLowerCase()) savedView.loadedAt = 0;
+        params.region && post.group.region.toLowerCase() !== params.region.toLowerCase() ||
+        route.view === "following" && !following.has(post.group.slug)) return false;
+      return (!lower || !isBeforeCursor(post, lower)) && (!upper || isBeforeCursor(post, upper));
+    };
+    function reconcile(view) {
+      view.posts = view.posts.flatMap(post => {
+        if (latest.has(post.id)) return latest.get(post.id);
+        if (!covered(post)) return post;
+        // A region filter cannot tell us whether a missing post or its region changed.
+        if (!params.region) return [];
+        view.loadedAt = 0;
+        return post;
+      });
     }
-    for (const post of latest.values()) if (savedView.loaded.has(post.id)) byId.set(post.id, post);
-    savedView.posts = [...saved].reverse().map(id => byId.get(id)).filter(Boolean);
+    if (savedView.loaded.size) {
+      reconcile(savedView);
+      const byId = new Map(savedView.posts.map(post => [post.id, post]));
+      for (const post of latest.values()) if (savedView.loaded.has(post.id)) byId.set(post.id, post);
+      savedView.posts = [...saved].reverse().map(id => byId.get(id)).filter(Boolean);
+    }
+    for (const [tab, cached] of timelines) if (tab !== route.view) reconcile(cached);
   }
 
   async function loadTimeline(append = false, refreshCatalog = false) {
@@ -694,6 +719,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
           ingest(data, true);
         }
         timeline = { ...nextTimeline, loadedAt: Date.now() };
+        timelines.set(route.view, timeline);
         return;
       }
       let before = startingCursor || "";
@@ -702,9 +728,18 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
         const limit = Math.min(maxRefreshBatch, keepCount - nextTimeline.posts.length);
         const data = await requestFeed({ ...params, before, limit: limit > 12 ? limit : "", ...(refreshCatalog ? { catalog: "all" } : {}) }, controller.signal);
         if (activeLoad !== controller) return;
-        if (!data) {
-          groups.delete(params.group);
-          if (dialog.open && dialog.dataset.group === params.group) dialog.close();
+        if (data.missing) {
+          if (data.requestId >= (groupRequestIds.get(params.group) || catalogRequestId)) {
+            groups.delete(params.group);
+            groupRequestIds.set(params.group, data.requestId);
+            for (const cached of [...timelines.values(), savedView]) {
+              cached.posts = cached.posts.filter(post => post.group.slug !== params.group);
+              cached.loadedAt = 0;
+            }
+            if (dialog.open && dialog.dataset.group === params.group) dialog.close();
+          }
+          nextTimeline.posts = [];
+          nextTimeline.cursor = null;
           if (isEmbed) root.hidden = true;
           if (!isFeed) {
             find("profile").hidden = true;
@@ -725,8 +760,9 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       } while (nextTimeline.posts.length < keepCount);
       if (!errorMessage) {
         if (!append) nextTimeline.loadedAt = Date.now();
-        reconcileSavedPosts(append ? nextTimeline.posts.slice(existingCount) : nextTimeline.posts,
+        reconcileCachedPosts(append ? nextTimeline.posts.slice(existingCount) : nextTimeline.posts,
           nextTimeline.cursor, params, startingCursor);
+        timelines.set(route.view, nextTimeline);
       }
       timeline = nextTimeline;
     } catch (error) {
@@ -760,10 +796,12 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
         activeStartedAt = Date.now();
         const batch = ids.slice(offset, offset + batchSize);
         const data = batch.length ? await requestFeed({ posts: batch.join(","), catalog: refreshCatalog ? "all" : "0" }, controller.signal)
-          : refreshCatalog ? await requestFeed({ catalog: "only" }, controller.signal) : { groups: [], posts: [] };
+          : refreshCatalog ? await requestFeed({ catalog: "only" }, controller.signal) : null;
         if (activeLoad !== controller) return;
-        ingest(data, refreshCatalog);
-        for (const post of data.posts) byId.set(post.id, post);
+        if (data) {
+          ingest(data, refreshCatalog);
+          for (const post of data.posts) byId.set(post.id, post);
+        }
         nextSaved.posts.push(...batch.map(id => byId.get(id)).filter(Boolean));
         for (const id of batch) nextSaved.loaded.add(id);
         refreshCatalog = false;
@@ -772,7 +810,9 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       savedView = nextSaved;
       // Keep an already loaded timeline consistent with the posts just rechecked in Saved.
       const checked = new Set(ids);
-      timeline.posts = timeline.posts.flatMap(post => checked.has(post.id) ? byId.get(post.id) || [] : post);
+      for (const cached of timelines.values()) {
+        cached.posts = cached.posts.flatMap(post => checked.has(post.id) ? byId.get(post.id) || [] : post);
+      }
     } catch (error) {
       if (activeLoad !== controller || controller.signal.aborted) return;
       errorMessage = "Could not load saved posts.";
@@ -798,12 +838,18 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     } else if (route.view === "saved") {
       if (!force && !refreshCatalog && !errorMessage && !activeLoad && savedView.loadedAt && Date.now() - savedView.loadedAt < freshFor) render();
       else loadSaved(false, refreshCatalog);
-    } else if (!force && !errorMessage && !catalogError && !activeLoad && timeline.loadedAt && Date.now() - timeline.loadedAt < freshFor &&
-      timeline.key === timelineId(timelineParams()) &&
-      (route.view !== "following" || !following.size || filteredPosts().length || !timeline.cursor)) {
-      render();
     } else {
-      loadTimeline(false, refreshCatalog);
+      const cached = timelines.get(route.view);
+      const matches = cached?.key === timelineId(timelineParams());
+      if (matches) timeline = cached;
+      if (!force && !errorMessage && !refreshCatalog && matches && timeline.loadedAt && Date.now() - timeline.loadedAt < freshFor &&
+        (route.view !== "following" || !following.size || filteredPosts().length || !timeline.cursor)) {
+        activeLoad?.abort();
+        activeLoad = null;
+        render();
+      } else {
+        loadTimeline(false, refreshCatalog);
+      }
     }
   }
 
@@ -1030,6 +1076,10 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     }
     if (active) values.add(id);
     else values.delete(id);
+    if (isSave && !active) {
+      savedView.loaded.delete(id);
+      savedView.posts = savedView.posts.filter(post => post.id !== id);
+    }
     if (isSave && active && !savedView.loaded.has(id)) savedView.loadedAt = 0;
     saveSet(isSave ? savedKey : followingKey, values);
     for (const button of root.querySelectorAll(`[data-gf-action="${key}"]`)) {
