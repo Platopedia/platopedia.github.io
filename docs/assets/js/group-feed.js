@@ -617,7 +617,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     more.firstChild.textContent = route.view === "saved" ? "Load more saved posts " : "Load older posts ";
     const noPosts = route.post ? "This post is unavailable." :
       route.view === "following" ? (!following.size ? "Follow a group to see its posts here." :
-        hasMore ? "No followed groups in these posts yet. Load older posts to keep looking." : "Your followed groups have no posts in this view.") :
+        hasMore ? "No followed groups in these posts yet. Load older posts to keep looking." : "No posts from followed groups.") :
       route.view === "saved" ? (!saved.size ? "Save a post to find it here again." : "No saved posts in this view.") :
       "No posts found.";
     const message = errorMessage || (activeLoad ? (posts.length ? "" : "Loading group posts…") : posts.length ? "" : noPosts);
