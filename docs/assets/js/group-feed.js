@@ -1,3 +1,5 @@
+import { renderPostMarkdown } from "./group-feed-markdown.js?v=20261113.1";
+
 (() => {
   const root = document.querySelector("[data-group-feed]");
   if (!root) return;
@@ -359,7 +361,8 @@
     const heading = el("h3");
     heading.dir = "auto";
     heading.append(action("read", post.title, post.id, "gf-post-title"));
-    const body = el("p", "gf-post-text is-preview", post.body);
+    const body = el("div", "gf-post-text post-markdown is-preview");
+    body.innerHTML = renderPostMarkdown(post.body);
     body.dir = "auto";
     article.append(postMeta(post), heading, body);
     const image = postImage(post);
@@ -808,7 +811,8 @@
     if (!imageOnly) panel.append(postMeta(post));
     panel.append(title);
     if (!imageOnly) {
-      const body = el("p", "gf-post-text", post.body);
+      const body = el("div", "gf-post-text post-markdown");
+      body.innerHTML = renderPostMarkdown(post.body);
       body.dir = "auto";
       panel.append(body);
     }
@@ -1022,6 +1026,13 @@
     if (lastDialogFocus?.isConnected) lastDialogFocus.focus({ preventScroll: true });
   });
   document.addEventListener("visibilitychange", recover);
+  root.addEventListener("click", event => {
+    const spoiler = event.target.closest?.("[data-post-spoiler]");
+    if (!spoiler) return;
+    const expanded = spoiler.getAttribute("aria-expanded") !== "true";
+    spoiler.setAttribute("aria-expanded", String(expanded));
+    spoiler.setAttribute("aria-label", expanded ? spoiler.textContent + ". Hide spoiler" : "Reveal spoiler");
+  });
   for (const event of ["pageshow", "focus", "online"]) window.addEventListener(event, recover);
   if (isFeed) {
     document.addEventListener("keydown", (event) => {

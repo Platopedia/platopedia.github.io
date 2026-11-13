@@ -806,3 +806,22 @@ body:not([data-theme="light"]) .group-feed[data-mode="embed"] {
 @media (prefers-reduced-motion: reduce) {
   .group-feed *, .group-feed *::before, .group-feed *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
+
+.group-feed .post-markdown{white-space:normal}
+
+.post-markdown{white-space:normal;overflow-wrap:anywhere}
+.post-markdown :is(p,ul,ol,blockquote,pre,.md-heading){margin:.65em 0 0}
+.post-markdown>:first-child{margin-top:0}
+.post-markdown :is(ul,ol){padding-inline-start:1.4em}
+.post-markdown li+li{margin-top:.2em}
+.post-markdown blockquote{border-inline-start:3px solid currentColor;padding-inline-start:.8em}
+.post-markdown pre{max-width:100%;overflow:auto;padding:.75em;border-radius:8px;background:color-mix(in srgb,currentColor 8%,transparent);white-space:pre}
+.post-markdown code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.88em}
+.post-markdown :not(pre)>code{padding:.1em .25em;border-radius:4px;background:color-mix(in srgb,currentColor 8%,transparent);white-space:pre-wrap}
+.post-markdown .md-subtext{font-size:.82em;opacity:.8}
+.post-markdown a{color:var(--gf-link,var(--link));text-decoration:underline;text-underline-offset:.15em}
+.post-markdown .md-spoiler{display:inline;min-height:0;border:0;border-radius:4px;padding:.05em .2em;font:inherit;line-height:inherit;color:transparent;background:color-mix(in srgb,currentColor 15%,#526780);cursor:pointer}
+.post-markdown .md-spoiler[aria-expanded="true"]{color:inherit;background:color-mix(in srgb,currentColor 8%,transparent)}
+.group-feed .post-markdown .md-heading{font-size:1.15em;line-height:1.3;letter-spacing:normal}
+.group-feed .post-markdown h3.md-heading{font-size:1.35em}
+.group-feed .post-markdown h5.md-heading{font-size:1em}
