@@ -645,6 +645,24 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     return JSON.stringify({ ...params, following: route.view === "following" });
   }
 
+  function reconcileSavedPosts(posts, cursor, params) {
+    if (!savedView.loaded.size) return;
+    const latest = new Map(posts.map(post => [post.id, post]));
+    const byId = new Map(savedView.posts.map(post => [post.id, post]));
+    const [timestamp, id] = cursor?.split(".") || [];
+    const boundary = Number(timestamp);
+    for (const post of savedView.posts) {
+      if (latest.has(post.id) || params.post && post.id !== params.post ||
+        params.group && post.group.slug !== params.group ||
+        route.view === "following" && !following.has(post.group.slug)) continue;
+      if (cursor && (post.publishedAt < boundary || post.publishedAt === boundary && post.id < id)) continue;
+      if (!params.region) byId.delete(post.id);
+      else if (post.group.region.toLowerCase() === params.region.toLowerCase()) savedView.loadedAt = 0;
+    }
+    for (const post of latest.values()) if (savedView.loaded.has(post.id)) byId.set(post.id, post);
+    savedView.posts = [...saved].reverse().map(id => byId.get(id)).filter(Boolean);
+  }
+
   async function loadTimeline(append = false, refreshCatalog = false) {
     const params = timelineParams();
     const key = timelineId(params);
@@ -698,7 +716,10 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
         if (!nextTimeline.cursor || nextTimeline.cursor === before) break;
         before = nextTimeline.cursor;
       } while (nextTimeline.posts.length < keepCount);
-      if (!errorMessage && !append) nextTimeline.loadedAt = Date.now();
+      if (!errorMessage && !append) {
+        nextTimeline.loadedAt = Date.now();
+        reconcileSavedPosts(nextTimeline.posts, nextTimeline.cursor, params);
+      }
       timeline = nextTimeline;
     } catch (error) {
       if (activeLoad !== controller || controller.signal.aborted) return;

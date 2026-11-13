@@ -16,6 +16,7 @@
                 const root = document.documentElement;
                 const scheme = document.querySelector('meta[name="color-scheme"]');
                 const bar = document.querySelector('meta[name="theme-color"]');
+                bar.setAttribute("data-theme-managed", "");
                 function apply(theme) {
                     const dark = theme === "dark";
                     root.dataset.theme = dark ? "dark" : "light";

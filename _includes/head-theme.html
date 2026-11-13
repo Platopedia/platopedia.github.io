@@ -21,8 +21,11 @@ document.addEventListener
     function ( event )
     {
         var detect_theme_light = event.detail.theme == 'light';
-        var theme_color = detect_theme_light ? '#FFFFFF' : '#000000';
-        document.querySelector( 'meta[name="theme-color"]' ).setAttribute( 'content', theme_color );
+        var theme_meta = document.querySelector( 'meta[name="theme-color"]' );
+        if ( !theme_meta.hasAttribute( 'data-theme-managed' ) )
+        {
+            theme_meta.setAttribute( 'content', detect_theme_light ? '#FFFFFF' : '#000000' );
+        }
         
         var detect_theme_forcedark = getComputedStyle( document.querySelector( '#detect-theme-forcedark' ) ).backgroundColor != 'rgb(255, 255, 255)';
         var theme_forcedark = detect_theme_forcedark ? 'on' : 'off';
