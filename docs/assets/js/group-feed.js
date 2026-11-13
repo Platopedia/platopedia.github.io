@@ -663,6 +663,18 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     return post.publishedAt < publishedAt || post.publishedAt === publishedAt && post.id < id;
   }
 
+  function invalidateMissingPosts(view, posts) {
+    const filters = JSON.parse(view.key);
+    const existing = new Set(view.posts.map(post => post.id));
+    const boundary = view.cursor?.split(".");
+    if (posts.some(post => !existing.has(post.id) &&
+      (!filters.group || post.group.slug === filters.group) &&
+      (!filters.post || post.id === filters.post) &&
+      (!filters.region || post.group.region.toLowerCase() === filters.region.toLowerCase()) &&
+      (!filters.following || filters.groups.split(",").includes(post.group.slug)) &&
+      (!boundary || !isBeforeCursor(post, boundary)))) view.loadedAt = 0;
+  }
+
   function reconcileCachedPosts(posts, cursor, params, before) {
     const latest = new Map(posts.map(post => [post.id, post]));
     const lower = cursor?.split(".");
@@ -690,7 +702,11 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       for (const post of latest.values()) if (savedView.loaded.has(post.id)) byId.set(post.id, post);
       savedView.posts = [...saved].reverse().map(id => byId.get(id)).filter(Boolean);
     }
-    for (const [tab, cached] of timelines) if (tab !== route.view) reconcile(cached);
+    for (const [tab, cached] of timelines) {
+      if (tab === route.view) continue;
+      reconcile(cached);
+      invalidateMissingPosts(cached, posts);
+    }
   }
 
   async function loadTimeline(append = false, refreshCatalog = false) {
@@ -782,6 +798,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     activeLoad = controller;
     activeStartedAt = Date.now();
     errorMessage = "";
+    const savedAtStart = new Set(saved);
     const nextSaved = {
       posts: append ? [...savedView.posts] : [], loaded: append ? new Set(savedView.loaded) : new Set(),
       loadedAt: append ? savedView.loadedAt : 0,
@@ -807,11 +824,17 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
         refreshCatalog = false;
       }
       if (!append) nextSaved.loadedAt = Date.now();
+      const currentPosts = new Map(nextSaved.posts.map(post => [post.id, post]));
+      nextSaved.posts = [...saved].reverse().map(id => currentPosts.get(id)).filter(Boolean);
+      for (const id of nextSaved.loaded) if (!saved.has(id)) nextSaved.loaded.delete(id);
+      if ([...saved].some(id => !savedAtStart.has(id))) nextSaved.loadedAt = 0;
       savedView = nextSaved;
       // Keep an already loaded timeline consistent with the posts just rechecked in Saved.
       const checked = new Set(ids);
+      const refreshedPosts = [...byId.values()];
       for (const cached of timelines.values()) {
         cached.posts = cached.posts.flatMap(post => checked.has(post.id) ? byId.get(post.id) || [] : post);
+        invalidateMissingPosts(cached, refreshedPosts);
       }
     } catch (error) {
       if (activeLoad !== controller || controller.signal.aborted) return;
