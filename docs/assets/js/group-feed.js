@@ -611,7 +611,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       refresh.disabled = Boolean(activeLoad);
       refresh.setAttribute("aria-busy", String(Boolean(activeLoad)));
     }
-    const hasMore = route.view === "saved" ? [...saved].some((id) => !savedView.loaded.has(id)) :
+    const hasMore = route.view === "saved" ? savedView.loaded.size > 0 && [...saved].some((id) => !savedView.loaded.has(id)) :
       Boolean(timeline.cursor && (route.view !== "following" || following.size));
     more.hidden = !hasMore;
     more.disabled = Boolean(activeLoad);
