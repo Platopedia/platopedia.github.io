@@ -389,9 +389,9 @@
   transition: border-color .2s ease, box-shadow .2s ease;
   animation: gf-enter .32s ease both;
 }
-.gf-card:hover { border-color: var(--gf-highlight); }
-.gf-card[data-gf-post] { cursor: pointer; }
-.gf-card[data-gf-selected="true"], .gf-card:focus-visible { border-color: var(--gf-link); box-shadow: 0 0 0 1px var(--gf-link), var(--gf-shadow); outline: none; }
+.gf-card:hover, .gf-card[data-gf-selected="true"] { border-color: var(--gf-highlight); }
+.gf-card[data-gf-post] { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+.gf-card:focus:not(:focus-visible) { outline: none; }
 @keyframes gf-enter { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
 .gf-card-meta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .45rem .8rem; }
 .gf-identity {

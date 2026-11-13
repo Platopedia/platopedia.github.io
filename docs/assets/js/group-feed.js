@@ -993,11 +993,17 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     if (!button) {
       const card = event.target.closest?.("[data-gf-post]");
       if (!card || dialog.open || event.defaultPrevented || event.button > 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey ||
-        event.target.closest?.("a,button,input,textarea,select,label,details,[contenteditable]") ||
-        event.detail < 2 && window.getSelection?.()?.toString()) return;
+        event.target.closest?.("a,button,input,textarea,select,label,details,[contenteditable]")) return;
       const post = knownPosts.get(card.dataset.gfPost);
       if (!post) return;
-      if (selectedPostCard === card || event.detail > 1) postDialog(post, false);
+      const selection = window.getSelection?.();
+      if (selection?.toString()) {
+        // A double-click can select a word just before the reader opens.
+        if (!(event.detail > 1) || selectedPostCard !== card ||
+          !card.contains(selection.anchorNode) || !card.contains(selection.focusNode)) return;
+        selection.removeAllRanges();
+      }
+      if (selectedPostCard === card) postDialog(post, false);
       else { selectPostCard(card); card.focus({ preventScroll: true }); }
       return;
     }
