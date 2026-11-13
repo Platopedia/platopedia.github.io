@@ -10,6 +10,28 @@
         
         <meta name="color-scheme" content="only light">
         <meta name="theme-color" content="#FFFFFF">
+        {% if page.group_feed_theme %}
+        <script>
+            (() => {
+                const root = document.documentElement;
+                const scheme = document.querySelector('meta[name="color-scheme"]');
+                const bar = document.querySelector('meta[name="theme-color"]');
+                function apply(theme) {
+                    const dark = theme === "dark";
+                    root.dataset.theme = dark ? "dark" : "light";
+                    root.style.colorScheme = dark ? "dark" : "only light";
+                    scheme.setAttribute("content", root.style.colorScheme);
+                    bar.setAttribute("content", dark ? "#1a1a1a" : "#ffffff");
+                }
+                let saved;
+                try { saved = localStorage.getItem("util_theme"); } catch {}
+                apply(saved === "light" || saved === "dark" ? saved :
+                    matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+                document.addEventListener("util_theme_out", event => apply(event.detail.theme));
+            })();
+        </script>
+        <style>html[data-theme="dark"] { background: #1a1a1a; }</style>
+        {% endif %}
         <meta name="format-detection" content="telephone=no">
         
         <link rel="stylesheet" href="/docs/assets/css/init-preload.css">

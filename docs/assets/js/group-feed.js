@@ -32,6 +32,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   const savedKey = "platopedia.groupFeed.saved";
   const followingKey = "platopedia.groupFeed.following";
   const freshFor = 60_000;
+  const maxRefreshBatch = 100;
   const imageRecovery = new WeakMap();
 
   let route = routeFromUrl();
@@ -53,6 +54,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   let lastRecoveryAt = 0;
   let errorMessage = "";
   let lastDialogFocus;
+  let openDialogItem;
   let toastTimeout;
   let discoverySignature = "";
   let profileSignature = "";
@@ -526,6 +528,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     replaceKnownPosts(posts);
     postsNode.setAttribute("aria-busy", String(Boolean(activeLoad)));
     renderPosts(posts);
+    reconcileDialog();
     retryImages();
     const refresh = find("refresh");
     if (refresh) {
@@ -609,6 +612,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       for (const [id, post] of knownPosts) if (!groups.has(post.group.slug)) knownPosts.delete(id);
       if (dialog.open && dialog.dataset.group && !groups.has(dialog.dataset.group)) dialog.close();
     }
+    if (openDialogItem?.kind === "group") reconcileDialog();
   }
 
   async function ensureCatalog(force = false) {
@@ -641,7 +645,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     return JSON.stringify({ ...params, following: route.view === "following" });
   }
 
-  async function loadTimeline(append = false, refreshCatalog = false, preservePages = false) {
+  async function loadTimeline(append = false, refreshCatalog = false) {
     const params = timelineParams();
     const key = timelineId(params);
     if (append && (!timeline.cursor || timeline.key !== key)) return;
@@ -654,7 +658,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       key, posts: append ? [...timeline.posts] : [], cursor: append ? timeline.cursor : null,
       loadedAt: append ? timeline.loadedAt : 0,
     };
-    const keepCount = preservePages && timeline.key === key ? timeline.posts.length : 0;
+    const keepCount = !append && timeline.key === key ? timeline.posts.length : 0;
     if (timeline.key !== key) timeline = { key, posts: [], cursor: null, loadedAt: 0 };
     render();
     try {
@@ -670,7 +674,8 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       let before = append ? timeline.cursor : "";
       do {
         activeStartedAt = Date.now();
-        const data = await requestFeed({ ...params, before, ...(refreshCatalog ? { catalog: "all" } : {}) }, controller.signal);
+        const limit = Math.min(maxRefreshBatch, keepCount - nextTimeline.posts.length);
+        const data = await requestFeed({ ...params, before, limit: limit > 12 ? limit : "", ...(refreshCatalog ? { catalog: "all" } : {}) }, controller.signal);
         if (activeLoad !== controller) return;
         if (!data) {
           groups.delete(params.group);
@@ -706,7 +711,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     }
   }
 
-  async function loadSaved(append = false, refreshCatalog = false, preservePages = false) {
+  async function loadSaved(append = false, refreshCatalog = false) {
     activeLoad?.abort();
     const controller = new AbortController();
     activeLoad = controller;
@@ -716,14 +721,15 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       posts: append ? [...savedView.posts] : [], loaded: append ? new Set(savedView.loaded) : new Set(),
       loadedAt: append ? savedView.loadedAt : 0,
     };
-    const count = preservePages ? Math.max(8, savedView.loaded.size) : 8;
+    const count = append ? 8 : Math.max(8, savedView.loaded.size);
     const ids = [...saved].reverse().filter((id) => !nextSaved.loaded.has(id)).slice(0, count);
     render();
     try {
       const byId = new Map();
-      for (let offset = 0; offset < Math.max(1, ids.length); offset += 8) {
+      const batchSize = append ? 8 : maxRefreshBatch;
+      for (let offset = 0; offset < Math.max(1, ids.length); offset += batchSize) {
         activeStartedAt = Date.now();
-        const batch = ids.slice(offset, offset + 8);
+        const batch = ids.slice(offset, offset + batchSize);
         const data = batch.length ? await requestFeed({ posts: batch.join(","), catalog: refreshCatalog ? "all" : "0" }, controller.signal)
           : refreshCatalog ? await requestFeed({ catalog: "only" }, controller.signal) : { groups: [], posts: [] };
         if (activeLoad !== controller) return;
@@ -750,7 +756,10 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   }
 
   function sync(force = false, preservePages = false) {
-    if (force) retryImages(root, true);
+    if (force) {
+      retryImages(root, true);
+      if (route.view !== "saved") savedView.loadedAt = 0;
+    }
     const refreshCatalog = isFeed && (force || preservePages || catalogError || catalogComplete && Date.now() - catalogLoadedAt >= freshFor);
     if (route.view === "directory") {
       activeLoad?.abort();
@@ -758,13 +767,14 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       ensureCatalog(force);
       render();
     } else if (route.view === "saved") {
-      loadSaved(false, refreshCatalog, preservePages || !force);
+      if (!force && !refreshCatalog && !errorMessage && !activeLoad && savedView.loadedAt && Date.now() - savedView.loadedAt < freshFor) render();
+      else loadSaved(false, refreshCatalog);
     } else if (!force && !errorMessage && !catalogError && !activeLoad && timeline.loadedAt && Date.now() - timeline.loadedAt < freshFor &&
       timeline.key === timelineId(timelineParams()) &&
       (route.view !== "following" || !following.size || filteredPosts().length || !timeline.cursor)) {
       render();
     } else {
-      loadTimeline(false, refreshCatalog, preservePages || !force);
+      loadTimeline(false, refreshCatalog);
     }
   }
 
@@ -808,6 +818,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
 
   function showDialog(kind, content, focusTarget) {
     if (!dialog.open) lastDialogFocus = document.activeElement;
+    openDialogItem = null;
     dialog.dataset.kind = kind;
     dialog.dataset.group = "";
     dialogContent.replaceChildren(content);
@@ -819,6 +830,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   function groupDialog(group) {
     showDialog("group", profileContent(group, "h2", group.name, true));
     dialog.dataset.group = group.slug;
+    openDialogItem = { kind: "group", id: group.slug, data: group };
   }
 
   function postDialog(post, imageOnly) {
@@ -840,6 +852,29 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     panel.append(postActions(post, false));
     showDialog(imageOnly ? "image" : "post", panel);
     dialog.dataset.group = post.group.slug;
+    openDialogItem = { kind: "post", id: post.id, data: post, imageOnly };
+  }
+
+  function reconcileDialog() {
+    if (!dialog.open || !openDialogItem || activeLoad && openDialogItem.kind === "post") return;
+    const { kind, id, data, imageOnly } = openDialogItem;
+    const current = kind === "group" ? groups.get(id) : knownPosts.get(id);
+    if (!current) {
+      if (!errorMessage) dialog.close();
+      return;
+    }
+    if (current === data) return;
+    if (JSON.stringify(current) === JSON.stringify(data)) {
+      openDialogItem.data = current;
+      return;
+    }
+    if (imageOnly && !current.originalImageUrl) dialog.close();
+    else {
+      const scroll = dialog.scrollTop;
+      if (kind === "group") groupDialog(current);
+      else postDialog(current, imageOnly);
+      dialog.scrollTop = scroll;
+    }
   }
 
   function renderSearch(query) {
@@ -966,6 +1001,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     }
     if (active) values.add(id);
     else values.delete(id);
+    if (isSave && active && !savedView.loaded.has(id)) savedView.loadedAt = 0;
     saveSet(isSave ? savedKey : followingKey, values);
     for (const button of root.querySelectorAll(`[data-gf-action="${key}"]`)) {
       if (button.dataset.key === id) updateToggle(button, active);
@@ -1080,6 +1116,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     if (event.target.matches("[data-gf-search-input]")) renderSearch(event.target.value);
   });
   dialog.addEventListener("close", () => {
+    openDialogItem = null;
     if (lastDialogFocus?.isConnected) lastDialogFocus.focus({ preventScroll: true });
   });
   document.addEventListener("visibilitychange", recover);
