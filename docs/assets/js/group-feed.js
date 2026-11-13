@@ -32,6 +32,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   const savedKey = "platopedia.groupFeed.saved";
   const followingKey = "platopedia.groupFeed.following";
   const profileCacheKey = "platopedia.groupFeed.profile";
+  const regionsCacheKey = "platopedia.groupFeed.regions";
   const freshFor = 60_000;
   const maxRefreshBatch = 100;
   const imageRecovery = new WeakMap();
@@ -64,6 +65,8 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   let toastTimeout;
   let discoverySignature = "";
   let profileSignature = "";
+  let regionLabels = [];
+  let regionSignature = "";
 
   function routeFromUrl() {
     const query = new URLSearchParams(location.search);
@@ -134,6 +137,27 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       groups.set(profileSlug, { ...group, iconUrl: group.iconUrl || null, updatedAt: 0 });
       renderProfile();
     } catch { /* An unavailable or malformed snapshot falls back to the placeholder. */ }
+  }
+
+  function restoreRegions() {
+    if (!isFeed) return;
+    try {
+      const raw = sessionStorage.getItem(regionsCacheKey);
+      if (!raw || raw.length > 12_000) return;
+      const snapshot = JSON.parse(raw);
+      if (snapshot?.api !== api.href || !Array.isArray(snapshot.regions) || snapshot.regions.length > 100 ||
+        !snapshot.regions.every(region => typeof region === "string" && region.length > 0 && region.length <= 60)) return;
+      // Display-only labels never mark the directory or posts as loaded.
+      regionLabels = snapshot.regions;
+    } catch { /* All servers remains available while the normal request loads labels. */ }
+  }
+
+  function rememberRegions(replace) {
+    if (!isFeed) return;
+    const labels = new Map(replace || catalogComplete ? [] : regionLabels.map(region => [region.toLocaleLowerCase(), region]));
+    for (const group of groups.values()) if (group.region) labels.set(group.region.toLocaleLowerCase(), group.region);
+    regionLabels = [...labels.values()];
+    try { sessionStorage.setItem(regionsCacheKey, JSON.stringify({ api: api.href, regions: regionLabels })); } catch {}
   }
 
   function el(tag, className, content) {
@@ -444,24 +468,28 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
 
   function renderDiscovery() {
     if (!isFeed) return;
-    const labels = new Map();
-    for (const group of groups.values()) labels.set(group.region.toLocaleLowerCase(), group.region);
+    const labels = new Map(regionLabels.map(region => [region.toLocaleLowerCase(), region]));
+    if (route.region && !labels.has(route.region.toLocaleLowerCase())) labels.set(route.region.toLocaleLowerCase(), route.region);
     const regions = ["", ...[...labels.values()].sort((a, b) => a.localeCompare(b))];
-    const controls = regions.map((region) => {
-      const button = action("region", region || "All servers", region, "");
-      button.setAttribute("aria-pressed", String(region.toLocaleLowerCase() === route.region.toLocaleLowerCase()));
-      return button;
-    });
-    const regionControls = find("regions");
-    const focusedRegion = regionControls.contains(document.activeElement) ? document.activeElement.dataset.key : null;
-    regionControls.replaceChildren(...controls);
-    if (focusedRegion !== null) {
-      controls.find((control) => control.dataset.key === focusedRegion)?.focus({ preventScroll: true });
+    const nextRegionSignature = JSON.stringify([regions, route.region.toLocaleLowerCase()]);
+    if (regionSignature !== nextRegionSignature) {
+      const controls = regions.map((region) => {
+        const button = action("region", region || "All servers", region, "");
+        button.setAttribute("aria-pressed", String(region.toLocaleLowerCase() === route.region.toLocaleLowerCase()));
+        return button;
+      });
+      const regionControls = find("regions");
+      const focusedRegion = regionControls.contains(document.activeElement) ? document.activeElement.dataset.key : null;
+      regionControls.replaceChildren(...controls);
+      if (focusedRegion !== null) {
+        controls.find((control) => control.dataset.key === focusedRegion)?.focus({ preventScroll: true });
+      }
+      regionSignature = nextRegionSignature;
     }
     const groupFilter = find("group-filter");
     groupFilter.replaceChildren(document.createTextNode(groups.get(route.group)?.name || route.group), icon("close"));
     groupFilter.hidden = !route.group;
-    find("filterbar").hidden = Boolean(route.post) || (regions.length <= 1 && !route.group);
+    find("filterbar").hidden = Boolean(route.post);
 
     const available = visibleGroups();
     const featured = available.slice(0, 5);
@@ -666,6 +694,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       for (const [id, post] of knownPosts) if (!groups.has(post.group.slug)) knownPosts.delete(id);
       if (dialog.open && dialog.dataset.group && !groups.has(dialog.dataset.group)) dialog.close();
     }
+    if (replacing || data.groups.length || data.posts.length) rememberRegions(replacing);
     if (openDialogItem?.kind === "group") reconcileDialog();
   }
 
@@ -791,6 +820,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
           if (data.requestId >= (groupRequestIds.get(params.group) || catalogRequestId)) {
             groups.delete(params.group);
             forgetProfile();
+            if (catalogComplete) rememberRegions(true);
             groupRequestIds.set(params.group, data.requestId);
             for (const cached of [...timelines.values(), savedView]) {
               cached.posts = cached.posts.filter(post => post.group.slug !== params.group);
@@ -1308,6 +1338,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     if (refresh) refresh.hidden = true;
   } else {
     restoreProfile();
+    restoreRegions();
     sync();
   }
 })();
