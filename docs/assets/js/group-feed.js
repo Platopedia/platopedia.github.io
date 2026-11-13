@@ -63,6 +63,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   let lastDialogFocus;
   let openDialogItem;
   let toastTimeout;
+  let refreshSpinTimeout;
   let discoverySignature = "";
   let profileSignature = "";
   let regionLabels = [];
@@ -1237,9 +1238,16 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       case "clear-group":
         navigate({ group: "" });
         break;
-      case "refresh":
+      case "refresh": {
+        const refresh = find("refresh");
+        if (refresh) {
+          clearTimeout(refreshSpinTimeout);
+          refresh.dataset.spinning = "true";
+          refreshSpinTimeout = setTimeout(() => refresh.removeAttribute("data-spinning"), 800);
+        }
         sync(true);
         break;
+      }
       case "retry-image":
         retryImages(button.closest(".gf-reader-image"), true);
         break;
