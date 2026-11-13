@@ -458,7 +458,8 @@ import { renderPostMarkdown } from "./group-feed-markdown.js?v=20261113.1";
 
   function filteredPosts() {
     const source = route.view === "saved" ? savedView.posts.filter((post) => saved.has(post.id)) : timeline.posts;
-    return source.filter((post) => (route.view !== "following" || following.has(post.group.slug)) &&
+    return source.filter((post) => (!catalogComplete || groups.has(post.group.slug)) &&
+      (route.view !== "following" || following.has(post.group.slug)) &&
       (route.view !== "saved" || !route.region || post.group.region.toLocaleLowerCase() === route.region.toLocaleLowerCase()));
   }
 
@@ -596,6 +597,10 @@ import { renderPostMarkdown } from "./group-feed-markdown.js?v=20261113.1";
     for (const post of data.posts) {
       mergeGroup(post.group);
     }
+    if (replacing) {
+      for (const [id, post] of knownPosts) if (!groups.has(post.group.slug)) knownPosts.delete(id);
+      if (dialog.open && dialog.dataset.group && !groups.has(dialog.dataset.group)) dialog.close();
+    }
   }
 
   async function ensureCatalog(force = false) {
@@ -660,6 +665,8 @@ import { renderPostMarkdown } from "./group-feed-markdown.js?v=20261113.1";
         const data = await requestFeed({ ...params, before, ...(refreshCatalog ? { catalog: "all" } : {}) }, controller.signal);
         if (activeLoad !== controller) return;
         if (!data) {
+          groups.delete(params.group);
+          if (dialog.open && dialog.dataset.group === params.group) dialog.close();
           if (isEmbed) root.hidden = true;
           if (!isFeed) {
             find("profile").hidden = true;
@@ -793,6 +800,7 @@ import { renderPostMarkdown } from "./group-feed-markdown.js?v=20261113.1";
   function showDialog(kind, content, focusTarget) {
     if (!dialog.open) lastDialogFocus = document.activeElement;
     dialog.dataset.kind = kind;
+    dialog.dataset.group = "";
     dialogContent.replaceChildren(content);
     if (!dialog.open) dialog.showModal();
     dialog.scrollTop = 0;
@@ -801,6 +809,7 @@ import { renderPostMarkdown } from "./group-feed-markdown.js?v=20261113.1";
 
   function groupDialog(group) {
     showDialog("group", profileContent(group, "h2", group.name, true));
+    dialog.dataset.group = group.slug;
   }
 
   function postDialog(post, imageOnly) {
@@ -820,6 +829,7 @@ import { renderPostMarkdown } from "./group-feed-markdown.js?v=20261113.1";
     if (image) panel.append(image);
     panel.append(postActions(post, false));
     showDialog(imageOnly ? "image" : "post", panel);
+    dialog.dataset.group = post.group.slug;
   }
 
   function renderSearch(query) {
