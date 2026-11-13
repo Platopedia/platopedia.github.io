@@ -14,14 +14,12 @@
         <script>
             (() => {
                 const root = document.documentElement;
-                const scheme = document.querySelector('meta[name="color-scheme"]');
                 const bar = document.querySelector('meta[name="theme-color"]');
                 bar.setAttribute("data-theme-managed", "");
                 function apply(theme) {
                     const dark = theme === "dark";
                     root.dataset.theme = dark ? "dark" : "light";
-                    root.style.colorScheme = dark ? "dark" : "only light";
-                    scheme.setAttribute("content", root.style.colorScheme);
+                    root.style.colorScheme = "only light";
                     bar.setAttribute("content", dark ? "#1a1a1a" : "#ffffff");
                 }
                 let saved;
@@ -31,7 +29,7 @@
                 document.addEventListener("util_theme_out", event => apply(event.detail.theme));
             })();
         </script>
-        <style>html[data-theme="dark"] { background: #1a1a1a; }</style>
+        <style>html[data-theme="dark"] { background: #1a1a1a; } html[data-theme="dark"] body { color-scheme: dark; }</style>
         {% endif %}
         <meta name="format-detection" content="telephone=no">
         

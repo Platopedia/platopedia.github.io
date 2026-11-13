@@ -14,21 +14,20 @@
         : matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
       const root = document.documentElement;
       root.dataset.theme = theme;
-      const scheme = theme === "dark" ? "dark" : "only light";
-      root.style.colorScheme = scheme;
+      // Keep Chrome's loading canvas stable; dark controls are scoped to the body.
+      root.style.colorScheme = "only light";
       root.style.backgroundColor = theme === "dark" ? "#0c1522" : "#f1f6fc";
-      document.querySelector('meta[name="color-scheme"]').setAttribute("content", scheme);
       document.querySelector('meta[name="theme-color"]').setAttribute("content", theme === "dark" ? "#142030" : "#ffffff");
     })();
   </script>
   <style>.groups-masthead{background:#fff}.groups-document[data-theme="dark"] .groups-masthead{background:#142030}</style>
   <title>{{ page.title | escape }}</title>
   <link rel="icon" href="/docs/assets/images/icons/favicon-32x32.png" sizes="32x32">
-  <script defer src="/docs/assets/js/groups-theme.js?v=20261112.2"></script>
+  <script defer src="/docs/assets/js/groups-theme.js?v=20261113.5"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400..800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/docs/assets/css/group-feed.css?v=20261113.4">
+  <link rel="stylesheet" href="/docs/assets/css/group-feed.css?v=20261113.5">
 </head>
 <body class="groups-page">
   <a class="groups-skip" href="#groups-main">Skip to Groups</a>

@@ -15,8 +15,8 @@
 }
 .groups-page *, .group-feed * { box-sizing: border-box; }
 .groups-document { color-scheme: only light; }
-.groups-document[data-theme="dark"] { color-scheme: dark; }
 .groups-document[data-theme="dark"] .groups-page {
+  color-scheme: dark;
   --groups-ink: #edf4fc;
   --groups-muted: #b3c2d5;
   --groups-rule: #2b3b50;
