@@ -38,6 +38,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   const groups = new Map();
   const knownPosts = new Map();
   const renderedPosts = new Map();
+  let selectedPostCard;
   const renderedGroups = new Map();
   let saved = storedSet(savedKey, postKey);
   let following = storedSet(followingKey, groupKey);
@@ -358,9 +359,13 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   function postCard(post) {
     const article = el("article", "gf-card");
     article.id = `post-${post.id}`;
+    article.dataset.gfPost = post.id;
+    article.tabIndex = 0;
     const heading = el("h3");
     heading.dir = "auto";
     const title = action("read", undefined, post.id, "gf-post-title");
+    title.id = `gf-post-title-${post.id}`;
+    article.setAttribute("aria-labelledby", title.id);
     title.innerHTML = renderPostTitle(post.title);
     heading.append(title);
     const body = el("div", "gf-post-text post-markdown is-preview");
@@ -492,6 +497,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       if (detached <= 24) break;
       if (!active.has(id)) { renderedPosts.delete(id); detached -= 1; }
     }
+    if (selectedPostCard && !postsNode.contains(selectedPostCard)) selectPostCard(null);
   }
 
   function render() {
@@ -784,6 +790,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   }
 
   function navigate(change, scroll = false) {
+    selectPostCard(null);
     route = { ...route, ...change };
     const url = new URL(location.href);
     for (const [key, value] of Object.entries(route)) {
@@ -970,6 +977,12 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     }
   }
 
+  function selectPostCard(card) {
+    selectedPostCard?.removeAttribute("data-gf-selected");
+    selectedPostCard = card;
+    selectedPostCard?.setAttribute("data-gf-selected", "true");
+  }
+
   root.addEventListener("click", (event) => {
     if (event.target === dialog) {
       const bounds = dialog.getBoundingClientRect();
@@ -977,7 +990,18 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       return;
     }
     const button = event.target.closest?.("[data-gf-action]");
-    if (!button || button.disabled) return;
+    if (!button) {
+      const card = event.target.closest?.("[data-gf-post]");
+      if (!card || dialog.open || event.defaultPrevented || event.button > 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey ||
+        event.target.closest?.("a,button,input,textarea,select,label,details,[contenteditable]") ||
+        event.detail < 2 && window.getSelection?.()?.toString()) return;
+      const post = knownPosts.get(card.dataset.gfPost);
+      if (!post) return;
+      if (selectedPostCard === card || event.detail > 1) postDialog(post, false);
+      else { selectPostCard(card); card.focus({ preventScroll: true }); }
+      return;
+    }
+    if (button.disabled) return;
     const { gfAction, key } = button.dataset;
     const group = groups.get(key);
     const post = knownPosts.get(key);
@@ -1032,6 +1056,13 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     }
   });
 
+  root.addEventListener("keydown", event => {
+    if ((event.key === "Enter" || event.key === " ") && event.target.matches?.("[data-gf-post]")) {
+      const post = knownPosts.get(event.target.dataset.gfPost);
+      if (post) { event.preventDefault(); selectPostCard(event.target); postDialog(post, false); }
+    }
+  });
+
   root.addEventListener("error", event => {
     const image = event.target;
     if (!image.matches?.("img.md-emoji")) return;
@@ -1063,6 +1094,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       }
     });
     window.addEventListener("popstate", () => {
+      selectPostCard(null);
       if (dialog.open) dialog.close();
       route = routeFromUrl();
       sync();
