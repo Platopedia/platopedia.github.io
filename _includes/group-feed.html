@@ -1,4 +1,4 @@
-{% if include.mode == 'embed' %}<link rel="stylesheet" href="/docs/assets/css/group-feed.css?v=20261113.5">{% endif %}
+{% if include.mode == 'embed' %}<link rel="stylesheet" href="/docs/assets/css/group-feed.css?v=20261113.6">{% endif %}
 <section class="group-feed" data-group-feed data-mode="{{ include.mode }}" data-group="{{ include.group }}"
   data-api="https://platopedia-groups.platopedia.workers.dev/api/feed"{% if include.mode == 'embed' %} hidden{% endif %}>
   {% if include.mode == 'feed' %}
@@ -55,7 +55,27 @@
   <a class="gf-back" href="/groups/"><svg class="gf-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19 12H5m6-6-6 6 6 6"/></svg> Back to Groups</a>
   {% endif %}
 
-  {% if include.mode != 'feed' %}<div data-gf-profile hidden></div>{% endif %}
+  {% if include.mode != 'feed' %}
+  <div data-gf-profile{% if include.mode == 'embed' %} hidden{% endif %}>
+    {% if include.mode == 'profile' %}
+    <header class="gf-profile gf-profile-placeholder" aria-label="Loading group profile" aria-busy="true">
+      <div aria-hidden="true">
+        <div class="gf-profile-overview">
+          <div class="gf-profile-identity">
+            <span class="gf-avatar gf-skeleton"></span>
+            <div class="gf-profile-name"><span class="gf-skeleton gf-skeleton-name"></span><span class="gf-skeleton gf-skeleton-region"></span></div>
+          </div>
+          <div class="gf-profile-tools"><span class="gf-skeleton gf-skeleton-button"></span><span class="gf-skeleton gf-skeleton-button"></span></div>
+        </div>
+        <div class="gf-profile-details">
+          <div><span class="gf-skeleton"></span><span class="gf-skeleton gf-skeleton-bio"></span><span class="gf-skeleton gf-skeleton-bio"></span></div>
+          <div class="gf-skeleton gf-skeleton-contact"></div>
+        </div>
+      </div>
+    </header>
+    {% endif %}
+  </div>
+  {% endif %}
   <div class="gf-feed-layout" data-gf-feed-view>
     <section class="gf-timeline" aria-labelledby="gf-feed-heading">
       {% if include.mode != 'embed' %}
@@ -99,4 +119,4 @@
   </dialog>
   <p class="gf-toast" data-gf-toast role="status" hidden></p>
 </section>
-<script type="module" src="/docs/assets/js/group-feed.js?v=20261113.10"></script>
+<script type="module" src="/docs/assets/js/group-feed.js?v=20261113.11"></script>

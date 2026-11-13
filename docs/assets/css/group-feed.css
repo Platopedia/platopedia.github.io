@@ -550,6 +550,15 @@
   background: linear-gradient(150deg, var(--gf-profile-wash), var(--gf-surface) 38%);
 }
 .gf-profile-identity { display: flex; align-items: center; gap: 1rem; min-width: 0; }
+.gf-skeleton { display: block; height: 1rem; border-radius: .4rem; background: var(--gf-rule); opacity: .65; }
+.gf-profile-placeholder .gf-profile-name { flex: 1; min-width: 7rem; }
+.gf-skeleton-name { width: 12rem; max-width: 100%; height: 2.5rem; }
+.gf-skeleton-region { width: 5rem; margin-top: .65rem; }
+.gf-skeleton-button { width: 6rem; height: 2.6rem; }
+.gf-skeleton-bio { margin-top: .8rem; }
+.gf-skeleton-bio:last-child { width: 75%; }
+.gf-skeleton-contact { height: 9rem; }
+.gf-profile-placeholder .gf-avatar { background: var(--gf-rule); }
 .gf-profile-name { min-width: 0; }
 .gf-profile .gf-avatar, .gf-dialog .gf-profile-identity .gf-avatar {
   width: 76px;
