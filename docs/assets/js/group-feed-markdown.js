@@ -1,7 +1,29 @@
+const customEmojiPattern = "<(a?):([A-Za-z0-9_]{1,32}):(\\d{17,20})>";
+const customEmojiStart = new RegExp("^" + customEmojiPattern);
+const customEmojiAnywhere = new RegExp(customEmojiPattern, "g");
+const escapePostHtml = text => text.replace(/[&<>"']/g, character => ({
+  "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+})[character]);
+
+function customEmojiHtml(match) {
+  const still = `https://cdn.discordapp.com/emojis/${match[3]}.webp?size=64`;
+  const image = `<img class="md-emoji" src="${still}${match[1] ? "&amp;animated=true" : ""}" alt=":${match[2]}:" width="24" height="24" loading="lazy" decoding="async" referrerpolicy="no-referrer" draggable="false">`;
+  return match[1] ? `<picture><source media="(prefers-reduced-motion: reduce)" srcset="${still}">${image}</picture>` : image;
+}
+
+// Titles keep their literal text while rendering custom emoji, without block markup.
+export function renderPostTitle(value) {
+  const text = String(value ?? "");
+  let result = "", previous = 0;
+  for (const match of text.matchAll(customEmojiAnywhere)) {
+    result += escapePostHtml(text.slice(previous, match.index)) + customEmojiHtml(match);
+    previous = match.index + match[0].length;
+  }
+  return result + escapePostHtml(text.slice(previous));
+}
+
 export function renderPostMarkdown(value) {
-  const escape = text => text.replace(/[&<>"']/g, character => ({
-    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
-  })[character]);
+  const escape = escapePostHtml;
   const safeUrl = text => {
     try {
       const url = new URL(text);
@@ -20,7 +42,7 @@ export function renderPostMarkdown(value) {
     let output = "";
     for (let index = 0; index < text.length;) {
       const rest = text.slice(index);
-      const escaped = rest.match(/^\\([\\`*_~|>#[\]()!+-])/);
+      const escaped = rest.match(/^\\([\\`*_~|<>#[\]()!+-])/);
       if (escaped) {
         output += escape(escaped[1]);
         index += escaped[0].length;
@@ -30,6 +52,12 @@ export function renderPostMarkdown(value) {
       if (code && code[2]) {
         output += `<code>${escape(code[2])}</code>`;
         index += code[0].length;
+        continue;
+      }
+      const emoji = rest[0] === "<" ? rest.match(customEmojiStart) : null;
+      if (emoji) {
+        output += customEmojiHtml(emoji);
+        index += emoji[0].length;
         continue;
       }
       if (allowLinks && rest[0] === "[") {

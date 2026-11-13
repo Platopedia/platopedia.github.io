@@ -1,4 +1,4 @@
-import { renderPostMarkdown } from "./group-feed-markdown.js?v=20261113.1";
+import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=20261113.2";
 
 (() => {
   const root = document.querySelector("[data-group-feed]");
@@ -360,7 +360,9 @@ import { renderPostMarkdown } from "./group-feed-markdown.js?v=20261113.1";
     article.id = `post-${post.id}`;
     const heading = el("h3");
     heading.dir = "auto";
-    heading.append(action("read", post.title, post.id, "gf-post-title"));
+    const title = action("read", undefined, post.id, "gf-post-title");
+    title.innerHTML = renderPostTitle(post.title);
+    heading.append(title);
     const body = el("div", "gf-post-text post-markdown is-preview");
     body.innerHTML = renderPostMarkdown(post.body);
     body.dir = "auto";
@@ -814,7 +816,8 @@ import { renderPostMarkdown } from "./group-feed-markdown.js?v=20261113.1";
 
   function postDialog(post, imageOnly) {
     const panel = el("div");
-    const title = el("h2", null, post.title);
+    const title = el("h2");
+    title.innerHTML = renderPostTitle(post.title);
     title.id = "gf-dialog-title";
     title.dir = "auto";
     if (!imageOnly) panel.append(postMeta(post));
@@ -852,7 +855,8 @@ import { renderPostMarkdown } from "./group-feed-markdown.js?v=20261113.1";
     if (matchingPosts.length) {
       rows.push(el("h3", null, "Loaded posts"));
       for (const post of matchingPosts) {
-        const button = action("read", post.title, post.id, "gf-search-result");
+        const button = action("read", undefined, post.id, "gf-search-result");
+        button.innerHTML = renderPostTitle(post.title);
         button.append(el("span", "gf-region", post.group.name));
         rows.push(button);
       }
@@ -1027,6 +1031,12 @@ import { renderPostMarkdown } from "./group-feed-markdown.js?v=20261113.1";
         break;
     }
   });
+
+  root.addEventListener("error", event => {
+    const image = event.target;
+    if (!image.matches?.("img.md-emoji")) return;
+    (image.closest("picture") || image).replaceWith(document.createTextNode(image.getAttribute("alt") || ":emoji:"));
+  }, true);
 
   root.addEventListener("input", (event) => {
     if (event.target === find("directory-search")) renderDirectory();
