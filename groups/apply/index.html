@@ -5,19 +5,70 @@ description: Apply to list your Plato group in the Platopedia Groups feed.
 permalink: /groups/apply/
 form_url: https://docs.google.com/forms/d/e/1FAIpQLSdsLNWINjSZmSGCrCCjNezdAZBWKrmT2Q0LMcByM-_NMp72gA/viewform
 ---
-<section class="groups-application" aria-labelledby="group-application-title">
-  <a class="groups-apply-back" href="/groups/">
+<section class="group-feed groups-application" aria-labelledby="group-application-title">
+  <a class="gf-back groups-apply-back" href="/groups/">
     <svg class="gf-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19 12H5m6-6-6 6 6 6"/></svg>
     Back to Groups
   </a>
   <div class="groups-apply-panel">
-    <header class="groups-apply-header">
-      <h1 id="group-application-title">Group application</h1>
-      <a href="{{ page.form_url | escape }}" target="_blank" rel="noopener">
-        Open in Google Forms <svg class="gf-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M7 7h10v10"/></svg>
-      </a>
+    <header class="gf-hero groups-apply-header">
+      <div class="gf-hero-copy">
+        <p class="gf-kicker"><img src="/docs/assets/images/plato.png" alt="" width="31" height="31"> Plato: Community</p>
+        <h1 id="group-application-title">List your group on Platopedia</h1>
+        <p>Apply for a public group profile and a place to share updates in the Groups feed.</p>
+      </div>
     </header>
-    <iframe class="groups-apply-form" src="{{ page.form_url | escape }}?embedded=true"
-      title="List your group on Platopedia" width="640" height="1179"></iframe>
+    <form class="groups-apply-form" id="group-application" method="post"
+      data-endpoint="https://platopedia-groups.platopedia.workers.dev/api/applications">
+      <div class="groups-apply-fields">
+        <div>
+          <label for="apply-plato-id">Your Plato ID</label>
+          <input id="apply-plato-id" name="platoId" type="text" maxlength="80" required autocomplete="off"
+            autocapitalize="none" spellcheck="false" aria-describedby="apply-plato-help">
+          <p id="apply-plato-help">Use the ID you manage the group with.</p>
+        </div>
+        <div>
+          <label for="apply-group-name">Your group name</label>
+          <input id="apply-group-name" name="groupName" type="text" maxlength="20" required autocomplete="off"
+            aria-describedby="apply-name-help">
+          <p id="apply-name-help">This will appear on Platopedia. Up to 20 characters.</p>
+        </div>
+        <div>
+          <label for="apply-formed">When was your group formed?</label>
+          <input id="apply-formed" name="formed" type="text" maxlength="80" required autocomplete="off"
+            aria-describedby="apply-formed-help">
+          <p id="apply-formed-help">An approximate month and year is fine, like June 2024.</p>
+        </div>
+        <div>
+          <label for="apply-members">How many members do you have?</label>
+          <input id="apply-members" name="memberCount" type="text" inputmode="numeric" pattern="[0-9]+" maxlength="9"
+            required autocomplete="off" aria-describedby="apply-members-help">
+          <p id="apply-members-help">Enter a whole number. An estimate is fine.</p>
+        </div>
+        <div class="groups-apply-links">
+          <label for="apply-links">Public group links <span>Optional</span></label>
+          <textarea id="apply-links" name="publicLinks" rows="3" maxlength="2000" autocomplete="off" spellcheck="false"
+            aria-describedby="apply-links-help"></textarea>
+          <p id="apply-links-help">Share a Discord invite, social profile, or website. Enter one link per line.</p>
+        </div>
+      </div>
+      <div class="groups-apply-actions">
+        <p id="group-application-error" class="groups-apply-error" role="alert" hidden></p>
+        <button class="gf-button gf-primary" type="submit" disabled>
+          <span>Submit application</span>
+          <svg class="gf-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+        </button>
+        <a href="{{ page.form_url | escape }}" target="_blank" rel="noopener">Open in Google Forms</a>
+      </div>
+    </form>
+    <div id="group-application-thanks" class="groups-apply-result" hidden>
+      <div class="groups-apply-check" aria-hidden="true">
+        <svg class="gf-icon" viewBox="0 0 24 24" focusable="false"><path d="m5 12 4 4L19 6"/></svg>
+      </div>
+      <h2 tabindex="-1">Application received</h2>
+      <p>Fear will message you on Plato if we approve your application or need more details.</p>
+      <a class="gf-button" href="/groups/">Explore Plato Groups</a>
+    </div>
   </div>
 </section>
+<script type="module" src="/docs/assets/js/groups-apply.js?v=20261114.1"></script>
