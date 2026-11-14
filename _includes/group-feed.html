@@ -33,7 +33,7 @@
 
     <div class="gf-filterbar" data-gf-filterbar>
       <div class="gf-regions" data-gf-regions data-cache-key="platopedia.groupFeed.regions" role="group" aria-label="Filter by server"><button type="button" data-gf-action="region" data-key="" aria-pressed="true">All servers</button></div>
-      <button class="gf-button gf-filter-clear" type="button" data-gf-action="clear-group" data-gf-group-filter hidden></button>
+      <button class="gf-button gf-filter-clear" type="button" data-gf-action="clear-group" data-gf-group-filter hidden><span data-gf-group-filter-label></span><svg class="gf-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
     </div>
 
     <section class="gf-directory-view" data-gf-directory-view hidden aria-labelledby="gf-directory-title">
@@ -112,24 +112,35 @@
         find("filterbar").hidden = directPost;
         find("feed-view").hidden = view === "directory";
         find("directory-view").hidden = view !== "directory";
+        if (groupFeed && !directPost) {
+          find("group-filter-label").textContent = group;
+          find("group-filter").hidden = false;
+        }
 
         const controls = find("regions");
-        const selected = (query.get("region") || "").slice(0, 60).toLocaleLowerCase();
+        const region = (query.get("region") || "").slice(0, 60);
+        const selected = region.toLocaleLowerCase();
         const all = controls.children[0];
         all.setAttribute("aria-pressed", String(!selected));
-        let snapshot;
+        let cachedLabels = [];
         try {
           const raw = sessionStorage.getItem(controls.dataset.cacheKey);
-          if (raw && raw.length <= 12_000) snapshot = JSON.parse(raw);
-        } catch { /* The static All servers button is available without storage. */ }
-        if (snapshot?.api !== root.dataset.api || !Array.isArray(snapshot.regions) || snapshot.regions.length > 100 ||
-          !snapshot.regions.every(label => typeof label === "string" && label.length > 0 && label.length <= 60)) return;
-        const labels = new Map(snapshot.regions.map(label => [label.toLocaleLowerCase(), label]));
+          const snapshot = raw && raw.length <= 12_000 ? JSON.parse(raw) : null;
+          if (snapshot?.api === root.dataset.api && Array.isArray(snapshot.regions) && snapshot.regions.length <= 100 &&
+            snapshot.regions.every(label => typeof label === "string" && label.length > 0 && label.length <= 60)) {
+            cachedLabels = snapshot.regions;
+          }
+        } catch { /* The URL selection is available without storage. */ }
+        const labels = new Map(cachedLabels.map(label => [label.toLocaleLowerCase(), label]));
+        const selectedFromUrl = region && !labels.has(selected);
+        if (selectedFromUrl) labels.set(selected, region);
         for (const label of [...labels.values()].sort((a, b) => a.localeCompare(b))) {
           const button = all.cloneNode(true);
           button.dataset.key = label;
           button.textContent = label;
-          button.setAttribute("aria-pressed", String(label.toLocaleLowerCase() === selected));
+          const pressed = label.toLocaleLowerCase() === selected;
+          button.setAttribute("aria-pressed", String(pressed));
+          if (pressed && selectedFromUrl) button.setAttribute("data-region-from-url", "");
           controls.append(button);
         }
       })();
@@ -145,4 +156,4 @@
   </dialog>
   <p class="gf-toast" data-gf-toast role="status" hidden></p>
 </section>
-<script type="module" src="/docs/assets/js/group-feed.js?v=20261114.3"></script>
+<script type="module" src="/docs/assets/js/group-feed.js?v=20261114.4"></script>

@@ -67,9 +67,11 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   let profileSignature = "";
   // The inline script restores display labels before the feed module loads.
   const initialRegionButtons = [...(regionControls?.children || [])];
-  let regionLabels = initialRegionButtons.slice(1).map(button => button.dataset.key);
+  let regionLabels = initialRegionButtons.slice(1)
+    .filter(button => !button.hasAttribute("data-region-from-url"))
+    .map(button => button.dataset.key);
   let regionSignature = JSON.stringify([
-    ["", ...regionLabels],
+    initialRegionButtons.map(button => button.dataset.key),
     initialRegionButtons.find(button => button.getAttribute("aria-pressed") === "true")?.dataset.key.toLocaleLowerCase(),
   ]);
 
@@ -439,9 +441,10 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       }
       regionSignature = nextRegionSignature;
     }
-    const groupFilter = find("group-filter");
-    groupFilter.replaceChildren(document.createTextNode(groups.get(route.group)?.name || route.group), icon("close"));
-    groupFilter.hidden = !route.group;
+    const groupLabel = groups.get(route.group)?.name || route.group;
+    const groupFilterLabel = find("group-filter-label");
+    if (groupFilterLabel.textContent !== groupLabel) groupFilterLabel.textContent = groupLabel;
+    find("group-filter").hidden = !route.group || Boolean(route.post);
     find("filterbar").hidden = Boolean(route.post);
 
     const available = visibleGroups();
@@ -877,7 +880,11 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       retryImages(root, true);
       if (route.view !== "saved") savedView.loadedAt = 0;
     }
-    const refreshCatalog = isFeed && (force || preservePages || catalogError || catalogComplete && Date.now() - catalogLoadedAt >= freshFor);
+    // Saved post batches and an empty Following view can otherwise leave old server labels unverified.
+    const needsCatalog = !catalogComplete && regionLabels.length > 0 &&
+      (route.view === "saved" || route.view === "following" && !following.size);
+    const refreshCatalog = isFeed && (force || preservePages || catalogError || needsCatalog ||
+      catalogComplete && Date.now() - catalogLoadedAt >= freshFor);
     if (route.view === "directory") {
       activeLoad?.abort();
       activeLoad = null;
