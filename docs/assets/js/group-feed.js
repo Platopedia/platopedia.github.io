@@ -19,7 +19,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   const dateFormat = new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" });
   const groupKey = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
   const postKey = /^\d{17,20}$/;
-  const views = new Set(["latest", "directory", "following", "saved"]);
+  const viewButtons = new Map([...root.querySelectorAll('[data-gf-action="view"]')].map(button => [button.dataset.key, button]));
   const palette = ["#1266bf", "#0a747e", "#3e57a1", "#12618c", "#455c7a"];
   const iconPaths = {
     plus: "M12 5v14M5 12h14",
@@ -78,7 +78,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     const group = query.get("group");
     const post = query.get("post");
     const requestedView = query.get("view");
-    const view = views.has(requestedView) && !post ? requestedView : "latest";
+    const view = viewButtons.has(requestedView) && !post ? requestedView : "latest";
     return {
       view: isFeed ? view : "latest",
       group: isFeed && view === "latest" && group && group.length <= 60 && groupKey.test(group) ? group : "",
@@ -532,18 +532,15 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
 
   function render() {
     if (isFeed) {
-      for (const button of root.querySelectorAll('[data-gf-action="view"]')) {
-        if (button.dataset.key === route.view) button.setAttribute("aria-current", "page");
+      for (const [view, button] of viewButtons) {
+        if (view === route.view) button.setAttribute("aria-current", "page");
         else button.removeAttribute("aria-current");
       }
       find("feed-view").hidden = route.view === "directory";
       find("directory-view").hidden = route.view !== "directory";
       find("back").hidden = !route.post;
-      find("heading").textContent = route.post ? "Group post" : ({
-        latest: route.group ? `${groups.get(route.group)?.name || "Group"} posts` : "Latest posts",
-        following: "Following",
-        saved: "Saved posts",
-      })[route.view] || "Latest posts";
+      find("heading").textContent = route.post ? "Group post" : route.group
+        ? `${groups.get(route.group)?.name || "Group"} posts` : viewButtons.get(route.view).dataset.heading;
       renderDiscovery();
       renderDirectory();
     }

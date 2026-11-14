@@ -21,10 +21,10 @@
   <div class="gf-workspace" id="group-feed-workspace" tabindex="-1">
     <div class="gf-console">
       <nav class="gf-views" aria-label="Group Feed views">
-        <button type="button" data-gf-action="view" data-key="latest" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 9h8M8 13h8M8 17h4"/></svg>Feed</button>
-        <button type="button" data-gf-action="view" data-key="directory"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="8" r="3"/><path d="M4 20v-2a6 6 0 0 1 12 0v2M16 5a3 3 0 0 1 0 6m2 3a5 5 0 0 1 2 4v2"/></svg>Directory</button>
-        <button type="button" data-gf-action="view" data-key="following"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 9c0 4-8 9-8 9S4 13 4 9a4.3 4.3 0 0 1 8-2.2A4.3 4.3 0 0 1 20 9Z"/></svg>Following</button>
-        <button type="button" data-gf-action="view" data-key="saved"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v14l-6-4-6 4z"/></svg>Saved</button>
+        <button type="button" data-gf-action="view" data-key="latest" data-heading="Latest posts"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 9h8M8 13h8M8 17h4"/></svg>Feed</button>
+        <button type="button" data-gf-action="view" data-key="directory" data-heading="Group directory"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="8" r="3"/><path d="M4 20v-2a6 6 0 0 1 12 0v2M16 5a3 3 0 0 1 0 6m2 3a5 5 0 0 1 2 4v2"/></svg>Directory</button>
+        <button type="button" data-gf-action="view" data-key="following" data-heading="Following"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 9c0 4-8 9-8 9S4 13 4 9a4.3 4.3 0 0 1 8-2.2A4.3 4.3 0 0 1 20 9Z"/></svg>Following</button>
+        <button type="button" data-gf-action="view" data-key="saved" data-heading="Saved posts"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v14l-6-4-6 4z"/></svg>Saved</button>
       </nav>
       <button class="gf-search-trigger" type="button" data-gf-action="search" aria-label="Search groups and posts">
         <span class="gf-search-icon" aria-hidden="true"></span> <span>Search groups and posts</span> <kbd aria-hidden="true">/</kbd>
@@ -35,32 +35,6 @@
       <div class="gf-regions" data-gf-regions data-cache-key="platopedia.groupFeed.regions" role="group" aria-label="Filter by server"><button type="button" data-gf-action="region" data-key="" aria-pressed="true">All servers</button></div>
       <button class="gf-button gf-filter-clear" type="button" data-gf-action="clear-group" data-gf-group-filter hidden></button>
     </div>
-    <script data-gf-regions-init>
-      (() => {
-        const controls = document.querySelector("[data-gf-regions]");
-        if (!controls) return;
-        const query = new URLSearchParams(location.search);
-        if (/^\d{17,20}$/.test(query.get("post"))) controls.closest("[data-gf-filterbar]").hidden = true;
-        const selected = (query.get("region") || "").slice(0, 60).toLocaleLowerCase();
-        const all = controls.children[0];
-        all.setAttribute("aria-pressed", String(!selected));
-        let snapshot;
-        try {
-          const raw = sessionStorage.getItem(controls.dataset.cacheKey);
-          if (raw && raw.length <= 12_000) snapshot = JSON.parse(raw);
-        } catch { /* The static All servers button is available without storage. */ }
-        if (snapshot?.api !== controls.closest("[data-group-feed]").dataset.api || !Array.isArray(snapshot.regions) ||
-          snapshot.regions.length > 100 || !snapshot.regions.every(label => typeof label === "string" && label.length > 0 && label.length <= 60)) return;
-        const labels = new Map(snapshot.regions.map(label => [label.toLocaleLowerCase(), label]));
-        for (const label of [...labels.values()].sort((a, b) => a.localeCompare(b))) {
-          const button = all.cloneNode(true);
-          button.dataset.key = label;
-          button.textContent = label;
-          button.setAttribute("aria-pressed", String(label.toLocaleLowerCase() === selected));
-          controls.append(button);
-        }
-      })();
-    </script>
 
     <section class="gf-directory-view" data-gf-directory-view hidden aria-labelledby="gf-directory-title">
       <header class="gf-section-head">
@@ -75,8 +49,9 @@
         <input type="search" data-gf-directory-search placeholder="Find a group…" autocomplete="off" maxlength="80">
       </label>
       <div class="gf-directory-grid" data-gf-directory-grid></div>
-      <p class="gf-status" data-gf-directory-status role="status" hidden></p>
+      <p class="gf-status" data-gf-directory-status role="status">Loading groups…</p>
     </section>
+    <noscript><p class="gf-status">Enable JavaScript to browse the Group Feed.</p></noscript>
   {% elsif include.mode == 'profile' %}
   <a class="gf-back" href="/groups/"><svg class="gf-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19 12H5m6-6-6 6 6 6"/></svg> Back to Groups</a>
   {% endif %}
@@ -84,7 +59,7 @@
   {% if include.mode != 'feed' %}
   <div data-gf-profile hidden></div>
   {% endif %}
-  <div class="gf-feed-layout" data-gf-feed-view>
+  <div class="gf-feed-layout" data-gf-feed-view{% if include.mode == 'feed' %} hidden{% endif %}>
     <section class="gf-timeline" aria-labelledby="gf-feed-heading">
       {% if include.mode != 'embed' %}
       <a class="gf-back gf-all-posts" data-gf-back href="/groups/" hidden><svg class="gf-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19 12H5m6-6-6 6 6 6"/></svg> All posts</a>
@@ -101,7 +76,7 @@
       {% else %}
       <h2 id="gf-feed-heading" class="gf-sr-only">Arcade group posts</h2>
       {% endif %}
-      <noscript><p class="gf-status">Enable JavaScript to browse the Group Feed.</p></noscript>
+      {% if include.mode != 'feed' %}<noscript><p class="gf-status">Enable JavaScript to browse the Group Feed.</p></noscript>{% endif %}
       <p class="gf-status" data-gf-status role="status">{% if include.mode == 'profile' %}Loading group profile…{% else %}Loading group posts…{% endif %}</p>
       <div class="gf-posts" data-gf-posts aria-busy="true"></div>
       <button class="gf-button gf-more" type="button" data-gf-action="more" data-gf-more hidden><span>Load older posts </span><svg class="gf-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14m-6-6 6 6 6-6"/></svg></button>
@@ -117,7 +92,50 @@
     </aside>
     {% endif %}
   </div>
-  {% if include.mode == 'feed' %}</div>{% endif %}
+  {% if include.mode == 'feed' %}
+    <script data-gf-init>
+      (() => {
+        const root = document.querySelector('[data-group-feed][data-mode="feed"]');
+        if (!root) return;
+        const find = name => root.querySelector(`[data-gf-${name}]`);
+        const query = new URLSearchParams(location.search);
+        const post = query.get("post");
+        const group = query.get("group") || "";
+        const directPost = /^\d{17,20}$/.test(post);
+        const buttons = [...root.querySelectorAll('[data-gf-action="view"]')];
+        const current = buttons.find(button => !post && button.dataset.key === query.get("view")) || buttons[0];
+        const view = current.dataset.key;
+        const groupFeed = view === "latest" && group.length <= 60 && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(group);
+        current.setAttribute("aria-current", "page");
+        find("heading").textContent = directPost ? "Group post" : groupFeed ? "Group posts" : current.dataset.heading;
+        find("back").hidden = !directPost;
+        find("filterbar").hidden = directPost;
+        find("feed-view").hidden = view === "directory";
+        find("directory-view").hidden = view !== "directory";
+
+        const controls = find("regions");
+        const selected = (query.get("region") || "").slice(0, 60).toLocaleLowerCase();
+        const all = controls.children[0];
+        all.setAttribute("aria-pressed", String(!selected));
+        let snapshot;
+        try {
+          const raw = sessionStorage.getItem(controls.dataset.cacheKey);
+          if (raw && raw.length <= 12_000) snapshot = JSON.parse(raw);
+        } catch { /* The static All servers button is available without storage. */ }
+        if (snapshot?.api !== root.dataset.api || !Array.isArray(snapshot.regions) || snapshot.regions.length > 100 ||
+          !snapshot.regions.every(label => typeof label === "string" && label.length > 0 && label.length <= 60)) return;
+        const labels = new Map(snapshot.regions.map(label => [label.toLocaleLowerCase(), label]));
+        for (const label of [...labels.values()].sort((a, b) => a.localeCompare(b))) {
+          const button = all.cloneNode(true);
+          button.dataset.key = label;
+          button.textContent = label;
+          button.setAttribute("aria-pressed", String(label.toLocaleLowerCase() === selected));
+          controls.append(button);
+        }
+      })();
+    </script>
+  </div>
+  {% endif %}
 
   <dialog class="gf-dialog" data-gf-dialog aria-labelledby="gf-dialog-title">
     <div class="gf-dialog-inner">
@@ -127,4 +145,4 @@
   </dialog>
   <p class="gf-toast" data-gf-toast role="status" hidden></p>
 </section>
-<script type="module" src="/docs/assets/js/group-feed.js?v=20261114.2"></script>
+<script type="module" src="/docs/assets/js/group-feed.js?v=20261114.3"></script>
