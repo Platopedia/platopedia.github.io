@@ -1,6 +1,7 @@
 
 .groups-page {
   --groups-ink: #132942;
+  --groups-header-text: #343a40;
   --groups-muted: #4c6380;
   --groups-rule: #dce7f3;
   --groups-link: #0b5eaf;
@@ -18,6 +19,7 @@
 .groups-document[data-theme="dark"] .groups-page {
   color-scheme: dark;
   --groups-ink: #edf4fc;
+  --groups-header-text: #cbc5bf;
   --groups-muted: #b3c2d5;
   --groups-rule: #2b3b50;
   --groups-link: #8ecbff;
@@ -64,7 +66,7 @@
   background: var(--groups-surface);
   color: var(--groups-link);
 }
-.groups-masthead { border-bottom: 1px solid var(--groups-rule); background: var(--groups-surface); }
+.groups-masthead { color: var(--groups-header-text); border-bottom: 1px solid var(--groups-rule); background: var(--groups-surface); }
 .groups-masthead-inner, .groups-shell, .groups-site-footer {
   width: min(100% - 56px, 1200px);
   margin-inline: auto;
@@ -86,13 +88,13 @@
   display: block;
   padding: .55rem .78rem;
   border-radius: .62rem;
-  color: var(--groups-muted);
+  color: var(--groups-header-text);
   font-size: .84rem;
   font-weight: 700;
   text-decoration: none;
 }
 .groups-site-nav a:hover, .groups-site-mobile a:hover,
-.groups-site-nav a[href="/groups/"], .groups-site-mobile a[href="/groups/"] { color: var(--groups-ink); background: var(--groups-hover); }
+.groups-site-nav a[href="/groups/"], .groups-site-mobile a[href="/groups/"] { color: var(--groups-header-text); background: var(--groups-hover); }
 .groups-header-actions { display: flex; align-items: center; gap: .5rem; }
 .groups-theme-toggle {
   display: grid;
@@ -103,7 +105,7 @@
   padding: 0;
   border: 1px solid var(--groups-rule);
   border-radius: 11px;
-  color: var(--groups-ink);
+  color: var(--groups-header-text);
   background: var(--groups-surface);
   cursor: pointer;
 }
@@ -468,7 +470,6 @@
   transition: border-color .2s ease, box-shadow .2s ease;
   animation: gf-enter .32s ease both;
 }
-.gf-card[data-gf-selected="true"] { border-color: var(--gf-highlight); }
 @media (hover: hover) {
   .gf-card:hover { border-color: var(--gf-highlight); }
 }

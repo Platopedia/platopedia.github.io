@@ -41,7 +41,6 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   const groupRequestIds = new Map();
   const knownPosts = new Map();
   const renderedPosts = new Map();
-  let selectedPostCard;
   const renderedGroups = new Map();
   let saved = storedSet(savedKey, postKey);
   let following = storedSet(followingKey, groupKey);
@@ -547,7 +546,6 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       if (detached <= 24) break;
       if (!active.has(id)) { renderedPosts.delete(id); detached -= 1; }
     }
-    if (selectedPostCard && !postsNode.contains(selectedPostCard)) selectPostCard(null);
   }
 
   function render() {
@@ -962,7 +960,6 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   }
 
   function navigate(change, scroll = false) {
-    selectPostCard(null);
     route = { ...route, ...change };
     const url = new URL(location.href);
     for (const [key, value] of Object.entries(route)) {
@@ -1192,20 +1189,10 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     }
   }
 
-  function selectPostCard(card) {
-    selectedPostCard?.removeAttribute("data-gf-selected");
-    selectedPostCard = card;
-    selectedPostCard?.setAttribute("data-gf-selected", "true");
-  }
-
   // Safari can carry a dialog's focus ring back to its mouse/touch opener.
   document.addEventListener("pointerdown", () => { root.dataset.gfPointer = "true"; }, true);
   document.addEventListener("keydown", event => {
     if (!event.metaKey && !event.ctrlKey && !event.altKey) root.removeAttribute("data-gf-pointer");
-  }, true);
-
-  document.addEventListener("click", (event) => {
-    if (selectedPostCard && !selectedPostCard.contains(event.target)) selectPostCard(null);
   }, true);
 
   root.addEventListener("click", (event) => {
@@ -1221,15 +1208,9 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
         event.target.closest?.("a,button,input,textarea,select,label,details,[contenteditable]")) return;
       const post = knownPosts.get(card.dataset.gfPost);
       if (!post) return;
-      const selection = window.getSelection?.();
-      if (selection?.toString()) {
-        // A double-click can select a word just before the reader opens.
-        if (!(event.detail > 1) || selectedPostCard !== card ||
-          !card.contains(selection.anchorNode) || !card.contains(selection.focusNode)) return;
-        selection.removeAllRanges();
-      }
-      if (selectedPostCard === card) postDialog(post, false);
-      else { selectPostCard(card); card.focus({ preventScroll: true }); }
+      if (window.getSelection?.()?.toString()) return;
+      card.focus({ preventScroll: true });
+      postDialog(post, false);
       return;
     }
     if (button.disabled) return;
@@ -1297,7 +1278,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   root.addEventListener("keydown", event => {
     if ((event.key === "Enter" || event.key === " ") && event.target.matches?.("[data-gf-post]")) {
       const post = knownPosts.get(event.target.dataset.gfPost);
-      if (post) { event.preventDefault(); selectPostCard(event.target); postDialog(post, false); }
+      if (post) { event.preventDefault(); postDialog(post, false); }
     }
   });
 
@@ -1333,7 +1314,6 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       }
     });
     window.addEventListener("popstate", () => {
-      selectPostCard(null);
       if (dialog.open) dialog.close();
       route = routeFromUrl();
       sync();
