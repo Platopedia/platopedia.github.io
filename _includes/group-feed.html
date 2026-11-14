@@ -32,9 +32,35 @@
     </div>
 
     <div class="gf-filterbar" data-gf-filterbar>
-      <div class="gf-regions" data-gf-regions role="group" aria-label="Filter by server"><button type="button" data-gf-action="region" aria-pressed="true">All servers</button></div>
+      <div class="gf-regions" data-gf-regions data-cache-key="platopedia.groupFeed.regions" role="group" aria-label="Filter by server"><button type="button" data-gf-action="region" data-key="" aria-pressed="true">All servers</button></div>
       <button class="gf-button gf-filter-clear" type="button" data-gf-action="clear-group" data-gf-group-filter hidden></button>
     </div>
+    <script data-gf-regions-init>
+      (() => {
+        const controls = document.querySelector("[data-gf-regions]");
+        if (!controls) return;
+        const query = new URLSearchParams(location.search);
+        if (/^\d{17,20}$/.test(query.get("post"))) controls.closest("[data-gf-filterbar]").hidden = true;
+        const selected = (query.get("region") || "").slice(0, 60).toLocaleLowerCase();
+        const all = controls.children[0];
+        all.setAttribute("aria-pressed", String(!selected));
+        let snapshot;
+        try {
+          const raw = sessionStorage.getItem(controls.dataset.cacheKey);
+          if (raw && raw.length <= 12_000) snapshot = JSON.parse(raw);
+        } catch { /* The static All servers button is available without storage. */ }
+        if (snapshot?.api !== controls.closest("[data-group-feed]").dataset.api || !Array.isArray(snapshot.regions) ||
+          snapshot.regions.length > 100 || !snapshot.regions.every(label => typeof label === "string" && label.length > 0 && label.length <= 60)) return;
+        const labels = new Map(snapshot.regions.map(label => [label.toLocaleLowerCase(), label]));
+        for (const label of [...labels.values()].sort((a, b) => a.localeCompare(b))) {
+          const button = all.cloneNode(true);
+          button.dataset.key = label;
+          button.textContent = label;
+          button.setAttribute("aria-pressed", String(label.toLocaleLowerCase() === selected));
+          controls.append(button);
+        }
+      })();
+    </script>
 
     <section class="gf-directory-view" data-gf-directory-view hidden aria-labelledby="gf-directory-title">
       <header class="gf-section-head">
@@ -101,4 +127,4 @@
   </dialog>
   <p class="gf-toast" data-gf-toast role="status" hidden></p>
 </section>
-<script type="module" src="/docs/assets/js/group-feed.js?v=20261114.1"></script>
+<script type="module" src="/docs/assets/js/group-feed.js?v=20261114.2"></script>

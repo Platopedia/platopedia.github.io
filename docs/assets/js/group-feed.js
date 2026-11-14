@@ -15,6 +15,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   const more = find("more");
   const dialog = find("dialog");
   const dialogContent = find("dialog-content");
+  const regionControls = find("regions");
   const dateFormat = new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" });
   const groupKey = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
   const postKey = /^\d{17,20}$/;
@@ -31,7 +32,6 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   };
   const savedKey = "platopedia.groupFeed.saved";
   const followingKey = "platopedia.groupFeed.following";
-  const regionsCacheKey = "platopedia.groupFeed.regions";
   const freshFor = 60_000;
   const maxRefreshBatch = 100;
   const imageRecovery = new WeakMap();
@@ -65,8 +65,13 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   let refreshSpinTimeout;
   let discoverySignature = "";
   let profileSignature = "";
-  let regionLabels = [];
-  let regionSignature = "";
+  // The inline script restores display labels before the feed module loads.
+  const initialRegionButtons = [...(regionControls?.children || [])];
+  let regionLabels = initialRegionButtons.slice(1).map(button => button.dataset.key);
+  let regionSignature = JSON.stringify([
+    ["", ...regionLabels],
+    initialRegionButtons.find(button => button.getAttribute("aria-pressed") === "true")?.dataset.key.toLocaleLowerCase(),
+  ]);
 
   function routeFromUrl() {
     const query = new URLSearchParams(location.search);
@@ -99,25 +104,14 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     }
   }
 
-  function restoreRegions() {
+  function rememberRegions() {
     if (!isFeed) return;
-    try {
-      const raw = sessionStorage.getItem(regionsCacheKey);
-      if (!raw || raw.length > 12_000) return;
-      const snapshot = JSON.parse(raw);
-      if (snapshot?.api !== api.href || !Array.isArray(snapshot.regions) || snapshot.regions.length > 100 ||
-        !snapshot.regions.every(region => typeof region === "string" && region.length > 0 && region.length <= 60)) return;
-      // Display-only labels never mark the directory or posts as loaded.
-      regionLabels = snapshot.regions;
-    } catch { /* All servers remains available while the normal request loads labels. */ }
-  }
-
-  function rememberRegions(replace) {
-    if (!isFeed) return;
-    const labels = new Map(replace || catalogComplete ? [] : regionLabels.map(region => [region.toLocaleLowerCase(), region]));
+    const labels = new Map(catalogComplete ? [] : regionLabels.map(region => [region.toLocaleLowerCase(), region]));
     for (const group of groups.values()) if (group.region) labels.set(group.region.toLocaleLowerCase(), group.region);
-    regionLabels = [...labels.values()];
-    try { sessionStorage.setItem(regionsCacheKey, JSON.stringify({ api: api.href, regions: regionLabels })); } catch {}
+    const nextLabels = [...labels.values()].sort((a, b) => a.localeCompare(b));
+    if (nextLabels.length === regionLabels.length && nextLabels.every((label, i) => label === regionLabels[i])) return;
+    regionLabels = nextLabels;
+    try { sessionStorage.setItem(regionControls.dataset.cacheKey, JSON.stringify({ api: api.href, regions: regionLabels })); } catch {}
   }
 
   function el(tag, className, content) {
@@ -438,7 +432,6 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
         button.setAttribute("aria-pressed", String(region.toLocaleLowerCase() === route.region.toLocaleLowerCase()));
         return button;
       });
-      const regionControls = find("regions");
       const focusedRegion = regionControls.contains(document.activeElement) ? document.activeElement.dataset.key : null;
       regionControls.replaceChildren(...controls);
       if (focusedRegion !== null) {
@@ -656,7 +649,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       for (const [id, post] of knownPosts) if (!groups.has(post.group.slug)) knownPosts.delete(id);
       if (dialog.open && dialog.dataset.group && !groups.has(dialog.dataset.group)) dialog.close();
     }
-    if (replacing || data.groups.length || data.posts.length) rememberRegions(replacing);
+    if (replacing || data.groups.length || data.posts.length) rememberRegions();
     if (openDialogItem?.kind === "group") reconcileDialog();
   }
 
@@ -781,7 +774,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
         if (data.missing) {
           if (data.requestId >= (groupRequestIds.get(params.group) || catalogRequestId)) {
             groups.delete(params.group);
-            if (catalogComplete) rememberRegions(true);
+            if (catalogComplete) rememberRegions();
             groupRequestIds.set(params.group, data.requestId);
             for (const cached of [...timelines.values(), savedView]) {
               cached.posts = cached.posts.filter(post => post.group.slug !== params.group);
@@ -1299,7 +1292,6 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     postsNode.setAttribute("aria-busy", "false");
     setStatus(status, "Choose a group from the directory.");
   } else {
-    restoreRegions();
     sync();
   }
 })();
