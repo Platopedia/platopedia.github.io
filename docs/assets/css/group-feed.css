@@ -363,6 +363,8 @@
 }
 .gf-regions button:hover, .group-feed .gf-filter-clear:hover { color: var(--gf-ink); border-color: var(--gf-link); }
 .gf-regions button[aria-pressed="true"], .group-feed .gf-filter-clear { color: var(--gf-ink); border-color: var(--gf-highlight); background: var(--gf-neutral-hover); }
+.group-feed .gf-filter-clear { inline-size: 12rem; max-inline-size: 100%; justify-content: space-between; }
+.gf-filter-clear > span { min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 .gf-feed-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.25rem; align-items: start; }
 .group-feed[data-mode="feed"] .gf-feed-layout { grid-template-columns: minmax(0, 1fr) minmax(260px, 329px); gap: 1.4rem; margin-top: 1.85rem; }

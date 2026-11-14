@@ -790,6 +790,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
             profileSignature = "";
           }
           errorMessage = "This group could not be found.";
+          if (isFeed && !route.post && !catalogComplete && regionLabels.length) ensureCatalog();
           break;
         } else {
           ingest(data, refreshCatalog || isFeed && !params.group && !params.post);
@@ -880,9 +881,9 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       retryImages(root, true);
       if (route.view !== "saved") savedView.loadedAt = 0;
     }
-    // Saved post batches and an empty Following view can otherwise leave old server labels unverified.
+    // Include the directory when the current view would otherwise leave cached server labels unverified.
     const needsCatalog = !catalogComplete && regionLabels.length > 0 &&
-      (route.view === "saved" || route.view === "following" && !following.size);
+      (route.view === "saved" || route.view === "following" && !following.size || route.group && !route.post);
     const refreshCatalog = isFeed && (force || preservePages || catalogError || needsCatalog ||
       catalogComplete && Date.now() - catalogLoadedAt >= freshFor);
     if (route.view === "directory") {
