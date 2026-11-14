@@ -186,7 +186,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     if (url) {
       const image = el("img");
       image.alt = "";
-      image.loading = "lazy";
+      image.loading = "eager";
       image.decoding = "async";
       watchImage(image);
       image.src = url;
