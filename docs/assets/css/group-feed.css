@@ -278,11 +278,6 @@
   outline-offset: 3px;
 }
 .group-feed[data-gf-pointer="true"] :is(button, a, [data-gf-post]):focus { outline: none; }
-.groups-page .groups-site-footer .groups-apply-cta:focus,
-.group-feed .gf-card[data-gf-post]:focus {
-  outline: 2px solid #1266bf;
-  outline-offset: 3px;
-}
 
 .gf-hero {
   --gf-glow-x: 77%;
@@ -475,8 +470,8 @@
   transition: border-color .2s ease, box-shadow .2s ease;
   animation: gf-enter .32s ease both;
 }
-@media (hover: hover) {
-  .gf-card:hover { border-color: var(--gf-highlight); }
+.gf-card:hover, .gf-card[data-gf-post]:focus {
+  border-color: color-mix(in srgb, var(--groups-link, var(--gf-link)) 36%, var(--groups-rule, var(--gf-rule)));
 }
 .gf-card[data-gf-post] { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
 .gf-card:focus:not(:focus-visible) { outline: none; }
