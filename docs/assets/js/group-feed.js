@@ -705,7 +705,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   function reconcileCachedPosts(posts, cursor, params, before) {
     const latest = new Map(posts.map(post => [post.id, post]));
     const lower = cursor?.split(".");
-    const upper = before?.split(".");
+    const upper = before && before.split(".");
     const covered = post => {
       if (params.post && post.id !== params.post ||
         params.group && post.group.slug !== params.group ||
@@ -750,7 +750,6 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       key, posts: append ? [...timeline.posts] : [], cursor: startingCursor,
       loadedAt: append ? timeline.loadedAt : 0,
     };
-    const existingCount = nextTimeline.posts.length;
     const keepCount = !append && timeline.key === key ? timeline.posts.length : 0;
     if (timeline.key !== key) timeline = { key, posts: [], cursor: null, loadedAt: 0 };
     render();
@@ -797,16 +796,22 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
           const existing = new Set(nextTimeline.posts.map((post) => post.id));
           nextTimeline.posts.push(...data.posts.filter((post) => !existing.has(post.id)));
           nextTimeline.cursor = data.next;
+          reconcileCachedPosts(data.posts, data.next, params, before);
+          if (!append) {
+            const lower = data.next?.split(".");
+            const olderPosts = lower ? timeline.posts.filter(post => isBeforeCursor(post, lower)) : [];
+            timeline = { ...nextTimeline, posts: [...nextTimeline.posts, ...olderPosts], cursor: lower ? timeline.cursor : null };
+            timelines.set(route.view, timeline);
+          }
           if (!isFeed) renderProfile();
         }
         refreshCatalog = false;
         if (!nextTimeline.cursor || nextTimeline.cursor === before) break;
         before = nextTimeline.cursor;
+        if (nextTimeline.posts.length < keepCount) render();
       } while (nextTimeline.posts.length < keepCount);
       if (!errorMessage) {
         if (!append) nextTimeline.loadedAt = Date.now();
-        reconcileCachedPosts(append ? nextTimeline.posts.slice(existingCount) : nextTimeline.posts,
-          nextTimeline.cursor, params, startingCursor);
         timelines.set(route.view, nextTimeline);
       }
       timeline = nextTimeline;
@@ -836,7 +841,6 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     const ids = [...saved].reverse().filter((id) => !nextSaved.loaded.has(id)).slice(0, count);
     render();
     try {
-      const byId = new Map();
       const batchSize = append ? 8 : maxRefreshBatch;
       for (let offset = 0; offset < Math.max(1, ids.length); offset += batchSize) {
         activeStartedAt = Date.now();
@@ -846,11 +850,24 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
         if (activeLoad !== controller) return;
         if (data) {
           ingest(data, refreshCatalog);
-          for (const post of data.posts) byId.set(post.id, post);
+          const byId = new Map(data.posts.map(post => [post.id, post]));
+          const checked = new Set(batch);
+          const current = new Map(savedView.posts.filter(post => !checked.has(post.id)).map(post => [post.id, post]));
+          for (const post of data.posts) current.set(post.id, post);
+          savedView.posts = [...saved].reverse().map(id => current.get(id)).filter(Boolean);
+          for (const id of batch) {
+            if (saved.has(id)) savedView.loaded.add(id);
+            if (byId.has(id)) nextSaved.posts.push(byId.get(id));
+            nextSaved.loaded.add(id);
+          }
+          for (const cached of timelines.values()) {
+            cached.posts = cached.posts.flatMap(post => checked.has(post.id) ? byId.get(post.id) || [] : post);
+            invalidateMissingPosts(cached, data.posts);
+          }
+          if (!append) savedView.loadedAt = 0;
         }
-        nextSaved.posts.push(...batch.map(id => byId.get(id)).filter(Boolean));
-        for (const id of batch) nextSaved.loaded.add(id);
         refreshCatalog = false;
+        if (offset + batchSize < ids.length) render();
       }
       if (!append) nextSaved.loadedAt = Date.now();
       const currentPosts = new Map(nextSaved.posts.map(post => [post.id, post]));
@@ -858,13 +875,6 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       for (const id of nextSaved.loaded) if (!saved.has(id)) nextSaved.loaded.delete(id);
       if ([...saved].some(id => !savedAtStart.has(id))) nextSaved.loadedAt = 0;
       savedView = nextSaved;
-      // Keep an already loaded timeline consistent with the posts just rechecked in Saved.
-      const checked = new Set(ids);
-      const refreshedPosts = [...byId.values()];
-      for (const cached of timelines.values()) {
-        cached.posts = cached.posts.flatMap(post => checked.has(post.id) ? byId.get(post.id) || [] : post);
-        invalidateMissingPosts(cached, refreshedPosts);
-      }
     } catch (error) {
       if (activeLoad !== controller || controller.signal.aborted) return;
       errorMessage = "Could not load saved posts.";
