@@ -470,7 +470,7 @@
   transition: border-color .2s ease, box-shadow .2s ease;
   animation: gf-enter .32s ease both;
 }
-.gf-card:hover, .gf-card[data-gf-post]:focus {
+.gf-card:hover, .gf-card[data-gf-post]:focus, .gf-image-button:is(:hover, :focus) {
   border-color: color-mix(in srgb, var(--groups-link, var(--gf-link)) 36%, var(--groups-rule, var(--gf-rule)));
 }
 .gf-card[data-gf-post] { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
