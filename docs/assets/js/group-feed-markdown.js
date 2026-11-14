@@ -1,6 +1,10 @@
 const customEmojiPattern = "<(a?):([A-Za-z0-9_]{1,32}):(\\d{17,20})>";
 const customEmojiStart = new RegExp("^" + customEmojiPattern);
 const customEmojiAnywhere = new RegExp(customEmojiPattern, "g");
+const mentionPattern = "<(#|@!?|@&)\\d{17,20}>";
+const mentionStart = new RegExp("^" + mentionPattern);
+const mentionAnywhere = new RegExp(mentionPattern, "g");
+const mentionLabels = { "#": "#channel", "@": "@user", "@!": "@user", "@&": "@role" };
 const escapePostHtml = text => text.replace(/[&<>"']/g, character => ({
   "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
 })[character]);
@@ -11,9 +15,9 @@ function customEmojiHtml(match) {
   return match[1] ? `<picture><source media="(prefers-reduced-motion: reduce)" srcset="${still}">${image}</picture>` : image;
 }
 
-// Titles keep their literal text while rendering custom emoji, without block markup.
+// Titles render custom emoji and generic mention labels without block markup.
 export function renderPostTitle(value) {
-  const text = String(value ?? "");
+  const text = String(value ?? "").replace(mentionAnywhere, (_mention, kind) => mentionLabels[kind]);
   let result = "", previous = 0;
   for (const match of text.matchAll(customEmojiAnywhere)) {
     result += escapePostHtml(text.slice(previous, match.index)) + customEmojiHtml(match);
@@ -52,6 +56,12 @@ export function renderPostMarkdown(value) {
       if (code && code[2]) {
         output += `<code>${escape(code[2])}</code>`;
         index += code[0].length;
+        continue;
+      }
+      const mention = rest[0] === "<" ? rest.match(mentionStart) : null;
+      if (mention) {
+        output += mentionLabels[mention[1]];
+        index += mention[0].length;
         continue;
       }
       const emoji = rest[0] === "<" ? rest.match(customEmojiStart) : null;

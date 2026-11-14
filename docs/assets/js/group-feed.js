@@ -1,4 +1,4 @@
-import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=20261113.2";
+import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=20261114.1";
 
 (() => {
   const root = document.querySelector("[data-group-feed]");
