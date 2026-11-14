@@ -1154,6 +1154,10 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     selectedPostCard?.setAttribute("data-gf-selected", "true");
   }
 
+  document.addEventListener("click", (event) => {
+    if (selectedPostCard && !selectedPostCard.contains(event.target)) selectPostCard(null);
+  }, true);
+
   root.addEventListener("click", (event) => {
     if (event.target === dialog) {
       const bounds = dialog.getBoundingClientRect();
