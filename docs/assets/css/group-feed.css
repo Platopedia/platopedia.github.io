@@ -27,7 +27,7 @@
   --groups-surface: #142030;
   --groups-hover: #202e40;
 }
-.groups-document[data-theme="dark"] .groups-brand img { filter: brightness(0) invert(1); }
+.groups-document[data-theme="dark"] .groups-brand img { filter: invert(1); }
 .groups-page :is(button, a, summary), .group-feed :is(button, a) { -webkit-tap-highlight-color: transparent; }
 .groups-page button, .group-feed button { appearance: none; }
 .groups-page .gf-icon, .group-feed .gf-icon {
