@@ -1168,6 +1168,12 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     selectedPostCard?.setAttribute("data-gf-selected", "true");
   }
 
+  // Safari can carry a dialog's focus ring back to its mouse/touch opener.
+  document.addEventListener("pointerdown", () => { root.dataset.gfPointer = "true"; }, true);
+  document.addEventListener("keydown", event => {
+    if (!event.metaKey && !event.ctrlKey && !event.altKey) root.removeAttribute("data-gf-pointer");
+  }, true);
+
   document.addEventListener("click", (event) => {
     if (selectedPostCard && !selectedPostCard.contains(event.target)) selectPostCard(null);
   }, true);

@@ -270,10 +270,12 @@
 }
 .group-feed p { margin: 0; }
 .group-feed button:focus-visible, .group-feed a:focus-visible, .group-feed input:focus-visible, .group-feed textarea:focus-visible,
+.group-feed .gf-card:focus-visible,
 .groups-page a:focus-visible, .groups-page button:focus-visible, .groups-page summary:focus-visible {
   outline: 2px solid var(--gf-accent, #1266bf);
   outline-offset: 3px;
 }
+.group-feed[data-gf-pointer="true"] :is(button, a, [data-gf-post]):focus { outline: none; }
 
 .gf-hero {
   --gf-glow-x: 77%;
