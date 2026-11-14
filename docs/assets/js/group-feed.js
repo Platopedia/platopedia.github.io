@@ -27,7 +27,6 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     close: "m6 6 12 12M18 6 6 18",
     external: "M7 17 17 7M7 7h10v10",
     right: "M5 12h14m-6-6 6 6-6 6",
-    expand: "M8 3H3v5M16 3h5v5M21 16v5h-5M8 21H3v-5",
     copy: "M8 8H3v13h13v-5M8 3h13v13H8z",
   };
   const savedKey = "platopedia.groupFeed.saved";
@@ -211,18 +210,18 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     return frame;
   }
 
-  function watchImage(image, target = image, fallback) {
-    const recovery = { target, fallback, retryAt: 0 };
+  function watchImage(image, fallback) {
+    const recovery = { fallback, retryAt: 0 };
     imageRecovery.set(image, recovery);
     image.addEventListener("error", () => {
       image.dataset.gfImageFailed = "true";
       recovery.retryAt = Date.now() + 30_000;
-      target.hidden = true;
+      image.hidden = true;
       if (fallback) fallback.hidden = false;
     });
     image.addEventListener("load", () => {
       image.removeAttribute("data-gf-image-failed");
-      target.hidden = false;
+      image.hidden = false;
       if (fallback) fallback.hidden = true;
     });
   }
@@ -232,7 +231,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       const recovery = imageRecovery.get(image);
       if (!recovery || !force && Date.now() < recovery.retryAt) continue;
       image.removeAttribute("data-gf-image-failed");
-      recovery.target.hidden = false;
+      image.hidden = false;
       if (recovery.fallback) recovery.fallback.hidden = true;
       // Reuse the same URL and element; healthy images never enter this path.
       image.src = image.src;
@@ -363,30 +362,23 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   function postImage(post, inReader = false) {
     const url = safeUrl(inReader ? post.originalImageUrl || post.imageUrl : post.imageUrl, [api.origin]);
     if (!url) return null;
-    const image = el("img");
+    const image = el("img", "gf-post-image");
     image.alt = `Image attached to ${post.title}`;
     image.decoding = "async";
-    if (inReader) {
-      image.className = "gf-dialog-image";
-      const frame = el("div", "gf-reader-image");
-      const fallback = el("p", "gf-status", "Image could not load. ");
-      fallback.hidden = true;
-      fallback.append(action("retry-image", "Retry image"));
-      watchImage(image, image, fallback);
+    if (!inReader) {
+      image.loading = "lazy";
+      watchImage(image);
       image.src = url;
-      frame.append(image, fallback);
-      return frame;
+      return image;
     }
-    image.loading = "lazy";
-    const control = action("image", undefined, post.id, "gf-image-button");
-    control.setAttribute("aria-label", `Enlarge image for ${post.title}`);
-    const expand = el("span", "gf-image-expand");
-    expand.setAttribute("aria-hidden", "true");
-    expand.append(icon("expand"));
-    watchImage(image, control);
+    const frame = el("div", "gf-reader-image");
+    const fallback = el("p", "gf-status", "Image could not load. ");
+    fallback.hidden = true;
+    fallback.append(action("retry-image", "Retry image"));
+    watchImage(image, fallback);
     image.src = url;
-    control.append(image, expand);
-    return control;
+    frame.append(image, fallback);
+    return frame;
   }
 
   function postMeta(post) {
@@ -992,31 +984,27 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     openDialogItem = { kind: "group", id: group.slug, data: group };
   }
 
-  function postDialog(post, imageOnly) {
+  function postDialog(post) {
     const panel = el("div");
     const title = el("h2");
     title.innerHTML = renderPostTitle(post.title);
     title.id = "gf-dialog-title";
     title.dir = "auto";
-    if (!imageOnly) panel.append(postMeta(post));
-    panel.append(title);
-    if (!imageOnly) {
-      const body = el("div", "gf-post-text post-markdown");
-      body.innerHTML = renderPostMarkdown(post.body);
-      body.dir = "auto";
-      panel.append(body);
-    }
+    const body = el("div", "gf-post-text post-markdown");
+    body.innerHTML = renderPostMarkdown(post.body);
+    body.dir = "auto";
+    panel.append(postMeta(post), title, body);
     const image = postImage(post, true);
     if (image) panel.append(image);
     panel.append(postActions(post, false));
-    showDialog(imageOnly ? "image" : "post", panel);
+    showDialog("post", panel);
     dialog.dataset.group = post.group.slug;
-    openDialogItem = { kind: "post", id: post.id, data: post, imageOnly };
+    openDialogItem = { kind: "post", id: post.id, data: post };
   }
 
   function reconcileDialog() {
     if (!dialog.open || !openDialogItem || activeLoad && openDialogItem.kind === "post") return;
-    const { kind, id, data, imageOnly } = openDialogItem;
+    const { kind, id, data } = openDialogItem;
     const current = kind === "group" ? groups.get(id) : knownPosts.get(id);
     if (!current) {
       if (!errorMessage) dialog.close();
@@ -1027,13 +1015,10 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       openDialogItem.data = current;
       return;
     }
-    if (imageOnly && !current.originalImageUrl) dialog.close();
-    else {
-      const scroll = dialog.scrollTop;
-      if (kind === "group") groupDialog(current);
-      else postDialog(current, imageOnly);
-      dialog.scrollTop = scroll;
-    }
+    const scroll = dialog.scrollTop;
+    if (kind === "group") groupDialog(current);
+    else postDialog(current);
+    dialog.scrollTop = scroll;
   }
 
   function renderSearch(query) {
@@ -1201,6 +1186,13 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) dialog.close();
       return;
     }
+    const spoiler = event.target.closest?.("[data-post-spoiler]");
+    if (spoiler) {
+      const expanded = spoiler.getAttribute("aria-expanded") !== "true";
+      spoiler.setAttribute("aria-expanded", String(expanded));
+      spoiler.setAttribute("aria-label", expanded ? spoiler.textContent + ". Hide spoiler" : "Reveal spoiler");
+      return;
+    }
     const button = event.target.closest?.("[data-gf-action]");
     if (!button) {
       const card = event.target.closest?.("[data-gf-post]");
@@ -1210,7 +1202,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       if (!post) return;
       if (window.getSelection?.()?.toString()) return;
       card.focus({ preventScroll: true });
-      postDialog(post, false);
+      postDialog(post);
       return;
     }
     if (button.disabled) return;
@@ -1252,8 +1244,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
         if (group) groupDialog(group);
         break;
       case "read":
-      case "image":
-        if (post) postDialog(post, gfAction === "image");
+        if (post) postDialog(post);
         break;
       case "save":
       case "follow":
@@ -1278,7 +1269,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   root.addEventListener("keydown", event => {
     if ((event.key === "Enter" || event.key === " ") && event.target.matches?.("[data-gf-post]")) {
       const post = knownPosts.get(event.target.dataset.gfPost);
-      if (post) { event.preventDefault(); postDialog(post, false); }
+      if (post) { event.preventDefault(); postDialog(post); }
     }
   });
 
@@ -1297,13 +1288,6 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     if (lastDialogFocus?.isConnected) lastDialogFocus.focus({ preventScroll: true });
   });
   document.addEventListener("visibilitychange", recover);
-  root.addEventListener("click", event => {
-    const spoiler = event.target.closest?.("[data-post-spoiler]");
-    if (!spoiler) return;
-    const expanded = spoiler.getAttribute("aria-expanded") !== "true";
-    spoiler.setAttribute("aria-expanded", String(expanded));
-    spoiler.setAttribute("aria-label", expanded ? spoiler.textContent + ". Hide spoiler" : "Reveal spoiler");
-  });
   for (const event of ["pageshow", "focus", "online"]) window.addEventListener(event, recover);
   if (isFeed) {
     document.addEventListener("keydown", (event) => {
