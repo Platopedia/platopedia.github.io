@@ -1,4 +1,4 @@
-{% if include.mode == 'embed' %}<link rel="stylesheet" href="/docs/assets/css/group-feed.css?v=20261113.7">{% endif %}
+{% if include.mode == 'embed' %}<link rel="stylesheet" href="/docs/assets/css/group-feed.css?v=20261114.1">{% endif %}
 <section class="group-feed" data-group-feed data-mode="{{ include.mode }}" data-group="{{ include.group }}"
   data-api="https://platopedia-groups.platopedia.workers.dev/api/feed"{% if include.mode == 'embed' %} hidden{% endif %}>
   {% if include.mode == 'feed' %}
@@ -56,31 +56,13 @@
   {% endif %}
 
   {% if include.mode != 'feed' %}
-  <div data-gf-profile{% if include.mode == 'embed' %} hidden{% endif %}>
-    {% if include.mode == 'profile' %}
-    <header class="gf-profile gf-profile-placeholder" aria-label="Loading group profile" aria-busy="true">
-      <div aria-hidden="true">
-        <div class="gf-profile-overview">
-          <div class="gf-profile-identity">
-            <span class="gf-avatar gf-skeleton"></span>
-            <div class="gf-profile-name"><span class="gf-skeleton gf-skeleton-name"></span><span class="gf-skeleton gf-skeleton-region"></span></div>
-          </div>
-          <div class="gf-profile-tools"><span class="gf-skeleton gf-skeleton-button"></span><span class="gf-skeleton gf-skeleton-button"></span></div>
-        </div>
-        <div class="gf-profile-details">
-          <div><span class="gf-skeleton"></span><span class="gf-skeleton gf-skeleton-bio"></span><span class="gf-skeleton gf-skeleton-bio"></span></div>
-          <div class="gf-skeleton gf-skeleton-contact"></div>
-        </div>
-      </div>
-    </header>
-    {% endif %}
-  </div>
+  <div data-gf-profile hidden></div>
   {% endif %}
   <div class="gf-feed-layout" data-gf-feed-view>
     <section class="gf-timeline" aria-labelledby="gf-feed-heading">
       {% if include.mode != 'embed' %}
       <a class="gf-back gf-all-posts" data-gf-back href="/groups/" hidden><svg class="gf-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19 12H5m6-6-6 6 6 6"/></svg> All posts</a>
-      <header class="gf-section-head">
+      <header class="gf-section-head"{% if include.mode == 'profile' %} data-gf-posts-header hidden{% endif %}>
         <div>
           <h2 id="gf-feed-heading" data-gf-heading>{% if include.mode == 'feed' %}Latest posts{% else %}Group posts{% endif %}</h2>
         </div>
@@ -94,7 +76,7 @@
       <h2 id="gf-feed-heading" class="gf-sr-only">Arcade group posts</h2>
       {% endif %}
       <noscript><p class="gf-status">Enable JavaScript to browse the Group Feed.</p></noscript>
-      <p class="gf-status" data-gf-status role="status">Loading group posts…</p>
+      <p class="gf-status" data-gf-status role="status">{% if include.mode == 'profile' %}Loading group profile…{% else %}Loading group posts…{% endif %}</p>
       <div class="gf-posts" data-gf-posts aria-busy="true"></div>
       <button class="gf-button gf-more" type="button" data-gf-action="more" data-gf-more hidden><span>Load older posts </span><svg class="gf-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14m-6-6 6 6 6-6"/></svg></button>
     </section>
@@ -119,4 +101,4 @@
   </dialog>
   <p class="gf-toast" data-gf-toast role="status" hidden></p>
 </section>
-<script type="module" src="/docs/assets/js/group-feed.js?v=20261113.16"></script>
+<script type="module" src="/docs/assets/js/group-feed.js?v=20261114.1"></script>

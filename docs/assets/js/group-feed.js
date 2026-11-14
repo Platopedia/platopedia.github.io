@@ -31,7 +31,6 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   };
   const savedKey = "platopedia.groupFeed.saved";
   const followingKey = "platopedia.groupFeed.following";
-  const profileCacheKey = "platopedia.groupFeed.profile";
   const regionsCacheKey = "platopedia.groupFeed.regions";
   const freshFor = 60_000;
   const maxRefreshBatch = 100;
@@ -98,46 +97,6 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     } catch {
       // Keep the current tab usable when browser storage is unavailable.
     }
-  }
-
-  function rememberProfile(group) {
-    if (mode !== "profile") return;
-    try {
-      sessionStorage.setItem(profileCacheKey, JSON.stringify({
-        api: api.href, savedAt: Date.now(),
-        group: {
-          slug: group.slug, name: group.name, region: group.region, bio: group.bio,
-          friendUrl: group.friendUrl, iconUrl: group.iconUrl || "",
-        },
-      }));
-    } catch { /* Reloads still have a profile placeholder when storage is unavailable. */ }
-  }
-
-  function forgetProfile() {
-    if (mode !== "profile") return;
-    try { sessionStorage.removeItem(profileCacheKey); } catch {}
-  }
-
-  function restoreProfile() {
-    if (mode !== "profile") return;
-    try {
-      const raw = sessionStorage.getItem(profileCacheKey);
-      if (!raw || raw.length > 12_000) return;
-      const snapshot = JSON.parse(raw);
-      if (snapshot?.api !== api.href || snapshot.group?.slug !== profileSlug) return;
-      const age = Date.now() - snapshot.savedAt;
-      if (!Number.isSafeInteger(snapshot.savedAt) || age < 0 || age >= freshFor) {
-        forgetProfile();
-        return;
-      }
-      const group = snapshot.group;
-      for (const [name, limit] of [["name", 120], ["region", 60], ["bio", 1000], ["friendUrl", 300], ["iconUrl", 1000]]) {
-        if (typeof group[name] !== "string" || group[name].length > limit) return;
-      }
-      // Cached metadata never outranks the response being fetched on this reload.
-      groups.set(profileSlug, { ...group, iconUrl: group.iconUrl || null, updatedAt: 0 });
-      renderProfile();
-    } catch { /* An unavailable or malformed snapshot falls back to the placeholder. */ }
   }
 
   function restoreRegions() {
@@ -601,6 +560,9 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       return;
     }
     const posts = filteredPosts();
+    const awaitingProfile = mode === "profile" && !groups.has(profileSlug);
+    const postsHeader = find("posts-header");
+    if (postsHeader) postsHeader.hidden = awaitingProfile;
     replaceKnownPosts(posts);
     postsNode.setAttribute("aria-busy", String(Boolean(activeLoad)));
     renderPosts(posts);
@@ -621,8 +583,9 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
         hasMore ? "No followed groups in these posts yet. Load older posts to keep looking." : "No posts from followed groups.") :
       route.view === "saved" ? (!saved.size ? "Save a post to find it here again." : "No saved posts in this view.") :
       "No posts found.";
-    const message = errorMessage || (activeLoad ? (posts.length ? "" : "Loading group posts…") : posts.length ? "" : noPosts);
-    setStatus(status, message, Boolean(activeLoad) && !errorMessage);
+    const loadingMessage = awaitingProfile ? "Loading group profile…" : "Loading group posts…";
+    const message = errorMessage || (activeLoad ? (posts.length ? "" : loadingMessage) : posts.length ? "" : noPosts);
+    setStatus(status, message, Boolean(activeLoad) && !errorMessage && !awaitingProfile);
     if (errorMessage) {
       status.append(document.createTextNode(" "), action("refresh", "Retry"));
     }
@@ -679,8 +642,6 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       mergeGroup(group);
       groupRequestIds.set(group.slug, data.requestId);
     }
-    const profile = mode === "profile" && groups.get(profileSlug);
-    if (profile && groupRequestIds.get(profileSlug) === data.requestId) rememberProfile(profile);
     if (replacing) {
       catalogRequestId = data.requestId;
       catalogComplete = true;
@@ -820,7 +781,6 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
         if (data.missing) {
           if (data.requestId >= (groupRequestIds.get(params.group) || catalogRequestId)) {
             groups.delete(params.group);
-            forgetProfile();
             if (catalogComplete) rememberRegions(true);
             groupRequestIds.set(params.group, data.requestId);
             for (const cached of [...timelines.values(), savedView]) {
@@ -858,10 +818,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       timeline = nextTimeline;
     } catch (error) {
       if (activeLoad !== controller || controller.signal.aborted) return;
-      errorMessage = "Could not load group posts.";
-      if (mode === "profile" && !groups.has(profileSlug)) {
-        find("profile").replaceChildren(el("p", "gf-status", "Group details could not load."));
-      }
+      errorMessage = mode === "profile" && !groups.has(profileSlug) ? "Could not load the group profile." : "Could not load group posts.";
     } finally {
       if (activeLoad === controller) {
         activeLoad = null;
@@ -1339,13 +1296,9 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     }
   }
   if (mode === "profile" && (!profileSlug || !groupKey.test(profileSlug))) {
-    find("profile").hidden = true;
     postsNode.setAttribute("aria-busy", "false");
     setStatus(status, "Choose a group from the directory.");
-    const refresh = find("refresh");
-    if (refresh) refresh.hidden = true;
   } else {
-    restoreProfile();
     restoreRegions();
     sync();
   }

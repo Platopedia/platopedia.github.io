@@ -51,7 +51,7 @@
     toggle = document.querySelector("[data-groups-theme-toggle]");
     if (!toggle) return;
     apply();
-    toggle.hidden = false;
+    toggle.disabled = false;
     toggle.addEventListener("click", () => {
       preference = root.dataset.theme === "dark" ? "light" : "dark";
       try {
