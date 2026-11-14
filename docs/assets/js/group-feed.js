@@ -63,7 +63,6 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   let openDialogItem;
   let toastTimeout;
   let refreshSpinTimeout;
-  let discoverySignature = "";
   let profileSignature = "";
   // The inline script restores display labels before the feed module loads.
   const initialRegionButtons = [...(regionControls?.children || [])];
@@ -121,6 +120,24 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     if (className) node.className = className;
     if (content !== undefined) node.textContent = content;
     return node;
+  }
+
+  function reconcileRows(parent, entries) {
+    const previous = new Map([...parent.children].map(row => [row.dataset.gfRow, row]));
+    const rows = entries.map(({ key, signature = "", create }) => {
+      let row = previous.get(key);
+      if (!row || row.dataset.gfSignature !== signature) {
+        row = create();
+        row.dataset.gfRow = key;
+        row.dataset.gfSignature = signature;
+      }
+      return row;
+    });
+    const visible = new Set(rows);
+    for (const row of [...parent.children]) if (!visible.has(row)) row.remove();
+    rows.forEach((row, index) => {
+      if (parent.children[index] !== row) parent.insertBefore(row, parent.children[index] || null);
+    });
   }
 
   function action(name, label, key, className = "gf-button") {
@@ -449,15 +466,15 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
 
     const available = visibleGroups();
     const featured = available.slice(0, 5);
-    const signature = JSON.stringify(featured.map((group) => [group.slug, group.name, group.region, group.iconUrl]));
-    if (discoverySignature !== signature) {
-      find("group-list").replaceChildren(...featured.map((group) => {
+    reconcileRows(find("group-list"), featured.map(group => ({
+      key: group.slug,
+      signature: JSON.stringify([group.name, group.region, group.iconUrl]),
+      create: () => {
         const item = el("li");
         item.append(identity(group));
         return item;
-      }));
-      discoverySignature = signature;
-    }
+      },
+    })));
     setStatus(find("sidebar-status"), available.length ? "" : activeLoad ? "Loading groups…" : "No groups in this view.");
   }
 
@@ -1032,26 +1049,39 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       `${post.title} ${post.body} ${post.group.name}`.toLocaleLowerCase().includes(text)).slice(0, 7);
     const rows = [];
     if (matchingGroups.length) {
-      rows.push(el("h3", null, "Groups"));
+      rows.push({ key: "groups-heading", create: () => el("h3", null, "Groups") });
       for (const group of matchingGroups) {
-        const button = identity(group);
-        button.classList.add("gf-search-result");
-        rows.push(button);
+        rows.push({
+          key: "group:" + group.slug,
+          signature: JSON.stringify([group.name, group.region, group.iconUrl]),
+          create: () => {
+            const button = identity(group);
+            button.classList.add("gf-search-result");
+            return button;
+          },
+        });
       }
     }
     if (matchingPosts.length) {
-      rows.push(el("h3", null, "Loaded posts"));
+      rows.push({ key: "posts-heading", create: () => el("h3", null, "Loaded posts") });
       for (const post of matchingPosts) {
-        const button = action("read", undefined, post.id, "gf-search-result");
-        button.innerHTML = renderPostTitle(post.title);
-        button.append(el("span", "gf-region", post.group.name));
-        rows.push(button);
+        rows.push({
+          key: "post:" + post.id,
+          signature: JSON.stringify([post.title, post.group.name]),
+          create: () => {
+            const button = action("read", undefined, post.id, "gf-search-result");
+            button.innerHTML = renderPostTitle(post.title);
+            button.append(el("span", "gf-region", post.group.name));
+            return button;
+          },
+        });
       }
     }
-    results.replaceChildren(...rows);
     if (!rows.length) {
-      results.append(el("p", "gf-caption", catalogLoad ? "Loading groups…" : "No matching groups or loaded posts."));
+      const message = catalogLoad ? "Loading groups…" : "No matching groups or loaded posts.";
+      rows.push({ key: "empty", signature: message, create: () => el("p", "gf-caption", message) });
     }
+    reconcileRows(results, rows);
   }
 
   function searchDialog() {
