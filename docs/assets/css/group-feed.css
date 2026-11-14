@@ -154,6 +154,56 @@
 .groups-site-footer a { color: var(--groups-link); font-weight: 700; text-decoration: none; }
 .groups-site-footer a:hover { text-decoration: underline; }
 
+.groups-site-footer .groups-apply-cta {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: .8rem;
+  padding: .9rem clamp(.8rem, 2.5vw, 1.15rem);
+  border: 1px solid var(--groups-rule);
+  border-radius: 16px;
+  color: var(--groups-ink);
+  background: linear-gradient(110deg, var(--groups-hover), var(--groups-surface) 65%);
+}
+.groups-site-footer .groups-apply-cta:hover {
+  border-color: color-mix(in srgb, var(--groups-link) 36%, var(--groups-rule));
+  text-decoration: none;
+}
+.groups-apply-cta img { flex: none; border-radius: 9px; }
+.groups-apply-cta strong { display: block; font-size: .96rem; }
+.groups-apply-cta small { display: block; margin-top: .12rem; color: var(--groups-muted); font-size: .78rem; font-weight: 400; }
+.groups-apply-cta .gf-icon { margin-left: auto; color: var(--groups-link); }
+
+.groups-application { max-width: 760px; margin-inline: auto; }
+.groups-application a { display: inline-flex; align-items: center; gap: .4rem; color: var(--groups-link); font-weight: 700; text-decoration: none; }
+.groups-application a:hover { text-decoration: underline; }
+.groups-apply-back { min-height: 40px; margin-bottom: .75rem; font-size: .86rem; }
+.groups-apply-panel {
+  overflow: hidden;
+  border: 1px solid var(--groups-rule);
+  border-radius: 21px;
+  background: var(--groups-surface);
+  box-shadow: 0 12px 28px #11396214;
+}
+.groups-apply-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .35rem 1rem;
+  padding: .9rem clamp(.85rem, 3vw, 1.4rem);
+  border-bottom: 1px solid var(--groups-rule);
+  background: linear-gradient(110deg, var(--groups-hover), var(--groups-surface) 74%);
+}
+.groups-apply-header h1 { margin: 0; font-size: clamp(1.2rem, 3.4vw, 1.55rem); font-weight: 800; letter-spacing: -.04em; }
+.groups-apply-header a { padding-block: .4rem; font-size: .8rem; }
+.groups-apply-header a .gf-icon { width: 15px; height: 15px; }
+.groups-apply-form { display: block; width: 100%; border: 0; background: var(--groups-surface); }
+.groups-apply-form:focus-visible { outline: 2px solid var(--groups-link); outline-offset: -2px; }
+@media (max-width: 465px) {
+  .groups-apply-form { height: 1370px; }
+}
+
 .group-feed {
   /* Plato Android's plato_blue_light; deeper blues keep text readable. */
   --gf-blue: #1687ef;

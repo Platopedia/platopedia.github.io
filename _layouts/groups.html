@@ -27,7 +27,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400..800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/docs/assets/css/group-feed.css?v=20261114.2">
+  <link rel="stylesheet" href="/docs/assets/css/group-feed.css?v=20261114.3">
 </head>
 <body class="groups-page">
   <a class="groups-skip" href="#groups-main">Skip to Groups</a>
@@ -53,9 +53,17 @@
     {{ content }}
   </main>
   <footer class="groups-site-footer">
+    {% if page.group_application_footer %}
+    <a class="groups-apply-cta" href="/groups/apply/">
+      <img src="/docs/assets/images/plato.png" width="36" height="36" alt="" loading="lazy">
+      <span><strong>Apply to list your group</strong><small>Get a public profile and submit posts to the feed.</small></span>
+      <svg class="gf-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+    </a>
+    {% else %}
     <a href="/">Platopedia</a>
     <span>Community-run guide to Plato</span>
     <a href="/contact">Contact</a>
+    {% endif %}
   </footer>
   {% include foot-counter.html %}
 </body>
