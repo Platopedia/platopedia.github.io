@@ -1190,15 +1190,9 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   }
 
   // Safari can carry a dialog's focus ring back to its mouse/touch opener.
-  document.addEventListener("pointerdown", () => {
-    root.dataset.gfPointer = "true";
-    document.documentElement.dataset.gfPointer = "true";
-  }, true);
+  document.addEventListener("pointerdown", () => { root.dataset.gfPointer = "true"; }, true);
   document.addEventListener("keydown", event => {
-    if (!event.metaKey && !event.ctrlKey && !event.altKey) {
-      root.removeAttribute("data-gf-pointer");
-      document.documentElement.removeAttribute("data-gf-pointer");
-    }
+    if (!event.metaKey && !event.ctrlKey && !event.altKey) root.removeAttribute("data-gf-pointer");
   }, true);
 
   root.addEventListener("click", (event) => {

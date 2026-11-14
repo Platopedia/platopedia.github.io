@@ -278,7 +278,11 @@
   outline-offset: 3px;
 }
 .group-feed[data-gf-pointer="true"] :is(button, a, [data-gf-post]):focus { outline: none; }
-.groups-document[data-gf-pointer="true"] .groups-apply-cta:focus { outline: none; }
+.groups-page .groups-site-footer .groups-apply-cta:focus,
+.group-feed .gf-card[data-gf-post]:focus {
+  outline: 2px solid #1266bf;
+  outline-offset: 3px;
+}
 
 .gf-hero {
   --gf-glow-x: 77%;
