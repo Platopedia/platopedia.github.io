@@ -713,6 +713,8 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
         route.view === "following" && !following.has(post.group.slug)) return false;
       return (!lower || !isBeforeCursor(post, lower)) && (!upper || isBeforeCursor(post, upper));
     };
+    if (dialog.open && openDialogItem?.kind === "post" &&
+      covered(openDialogItem.data) && !latest.has(openDialogItem.id)) dialog.close();
     function reconcile(view) {
       view.posts = view.posts.flatMap(post => {
         if (latest.has(post.id)) return latest.get(post.id);
@@ -852,6 +854,8 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
           ingest(data, refreshCatalog);
           const byId = new Map(data.posts.map(post => [post.id, post]));
           const checked = new Set(batch);
+          if (dialog.open && openDialogItem?.kind === "post" &&
+            checked.has(openDialogItem.id) && !byId.has(openDialogItem.id)) dialog.close();
           const current = new Map(savedView.posts.filter(post => !checked.has(post.id)).map(post => [post.id, post]));
           for (const post of data.posts) current.set(post.id, post);
           savedView.posts = [...saved].reverse().map(id => current.get(id)).filter(Boolean);
