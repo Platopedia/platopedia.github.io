@@ -8,7 +8,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   const mode = root.dataset.mode;
   const isFeed = mode === "feed";
   const isEmbed = mode === "embed";
-  const profileSlug = isEmbed ? root.dataset.group : new URLSearchParams(location.search).get("group");
+  let profileSlug = isEmbed ? root.dataset.group : new URLSearchParams(location.search).get("group");
   const find = (name) => root.querySelector(`[data-gf-${name}]`);
   const postsNode = find("posts");
   const status = find("status");
@@ -826,6 +826,16 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
           break;
         } else {
           ingest(data, refreshCatalog || isFeed && !params.group && !params.post);
+          const group = params.group && !isEmbed && groupForSlug(params.group);
+          if (group && group.slug !== params.group) {
+            const url = new URL(location.href);
+            url.searchParams.set("group", group.slug);
+            history.replaceState(history.state, "", url);
+            if (isFeed) route.group = group.slug;
+            else profileSlug = group.slug;
+            params.group = group.slug;
+            nextTimeline.key = timelineId(params);
+          }
           const existing = new Set(nextTimeline.posts.map((post) => post.id));
           nextTimeline.posts.push(...data.posts.filter((post) => !existing.has(post.id)));
           nextTimeline.cursor = data.next;
