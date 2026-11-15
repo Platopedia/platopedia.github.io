@@ -263,7 +263,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   function followButton(group) {
     const button = action("follow", undefined, group.slug, "gf-button gf-follow");
     button.setAttribute("aria-label", `Follow ${group.name}`);
-    updateToggle(button, following.has(group.slug));
+    updateToggle(button, followsGroup(group));
     return button;
   }
 
@@ -345,7 +345,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   }
 
   function renderProfile() {
-    const group = groups.get(profileSlug);
+    const group = groupForSlug(profileSlug);
     if (!group) return;
     const profile = find("profile");
     const signature = JSON.stringify([group.slug, group.name, group.region, group.bio, group.friendUrl, group.iconUrl]);
@@ -449,7 +449,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       }
       regionSignature = nextRegionSignature;
     }
-    const groupLabel = groups.get(route.group)?.name || route.group;
+    const groupLabel = groupForSlug(route.group)?.name || route.group;
     const groupFilterLabel = find("group-filter-label");
     if (groupFilterLabel.textContent !== groupLabel) groupFilterLabel.textContent = groupLabel;
     find("group-filter").hidden = !route.group || Boolean(route.post);
@@ -506,9 +506,12 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
 
   function filteredPosts() {
     const source = route.view === "saved" ? savedView.posts.filter((post) => saved.has(post.id)) : timeline.posts;
-    return source.filter((post) => (!catalogComplete || groups.has(post.group.slug)) &&
-      (route.view !== "following" || following.has(post.group.slug)) &&
-      (!route.region || (groups.get(post.group.slug)?.region || post.group.region).toLocaleLowerCase() === route.region.toLocaleLowerCase()));
+    return source.filter((post) => {
+      const current = groupForSlug(post.group.slug);
+      const group = current || post.group;
+      return (!catalogComplete || current) && (route.view !== "following" || followsGroup(group)) &&
+        (!route.region || group.region.toLocaleLowerCase() === route.region.toLocaleLowerCase());
+    });
   }
 
   function renderPosts(posts) {
@@ -550,7 +553,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       find("directory-view").hidden = route.view !== "directory";
       find("back").hidden = !route.post;
       find("heading").textContent = route.post ? "Group post" : route.group
-        ? `${groups.get(route.group)?.name || "Group"} posts` : viewButtons.get(route.view).dataset.heading;
+        ? `${groupForSlug(route.group)?.name || "Group"} posts` : viewButtons.get(route.view).dataset.heading;
       renderDiscovery();
       renderDirectory();
     }
@@ -560,7 +563,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       return;
     }
     const posts = filteredPosts();
-    const awaitingProfile = mode === "profile" && !groups.has(profileSlug);
+    const awaitingProfile = mode === "profile" && !groupForSlug(profileSlug);
     const postsHeader = find("posts-header");
     if (postsHeader) postsHeader.hidden = awaitingProfile;
     replaceKnownPosts(posts);
@@ -618,6 +621,21 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     }
   }
 
+  function matchesSlug(group, slug) {
+    return group.slug === slug || group.previousSlugs?.includes(slug);
+  }
+
+  function groupForSlug(slug) {
+    if (!slug) return undefined;
+    const current = groups.get(slug);
+    if (current) return current;
+    for (const group of groups.values()) if (matchesSlug(group, slug)) return group;
+  }
+
+  function followsGroup(group) {
+    return following.has(group.slug) || group.previousSlugs?.some(slug => following.has(slug));
+  }
+
   function mergeGroup(group) {
     const previous = groups.get(group.slug);
     if (!previous || !previous.updatedAt || !group.updatedAt || group.updatedAt >= previous.updatedAt) groups.set(group.slug, group);
@@ -641,6 +659,12 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       if (groupRequestIds.get(group.slug) > data.requestId) continue;
       mergeGroup(group);
       groupRequestIds.set(group.slug, data.requestId);
+      for (const slug of group.previousSlugs || []) {
+        if (groupRequestIds.get(slug) > data.requestId) continue;
+        groups.delete(slug);
+        groupRequestIds.set(slug, data.requestId);
+        reported?.add(slug);
+      }
     }
     if (replacing) {
       catalogRequestId = data.requestId;
@@ -653,8 +677,8 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
         groups.delete(slug);
         groupRequestIds.delete(slug);
       }
-      for (const [id, post] of knownPosts) if (!groups.has(post.group.slug)) knownPosts.delete(id);
-      if (dialog.open && dialog.dataset.group && !groups.has(dialog.dataset.group)) dialog.close();
+      for (const [id, post] of knownPosts) if (!groupForSlug(post.group.slug)) knownPosts.delete(id);
+      if (dialog.open && dialog.dataset.group && !groupForSlug(dialog.dataset.group)) dialog.close();
     }
     if (replacing || data.groups.length || data.posts.length) rememberRegions();
     if (openDialogItem?.kind === "group") reconcileDialog();
@@ -702,10 +726,10 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     const existing = new Set(view.posts.map(post => post.id));
     const boundary = view.cursor?.split(".");
     if (posts.some(post => !existing.has(post.id) &&
-      (!filters.group || post.group.slug === filters.group) &&
+      (!filters.group || matchesSlug(post.group, filters.group)) &&
       (!filters.post || post.id === filters.post) &&
       (!filters.region || post.group.region.toLowerCase() === filters.region.toLowerCase()) &&
-      (!filters.following || filters.groups.split(",").includes(post.group.slug)) &&
+      (!filters.following || filters.groups.split(",").some(slug => matchesSlug(post.group, slug))) &&
       (!boundary || !isBeforeCursor(post, boundary)))) view.loadedAt = 0;
   }
 
@@ -715,9 +739,9 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     const upper = before && before.split(".");
     const covered = post => {
       if (params.post && post.id !== params.post ||
-        params.group && post.group.slug !== params.group ||
+        params.group && !matchesSlug(post.group, params.group) ||
         params.region && post.group.region.toLowerCase() !== params.region.toLowerCase() ||
-        route.view === "following" && !following.has(post.group.slug)) return false;
+        route.view === "following" && !followsGroup(post.group)) return false;
       return (!lower || !isBeforeCursor(post, lower)) && (!upper || isBeforeCursor(post, upper));
     };
     if (dialog.open && openDialogItem?.kind === "post" &&
@@ -826,7 +850,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       timeline = nextTimeline;
     } catch (error) {
       if (activeLoad !== controller || controller.signal.aborted) return;
-      errorMessage = mode === "profile" && !groups.has(profileSlug) ? "Could not load the group profile." : "Could not load group posts.";
+      errorMessage = mode === "profile" && !groupForSlug(profileSlug) ? "Could not load the group profile." : "Could not load group posts.";
     } finally {
       if (activeLoad === controller) {
         activeLoad = null;
@@ -1005,7 +1029,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   function reconcileDialog() {
     if (!dialog.open || !openDialogItem || activeLoad && openDialogItem.kind === "post") return;
     const { kind, id, data } = openDialogItem;
-    const current = kind === "group" ? groups.get(id) : knownPosts.get(id);
+    const current = kind === "group" ? groupForSlug(id) : knownPosts.get(id);
     if (!current) {
       if (!errorMessage) dialog.close();
       return;
@@ -1151,13 +1175,17 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   function toggle(key, id) {
     const isSave = key === "save";
     const values = isSave ? saved : following;
-    const active = !values.has(id);
+    const group = isSave ? undefined : groupForSlug(id);
+    const active = group ? !followsGroup(group) : !values.has(id);
     if (!isSave && active && values.size >= 200) {
       toast("You can follow up to 200 groups. Unfollow a group to add another.");
       return;
     }
-    if (active) values.add(id);
-    else values.delete(id);
+    if (active) values.add(group?.slug || id);
+    else {
+      values.delete(group?.slug || id);
+      for (const slug of group?.previousSlugs || []) values.delete(slug);
+    }
     if (isSave && !active) {
       savedView.loaded.delete(id);
       savedView.posts = savedView.posts.filter(post => post.id !== id);
@@ -1165,7 +1193,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     if (isSave && active && !savedView.loaded.has(id)) savedView.loadedAt = 0;
     saveSet(isSave ? savedKey : followingKey, values);
     for (const button of root.querySelectorAll(`[data-gf-action="${key}"]`)) {
-      if (button.dataset.key === id) updateToggle(button, active);
+      if (button.dataset.key === id || group && matchesSlug(group, button.dataset.key)) updateToggle(button, active);
     }
     if (!dialog.open) toast(isSave ? (active ? "Post saved." : "Post removed from Saved.") : (active ? "Group followed." : "Group unfollowed."));
     if (isFeed && route.view === (isSave ? "saved" : "following")) {
@@ -1207,7 +1235,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     }
     if (button.disabled) return;
     const { gfAction, key } = button.dataset;
-    const group = groups.get(key);
+    const group = groupForSlug(key);
     const post = knownPosts.get(key);
     switch (gfAction) {
       case "view":
