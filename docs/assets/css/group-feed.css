@@ -109,7 +109,8 @@
   background: var(--groups-surface);
   cursor: pointer;
 }
-.groups-theme-toggle:hover { background: var(--groups-hover); }
+.groups-theme-toggle:hover, .groups-site-mobile > summary:hover,
+.groups-site-mobile[open] > summary { background: var(--groups-hover); }
 .groups-theme-toggle svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 .groups-theme-toggle .groups-theme-sun { display: none; }
 .groups-document[data-theme="dark"] .groups-theme-moon { display: none; }
