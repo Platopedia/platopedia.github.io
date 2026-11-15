@@ -32,6 +32,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   const savedKey = "platopedia.groupFeed.saved";
   const followingKey = "platopedia.groupFeed.following";
   const freshFor = 60_000;
+  const recoveryCooldown = 10_000;
   const maxRefreshBatch = 100;
   const recentViewLimit = 8;
   const imageRecovery = new WeakMap();
@@ -61,6 +62,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   let activeKey;
   let activeStartedAt = 0;
   let lastRecoveryAt = 0;
+  let recoveryRetryAt = 0;
   let errorMessage = "";
   let lastDialogFocus;
   let openDialogItem;
@@ -607,7 +609,9 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     const message = errorMessage || (activeLoad ? (posts.length ? "" : loadingMessage) : posts.length ? "" : noPosts);
     setStatus(status, message, Boolean(activeLoad) && !errorMessage && !awaitingProfile);
     if (errorMessage) {
-      status.append(document.createTextNode(" "), action("refresh", "Retry"));
+      const retry = action("refresh", "Retry");
+      retry.disabled = Boolean(activeLoad);
+      status.append(document.createTextNode(" "), retry);
     }
   }
 
@@ -830,11 +834,11 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     const key = timelineId(params);
     if (append && (!timeline.cursor || timeline.key !== key)) return;
     activeLoad?.abort();
+    if (activeKey !== key) errorMessage = "";
     const controller = new AbortController();
     activeLoad = controller;
     activeKey = key;
     activeStartedAt = Date.now();
-    errorMessage = "";
     const startingCursor = append ? timeline.cursor : null;
     const nextTimeline = {
       key, posts: append ? [...timeline.posts] : [], cursor: startingCursor,
@@ -851,6 +855,8 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
           if (activeLoad !== controller) return;
           if (catalog === "summary") ingest(data);
         }
+        errorMessage = "";
+        recoveryRetryAt = 0;
         timeline = { ...nextTimeline, loadedAt: Date.now() };
         rememberRecent(timelines, key, timeline);
         return;
@@ -887,7 +893,9 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
             if (activeLoad !== controller) return;
             if (summary) ingest(summary);
           }
-          break;
+          timeline = nextTimeline;
+          recoveryRetryAt = Date.now() + recoveryCooldown;
+          return;
         } else {
           if (catalog !== "all") ingest(data);
           const group = params.group && !isEmbed && groupForSlug(params.group);
@@ -918,14 +926,15 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
         before = nextTimeline.cursor;
         if (nextTimeline.posts.length < keepCount) render();
       } while (nextTimeline.posts.length < keepCount);
-      if (!errorMessage) {
-        if (!append) nextTimeline.loadedAt = Date.now();
-        rememberRecent(timelines, nextTimeline.key, nextTimeline);
-      }
+      errorMessage = "";
+      recoveryRetryAt = 0;
+      if (!append) nextTimeline.loadedAt = Date.now();
+      rememberRecent(timelines, nextTimeline.key, nextTimeline);
       timeline = nextTimeline;
     } catch (error) {
       if (activeLoad !== controller || controller.signal.aborted) return;
       errorMessage = mode === "profile" && !groupForSlug(profileSlug) ? "Could not load the group profile." : "Could not load group posts.";
+      recoveryRetryAt = Date.now() + recoveryCooldown;
     } finally {
       if (activeLoad === controller) {
         activeLoad = null;
@@ -935,13 +944,14 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   }
 
   async function loadSaved(append = false, catalog = "0") {
+    const key = "saved:" + route.region;
     activeLoad?.abort();
+    if (activeKey !== key) errorMessage = "";
     const controller = new AbortController();
     activeLoad = controller;
-    activeKey = "saved:" + route.region;
+    activeKey = key;
     activeStartedAt = Date.now();
     const featuredRegion = route.region;
-    errorMessage = "";
     const savedAtStart = new Set(saved);
     const nextSaved = {
       posts: append ? [...savedView.posts] : [], loaded: append ? new Set(savedView.loaded) : new Set(),
@@ -987,10 +997,13 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       nextSaved.posts = [...saved].reverse().map(id => currentPosts.get(id)).filter(Boolean);
       for (const id of nextSaved.loaded) if (!saved.has(id)) nextSaved.loaded.delete(id);
       if ([...saved].some(id => !savedAtStart.has(id))) nextSaved.loadedAt = 0;
+      errorMessage = "";
+      recoveryRetryAt = 0;
       savedView = nextSaved;
     } catch (error) {
       if (activeLoad !== controller || controller.signal.aborted) return;
       errorMessage = "Could not load saved posts.";
+      recoveryRetryAt = Date.now() + recoveryCooldown;
     } finally {
       if (activeLoad === controller) {
         activeLoad = null;
@@ -1049,7 +1062,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       activeLoad.abort();
       activeLoad = null;
     }
-    if (now - lastRecoveryAt < 1_000 && event.type !== "online") return;
+    if (event.type !== "online" && (now < recoveryRetryAt || now - lastRecoveryAt < 1_000)) return;
     const loadedAt = route.view === "directory" ? catalogLoadedAt : route.view === "saved" ? savedView.loadedAt : timeline.loadedAt;
     if (!errorMessage && (route.view !== "directory" || !catalogError) && loadedAt && now - loadedAt < freshFor) {
       if (dialog.open && dialog.dataset.kind === "search") ensureCatalog();
