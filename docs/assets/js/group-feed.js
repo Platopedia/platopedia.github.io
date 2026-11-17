@@ -35,6 +35,8 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   const recoveryCooldown = 10_000;
   const maxRefreshBatch = 100;
   const recentViewLimit = 8;
+  // Keep the first-view avatar requests bounded, even with a large directory.
+  const initialFeedAvatars = 3;
   const imageRecovery = new WeakMap();
 
   let route = routeFromUrl();
@@ -210,7 +212,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     return palette[hash % palette.length];
   }
 
-  function avatar(group) {
+  function avatar(group, immediate = false) {
     const frame = el("span", "gf-avatar", Array.from(group.name)[0]?.toLocaleUpperCase() || "•");
     frame.style.setProperty("--avatar-color", colorFor(group.slug));
     frame.setAttribute("aria-hidden", "true");
@@ -218,13 +220,18 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     if (url) {
       const image = el("img");
       image.alt = "";
-      image.loading = "lazy";
+      image.loading = immediate ? "eager" : "lazy";
       image.decoding = "async";
       watchImage(image);
       image.src = url;
       frame.append(image);
     }
     return frame;
+  }
+
+  function prioritizeAvatar(node) {
+    const image = node.querySelector(".gf-avatar img");
+    if (image?.loading === "lazy") image.loading = "eager";
   }
 
   function watchImage(image, fallback) {
@@ -255,13 +262,13 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     }
   }
 
-  function identity(group) {
+  function identity(group, immediate = false) {
     const control = action("group", undefined, group.slug, "gf-identity");
     const text = el("span", "gf-identity-text");
     const name = el("strong", null, group.name);
     name.dir = "auto";
     text.append(name, el("span", "gf-region", group.region));
-    control.append(avatar(group), text);
+    control.append(avatar(group, immediate), text);
     return control;
   }
 
@@ -311,7 +318,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     const region = el("p", "gf-region gf-profile-region", group.region);
     region.setAttribute("aria-label", `Server: ${group.region}`);
     text.append(el("p", "gf-profile-eyebrow", "Plato group"), heading, region);
-    identityRow.append(avatar(group), text);
+    identityRow.append(avatar(group, inDialog || !isEmbed), text);
     const tools = el("div", "gf-profile-tools");
     tools.append(followButton(group), action("share-group", "Share", group.slug, "gf-button gf-profile-share"));
     overview.append(identityRow, tools);
@@ -383,7 +390,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     image.alt = `Image attached to ${post.title}`;
     image.decoding = "async";
     if (!inReader) {
-      image.loading = "lazy";
+      image.loading = route.post ? "eager" : "lazy";
       watchImage(image);
       image.src = url;
       return image;
@@ -398,10 +405,10 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     return frame;
   }
 
-  function postMeta(post) {
+  function postMeta(post, immediate = false) {
     const meta = el("div", "gf-card-meta");
     const timestamp = new Date(post.publishedAt);
-    meta.append(identity(post.group));
+    meta.append(identity(post.group, immediate));
     if (!Number.isNaN(timestamp.getTime())) {
       const time = el("time", "gf-date", dateFormat.format(timestamp));
       time.dateTime = timestamp.toISOString();
@@ -410,7 +417,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     return meta;
   }
 
-  function postCard(post) {
+  function postCard(post, immediate = false) {
     const article = el("article", "gf-card");
     article.id = `post-${post.id}`;
     article.dataset.gfPost = post.id;
@@ -425,7 +432,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     const body = el("div", "gf-post-text post-markdown is-preview");
     body.innerHTML = renderPostMarkdown(post.body);
     body.dir = "auto";
-    article.append(postMeta(post), heading, body);
+    article.append(postMeta(post, immediate), heading, body);
     const image = postImage(post);
     if (image) article.append(image);
     article.append(postActions(post));
@@ -476,15 +483,17 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     const useSummary = summary?.version === latestCatalogVersion && (!catalogCurrent() || summary.loadedAt >= catalogLoadedAt);
     const featured = useSummary ? summary.slugs.map(groupForSlug).filter(Boolean)
       : catalogCurrent() ? visibleGroups().slice(0, 5) : [];
+    const immediate = route.view !== "directory" && !matchMedia("(max-width: 720px)").matches;
     reconcileRows(find("group-list"), featured.map(group => ({
       key: group.slug,
       signature: JSON.stringify([group.name, group.region, group.iconUrl]),
       create: () => {
         const item = el("li");
-        item.append(identity(group));
+        item.append(identity(group, immediate));
         return item;
       },
     })));
+    if (immediate) for (const row of find("group-list").children) prioritizeAvatar(row);
     setStatus(find("sidebar-status"), featured.length ? "" : activeLoad ? "Loading groups…" : "No groups in this view.");
   }
 
@@ -494,17 +503,20 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     const count = find("directory-count");
     count.textContent = available.length ? `${available.length} ${available.length === 1 ? "group" : "groups"}` : "";
     const visible = new Set(available.map(group => group.slug));
+    const initialAvatars = matchMedia("(max-width: 465px)").matches ? 2
+      : matchMedia("(max-width: 950px)").matches ? 4 : 6;
     for (const [slug, entry] of renderedGroups) if (!visible.has(slug)) {
       entry.card.remove();
       renderedGroups.delete(slug);
     }
     available.forEach((group, index) => {
+      const immediate = index < initialAvatars;
       const signature = JSON.stringify([group.name, group.region, group.bio, group.iconUrl]);
       let entry = renderedGroups.get(group.slug);
       if (entry?.signature !== signature) {
         const card = el("article", "gf-directory-card");
         card.style.setProperty("--avatar-color", colorFor(group.slug));
-        card.append(identity(group));
+        card.append(identity(group, immediate));
         if (group.bio) card.append(el("p", "gf-group-bio", group.bio));
         const actions = el("div", "gf-profile-actions");
         actions.append(followButton(group), link(profileUrl(group), "Open profile", "gf-button", "external"));
@@ -512,7 +524,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
         entry?.card.remove();
         entry = { card, signature };
         renderedGroups.set(group.slug, entry);
-      }
+      } else if (immediate) prioritizeAvatar(entry.card);
       const grid = find("directory-grid");
       if (grid.children[index] !== entry.card) grid.insertBefore(entry.card, grid.children[index] || null);
     });
@@ -539,13 +551,14 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       if (!active.has(id)) entry.card.remove();
     }
     posts.forEach((post, index) => {
+      const immediate = !isEmbed && index < initialFeedAvatars;
       let entry = renderedPosts.get(post.id);
       const signature = JSON.stringify([post.title, post.body, post.publishedAt, post.imageUrl,
         post.originalImageUrl, post.group.slug, post.group.name, post.group.region, post.group.iconUrl]);
       if (entry?.signature !== signature) {
         entry?.card.remove();
-        entry = { signature, card: postCard(post) };
-      }
+        entry = { signature, card: postCard(post, immediate) };
+      } else if (immediate) prioritizeAvatar(entry.card);
       renderedPosts.delete(post.id);
       renderedPosts.set(post.id, entry);
       const save = entry.card.querySelector('[data-gf-action="save"]');
@@ -1114,7 +1127,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     const body = el("div", "gf-post-text post-markdown");
     body.innerHTML = renderPostMarkdown(post.body);
     body.dir = "auto";
-    panel.append(postMeta(post), title, body);
+    panel.append(postMeta(post, true), title, body);
     const image = postImage(post, true);
     if (image) panel.append(image);
     panel.append(postActions(post, false));
@@ -1158,7 +1171,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
           key: "group:" + group.slug,
           signature: JSON.stringify([group.name, group.region, group.iconUrl]),
           create: () => {
-            const button = identity(group);
+            const button = identity(group, true);
             button.classList.add("gf-search-result");
             return button;
           },
