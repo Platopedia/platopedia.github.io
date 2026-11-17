@@ -11,7 +11,8 @@ let lastAttempt;
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
   if (button.disabled) return;
-  const answers = Object.fromEntries(fields.map((field) => [field.name, field.value.trim()]));
+  const answers = Object.fromEntries(fields.filter((field) => field.type !== "radio" || field.checked)
+    .map((field) => [field.name, field.value.trim()]));
   const original = JSON.stringify(answers);
   const requestId = lastAttempt?.original === original ? lastAttempt.requestId : crypto.randomUUID();
   lastAttempt = { original, requestId };
@@ -20,7 +21,10 @@ form.addEventListener("submit", async (event) => {
   errorMessage.textContent = "";
   button.disabled = true;
   label.textContent = "Submitting…";
-  fields.forEach((field) => { field.readOnly = true; });
+  fields.forEach((field) => {
+    if (field.type === "radio") field.disabled = true;
+    else field.readOnly = true;
+  });
   try {
     const response = await fetch(form.dataset.endpoint, {
       method: "POST",
@@ -46,7 +50,10 @@ form.addEventListener("submit", async (event) => {
   } finally {
     button.disabled = false;
     label.textContent = defaultLabel;
-    fields.forEach((field) => { field.readOnly = false; });
+    fields.forEach((field) => {
+      if (field.type === "radio") field.disabled = false;
+      else field.readOnly = false;
+    });
   }
 });
 
