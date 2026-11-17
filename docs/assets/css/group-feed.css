@@ -229,6 +229,7 @@
   background: var(--gf-quiet);
   font-weight: 600;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 .groups-server-options input { flex: none; width: 1rem; height: 1rem; margin: 0; accent-color: var(--gf-link); }
 .groups-server-options label:has(input:checked) { border-color: var(--gf-link); background: var(--gf-surface-up); }
