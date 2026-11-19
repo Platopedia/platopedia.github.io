@@ -213,7 +213,9 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   }
 
   function avatar(group, immediate = false) {
-    const frame = el("span", "gf-avatar", Array.from(group.name)[0]?.toLocaleUpperCase() || "•");
+    const frame = el("span", "gf-avatar");
+    const fallback = el("span", "gf-avatar-fallback", Array.from(group.name)[0]?.toLocaleUpperCase() || "•");
+    frame.append(fallback);
     frame.style.setProperty("--avatar-color", colorFor(group.slug));
     frame.setAttribute("aria-hidden", "true");
     const url = safeUrl(group.iconUrl, [api.origin]);
@@ -222,7 +224,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       image.alt = "";
       image.loading = immediate ? "eager" : "lazy";
       image.decoding = "async";
-      watchImage(image);
+      watchImage(image, fallback);
       image.src = url;
       frame.append(image);
     }
