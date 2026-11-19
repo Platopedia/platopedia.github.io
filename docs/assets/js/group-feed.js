@@ -57,6 +57,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   let feedRequestId = 0;
   let catalogLoad;
   let catalogError = false;
+  let sidebarActive = false;
   const timelines = new Map();
   let timeline = { key: "", posts: [], cursor: null, loadedAt: 0 };
   let savedView = { posts: [], loaded: new Set(), loadedAt: 0 };
@@ -458,6 +459,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
 
   function renderDiscovery() {
     if (!isFeed) return;
+    if (sidebarActive && !catalogCurrent() && !catalogLoad && !catalogError) ensureCatalog();
     const labels = new Map(regionLabels.map(region => [region.toLocaleLowerCase(), region]));
     if (route.region && !labels.has(route.region.toLocaleLowerCase())) labels.set(route.region.toLocaleLowerCase(), route.region);
     const regions = ["", ...[...labels.values()].sort((a, b) => a.localeCompare(b))];
@@ -482,21 +484,30 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     find("filterbar").hidden = Boolean(route.post);
 
     const summary = summaries.get(route.region);
-    const useSummary = summary?.version === latestCatalogVersion && (!catalogCurrent() || summary.loadedAt >= catalogLoadedAt);
-    const featured = useSummary ? summary.slugs.map(groupForSlug).filter(Boolean)
-      : catalogCurrent() ? visibleGroups().slice(0, 5) : [];
+    const complete = catalogCurrent();
+    const sidebarGroups = complete ? visibleGroups()
+      : summary?.version === latestCatalogVersion ? summary.slugs.map(groupForSlug).filter(Boolean) : [];
+    const list = find("group-list");
+    list.setAttribute("aria-busy", String(Boolean(catalogLoad)));
     const immediate = route.view !== "directory" && !matchMedia("(max-width: 720px)").matches;
-    reconcileRows(find("group-list"), featured.map(group => ({
+    reconcileRows(list, sidebarGroups.map((group, index) => ({
       key: group.slug,
       signature: JSON.stringify([group.name, group.region, group.iconUrl]),
       create: () => {
         const item = el("li");
-        item.append(identity(group, immediate));
+        item.append(identity(group, immediate && index < 5));
         return item;
       },
     })));
-    if (immediate) for (const row of find("group-list").children) prioritizeAvatar(row);
-    setStatus(find("sidebar-status"), featured.length ? "" : activeLoad ? "Loading groups…" : "No groups in this view.");
+    if (immediate) for (const row of [...list.children].slice(0, 5)) prioritizeAvatar(row);
+    const sidebarStatus = find("sidebar-status");
+    const failed = !complete && catalogError;
+    const loading = !complete && Boolean(catalogLoad);
+    const message = failed ? "Could not load all groups. " : loading ? "Loading all groups…"
+      : sidebarGroups.length ? complete ? "" : "Scroll to see all groups."
+        : activeLoad ? "Loading groups…" : "No groups in this view.";
+    setStatus(sidebarStatus, message, loading);
+    if (failed) sidebarStatus.append(action("sidebar-groups", "Retry"));
   }
 
   function renderDirectory() {
@@ -772,6 +783,13 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   function ensureCatalog(force = false) {
     if (!force && !catalogError && catalogCurrent() && Date.now() - catalogLoadedAt < freshFor) return;
     return (catalogLoad?.promise || startCatalog({ catalog: "only" })).catch(() => {});
+  }
+
+  function loadSidebar() {
+    sidebarActive = true;
+    if (catalogCurrent() || catalogLoad) return;
+    ensureCatalog();
+    renderDiscovery();
   }
 
   function discoveryMode(force, refresh) {
@@ -1387,6 +1405,9 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       case "search":
         searchDialog();
         break;
+      case "sidebar-groups":
+        loadSidebar();
+        break;
       case "group":
         if (group) {
           button.focus({ preventScroll: true });
@@ -1445,6 +1466,11 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   document.addEventListener("visibilitychange", recover);
   for (const event of ["pageshow", "focus", "online"]) window.addEventListener(event, recover);
   if (isFeed) {
+    for (const event of ["pointerenter", "pointerdown", "focusin", "wheel"]) {
+      find("group-list").addEventListener(event, () => {
+        if (!catalogError) loadSidebar();
+      }, { passive: true });
+    }
     document.addEventListener("keydown", (event) => {
       if (event.key === "/" && !event.ctrlKey && !event.metaKey && !event.altKey && !dialog.open &&
         !event.target.closest?.("input, textarea, select, [contenteditable]")) {

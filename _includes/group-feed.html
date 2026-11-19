@@ -1,4 +1,4 @@
-{% if include.mode == 'embed' %}<link rel="stylesheet" href="/docs/assets/css/group-feed.css?v=20261119.1">{% endif %}
+{% if include.mode == 'embed' %}<link rel="stylesheet" href="/docs/assets/css/group-feed.css?v=20261119.2">{% endif %}
 <section class="group-feed" data-group-feed data-mode="{{ include.mode }}" data-group="{{ include.group }}"
   data-api="https://groups.platopedia.xyz/api/feed"{% if include.mode == 'embed' %} hidden{% endif %}>
   {% if include.mode == 'feed' %}
@@ -87,8 +87,8 @@
         <div><p class="gf-side-kicker">Directory</p><h2 id="gf-discover-title">Discover groups</h2></div>
         <button class="gf-text-button" type="button" data-gf-action="jump" data-key="directory">See all <svg class="gf-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7M7 7h10v10"/></svg></button>
       </div>
-      <ul class="gf-group-list" data-gf-group-list></ul>
-      <p class="gf-caption" data-gf-sidebar-status hidden></p>
+      <ul class="gf-group-list" data-gf-group-list aria-label="Group directory"></ul>
+      <p class="gf-caption" data-gf-sidebar-status role="status" hidden></p>
     </aside>
     {% endif %}
   </div>
@@ -156,4 +156,4 @@
   </dialog>
   <p class="gf-toast" data-gf-toast role="status" hidden></p>
 </section>
-<script type="module" src="/docs/assets/js/group-feed.js?v=20261119.2"></script>
+<script type="module" src="/docs/assets/js/group-feed.js?v=20261119.3"></script>

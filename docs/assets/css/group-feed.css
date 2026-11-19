@@ -498,8 +498,7 @@
   animation: gf-enter .32s ease both;
 }
 .gf-card:hover, .gf-card[data-gf-post]:focus,
-.gf-directory-card:hover, .gf-directory-card:focus,
-.gf-group-list .gf-identity:hover, .gf-group-list .gf-identity:focus {
+.gf-directory-card:hover, .gf-directory-card:focus {
   border-color: color-mix(in srgb, var(--groups-link, var(--gf-link)) 36%, var(--groups-rule, var(--gf-rule)));
 }
 .gf-card[data-gf-post], .gf-directory-card[data-gf-group] { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
@@ -598,15 +597,23 @@
 .gf-side-head { display: flex; align-items: center; justify-content: space-between; gap: .45rem; }
 .group-feed .gf-side h2 { font-size: 1.25rem; }
 .group-feed .gf-side-kicker { margin-bottom: .25rem; }
-.gf-group-list { list-style: none; margin: .9rem 0 0; padding: 0; }
+.gf-group-list {
+  list-style: none;
+  margin: .9rem 0 0;
+  padding: 0;
+  max-height: 20rem;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gf-rule) transparent;
+}
 .gf-group-list li { border-top: 1px solid var(--gf-rule); }
 .gf-group-list .gf-identity {
   width: 100%;
   padding: .65rem 0;
-  border: 1px solid transparent;
-  border-radius: 9px;
-  transition: border-color .2s ease, box-shadow .2s ease;
+  border: 0;
 }
+.gf-group-list .gf-identity:focus-visible { outline-offset: -2px; }
 .gf-group-list li:last-child .gf-identity { padding-bottom: 0; }
 .gf-side .gf-avatar { width: 39px; height: 39px; }
 
