@@ -517,6 +517,10 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       let entry = renderedGroups.get(group.slug);
       if (entry?.signature !== signature) {
         const card = el("article", "gf-directory-card");
+        card.dataset.gfGroup = group.slug;
+        card.tabIndex = 0;
+        card.setAttribute("aria-label", `${group.name} group details`);
+        card.setAttribute("aria-haspopup", "dialog");
         card.style.setProperty("--avatar-color", colorFor(group.slug));
         card.append(identity(group, immediate));
         if (group.bio) card.append(el("p", "gf-group-bio", group.bio));
@@ -1336,14 +1340,16 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     }
     const button = event.target.closest?.("[data-gf-action]");
     if (!button) {
-      const card = event.target.closest?.("[data-gf-post]");
+      const card = event.target.closest?.("[data-gf-post], [data-gf-group]");
       if (!card || dialog.open || event.defaultPrevented || event.button > 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey ||
         event.target.closest?.("a,button,input,textarea,select,label,details,[contenteditable]")) return;
       const post = knownPosts.get(card.dataset.gfPost);
-      if (!post) return;
+      const group = groupForSlug(card.dataset.gfGroup);
+      if (!post && !group) return;
       if (window.getSelection?.()?.toString()) return;
       card.focus({ preventScroll: true });
-      postDialog(post);
+      if (post) postDialog(post);
+      else groupDialog(group);
       return;
     }
     if (button.disabled) return;
@@ -1382,7 +1388,10 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
         searchDialog();
         break;
       case "group":
-        if (group) groupDialog(group);
+        if (group) {
+          button.focus({ preventScroll: true });
+          groupDialog(group);
+        }
         break;
       case "read":
         if (post) postDialog(post);
@@ -1408,9 +1417,14 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   });
 
   root.addEventListener("keydown", event => {
-    if ((event.key === "Enter" || event.key === " ") && event.target.matches?.("[data-gf-post]")) {
+    if ((event.key === "Enter" || event.key === " ") && event.target.matches?.("[data-gf-post], [data-gf-group]")) {
       const post = knownPosts.get(event.target.dataset.gfPost);
-      if (post) { event.preventDefault(); postDialog(post); }
+      const group = groupForSlug(event.target.dataset.gfGroup);
+      if (post || group) {
+        event.preventDefault();
+        if (post) postDialog(post);
+        else groupDialog(group);
+      }
     }
   });
 
