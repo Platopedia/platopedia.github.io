@@ -32,6 +32,15 @@
     preference = event.newValue;
     apply();
   });
+  window.addEventListener("pageshow", (event) => {
+    if (!event.persisted) return;
+    try {
+      preference = localStorage.getItem(key);
+    } catch {
+      return;
+    }
+    apply();
+  });
   document.addEventListener("DOMContentLoaded", () => {
     const menu = document.querySelector(".groups-site-mobile");
     if (menu) {
