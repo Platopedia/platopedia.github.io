@@ -604,7 +604,7 @@
   max-height: 20rem;
   overflow-y: scroll;
   scrollbar-gutter: stable;
-  overscroll-behavior-y: contain;
+  overscroll-behavior-y: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--gf-muted) var(--gf-quiet);
 }
