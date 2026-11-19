@@ -602,12 +602,20 @@
   margin: .9rem 0 0;
   padding: 0;
   max-height: 20rem;
-  overflow-y: auto;
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
   overscroll-behavior-y: contain;
   scrollbar-width: thin;
-  scrollbar-color: var(--gf-rule) transparent;
+  scrollbar-color: var(--gf-muted) var(--gf-quiet);
 }
+.gf-group-list::-webkit-scrollbar { width: 7px; }
+.gf-group-list::-webkit-scrollbar-track { background: var(--gf-quiet); border-radius: 8px; }
+.gf-group-list::-webkit-scrollbar-thumb { background: var(--gf-muted); border-radius: 8px; }
 .gf-group-list li { border-top: 1px solid var(--gf-rule); }
+.gf-group-placeholder { display: flex; align-items: center; gap: .62rem; min-height: 61px; padding: .65rem 0; }
+.gf-group-placeholder::before, .gf-group-placeholder::after { content: ""; background: var(--gf-rule); opacity: .55; }
+.gf-group-placeholder::before { flex: none; width: 39px; height: 39px; border-radius: 12px; }
+.gf-group-placeholder::after { width: 45%; height: 10px; border-radius: 3px; }
 .gf-group-list .gf-identity {
   width: 100%;
   padding: .65rem 0;

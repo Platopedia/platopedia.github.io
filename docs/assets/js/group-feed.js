@@ -58,6 +58,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   let catalogLoad;
   let catalogError = false;
   let sidebarActive = false;
+  let sidebarObserver;
   const timelines = new Map();
   let timeline = { key: "", posts: [], cursor: null, loadedAt: 0 };
   let savedView = { posts: [], loaded: new Set(), loadedAt: 0 };
@@ -490,7 +491,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     const list = find("group-list");
     list.setAttribute("aria-busy", String(Boolean(catalogLoad)));
     const immediate = route.view !== "directory" && !matchMedia("(max-width: 720px)").matches;
-    reconcileRows(list, sidebarGroups.map((group, index) => ({
+    const entries = sidebarGroups.map((group, index) => ({
       key: group.slug,
       signature: JSON.stringify([group.name, group.region, group.iconUrl]),
       create: () => {
@@ -498,15 +499,23 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
         item.append(identity(group, immediate && index < 5));
         return item;
       },
-    })));
+    }));
+    if (!complete && !catalogError && sidebarGroups.length >= 5) {
+      for (let index = 0; index < 2; index++) entries.push({
+        key: `:pending-${index}`,
+        create: () => {
+          const row = el("li", "gf-group-placeholder");
+          row.setAttribute("aria-hidden", "true");
+          return row;
+        },
+      });
+    }
+    reconcileRows(list, entries);
     if (immediate) for (const row of [...list.children].slice(0, 5)) prioritizeAvatar(row);
     const sidebarStatus = find("sidebar-status");
     const failed = !complete && catalogError;
-    const loading = !complete && Boolean(catalogLoad);
-    const message = failed ? "Could not load all groups. " : loading ? "Loading all groups…"
-      : sidebarGroups.length ? complete ? "" : "Scroll to see all groups."
-        : activeLoad ? "Loading groups…" : "No groups in this view.";
-    setStatus(sidebarStatus, message, loading);
+    const message = failed ? "Could not load groups. " : complete && !sidebarGroups.length ? "No groups in this view." : "";
+    setStatus(sidebarStatus, message);
     if (failed) sidebarStatus.append(action("sidebar-groups", "Retry"));
   }
 
@@ -643,6 +652,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       retry.disabled = Boolean(activeLoad);
       status.append(document.createTextNode(" "), retry);
     }
+    observeSidebar();
   }
 
   async function requestFeed(params, signal) {
@@ -790,6 +800,16 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     if (catalogCurrent() || catalogLoad) return;
     ensureCatalog();
     renderDiscovery();
+  }
+
+  function observeSidebar() {
+    if (!isFeed || activeLoad || sidebarActive || sidebarObserver || catalogCurrent() || typeof IntersectionObserver !== "function") return;
+    sidebarObserver = new IntersectionObserver(entries => {
+      if (!entries.some(entry => entry.isIntersecting)) return;
+      sidebarObserver.disconnect();
+      loadSidebar();
+    }, { rootMargin: "600px 0px" });
+    sidebarObserver.observe(find("group-list"));
   }
 
   function discoveryMode(force, refresh) {
@@ -1466,11 +1486,9 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   document.addEventListener("visibilitychange", recover);
   for (const event of ["pageshow", "focus", "online"]) window.addEventListener(event, recover);
   if (isFeed) {
-    for (const event of ["pointerenter", "pointerdown", "focusin", "wheel"]) {
-      find("group-list").addEventListener(event, () => {
-        if (!catalogError) loadSidebar();
-      }, { passive: true });
-    }
+    find("group-list").addEventListener("focusin", () => {
+      if (!catalogError) loadSidebar();
+    });
     document.addEventListener("keydown", (event) => {
       if (event.key === "/" && !event.ctrlKey && !event.metaKey && !event.altKey && !dialog.open &&
         !event.target.closest?.("input, textarea, select, [contenteditable]")) {
