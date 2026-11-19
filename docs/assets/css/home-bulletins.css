@@ -1,0 +1,95 @@
+.home-bulletins .home-group-feature-column {
+  display: flex;
+  padding: 0 14px 0 0;
+}
+
+.home-group-feature {
+  --color-text: #fff;
+  --color-link: #fff;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 210px;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  min-height: 320px;
+  padding: 28px;
+  overflow: hidden;
+  border: 1px solid #1687ef;
+  border-radius: 18px;
+  color: #fff !important;
+  background: radial-gradient(ellipse at top right, #1687ef44, transparent 65%), linear-gradient(125deg, #083c86, #0a58b8);
+  box-shadow: 0 8px 24px #0755a81a;
+  text-decoration: none !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.home-group-feature-copy { min-width: 0; }
+.home-group-feature-new {
+  display: inline-block;
+  margin-bottom: 15px;
+  padding: 5px 10px;
+  border: 1px solid #ffffff45;
+  border-radius: 20px;
+  color: #fff;
+  background: #ffffff14;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+.home-group-feature h3 {
+  margin: 0 0 12px;
+  padding: 0;
+  border: 0;
+  color: #fff;
+  font-size: clamp(30px, 3.4vw, 40px);
+  font-weight: 800;
+  letter-spacing: -.035em;
+  line-height: 1.1;
+  text-align: left;
+}
+.home-group-feature p {
+  max-width: 32ch;
+  margin: 0 0 22px;
+  color: #f2f6ff;
+  font-size: 15px;
+  line-height: 1.65;
+}
+.home-group-feature-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+  padding: 11px 14px;
+  border-radius: 10px;
+  color: #084994;
+  background: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+.home-group-feature-cta svg {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.home-group-feature-art { display: block; width: 100%; height: auto; }
+.home-group-feature:focus-visible { outline: 3px solid #1687ef; outline-offset: 4px; }
+@media (hover: hover) { .home-group-feature:hover .home-group-feature-cta { background: #e5f0ff; } }
+@media (max-width: 991.98px) {
+  .home-group-feature { grid-template-columns: minmax(0, 1fr); min-height: 280px; padding: 24px; }
+  .home-group-feature-art { display: none; }
+}
+@media (max-width: 767.98px) {
+  .home-bulletins .home-group-feature-column { padding: 0 0 14px; }
+}
+@media (max-width: 575.98px) {
+  .home-group-feature { min-height: 0; padding: 24px 22px; }
+  .home-group-feature p { max-width: 38ch; }
+}
