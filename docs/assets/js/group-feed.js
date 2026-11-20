@@ -200,7 +200,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     return `/groups/profile/?group=${encodeURIComponent(group.slug)}`;
   }
 
-  function managerFriendUrl(group) {
+  function platoLinkUrl(group) {
     return safeUrl(group.friendUrl, ["https://platoapp.com", "https://www.platoapp.com"]);
   }
 
@@ -340,10 +340,10 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       about.append(el("h3", "gf-profile-label", "About the group"), groupBio(group.bio));
       details.append(about);
     }
-    const friendUrl = managerFriendUrl(group);
+    const friendUrl = platoLinkUrl(group);
     if (friendUrl) {
       const contact = el("section", "gf-manager-contact");
-      const label = el("label", "gf-profile-label", "Manager's friend link");
+      const label = el("label", "gf-profile-label", "Plato link");
       const input = el("textarea", "gf-friend-input");
       input.id = `gf-friend-${inDialog ? "dialog" : mode}-${group.slug}`;
       input.value = friendUrl;
@@ -351,21 +351,21 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       input.rows = 2;
       input.spellcheck = false;
       input.dir = "ltr";
-      input.setAttribute("aria-label", `${group.name} manager's Plato friend link`);
+      input.setAttribute("aria-label", `${group.name} Plato link`);
       input.setAttribute("autocapitalize", "off");
       input.addEventListener("focus", () => input.select());
       label.htmlFor = input.id;
       const field = el("div", "gf-friend-field");
       const copy = action("copy-friend", undefined, group.slug, "gf-button gf-friend-copy");
-      copy.setAttribute("aria-label", `Copy ${group.name} manager's friend link`);
-      copy.title = "Copy friend link";
+      copy.setAttribute("aria-label", `Copy ${group.name} Plato link`);
+      copy.title = "Copy Plato link";
       copy.append(icon("copy"));
       const notice = el("p", "gf-copy-status");
       notice.setAttribute("role", "status");
       field.append(input, copy);
-      const connect = link(friendUrl, "Connect on Plato", "gf-button gf-primary", "external");
+      const connect = link(friendUrl, "Open on Plato", "gf-button gf-primary", "external");
       connect.rel = "noreferrer";
-      contact.append(label, el("p", "gf-contact-help", "Add the manager on Plato to ask about joining."), field, notice, connect);
+      contact.append(label, el("p", "gf-contact-help", "Open this link to add the manager or join the waiting group."), field, notice, connect);
       details.append(contact);
     }
     if (details.children.length) fragment.append(details);
@@ -1282,20 +1282,20 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     toastTimeout = setTimeout(() => { notice.hidden = true; }, 2400);
   }
 
-  async function copyFriend(group, button) {
-    const url = managerFriendUrl(group);
+  async function copyPlatoLink(group, button) {
+    const url = platoLinkUrl(group);
     if (!url) return;
     const contact = button.closest(".gf-manager-contact");
     const notice = contact.querySelector(".gf-copy-status");
     try {
       await navigator.clipboard.writeText(url);
-      notice.textContent = "Friend link copied.";
+      notice.textContent = "Plato link copied.";
       button.replaceChildren(icon("check"));
-      button.title = "Friend link copied";
+      button.title = "Plato link copied";
       setTimeout(() => {
         if (!button.isConnected) return;
         button.replaceChildren(icon("copy"));
-        button.title = "Copy friend link";
+        button.title = "Copy Plato link";
       }, 2000);
     } catch {
       const input = contact.querySelector(".gf-friend-input");
@@ -1453,7 +1453,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
         if (group) share(profileUrl(group), button);
         break;
       case "copy-friend": {
-        if (group) copyFriend(group, button);
+        if (group) copyPlatoLink(group, button);
         break;
       }
       case "close":
