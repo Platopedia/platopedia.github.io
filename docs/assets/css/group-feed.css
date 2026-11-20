@@ -656,7 +656,6 @@
   margin: .4rem 0 .9rem;
   color: var(--gf-muted);
   font-size: .88rem;
-  white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
 .gf-directory-card .gf-group-bio { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }

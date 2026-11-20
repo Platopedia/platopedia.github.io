@@ -311,6 +311,13 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     return actions;
   }
 
+  function groupBio(text) {
+    const bio = el("div", "gf-group-bio post-markdown");
+    bio.innerHTML = renderPostMarkdown(text);
+    bio.dir = "auto";
+    return bio;
+  }
+
   function profileContent(group, headingLevel, headingText, inDialog) {
     const fragment = document.createDocumentFragment();
     const overview = el("div", "gf-profile-overview");
@@ -330,9 +337,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     const details = el("div", "gf-profile-details");
     if (group.bio) {
       const about = el("section", "gf-profile-about");
-      const bio = el("p", "gf-group-bio", group.bio);
-      bio.dir = "auto";
-      about.append(el("h3", "gf-profile-label", "About the group"), bio);
+      about.append(el("h3", "gf-profile-label", "About the group"), groupBio(group.bio));
       details.append(about);
     }
     const friendUrl = managerFriendUrl(group);
@@ -543,7 +548,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
         card.setAttribute("aria-haspopup", "dialog");
         card.style.setProperty("--avatar-color", colorFor(group.slug));
         card.append(identity(group, immediate));
-        if (group.bio) card.append(el("p", "gf-group-bio", group.bio));
+        if (group.bio) card.append(groupBio(group.bio));
         const actions = el("div", "gf-profile-actions");
         actions.append(followButton(group), link(profileUrl(group), "Open profile", "gf-button", "external"));
         card.append(actions);
