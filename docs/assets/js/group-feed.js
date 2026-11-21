@@ -281,8 +281,11 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     checkingPosts = true;
     try {
       const data = await requestFeed({ posts: ids.join(","), catalog: "0" });
-      // A newer view request owns the result if navigation or Refresh overtook this check.
-      if (data.requestId !== feedRequestId) return;
+      // Keep the newer request in charge, then check again against the current state.
+      if (data.requestId !== feedRequestId) {
+        for (const id of ids) pendingPostChecks.add(id);
+        return;
+      }
       const checked = new Set(ids);
       const available = new Map(data.posts.map(post => [post.id, post]));
       ingest(data);
