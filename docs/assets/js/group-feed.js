@@ -558,13 +558,12 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       : summary?.version === latestCatalogVersion ? summary.slugs.map(groupForSlug).filter(Boolean) : [];
     const list = find("group-list");
     list.setAttribute("aria-busy", String(Boolean(catalogLoad)));
-    const immediate = route.view !== "directory" && !matchMedia("(max-width: 720px)").matches;
-    const entries = sidebarGroups.map((group, index) => ({
+    const entries = sidebarGroups.map(group => ({
       key: group.slug,
       signature: JSON.stringify([group.name, group.region, group.iconUrl]),
       create: () => {
         const item = el("li");
-        item.append(identity(group, immediate && index < 5));
+        item.append(identity(group));
         return item;
       },
     }));
@@ -579,7 +578,6 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       });
     }
     reconcileRows(list, entries);
-    if (immediate) for (const row of [...list.children].slice(0, 5)) prioritizeAvatar(row);
     const sidebarStatus = find("sidebar-status");
     const failed = !complete && catalogError;
     const message = failed ? "Could not load groups. " : complete && !sidebarGroups.length ? "No groups in this view." : "";
