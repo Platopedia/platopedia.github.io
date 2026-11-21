@@ -465,6 +465,13 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     const image = el("img", "gf-post-image");
     image.alt = `Image attached to ${post.title}`;
     image.decoding = "async";
+    if (inReader && Number.isInteger(post.imageWidth) && Number.isInteger(post.imageHeight) &&
+        post.imageWidth > 0 && post.imageHeight > 0) {
+      image.setAttribute("width", String(post.imageWidth));
+      image.setAttribute("height", String(post.imageHeight));
+      image.style.width = `${post.imageWidth}px`;
+      image.style.aspectRatio = `${post.imageWidth} / ${post.imageHeight}`;
+    }
     if (!inReader) {
       image.loading = route.post ? "eager" : "lazy";
       watchImage(image, undefined, post.id);
@@ -651,7 +658,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       const immediate = !isEmbed && index < initialFeedAvatars;
       let entry = renderedPosts.get(post.id);
       const signature = JSON.stringify([post.title, post.body, post.publishedAt, post.imageUrl,
-        post.originalImageUrl, post.group.slug, post.group.name, post.group.region, post.group.iconUrl]);
+        post.originalImageUrl, post.imageWidth, post.imageHeight, post.group.slug, post.group.name, post.group.region, post.group.iconUrl]);
       if (entry?.signature !== signature) {
         entry?.card.remove();
         entry = { signature, card: postCard(post, immediate) };
