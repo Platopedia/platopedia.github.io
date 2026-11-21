@@ -79,14 +79,6 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   let lastDialogFocus;
   let openDialogItem;
   let searchReturn;
-  const popupOwner = `${Date.now()}-${Math.random()}`;
-  const popupEntries = new Map();
-  const popupCloseEvents = new WeakMap();
-  let popupSequence = 0;
-  let popupStack = [];
-  let changingPopupHistory = false;
-  let popupHistoryPending = false;
-  let popupNavigation;
   let toastTimeout;
   let refreshSpinTimeout;
   let profileSignature = "";
@@ -331,7 +323,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
         }
       }
       if (dialog.open && openDialogItem?.kind === "post" && checked.has(openDialogItem.id) && !available.has(openDialogItem.id)) {
-        closePopup(dialog);
+        dialog.close();
         toast("This post is no longer available.");
       }
       render();
@@ -870,7 +862,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
         groupRequestIds.delete(slug);
       }
       for (const [id, post] of knownPosts) if (!groupForSlug(post.group.slug)) knownPosts.delete(id);
-      if (dialog.open && dialog.dataset.group && !groupForSlug(dialog.dataset.group)) closePopup(dialog);
+      if (dialog.open && dialog.dataset.group && !groupForSlug(dialog.dataset.group)) dialog.close();
     }
     if (data.featured) {
       rememberRecent(summaries, data.discoveryRegion, {
@@ -985,7 +977,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       return (!lower || !isBeforeCursor(post, lower)) && (!upper || isBeforeCursor(post, upper));
     };
     if (dialog.open && openDialogItem?.kind === "post" &&
-      covered(openDialogItem.data) && !latest.has(openDialogItem.id)) closePopup(dialog);
+      covered(openDialogItem.data) && !latest.has(openDialogItem.id)) dialog.close();
     function reconcile(view) {
       view.posts = view.posts.flatMap(post => {
         if (latest.has(post.id)) return latest.get(post.id);
@@ -1059,7 +1051,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
               cached.posts = cached.posts.filter(post => post.group.slug !== params.group);
               cached.loadedAt = 0;
             }
-            if (dialog.open && dialog.dataset.group === params.group) closePopup(dialog);
+            if (dialog.open && dialog.dataset.group === params.group) dialog.close();
           }
           nextTimeline.posts = [];
           nextTimeline.cursor = null;
@@ -1155,7 +1147,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
           const byId = new Map(data.posts.map(post => [post.id, post]));
           const checked = new Set(batch);
           if (dialog.open && openDialogItem?.kind === "post" &&
-            checked.has(openDialogItem.id) && !byId.has(openDialogItem.id)) closePopup(dialog);
+            checked.has(openDialogItem.id) && !byId.has(openDialogItem.id)) dialog.close();
           const current = new Map(savedView.posts.filter(post => !checked.has(post.id)).map(post => [post.id, post]));
           for (const post of data.posts) current.set(post.id, post);
           savedView.posts = [...saved].reverse().map(id => current.get(id)).filter(Boolean);
@@ -1255,10 +1247,6 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   }
 
   function navigate(change, scroll = false) {
-    if (popupStack.length || popupHistoryPending) {
-      leavePopups(() => navigate(change, scroll));
-      return;
-    }
     route = { ...route, ...change };
     const url = new URL(location.href);
     for (const [key, value] of Object.entries(route)) {
@@ -1274,154 +1262,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     }
   }
 
-  function closePopup(popup) {
-    if (!popup.open) return;
-    if (!changingPopupHistory) forgetPopup(popup === linkDialog ? "link" : "dialog");
-    popupCloseEvents.set(popup, (popupCloseEvents.get(popup) || 0) + 1);
-    popup.close();
-  }
-
-  function expectedPopupClose(popup) {
-    const count = popupCloseEvents.get(popup) || 0;
-    if (count) popupCloseEvents.set(popup, count - 1);
-    return count > 0;
-  }
-
-  function popupHistory() {
-    const value = history.state?.gfPopup;
-    return value?.owner === popupOwner && Array.isArray(value.stack) ? value.stack : null;
-  }
-
-  function writePopupHistory(method, stack = popupStack) {
-    history[method]({ ...history.state, gfPopup: { owner: popupOwner, stack: [...stack] } }, "", location.href);
-  }
-
-  function capturePopup() {
-    if (!dialog.open) return;
-    const entry = [...popupStack].reverse().map(id => popupEntries.get(id)).find(item => item?.kind !== "link");
-    if (!entry) return;
-    entry.scroll = dialog.scrollTop;
-    const input = dialog.querySelector("[data-gf-search-input]");
-    if (input) {
-      entry.query = input.value;
-      entry.selection = [input.selectionStart, input.selectionEnd, input.selectionDirection];
-    }
-  }
-
-  function rememberPopup(kind, key = "", replace = false, target = "") {
-    if (changingPopupHistory) return;
-    capturePopup();
-    const previous = popupEntries.get(popupStack.at(-1));
-    if (previous?.kind === kind && previous.key === key) return;
-    if (!popupStack.length && !popupHistoryPending) writePopupHistory("replaceState", []);
-    const id = ++popupSequence;
-    popupEntries.set(id, { kind, key, target });
-    if (replace && popupStack.length) popupStack[popupStack.length - 1] = id;
-    else popupStack.push(id);
-    // Keep only small descriptors; reader DOM and decoded images are never cached here.
-    for (const old of popupEntries.keys()) {
-      if (popupEntries.size <= 64) break;
-      if (!popupStack.includes(old)) popupEntries.delete(old);
-    }
-    if (!popupHistoryPending) writePopupHistory(replace ? "replaceState" : "pushState");
-  }
-
-  function forgetPopup(kind) {
-    if (changingPopupHistory) return;
-    const index = kind === "link" ? popupStack.length - 1
-      : popupStack.findLastIndex(id => popupEntries.get(id)?.kind !== "link");
-    if (index < 0) return;
-    popupStack = popupStack.slice(0, index);
-    if (kind !== "link" && linkDialog.open) {
-      changingPopupHistory = true;
-      closePopup(linkDialog);
-      changingPopupHistory = false;
-    }
-    const current = popupHistory();
-    if (!popupHistoryPending && current?.length > popupStack.length) {
-      popupHistoryPending = true;
-      history.go(popupStack.length - current.length);
-    }
-  }
-
-  function leavePopups(action) {
-    const current = popupHistory();
-    const pending = popupHistoryPending;
-    clearDialogs();
-    if (!current?.length && !pending) { action(); return; }
-    popupNavigation = action;
-    if (!pending) {
-      popupHistoryPending = true;
-      history.go(-current.length);
-    }
-  }
-
-  function followPopupLink(event, anchor) {
-    if ((!popupStack.length && !popupHistoryPending) || !anchor || event.defaultPrevented || event.button > 0 ||
-        event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || anchor.hasAttribute("download") ||
-        anchor.target && anchor.target !== "_self") return false;
-    event.preventDefault();
-    const url = anchor.href;
-    leavePopups(() => location.assign(url));
-    return true;
-  }
-
-  function restorePopupHistory() {
-    const target = popupHistory();
-    if (popupHistoryPending) {
-      popupHistoryPending = false;
-      if (target?.length > popupStack.length && popupStack.every((id, index) => id === target[index])) {
-        popupHistoryPending = true;
-        history.go(popupStack.length - target.length);
-        return true;
-      }
-      if (target && JSON.stringify(target) !== JSON.stringify(popupStack)) writePopupHistory("pushState");
-      const action = popupNavigation;
-      popupNavigation = undefined;
-      action?.();
-      return true;
-    }
-    if (!target || isFeed && JSON.stringify(routeFromUrl()) !== JSON.stringify(route)) return false;
-    capturePopup();
-    changingPopupHistory = true;
-    if (target.length <= popupStack.length && target.every((id, index) => id === popupStack[index])) {
-      while (popupStack.length > target.length) {
-        const entry = popupEntries.get(popupStack.pop());
-        if (entry?.kind === "link") closePopup(linkDialog);
-        else closePopup(dialog);
-      }
-      if (!popupStack.some(id => popupEntries.get(id)?.kind === "search")) searchReturn = null;
-    } else {
-      clearDialogs();
-      for (const id of target) {
-        const entry = popupEntries.get(id);
-        if (!entry) break;
-        if (entry.kind === "search") {
-          searchDialog();
-          const input = dialog.querySelector("[data-gf-search-input]");
-          input.value = entry.query || "";
-          renderSearch(input.value);
-          if (entry.selection) input.setSelectionRange(...entry.selection);
-        } else if (entry.kind === "post" && knownPosts.has(entry.key)) postDialog(knownPosts.get(entry.key));
-        else if (entry.kind === "group" && groupForSlug(entry.key)) groupDialog(groupForSlug(entry.key));
-        else if (entry.kind === "share") shareDialog(entry.key);
-        else if (entry.kind === "link") {
-          const url = new URL(entry.key);
-          if (!["http:", "https:"].includes(url.protocol)) break;
-          openExternalLink(url, entry.target, document.activeElement);
-        } else break;
-        popupStack.push(id);
-        if (entry.kind !== "link") dialog.scrollTop = entry.scroll || 0;
-      }
-      if (popupStack.length !== target.length) writePopupHistory("replaceState");
-    }
-    changingPopupHistory = false;
-    return true;
-  }
-
-  function showDialog(kind, content, focusTarget, key = "") {
-    const child = dialog.open && dialog.dataset.kind === "search" && (kind === "group" || kind === "post");
-    rememberPopup(kind, key, dialog.open && !child);
+  function showDialog(kind, content, focusTarget) {
     if (dialog.open && dialog.dataset.kind === "search" && (kind === "group" || kind === "post")) {
       searchReturn = { content: dialogContent.firstChild, focus: document.activeElement, scrollTop: dialog.scrollTop };
     }
@@ -1436,16 +1277,12 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   }
 
   function clearDialogs() {
-    const changing = changingPopupHistory;
-    changingPopupHistory = true;
-    popupStack = [];
     searchReturn = null;
     lastDialogFocus = null;
     linkDialogFocus = null;
     openDialogItem = null;
-    if (dialog.open) closePopup(dialog);
-    if (linkDialog.open) closePopup(linkDialog);
-    changingPopupHistory = changing;
+    if (dialog.open) dialog.close();
+    if (linkDialog.open) linkDialog.close();
   }
 
   function confirmExternalLink(event) {
@@ -1456,12 +1293,6 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     try { url = new URL(anchor.href); } catch { return false; }
     if (!["http:", "https:"].includes(url.protocol) || url.origin === location.origin || trustedSites.has(url.origin)) return false;
     event.preventDefault();
-    openExternalLink(url, event.button === 1 || event.ctrlKey || event.metaKey || event.shiftKey ? "_blank" : anchor.getAttribute("target") || "_self", anchor);
-    return true;
-  }
-
-  function openExternalLink(url, target, anchor) {
-    rememberPopup("link", url.href, linkDialog.open, target);
     linkDialogFocus = anchor;
     const credentials = url.username || url.password ? `${url.username}${url.password ? ":" + url.password : ""}@` : "";
     find("link-url").replaceChildren(document.createTextNode(url.protocol + "//" + credentials),
@@ -1470,23 +1301,23 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     find("link-trust").checked = false;
     const visit = find("link-visit");
     visit.href = url.href;
-    visit.target = target;
+    visit.target = event.button === 1 || event.ctrlKey || event.metaKey || event.shiftKey ? "_blank" : anchor.getAttribute("target") || "_self";
     if (!linkDialog.open) linkDialog.showModal();
     linkDialog.scrollTop = 0;
     find("link-back").focus({ preventScroll: true });
     return true;
   }
 
-  function visitExternalLink(event) {
+  function visitExternalLink() {
     if (find("link-trust").checked) {
       trustedSites.add(new URL(find("link-visit").href).origin);
       saveSet(trustedSitesKey, trustedSites);
     }
-    if (!followPopupLink(event, find("link-visit"))) closePopup(linkDialog);
+    linkDialog.close();
   }
 
   function groupDialog(group) {
-    showDialog("group", profileContent(group, "h2", group.name, true), undefined, group.slug);
+    showDialog("group", profileContent(group, "h2", group.name, true));
     dialog.dataset.group = group.slug;
     openDialogItem = { kind: "group", id: group.slug, data: group };
   }
@@ -1504,7 +1335,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     const image = postImage(post, true);
     if (image) panel.append(image);
     panel.append(postActions(post, false));
-    showDialog("post", panel, undefined, post.id);
+    showDialog("post", panel);
     dialog.dataset.group = post.group.slug;
     openDialogItem = { kind: "post", id: post.id, data: post };
   }
@@ -1514,7 +1345,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     const { kind, id, data } = openDialogItem;
     const current = kind === "group" ? groupForSlug(id) : knownPosts.get(id);
     if (!current) {
-      if (!errorMessage) closePopup(dialog);
+      if (!errorMessage) dialog.close();
       return;
     }
     if (current === data) return;
@@ -1649,23 +1480,19 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
         toast("Link copied.");
       }
     } catch {
-      shareDialog(url);
+      const panel = el("div");
+      const title = el("h2", null, "Share this link");
+      title.id = "gf-dialog-title";
+      const field = el("label", "gf-search-field gf-link-box");
+      const input = el("input");
+      input.value = url;
+      input.readOnly = true;
+      input.setAttribute("aria-label", "Link to copy");
+      field.append(input);
+      panel.append(title, field);
+      showDialog("share", panel, input);
+      input.select();
     }
-  }
-
-  function shareDialog(url) {
-    const panel = el("div");
-    const title = el("h2", null, "Share this link");
-    title.id = "gf-dialog-title";
-    const field = el("label", "gf-search-field gf-link-box");
-    const input = el("input");
-    input.value = url;
-    input.readOnly = true;
-    input.setAttribute("aria-label", "Link to copy");
-    field.append(input);
-    panel.append(title, field);
-    showDialog("share", panel, input, url);
-    input.select();
   }
 
   function toggle(key, id) {
@@ -1708,16 +1535,15 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     if (event.target === dialog || event.target === linkDialog) {
       const popup = event.target;
       const bounds = popup.getBoundingClientRect();
-      if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) closePopup(popup);
+      if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) popup.close();
       return;
     }
     if (linkDialog.contains(event.target)) {
-      if (event.target.closest?.("[data-gf-link-visit]")) visitExternalLink(event);
-      else if (event.target.closest?.("[data-gf-link-back]")) closePopup(linkDialog);
+      if (event.target.closest?.("[data-gf-link-visit]")) visitExternalLink();
+      else if (event.target.closest?.("[data-gf-link-back]")) linkDialog.close();
       return;
     }
     if (confirmExternalLink(event)) return;
-    if (followPopupLink(event, event.target.closest?.("a[href]"))) return;
     const spoiler = event.target.closest?.("[data-post-spoiler]");
     if (spoiler) {
       const expanded = spoiler.getAttribute("aria-expanded") !== "true";
@@ -1801,14 +1627,14 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
         break;
       }
       case "close":
-        closePopup(dialog);
+        dialog.close();
         break;
     }
   });
 
   root.addEventListener("auxclick", event => {
     if (event.button !== 1) return;
-    if (event.target.closest?.("[data-gf-link-visit]")) visitExternalLink(event);
+    if (event.target.closest?.("[data-gf-link-visit]")) visitExternalLink();
     else confirmExternalLink(event);
   });
 
@@ -1832,12 +1658,10 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
 
   root.addEventListener("input", (event) => {
     if (event.target === find("directory-search")) renderDirectory();
-    if (event.target.matches("[data-gf-search-input]")) { renderSearch(event.target.value); capturePopup(); }
+    if (event.target.matches("[data-gf-search-input]")) renderSearch(event.target.value);
   });
   dialog.addEventListener("close", () => {
-    const expected = expectedPopupClose(dialog);
     if (dialog.open) return;
-    if (!expected) forgetPopup("dialog");
     openDialogItem = null;
     if (searchReturn) {
       const previous = searchReturn;
@@ -1854,21 +1678,13 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     if (lastDialogFocus?.isConnected) lastDialogFocus.focus({ preventScroll: true });
   });
   linkDialog.addEventListener("close", () => {
-    const expected = expectedPopupClose(linkDialog);
     if (linkDialog.open) return;
-    if (!expected) forgetPopup("link");
     if (linkDialogFocus?.isConnected) linkDialogFocus.focus({ preventScroll: true });
     else if (dialog.open) dialog.querySelector(".gf-dialog-close").focus({ preventScroll: true });
     linkDialogFocus = null;
   });
   document.addEventListener("visibilitychange", recover);
-  window.addEventListener("pagehide", () => {
-    if (popupHistory()?.length) writePopupHistory("replaceState", []);
-    clearDialogs();
-    popupEntries.clear();
-    popupHistoryPending = false;
-    popupNavigation = undefined;
-  });
+  window.addEventListener("pagehide", clearDialogs);
   window.addEventListener("pageshow", event => {
     if (event.persisted) clearDialogs();
     recover(event);
@@ -1885,6 +1701,11 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
         searchDialog();
       }
     });
+    window.addEventListener("popstate", () => {
+      clearDialogs();
+      route = routeFromUrl();
+      sync();
+    });
     const hero = find("hero");
     if (matchMedia("(hover: hover) and (prefers-reduced-motion: no-preference)").matches) {
       hero.addEventListener("pointermove", (event) => {
@@ -1894,11 +1715,6 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       });
     }
   }
-  window.addEventListener("popstate", () => {
-    if (restorePopupHistory()) return;
-    clearDialogs();
-    if (isFeed) { route = routeFromUrl(); sync(); }
-  });
   if (mode === "profile" && (!profileSlug || !groupKey.test(profileSlug))) {
     postsNode.setAttribute("aria-busy", "false");
     setStatus(status, "Choose a group from the directory.");
