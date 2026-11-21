@@ -847,6 +847,7 @@ body:not([data-theme="light"]) .group-feed[data-mode="embed"] {
 }
 .gf-search-result:hover { color: var(--gf-link); background: var(--gf-surface-up); }
 .gf-search-result.gf-identity { justify-content: flex-start; }
+.gf-search-result.gf-search-post { display: grid; grid-template-columns: minmax(0, 1fr); justify-content: stretch; gap: .2rem; }
 .gf-dialog .gf-card-meta { padding-right: 2.65rem; margin-bottom: .8rem; }
 .gf-dialog .gf-post-text { margin-top: .75rem; }
 .gf-dialog[data-kind="group"] { width: min(100% - 28px, 540px); border-radius: 24px; }

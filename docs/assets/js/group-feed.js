@@ -1318,6 +1318,12 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   function renderSearch(query) {
     const results = dialog.querySelector("[data-gf-search-results]");
     if (!results) return;
+    const loading = !catalogCurrent() && !catalogError;
+    results.setAttribute("aria-busy", String(loading));
+    if (loading) {
+      reconcileRows(results, [{ key: "loading", create: () => el("p", "gf-caption", "Loading groups…") }]);
+      return;
+    }
     const text = query.trim().toLocaleLowerCase();
     const matchingGroups = (catalogCurrent() ? [...groups.values()] : []).filter((group) =>
       `${group.name} ${group.region} ${group.bio || ""}`.toLocaleLowerCase().includes(text)).slice(0, 7);
@@ -1345,9 +1351,10 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
           key: "post:" + post.id,
           signature: JSON.stringify([post.title, post.group.name]),
           create: () => {
-            const button = action("read", undefined, post.id, "gf-search-result");
-            button.innerHTML = renderPostTitle(post.title);
-            button.append(el("span", "gf-region", post.group.name));
+            const button = action("read", undefined, post.id, "gf-search-result gf-search-post");
+            const title = el("span");
+            title.innerHTML = renderPostTitle(post.title);
+            button.append(title, el("span", "gf-region", post.group.name));
             return button;
           },
         });
