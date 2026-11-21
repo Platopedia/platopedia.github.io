@@ -1,8 +1,21 @@
 import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=20261114.1";
 
-(() => {
+(function initGroupFeed() {
   const root = document.querySelector("[data-group-feed]");
   if (!root) return;
+
+  // Reload closes dialogs but preserves their same-URL history entries.
+  const abandonedPopups = history.state?.gfPopup?.stack;
+  if (Array.isArray(abandonedPopups) && abandonedPopups.length) {
+    function resumeFeed() {
+      if (history.state?.gfPopup?.stack?.length) return;
+      window.removeEventListener("popstate", resumeFeed);
+      initGroupFeed();
+    }
+    window.addEventListener("popstate", resumeFeed);
+    history.go(-abandonedPopups.length);
+    return;
+  }
 
   const api = new URL(root.dataset.api);
   const mode = root.dataset.mode;
@@ -1863,13 +1876,12 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   });
   document.addEventListener("visibilitychange", recover);
   window.addEventListener("pagehide", () => {
-    if (popupHistory()?.length) writePopupHistory("replaceState", []);
     clearDialogs();
     popupHistoryPending = false;
     popupNavigation = undefined;
   });
   window.addEventListener("pageshow", event => {
-    if (event.persisted) clearDialogs();
+    if (event.persisted) leavePopups(() => {});
     recover(event);
   });
   for (const event of ["focus", "online"]) window.addEventListener(event, recover);
