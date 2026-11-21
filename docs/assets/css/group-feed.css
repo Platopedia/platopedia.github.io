@@ -578,6 +578,20 @@
   max-width: min(100%, 420px);
   max-height: clamp(190px, 60vw, 280px);
 }
+.gf-reader-image { margin-top: 1rem; }
+.gf-reader-image .gf-post-image { margin-top: 0; }
+.gf-image-error {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .65rem 1rem;
+  padding: .9rem 1rem;
+  border: 1px solid var(--gf-rule);
+  border-radius: 11px;
+  color: var(--gf-muted);
+  background: var(--gf-quiet);
+}
+.group-feed .gf-image-error p { margin: 0; }
 .gf-card-actions, .gf-profile-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .48rem; }
 .gf-card-actions { margin-top: 1rem; padding-top: .8rem; border-top: 1px solid var(--gf-rule); }
 .gf-card-actions .gf-button { min-height: 36px; padding: .4rem .68rem; background: transparent; }

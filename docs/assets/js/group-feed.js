@@ -38,6 +38,10 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   // Keep the first-view avatar requests bounded, even with a large directory.
   const initialFeedAvatars = 3;
   const imageRecovery = new WeakMap();
+  const failedPostChecks = new Map();
+  const pendingPostChecks = new Set();
+  let postCheckTimer;
+  let checkingPosts = false;
 
   let route = routeFromUrl();
   const groups = new Map();
@@ -238,7 +242,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     if (image?.loading === "lazy") image.loading = "eager";
   }
 
-  function watchImage(image, fallback) {
+  function watchImage(image, fallback, postId) {
     const recovery = { fallback, retryAt: 0 };
     imageRecovery.set(image, recovery);
     image.addEventListener("error", () => {
@@ -246,12 +250,67 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       recovery.retryAt = Date.now() + 30_000;
       image.hidden = true;
       if (fallback) fallback.hidden = false;
+      if (postId && image.isConnected) queuePostCheck(postId);
     });
     image.addEventListener("load", () => {
       image.removeAttribute("data-gf-image-failed");
       image.hidden = false;
       if (fallback) fallback.hidden = true;
     });
+  }
+
+  function queuePostCheck(id) {
+    if (Date.now() < (failedPostChecks.get(id) || 0)) return;
+    failedPostChecks.delete(id);
+    failedPostChecks.set(id, Date.now() + 30_000);
+    if (failedPostChecks.size > maxRefreshBatch) failedPostChecks.delete(failedPostChecks.keys().next().value);
+    pendingPostChecks.add(id);
+    schedulePostChecks();
+  }
+
+  function schedulePostChecks() {
+    if (!pendingPostChecks.size || postCheckTimer || checkingPosts || activeLoad || document.visibilityState === "hidden") return;
+    postCheckTimer = setTimeout(checkFailedPosts, 100);
+  }
+
+  async function checkFailedPosts() {
+    postCheckTimer = null;
+    if (activeLoad || document.visibilityState === "hidden") return;
+    const ids = [...pendingPostChecks].slice(0, maxRefreshBatch);
+    for (const id of ids) pendingPostChecks.delete(id);
+    checkingPosts = true;
+    try {
+      const data = await requestFeed({ posts: ids.join(","), catalog: "0" });
+      // A newer view request owns the result if navigation or Refresh overtook this check.
+      if (data.requestId !== feedRequestId) return;
+      const checked = new Set(ids);
+      const available = new Map(data.posts.map(post => [post.id, post]));
+      ingest(data);
+      for (const view of new Set([timeline, savedView, ...timelines.values()])) {
+        view.posts = view.posts.flatMap(post => checked.has(post.id) ? available.get(post.id) || [] : post);
+      }
+      for (const id of ids) {
+        if (available.has(id)) {
+          if (knownPosts.has(id)) knownPosts.set(id, available.get(id));
+        } else {
+          knownPosts.delete(id);
+          renderedPosts.get(id)?.card.remove();
+          renderedPosts.delete(id);
+        }
+      }
+      if (dialog.open && openDialogItem?.kind === "post" && checked.has(openDialogItem.id) && !available.has(openDialogItem.id)) {
+        dialog.close();
+        toast("This post is no longer available.");
+      }
+      render();
+      reconcileDialog();
+      if (dialog.open && dialog.dataset.kind === "search") renderSearch(dialog.querySelector("[data-gf-search-input]").value);
+    } catch {
+      // A network failure cannot prove that a post was removed. Keep its content and image retry.
+    } finally {
+      checkingPosts = false;
+      schedulePostChecks();
+    }
   }
 
   function retryImages(scope = root, force = false) {
@@ -400,15 +459,16 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     image.decoding = "async";
     if (!inReader) {
       image.loading = route.post ? "eager" : "lazy";
-      watchImage(image);
+      watchImage(image, undefined, post.id);
       image.src = url;
       return image;
     }
     const frame = el("div", "gf-reader-image");
-    const fallback = el("p", "gf-status", "Image could not load. ");
+    const fallback = el("div", "gf-image-error");
     fallback.hidden = true;
-    fallback.append(action("retry-image", "Retry image"));
-    watchImage(image, fallback);
+    fallback.setAttribute("role", "status");
+    fallback.append(el("p", null, "Image could not load."), action("retry-image", "Retry image"));
+    watchImage(image, fallback, post.id);
     image.src = url;
     frame.append(image, fallback);
     return frame;
@@ -607,6 +667,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   }
 
   function render() {
+    schedulePostChecks();
     if (isFeed) {
       for (const [view, button] of viewButtons) {
         if (view === route.view) button.setAttribute("aria-current", "page");
@@ -1112,6 +1173,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
 
   function recover(event) {
     if (document.visibilityState === "hidden") return;
+    schedulePostChecks();
     if (!isFeed && (!profileSlug || !groupKey.test(profileSlug))) return;
     retryImages(root, event.type === "online" || event.type === "visibilitychange" || event.type === "pageshow" && event.persisted);
     const now = Date.now();
