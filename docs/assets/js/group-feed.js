@@ -247,20 +247,28 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     if (image?.loading === "lazy") image.loading = "eager";
   }
 
-  function watchImage(image, fallback, postId) {
-    const recovery = { fallback, retryAt: 0 };
+  function readerImageState(frame, state) {
+    if (!frame) return;
+    frame.dataset.state = state;
+    frame.setAttribute("aria-busy", String(state === "loading"));
+  }
+
+  function watchImage(image, fallback, postId, frame) {
+    const recovery = { fallback, frame, retryAt: 0 };
     imageRecovery.set(image, recovery);
     image.addEventListener("error", () => {
       image.dataset.gfImageFailed = "true";
       recovery.retryAt = Date.now() + 30_000;
       image.hidden = true;
       if (fallback) fallback.hidden = false;
+      readerImageState(frame, "error");
       if (postId && image.isConnected) queuePostCheck(postId);
     });
     image.addEventListener("load", () => {
       image.removeAttribute("data-gf-image-failed");
       image.hidden = false;
       if (fallback) fallback.hidden = true;
+      readerImageState(frame, "ready");
     });
   }
 
@@ -328,6 +336,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       image.removeAttribute("data-gf-image-failed");
       image.hidden = false;
       if (recovery.fallback) recovery.fallback.hidden = true;
+      readerImageState(recovery.frame, "loading");
       // Reuse the same URL and element; healthy images never enter this path.
       image.src = image.src;
     }
@@ -479,11 +488,13 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       return image;
     }
     const frame = el("div", "gf-reader-image");
+    if (image.style.width) frame.style.setProperty("--gf-image-width", image.style.width);
+    readerImageState(frame, "loading");
     const fallback = el("div", "gf-image-error");
     fallback.hidden = true;
     fallback.setAttribute("role", "status");
     fallback.append(el("p", null, "Image could not load."), action("retry-image", "Retry image"));
-    watchImage(image, fallback, post.id);
+    watchImage(image, fallback, post.id, frame);
     image.src = url;
     frame.append(image, fallback);
     return frame;
