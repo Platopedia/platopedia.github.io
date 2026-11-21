@@ -878,12 +878,22 @@ body:not([data-theme="light"]) .group-feed[data-mode="embed"] {
   unicode-bidi: isolate;
 }
 .gf-link-destination strong { color: var(--gf-ink); font-weight: 800; }
-.gf-link-trust { display: flex; align-items: center; gap: .75rem; color: var(--gf-muted); font-size: .9rem; cursor: pointer; }
+.gf-link-trust {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  color: var(--gf-muted);
+  font-size: .9rem;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+}
 .gf-link-trust span { min-width: 0; overflow-wrap: anywhere; }
 .gf-link-trust strong { color: var(--gf-ink); }
 .gf-link-trust input { flex: none; width: 20px; height: 20px; margin: 0; accent-color: var(--gf-accent); cursor: pointer; }
 .gf-link-actions { display: grid; gap: .65rem; margin-top: 1.5rem; }
-.gf-link-actions .gf-button { min-height: 46px; }
+.group-feed .gf-link-actions .gf-button { min-height: 46px; }
 .group-feed .gf-toast {
   position: fixed;
   z-index: 5;
