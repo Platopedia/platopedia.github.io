@@ -15,6 +15,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   const more = find("more");
   const dialog = find("dialog");
   const dialogContent = find("dialog-content");
+  const linkDialog = find("link-dialog");
   const regionControls = find("regions");
   const dateFormat = new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" });
   const groupKey = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -31,6 +32,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   };
   const savedKey = "platopedia.groupFeed.saved";
   const followingKey = "platopedia.groupFeed.following";
+  const trustedSitesKey = "platopedia.groupFeed.trustedSites";
   const freshFor = 60_000;
   const recoveryCooldown = 10_000;
   const maxRefreshBatch = 100;
@@ -51,6 +53,8 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   const renderedGroups = new Map();
   let saved = storedSet(savedKey, postKey);
   let following = storedSet(followingKey, groupKey);
+  const trustedSites = storedSet(trustedSitesKey, /^https?:\/\/[^/?#]+$/);
+  let linkDialogFocus;
   let catalogComplete = false;
   let catalogLoadedAt = 0;
   let catalogRequestId = 0;
@@ -1224,6 +1228,37 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     (focusTarget || dialog.querySelector(".gf-dialog-close")).focus({ preventScroll: true });
   }
 
+  function confirmExternalLink(event) {
+    if (event.defaultPrevented || event.button > 1) return false;
+    const anchor = event.target.closest?.("a[href]");
+    if (!anchor || linkDialog.contains(anchor)) return false;
+    let url;
+    try { url = new URL(anchor.href); } catch { return false; }
+    if (!["http:", "https:"].includes(url.protocol) || url.origin === location.origin || trustedSites.has(url.origin)) return false;
+    event.preventDefault();
+    linkDialogFocus = anchor;
+    const credentials = url.username || url.password ? `${url.username}${url.password ? ":" + url.password : ""}@` : "";
+    find("link-url").replaceChildren(document.createTextNode(url.protocol + "//" + credentials),
+      el("strong", null, url.host), document.createTextNode(url.pathname + url.search + url.hash));
+    find("link-host").textContent = url.host;
+    find("link-trust").checked = false;
+    const visit = find("link-visit");
+    visit.href = url.href;
+    visit.target = event.button === 1 || event.ctrlKey || event.metaKey || event.shiftKey ? "_blank" : anchor.getAttribute("target") || "_self";
+    if (!linkDialog.open) linkDialog.showModal();
+    linkDialog.scrollTop = 0;
+    find("link-back").focus({ preventScroll: true });
+    return true;
+  }
+
+  function visitExternalLink() {
+    if (find("link-trust").checked) {
+      trustedSites.add(new URL(find("link-visit").href).origin);
+      saveSet(trustedSitesKey, trustedSites);
+    }
+    linkDialog.close();
+  }
+
   function groupDialog(group) {
     showDialog("group", profileContent(group, "h2", group.name, true));
     dialog.dataset.group = group.slug;
@@ -1432,11 +1467,18 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   }, true);
 
   root.addEventListener("click", (event) => {
-    if (event.target === dialog) {
-      const bounds = dialog.getBoundingClientRect();
-      if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) dialog.close();
+    if (event.target === dialog || event.target === linkDialog) {
+      const popup = event.target;
+      const bounds = popup.getBoundingClientRect();
+      if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) popup.close();
       return;
     }
+    if (linkDialog.contains(event.target)) {
+      if (event.target.closest?.("[data-gf-link-visit]")) visitExternalLink();
+      else if (event.target.closest?.("[data-gf-link-back]")) linkDialog.close();
+      return;
+    }
+    if (confirmExternalLink(event)) return;
     const spoiler = event.target.closest?.("[data-post-spoiler]");
     if (spoiler) {
       const expanded = spoiler.getAttribute("aria-expanded") !== "true";
@@ -1525,6 +1567,12 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     }
   });
 
+  root.addEventListener("auxclick", event => {
+    if (event.button !== 1) return;
+    if (event.target.closest?.("[data-gf-link-visit]")) visitExternalLink();
+    else confirmExternalLink(event);
+  });
+
   root.addEventListener("keydown", event => {
     if ((event.key === "Enter" || event.key === " ") && event.target.matches?.("[data-gf-post], [data-gf-group]")) {
       const post = knownPosts.get(event.target.dataset.gfPost);
@@ -1551,6 +1599,11 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     openDialogItem = null;
     if (lastDialogFocus?.isConnected) lastDialogFocus.focus({ preventScroll: true });
   });
+  linkDialog.addEventListener("close", () => {
+    if (linkDialogFocus?.isConnected) linkDialogFocus.focus({ preventScroll: true });
+    else if (dialog.open) dialog.querySelector(".gf-dialog-close").focus({ preventScroll: true });
+    linkDialogFocus = null;
+  });
   document.addEventListener("visibilitychange", recover);
   for (const event of ["pageshow", "focus", "online"]) window.addEventListener(event, recover);
   if (isFeed) {
@@ -1558,13 +1611,14 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       if (!catalogError) loadSidebar();
     });
     document.addEventListener("keydown", (event) => {
-      if (event.key === "/" && !event.ctrlKey && !event.metaKey && !event.altKey && !dialog.open &&
+      if (event.key === "/" && !event.ctrlKey && !event.metaKey && !event.altKey && !dialog.open && !linkDialog.open &&
         !event.target.closest?.("input, textarea, select, [contenteditable]")) {
         event.preventDefault();
         searchDialog();
       }
     });
     window.addEventListener("popstate", () => {
+      if (linkDialog.open) linkDialog.close();
       if (dialog.open) dialog.close();
       route = routeFromUrl();
       sync();
