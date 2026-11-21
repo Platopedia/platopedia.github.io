@@ -1339,10 +1339,10 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     }
   }
 
-  function leavePopups(action) {
+  function leavePopups(action, keepOpen = false) {
     const current = popupHistory();
     const pending = popupHistoryPending;
-    clearDialogs();
+    clearDialogs(keepOpen);
     if (!current?.length && !pending) { action(); return; }
     popupNavigation = action;
     if (!pending) {
@@ -1357,7 +1357,8 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
         anchor.target && anchor.target !== "_self") return false;
     event.preventDefault();
     const url = anchor.href;
-    leavePopups(() => location.assign(url));
+    // Keep the current popup visible until pagehide replaces this document.
+    leavePopups(() => location.assign(url), true);
     return true;
   }
 
@@ -1428,7 +1429,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     (focusTarget || dialog.querySelector(".gf-dialog-close")).focus({ preventScroll: true });
   }
 
-  function clearDialogs() {
+  function clearDialogs(keepOpen = false) {
     const changing = changingPopupHistory;
     changingPopupHistory = true;
     popupStack = [];
@@ -1436,8 +1437,8 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     lastDialogFocus = null;
     linkDialogFocus = null;
     openDialogItem = null;
-    if (dialog.open) closePopup(dialog);
-    if (linkDialog.open) closePopup(linkDialog);
+    if (!keepOpen && dialog.open) closePopup(dialog);
+    if (!keepOpen && linkDialog.open) closePopup(linkDialog);
     changingPopupHistory = changing;
   }
 
