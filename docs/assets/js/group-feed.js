@@ -254,9 +254,10 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   }
 
   function watchImage(image, fallback, postId, frame) {
-    const recovery = { fallback, frame, retryAt: 0 };
+    const recovery = { fallback, frame, retryAt: 0, version: 0 };
     imageRecovery.set(image, recovery);
     image.addEventListener("error", () => {
+      recovery.version += 1;
       image.dataset.gfImageFailed = "true";
       recovery.retryAt = Date.now() + 30_000;
       image.hidden = true;
@@ -265,10 +266,17 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       if (postId && image.isConnected) queuePostCheck(postId);
     });
     image.addEventListener("load", () => {
-      image.removeAttribute("data-gf-image-failed");
-      image.hidden = false;
-      if (fallback) fallback.hidden = true;
-      readerImageState(frame, "ready");
+      const version = recovery.version;
+      const reveal = () => {
+        if (version !== recovery.version) return;
+        image.removeAttribute("data-gf-image-failed");
+        image.hidden = false;
+        if (fallback) fallback.hidden = true;
+        readerImageState(frame, "ready");
+      };
+      // Keep the preview visible until the full image is ready to paint.
+      if (frame && typeof image.decode === "function") return image.decode().then(reveal, reveal);
+      reveal();
     });
   }
 
@@ -333,6 +341,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     for (const image of scope.querySelectorAll("img[data-gf-image-failed]")) {
       const recovery = imageRecovery.get(image);
       if (!recovery || !force && Date.now() < recovery.retryAt) continue;
+      recovery.version += 1;
       image.removeAttribute("data-gf-image-failed");
       image.hidden = false;
       if (recovery.fallback) recovery.fallback.hidden = true;
@@ -496,6 +505,23 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     fallback.append(el("p", null, "Image could not load."), action("retry-image", "Retry image"));
     watchImage(image, fallback, post.id, frame);
     image.src = url;
+    const thumbnail = renderedPosts.get(post.id)?.card.querySelector(".gf-post-image");
+    if (image.style.width && thumbnail?.complete && thumbnail.src === safeUrl(post.imageUrl, [api.origin]) &&
+        thumbnail.naturalWidth > 0 && thumbnail.naturalHeight > 0) {
+      // Copy already-loaded pixels; this adds no preview download or encoded image copy.
+      const preview = el("canvas", "gf-reader-preview");
+      preview.setAttribute("aria-hidden", "true");
+      const scale = Math.min(1, 640 / thumbnail.naturalWidth, 480 / thumbnail.naturalHeight);
+      preview.width = Math.max(1, Math.round(thumbnail.naturalWidth * scale));
+      preview.height = Math.max(1, Math.round(thumbnail.naturalHeight * scale));
+      try {
+        const context = preview.getContext("2d");
+        if (context) {
+          context.drawImage(thumbnail, 0, 0, preview.width, preview.height);
+          frame.append(preview);
+        }
+      } catch { /* The quiet placeholder remains available if a pixel copy fails. */ }
+    }
     frame.append(image, fallback);
     return frame;
   }
