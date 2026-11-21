@@ -78,6 +78,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   let errorMessage = "";
   let lastDialogFocus;
   let openDialogItem;
+  let searchReturn;
   let toastTimeout;
   let refreshSpinTimeout;
   let profileSignature = "";
@@ -1218,6 +1219,9 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   }
 
   function showDialog(kind, content, focusTarget) {
+    if (dialog.open && dialog.dataset.kind === "search" && (kind === "group" || kind === "post")) {
+      searchReturn = { content: dialogContent.firstChild, focus: document.activeElement, scrollTop: dialog.scrollTop };
+    }
     if (!dialog.open) lastDialogFocus = document.activeElement;
     openDialogItem = null;
     dialog.dataset.kind = kind;
@@ -1226,6 +1230,15 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     if (!dialog.open) dialog.showModal();
     dialog.scrollTop = 0;
     (focusTarget || dialog.querySelector(".gf-dialog-close")).focus({ preventScroll: true });
+  }
+
+  function clearDialogs() {
+    searchReturn = null;
+    lastDialogFocus = null;
+    linkDialogFocus = null;
+    openDialogItem = null;
+    if (dialog.open) dialog.close();
+    if (linkDialog.open) linkDialog.close();
   }
 
   function confirmExternalLink(event) {
@@ -1349,6 +1362,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   }
 
   function searchDialog() {
+    searchReturn = null;
     const panel = el("div");
     const title = el("h2", null, "Find your next group");
     title.id = "gf-dialog-title";
@@ -1596,16 +1610,35 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     if (event.target.matches("[data-gf-search-input]")) renderSearch(event.target.value);
   });
   dialog.addEventListener("close", () => {
+    if (dialog.open) return;
     openDialogItem = null;
+    if (searchReturn) {
+      const previous = searchReturn;
+      const opener = lastDialogFocus;
+      searchReturn = null;
+      showDialog("search", previous.content);
+      lastDialogFocus = opener;
+      renderSearch(dialog.querySelector("[data-gf-search-input]").value);
+      ensureCatalog();
+      (previous.focus?.isConnected ? previous.focus : dialog.querySelector("[data-gf-search-input]")).focus({ preventScroll: true });
+      dialog.scrollTop = previous.scrollTop;
+      return;
+    }
     if (lastDialogFocus?.isConnected) lastDialogFocus.focus({ preventScroll: true });
   });
   linkDialog.addEventListener("close", () => {
+    if (linkDialog.open) return;
     if (linkDialogFocus?.isConnected) linkDialogFocus.focus({ preventScroll: true });
     else if (dialog.open) dialog.querySelector(".gf-dialog-close").focus({ preventScroll: true });
     linkDialogFocus = null;
   });
   document.addEventListener("visibilitychange", recover);
-  for (const event of ["pageshow", "focus", "online"]) window.addEventListener(event, recover);
+  window.addEventListener("pagehide", clearDialogs);
+  window.addEventListener("pageshow", event => {
+    if (event.persisted) clearDialogs();
+    recover(event);
+  });
+  for (const event of ["focus", "online"]) window.addEventListener(event, recover);
   if (isFeed) {
     find("group-list").addEventListener("focusin", () => {
       if (!catalogError) loadSidebar();
@@ -1618,8 +1651,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       }
     });
     window.addEventListener("popstate", () => {
-      if (linkDialog.open) linkDialog.close();
-      if (dialog.open) dialog.close();
+      clearDialogs();
       route = routeFromUrl();
       sync();
     });
