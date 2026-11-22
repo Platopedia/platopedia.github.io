@@ -32,6 +32,11 @@
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
+.groups-page :is(button, summary, .groups-brand, .groups-site-nav a, .groups-site-mobile a, .groups-apply-cta),
+.group-feed :is(button, a.gf-button, a.gf-back) {
+  -webkit-user-select: none;
+  user-select: none;
+}
 .groups-page button, .group-feed button { appearance: none; }
 .groups-page .gf-icon, .group-feed .gf-icon {
   display: block;
