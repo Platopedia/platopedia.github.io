@@ -64,12 +64,16 @@
     }
   </style>
   <link rel="stylesheet" href="/docs/assets/css/group-feed.css?v=20261121.9">
+  {% if page.permalink == '/groups/' or page.permalink == '/groups/profile/' %}
+  <link rel="preconnect" href="https://groups.platopedia.xyz" crossorigin>
+  <link rel="modulepreload" href="/docs/assets/js/group-feed-markdown.js?v=20261114.1">
+  {% endif %}
 </head>
 <body class="groups-page">
   <a class="groups-skip" href="#groups-main">Skip to Groups</a>
   <header class="groups-masthead">
     <div class="groups-masthead-inner">
-      <a class="groups-brand" href="/"><img src="/docs/assets/images/logos/default.png" width="21" height="24" alt="">Platopedia</a>
+      <a class="groups-brand" href="/"><img src="/docs/assets/images/groups/platopedia-brand.png" width="21" height="24" alt="">Platopedia</a>
       <nav class="groups-site-nav" aria-label="Platopedia">
         <ul>{% include head-menu.html %}</ul>
       </nav>
@@ -91,7 +95,7 @@
   {% if page.group_application_footer %}
   <footer class="groups-site-footer">
     <a class="groups-apply-cta" href="/groups/apply/">
-      <img src="/docs/assets/images/plato.png" width="36" height="36" alt="" loading="lazy">
+      <img src="/docs/assets/images/groups/plato-community.png" width="36" height="36" alt="" loading="lazy">
       <span><strong>Apply to list your group</strong><small>Get a public profile and submit posts to the feed.</small></span>
       <svg class="gf-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
     </a>

@@ -92,6 +92,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   let lastDialogFocus;
   let openDialogItem;
   let searchReturn;
+  let lastSearchEntry;
   const popupOwner = `${Date.now()}-${Math.random()}`;
   const popupCloseEvents = new WeakMap();
   let popupSequence = 0;
@@ -1317,6 +1318,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     if (input) {
       entry.query = input.value;
       entry.selection = [input.selectionStart, input.selectionEnd, input.selectionDirection];
+      lastSearchEntry = entry;
     }
     if (persist && !popupHistoryPending) writePopupHistory("replaceState");
   }
@@ -1402,7 +1404,8 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       if (!popupStack.some(entry => entry.kind === "search")) searchReturn = null;
     } else {
       clearDialogs();
-      for (const entry of target) {
+      for (const storedEntry of target) {
+        const entry = storedEntry.kind === "search" && storedEntry.id === lastSearchEntry?.id ? lastSearchEntry : storedEntry;
         if (entry.kind === "search") {
           searchDialog();
           const input = dialog.querySelector("[data-gf-search-input]");
@@ -1839,7 +1842,11 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
 
   root.addEventListener("input", (event) => {
     if (event.target === find("directory-search")) renderDirectory();
-    if (event.target.matches("[data-gf-search-input]")) { renderSearch(event.target.value); capturePopup(); }
+    if (event.target.matches("[data-gf-search-input]")) {
+      renderSearch(event.target.value);
+      // Keep the latest query for Back and Forward without writing browser history on each edit.
+      capturePopup(false);
+    }
   });
   for (const popup of [dialog, linkDialog]) {
     popup.addEventListener("cancel", event => {
