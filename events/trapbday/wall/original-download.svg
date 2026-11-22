@@ -1,0 +1,5 @@
+---
+layout: null
+permalink: /trapbday/wall/mural.svg
+---
+{% include_relative mural.svg %}
