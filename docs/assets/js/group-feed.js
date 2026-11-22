@@ -64,9 +64,10 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   const knownPosts = new Map();
   const renderedPosts = new Map();
   const renderedGroups = new Map();
-  let saved = storedSet(savedKey, postKey);
-  let following = storedSet(followingKey, groupKey);
-  const trustedSites = storedSet(trustedSitesKey, /^https?:\/\/[^/?#]+$/);
+  const storageSnapshots = new Map();
+  let saved = storedSet(savedKey, postKey) ?? new Set();
+  let following = storedSet(followingKey, groupKey) ?? new Set();
+  const trustedSites = storedSet(trustedSitesKey, /^https?:\/\/[^/?#]+$/) ?? new Set();
   let linkDialogFocus;
   let catalogComplete = false;
   let catalogLoadedAt = 0;
@@ -129,19 +130,45 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
 
   function storedSet(key, pattern) {
     try {
-      const values = JSON.parse(localStorage.getItem(key));
+      const raw = localStorage.getItem(key);
+      if (raw === storageSnapshots.get(key)) return null;
+      const values = JSON.parse(raw);
+      storageSnapshots.set(key, raw);
       return new Set(Array.isArray(values) ? values.filter((value) => typeof value === "string" && pattern.test(value)) : []);
     } catch {
-      return new Set();
+      return null;
     }
   }
 
   function saveSet(key, values) {
     try {
-      localStorage.setItem(key, JSON.stringify([...values]));
+      const raw = JSON.stringify([...values]);
+      localStorage.setItem(key, raw);
+      storageSnapshots.set(key, raw);
     } catch {
       // Keep the current tab usable when browser storage is unavailable.
     }
+  }
+
+  function syncSelections() {
+    // Back can restore a running page after another document changed the local selections.
+    const nextSaved = storedSet(savedKey, postKey);
+    const nextFollowing = storedSet(followingKey, groupKey);
+    if (nextSaved) {
+      saved = nextSaved;
+      savedView.posts = savedView.posts.filter(post => saved.has(post.id));
+      for (const id of savedView.loaded) if (!saved.has(id)) savedView.loaded.delete(id);
+      savedView.loadedAt = 0;
+      updateSelectionButtons("save");
+    }
+    if (nextFollowing) {
+      following = nextFollowing;
+      updateSelectionButtons("follow");
+    }
+    if (!(nextSaved && route.view === "saved" || nextFollowing && route.view === "following")) return false;
+    activeLoad?.abort();
+    activeLoad = null;
+    return true;
   }
 
   function rememberRegions(values) {
@@ -391,6 +418,15 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       button.replaceChildren(glyph, document.createTextNode(active ? "Saved" : "Save"));
     } else {
       button.replaceChildren(icon(active ? "check" : "plus"), document.createTextNode(active ? "Following" : "Follow"));
+    }
+  }
+
+  function updateSelectionButtons(key) {
+    for (const button of root.querySelectorAll(`[data-gf-action="${key}"]`)) {
+      const id = button.dataset.key;
+      const group = key === "follow" ? groupForSlug(id) : null;
+      const active = key === "save" ? saved.has(id) : group ? Boolean(followsGroup(group)) : following.has(id);
+      if (button.getAttribute("aria-pressed") !== String(active)) updateToggle(button, active);
     }
   }
 
@@ -1207,6 +1243,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   }
 
   function sync(force = false, preservePages = false) {
+    syncSelections();
     if (force) {
       retryImages(root, true);
       if (route.view !== "saved") savedView.loadedAt = 0;
@@ -1247,6 +1284,10 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     schedulePostChecks();
     if (!isFeed && (!profileSlug || !groupKey.test(profileSlug))) return;
     retryImages(root, event.type === "online" || event.type === "visibilitychange" || event.type === "pageshow" && event.persisted);
+    if (syncSelections()) {
+      sync();
+      return;
+    }
     const now = Date.now();
     if (catalogLoad && now - catalogLoad.startedAt >= 12_000) {
       catalogLoad.controller.abort();
@@ -1679,11 +1720,13 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   }
 
   function toggle(key, id) {
+    const selectionChanged = syncSelections();
     const isSave = key === "save";
     const values = isSave ? saved : following;
     const group = isSave ? undefined : groupForSlug(id);
     const active = group ? !followsGroup(group) : !values.has(id);
     if (!isSave && active && values.size >= 200) {
+      if (selectionChanged) sync();
       toast("You can follow up to 200 groups. Unfollow a group to add another.");
       return;
     }
@@ -1698,14 +1741,10 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     }
     if (isSave && active && !savedView.loaded.has(id)) savedView.loadedAt = 0;
     saveSet(isSave ? savedKey : followingKey, values);
-    for (const button of root.querySelectorAll(`[data-gf-action="${key}"]`)) {
-      if (button.dataset.key === id || group && matchesSlug(group, button.dataset.key)) updateToggle(button, active);
-    }
+    updateSelectionButtons(key);
     if (!dialog.open) toast(isSave ? (active ? "Post saved." : "Post removed from Saved.") : (active ? "Group followed." : "Group unfollowed."));
-    if (isFeed && route.view === (isSave ? "saved" : "following")) {
-      if (!isSave) sync();
-      else render();
-    }
+    if (selectionChanged || !isSave && route.view === "following") sync();
+    else if (isSave && route.view === "saved") render();
   }
 
   // Safari can carry a dialog's focus ring back to its mouse/touch opener.
