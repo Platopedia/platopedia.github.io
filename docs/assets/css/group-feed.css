@@ -28,7 +28,7 @@
   --groups-hover: #202e40;
 }
 .groups-document[data-theme="dark"] .groups-brand img { filter: invert(1); }
-.groups-page :is(button, a, summary), .group-feed :is(button, a) { -webkit-tap-highlight-color: transparent; }
+.groups-page :is(button, a, summary), .group-feed :is(button, a, [data-gf-open-row]) { -webkit-tap-highlight-color: transparent; }
 .groups-page :is(.groups-masthead, .groups-site-footer, button, summary),
 .group-feed, .group-feed :is(button, a.gf-button, a.gf-back, img, time) {
   -webkit-user-select: none;
