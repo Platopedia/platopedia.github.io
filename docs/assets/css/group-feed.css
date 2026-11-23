@@ -523,11 +523,15 @@
   align-items: center;
   gap: .62rem;
   min-width: 0;
-  border: 0;
-  background: none;
   color: var(--gf-ink);
+  cursor: pointer;
+}
+.gf-identity-open {
+  flex: none;
+  border: 0;
+  border-radius: 12px;
   padding: 0;
-  text-align: left;
+  background: none;
   cursor: pointer;
 }
 .gf-identity-text { display: grid; overflow-wrap: anywhere; min-width: 0; }
@@ -665,7 +669,7 @@
   width: 100%;
   padding: .65rem 0;
 }
-.gf-group-list .gf-identity:focus-visible { outline-offset: -2px; }
+.gf-group-list .gf-identity-open:focus-visible { outline-offset: -2px; }
 .gf-group-list li:last-child .gf-identity { padding-bottom: 0; }
 .gf-side .gf-avatar { width: 39px; height: 39px; }
 

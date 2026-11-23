@@ -402,15 +402,18 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   }
 
   function identity(group, immediate = false) {
-    const control = action("group", undefined, group.slug, "gf-identity");
+    const row = el("div", "gf-identity");
+    row.dataset.gfOpenRow = "";
+    const control = action("group", undefined, group.slug, "gf-identity-open");
     control.setAttribute("aria-label", `Preview ${group.name}`);
     control.setAttribute("aria-haspopup", "dialog");
+    control.append(avatar(group, immediate));
     const text = el("span", "gf-identity-text");
-    const name = el("strong", null, group.name);
+    const name = el("strong", "gf-selectable", group.name);
     name.dir = "auto";
     text.append(name, el("span", "gf-region", group.region));
-    control.append(avatar(group, immediate), text);
-    return control;
+    row.append(control, text);
+    return row;
   }
 
   function updateToggle(button, active) {
@@ -469,7 +472,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     const overview = el("div", "gf-profile-overview");
     const identityRow = el("div", "gf-profile-identity");
     const text = el("div", "gf-profile-name");
-    const heading = el(headingLevel, null, headingText);
+    const heading = el(headingLevel, "gf-selectable", headingText);
     heading.dir = "auto";
     if (inDialog) heading.id = "gf-dialog-title";
     const region = el("p", "gf-region gf-profile-region", group.region);
@@ -1608,9 +1611,9 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
           key: "group:" + group.slug,
           signature: JSON.stringify([group.name, group.region, group.iconUrl]),
           create: () => {
-            const control = identity(group, true);
-            control.classList.add("gf-search-result");
-            return control;
+            const row = identity(group, true);
+            row.classList.add("gf-search-result");
+            return row;
           },
         });
       }
@@ -1627,7 +1630,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
             const text = el("span", "gf-identity-text");
             const title = el("span", "gf-selectable");
             title.innerHTML = renderPostTitle(post.title);
-            text.append(title, el("span", "gf-region", post.group.name));
+            text.append(title, el("span", "gf-region gf-selectable", post.group.name));
             const button = action("read", undefined, post.id);
             button.setAttribute("aria-label", `Read ${post.title}`);
             button.setAttribute("aria-haspopup", "dialog");
