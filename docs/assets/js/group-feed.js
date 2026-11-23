@@ -27,6 +27,8 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   const status = find("status");
   const more = find("more");
   const dialog = find("dialog");
+  const popupScroller = popup => popup.querySelector(".gf-dialog-scroll");
+  const dialogScroll = popupScroller(dialog);
   const dialogContent = find("dialog-content");
   const linkDialog = find("link-dialog");
   const regionControls = find("regions");
@@ -1354,7 +1356,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     if (!dialog.open) return;
     const entry = popupStack.findLast(item => item.kind !== "link");
     if (!entry) return;
-    entry.scroll = dialog.scrollTop;
+    entry.scroll = dialogScroll.scrollTop;
     const input = dialog.querySelector("[data-gf-search-input]");
     if (input) {
       entry.query = input.value;
@@ -1462,7 +1464,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
           openExternalLink(url, entry.target, document.activeElement);
         } else break;
         popupStack.push(entry);
-        if (entry.kind !== "link") dialog.scrollTop = entry.scroll || 0;
+        if (entry.kind !== "link") dialogScroll.scrollTop = entry.scroll || 0;
       }
       if (popupStack.length !== target.length) writePopupHistory("replaceState");
     }
@@ -1470,25 +1472,27 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     return true;
   }
 
-  function updatePopupScrollHint(popup) {
+  function updatePopupScrollHint(scroller) {
+    const popup = scroller.closest(".gf-dialog");
     if (!popup.open || popup.dataset.scrollHint === "dismissed") return;
-    if (popup.scrollTop > 0) popup.dataset.scrollHint = "dismissed";
-    else if (popup.scrollHeight > popup.clientHeight + 1) popup.dataset.scrollHint = "visible";
-    else delete popup.dataset.scrollHint;
+    if (scroller.scrollTop > 0) popup.dataset.scrollHint = "dismissed";
+    else if (scroller.scrollHeight > scroller.clientHeight + 1) popup.dataset.scrollHint = "visible";
+    else popup.removeAttribute("data-scroll-hint");
   }
 
   function resetPopupScroll(popup) {
     if (!popup.open) popup.showModal();
-    delete popup.dataset.scrollHint;
-    popup.scrollTop = 0;
-    updatePopupScrollHint(popup);
+    popup.removeAttribute("data-scroll-hint");
+    const scroller = popupScroller(popup);
+    scroller.scrollTop = 0;
+    updatePopupScrollHint(scroller);
   }
 
   function showDialog(kind, content, focusTarget, key = "") {
     const child = dialog.open && dialog.dataset.kind === "search" && (kind === "group" || kind === "post");
     rememberPopup(kind, key, dialog.open && !child);
     if (dialog.open && dialog.dataset.kind === "search" && (kind === "group" || kind === "post")) {
-      searchReturn = { content: dialogContent.firstChild, focus: document.activeElement, scrollTop: dialog.scrollTop };
+      searchReturn = { content: dialogContent.firstChild, focus: document.activeElement, scrollTop: dialogScroll.scrollTop };
     }
     if (!dialog.open) lastDialogFocus = document.activeElement;
     openDialogItem = null;
@@ -1585,10 +1589,10 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       openDialogItem.data = current;
       return;
     }
-    const scroll = dialog.scrollTop;
+    const scroll = dialogScroll.scrollTop;
     if (kind === "group") groupDialog(current);
     else postDialog(current);
-    dialog.scrollTop = scroll;
+    dialogScroll.scrollTop = scroll;
   }
 
   function renderSearch(query) {
@@ -1900,12 +1904,13 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     }
   });
   const popupScrollObserver = typeof ResizeObserver === "function" ? new ResizeObserver(entries => {
-    for (const { target } of entries) updatePopupScrollHint(target.closest(".gf-dialog"));
+    for (const { target } of entries) updatePopupScrollHint(target.closest(".gf-dialog-scroll"));
   }) : null;
   for (const popup of [dialog, linkDialog]) {
-    popupScrollObserver?.observe(popup);
-    popupScrollObserver?.observe(popup.firstElementChild);
-    popup.addEventListener("scroll", () => updatePopupScrollHint(popup), { passive: true });
+    const scroller = popupScroller(popup);
+    popupScrollObserver?.observe(scroller);
+    popupScrollObserver?.observe(scroller.firstElementChild);
+    scroller.addEventListener("scroll", () => updatePopupScrollHint(scroller), { passive: true });
     popup.addEventListener("cancel", event => {
       event.preventDefault();
       closePopup(popup);
@@ -1925,7 +1930,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       renderSearch(dialog.querySelector("[data-gf-search-input]").value);
       ensureCatalog();
       (previous.focus?.isConnected ? previous.focus : dialog.querySelector("[data-gf-search-input]")).focus({ preventScroll: true });
-      dialog.scrollTop = previous.scrollTop;
+      dialogScroll.scrollTop = previous.scrollTop;
       return;
     }
     if (lastDialogFocus?.isConnected) lastDialogFocus.focus({ preventScroll: true });
