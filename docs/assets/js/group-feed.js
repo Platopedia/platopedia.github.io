@@ -554,10 +554,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       return image;
     }
     const frame = el("div", "gf-reader-image");
-    if (image.style.width) {
-      frame.style.setProperty("--gf-image-width", image.style.width);
-      frame.style.setProperty("--gf-image-ratio", String(post.imageWidth / post.imageHeight));
-    }
+    if (image.style.width) frame.style.setProperty("--gf-image-width", image.style.width);
     readerImageState(frame, "loading");
     const fallback = el("div", "gf-image-error");
     fallback.hidden = true;
@@ -1474,7 +1471,9 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   }
 
   function updatePopupScrollHint(popup) {
-    if (popup.open && popup.scrollHeight > popup.clientHeight + 1) popup.dataset.scrollHint = "";
+    if (!popup.open || popup.dataset.scrollHint === "dismissed") return;
+    if (popup.scrollTop > 0) popup.dataset.scrollHint = "dismissed";
+    else if (popup.scrollHeight > popup.clientHeight + 1) popup.dataset.scrollHint = "visible";
     else delete popup.dataset.scrollHint;
   }
 
@@ -1906,6 +1905,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   for (const popup of [dialog, linkDialog]) {
     popupScrollObserver?.observe(popup);
     popupScrollObserver?.observe(popup.firstElementChild);
+    popup.addEventListener("scroll", () => updatePopupScrollHint(popup), { passive: true });
     popup.addEventListener("cancel", event => {
       event.preventDefault();
       closePopup(popup);

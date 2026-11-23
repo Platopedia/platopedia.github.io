@@ -616,10 +616,6 @@
 .gf-reader-image[data-state="ready"]::before,
 .gf-reader-image[data-state="ready"] .gf-reader-preview { animation: gf-image-preview-out .38s ease both; }
 .gf-reader-image[data-state="error"] .gf-reader-preview { display: none; }
-@media (min-width: 721px) and (hover: hover) and (pointer: fine) {
-  .gf-reader-image:not([data-state="error"]) { max-width: calc(60dvh * var(--gf-image-ratio)); }
-  .gf-reader-image .gf-post-image { max-height: 60dvh; }
-}
 @keyframes gf-image-reveal { from { opacity: 0; } to { opacity: 1; } }
 @keyframes gf-image-preview-out { from { opacity: 1; } to { opacity: 0; } }
 .gf-image-error {
@@ -851,22 +847,18 @@ body:not([data-theme="light"]) .group-feed[data-mode="embed"] {
   text-align: left;
 }
 .gf-dialog[open] { animation: gf-enter .23s ease both; }
-.gf-dialog[open][data-scroll-hint]::before {
+.gf-dialog[open][data-scroll-hint="visible"]::after {
   content: "";
   position: absolute;
   z-index: 1;
-  inset: 8px 4px auto auto;
-  width: 4px;
-  height: 42px;
-  border-radius: 4px;
-  background: var(--gf-muted);
-  opacity: 0;
+  inset: auto auto 12px calc(50% - 5px);
+  width: 10px;
+  height: 10px;
+  border: solid var(--gf-ink);
+  border-width: 0 2px 2px 0;
+  opacity: .7;
+  transform: rotate(45deg);
   pointer-events: none;
-  animation: gf-scroll-hint 1.2s ease-out both;
-}
-@keyframes gf-scroll-hint {
-  0%, 60% { opacity: .75; }
-  100% { opacity: 0; }
 }
 .gf-dialog::backdrop { background: #0a24478a; backdrop-filter: blur(5px); }
 .gf-dialog-inner { position: relative; padding: clamp(1.2rem, 4vw, 2rem); }
