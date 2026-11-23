@@ -1,4 +1,4 @@
-{% if include.mode == 'embed' %}<link rel="stylesheet" href="/docs/assets/css/group-feed.css?v=20261123.11">{% endif %}
+{% if include.mode == 'embed' %}<link rel="stylesheet" href="/docs/assets/css/group-feed.css?v=20261123.12">{% endif %}
 <section class="group-feed" data-group-feed data-mode="{{ include.mode }}" data-group="{{ include.group }}"
   data-api="https://groups.platopedia.xyz/api/feed"{% if include.mode == 'embed' %} hidden{% endif %}>
   {% if include.mode == 'feed' %}
@@ -161,7 +161,7 @@
       <div class="gf-dialog-inner">
         <h2 id="gf-link-title">Leaving Platopedia</h2>
         <p id="gf-link-description" class="gf-link-description">This link will take you to the following website:</p>
-        <p class="gf-link-destination" data-gf-link-url dir="ltr"></p>
+        <p class="gf-link-destination gf-selectable" data-gf-link-url dir="ltr"></p>
         <label class="gf-link-trust">
           <input type="checkbox" data-gf-link-trust>
           <span>Trust <strong data-gf-link-host></strong> links on this browser</span>
@@ -175,4 +175,4 @@
   </dialog>
   <p class="gf-toast" data-gf-toast role="status" hidden></p>
 </section>
-<script type="module" src="/docs/assets/js/group-feed.js?v=20261123.11"></script>
+<script type="module" src="/docs/assets/js/group-feed.js?v=20261123.12"></script>

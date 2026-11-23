@@ -402,13 +402,18 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   }
 
   function identity(group, immediate = false) {
-    const control = action("group", undefined, group.slug, "gf-identity");
+    const row = el("div", "gf-identity");
+    row.dataset.gfOpenRow = "";
+    const control = action("group", undefined, group.slug, "gf-identity-open");
+    control.setAttribute("aria-label", `Preview ${group.name}`);
+    control.setAttribute("aria-haspopup", "dialog");
+    control.append(avatar(group, immediate));
     const text = el("span", "gf-identity-text");
-    const name = el("strong", null, group.name);
+    const name = el("strong", "gf-selectable", group.name);
     name.dir = "auto";
     text.append(name, el("span", "gf-region", group.region));
-    control.append(avatar(group, immediate), text);
-    return control;
+    row.append(control, text);
+    return row;
   }
 
   function updateToggle(button, active) {
@@ -456,7 +461,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   }
 
   function groupBio(text) {
-    const bio = el("div", "gf-group-bio post-markdown");
+    const bio = el("div", "gf-group-bio post-markdown gf-selectable");
     bio.innerHTML = renderPostMarkdown(text);
     bio.dir = "auto";
     return bio;
@@ -467,7 +472,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     const overview = el("div", "gf-profile-overview");
     const identityRow = el("div", "gf-profile-identity");
     const text = el("div", "gf-profile-name");
-    const heading = el(headingLevel, null, headingText);
+    const heading = el(headingLevel, "gf-selectable", headingText);
     heading.dir = "auto";
     if (inDialog) heading.id = "gf-dialog-title";
     const region = el("p", "gf-region gf-profile-region", group.region);
@@ -488,7 +493,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     if (friendUrl) {
       const contact = el("section", "gf-manager-contact");
       const label = el("h3", "gf-profile-label", "Plato link");
-      const linkText = el("span", "gf-friend-url", friendUrl);
+      const linkText = el("span", "gf-friend-url gf-selectable", friendUrl);
       linkText.dir = "ltr";
       const field = el("div", "gf-friend-field");
       const copy = action("copy-friend", undefined, group.slug, "gf-button gf-friend-copy");
@@ -593,17 +598,15 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     article.id = `post-${post.id}`;
     article.dataset.gfPost = post.id;
     article.tabIndex = 0;
-    const heading = el("h3");
-    heading.dir = "auto";
-    const title = action("read", undefined, post.id, "gf-post-title");
+    const title = el("h3", "gf-post-title gf-selectable");
+    title.dir = "auto";
     title.id = `gf-post-title-${post.id}`;
     article.setAttribute("aria-labelledby", title.id);
     title.innerHTML = renderPostTitle(post.title);
-    heading.append(title);
-    const body = el("div", "gf-post-text post-markdown is-preview");
+    const body = el("div", "gf-post-text post-markdown is-preview gf-selectable");
     body.innerHTML = renderPostMarkdown(post.body);
     body.dir = "auto";
-    article.append(postMeta(post, immediate), heading, body);
+    article.append(postMeta(post, immediate), title, body);
     const image = postImage(post);
     if (image) article.append(image);
     article.append(postActions(post));
@@ -1551,11 +1554,11 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
 
   function postDialog(post) {
     const panel = el("div");
-    const title = el("h2");
+    const title = el("h2", "gf-selectable");
     title.innerHTML = renderPostTitle(post.title);
     title.id = "gf-dialog-title";
     title.dir = "auto";
-    const body = el("div", "gf-post-text post-markdown");
+    const body = el("div", "gf-post-text post-markdown gf-selectable");
     body.innerHTML = renderPostMarkdown(post.body);
     body.dir = "auto";
     panel.append(postMeta(post, true), title, body);
@@ -1608,9 +1611,9 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
           key: "group:" + group.slug,
           signature: JSON.stringify([group.name, group.region, group.iconUrl]),
           create: () => {
-            const button = identity(group, true);
-            button.classList.add("gf-search-result");
-            return button;
+            const row = identity(group, true);
+            row.classList.add("gf-search-result");
+            return row;
           },
         });
       }
@@ -1622,11 +1625,18 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
           key: "post:" + post.id,
           signature: JSON.stringify([post.title, post.group.name]),
           create: () => {
-            const button = action("read", undefined, post.id, "gf-search-result gf-search-post");
-            const title = el("span");
+            const row = el("div", "gf-search-result gf-search-post");
+            row.dataset.gfOpenRow = "";
+            const text = el("span", "gf-identity-text");
+            const title = el("span", "gf-selectable");
             title.innerHTML = renderPostTitle(post.title);
-            button.append(title, el("span", "gf-region", post.group.name));
-            return button;
+            text.append(title, el("span", "gf-region gf-selectable", post.group.name));
+            const button = action("read", undefined, post.id);
+            button.setAttribute("aria-label", `Read ${post.title}`);
+            button.setAttribute("aria-haspopup", "dialog");
+            button.append(icon("right"));
+            row.append(text, button);
+            return row;
           },
         });
       }
@@ -1782,21 +1792,24 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       spoiler.setAttribute("aria-label", expanded ? spoiler.textContent + ". Hide spoiler" : "Reveal spoiler");
       return;
     }
-    const button = event.target.closest?.("[data-gf-action]");
-    if (!button) {
-      const card = event.target.closest?.("[data-gf-post], [data-gf-group]");
-      if (!card || dialog.open || event.defaultPrevented || event.button > 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey ||
-        event.target.closest?.("a,button,input,textarea,select,label,details,[contenteditable]")) return;
+    const control = event.target.closest?.("[data-gf-action]");
+    const row = control ? null : event.target.closest?.("[data-gf-open-row]");
+    const card = control || row ? null : event.target.closest?.("[data-gf-post], [data-gf-group]");
+    if (!control && ((!row && (!card || dialog.open)) || event.defaultPrevented || event.button > 0 ||
+      event.ctrlKey || event.metaKey || event.shiftKey || event.altKey ||
+      event.target.closest?.("a,button,input,textarea,select,label,details,[contenteditable]") ||
+      window.getSelection?.()?.toString())) return;
+    if (card) {
       const post = knownPosts.get(card.dataset.gfPost);
       const group = groupForSlug(card.dataset.gfGroup);
       if (!post && !group) return;
-      if (window.getSelection?.()?.toString()) return;
       card.focus({ preventScroll: true });
       if (post) postDialog(post);
       else groupDialog(group);
       return;
     }
-    if (button.disabled) return;
+    const button = control || row?.querySelector("[data-gf-action]");
+    if (!button || button.disabled) return;
     const { gfAction, key } = button.dataset;
     const group = groupForSlug(key);
     const post = knownPosts.get(key);
@@ -1841,7 +1854,10 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
         }
         break;
       case "read":
-        if (post) postDialog(post);
+        if (post) {
+          button.focus({ preventScroll: true });
+          postDialog(post);
+        }
         break;
       case "save":
       case "follow":
