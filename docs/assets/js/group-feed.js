@@ -487,18 +487,9 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     const friendUrl = platoLinkUrl(group);
     if (friendUrl) {
       const contact = el("section", "gf-manager-contact");
-      const label = el("label", "gf-profile-label", "Plato link");
-      const input = el("textarea", "gf-friend-input");
-      input.id = `gf-friend-${inDialog ? "dialog" : mode}-${group.slug}`;
-      input.value = friendUrl;
-      input.readOnly = true;
-      input.rows = 2;
-      input.spellcheck = false;
-      input.dir = "ltr";
-      input.setAttribute("aria-label", `${group.name} Plato link`);
-      input.setAttribute("autocapitalize", "off");
-      input.addEventListener("focus", () => input.select());
-      label.htmlFor = input.id;
+      const label = el("h3", "gf-profile-label", "Plato link");
+      const linkText = el("span", "gf-friend-url", friendUrl);
+      linkText.dir = "ltr";
       const field = el("div", "gf-friend-field");
       const copy = action("copy-friend", undefined, group.slug, "gf-button gf-friend-copy");
       copy.setAttribute("aria-label", `Copy ${group.name} Plato link`);
@@ -506,7 +497,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       copy.append(icon("copy"));
       const notice = el("p", "gf-copy-status");
       notice.setAttribute("role", "status");
-      field.append(input, copy);
+      field.append(linkText, copy);
       const connect = link(friendUrl, "Open on Plato", "gf-button gf-primary", "external");
       connect.rel = "noreferrer";
       contact.append(label, el("p", "gf-contact-help", "Open this link to add the manager or join the waiting group."), field, notice, connect);
@@ -1697,10 +1688,11 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
         button.title = "Copy Plato link";
       }, 2000);
     } catch {
-      const input = contact.querySelector(".gf-friend-input");
-      input.focus();
-      input.select();
-      notice.textContent = "Link selected. Use your device's Copy option.";
+      const selection = window.getSelection?.();
+      selection?.selectAllChildren(contact.querySelector(".gf-friend-url"));
+      notice.textContent = selection?.toString() === url
+        ? "Link selected. Use your device's Copy option."
+        : "Select the Plato link to copy it.";
     }
   }
 

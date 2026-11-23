@@ -29,14 +29,12 @@
 }
 .groups-document[data-theme="dark"] .groups-brand img { filter: invert(1); }
 .groups-page :is(button, a, summary), .group-feed :is(button, a) { -webkit-tap-highlight-color: transparent; }
-.groups-page, .group-feed {
+.groups-page :is(button, summary, .groups-brand, .groups-site-nav a, .groups-site-mobile a, .groups-apply-cta),
+.group-feed :is(button, a.gf-button, a.gf-back, .groups-apply-actions a, .gf-region, .gf-profile-eyebrow, .gf-profile-label,
+  .gf-contact-help, .gf-link-trust, .gf-link-description, #gf-link-title,
+  .gf-dialog:is([data-kind="search"], [data-kind="share"]) #gf-dialog-title) {
   -webkit-user-select: none;
   user-select: none;
-}
-.group-feed :is(input, textarea, .gf-identity-text strong, .gf-profile-name > :is(h1, h2), .gf-group-bio,
-  .gf-post-title, .gf-post-text, .gf-dialog[data-kind="post"] #gf-dialog-title, .gf-link-destination) {
-  -webkit-user-select: text;
-  user-select: text;
 }
 .groups-page button, .group-feed button { appearance: none; }
 .groups-page .gf-icon, .group-feed .gf-icon {
@@ -762,21 +760,15 @@
   border-radius: 11px;
   background: var(--gf-surface);
 }
-.group-feed .gf-friend-input {
-  display: block;
+.group-feed .gf-friend-url {
+  flex: 1;
   min-width: 0;
-  width: 100%;
-  field-sizing: content;
   padding: .5rem .45rem;
-  border: 0;
-  border-radius: 6px;
   color: var(--gf-ink);
-  background: transparent;
   font-size: 1rem;
   font-weight: 500;
   line-height: 1.45;
   overflow-wrap: anywhere;
-  resize: none;
   cursor: text;
 }
 .group-feed .gf-friend-copy {
