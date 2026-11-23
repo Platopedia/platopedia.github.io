@@ -554,7 +554,10 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       return image;
     }
     const frame = el("div", "gf-reader-image");
-    if (image.style.width) frame.style.setProperty("--gf-image-width", image.style.width);
+    if (image.style.width) {
+      frame.style.setProperty("--gf-image-width", image.style.width);
+      frame.style.setProperty("--gf-image-ratio", String(post.imageWidth / post.imageHeight));
+    }
     readerImageState(frame, "loading");
     const fallback = el("div", "gf-image-error");
     fallback.hidden = true;
@@ -1470,6 +1473,18 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     return true;
   }
 
+  function updatePopupScrollHint(popup) {
+    if (popup.open && popup.scrollHeight > popup.clientHeight + 1) popup.dataset.scrollHint = "";
+    else delete popup.dataset.scrollHint;
+  }
+
+  function resetPopupScroll(popup) {
+    if (!popup.open) popup.showModal();
+    delete popup.dataset.scrollHint;
+    popup.scrollTop = 0;
+    updatePopupScrollHint(popup);
+  }
+
   function showDialog(kind, content, focusTarget, key = "") {
     const child = dialog.open && dialog.dataset.kind === "search" && (kind === "group" || kind === "post");
     rememberPopup(kind, key, dialog.open && !child);
@@ -1481,8 +1496,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     dialog.dataset.kind = kind;
     dialog.dataset.group = "";
     dialogContent.replaceChildren(content);
-    if (!dialog.open) dialog.showModal();
-    dialog.scrollTop = 0;
+    resetPopupScroll(dialog);
     (focusTarget || dialog.querySelector(".gf-dialog-close")).focus({ preventScroll: true });
   }
 
@@ -1522,8 +1536,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     const visit = find("link-visit");
     visit.href = url.href;
     visit.target = target;
-    if (!linkDialog.open) linkDialog.showModal();
-    linkDialog.scrollTop = 0;
+    resetPopupScroll(linkDialog);
     find("link-back").focus({ preventScroll: true });
     return true;
   }
@@ -1887,7 +1900,12 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       capturePopup(false);
     }
   });
+  const popupScrollObserver = typeof ResizeObserver === "function" ? new ResizeObserver(entries => {
+    for (const { target } of entries) updatePopupScrollHint(target.closest(".gf-dialog"));
+  }) : null;
   for (const popup of [dialog, linkDialog]) {
+    popupScrollObserver?.observe(popup);
+    popupScrollObserver?.observe(popup.firstElementChild);
     popup.addEventListener("cancel", event => {
       event.preventDefault();
       closePopup(popup);
