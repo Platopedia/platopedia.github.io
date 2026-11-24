@@ -849,6 +849,7 @@ body:not([data-theme="light"]) .group-feed[data-mode="embed"] {
 }
 .gf-dialog::backdrop { background: #0a24478a; backdrop-filter: blur(5px); }
 @media (hover: none) {
+  .groups-page .gf-dialog { max-height: min(850px, calc(100svh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom))); }
   /* Paint the page itself so a clipped backdrop can't expose undimmed content. */
   .groups-document:has(.gf-dialog[open]) { background-color: #0a2447 !important; }
   .groups-page:has(.gf-dialog[open]) { filter: blur(5px); opacity: .46; }
