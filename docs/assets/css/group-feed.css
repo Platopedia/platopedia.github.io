@@ -831,7 +831,7 @@ body:not([data-theme="light"]) .group-feed[data-mode="embed"] {
   overflow: hidden;
   text-align: left;
 }
-.gf-dialog[open] { display: flex; flex-direction: column; animation: gf-enter .23s ease; }
+.gf-dialog[open] { display: flex; flex-direction: column; animation: gf-enter .23s ease both; }
 .gf-dialog[open]:has([data-gf-search-restored]) { animation: none; }
 .gf-dialog-scroll { min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
 .gf-dialog[open][data-scroll-hint="visible"]::after {
@@ -849,7 +849,6 @@ body:not([data-theme="light"]) .group-feed[data-mode="embed"] {
 }
 .gf-dialog::backdrop { background: #0a24478a; backdrop-filter: blur(5px); }
 @media (hover: none) {
-  .groups-page .gf-dialog { max-height: min(850px, calc(100svh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom))); }
   /* Preserve the page tint without changing the background color Chrome uses for its navigation bar. */
   .groups-document:has(.gf-dialog[open]) { background-image: linear-gradient(#0a2447, #0a2447); }
   @supports (-webkit-touch-callout: none) {

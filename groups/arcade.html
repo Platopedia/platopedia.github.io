@@ -119,7 +119,6 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .arcade-join-card[data-state="verification"]{--join-accent:#28FDFD}
     .arcade-join-card[data-state="ineligible"]{--join-accent:#FF6B6B}
     .arcade-join-card[data-state="open"]{--join-accent:#54F58A}
-    .arcade-join-card[data-state="returned"]{--join-accent:#54F58A}
     .arcade-join-card[data-state="preparing"]{--join-accent:#FFD166}
     .arcade-join-card[data-state="full"]{--join-accent:#FF6B6B}
     .arcade-join-card[data-state="offline"]{--join-accent:#A993FF}
@@ -183,14 +182,24 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     @keyframes arcadeJoinScanCard{0%{top:12%;opacity:0}20%,80%{opacity:.75}100%{top:88%;opacity:0}}
     @media(max-width:620px){.arcade-join-card{grid-template-columns:1fr;text-align:center}.arcade-join-signal{width:min(42vw,155px)}.arcade-join-eyebrow{align-items:center}.arcade-join-message{text-align:center}.arcade-join-actions{justify-content:center}.arcade-join-step{text-align:left}}
 
-    /* ========== Invite fallback dialog ========== */
-    html.arcade-invite-dialog-open{overflow:hidden}
+    /* ========== Group invite dialog ========== */
+    html:has(.arcade-invite-dialog[open]){overflow:hidden}
     .arcade-invite-dialog{position:fixed;inset:0;width:min(100% - 36px,520px);max-width:none;max-height:none;margin:auto;padding:0;border:0;overflow:visible;background:transparent;color:inherit}
     .arcade-invite-dialog::backdrop{background:rgba(0,0,0,.76);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)}
-    .arcade-invite-dialog-panel{position:relative;width:min(100%,520px);max-height:min(88vh,680px);overflow:auto;padding:clamp(20px,5vw,30px);border:1px solid #54F58A;border-radius:16px;background:linear-gradient(155deg,var(--color-C),var(--color-D));box-shadow:0 24px 80px rgba(0,0,0,.48),0 0 36px rgba(84,245,138,.14);font-family:monospace}
+    @media (hover: none) {
+        /* Tint the whole page while keeping Chrome's navigation bar color. */
+        html:has(.arcade-invite-dialog[open]){background-image:linear-gradient(#000,#000)}
+        @supports (-webkit-touch-callout: none) {
+            html:has(.arcade-invite-dialog[open]){background-color:#000;background-image:none}
+        }
+        body:has(.arcade-invite-dialog[open]){filter:blur(9px);opacity:.24}
+        .arcade-invite-dialog::backdrop{background:transparent;backdrop-filter:none;-webkit-backdrop-filter:none}
+    }
+    .arcade-invite-dialog-panel{position:relative;width:min(100%,520px);max-height:min(88vh,680px);max-height:min(88dvh,680px);overflow:auto;padding:clamp(20px,5vw,30px);border:1px solid #54F58A;border-radius:16px;background:linear-gradient(155deg,var(--color-C),var(--color-D));box-shadow:0 24px 80px rgba(0,0,0,.48),0 0 36px rgba(84,245,138,.14);font-family:monospace}
     .arcade-invite-dialog-close{position:absolute;right:12px;top:12px;width:38px;height:38px;border:1px solid var(--color-B);border-radius:50%;background:var(--color-D);color:var(--color-text);font:700 22px/1 monospace}
     .arcade-invite-dialog-kicker{margin:0 46px 8px 0;color:#54F58A;font:800 11px/1.2 monospace;letter-spacing:.12em;text-transform:uppercase}
     .arcade-invite-dialog-title{margin:0 46px 10px 0;font:800 clamp(24px,7vw,36px)/1.08 monospace;text-wrap:balance}
+    .arcade-invite-dialog-title:focus{outline:none}
     .arcade-invite-dialog-copy{margin:0 0 16px;font:600 13px/1.5 monospace;color:color-mix(in srgb,var(--color-text) 76%,transparent)}
     .arcade-invite-link-label{display:grid;gap:7px;margin-bottom:12px;font:700 10px/1.2 monospace;letter-spacing:.08em;text-transform:uppercase}
     .arcade-invite-link-input{width:100%;min-height:46px;padding:10px 12px;border:1px solid var(--color-B);border-radius:8px;background:color-mix(in srgb,var(--color-D) 88%,black);color:#54F58A;font:600 12px/1.35 monospace;outline:none}
@@ -353,18 +362,18 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 <div class="linebreak"></div>
 
 <dialog id="arcadeInviteDialog" class="arcade-invite-dialog" aria-labelledby="arcadeInviteDialogTitle">
-    <div class="arcade-invite-dialog-panel" tabindex="-1" autofocus>
+    <div class="arcade-invite-dialog-panel">
         <button id="arcadeInviteDialogClose" class="arcade-invite-dialog-close" type="button" aria-label="Close Group link dialog">×</button>
-        <p class="arcade-invite-dialog-kicker">Place available</p>
-        <div id="arcadeInviteDialogTitle" class="arcade-invite-dialog-title">Take Arcade with you</div>
-        <p class="arcade-invite-dialog-copy">This browser cannot reliably open Plato Group redirects. Copy the verified link, open Safari or Chrome, and paste it there.</p>
+        <p class="arcade-invite-dialog-kicker">Group invite</p>
+        <div id="arcadeInviteDialogTitle" class="arcade-invite-dialog-title" tabindex="-1" autofocus>Take Arcade with you</div>
+        <p class="arcade-invite-dialog-copy">Open the invite in Plato or copy the link. If Plato’s invite page opens in your browser, tap Accept there.</p>
         <label class="arcade-invite-link-label" for="arcadeInviteLinkInput">
             Verified Group link
             <input id="arcadeInviteLinkInput" class="arcade-invite-link-input" type="text" readonly>
         </label>
         <div class="arcade-invite-dialog-actions">
             <button id="arcadeInviteCopy" type="button">Copy Group link</button>
-            <a id="arcadeInviteOpen" href="#" data-no-nav>Try opening Plato</a>
+            <a id="arcadeInviteOpen" data-no-nav>Open in Plato</a>
         </div>
         <p id="arcadeInviteCopyStatus" class="arcade-invite-copy-status" aria-live="polite"></p>
     </div>
@@ -1241,9 +1250,6 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       let retryTimeout=null;
       let automaticRetries=0;
       let latestInviteUrl='';
-      let navigationFallbackTimer=null;
-      let inviteNavigationPending=false;
-      let inviteNavigationWasHidden=false;
       let lastFriendLink='';
       const allowedAvailability=new Set(['open','verification-required','ineligible','preparing','full','unavailable','offline']);
       const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
@@ -1359,104 +1365,47 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         return true;
       }
 
-      function isLikelyEmbeddedWebView(){
-        const ua=navigator.userAgent||'';
-        const isIOS=/iPad|iPhone|iPod/i.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
-        const knownIOSBrowser=/Version\/[\d.]+.*Safari|CriOS|FxiOS|EdgiOS|OPiOS/i.test(ua);
-        const androidWebView=/;\s*wv\)|\bwv\b|Version\/4\.0.*Chrome/i.test(ua);
-        return /Plato/i.test(ua)||(isIOS&&!knownIOSBrowser)||androidWebView;
-      }
-
       function currentHistoryState(){
         return history.state&&typeof history.state==='object'&&!Array.isArray(history.state)?history.state:{};
       }
 
-      function openInviteDialog(url){
-        const safeUrl=safeInviteUrl(url);
-        if(!safeUrl)return;
-        latestInviteUrl=safeUrl;
-        inviteInput.value=safeUrl;
-        inviteOpen.href=safeUrl;
+      function openInviteDialog(){
+        if(!latestInviteUrl||dialog.open)return;
+        inviteInput.value=latestInviteUrl;
+        inviteOpen.href=latestInviteUrl;
         copyStatus.textContent='';
-        if(!dialog.open){
-          dialog.showModal();
-          document.documentElement.classList.add('arcade-invite-dialog-open');
-          const state=currentHistoryState();
-          if(!state.arcadeInviteDialog){
-            history.pushState({...state,arcadeInviteDialog:true},'',location.href);
-          }
+        button.focus({preventScroll:true});
+        dialog.showModal();
+        const state=currentHistoryState();
+        if(state.arcadeInviteDialog!==latestInviteUrl){
+          history.pushState({...state,arcadeInviteDialog:latestInviteUrl},'',location.href);
         }
       }
 
-      function closeInviteDialog({fromHistory=false}={}){
+      function closeInviteDialog(){
         if(!dialog.open)return;
         dialog.close();
-        document.documentElement.classList.remove('arcade-invite-dialog-open');
-        copyStatus.textContent='';
-        if(!fromHistory&&currentHistoryState().arcadeInviteDialog)history.back();
+        if(currentHistoryState().arcadeInviteDialog===latestInviteUrl)history.back();
       }
 
-      function navigateToInvite(url){
-        const safeUrl=safeInviteUrl(url);
-        if(!safeUrl)return;
-        if(isLikelyEmbeddedWebView()){
-          openInviteDialog(safeUrl);
-          return;
-        }
-        const startingLocation=location.href;
-        try{
-          inviteNavigationPending=true;
-          inviteNavigationWasHidden=false;
-          location.assign(safeUrl);
-          if(navigationFallbackTimer)clearTimeout(navigationFallbackTimer);
-          navigationFallbackTimer=setTimeout(()=>{
-            navigationFallbackTimer=null;
-            if(location.href===startingLocation&&document.visibilityState==='visible'){
-              inviteNavigationPending=false;
-              inviteNavigationWasHidden=false;
-              restoreJoinButton();
-              openInviteDialog(safeUrl);
-            }
-          },1800);
-        }catch(_){
-          inviteNavigationPending=false;
-          inviteNavigationWasHidden=false;
-          restoreJoinButton();
-          openInviteDialog(safeUrl);
-        }
-      }
-
-      function restoreJoinButton(){
-        if(card.dataset.state!=='open'||!latestInviteUrl)return;
-        if(navigationFallbackTimer)clearTimeout(navigationFallbackTimer);
-        navigationFallbackTimer=null;
+      function showInviteReady(url,text='Your Arcade Group invite is ready.'){
+        latestInviteUrl=url;
         setSteps(3,{complete:true});
         setCardState('open',{
-          status:pill.textContent||'Place available',
-          text:message.textContent||'A place is available right now.',
-          primary:isLikelyEmbeddedWebView()?'Show Group link':'Join Arcade Group',
+          status:'Invite ready',
+          text,
+          primary:'Show Group link',
           showRetry:true,
           retry:'Retry',
         });
+        openInviteDialog();
       }
 
-      function clearInviteNavigationState(){
-        inviteNavigationPending=false;
-        inviteNavigationWasHidden=false;
-        if(navigationFallbackTimer)clearTimeout(navigationFallbackTimer);
-        navigationFallbackTimer=null;
-        latestInviteUrl='';
-        dialog.close();
-        document.documentElement.classList.remove('arcade-invite-dialog-open');
-        inviteInput.value='';
-        inviteOpen.href='#';
-        copyStatus.textContent='';
-        const state=currentHistoryState();
-        if(state.arcadeInviteDialog){
-          const next={...state};
-          delete next.arcadeInviteDialog;
-          history.replaceState(next,'',location.href);
-        }
+      function restoreInviteDialog(){
+        const url=safeInviteUrl(currentHistoryState().arcadeInviteDialog);
+        if(url&&latestInviteUrl===url)openInviteDialog();
+        else if(url&&card.dataset.state==='idle')showInviteReady(url);
+        else if(!url&&dialog.open)dialog.close();
       }
 
       function resetAdmissionCard(){
@@ -1465,7 +1414,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         requestController=null;
         cancelRetry();
         automaticRetries=0;
-        clearInviteNavigationState();
+        latestInviteUrl='';
         capacity.hidden=true;
         capacityValue.textContent='— / 500';
         capacityMeter.removeAttribute('aria-valuenow');
@@ -1475,26 +1424,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         setCardState('idle');
       }
 
-      function resetAfterInviteReturn(){
-        if(!inviteNavigationPending)return;
-        runToken+=1;
-        requestController?.abort();
-        requestController=null;
-        cancelRetry();
-        automaticRetries=0;
-        clearInviteNavigationState();
-        setSteps(3,{complete:true});
-        setCardState('returned',{
-          status:'Arcade opened',
-          text:'Returned from Plato? Retry when you want to check for a fresh place and Group invite.',
-          primary:'Arcade opened',
-          primaryDisabled:true,
-          showRetry:true,
-          retry:'Retry',
-        });
-      }
-
-      async function showOpening(data,token){
+      function showVerifiedInvite(data){
         const inviteUrl=safeInviteUrl(data.inviteUrl);
         if(!inviteUrl){
           showUnavailable({
@@ -1504,21 +1434,11 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
           });
           return;
         }
-        latestInviteUrl=inviteUrl;
         showFriendLinkPanel(false,{clear:true});
         cancelRetry();
         updateCapacity(data);
-        setSteps(3,{complete:true});
-        setCardState('open',{
-          status:'Place available',
-          text:data.message||'A place is available right now.',
-          primary:isLikelyEmbeddedWebView()?'Show Group link':'Opening Arcade…',
-          primaryDisabled:!isLikelyEmbeddedWebView(),
-        });
         vibrate([20,35,35]);
-        await sleep(reducedMotion?80:750);
-        if(token!==runToken)return;
-        navigateToInvite(inviteUrl);
+        showInviteReady(inviteUrl,data.message||undefined);
       }
 
       function showFull(data){
@@ -1639,18 +1559,16 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
           if(token!==runToken)return;
           let next;
           try{next=await fetchAdmission()}catch(_){
+            if(token!==runToken)return;
             showUnavailable({retryAfterMs:DEFAULT_RETRY_MS},{networkFailure:true});
             return;
           }
-          updateCapacity(next);
-          if(next.availability==='open'){
-            await showOpening(next,token);
-            return;
-          }
+          if(token!==runToken)return;
           if(next.availability!=='preparing'){
             handleAdmissionState(next,token);
             return;
           }
+          updateCapacity(next);
           data=next;
           message.textContent=next.message||message.textContent;
         }
@@ -1667,7 +1585,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         if(token!==runToken)return;
         updateCapacity(data);
         if(data.availability==='open'){
-          showOpening(data,token);
+          showVerifiedInvite(data);
         }else if(data.availability==='verification-required'){
           showVerificationRequired(data);
         }else if(data.availability==='ineligible'){
@@ -1732,7 +1650,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
           try{copied=document.execCommand('copy')}catch(__){copied=false}
         }
         copyStatus.textContent=copied
-          ?'Group link copied. Paste it into Safari or Chrome.'
+          ?'Group link copied.'
           :'Copy failed. Press and hold the link above to copy it manually.';
         if(copied)vibrate(20);
       }
@@ -1740,7 +1658,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       button.addEventListener('click',()=>{
         if(card.dataset.state==='open'&&latestInviteUrl){
           vibrate([18,30,28]);
-          navigateToInvite(latestInviteUrl);
+          openInviteDialog();
           return;
         }
         if(card.dataset.state==='ineligible'){
@@ -1761,7 +1679,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         runAdmissionCheck();
       });
       retryButton.addEventListener('click',()=>{
-        if(card.dataset.state==='returned'||retryButton.dataset.action==='reset'){
+        if(retryButton.dataset.action==='reset'){
           vibrate(18);
           resetAdmissionCard();
           return;
@@ -1785,12 +1703,6 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         button.click();
       });
       inviteCopy?.addEventListener('click',copyInviteLink);
-      inviteOpen.addEventListener('click',()=>{
-        if(!latestInviteUrl)return;
-        inviteNavigationPending=true;
-        inviteNavigationWasHidden=false;
-        vibrate([18,30,28]);
-      });
       dialogClose?.addEventListener('click',()=>closeInviteDialog());
       dialog.addEventListener('click',event=>{
         if(event.target!==dialog)return;
@@ -1801,29 +1713,8 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         event.preventDefault();
         closeInviteDialog();
       });
-      addEventListener('popstate',event=>{
-        const state=event.state&&typeof event.state==='object'?event.state:{};
-        if(dialog.open&&!state.arcadeInviteDialog){
-          event.stopImmediatePropagation();
-          closeInviteDialog({fromHistory:true});
-        }else if(!dialog.open&&state.arcadeInviteDialog){
-          const next={...state};
-          delete next.arcadeInviteDialog;
-          history.replaceState(next,'',location.href);
-          event.stopImmediatePropagation();
-        }
-      });
-      addEventListener('pagehide',()=>{
-        if(inviteNavigationPending)inviteNavigationWasHidden=true;
-      });
-      addEventListener('pageshow',resetAfterInviteReturn);
-      document.addEventListener('visibilitychange',()=>{
-        if(document.visibilityState==='hidden'&&inviteNavigationPending){
-          inviteNavigationWasHidden=true;
-        }else if(document.visibilityState==='visible'&&inviteNavigationPending&&inviteNavigationWasHidden){
-          resetAfterInviteReturn();
-        }
-      });
+      addEventListener('popstate',restoreInviteDialog);
+      addEventListener('pageshow',restoreInviteDialog);
       followLink?.addEventListener('click',()=>vibrate(18));
       setSteps(-1);
     })();
