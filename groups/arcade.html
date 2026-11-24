@@ -185,8 +185,8 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
     /* ========== Invite fallback dialog ========== */
     html.arcade-invite-dialog-open{overflow:hidden}
-    .arcade-invite-dialog{position:fixed;z-index:10000;inset:0;display:grid;place-items:center;padding:18px;background:rgba(0,0,0,.76);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)}
-    .arcade-invite-dialog[hidden]{display:none!important}
+    .arcade-invite-dialog{position:fixed;inset:0;width:min(100% - 36px,520px);max-width:none;max-height:none;margin:auto;padding:0;border:0;overflow:visible;background:transparent;color:inherit}
+    .arcade-invite-dialog::backdrop{background:rgba(0,0,0,.76);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)}
     .arcade-invite-dialog-panel{position:relative;width:min(100%,520px);max-height:min(88vh,680px);overflow:auto;padding:clamp(20px,5vw,30px);border:1px solid #54F58A;border-radius:16px;background:linear-gradient(155deg,var(--color-C),var(--color-D));box-shadow:0 24px 80px rgba(0,0,0,.48),0 0 36px rgba(84,245,138,.14);font-family:monospace}
     .arcade-invite-dialog-close{position:absolute;right:12px;top:12px;width:38px;height:38px;border:1px solid var(--color-B);border-radius:50%;background:var(--color-D);color:var(--color-text);font:700 22px/1 monospace}
     .arcade-invite-dialog-kicker{margin:0 46px 8px 0;color:#54F58A;font:800 11px/1.2 monospace;letter-spacing:.12em;text-transform:uppercase}
@@ -352,8 +352,8 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 </div>
 <div class="linebreak"></div>
 
-<div id="arcadeInviteDialog" class="arcade-invite-dialog" role="dialog" aria-modal="true" aria-labelledby="arcadeInviteDialogTitle" hidden>
-    <div class="arcade-invite-dialog-panel" tabindex="-1">
+<dialog id="arcadeInviteDialog" class="arcade-invite-dialog" aria-labelledby="arcadeInviteDialogTitle">
+    <div class="arcade-invite-dialog-panel" tabindex="-1" autofocus>
         <button id="arcadeInviteDialogClose" class="arcade-invite-dialog-close" type="button" aria-label="Close Group link dialog">×</button>
         <p class="arcade-invite-dialog-kicker">Place available</p>
         <div id="arcadeInviteDialogTitle" class="arcade-invite-dialog-title">Take Arcade with you</div>
@@ -368,7 +368,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         </div>
         <p id="arcadeInviteCopyStatus" class="arcade-invite-copy-status" aria-live="polite"></p>
     </div>
-</div>
+</dialog>
 
 <!-- Contents toggle -->
 <div class="content-contents text-left" data-open="false" data-icon="&#xf068;,&#xf067;">Contents <embed/></div>
@@ -1228,7 +1228,6 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       const friendLinkStatus=document.getElementById('arcadeFriendLinkStatus');
       const steps=[...document.querySelectorAll('[data-join-step]')];
       const dialog=document.getElementById('arcadeInviteDialog');
-      const dialogPanel=dialog?.querySelector('.arcade-invite-dialog-panel');
       const dialogClose=document.getElementById('arcadeInviteDialogClose');
       const inviteInput=document.getElementById('arcadeInviteLinkInput');
       const inviteCopy=document.getElementById('arcadeInviteCopy');
@@ -1245,7 +1244,6 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       let navigationFallbackTimer=null;
       let inviteNavigationPending=false;
       let inviteNavigationWasHidden=false;
-      let previousDialogFocus=null;
       let lastFriendLink='';
       const allowedAvailability=new Set(['open','verification-required','ineligible','preparing','full','unavailable','offline']);
       const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
@@ -1380,27 +1378,22 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         inviteInput.value=safeUrl;
         inviteOpen.href=safeUrl;
         copyStatus.textContent='';
-        if(dialog.hidden){
-          previousDialogFocus=document.activeElement;
-          dialog.hidden=false;
+        if(!dialog.open){
+          dialog.showModal();
           document.documentElement.classList.add('arcade-invite-dialog-open');
           const state=currentHistoryState();
           if(!state.arcadeInviteDialog){
             history.pushState({...state,arcadeInviteDialog:true},'',location.href);
           }
-          setTimeout(()=>dialogPanel?.focus(),0);
         }
       }
 
       function closeInviteDialog({fromHistory=false}={}){
-        if(dialog.hidden)return;
-        dialog.hidden=true;
+        if(!dialog.open)return;
+        dialog.close();
         document.documentElement.classList.remove('arcade-invite-dialog-open');
         copyStatus.textContent='';
-        const focusTarget=previousDialogFocus;
-        previousDialogFocus=null;
         if(!fromHistory&&currentHistoryState().arcadeInviteDialog)history.back();
-        if(focusTarget&&document.contains(focusTarget))focusTarget.focus();
       }
 
       function navigateToInvite(url){
@@ -1442,6 +1435,8 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
           status:pill.textContent||'Place available',
           text:message.textContent||'A place is available right now.',
           primary:isLikelyEmbeddedWebView()?'Show Group link':'Join Arcade Group',
+          showRetry:true,
+          retry:'Retry',
         });
       }
 
@@ -1451,9 +1446,8 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         if(navigationFallbackTimer)clearTimeout(navigationFallbackTimer);
         navigationFallbackTimer=null;
         latestInviteUrl='';
-        dialog.hidden=true;
+        dialog.close();
         document.documentElement.classList.remove('arcade-invite-dialog-open');
-        previousDialogFocus=null;
         inviteInput.value='';
         inviteOpen.href='#';
         copyStatus.textContent='';
@@ -1798,26 +1792,21 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         vibrate([18,30,28]);
       });
       dialogClose?.addEventListener('click',()=>closeInviteDialog());
-      dialog.addEventListener('click',event=>{if(event.target===dialog)closeInviteDialog()});
-      dialog.addEventListener('keydown',event=>{
-        if(event.key==='Escape'){
-          event.preventDefault();
-          closeInviteDialog();
-          return;
-        }
-        if(event.key!=='Tab')return;
-        const focusable=[...dialog.querySelectorAll('button,a[href],input')].filter(el=>!el.disabled&&!el.hidden);
-        if(!focusable.length)return;
-        const first=focusable[0],last=focusable[focusable.length-1];
-        if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus()}
-        else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus()}
+      dialog.addEventListener('click',event=>{
+        if(event.target!==dialog)return;
+        const {left,top,right,bottom}=dialog.getBoundingClientRect();
+        if(event.clientX<left||event.clientX>right||event.clientY<top||event.clientY>bottom)closeInviteDialog();
+      });
+      dialog.addEventListener('cancel',event=>{
+        event.preventDefault();
+        closeInviteDialog();
       });
       addEventListener('popstate',event=>{
         const state=event.state&&typeof event.state==='object'?event.state:{};
-        if(!dialog.hidden&&!state.arcadeInviteDialog){
+        if(dialog.open&&!state.arcadeInviteDialog){
           event.stopImmediatePropagation();
           closeInviteDialog({fromHistory:true});
-        }else if(dialog.hidden&&state.arcadeInviteDialog){
+        }else if(!dialog.open&&state.arcadeInviteDialog){
           const next={...state};
           delete next.arcadeInviteDialog;
           history.replaceState(next,'',location.href);
