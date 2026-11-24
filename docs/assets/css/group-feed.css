@@ -848,6 +848,16 @@ body:not([data-theme="light"]) .group-feed[data-mode="embed"] {
   pointer-events: none;
 }
 .gf-dialog::backdrop { background: #0a24478a; backdrop-filter: blur(5px); }
+@media (hover: none) {
+  /* Paint the page itself so a clipped backdrop can't expose undimmed content. */
+  .groups-document:has(.gf-dialog[open]) { background-color: #0a2447 !important; }
+  .groups-page:has(.gf-dialog[open]) { filter: blur(5px); opacity: .46; }
+  .groups-page:has([data-gf-dialog][open]) [data-gf-dialog]::backdrop,
+  .groups-page:has([data-gf-link-dialog][open]):not(:has([data-gf-dialog][open])) [data-gf-link-dialog]::backdrop {
+    background: transparent;
+    backdrop-filter: none;
+  }
+}
 .gf-dialog-inner { position: relative; padding: clamp(1.2rem, 4vw, 2rem); }
 .gf-dialog .gf-dialog-close {
   display: grid;
