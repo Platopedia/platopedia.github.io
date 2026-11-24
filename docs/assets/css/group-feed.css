@@ -847,7 +847,7 @@ body:not([data-theme="light"]) .group-feed[data-mode="embed"] {
   transform: rotate(45deg);
   pointer-events: none;
 }
-.gf-dialog::backdrop { background: #0a24478a; }
+.gf-dialog::backdrop { background: #0a24478a; backdrop-filter: blur(5px); }
 .gf-dialog-inner { position: relative; padding: clamp(1.2rem, 4vw, 2rem); }
 .gf-dialog .gf-dialog-close {
   display: grid;
@@ -950,7 +950,6 @@ body:not([data-theme="light"]) .group-feed[data-mode="embed"] {
 
 
 @media (hover: hover) {
-  .gf-dialog::backdrop { backdrop-filter: blur(5px); }
   .groups-site-nav a:hover, .groups-site-mobile a:hover { color: var(--groups-header-text); background: var(--groups-hover); }
   .groups-theme-toggle:hover, .groups-site-mobile > summary:hover { background: var(--groups-hover); }
   .groups-site-footer .groups-apply-cta:hover { border-color: color-mix(in srgb, var(--groups-link) 36%, var(--groups-rule)); }

@@ -185,8 +185,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 
     /* ========== Invite fallback dialog ========== */
     html.arcade-invite-dialog-open{overflow:hidden}
-    .arcade-invite-dialog{position:fixed;z-index:10000;inset:0;display:grid;place-items:center;padding:18px;background:rgba(0,0,0,.76)}
-    @media(hover:hover){.arcade-invite-dialog{-webkit-backdrop-filter:blur(9px);backdrop-filter:blur(9px)}}
+    .arcade-invite-dialog{position:fixed;z-index:10000;inset:0;display:grid;place-items:center;padding:18px;background:rgba(0,0,0,.76);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)}
     .arcade-invite-dialog[hidden]{display:none!important}
     .arcade-invite-dialog-panel{position:relative;width:min(100%,520px);max-height:min(88vh,680px);overflow:auto;padding:clamp(20px,5vw,30px);border:1px solid #54F58A;border-radius:16px;background:linear-gradient(155deg,var(--color-C),var(--color-D));box-shadow:0 24px 80px rgba(0,0,0,.48),0 0 36px rgba(84,245,138,.14);font-family:monospace}
     .arcade-invite-dialog-close{position:absolute;right:12px;top:12px;width:38px;height:38px;border:1px solid var(--color-B);border-radius:50%;background:var(--color-D);color:var(--color-text);font:700 22px/1 monospace}
