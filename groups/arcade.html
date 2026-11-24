@@ -191,6 +191,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
     .arcade-invite-dialog-close{position:absolute;right:12px;top:12px;width:38px;height:38px;border:1px solid var(--color-B);border-radius:50%;background:var(--color-D);color:var(--color-text);font:700 22px/1 monospace}
     .arcade-invite-dialog-kicker{margin:0 46px 8px 0;color:#54F58A;font:800 11px/1.2 monospace;letter-spacing:.12em;text-transform:uppercase}
     .arcade-invite-dialog-title{margin:0 46px 10px 0;font:800 clamp(24px,7vw,36px)/1.08 monospace;text-wrap:balance}
+    .arcade-invite-dialog-title:focus{outline:none}
     .arcade-invite-dialog-copy{margin:0 0 16px;font:600 13px/1.5 monospace;color:color-mix(in srgb,var(--color-text) 76%,transparent)}
     .arcade-invite-link-label{display:grid;gap:7px;margin-bottom:12px;font:700 10px/1.2 monospace;letter-spacing:.08em;text-transform:uppercase}
     .arcade-invite-link-input{width:100%;min-height:46px;padding:10px 12px;border:1px solid var(--color-B);border-radius:8px;background:color-mix(in srgb,var(--color-D) 88%,black);color:#54F58A;font:600 12px/1.35 monospace;outline:none}
@@ -353,10 +354,10 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
 <div class="linebreak"></div>
 
 <div id="arcadeInviteDialog" class="arcade-invite-dialog" role="dialog" aria-modal="true" aria-labelledby="arcadeInviteDialogTitle" hidden>
-    <div class="arcade-invite-dialog-panel" tabindex="-1">
+    <div class="arcade-invite-dialog-panel">
         <button id="arcadeInviteDialogClose" class="arcade-invite-dialog-close" type="button" aria-label="Close Group link dialog">×</button>
         <p class="arcade-invite-dialog-kicker">Place available</p>
-        <div id="arcadeInviteDialogTitle" class="arcade-invite-dialog-title">Take Arcade with you</div>
+        <div id="arcadeInviteDialogTitle" class="arcade-invite-dialog-title" tabindex="-1">Take Arcade with you</div>
         <p class="arcade-invite-dialog-copy">This browser cannot reliably open Plato Group redirects. Copy the verified link, open Safari or Chrome, and paste it there.</p>
         <label class="arcade-invite-link-label" for="arcadeInviteLinkInput">
             Verified Group link
@@ -1228,7 +1229,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       const friendLinkStatus=document.getElementById('arcadeFriendLinkStatus');
       const steps=[...document.querySelectorAll('[data-join-step]')];
       const dialog=document.getElementById('arcadeInviteDialog');
-      const dialogPanel=dialog?.querySelector('.arcade-invite-dialog-panel');
+      const dialogTitle=document.getElementById('arcadeInviteDialogTitle');
       const dialogClose=document.getElementById('arcadeInviteDialogClose');
       const inviteInput=document.getElementById('arcadeInviteLinkInput');
       const inviteCopy=document.getElementById('arcadeInviteCopy');
@@ -1388,7 +1389,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
           if(!state.arcadeInviteDialog){
             history.pushState({...state,arcadeInviteDialog:true},'',location.href);
           }
-          setTimeout(()=>dialogPanel?.focus(),0);
+          dialogTitle.focus({preventScroll:true});
         }
       }
 
