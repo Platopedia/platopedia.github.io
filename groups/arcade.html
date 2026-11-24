@@ -1250,6 +1250,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
       let retryTimeout=null;
       let automaticRetries=0;
       let latestInviteUrl='';
+      let keyboardInviteOpener=null;
       let lastFriendLink='';
       const allowedAvailability=new Set(['open','verification-required','ineligible','preparing','full','unavailable','offline']);
       const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
@@ -1374,7 +1375,7 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         inviteInput.value=latestInviteUrl;
         inviteOpen.href=latestInviteUrl;
         copyStatus.textContent='';
-        button.focus({preventScroll:true});
+        keyboardInviteOpener?.focus({preventScroll:true});
         dialog.showModal();
         const state=currentHistoryState();
         if(state.arcadeInviteDialog!==latestInviteUrl){
@@ -1397,15 +1398,20 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
           primary:'Show Group link',
           showRetry:true,
           retry:'Retry',
+          retryAction:'reset',
         });
         openInviteDialog();
       }
 
-      function restoreInviteDialog(){
-        const url=safeInviteUrl(currentHistoryState().arcadeInviteDialog);
+      function restoreInviteDialog(event){
+        const {arcadeInviteDialog,...state}=currentHistoryState();
+        const url=safeInviteUrl(arcadeInviteDialog);
         if(url&&latestInviteUrl===url)openInviteDialog();
-        else if(url&&card.dataset.state==='idle')showInviteReady(url);
-        else if(!url&&dialog.open)dialog.close();
+        else if(url&&event.type==='pageshow'&&card.dataset.state==='idle')showInviteReady(url);
+        else{
+          if(dialog.open)dialog.close();
+          if(url)history.replaceState(state,'',location.href);
+        }
       }
 
       function resetAdmissionCard(){
@@ -1415,6 +1421,9 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         cancelRetry();
         automaticRetries=0;
         latestInviteUrl='';
+        keyboardInviteOpener=null;
+        inviteInput.value='';
+        inviteOpen.removeAttribute('href');
         capacity.hidden=true;
         capacityValue.textContent='— / 500';
         capacityMeter.removeAttribute('aria-valuenow');
@@ -1655,7 +1664,8 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         if(copied)vibrate(20);
       }
 
-      button.addEventListener('click',()=>{
+      button.addEventListener('click',event=>{
+        keyboardInviteOpener=event.detail===0?button:null;
         if(card.dataset.state==='open'&&latestInviteUrl){
           vibrate([18,30,28]);
           openInviteDialog();
@@ -1678,12 +1688,14 @@ heading: <img src="/docs/assets/images/groups/arcade/ar-logo.png" />&nbsp;Arcade
         }
         runAdmissionCheck();
       });
-      retryButton.addEventListener('click',()=>{
+      retryButton.addEventListener('click',event=>{
         if(retryButton.dataset.action==='reset'){
           vibrate(18);
           resetAdmissionCard();
+          if(event.detail===0)button.focus({preventScroll:true});
           return;
         }
+        keyboardInviteOpener=event.detail===0?retryButton:null;
         runAdmissionCheck({friendLink:lastFriendLink});
       });
       friendLinkInput.addEventListener('input',()=>{
