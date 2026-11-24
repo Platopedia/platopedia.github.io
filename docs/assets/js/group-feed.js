@@ -1841,7 +1841,10 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
         }
         break;
       case "read":
-        if (post) postDialog(post);
+        if (post) {
+          if (dialog.open && dialog.dataset.kind === "search") button.focus({ preventScroll: true });
+          postDialog(post);
+        }
         break;
       case "save":
       case "follow":
@@ -1917,11 +1920,13 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       const previous = searchReturn;
       const opener = lastDialogFocus;
       searchReturn = null;
+      previous.content.dataset.gfSearchRestored = "";
       showDialog("search", previous.content);
       lastDialogFocus = opener;
       renderSearch(dialog.querySelector("[data-gf-search-input]").value);
       ensureCatalog();
-      (previous.focus?.isConnected ? previous.focus : dialog.querySelector("[data-gf-search-input]")).focus({ preventScroll: true });
+      const focus = previous.content.contains(previous.focus) ? previous.focus : dialog.querySelector("[data-gf-search-input]");
+      focus.focus({ preventScroll: true });
       dialogScroll.scrollTop = previous.scrollTop;
       return;
     }

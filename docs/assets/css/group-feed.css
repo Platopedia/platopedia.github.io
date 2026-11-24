@@ -832,6 +832,7 @@ body:not([data-theme="light"]) .group-feed[data-mode="embed"] {
   text-align: left;
 }
 .gf-dialog[open] { display: flex; flex-direction: column; animation: gf-enter .23s ease both; }
+.gf-dialog[open]:has([data-gf-search-restored]) { animation: none; }
 .gf-dialog-scroll { min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
 .gf-dialog[open][data-scroll-hint="visible"]::after {
   content: "";
