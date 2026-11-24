@@ -1479,12 +1479,14 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     updatePopupScrollHint(scroller);
   }
 
-  function showDialog(kind, content, focusTarget, key = "") {
+  function showDialog(kind, content, { focusTarget, key = "", skipEntrance = dialog.open } = {}) {
     const child = dialog.open && dialog.dataset.kind === "search" && (kind === "group" || kind === "post");
     rememberPopup(kind, key, dialog.open && !child);
-    if (dialog.open && dialog.dataset.kind === "search" && (kind === "group" || kind === "post")) {
+    if (child) {
       searchReturn = { content: dialogContent.firstChild, focus: document.activeElement, scrollTop: dialogScroll.scrollTop };
     }
+    if (skipEntrance) dialog.dataset.gfSkipEntrance = "";
+    else dialog.removeAttribute("data-gf-skip-entrance");
     if (!dialog.open) lastDialogFocus = document.activeElement;
     openDialogItem = null;
     dialog.dataset.kind = kind;
@@ -1544,7 +1546,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
   }
 
   function groupDialog(group) {
-    showDialog("group", profileContent(group, "h2", group.name, true), undefined, group.slug);
+    showDialog("group", profileContent(group, "h2", group.name, true), { key: group.slug });
     dialog.dataset.group = group.slug;
     openDialogItem = { kind: "group", id: group.slug, data: group };
   }
@@ -1562,7 +1564,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     const image = postImage(post, true);
     if (image) panel.append(image);
     panel.append(postActions(post, false));
-    showDialog("post", panel, undefined, post.id);
+    showDialog("post", panel, { key: post.id });
     dialog.dataset.group = post.group.slug;
     openDialogItem = { kind: "post", id: post.id, data: post };
   }
@@ -1659,7 +1661,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     results.dataset.gfSearchResults = "";
     results.setAttribute("aria-live", "polite");
     panel.append(title, field, results);
-    showDialog("search", panel, input);
+    showDialog("search", panel, { focusTarget: input });
     ensureCatalog();
     renderSearch("");
   }
@@ -1723,7 +1725,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
     input.setAttribute("aria-label", "Link to copy");
     field.append(input);
     panel.append(title, field);
-    showDialog("share", panel, input, url);
+    showDialog("share", panel, { focusTarget: input, key: url });
     input.select();
   }
 
@@ -1920,8 +1922,7 @@ import { renderPostMarkdown, renderPostTitle } from "./group-feed-markdown.js?v=
       const previous = searchReturn;
       const opener = lastDialogFocus;
       searchReturn = null;
-      previous.content.dataset.gfSearchRestored = "";
-      showDialog("search", previous.content);
+      showDialog("search", previous.content, { skipEntrance: true });
       lastDialogFocus = opener;
       renderSearch(dialog.querySelector("[data-gf-search-input]").value);
       ensureCatalog();
